@@ -1,14 +1,16 @@
 {
 	"name": "honey-paradise-client",
-	"version": "0.1.0",
+	"version": "0.0.1",
 	"private": true,
 	"scripts": {
 		"dev": "next dev --turbopack",
 		"build": "next build",
 		"start": "next start",
+		"opt:params": "npx @next/codemod@canary next-async-request-api .",
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"@tanstack/react-query": "^5.64.0",
 		"axios": "^1.7.9",
 		"clsx": "^2.1.1",
 		"js-cookie": "^3.0.5",
@@ -21,6 +23,7 @@
 		"zustand": "^5.0.3"
 	},
 	"devDependencies": {
+		"@types/js-cookie": "^3.0.6",
 		"@types/node": "^20",
 		"@types/react": "^19",
 		"@types/react-dom": "^19",
