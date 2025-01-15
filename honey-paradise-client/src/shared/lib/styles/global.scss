@@ -1,0 +1,53 @@
+* {
+	@apply m-0 p-0 box-border;
+	// outline: solid 1px red; /* Test boxes */
+}
+
+html {
+	-webkit-font-smoothing: antialiased;
+	-webkit-tap-highlight-color: transparent; /* Removes tap color (Only for tablets/phones) */
+
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+	scroll-behavior: smooth; /* Smooth scroll, when client clicks on a link */
+	scroll-padding-top: 100px; /* Don't hide content, when link scroll to it */
+}
+
+body#none-scrollable {
+	@apply pr-[18px] overflow-hidden;
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+}
+
+@layer base {
+	:root {
+		--background: #ffffff;
+		--foreground: #171717;
+	}
+}
+
+@layer base {
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--background: #0a0a0a;
+			--foreground: #ededed;
+		}
+	}
+}
+
+@layer base {
+	* {
+		// @apply border-border;
+	}
+	body {
+		@apply bg-background text-foreground;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+}
+
+@layer utilities {
+}

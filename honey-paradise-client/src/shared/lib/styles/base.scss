@@ -1,0 +1,10 @@
+button,
+svg,
+img {
+	@apply select-none;
+}
+
+button,
+a {
+	@apply cursor-pointer;
+}
