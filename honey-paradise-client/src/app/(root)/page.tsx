@@ -1,0 +1,15 @@
+import { APP_NAME_RU } from "@constants/base/base.const";
+import { Index } from "@/components/screens/_index/Index";
+import type { Metadata } from "next";
+import { getMetadata } from "@utils/base";
+
+export const metadata: Metadata = {
+	...getMetadata({
+		title: "Главная",
+		description: `Главная страница интернет-магазина ${APP_NAME_RU}`,
+	}),
+};
+
+export default function IndexPage() {
+	return <Index />;
+}

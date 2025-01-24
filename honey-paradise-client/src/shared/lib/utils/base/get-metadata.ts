@@ -1,6 +1,7 @@
+import { APP_NAME_RU } from "../../constants/base/base.const";
 import { type TypeGetMetadataFunction } from "../types/get-metadata.type";
 
-const getTitle = (title: string): string => `Honey Paradise | ${title}`;
+const getTitle = (title: string): string => `${APP_NAME_RU} | ${title}`;
 
 export const getMetadata: TypeGetMetadataFunction = ({
 	title,

@@ -1,10 +1,10 @@
 button,
 svg,
 img {
-	@apply select-none;
+	@apply tw-select-none;
 }
 
 button,
 a {
-	@apply cursor-pointer;
+	@apply tw-cursor-pointer;
 }
