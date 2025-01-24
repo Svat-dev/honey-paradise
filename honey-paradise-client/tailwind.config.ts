@@ -14,8 +14,18 @@ export default {
 		},
 		extend: {
 			colors: {
-				background: "var(--background)",
-				foreground: "var(--foreground)",
+				primary: {
+					DEFAULT: "#ffd700",
+					foreground: "#ffed7a",
+				},
+				secondary: {
+					DEFAULT: "#fefefe",
+					darker: "#fffcdf",
+					dark: "#fffcdfd9",
+				},
+				muted: {
+					DEFAULT: "#4d4d4d",
+				},
 			},
 		},
 		transitionDuration: {

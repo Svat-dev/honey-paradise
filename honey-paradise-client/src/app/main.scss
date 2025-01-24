@@ -4,5 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
+@include meta.load-css("@styles/vars.scss");
 @include meta.load-css("@styles/global.scss");
 @include meta.load-css("@styles/base.scss");

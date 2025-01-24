@@ -1,0 +1,23 @@
+@layer base {
+	:root {
+		--primary: #ffd700;
+		--primary-foreground: #ffed7a;
+		--secondary: #fefefe;
+		--secondary-yellow: #fffcdf;
+		--secondary-yellow-muted: #fffcdfd9;
+		--muted: #4d4d4d;
+	}
+}
+
+@layer base {
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--primary: #ffd700;
+			--primary-foreground: #ffed7a;
+			--secondary: #fefefe;
+			--secondary-yellow: #fffcdf;
+			--secondary-yellow-muted: #fffcdfd9;
+			--muted: #4d4d4d;
+		}
+	}
+}

@@ -24,27 +24,11 @@ body#none-scrollable {
 }
 
 @layer base {
-	:root {
-		--background: #ffffff;
-		--foreground: #171717;
-	}
-}
-
-@layer base {
-	@media (prefers-color-scheme: dark) {
-		:root {
-			--background: #0a0a0a;
-			--foreground: #ededed;
-		}
-	}
-}
-
-@layer base {
 	* {
 		// @apply border-border;
 	}
 	body {
-		@apply tw-bg-background tw-text-foreground;
+		@apply tw-bg-secondary-darker tw-text-black;
 	}
 }
 
