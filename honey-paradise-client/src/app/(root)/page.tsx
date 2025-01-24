@@ -1,4 +1,4 @@
-import { APP_NAME_RU } from "@constants/base/base.const";
+import { APP_NAME_RU } from "@constants/base";
 import { Index } from "@/components/screens/_index/Index";
 import type { Metadata } from "next";
 import { getMetadata } from "@utils/base";
