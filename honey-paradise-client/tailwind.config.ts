@@ -15,16 +15,16 @@ export default {
 		extend: {
 			colors: {
 				primary: {
-					DEFAULT: "#ffd700",
-					foreground: "#ffed7a",
+					DEFAULT: "var(--primary)",
+					foreground: "var(--primary-foreground)",
 				},
 				secondary: {
-					DEFAULT: "#fefefe",
-					darker: "#fffcdf",
-					dark: "#fffcdfd9",
+					DEFAULT: "var(--secondary)",
+					darker: "var(--secondary-yellow)",
+					dark: "var(--secondary-yellow-muted)",
 				},
 				muted: {
-					DEFAULT: "#4d4d4d",
+					DEFAULT: "var(--muted)",
 				},
 			},
 		},
