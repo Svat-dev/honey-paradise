@@ -1,5 +1,5 @@
 const MiddlePart = () => {
-	return <div>MiddlePart</div>;
+	return <div></div>;
 };
 
 export { MiddlePart };

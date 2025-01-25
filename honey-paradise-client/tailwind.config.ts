@@ -27,11 +27,14 @@ export default {
 					DEFAULT: "var(--muted)",
 				},
 			},
-		},
-		transitionDuration: {
-			DEFAULT: "300ms",
-			"250": "250ms",
-			"350": "350ms",
+			transitionDuration: {
+				DEFAULT: "300ms",
+				"250": "250ms",
+				"350": "350ms",
+			},
+			height: {
+				"15": "3.75rem",
+			},
 		},
 	},
 	plugins: [],
