@@ -1,5 +1,7 @@
 import type { FC } from "react";
 import { LeftPart } from "./components/LeftPart";
+import { MiddlePart } from "./components/MiddlePart";
+import { RightPart } from "./components/RightPart";
 import { Separator } from "@/components/ui";
 
 interface IHeader {}
@@ -10,7 +12,13 @@ const Header: FC<IHeader> = ({}) => {
 			<div className="tw-px-5 tw-h-full tw-flex tw-items-center">
 				<LeftPart />
 
-				<Separator orientation="vertical" className="tw-ml-9 tw-h-11" />
+				<Separator orientation="vertical" className="tw-mx-9 !tw-h-10" />
+
+				<MiddlePart />
+
+				<Separator orientation="vertical" className="tw-mx-9 !tw-h-10" />
+
+				<RightPart />
 			</div>
 		</header>
 	);

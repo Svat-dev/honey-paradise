@@ -15,17 +15,22 @@ export default {
 		extend: {
 			colors: {
 				primary: {
-					DEFAULT: "var(--primary)",
-					foreground: "var(--primary-foreground)",
+					DEFAULT: "rgba(var(--primary))",
+					foreground: "rgba(var(--primary-foreground))",
+				},
+				accent: {
+					DEFAULT: "rgba(var(--accent))",
+					foreground: "rgba(var(--accent-foreground))",
 				},
 				secondary: {
-					DEFAULT: "var(--secondary)",
-					darker: "var(--secondary-yellow)",
-					dark: "var(--secondary-yellow-muted)",
+					DEFAULT: "rgba(var(--secondary))",
+					foreground: "rgba(var(--secondary-foreground))",
 				},
 				muted: {
-					DEFAULT: "var(--muted)",
+					DEFAULT: "rgba(var(--muted))",
 				},
+				input: "rgba(var(--input))",
+				background: "rgba(var(--background))",
 			},
 			transitionDuration: {
 				DEFAULT: "300ms",
