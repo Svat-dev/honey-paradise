@@ -40,6 +40,23 @@ export default {
 			height: {
 				"15": "3.75rem",
 			},
+			keyframes: {
+				"delete-effect": {
+					"50%": { opacity: "0.5" },
+					"75%": { opacity: "0.25" },
+					"90%": { opacity: "0.1" },
+					to: { visibility: "hidden", display: "none", opacity: "0" },
+				},
+				"show-effect": {
+					to: {
+						opacity: "1",
+					},
+				},
+			},
+			animation: {
+				"delete-effect": "delete-effect 300ms forwards ease-in",
+				"show-effect": "show-effect 300ms forwards ease-in",
+			},
 		},
 	},
 	plugins: [],

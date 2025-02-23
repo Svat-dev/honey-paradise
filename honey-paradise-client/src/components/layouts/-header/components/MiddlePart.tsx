@@ -1,12 +1,15 @@
 import { Button } from "@/components/ui";
 import { SearchIcon } from "lucide-react";
+import styles from "../styles/middle-part.module.scss";
 
 const MiddlePart = () => {
 	return (
-		<div className="tw-flex tw-flex-row-reverse tw-items-center">
-			<Button variant="secondary" className="tw-px-3 tw-gap-1.5 tw-h-fit tw-py-0.5 tw-rounded-lg">
+		<div className={styles["block"]}>
+			<Button variant="secondary" className={styles["search-button"]}>
 				<SearchIcon size={22} />
-				<span className="tw-text-sm">Ctrl+K</span>
+				<span id="key-combination" className="search">
+					Ctrl+K
+				</span>
 			</Button>
 		</div>
 	);

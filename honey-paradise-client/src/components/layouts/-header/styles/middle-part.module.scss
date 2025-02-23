@@ -1,0 +1,27 @@
+.block {
+	@apply tw-flex tw-flex-row-reverse tw-items-center tw-w-full;
+}
+
+.search-button {
+	@apply tw-px-3 tw-gap-1.5 tw-h-fit tw-py-0.5 tw-rounded-lg;
+
+	> span {
+		@apply tw-text-sm tw-transition-all;
+	}
+
+	> svg {
+		@apply tw-transition-transform;
+	}
+
+	&:hover {
+		@apply tw-bg-secondary;
+
+		> span {
+			@apply tw-opacity-0;
+		}
+
+		> svg {
+			@apply tw-rotate-[360deg] tw-translate-x-6;
+		}
+	}
+}

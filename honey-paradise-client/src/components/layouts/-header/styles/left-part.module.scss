@@ -1,0 +1,25 @@
+.list {
+	@apply tw-inline-flex tw-items-center tw-gap-5;
+}
+
+.list-item {
+	@apply tw-relative;
+
+	> a {
+		@apply tw-transition-colors;
+	}
+
+	&:hover {
+		> a {
+			@apply tw-text-muted;
+		}
+
+		&::before {
+			@apply tw-w-full;
+		}
+	}
+
+	&::before {
+		@apply tw-content-[""] tw-h-0.5 tw-w-0 tw-bg-muted tw-absolute tw-bottom-0.5 tw-transition-[width];
+	}
+}
