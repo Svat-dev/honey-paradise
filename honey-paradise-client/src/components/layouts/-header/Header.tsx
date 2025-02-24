@@ -1,8 +1,8 @@
-import { Separator } from "@/components/ui";
 import type { FC } from "react";
 import { LeftPart } from "./components/LeftPart";
 import { MiddlePart } from "./components/MiddlePart";
 import { RightPart } from "./components/RightPart";
+import { Separator } from "@/components/ui";
 
 interface IHeader {}
 

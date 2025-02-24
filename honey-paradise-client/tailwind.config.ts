@@ -54,8 +54,8 @@ export default {
 				},
 			},
 			animation: {
-				"delete-effect": "delete-effect 300ms forwards ease-in",
-				"show-effect": "show-effect 300ms forwards ease-in",
+				"delete-effect": "delete-effect 300ms ease-in forwards",
+				"show-effect": "show-effect 300ms ease-in forwards",
 			},
 		},
 	},

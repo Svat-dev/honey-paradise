@@ -1,11 +1,11 @@
 .block {
-	@apply tw-flex tw-flex-row-reverse tw-items-center tw-w-full;
+	@apply tw-flex tw-flex-row-reverse tw-items-center tw-w-full tw-relative;
 }
 
 .search-button {
 	@apply tw-px-3 tw-gap-1.5 tw-h-fit tw-py-0.5 tw-rounded-lg;
 
-	> span {
+	> kbd {
 		@apply tw-text-sm tw-transition-all;
 	}
 
@@ -16,7 +16,7 @@
 	&:hover {
 		@apply tw-bg-secondary;
 
-		> span {
+		> kbd {
 			@apply tw-opacity-0;
 		}
 
@@ -24,4 +24,16 @@
 			@apply tw-rotate-[360deg] tw-translate-x-6;
 		}
 	}
+}
+
+.search-input {
+	@apply tw-overflow-hidden tw-bg-background/85 tw-w-0 tw-h-9 tw-absolute tw-transition-all tw-pointer-events-none tw-rounded-xl tw-flex tw-items-center tw-px-0;
+
+	> input {
+		@apply tw-ml-4 tw-bg-transparent tw-h-fit tw-p-0;
+	}
+}
+
+.delete-btn {
+	@apply tw-ml-4;
 }
