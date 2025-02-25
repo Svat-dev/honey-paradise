@@ -2,55 +2,60 @@
 
 import { Button, Input } from "@/components/ui";
 import { SearchIcon, XIcon } from "lucide-react";
-import { useEffect, useState } from "react";
 
 import { cn } from "@utils/base";
+import { FormProvider } from "react-hook-form";
+import { useSearch } from "../hooks/useSearch";
 import styles from "../styles/middle-part.module.scss";
 
 const MiddlePart = () => {
-	const [isOpen, setIsOpen] = useState<boolean>(false);
-
-	const onClick = () => setIsOpen(prev => !prev);
-
-	const onKeydown = (e: KeyboardEvent) => {
-		if (e.ctrlKey && e.key === "k") {
-			e.preventDefault();
-			setIsOpen(!isOpen);
-		}
-	};
-
-	useEffect(() => {
-		window.addEventListener("keydown", onKeydown);
-	});
+	const { isOpen, onClick, searchForm, onInput, value, onClickReset } = useSearch();
 
 	return (
 		<div className={styles["block"]}>
-			<Button variant="secondary" className={cn(styles["search-button"], { "tw-animate-delete-effect": isOpen })} onClick={onClick}>
+			<Button
+				variant="secondary"
+				title="Поиск"
+				className={cn(styles["search-button"], { "tw-animate-delete-effect": isOpen })}
+				onClick={onClick}
+			>
 				<SearchIcon size={22} />
 				<kbd id="key-combination" className="search">
 					Ctrl+K
 				</kbd>
 			</Button>
 
-			<div className={cn(styles["search-input"], { "!tw-w-full !tw-px-2 !tw-pointer-events-auto": isOpen })}>
-				<button>
-					<SearchIcon size={24} />
-				</button>
+			<FormProvider {...searchForm}>
+				<form className={cn(styles["search-input"], { "!tw-w-full !tw-px-2 !tw-pointer-events-auto": isOpen })}>
+					<button type="submit" title="Найти">
+						<SearchIcon size={24} />
+					</button>
 
-				<Input
-					type="search"
-					inputMode="search"
-					spellCheck={false}
-					autoComplete="off"
-					autoCorrect="off"
-					placeholder="Введите запрос..."
-					maxLength={60}
-				/>
+					<Input
+						type="search"
+						inputMode="search"
+						spellCheck={false}
+						autoComplete="off"
+						autoCorrect="off"
+						placeholder="Введите запрос..."
+						onInput={onInput}
+						{...searchForm.register("term", { maxLength: 60 })}
+					/>
 
-				<button className={styles["delete-btn"]}>
-					<XIcon size={22} />
-				</button>
-			</div>
+					<button
+						type="button"
+						title="Очистить"
+						className={cn(styles["delete-btn"], { "!tw-opacity-100 !tw-pointer-events-auto": value })}
+						onClick={onClickReset}
+					>
+						<XIcon size={22} />
+					</button>
+
+					<Button variant="secondary" title="Закрыть" className={styles["close-btn"]} onClick={onClick}>
+						<kbd>Esc</kbd>
+					</Button>
+				</form>
+			</FormProvider>
 		</div>
 	);
 };

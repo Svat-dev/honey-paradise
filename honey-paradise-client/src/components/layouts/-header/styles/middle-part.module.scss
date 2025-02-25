@@ -35,5 +35,13 @@
 }
 
 .delete-btn {
-	@apply tw-ml-4;
+	@apply tw-transition-all tw-opacity-0 tw-pointer-events-none;
+
+	&:hover {
+		@apply tw-rotate-180;
+	}
+}
+
+.close-btn {
+	@apply tw-text-sm tw-ml-1 tw-py-0.5 tw-px-2;
 }

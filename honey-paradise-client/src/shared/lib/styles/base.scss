@@ -8,3 +8,7 @@ button,
 a {
 	@apply tw-cursor-pointer;
 }
+
+kbd {
+	@apply tw-font-rubik tw-font-normal tw-text-sm;
+}

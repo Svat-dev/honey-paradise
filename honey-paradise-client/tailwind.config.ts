@@ -57,6 +57,9 @@ export default {
 				"delete-effect": "delete-effect 300ms ease-in forwards",
 				"show-effect": "show-effect 300ms ease-in forwards",
 			},
+			fontFamily: {
+				rubik: "var(--font-rubik)",
+			},
 		},
 	},
 	plugins: [],

@@ -1,0 +1,3 @@
+interface IForm {
+	term: string;
+}

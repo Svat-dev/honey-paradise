@@ -13,7 +13,7 @@ const RightPart = () => {
 				<div className="tw-w-9 tw-h-9 tw-bg-gray-300 tw-rounded-full" />
 			</div>
 
-			<button type="button" className="tw-ml-5">
+			<button type="button" title="Меню" className="tw-ml-5">
 				<MenuIcon height={28} width={30} />
 			</button>
 		</div>
