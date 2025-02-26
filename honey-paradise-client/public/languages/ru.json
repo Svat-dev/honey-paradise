@@ -1,0 +1,31 @@
+{
+	"global": {
+		"logo": "Медовый рай",
+		"home": { "title": "Главная" }
+	},
+	"layout": {
+		"header": {
+			"logo": {
+				"title": "Медовый Рай"
+			},
+			"links": {
+				"shares": "Акции",
+				"contacts": "Контакты",
+				"promo": "Промокод"
+			},
+			"search": {
+				"placeholder": "Введите запрос"
+			},
+			"roles": {
+				"admin": "Админ"
+			},
+			"labels": {
+				"search": "Поиск",
+				"close": "Закрыть",
+				"found": "Найти",
+				"menu": "Меню"
+			}
+		},
+		"sidebar": {}
+	}
+}
