@@ -1,9 +1,15 @@
-import { APP_NAME_RU } from "@constants/base";
+"use server";
+
+import { getTranslations } from "next-intl/server";
 import { type TypeGetMetadataFunction } from "../types/get-metadata.type";
 
-const getTitle = (title: string): string => `${APP_NAME_RU} | ${title}`;
+const getTitle = async (title: string): Promise<string> => {
+	const t = await getTranslations("global");
 
-export const getMetadata: TypeGetMetadataFunction = ({
+	return `${t("logo")} | ${title}`;
+};
+
+export const getMetadata: TypeGetMetadataFunction = async ({
 	title,
 	description,
 	ogTitle = title,
@@ -18,7 +24,7 @@ export const getMetadata: TypeGetMetadataFunction = ({
 	};
 
 	return {
-		title: getTitle(title) || undefined,
+		title: (await getTitle(title)) || undefined,
 		description: index ? description : undefined,
 
 		openGraph: index ? openGraph : undefined,

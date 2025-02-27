@@ -9,4 +9,4 @@ export interface IParams {
 	ogImg?: string;
 }
 
-export type TypeGetMetadataFunction = ({}: IParams) => Metadata;
+export type TypeGetMetadataFunction = ({}: IParams) => Promise<Metadata>;

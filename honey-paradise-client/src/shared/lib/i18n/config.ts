@@ -4,5 +4,4 @@ export enum EnumLanguages {
 }
 
 export const LANGUAGES = ["ru", "en"];
-export const ROUTES_LANGUAGES = "(en|ru)";
 export const DEFAULT_LANGUAGE = String(EnumLanguages.EN);

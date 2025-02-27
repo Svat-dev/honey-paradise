@@ -1,1 +1,32 @@
-{}
+{
+	"global": {
+		"logo": "Honey Paradise",
+		"home": { "title": "Home", "description": "The main page of the online store {title}" }
+	},
+	"layout": {
+		"header": {
+			"logo": {
+				"title": "Honey Paradise"
+			},
+			"links": {
+				"shares": "Special offers",
+				"contacts": "Contacts",
+				"promo": "Promo code"
+			},
+			"search": {
+				"placeholder": "Enter a request"
+			},
+			"roles": {
+				"admin": "Admin"
+			},
+			"labels": {
+				"search": "Search",
+				"close": "Close",
+				"found": "Find",
+				"menu": "Menu",
+				"clear": "Clear"
+			}
+		},
+		"sidebar": {}
+	}
+}

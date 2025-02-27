@@ -5,4 +5,5 @@ export enum EnumAuthTokens {
 
 export enum EnumStorageTokens {
 	IS_AGREE_WITH_COOKIES = "isAgreeWithCookies",
+	LANGUAGE = "NEXT_LOCALE_LANGUAGE",
 }

@@ -1,9 +1,9 @@
 .list {
-	@apply tw-inline-flex tw-items-center tw-gap-5;
+	@apply tw-inline-flex tw-items-center tw-gap-5 tw-w-full;
 }
 
 .list-item {
-	@apply tw-relative;
+	@apply tw-relative tw-whitespace-nowrap;
 
 	> a {
 		@apply tw-transition-colors;

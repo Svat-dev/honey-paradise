@@ -1,4 +1,5 @@
 import { onInputRuleWithSpaces } from "@/shared/lib/utils/input-rule";
+import { useTranslations } from "next-intl";
 import { type ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -7,6 +8,8 @@ export const useSearch = () => {
 		defaultValues: { term: "" },
 		mode: "onChange",
 	});
+
+	const t = useTranslations("layout.header");
 
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -42,5 +45,6 @@ export const useSearch = () => {
 		onInput,
 		value,
 		onClickReset,
+		t,
 	};
 };

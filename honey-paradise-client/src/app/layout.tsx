@@ -1,16 +1,15 @@
 import "./main.scss";
 
+import { getLocale, getMessages } from "next-intl/server";
+
 import { MainProvider } from "@/components/providers/MainProvider";
-import { routing } from "@i18n/index";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
-import { notFound } from "next/dist/client/components/navigation.react-server";
 import { Rubik } from "next/font/google";
 import type { ReactNode } from "react";
 
 interface IMainLayout {
-	params: { locale: string };
+	params: {};
 	children: ReactNode;
 }
 
@@ -26,14 +25,12 @@ export const metadata: Metadata = {
 };
 
 export default async function MainLayout({ children, params }: Readonly<IMainLayout>) {
-	const { locale } = await params;
-
-	if (!routing.locales.includes(locale as any)) notFound();
+	const locale = await getLocale();
 
 	const langs = await getMessages();
 
 	return (
-		<html lang="ru">
+		<html lang={locale}>
 			<MainProvider>
 				<body className={`${RubikText.variable} antialiased tw-min-h-screen`}>
 					<NextIntlClientProvider messages={langs}>{children}</NextIntlClientProvider>

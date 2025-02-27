@@ -9,13 +9,13 @@ import { useSearch } from "../hooks/useSearch";
 import styles from "../styles/middle-part.module.scss";
 
 const MiddlePart = () => {
-	const { isOpen, onClick, searchForm, onInput, value, onClickReset } = useSearch();
+	const { isOpen, onClick, searchForm, onInput, value, onClickReset, t } = useSearch();
 
 	return (
 		<div className={styles["block"]}>
 			<Button
 				variant="secondary"
-				title="Поиск"
+				title={t("labels.search")}
 				className={cn(styles["search-button"], { "tw-animate-delete-effect": isOpen })}
 				onClick={onClick}
 			>
@@ -27,7 +27,7 @@ const MiddlePart = () => {
 
 			<FormProvider {...searchForm}>
 				<form className={cn(styles["search-input"], { "!tw-w-full !tw-px-2 !tw-pointer-events-auto": isOpen })}>
-					<button type="submit" title="Найти">
+					<button type="submit" title={t("labels.found")}>
 						<SearchIcon size={24} />
 					</button>
 
@@ -37,21 +37,21 @@ const MiddlePart = () => {
 						spellCheck={false}
 						autoComplete="off"
 						autoCorrect="off"
-						placeholder="Введите запрос..."
+						placeholder={`${t("search.placeholder")}...`}
 						onInput={onInput}
 						{...searchForm.register("term", { maxLength: 60 })}
 					/>
 
 					<button
 						type="button"
-						title="Очистить"
+						title={t("labels.clear")}
 						className={cn(styles["delete-btn"], { "!tw-opacity-100 !tw-pointer-events-auto": value })}
 						onClick={onClickReset}
 					>
 						<XIcon size={22} />
 					</button>
 
-					<Button variant="secondary" title="Закрыть" className={styles["close-btn"]} onClick={onClick}>
+					<Button variant="secondary" title={t("labels.close")} className={styles["close-btn"]} onClick={onClick}>
 						<kbd>Esc</kbd>
 					</Button>
 				</form>
