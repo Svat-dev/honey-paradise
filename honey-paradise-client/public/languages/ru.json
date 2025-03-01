@@ -27,6 +27,34 @@
 				"clear": "Очистить"
 			}
 		},
-		"sidebar": {}
+		"sidebar": {
+			"list": {
+				"title": "Содержание",
+				"content": {
+					"topics": {
+						"honeyAbout": "О мёде",
+						"catalog": "Каталог",
+						"information": "Информация"
+					},
+					"links": {
+						"wiki": "Немного Википедии",
+						"deference": "Различие меда",
+						"sorts": "Сорта меда",
+						"popular": "Популярное",
+						"new": "Новое",
+						"allProducts": "Все продукты",
+						"about": "О нас",
+						"privacyPolicy": "Политика конфиденциальности"
+					}
+				}
+			},
+			"footer": {
+				"logout": "Выйти"
+			},
+			"labels": {
+				"changeTheme": "Поменять тему",
+				"logout": "Выйти из аккаунта"
+			}
+		}
 	}
 }

@@ -27,6 +27,34 @@
 				"clear": "Clear"
 			}
 		},
-		"sidebar": {}
+		"sidebar": {
+			"list": {
+				"title": "Contents",
+				"content": {
+					"topics": {
+						"honeyAbout": "About honey",
+						"catalog": "Catalog",
+						"information": "Information"
+					},
+					"links": {
+						"wiki": "A bit of Wiki",
+						"deference": "Variety of honey",
+						"sorts": "Honey's sorts",
+						"popular": "Popular",
+						"new": "New",
+						"allProducts": "All products",
+						"about": "About us",
+						"privacyPolicy": "Privacy policy"
+					}
+				}
+			},
+			"footer": {
+				"logout": "Logout"
+			},
+			"labels": {
+				"changeTheme": "Change theme",
+				"logout": "Logout of your account"
+			}
+		}
 	}
 }
