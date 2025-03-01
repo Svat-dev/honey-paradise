@@ -10,7 +10,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
 	return (
 		<>
 			<Header />
-			<main>
+			<main className="tw-flex tw-relative tw-h-full">
 				<Sidebar />
 				{children}
 			</main>

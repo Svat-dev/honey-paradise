@@ -1,5 +1,5 @@
 const Index = () => {
-	return <div>Index</div>;
+	return <></>;
 };
 
 export { Index };

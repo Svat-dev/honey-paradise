@@ -5,8 +5,8 @@ import { getLocale, getMessages } from "next-intl/server";
 import { MainProvider } from "@/components/providers/MainProvider";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
-import { Rubik } from "next/font/google";
 import type { ReactNode } from "react";
+import { Rubik } from "next/font/google";
 
 interface IMainLayout {
 	params: {};
@@ -32,7 +32,7 @@ export default async function MainLayout({ children, params }: Readonly<IMainLay
 	return (
 		<html lang={locale}>
 			<MainProvider>
-				<body className={`${RubikText.variable} antialiased tw-min-h-screen`}>
+				<body className={`${RubikText.variable} tw-antialiased`}>
 					<NextIntlClientProvider messages={langs}>{children}</NextIntlClientProvider>
 				</body>
 			</MainProvider>
