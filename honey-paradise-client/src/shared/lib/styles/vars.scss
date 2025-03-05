@@ -1,5 +1,25 @@
 @layer base {
-	:root {
+	:root,
+	body.dark-mode {
+		--primary: 255, 215, 0;
+		--primary-foreground: 22, 22, 22;
+
+		--accent: 1;
+		--accent-foreground: 1;
+
+		--secondary: 255, 237, 122;
+		--secondary-foreground: 0, 0, 0;
+
+		--muted: 77, 77, 77;
+
+		--input: 29, 29, 29;
+		--background: 255, 252, 223;
+	}
+}
+
+@layer base {
+	:root,
+	body.light-mode {
 		--primary: 255, 215, 0, 1;
 		--primary-foreground: 22, 22, 22, 1;
 
