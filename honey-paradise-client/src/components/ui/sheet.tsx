@@ -53,10 +53,10 @@ const SheetContent = forwardRef<ElementRef<typeof SheetPrimitive.Content>, Sheet
 	({ side = "right", className, children, ...props }, ref) => (
 		<SheetPortal>
 			<SheetOverlay />
-			<SheetPrimitive.Content ref={ref} className={cn(sheetVariants({ side }), className)} {...props}>
-				<SheetPrimitive.Close className="tw-absolute tw-right-4 tw-top-4 tw-rounded-sm tw-opacity-70 tw-ring-offset-background tw-transition-opacity hover:tw-opacity-100 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-ring focus:tw-ring-offset-2 disabled:tw-pointer-events-none data-[state=open]:tw-bg-secondary">
-					<XIcon className="tw-h-4 tw-w-4" />
-					<span className="tw-sr-only">Close</span>
+			<SheetPrimitive.Content ref={ref} className={cn("tw-bg-primary tw-border-none", sheetVariants({ side }), className)} {...props}>
+				<SheetPrimitive.Close className="tw-absolute tw-right-4 tw-top-4 tw-bg-none tw-text-muted tw-transition-all hover:tw-text-black hover:tw-rotate-180 data-[state=open]:tw-bg-secondary">
+					<XIcon size={24} />
+					<span className="tw-sr-only">Закрыть</span>
 				</SheetPrimitive.Close>
 				{children}
 			</SheetPrimitive.Content>
@@ -65,9 +65,7 @@ const SheetContent = forwardRef<ElementRef<typeof SheetPrimitive.Content>, Sheet
 );
 SheetContent.displayName = SheetPrimitive.Content.displayName;
 
-const SheetHeader = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
-	<div className={cn("tw-flex tw-flex-col tw-space-y-2 tw-text-center sm:tw-text-left", className)} {...props} />
-);
+const SheetHeader = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => <div className={cn("tw-flex", className)} {...props} />;
 SheetHeader.displayName = "SheetHeader";
 
 const SheetFooter = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
