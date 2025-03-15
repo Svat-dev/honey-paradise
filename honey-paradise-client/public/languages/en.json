@@ -11,7 +11,10 @@
 			"links": {
 				"shares": "Special offers",
 				"contacts": "Contacts",
-				"promo": "Promo code"
+				"promo": "Promo code",
+				"profile": "Profile",
+				"notifications": "Notifications",
+				"orders": "Orders"
 			},
 			"search": {
 				"placeholder": "Enter a request"
@@ -24,7 +27,15 @@
 				"close": "Close",
 				"found": "Find",
 				"menu": "Menu",
-				"clear": "Clear"
+				"clear": "Clear",
+				"watchCart": "View the cart"
+			},
+			"sidebarSheet": {
+				"title": "Profile Navigation menu",
+				"description": "Profile navigation menu with links that contain information about your profile.",
+				"aria": {
+					"description": "Navigation menu"
+				}
 			}
 		},
 		"sidebar": {

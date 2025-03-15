@@ -10,8 +10,8 @@ const MenuSheetHeader = () => {
 
 	return (
 		<SheetHeader>
-			<SheetTitle className="tw-sr-only">Навигационное меню профиля</SheetTitle>
-			<SheetDescription className="tw-sr-only">Навигационное меню профиля</SheetDescription>
+			<SheetTitle className="tw-sr-only">{t("sidebarSheet.title")}</SheetTitle>
+			<SheetDescription className="tw-sr-only">{t("sidebarSheet.description")}</SheetDescription>
 
 			<ProfileBlock t={t} picturePosition="left" />
 		</SheetHeader>

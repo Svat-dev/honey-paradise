@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/dist/client/link";
 import { useMenuSheetMain } from "../../hooks/useMenuSheetMain";
 

@@ -1,6 +1,6 @@
 import { LogoutButton } from "@/components/layouts/-sidebar/components/LogoutButton";
-import { OrderButton } from "../OrderButton";
 import { SheetFooter } from "@/components/ui";
+import { OrderButton } from "../OrderButton";
 
 const MenuSheetFooter = () => {
 	return (
