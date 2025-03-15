@@ -69,7 +69,7 @@ const SheetHeader = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) =>
 SheetHeader.displayName = "SheetHeader";
 
 const SheetFooter = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
-	<div className={cn("tw-flex tw-flex-col-reverse sm:tw-flex-row sm:tw-justify-end sm:tw-space-x-2", className)} {...props} />
+	<div className={cn("tw-flex tw-flex-col", className)} {...props} />
 );
 SheetFooter.displayName = "SheetFooter";
 

@@ -3,7 +3,7 @@
 import { DEFAULT_LANGUAGE, EnumLanguages } from "./";
 
 import { EnumStorageTokens } from "@constants/base";
-import { cookies } from "next/headers";
+import { cookies } from "next/dist/server/request/cookies";
 
 export async function getCurrentLanguage() {
 	const cookiesStore = await cookies();

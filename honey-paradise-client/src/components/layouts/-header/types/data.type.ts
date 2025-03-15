@@ -4,4 +4,5 @@ export interface ISheetLinks {
 	link: string;
 	title: string;
 	icon: LucideIcon;
+	isNotifications?: boolean;
 }

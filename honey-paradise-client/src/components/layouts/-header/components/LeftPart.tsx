@@ -1,6 +1,6 @@
 import { EnumAppRoute } from "@constants/routes";
+import Link from "next/dist/client/link";
 import { getTranslations } from "next-intl/server";
-import Link from "next/link";
 import styles from "../styles/left-part.module.scss";
 
 const LeftPart = async () => {
@@ -16,13 +16,13 @@ const LeftPart = async () => {
 
 			<ul className={styles["list"]}>
 				<li className={styles["list-item"]}>
-					<a href={"#"}>{t("links.shares")}</a>
+					<Link href={"#"}>{t("links.shares")}</Link>
 				</li>
 				<li className={styles["list-item"]}>
-					<a href={"#"}>{t("links.contacts")}</a>
+					<Link href={"#"}>{t("links.contacts")}</Link>
 				</li>
 				<li className={styles["list-item"]}>
-					<a href={"#"}>{t("links.promo")}</a>
+					<Link href={"#"}>{t("links.promo")}</Link>
 				</li>
 			</ul>
 		</div>

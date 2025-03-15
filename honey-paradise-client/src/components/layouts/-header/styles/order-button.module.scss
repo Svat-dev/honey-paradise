@@ -1,0 +1,19 @@
+.order-button {
+	@apply tw-w-fit tw-py-0.5 tw-px-2 tw-gap-1;
+
+	> svg:last-of-type {
+		@apply tw-absolute tw-top-1/2 -tw-translate-y-1/2 tw-right-1.5 tw-pointer-events-none tw-opacity-0 tw-transition-all -tw-translate-x-1;
+	}
+
+	&:hover > p:last-of-type {
+		@apply tw-opacity-0;
+	}
+
+	&:hover > svg:last-of-type {
+		@apply tw-opacity-100 tw-translate-x-0;
+	}
+}
+
+.total-count {
+	@apply tw-transition-opacity;
+}

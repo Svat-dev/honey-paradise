@@ -18,6 +18,7 @@ export const useMenuSheetMain = () => {
 			title: "Уведомления",
 			link: "/",
 			icon: BellIcon,
+			isNotifications: true,
 		},
 	];
 
