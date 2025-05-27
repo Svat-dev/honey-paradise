@@ -6,3 +6,9 @@ export interface ISheetLinks {
 	icon: LucideIcon;
 	isNotifications?: boolean;
 }
+
+export interface ILanguagesList {
+	language: string;
+	value: string;
+	isCurrent: boolean;
+}

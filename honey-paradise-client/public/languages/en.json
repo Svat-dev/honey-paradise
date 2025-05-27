@@ -35,6 +35,15 @@
 				"description": "Profile navigation menu with links that contain information about your profile.",
 				"aria": {
 					"description": "Navigation menu"
+				},
+				"langsDropdown": {
+					"langs": {
+						"ru": "Russian",
+						"en": "English"
+					},
+					"labels": {
+						"currentLang": "Current language"
+					}
 				}
 			}
 		},

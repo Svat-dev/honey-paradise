@@ -29,6 +29,10 @@ export default {
 				muted: {
 					DEFAULT: "rgba(var(--muted))",
 				},
+				popover: {
+					DEFAULT: "rgba(var(--popover))",
+					foreground: "rgba(var(--popover-foreground))",
+				},
 				input: "rgba(var(--input))",
 				background: "rgba(var(--background))",
 			},
