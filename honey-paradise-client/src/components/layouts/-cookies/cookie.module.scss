@@ -1,0 +1,15 @@
+.main-wrapper {
+	@apply tw-max-w-screen-lg tw-mx-auto tw-fixed tw-bg-primary tw-inset-x-5 tw-p-5 tw-bottom-5 tw-rounded-lg tw-drop-shadow-2xl tw-flex tw-gap-4 tw-flex-wrap md:tw-flex-nowrap tw-text-center md:tw-text-left tw-items-center tw-justify-center md:tw-justify-between tw-transition-opacity;
+}
+
+.content-wrapper {
+	@apply tw-flex tw-items-center tw-gap-5;
+}
+
+.link {
+	@apply tw-whitespace-nowrap hover:tw-underline tw-transition-all;
+}
+
+.agree-btn {
+	@apply tw-px-5 tw-py-2;
+}

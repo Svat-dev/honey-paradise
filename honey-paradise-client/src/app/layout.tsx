@@ -2,13 +2,12 @@ import "./main.scss";
 
 import { getLocale, getMessages } from "next-intl/server";
 
+import { ClientMainProvider } from "@/components/providers/ClientMainProvider";
 import { MainProvider } from "@/components/providers/MainProvider";
-import styles from "@styles/modules/toaster.module.scss";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { Rubik } from "next/font/google";
-import type { ReactNode } from "react";
-import { Toaster } from "react-hot-toast";
+import { type ReactNode } from "react";
 
 interface IMainLayout {
 	params: {};
@@ -36,8 +35,7 @@ export default async function MainLayout({ children, params }: Readonly<IMainLay
 			<MainProvider>
 				<body className={`${RubikText.variable} tw-antialiased`}>
 					<NextIntlClientProvider messages={langs}>
-						<Toaster position="top-center" toastOptions={{ id: "main-toaster", className: styles["main-toaster"] }} />
-						{children}
+						<ClientMainProvider>{children}</ClientMainProvider>
 					</NextIntlClientProvider>
 				</body>
 			</MainProvider>
