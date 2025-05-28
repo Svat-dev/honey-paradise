@@ -10,18 +10,18 @@ export const useAvailableLangs = () => {
 	const availableLanguages: ILanguagesList[] = [
 		{
 			language: t(`langs.${"en"}`),
-			value: String(EnumLanguages.EN).toUpperCase(),
+			value: EnumLanguages.EN,
 			isCurrent: locale === String(EnumLanguages.EN),
 		},
 		{
 			language: t("langs.ru"),
-			value: String(EnumLanguages.RU).toUpperCase(),
+			value: EnumLanguages.RU,
 			isCurrent: locale === String(EnumLanguages.RU),
 		},
 	];
 
 	const currentLang = availableLanguages.find(item => item.isCurrent);
-	const currentLangText = `${currentLang?.language} (${currentLang?.value})`;
+	const currentLangText = `${currentLang?.language} (${currentLang?.value.toUpperCase()})`;
 
 	return { data: availableLanguages.sort((a, b) => a.language.localeCompare(b.language)), t, currentLangText };
 };

@@ -76,5 +76,11 @@
 				"logout": "Logout of your account"
 			}
 		}
+	},
+	"toasters": {
+		"changeLanguage": {
+			"success": "Язык успешно изменён на {lang}",
+			"error": "Не удалось поменять язык. Ошибка: {error}"
+		}
 	}
 }

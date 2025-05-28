@@ -22,7 +22,7 @@ body#none-scrollable {
 
 @layer base {
 	* {
-		// @apply border-border;
+		// @apply tw-border-red;
 	}
 	body {
 		@apply tw-bg-background tw-text-black tw-font-rubik tw-min-h-screen tw-relative;

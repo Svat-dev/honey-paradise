@@ -5,3 +5,8 @@ export enum EnumLanguages {
 
 export const LANGUAGES = ["ru", "en"];
 export const DEFAULT_LANGUAGE = String(EnumLanguages.EN);
+
+export const LANGS_BY_KEY = {
+	ru: "Русский",
+	en: "English",
+};

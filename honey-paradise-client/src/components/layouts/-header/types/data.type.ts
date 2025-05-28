@@ -1,3 +1,4 @@
+import { EnumLanguages } from "@/shared/lib/i18n";
 import type { LucideIcon } from "lucide-react";
 
 export interface ISheetLinks {
@@ -9,6 +10,6 @@ export interface ISheetLinks {
 
 export interface ILanguagesList {
 	language: string;
-	value: string;
+	value: EnumLanguages;
 	isCurrent: boolean;
 }
