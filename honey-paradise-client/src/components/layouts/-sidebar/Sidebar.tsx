@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { type FC } from "react";
 import { ChangeThemeButton } from "./components/ChangeThemeButton";
 import { ListItem } from "./components/ListItem";
-import { LogoutButton } from "./components/LogoutButton";
+import { LogoutButton } from "./components/logout-button/LogoutButton";
 import { getNavListData } from "./data";
 
 interface ISidebar {}

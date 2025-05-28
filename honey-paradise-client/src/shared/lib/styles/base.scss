@@ -6,7 +6,7 @@ img {
 
 button,
 a {
-	@apply tw-cursor-pointer;
+	@apply tw-cursor-pointer tw-outline-none focus:tw-outline-none;
 }
 
 kbd {

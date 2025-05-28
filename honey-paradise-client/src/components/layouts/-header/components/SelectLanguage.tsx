@@ -9,9 +9,9 @@ import { useState } from "react";
 import { useAvailableLangs } from "../hooks/useAvailableLangs";
 
 const SelectLanguage = () => {
-	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const { data, t, currentLangText } = useAvailableLangs();
 	const { change } = useChangeLang();
+	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	return (
 		<DropdownMenu open={isOpen} onOpenChange={status => setIsOpen(status)}>
@@ -22,8 +22,8 @@ const SelectLanguage = () => {
 				</Button>
 			</DropdownMenuTrigger>
 
-			<DropdownMenuContent className="">
-				<DropdownMenuLabel className="tw-sr-only">Выберите язык</DropdownMenuLabel>
+			<DropdownMenuContent>
+				<DropdownMenuLabel className="tw-sr-only">{t("title")}</DropdownMenuLabel>
 
 				{data?.map(item => (
 					<DropdownMenuItem

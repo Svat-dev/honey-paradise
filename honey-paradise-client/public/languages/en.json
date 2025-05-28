@@ -37,6 +37,7 @@
 					"description": "Navigation menu"
 				},
 				"langsDropdown": {
+					"title": "Choose language",
 					"langs": {
 						"ru": "Russian",
 						"en": "English"
@@ -69,11 +70,25 @@
 				}
 			},
 			"footer": {
-				"logout": "Logout"
+				"logout": {
+					"title": "Logout",
+					"options": {
+						"full": {
+							"title": "Full logout",
+							"description": "Full exit with the deletion of settings such as the site theme, language, and others,  without saving."
+						},
+						"short": {
+							"title": "Partial logout",
+							"description": "Simply log out of your account, and settings such as site theme, language, and others will not be deleted."
+						}
+					},
+					"labels": {
+						"logout": "Logout of your account"
+					}
+				}
 			},
 			"labels": {
-				"changeTheme": "Change theme",
-				"logout": "Logout of your account"
+				"changeTheme": "Change theme"
 			}
 		}
 	},
