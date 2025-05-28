@@ -1,0 +1,11 @@
+.auth-btn {
+	@apply tw-p-1;
+}
+
+.change-lang-btn {
+	@apply tw-p-1 tw-bg-secondary tw-mr-5 hover:tw-bg-primary;
+}
+
+.separator {
+	@apply tw-bg-black tw-h-7 tw-mx-4 tw-rotate-45;
+}

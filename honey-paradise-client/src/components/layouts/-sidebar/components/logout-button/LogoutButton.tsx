@@ -1,6 +1,7 @@
 "use client";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui";
+import { useProfile } from "@hooks/auth";
 import { cn } from "@utils/base";
 import { LogOutIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -15,6 +16,9 @@ interface ILogoutButton {
 const LogoutButton: FC<ILogoutButton> = ({ reversed }) => {
 	const t = useTranslations("layout.sidebar.footer.logout");
 	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const { IS_AUTHORIZED } = useProfile();
+
+	if (!IS_AUTHORIZED) return <></>;
 
 	return (
 		<DropdownMenu open={isOpen} onOpenChange={setIsOpen}>

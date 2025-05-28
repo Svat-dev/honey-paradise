@@ -5,10 +5,10 @@ import { CheckIcon, ChevronDownIcon } from "lucide-react";
 
 import { useChangeLang } from "@i18n/hooks/useChangeLang";
 import { cn } from "@utils/base";
-import { useState } from "react";
+import { type FC, type PropsWithChildren, useState } from "react";
 import { useAvailableLangs } from "../hooks/useAvailableLangs";
 
-const SelectLanguage = () => {
+const SelectLanguageDM: FC<PropsWithChildren> = ({ children }) => {
 	const { data, t, currentLangText } = useAvailableLangs();
 	const { change } = useChangeLang();
 	const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -16,10 +16,14 @@ const SelectLanguage = () => {
 	return (
 		<DropdownMenu open={isOpen} onOpenChange={status => setIsOpen(status)}>
 			<DropdownMenuTrigger asChild>
-				<Button variant="secondary" className="tw-px-1 tw-py-0.5 tw-mb-1">
-					<p>{currentLangText}</p>
-					<ChevronDownIcon className={cn("tw-transition-transform", { "tw-rotate-180": isOpen })} />
-				</Button>
+				{children ? (
+					children
+				) : (
+					<Button variant="secondary" className="tw-px-1 tw-py-0.5 tw-mb-1">
+						<p>{currentLangText}</p>
+						<ChevronDownIcon className={cn("tw-transition-transform", { "tw-rotate-180": isOpen })} />
+					</Button>
+				)}
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent>
@@ -40,4 +44,4 @@ const SelectLanguage = () => {
 	);
 };
 
-export { SelectLanguage };
+export { SelectLanguageDM };

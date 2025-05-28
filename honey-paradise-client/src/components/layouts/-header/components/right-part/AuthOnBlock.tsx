@@ -1,13 +1,13 @@
 import { MenuIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { ProfileBlock } from "./ProfileBlock";
-import { MenuSheet } from "./sheet/MenuSheet";
+import { ProfileBlock } from "../ProfileBlock";
+import { MenuSheet } from "../sheet";
 
-const RightPart = async () => {
+const AuthOnBlock = async () => {
 	const t = await getTranslations("layout.header");
 
 	return (
-		<div className="tw-flex tw-items-center">
+		<>
 			<ProfileBlock t={t} />
 
 			<MenuSheet>
@@ -15,8 +15,8 @@ const RightPart = async () => {
 					<MenuIcon height={28} width={30} />
 				</button>
 			</MenuSheet>
-		</div>
+		</>
 	);
 };
 
-export { RightPart };
+export { AuthOnBlock };

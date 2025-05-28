@@ -22,13 +22,18 @@
 			"roles": {
 				"admin": "Admin"
 			},
+			"auth": {
+				"signIn": "Sign in",
+				"signUp": "Sign up"
+			},
 			"labels": {
 				"search": "Search",
 				"close": "Close",
 				"found": "Find",
 				"menu": "Menu",
 				"clear": "Clear",
-				"watchCart": "View the cart"
+				"watchCart": "View the cart",
+				"changeLang": "Change language"
 			},
 			"sidebarSheet": {
 				"title": "Profile Navigation menu",

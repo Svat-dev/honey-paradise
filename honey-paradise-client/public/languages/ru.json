@@ -22,13 +22,18 @@
 			"roles": {
 				"admin": "Админ"
 			},
+			"auth": {
+				"signIn": "Войти",
+				"signUp": "Регистрация"
+			},
 			"labels": {
 				"search": "Поиск",
 				"close": "Закрыть",
 				"found": "Найти",
 				"menu": "Меню",
 				"clear": "Очистить",
-				"watchCart": "Посмотреть корзину"
+				"watchCart": "Посмотреть корзину",
+				"changeLang": "Поменять язык"
 			},
 			"sidebarSheet": {
 				"title": "Навигационное меню профиля",
