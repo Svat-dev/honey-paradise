@@ -1,34 +1,15 @@
 "use client";
 
 import { Button } from "@/components/ui";
-import { EnumStorageTokens } from "@constants/base";
 import { EnumAppRoute } from "@constants/routes";
 import { cn } from "@utils/base";
-import Cookies from "js-cookie";
 import Link from "next/dist/client/link";
 import Image from "next/image";
-import { useState } from "react";
-import toast from "react-hot-toast";
 import styles from "./cookie.module.scss";
+import { useCookies } from "./useCookies";
 
 const Cookie = () => {
-	const isAgreeWithCookies = Cookies.get(EnumStorageTokens.IS_AGREE_WITH_COOKIES) || "";
-	const [isVisible, setIsVisible] = useState<boolean>(true);
-
-	const remove = () => {
-		try {
-			setTimeout(() => {
-				Cookies.set(EnumStorageTokens.IS_AGREE_WITH_COOKIES, "true", {
-					expires: 30,
-				});
-			}, 3000);
-
-			setIsVisible(false);
-		} catch (error) {
-			const err = error as Error;
-			toast.error(`Не удалось сохранить информацию. Ошибка: ${err.name}`);
-		}
-	};
+	const { isAgreeWithCookies, isVisible, remove, t } = useCookies();
 
 	if (isAgreeWithCookies === "true") return;
 
@@ -38,18 +19,20 @@ const Cookie = () => {
 				"tw-opacity-0 tw-pointer-events-none": !isVisible,
 			})}
 		>
+			<h3 className="tw-sr-only">{t("title")}</h3>
+
 			<div className={styles["content-wrapper"]}>
-				<Image src="/assets/cookies.png" alt="Фото круглой печеньки" width={60} height={60} />
+				<Image src="/assets/cookies.png" alt={t("labels.photo")} width={60} height={60} />
 				<p>
-					Этот сайт использует cookies, чтобы обеспечить вам наилучший опыт использования нашего сайта.{" "}
+					{t("description")}&nbsp;
 					<Link href={EnumAppRoute.INDEX} className={styles["link"]}>
-						Узнать больше
+						{t("link")}
 					</Link>
 				</p>
 			</div>
 
-			<Button variant="secondary" className={styles["agree-btn"]} onClick={remove}>
-				Хорошо
+			<Button variant="secondary" title={t("labels.accept")} className={styles["agree-btn"]} onClick={remove}>
+				{t("buttons.accept")}
 			</Button>
 		</div>
 	);

@@ -95,6 +95,20 @@
 			"labels": {
 				"changeTheme": "Change theme"
 			}
+		},
+		"cookies": {
+			"title": "Agreement with the Cookie policy",
+			"description": "This website uses Cookies to provide you with the best possible experience using our website.",
+			"link": "Learn more",
+			"buttons": {
+				"accept": "Ok",
+				"reject": "Reject"
+			},
+			"labels": {
+				"accept": "Accept the policy",
+				"reject": "Reject the policy",
+				"photo": "Photo of a round cookie"
+			}
 		}
 	},
 	"toasters": {

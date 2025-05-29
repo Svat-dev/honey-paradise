@@ -15,7 +15,7 @@ const Sidebar: FC<ISidebar> = async ({}) => {
 		<aside className="tw-w-[270px] tw-h-full tw-bg-primary tw-sticky tw-bottom-0">
 			<div className="tw-px-4 tw-py-4">
 				<nav className="tw-mb-7">
-					<p className="tw-text-lg tw-font-medium">{t("list.title")}:</p>
+					<h3 className="tw-text-lg tw-font-medium">{t("list.title")}:</h3>
 
 					<ul className="tw-ml-3 tw-mt-3">
 						{data.map(item => (
