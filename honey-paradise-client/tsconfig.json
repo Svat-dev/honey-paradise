@@ -27,6 +27,9 @@
 			"@hooks/*": ["./src/shared/lib/hooks/*"]
 		}
 	},
+	"mdx": {
+		"checkMdx": true
+	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "**/*.d.ts"],
 	"exclude": ["node_modules"]
 }

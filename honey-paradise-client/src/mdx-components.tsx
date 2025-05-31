@@ -1,6 +1,6 @@
-import { Title } from "@/components/ui";
-import type { MDXComponents } from "mdx/types";
 import Link from "next/link";
+import type { MDXComponents } from "mdx/types";
+import { Title } from "@/components/ui";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
 	return {

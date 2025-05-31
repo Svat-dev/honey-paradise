@@ -2,10 +2,54 @@
 	"global": {
 		"logo": "Honey Paradise",
 		"home": { "title": "Home", "description": "The main page of the online store {title}" },
-		"privacy-policy": { "title": "Privacy policy", "description": "Privacy Policy of the {title} online store" },
+		"privacy-policy": {
+			"title": "Privacy policy",
+			"description": "Privacy Policy of the {title} online store",
+			"content": {
+				"titles": {
+					"general": "Privacy Policy",
+					"h3": {
+						"1": "Collection of information",
+						"2": "Use of information",
+						"3": "Protection of information",
+						"4": "Disclosure of information",
+						"5": "Changes to the Privacy Policy",
+						"6": "Consent",
+						"7": "Contacts"
+					}
+				},
+				"paragraphs": {
+					"1": "We value your privacy and want you to be sure that your personal data is protected. This privacy policy explains how we collect, use and protect your personal data.",
+					"2": {
+						"text_1": "We collect information that you provide to us when you use our website or application.",
+						"text_2": "This may include:",
+						"list": {
+							"1": "your name",
+							"2": "email address",
+							"3": "phone number",
+							"4": "other information that you provide to us."
+						}
+					},
+					"3": "We use the information we collect to provide you with the services you have requested, as well as to improve our products and services. We may also use your information to send you promotional materials if you have agreed to do so.",
+					"4": "We take all necessary measures to protect your information from unauthorized access, use or disclosure. We use modern technology and strict security procedures to protect your information.",
+					"5": "We will not sell, exchange or transfer your information to third parties without your consent, except as required by law.",
+					"6": "We may update this privacy policy from time to time. We recommend that you check this page periodically for any changes.",
+					"7": "By using our website or application, you agree to this privacy policy and its terms. You also accept and understand the use of cookies",
+					"8": {
+						"text": "If you have any questions about the privacy policy or how we use your information, please contact us at:",
+						"link": "click"
+					}
+				}
+			}
+		},
 		"cookies-policy": {
 			"title": "Cookie Policy",
-			"description": "Cookie policy of the online store {title}"
+			"description": "Cookie policy of the online store {title}",
+			"content": {
+				"titles": {
+					"general": "Cookie Policy"
+				}
+			}
 		}
 	},
 	"layout": {

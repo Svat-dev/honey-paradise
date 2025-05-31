@@ -1,7 +1,7 @@
 import type { Metadata, NextPage } from "next";
 
-import PrivacyPolicy from "@/components/screens/_privacy-policy/PrivacyPolicy.mdx";
 import { Container } from "@/components/ui/layouts/container";
+import PrivacyPolicy from "@/components/screens/_privacy-policy/PrivacyPolicy.mdx";
 import { getMetadata } from "@utils/base";
 import { getTranslations } from "next-intl/server";
 
@@ -20,10 +20,12 @@ export async function generateMetadata({}: IProps): Promise<Metadata> {
 	};
 }
 
-const PrivacyPolicyPage: NextPage = () => {
+const PrivacyPolicyPage: NextPage = async () => {
+	const t = await getTranslations("global.privacy-policy.content");
+
 	return (
 		<Container className="tw-mb-4">
-			<PrivacyPolicy />
+			<PrivacyPolicy t={t} />
 		</Container>
 	);
 };
