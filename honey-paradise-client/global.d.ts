@@ -3,6 +3,8 @@ import ru from "./public/languages/ru.json";
 
 type Messages = typeof en & typeof ru;
 
-declare global {
-	interface IntlMessages extends Messages {}
+declare module "next-intl" {
+	interface AppConfig {
+		Messages: Messages;
+	}
 }

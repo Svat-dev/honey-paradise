@@ -7,7 +7,7 @@ const MenuSheetMain = () => {
 	const { data } = useMenuSheetMain();
 
 	return (
-		<ul className="tw-flex tw-flex-col tw-items-end tw-mt-5">
+		<ul className="tw-list-none tw-flex tw-flex-col tw-items-end tw-mt-5">
 			{data.map(item => (
 				<li className="tw-mt-3 tw-relative tw-transition-all hover:-tw-translate-x-2 hover:tw-text-muted" key={item.title}>
 					<Link href={item.link} className="tw-flex tw-items-center tw-gap-1.5">

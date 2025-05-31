@@ -1,7 +1,12 @@
 {
 	"global": {
 		"logo": "Медовый рай",
-		"home": { "title": "Главная", "description": "Главная страница интернет-магазина {title}" }
+		"home": { "title": "Главная", "description": "Главная страница интернет-магазина {title}" },
+		"privacy-policy": { "title": "Политика конфиденциальности", "description": "Политика конфиденциальности интернет-магазина {title}" },
+		"cookies-policy": {
+			"title": "Политика использования cookie-файлов",
+			"description": "Политика использования cookie-файлов интернет-магазина {title}"
+		}
 	},
 	"layout": {
 		"header": {

@@ -25,7 +25,7 @@ const Cookie = () => {
 				<Image src="/assets/cookies.png" alt={t("labels.photo")} width={60} height={60} />
 				<p>
 					{t("description")}&nbsp;
-					<Link href={EnumAppRoute.INDEX} className={styles["link"]}>
+					<Link href={EnumAppRoute.COOKIE_POLICY} className={styles["link"]}>
 						{t("link")}
 					</Link>
 				</p>

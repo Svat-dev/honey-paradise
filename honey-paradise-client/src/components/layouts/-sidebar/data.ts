@@ -11,8 +11,9 @@ import {
 	ShieldAlertIcon,
 } from "lucide-react";
 
-import type { INavList } from "./types/data.type";
+import { EnumAppRoute } from "@/shared/lib/constants/routes";
 import { getTranslations } from "next-intl/server";
+import type { INavList } from "./types/data.type";
 
 export async function getNavListData(): Promise<INavList[]> {
 	const topics = await getTranslations("layout.sidebar.list.content.topics");
@@ -69,7 +70,7 @@ export async function getNavListData(): Promise<INavList[]> {
 				},
 				{
 					icon: ShieldAlertIcon,
-					link: "/",
+					link: EnumAppRoute.PRIVACY_POLICY,
 					title: links("privacyPolicy"),
 				},
 			],

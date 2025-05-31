@@ -1,7 +1,12 @@
 {
 	"global": {
 		"logo": "Honey Paradise",
-		"home": { "title": "Home", "description": "The main page of the online store {title}" }
+		"home": { "title": "Home", "description": "The main page of the online store {title}" },
+		"privacy-policy": { "title": "Privacy policy", "description": "Privacy Policy of the {title} online store" },
+		"cookies-policy": {
+			"title": "Cookie Policy",
+			"description": "Cookie policy of the online store {title}"
+		}
 	},
 	"layout": {
 		"header": {

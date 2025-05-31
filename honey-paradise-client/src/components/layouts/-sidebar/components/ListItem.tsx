@@ -8,7 +8,7 @@ const ListItem: FC<IListItem> = ({ content, topic }) => {
 	return (
 		<li className="tw-mb-3">
 			<p className="tw-font-medium">{topic}</p>
-			<ul className="tw-ml-4 tw-flex tw-flex-col">
+			<ul className="tw-list-none tw-ml-4 tw-flex tw-flex-col">
 				{content.map(item => {
 					const { icon, link, title } = item;
 

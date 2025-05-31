@@ -13,12 +13,12 @@ const Title: FC<TypeProps> = ({ children, size = "sm", className }) => {
 	} as const;
 
 	const mapClassNameBySize = {
-		xs: "text-[16px]",
-		sm: "text-[22px]",
-		md: "text-[26px]",
-		lg: "text-[32px]",
-		xl: "text-[35px]",
-		"2xl": "text-[48px]",
+		xs: "tw-text-[16px]",
+		sm: "tw-text-[20px]",
+		md: "tw-text-[22px]",
+		lg: "tw-text-[26px]",
+		xl: "tw-text-[35px]",
+		"2xl": "tw-text-[48px]",
 	} as const;
 
 	return createElement(mapTagBySize[size], { className: cn(mapClassNameBySize[size], className) }, children);
