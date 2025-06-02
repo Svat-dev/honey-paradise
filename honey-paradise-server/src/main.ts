@@ -1,6 +1,10 @@
+import "reflect-metadata";
+
+import * as cookieParser from "cookie-parser";
+
+import { ValidationPipe } from "@nestjs/common/pipes/validation.pipe";
 import { ConfigService } from "@nestjs/config/dist/config.service";
 import { NestFactory } from "@nestjs/core";
-import cookieParser from "cookie-parser";
 import { AppModule } from "./app.module";
 
 async function bootstrap() {
@@ -10,6 +14,8 @@ async function bootstrap() {
 	app.setGlobalPrefix("api");
 
 	app.use(cookieParser(config.getOrThrow<string>("COOKIES_SECRET")));
+
+	app.useGlobalPipes(new ValidationPipe());
 
 	app.enableCors({
 		origin: [config.getOrThrow<string>("CLIENT_URL"), "https://accounts.google.com"],
