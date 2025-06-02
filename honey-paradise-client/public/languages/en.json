@@ -121,7 +121,8 @@
 	"layout": {
 		"header": {
 			"logo": {
-				"title": "Honey Paradise"
+				"title": "Honey Paradise",
+				"alt": "Website's logo"
 			},
 			"links": {
 				"shares": "Special offers",

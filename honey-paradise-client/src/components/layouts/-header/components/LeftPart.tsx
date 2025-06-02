@@ -1,4 +1,5 @@
 import { EnumAppRoute } from "@constants/routes";
+import Image from "next/image";
 import Link from "next/dist/client/link";
 import { getTranslations } from "next-intl/server";
 import styles from "../styles/left-part.module.scss";
@@ -9,8 +10,7 @@ const LeftPart = async () => {
 	return (
 		<div className="tw-flex tw-items-center tw-gap-14">
 			<Link href={EnumAppRoute.INDEX} className="tw-inline-flex tw-items-center tw-gap-2 tw-whitespace-nowrap">
-				{/* <Image alt="" src={} width={} height={} /> */}
-				<div className="tw-bg-secondary tw-w-8 tw-h-8 tw-rounded-full" />
+				<Image src="/assets/website-logo.webp" alt={t("logo.alt")} width={40} height={36} className="tw-rounded-full" priority />
 				<p className="tw-uppercase tw-font-bold tw-text-2xl tw-tracking-tighter">{t("logo.title")}</p>
 			</Link>
 
