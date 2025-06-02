@@ -1,7 +1,7 @@
 "use server";
 
 import { getTranslations } from "next-intl/server";
-import { type TypeGetMetadataFunction } from "../types/get-metadata.type";
+import type { TypeGetMetadataFunction } from "../types/get-metadata.type";
 
 const getTitle = async (title: string): Promise<string> => {
 	const t = await getTranslations("global");
@@ -27,6 +27,6 @@ export const getMetadata: TypeGetMetadataFunction = async ({
 		title: (await getTitle(title)) || undefined,
 		description: index ? description : undefined,
 
-		openGraph: index ? openGraph : undefined,
+		openGraph,
 	};
 };

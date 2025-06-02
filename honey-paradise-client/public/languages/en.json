@@ -47,7 +47,73 @@
 			"description": "Cookie policy of the online store {title}",
 			"content": {
 				"titles": {
-					"general": "Cookie Policy"
+					"general": "Cookie Policy",
+					"h3": {
+						"1": "1. What are cookies?",
+						"2": "2. Managing cookies on your device",
+						"3": "3. Disclosure of information about cookies"
+					},
+					"h4": {
+						"1": "2.1. Managing cookies through the browser",
+						"2": "3.1. Types of cookies",
+						"3": "3.2. Categories of cookies",
+						"4": "3.3. Managing analytical cookies"
+					}
+				},
+				"paragraphs": {
+					"1": "When visiting the Administration's websites and using the Platform's functionality, the User consents to the use of cookies in accordance with this policy regarding this type of file.",
+					"2": "Cookies are small text files placed on a user's computer by sites they have visited. They are widely used to make websites work at all or work more efficiently, as well as to provide the necessary information to the site owners. The use of cookies is currently a standard practice for most websites.",
+					"3": "The administration uses cookies to personalize the content and improve the user experience. The User can control cookies and manage their use through his browser (see section 2.1). Deleting or blocking cookies may affect the user interface of the site and make some of the site's components inaccessible to the User.",
+					"4": {
+						"text_1": "Most browsers allow you to view, delete, and block cookies from websites. In this case, if all cookies are deleted, all site settings will be reset for the User. Cookie management instructions for common browsers can be found at the links below:",
+						"text_2": "Information about other browsers and device types is available on {link1} and {link2}."
+					},
+					"5": "The following section describes the types, categories, and purpose of cookies. The User can disable the use of certain cookies in accordance with the functionality of the browser he uses, as described in section 2.1.",
+					"6": "The User has the option to refuse to record their anonymized browsing history in analytical cookies on the Administration's websites. The administration uses the services of the providers listed below."
+				},
+				"lists": {
+					"list_1": {
+						"1": "Google Chrome",
+						"2": "Mozilla Firefox",
+						"3": "MacOS Safari",
+						"4": "Microsoft Internet Explorer"
+					},
+					"list_2": {
+						"1": {
+							"title": "Mandatory cookies",
+							"text": "These cookies ensure the operation of the Administration's website and/or Platform, and they cannot be disabled. They are usually applied in response to actions performed, for example, to set privacy settings or fill out some forms.The user can configure his browser so that it blocks these cookies or notifies him about them, but in this case some components of the site will stop working."
+						},
+						"2": {
+							"title": "Analytical cookies",
+							"text": "These cookies help the Administration to calculate statistics on the number of visitors and investigate traffic sources so that the Administration can evaluate and improve the effectiveness and usability of the site for Users. They allow the Administration to find out which pages are the most popular or are of least interest to Users, and how visitors navigate the site.All information collected by these cookies is aggregated and, accordingly, anonymous. If the User prohibits the use of these cookies, the Administration will not be able to track website traffic and will not be able to regulate its operation."
+						},
+						"3": {
+							"title": "Additional cookies",
+							"text": "These cookies help the Administration in researching the effectiveness of marketing campaigns and improve the user-friendliness of the Administration's Internet resources, taking into account User preferences."
+						},
+						"4": {
+							"title": "Advertising cookies",
+							"text": "In order to promote its services, collect statistics and conduct research, the Administration may place advertisements on other Internet sites that will be visible to Users. Cookies are used to make offers tailored to the User and their interests. In addition, they are needed to prevent the same advertisement from appearing frequently. These advertisements are intended solely to familiarize Users with the Administration's potentially interesting proposals. The Administration does not sell User data to third parties."
+						}
+					},
+					"list_3": {
+						"1": {
+							"title": "Mandatory cookies",
+							"text": "These cookies ensure the operation of the Administration's website and/or Platform, and they cannot be disabled. They are usually applied in response to actions performed, for example, to set privacy settings or fill out some forms.The user can configure his browser so that it blocks these cookies or notifies him about them, but in this case some components of the site will stop working."
+						},
+						"2": {
+							"title": "Analytical cookies",
+							"text": "These cookies help the Administration calculate statistics on the number of visitors and investigate traffic sources so that the Administration can evaluate and improve the effectiveness and usability of the site for Users. They allow the Administration to find out which pages are the most popular or are of least interest to Users, and how visitors navigate the site.All information collected by these cookies is aggregated and, accordingly, anonymous. If the User prohibits the use of these cookies, the Administration will not be able to track website traffic and will not be able to regulate its operation."
+						},
+						"3": {
+							"title": "Additional cookies",
+							"text": "These cookies help the Administration in researching the effectiveness of marketing campaigns and improve the user-friendliness of the Administration's Internet resources, taking into account User preferences."
+						},
+						"4": {
+							"title": "Advertising cookies",
+							"text": "In order to promote its services, collect statistics and conduct research, the Administration may place advertisements on other Internet sites that will be visible to Users. Cookies are used to make offers tailored to the User and their interests. In addition, they are needed to prevent the same advertisement from appearing frequently. These advertisements are intended solely to familiarize Users with the Administration's potentially interesting proposals. The Administration does not sell User data to third parties."
+						}
+					}
 				}
 			}
 		}
