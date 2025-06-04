@@ -1,7 +1,8 @@
-import { type ICNProps } from "@/shared/types/base.type";
+import type { ICNProps } from "@/shared/types/base.type";
 import { cn } from "@utils/base";
 import { XIcon } from "lucide-react";
-import { type FC } from "react";
+import type { FC } from "react";
+import styles from "../form-input.module.scss";
 
 interface IProps extends ICNProps {
 	value: string | undefined;
@@ -14,15 +15,15 @@ const ClearButton: FC<IProps> = ({ value, onClick, className }) => {
 			type="button"
 			title="Очистить"
 			className={cn(
-				"absolute top-1/2 right-2.5 -translate-y-1/2 group transition-opacity duration-200",
+				styles["clear-btn"],
 				{
-					"opacity-0 pointer-events-none invisible": !value,
+					"tw-opacity-0 tw-pointer-events-none tw-invisible": !value,
 				},
 				className
 			)}
 			onClick={onClick}
 		>
-			<XIcon size={20} className="opacity-50 group-hover:opacity-100 transition-opacity" />
+			<XIcon size={20} />
 		</button>
 	);
 };

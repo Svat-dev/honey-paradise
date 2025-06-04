@@ -24,7 +24,8 @@
 			"@utils/*": ["./src/shared/lib/utils/*"],
 			"@styles/*": ["./src/shared/lib/styles/*"],
 			"@i18n/*": ["./src/shared/lib/i18n/*"],
-			"@hooks/*": ["./src/shared/lib/hooks/*"]
+			"@hooks/*": ["./src/shared/lib/hooks/*"],
+			"@schemas/*": ["./src/shared/lib/schemas/*"]
 		}
 	},
 	"mdx": {

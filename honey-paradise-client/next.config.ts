@@ -20,6 +20,11 @@ const nextConfig: NextConfig = {
 			},
 		],
 	},
+	env: {
+		CLIENT_URL: process.env.CLIENT_URL,
+		SERVER_URL: process.env.SERVER_URL,
+		GOOGLE_RECAPTCHA_SITE_KEY: process.env.GOOGLE_RECAPTCHA_SITE_KEY,
+	},
 };
 
 const nextConfigWithIntl = withMdx(withNextIntl(nextConfig));

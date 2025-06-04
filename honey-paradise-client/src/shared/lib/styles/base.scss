@@ -9,6 +9,10 @@ a {
 	@apply tw-cursor-pointer tw-outline-none focus:tw-outline-none;
 }
 
+input {
+	@apply tw-outline-none focus:tw-outline-none;
+}
+
 kbd {
 	@apply tw-font-rubik tw-font-normal tw-text-sm;
 }

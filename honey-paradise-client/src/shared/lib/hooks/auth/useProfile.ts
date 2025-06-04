@@ -1,5 +1,5 @@
 export const useProfile = () => {
-	const IS_AUTHORIZED = true;
+	const IS_AUTHORIZED = false;
 
 	return {
 		IS_AUTHORIZED,

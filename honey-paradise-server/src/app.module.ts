@@ -3,6 +3,7 @@ import * as path from "path";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { ServeStaticModule } from "@nestjs/serve-static/dist/serve-static.module";
+import { AuthModule } from './auth/auth.module';
 
 @Module({
 	imports: [
@@ -13,6 +14,7 @@ import { ServeStaticModule } from "@nestjs/serve-static/dist/serve-static.module
 			rootPath: path.join(__dirname, "..", "public"),
 			serveRoot: "/static",
 		}),
+		AuthModule,
 		// PrismaModule,
 	],
 	controllers: [],

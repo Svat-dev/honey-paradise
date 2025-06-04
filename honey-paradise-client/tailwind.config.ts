@@ -28,6 +28,7 @@ export default {
 				},
 				muted: {
 					DEFAULT: "rgba(var(--muted))",
+					darker: "rgba(var(--muted-darker))",
 				},
 				popover: {
 					DEFAULT: "rgba(var(--popover))",
@@ -35,6 +36,8 @@ export default {
 				},
 				input: "rgba(var(--input))",
 				background: "rgba(var(--background))",
+				white: "rgba(var(--white))",
+				black: "rgba(var(--black))",
 			},
 			transitionDuration: {
 				DEFAULT: "300ms",

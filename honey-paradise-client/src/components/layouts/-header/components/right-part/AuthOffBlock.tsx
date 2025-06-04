@@ -1,7 +1,9 @@
 import { Button, Separator } from "@/components/ui";
 
+import { EnumAppRoute } from "@/shared/lib/constants/routes";
 import { LanguagesIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import Link from "next/link";
 import { SelectLanguageDM } from "../SelectLanguageDM";
 import styles from "./../../styles/right-part.module.scss";
 
@@ -17,15 +19,19 @@ const AuthOffBlock = async () => {
 			</SelectLanguageDM>
 
 			<div className="tw-flex tw-items-center">
-				<Button variant="secondary" className={styles["auth-btn"]}>
-					{t("auth.signIn")}
-				</Button>
+				<Link href={EnumAppRoute.SIGN_IN}>
+					<Button variant="secondary" className={styles["auth-btn"]}>
+						{t("auth.signIn")}
+					</Button>
+				</Link>
 
 				<Separator className={styles["separator"]} orientation="vertical" />
 
-				<Button variant="secondary" className={styles["auth-btn"]}>
-					{t("auth.signUp")}
-				</Button>
+				<Link href={EnumAppRoute.SIGN_UP}>
+					<Button variant="secondary" className={styles["auth-btn"]}>
+						{t("auth.signUp")}
+					</Button>
+				</Link>
 			</div>
 		</>
 	);

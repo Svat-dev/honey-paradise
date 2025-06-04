@@ -5,3 +5,5 @@ export type ReactStateHook<T> = Dispatch<SetStateAction<T>>;
 export interface ICNProps {
 	className?: string;
 }
+
+export type TThemes = "light" | "dark";

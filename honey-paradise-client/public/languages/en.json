@@ -116,6 +116,16 @@
 					}
 				}
 			}
+		},
+		"sign-in": {
+			"title": "Sign In",
+			"description": "{title} online store login page",
+			"content": {}
+		},
+		"sign-up": {
+			"title": "Sign Up",
+			"description": "Account creation page in the {title} online store",
+			"content": {}
 		}
 	},
 	"layout": {

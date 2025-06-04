@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 
+import { TThemes } from "@/shared/types/base.type";
+import { EnumStorageTokens } from "@constants/base";
 import Cookies from "js-cookie";
-import { EnumStorageTokens } from "@/shared/lib/constants/base";
-import type { TThemes } from "../types/change-theme.type";
-import { useTranslations } from "next-intl";
 
-export const useChangeTheme = () => {
+export const useTheme = () => {
 	const [theme, setTheme] = useState<TThemes>("light");
-	const t = useTranslations("layout.sidebar.labels");
 
 	const changeTheme = (_theme: TThemes, isSystem: boolean = false) => {
 		document.body.classList.remove(`${theme}-mode`);
@@ -39,6 +37,5 @@ export const useChangeTheme = () => {
 	return {
 		theme,
 		toggleTheme,
-		t,
 	};
 };
