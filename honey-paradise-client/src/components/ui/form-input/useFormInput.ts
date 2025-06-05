@@ -2,12 +2,14 @@ import type { ReactStateHook } from "@/shared/types/base.type";
 import { onInputRule } from "@utils/input-rule";
 import type InputMask from "imask/esm/controls/input";
 import IMask from "imask/esm/core/holder";
+import { useTranslations } from "next-intl";
 import { type ChangeEvent, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import type { TFieldNames } from "./form-input.type";
 
 export const useFormInput = (name: TFieldNames, setMask?: ReactStateHook<InputMask<{ mask: string; lazy: true }> | undefined>) => {
 	const { register, formState, watch, setValue, control, clearErrors } = useFormContext();
+	const t = useTranslations("global.sign-in.content.labels");
 
 	const isPassword = name === "password" || name === "confirmPassword";
 	const value = watch(name);
@@ -43,6 +45,7 @@ export const useFormInput = (name: TFieldNames, setMask?: ReactStateHook<InputMa
 	};
 
 	return {
+		t,
 		onInput,
 		isPassword,
 		isShowPassword,

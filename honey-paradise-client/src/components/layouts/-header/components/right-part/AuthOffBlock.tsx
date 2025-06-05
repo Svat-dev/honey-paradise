@@ -1,14 +1,22 @@
-import { Button, Separator } from "@/components/ui";
+"use client";
 
-import { EnumAppRoute } from "@/shared/lib/constants/routes";
+import { Button, Separator } from "@/components/ui";
 import { LanguagesIcon } from "lucide-react";
-import { getTranslations } from "next-intl/server";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { SelectLanguageDM } from "../SelectLanguageDM";
 import styles from "./../../styles/right-part.module.scss";
 
-const AuthOffBlock = async () => {
-	const t = await getTranslations("layout.header");
+import { EnumAppRoute } from "@constants/routes";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const AuthOffBlock = () => {
+	const t = useTranslations("layout.header");
+	const pathname = usePathname();
+
+	const isSignUpPage = pathname === EnumAppRoute.SIGN_UP;
+	const isSignInPage = pathname === EnumAppRoute.SIGN_IN;
+	const isAuthPage = isSignUpPage || isSignInPage;
 
 	return (
 		<>
@@ -19,19 +27,23 @@ const AuthOffBlock = async () => {
 			</SelectLanguageDM>
 
 			<div className="tw-flex tw-items-center">
-				<Link href={EnumAppRoute.SIGN_IN}>
-					<Button variant="secondary" className={styles["auth-btn"]}>
-						{t("auth.signIn")}
-					</Button>
-				</Link>
+				{!isSignInPage && (
+					<Link href={EnumAppRoute.SIGN_IN}>
+						<Button variant="secondary" className={styles["auth-btn"]}>
+							{t("auth.signIn")}
+						</Button>
+					</Link>
+				)}
 
-				<Separator className={styles["separator"]} orientation="vertical" />
+				{!isAuthPage && <Separator className={styles["separator"]} orientation="vertical" />}
 
-				<Link href={EnumAppRoute.SIGN_UP}>
-					<Button variant="secondary" className={styles["auth-btn"]}>
-						{t("auth.signUp")}
-					</Button>
-				</Link>
+				{!isSignUpPage && (
+					<Link href={EnumAppRoute.SIGN_UP}>
+						<Button variant="secondary" className={styles["auth-btn"]}>
+							{t("auth.signUp")}
+						</Button>
+					</Link>
+				)}
 			</div>
 		</>
 	);

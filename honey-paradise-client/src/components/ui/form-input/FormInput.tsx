@@ -1,3 +1,5 @@
+"use client";
+
 import { ClearButton, ErrorText, PasswordEye } from "./components";
 
 import { cn } from "@/shared/lib/utils/base";
@@ -16,7 +18,10 @@ const FormInput: FC<IFormInputProps> = ({
 	clearBtnClassName,
 	...props
 }) => {
-	const { clear, error, isPassword, isShowPassword, onInput, register, value, setIsShowPassword, clearError } = useFormInput(name, setMask);
+	const { clear, error, isPassword, isShowPassword, onInput, register, value, setIsShowPassword, clearError, t } = useFormInput(
+		name,
+		setMask
+	);
 
 	return (
 		<div className={cn(styles["wrapper"], containerClassName)}>
@@ -38,8 +43,8 @@ const FormInput: FC<IFormInputProps> = ({
 
 				<i className={styles["decor-input"]}></i>
 
-				{isPassword && <PasswordEye value={isShowPassword} onClick={() => setIsShowPassword(prev => !prev)} />}
-				<ClearButton onClick={clear} value={value} className={clearBtnClassName} />
+				{isPassword && <PasswordEye value={isShowPassword} onClick={() => setIsShowPassword(prev => !prev)} t={t} />}
+				<ClearButton onClick={clear} value={value} className={clearBtnClassName} t={t} />
 			</div>
 
 			{error && <ErrorText error={error as string} className={cn(styles["error-txt"], errorClassName)} />}

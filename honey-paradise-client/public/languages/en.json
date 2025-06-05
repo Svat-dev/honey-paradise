@@ -120,7 +120,40 @@
 		"sign-in": {
 			"title": "Sign In",
 			"description": "{title} online store login page",
-			"content": {}
+			"content": {
+				"title": "Sign in to your account",
+				"form": {
+					"id": {
+						"label": "Email or username",
+						"placeholder": "Enter email or username",
+						"errors": {
+							"min": "The minimum length of the identifier is {min} characters",
+							"max": "The maximum length of the identifier is {max} characters",
+							"invalid": "The username can contain only letters, numbers and the special character _",
+							"union": "The field must contain the username or email"
+						}
+					},
+					"password": {
+						"label": "Password",
+						"placeholder": "Enter password",
+						"errors": {
+							"min": "The password must be at least {min} characters",
+							"max": "The maximum length of the password is {max} characters"
+						}
+					}
+				},
+				"footer": {
+					"submitBtn": "Sign in",
+					"forgotPassword": "Forgot password?",
+					"noProfile": "No profile? Create",
+					"error": "You may be a robot! Go through reCAPTCHA again"
+				},
+				"labels": {
+					"clearBtn": "Clear",
+					"showPassword": "Show password",
+					"hidePassword": "Hide Password"
+				}
+			}
 		},
 		"sign-up": {
 			"title": "Sign Up",
@@ -240,7 +273,7 @@
 	"toasters": {
 		"changeLanguage": {
 			"success": "Язык успешно изменён на {lang}",
-			"error": "Не удалось поменять язык. Ошибка: {error}"
+			"error": "Failed to change language. Error: {error}"
 		}
 	}
 }

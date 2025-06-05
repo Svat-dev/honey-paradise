@@ -2,7 +2,7 @@
 .wrapper::before,
 .border-line::after,
 .border-line::before {
-	@apply tw-content-[""] tw-absolute tw-w-[420px] tw-h-[500px] -tw-top-1/2 -tw-left-1/2 tw-z-10 tw-origin-bottom-right tw-transition-all;
+	@apply tw-content-[""] tw-absolute tw-w-[450px] tw-h-[510px] -tw-top-1/2 -tw-left-1/2 tw-z-10 tw-origin-bottom-right tw-transition-all;
 
 	background: linear-gradient(0deg, transparent, transparent, #4d4d4daf, #4d4d4daf, #4d4d4daf, #4d4d4daf);
 	box-shadow: 0 0 2px 2px #1c1c1c;
@@ -28,7 +28,7 @@
 }
 
 .wrapper {
-	@apply tw-overflow-hidden tw-absolute tw-w-[420px] tw-h-[500px] tw-rounded-md tw-bg-white tw-left-1/2 tw-top-1/2 -tw-translate-x-1/2 -tw-translate-y-1/2 tw-transition-all;
+	@apply tw-overflow-hidden tw-absolute tw-w-[450px] tw-h-[510px] tw-rounded-md tw-bg-white tw-left-1/2 tw-top-1/2 -tw-translate-x-1/2 -tw-translate-y-1/2 tw-transition-all;
 
 	&::after {
 		animation-delay: -3000ms;
@@ -44,6 +44,10 @@
 	&::after {
 		animation-delay: -4500ms;
 	}
+}
+
+.title {
+	@apply tw-w-full tw-text-center tw-mb-10;
 }
 
 .form {

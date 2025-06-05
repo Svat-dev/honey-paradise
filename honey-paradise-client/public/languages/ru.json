@@ -120,7 +120,40 @@
 		"sign-in": {
 			"title": "Вход в аккаунт",
 			"description": "Страница входа в аккаунт интернет-магазина {title}",
-			"content": {}
+			"content": {
+				"title": "Вход в аккаунт",
+				"form": {
+					"id": {
+						"label": "Email или имя пользователя",
+						"placeholder": "Введите email или имя пользователя",
+						"errors": {
+							"min": "Минимальная длина идентификатора {min} символа",
+							"max": "Максимальная длина идентификатора {max} символов",
+							"invalid": "Имя пользователя может содержать только буквы, цифры и специальный символ _",
+							"union": "Поле должно содержать имя пользователя или email"
+						}
+					},
+					"password": {
+						"label": "Пароль",
+						"placeholder": "Введите пароль",
+						"errors": {
+							"min": "Пароль должен быть не менее {min} символов",
+							"max": "Максимальная длина пароля {max} символа"
+						}
+					}
+				},
+				"footer": {
+					"submitBtn": "Войти в аккаунт",
+					"forgotPassword": "Забыли пароль?",
+					"noProfile": "Нет профиля? Создайте",
+					"error": "Вы возможно робот! Пройдите reCAPTCHA еще раз"
+				},
+				"labels": {
+					"clearBtn": "Очистить",
+					"showPassword": "Показать пароль",
+					"hidePassword": "Скрыть пароль"
+				}
+			}
 		},
 		"sign-up": {
 			"title": "Регистрация аккаунта",
@@ -240,7 +273,7 @@
 	"toasters": {
 		"changeLanguage": {
 			"success": "Language is successfully changed to {lang}",
-			"error": "Failed to change language. Error: {error}"
+			"error": "Не удалось поменять язык. Ошибка: {error}"
 		}
 	}
 }
