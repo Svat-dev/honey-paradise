@@ -1,13 +1,7 @@
 import { validatePassword, validateUsername } from "@utils/auth";
 
+import { VALUES } from "@constants/base";
 import { z } from "zod";
-
-export const VALUES = {
-	MAX_PASSWORD_LENGTH: 24,
-	MIN_PASSWORD_LENGTH: 8,
-	MAX_ID_LENGTH: 15,
-	MIN_ID_LENGTH: 3,
-};
 
 export const createSignInSchema = (t: any) =>
 	z.object({

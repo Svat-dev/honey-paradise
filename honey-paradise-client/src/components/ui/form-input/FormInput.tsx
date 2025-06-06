@@ -1,51 +1,25 @@
 "use client";
 
-import { ClearButton, ErrorText, PasswordEye } from "./components";
-
-import { cn } from "@/shared/lib/utils/base";
+import { DateInput } from "./components/input-types/DateInput";
+import { DefaultInput } from "./components/input-types/DefaultInput";
+import { ErrorText } from "./components";
 import type { FC } from "react";
-import styles from "./form-input.module.scss";
-import type { IFormInputProps } from "./form-input.type";
-import { useFormInput } from "./useFormInput";
+import type { IFormInputProps } from "./types/form-input.type";
+import { RadioGroupInput } from "./components/input-types/RadioGroupInput";
+import { cn } from "@/shared/lib/utils/base";
+import styles from "./styles/form-input.module.scss";
+import { useFormInput } from "./hooks/useFormInput";
 
-const FormInput: FC<IFormInputProps> = ({
-	name,
-	className,
-	containerClassName,
-	errorClassName,
-	label,
-	setMask,
-	clearBtnClassName,
-	...props
-}) => {
-	const { clear, error, isPassword, isShowPassword, onInput, register, value, setIsShowPassword, clearError, t } = useFormInput(
-		name,
-		setMask
-	);
+const FormInput: FC<IFormInputProps> = ({ name, containerClassName, errorClassName, setMask, clearBtnClassName, ...props }) => {
+	const { error, input_type } = useFormInput(name);
 
 	return (
 		<div className={cn(styles["wrapper"], containerClassName)}>
-			<div className={styles["input-wrapper"]}>
-				<input
-					className={cn(className, styles["input"], { "tw-tracking-widest": isPassword })}
-					onInput={onInput}
-					{...props}
-					type={!isPassword ? props.type : isShowPassword ? "text" : props.type}
-					{...register(name, { required: "Поле обязательно для заполнения", onChange: clearError })}
-				/>
+			{input_type === "default" && <DefaultInput name={name} setMask={setMask} clearBtnClassName={clearBtnClassName} {...props} />}
 
-				{label && (
-					<p className={styles["label"]}>
-						{label}
-						{props.required && <span className="tw-text-red-500">*</span>}
-					</p>
-				)}
+			{input_type === "radio-group" && <RadioGroupInput name={name} />}
 
-				<i className={styles["decor-input"]}></i>
-
-				{isPassword && <PasswordEye value={isShowPassword} onClick={() => setIsShowPassword(prev => !prev)} t={t} />}
-				<ClearButton onClick={clear} value={value} className={clearBtnClassName} t={t} />
-			</div>
+			{input_type === "date" && <DateInput name="birthdate" />}
 
 			{error && <ErrorText error={error as string} className={cn(styles["error-txt"], errorClassName)} />}
 		</div>

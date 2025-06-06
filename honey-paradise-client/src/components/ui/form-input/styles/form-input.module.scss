@@ -13,8 +13,12 @@
 .input {
 	@apply tw-relative tw-w-full tw-pt-5 tw-px-3 tw-pb-2 tw-bg-transparent tw-text-input tw-z-10 tw-transition-all tw-duration-500 tw-will-change-auto;
 
+	&::placeholder {
+		@apply tw-opacity-0 tw-sr-only;
+	}
+
 	&:focus,
-	&:valid {
+	&:not(:placeholder-shown) {
 		& ~ .label {
 			@apply tw-text-black -tw-translate-y-7 tw-text-sm tw-px-1.5;
 		}

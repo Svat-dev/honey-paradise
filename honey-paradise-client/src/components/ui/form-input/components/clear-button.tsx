@@ -1,8 +1,8 @@
-import type { ICNProps } from "@/shared/types/base.type";
-import { cn } from "@utils/base";
-import { XIcon } from "lucide-react";
 import type { FC } from "react";
-import styles from "../form-input.module.scss";
+import type { ICNProps } from "@/shared/types/base.type";
+import { XIcon } from "lucide-react";
+import { cn } from "@utils/base";
+import styles from "../styles/form-input.module.scss";
 
 interface IProps extends ICNProps {
 	value: string | undefined;

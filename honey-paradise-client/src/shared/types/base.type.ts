@@ -7,3 +7,6 @@ export interface ICNProps {
 }
 
 export type TThemes = "light" | "dark";
+
+export type TSearchParams = Record<string, string | string[] | undefined>;
+export type TParams = { slug: string };

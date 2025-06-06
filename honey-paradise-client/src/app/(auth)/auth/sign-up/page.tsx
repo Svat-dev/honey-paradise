@@ -2,11 +2,12 @@ import type { Metadata, NextPage } from "next";
 
 import { NO_INDEX_PAGE } from "@constants/base";
 import { SignUp } from "@/components/screens/_sign-up/SignUp";
+import type { TSearchParams } from "@/shared/types/base.type";
 import { getMetadata } from "@utils/base";
 import { getTranslations } from "next-intl/server";
 
 interface IProps {
-	params: {};
+	searchParams: Promise<TSearchParams>;
 }
 
 export async function generateMetadata({}: IProps): Promise<Metadata> {
@@ -21,8 +22,10 @@ export async function generateMetadata({}: IProps): Promise<Metadata> {
 	};
 }
 
-const SignUpPage: NextPage<IProps> = () => {
-	return <SignUp />;
+const SignUpPage: NextPage<IProps> = async props => {
+	const searchParams = await props.searchParams;
+
+	return <SignUp searchParams={searchParams} />;
 };
 
 export default SignUpPage;

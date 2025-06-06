@@ -1,0 +1,21 @@
+.wrapper {
+	@apply tw-w-[450px] tw-h-[470px];
+
+	&::after,
+	&::before,
+	> .border-line::after,
+	> .border-line::before {
+		@apply tw-w-[450px] tw-h-[470px];
+	}
+}
+
+.wrapper-higher {
+	@apply tw-w-[470px] tw-h-[640px];
+
+	&::after,
+	&::before,
+	> .border-line::after,
+	> .border-line::before {
+		@apply tw-w-[470px] tw-h-[640px];
+	}
+}

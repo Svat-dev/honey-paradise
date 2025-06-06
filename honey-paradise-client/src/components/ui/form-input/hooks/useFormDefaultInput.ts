@@ -2,20 +2,16 @@ import type { ReactStateHook } from "@/shared/types/base.type";
 import { onInputRule } from "@utils/input-rule";
 import type InputMask from "imask/esm/controls/input";
 import IMask from "imask/esm/core/holder";
-import { useTranslations } from "next-intl";
 import { type ChangeEvent, useEffect, useState } from "react";
-import { useFormContext } from "react-hook-form";
-import type { TFieldNames } from "./form-input.type";
+import type { TFieldNames } from "../types/form-input.type";
+import { useFormInput } from "./useFormInput";
 
-export const useFormInput = (name: TFieldNames, setMask?: ReactStateHook<InputMask<{ mask: string; lazy: true }> | undefined>) => {
-	const { register, formState, watch, setValue, control, clearErrors } = useFormContext();
-	const t = useTranslations("global.sign-in.content.labels");
+export const useFormDefaultInput = (name: TFieldNames, setMask?: ReactStateHook<InputMask<{ mask: string; lazy: true }> | undefined>) => {
+	const { input, clearErrors, error, setValue, register, value, t } = useFormInput(name);
 
 	const isPassword = name === "password" || name === "confirmPassword";
-	const value = watch(name);
-	const error = formState.errors[name]?.message || "";
-	const input = control._fields[name]?._f?.ref as HTMLInputElement;
 	const isPhone = name === "phoneNumber";
+	const placeholder = input?.placeholder ? input.placeholder : name;
 
 	let mask: InputMask<{ mask: string; lazy: true }>;
 
@@ -35,8 +31,6 @@ export const useFormInput = (name: TFieldNames, setMask?: ReactStateHook<InputMa
 	const clear = () => setValue(name, "", { shouldValidate: true });
 
 	const onInput = (e: ChangeEvent<HTMLInputElement>) => {
-		// if (name === "fullName") onInputRuleWithSpaces(e.target);
-		// else if (!isPhone) onInputRule(e.target);
 		if (!isPhone) onInputRule(e.target);
 	};
 
@@ -45,15 +39,15 @@ export const useFormInput = (name: TFieldNames, setMask?: ReactStateHook<InputMa
 	};
 
 	return {
-		t,
 		onInput,
 		isPassword,
 		isShowPassword,
-		register,
 		setIsShowPassword,
 		clear,
-		value,
-		error,
 		clearError,
+		placeholder,
+		register,
+		value,
+		t,
 	};
 };

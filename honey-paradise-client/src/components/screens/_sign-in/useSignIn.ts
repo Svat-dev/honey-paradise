@@ -6,6 +6,7 @@ import { useLocale } from "next-intl";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "use-intl";
+import type { TDataStatus } from "../_sign-up/types/sign-up.type";
 
 export const useSignIn = () => {
 	const { theme } = useTheme();
@@ -14,7 +15,7 @@ export const useSignIn = () => {
 
 	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
 	const [error, setError] = useState<boolean>(false);
-	const [dataStatus, setDataStatus] = useState<"default" | "error" | "good">("default");
+	const [dataStatus, setDataStatus] = useState<TDataStatus>("default");
 
 	const signInSchema = createSignInSchema(t);
 
@@ -40,7 +41,9 @@ export const useSignIn = () => {
 		}
 
 		setDataStatus("good");
-		return setTimeout(() => setDataStatus("default"), 3000);
+		setTimeout(() => setDataStatus("default"), 3000);
+
+		console.log(data);
 	};
 
 	return {
