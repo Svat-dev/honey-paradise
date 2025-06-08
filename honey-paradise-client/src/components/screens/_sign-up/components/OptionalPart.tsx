@@ -1,15 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui";
-import type { FC } from "react";
-import { FormBlock } from "@/components/ui/layouts";
 import { FormInput } from "@/components/ui/form-input";
-import { OptionalPartSection } from "./OptionalPartSection";
-import ReCAPTCHA from "react-google-recaptcha";
+import { FormBlock } from "@/components/ui/layouts";
 import _styles from "@styles/modules/auth-form-wrapper.module.scss";
+import type { FC } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+import { useOptionalPart } from "../hooks/useOptionalPart";
 import styles from "../styles/optional-part.module.scss";
-import { useLocale } from "next-intl";
-import { useTheme } from "@/shared/lib/hooks/useTheme";
+import { OptionalPartSection } from "./OptionalPartSection";
 
 interface IProps {
 	isActive: boolean;
@@ -19,40 +18,41 @@ interface IProps {
 }
 
 const OptionalPart: FC<IProps> = ({ isActive, onClickToPrevious, onRecaptchaChange, isError }) => {
-	const { theme } = useTheme();
-	const locale = useLocale();
+	const { data, locale, t, theme } = useOptionalPart();
 
 	return (
-		<FormBlock
-			title={"Дополнительная информация"}
-			containerClassName={styles["section"]}
-			titleClassName={_styles["title"]}
-			active={isActive}
-		>
-			<OptionalPartSection title={"Придумайте имя пользователя"}>
-				<FormInput name="username" type="text" label="Имя пользователя" containerClassName="tw-mt-2" />
+		<FormBlock title={t("optional_part.title")} containerClassName={styles["section"]} titleClassName={_styles["title"]} active={isActive}>
+			<OptionalPartSection title={t("optional_part.form.username.title")}>
+				<FormInput
+					name="username"
+					type="text"
+					label={t("optional_part.form.username.title")}
+					placeholder={t("optional_part.form.username.placeholder")}
+					containerClassName="tw-mt-2 tw-mb-8"
+				/>
 			</OptionalPartSection>
 
-			<OptionalPartSection title={"Выберите пол"}>
-				<FormInput name="gender" containerClassName="tw-mt-2" />
+			<OptionalPartSection title={t("optional_part.form.gender.title")}>
+				<FormInput name="gender" data={data} containerClassName="tw-mt-2" />
 			</OptionalPartSection>
 
-			<OptionalPartSection title={"Укажите дату рождения"}>
+			<OptionalPartSection title={t("optional_part.form.birthdate.title")}>
 				<FormInput name="birthdate" containerClassName="tw-mt-2" />
 			</OptionalPartSection>
 
 			<div className={styles["recaptcha"]}>
 				<ReCAPTCHA sitekey={process.env.GOOGLE_RECAPTCHA_SITE_KEY as string} theme={theme} onChange={onRecaptchaChange} hl={locale} />
-				{isError && <p>reCAPTCHA not done</p>}
+
+				{isError && <p>{t("footer.error")}</p>}
 			</div>
 
 			<div className={styles["footer"]}>
 				<Button variant="secondary" className={styles["return-btn"]} type="submit">
-					{"Создать аккаунт"}
+					{t("footer.submitBtn")}
 				</Button>
 
 				<Button variant="secondary" className={styles["submit-btn"]} onClick={onClickToPrevious}>
-					{"Вернуться"}
+					{t("footer.backBtn")}
 				</Button>
 			</div>
 		</FormBlock>

@@ -12,14 +12,18 @@ interface IProps {
 }
 
 const DateInput: FC<IProps> = ({ name }) => {
-	const { fnsLocale, calendarLocale, isOpen, setDate, setIsOpen, date } = useFormDateInput(name);
+	const { fnsLocale, calendarLocale, isOpen, setDate, setIsOpen, date, t } = useFormDateInput(name);
 
 	return (
 		<DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
 			<DropdownMenuTrigger asChild>
-				<Button variant="secondary" className={cn("tw-items-center tw-gap-2 tw-ml-3 tw-px-2 tw-py-1", { "tw-text-muted": !date })}>
+				<Button
+					variant="secondary"
+					className={cn("tw-items-center tw-gap-2 tw-ml-3 tw-px-2 tw-py-1", { "tw-text-muted": !date })}
+					title={t("labels.birthdate")}
+				>
 					<CalendarIcon size={26} />
-					<span>{date ? format(date, "PPP", { locale: fnsLocale }) : "Выберите дату"}</span>
+					<span>{date ? format(date, "PPP", { locale: fnsLocale }) : t("optional_part.form.birthdate.label")}</span>
 				</Button>
 			</DropdownMenuTrigger>
 
@@ -30,11 +34,8 @@ const DateInput: FC<IProps> = ({ name }) => {
 						type: "default",
 						dateMax: new Date(),
 						dateMin: new Date("1900-01-01"),
-						selectedDates: date && [date],
-						onClickDate: self => {
-							setDate(self.context.selectedDates[0]);
-							setIsOpen(false);
-						},
+						selectedDates: date ? [date] : [],
+						onClickDate: setDate,
 					}}
 				/>
 			</DropdownMenuContent>

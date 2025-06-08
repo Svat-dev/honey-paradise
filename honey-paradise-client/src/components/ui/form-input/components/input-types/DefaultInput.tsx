@@ -1,14 +1,16 @@
-import { ClearButton } from "../clear-button";
-import type { FC } from "react";
-import type { IFormDefaultInputProps } from "../../types/form-input.type";
-import { PasswordEye } from "../password-eye";
 import { cn } from "@utils/base";
-import styles from "../../styles/form-input.module.scss";
+import type { FC } from "react";
 import { useFormDefaultInput } from "../../hooks/useFormDefaultInput";
+import styles from "../../styles/form-input.module.scss";
+import type { IFormDefaultInputProps } from "../../types/form-input.type";
+import { ClearButton } from "../clear-button";
+import { PasswordEye } from "../password-eye";
 
 const DefaultInput: FC<IFormDefaultInputProps> = ({ name, setMask, clearBtnClassName, label, className, ...props }) => {
-	const { clear, clearError, isPassword, isShowPassword, onInput, placeholder, setIsShowPassword, register, t, value } =
-		useFormDefaultInput(name, setMask);
+	const { clear, clearError, isPassword, isShowPassword, onInput, setIsShowPassword, register, t, value } = useFormDefaultInput(
+		name,
+		setMask
+	);
 
 	return (
 		<div className={styles["input-wrapper"]}>
@@ -16,7 +18,7 @@ const DefaultInput: FC<IFormDefaultInputProps> = ({ name, setMask, clearBtnClass
 				className={cn(className, styles["input"], { "tw-tracking-widest": isPassword })}
 				onInput={onInput}
 				{...props}
-				placeholder={placeholder}
+				placeholder={props.placeholder ? props.placeholder : name}
 				type={!isPassword ? props.type : isShowPassword ? "text" : props.type}
 				{...register(name, { required: "Поле обязательно для заполнения", onChange: clearError })}
 			/>

@@ -3,31 +3,35 @@ import { validatePassword, validateUsername } from "@utils/auth";
 import { VALUES } from "@constants/base";
 import { z } from "zod";
 
-const passwordSchema = z
-	.string({ message: "" })
-	.min(VALUES.MIN_PASSWORD_LENGTH, { message: "min 8" })
-	.max(VALUES.MAX_PASSWORD_LENGTH, { message: "max 24" })
-	.refine(validatePassword, { message: "invalid password" });
+const passwordSchema = (t: any) =>
+	z
+		.string({ message: "" })
+		.min(VALUES.MIN_PASSWORD_LENGTH, { message: t("main_part.form.password.errors.min", { min: VALUES.MIN_PASSWORD_LENGTH }) })
+		.max(VALUES.MAX_PASSWORD_LENGTH, { message: t("main_part.form.password.errors.max", { max: VALUES.MAX_PASSWORD_LENGTH }) })
+		.refine(validatePassword, { message: t("main_part.form.confirmPassword.errors.invalid") });
+
+const usernameSchema = (t: any) =>
+	z
+		.string({ message: "" })
+		.max(VALUES.MAX_ID_LENGTH, { message: t("optional_part.form.username.errors.max", { max: VALUES.MAX_ID_LENGTH }) })
+		.optional()
+		.refine(data => (data ? data.length >= VALUES.MIN_ID_LENGTH : true), {
+			message: t("optional_part.form.username.errors.min", { min: VALUES.MIN_ID_LENGTH }),
+		})
+		.refine(validateUsername, { message: t("optional_part.form.username.errors.invalid", { min: VALUES.MIN_ID_LENGTH }) });
 
 export const createSignUpSchema = (t: any) =>
 	z
 		.object({
-			email: z.string({ message: "" }).email({ message: "not email" }),
-			password: passwordSchema,
-			confirmPassword: passwordSchema,
-			username: z.union([
-				z.string().optional(),
-				z
-					.string({ message: "" })
-					.min(VALUES.MIN_ID_LENGTH, { message: "min 3" })
-					.max(VALUES.MAX_ID_LENGTH, { message: "max 12" })
-					.refine(validateUsername, { message: "invalid username" }),
-			]),
-			gender: z.enum(["male", "female", "other"], { message: "invalid gender" }).optional(),
-			birthdate: z.string().date("").optional(),
+			email: z.string({ message: "" }).email({ message: t("main_part.form.email.errors.invalid") }),
+			password: passwordSchema(t),
+			confirmPassword: passwordSchema(t),
+			username: usernameSchema(t),
+			gender: z.enum(["male", "female", "other"], { message: "" }).optional(),
+			birthdate: z.date({ message: "" }).optional(),
 		})
 		.refine(data => data.password === data.confirmPassword, {
-			message: "passwords don't match",
+			message: t("main_part.form.confirmPassword.errors.notMatch"),
 			path: ["confirmPassword"],
 		});
 

@@ -1,12 +1,14 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui";
 
 import type { FC } from "react";
-import type { IRadioGroupInputProps } from "../../types/form-input.type";
-import styles from "../../styles/radio-group-input.module.scss";
 import { useRadioGroupInput } from "../../hooks/useRadioGroupInput";
+import styles from "../../styles/radio-group-input.module.scss";
+import type { IRadioGroupInputProps } from "../../types/form-input.type";
 
-const RadioGroupInput: FC<IRadioGroupInputProps> = ({ name }) => {
-	const { data, getValues, onChange, register } = useRadioGroupInput(name);
+const RadioGroupInput: FC<IRadioGroupInputProps> = ({ name, data }) => {
+	const { getValues, onChange, register } = useRadioGroupInput(name);
+
+	if (!data) return null;
 
 	return (
 		<RadioGroup name={name} onChange={onChange} defaultValue={getValues("gender")} className={styles["radio-group"]}>

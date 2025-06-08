@@ -11,7 +11,6 @@ export const useFormDefaultInput = (name: TFieldNames, setMask?: ReactStateHook<
 
 	const isPassword = name === "password" || name === "confirmPassword";
 	const isPhone = name === "phoneNumber";
-	const placeholder = input?.placeholder ? input.placeholder : name;
 
 	let mask: InputMask<{ mask: string; lazy: true }>;
 
@@ -45,7 +44,6 @@ export const useFormDefaultInput = (name: TFieldNames, setMask?: ReactStateHook<
 		setIsShowPassword,
 		clear,
 		clearError,
-		placeholder,
 		register,
 		value,
 		t,

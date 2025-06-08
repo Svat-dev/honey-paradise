@@ -1,22 +1,33 @@
 "use client";
 
+import type { TSearchParams } from "@/shared/types/base.type";
+import _styles from "@styles/modules/auth-form-wrapper.module.scss";
+import { cn } from "@utils/base";
 import type { FC } from "react";
 import { FormProvider } from "react-hook-form";
 import { MainPart } from "./components/MainPart";
 import { OptionalPart } from "./components/OptionalPart";
-import type { TSearchParams } from "@/shared/types/base.type";
-import _styles from "@styles/modules/auth-form-wrapper.module.scss";
-import { cn } from "@utils/base";
+import { useSignUp } from "./hooks/useSignUp";
 import styles from "./styles/sign-up.module.scss";
-import { useSignUp } from "./useSignUp";
 
 interface IProps {
 	searchParams: TSearchParams;
 }
 
 const SignUp: FC<IProps> = ({ searchParams }) => {
-	const { dataStatus, onSubmit, signUpForm, isError, onRecaptchaChange, isActive, onClickToNext, onClickToPrevious, currentPart } =
-		useSignUp(searchParams);
+	const {
+		dataStatus,
+		onSubmit,
+		signUpForm,
+		isError,
+		onRecaptchaChange,
+		isActive,
+		onClickToNext,
+		onClickToPrevious,
+		currentPart,
+		isDisabled,
+		t,
+	} = useSignUp(searchParams);
 
 	return (
 		<div
@@ -27,7 +38,7 @@ const SignUp: FC<IProps> = ({ searchParams }) => {
 
 			<FormProvider {...signUpForm}>
 				<form className={_styles["form"]} onSubmit={signUpForm.handleSubmit(onSubmit)}>
-					{currentPart === "main" && <MainPart onClickToNext={onClickToNext} isActive={isActive.main} />}
+					{currentPart === "main" && <MainPart onClickToNext={onClickToNext} isActive={isActive.main} disabled={isDisabled} t={t} />}
 
 					{currentPart === "optional" && (
 						<OptionalPart

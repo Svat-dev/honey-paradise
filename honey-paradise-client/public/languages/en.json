@@ -147,18 +147,81 @@
 					"forgotPassword": "Forgot password?",
 					"noProfile": "No profile? Create",
 					"error": "You may be a robot! Go through reCAPTCHA again"
-				},
-				"labels": {
-					"clearBtn": "Clear",
-					"showPassword": "Show password",
-					"hidePassword": "Hide Password"
 				}
 			}
 		},
 		"sign-up": {
 			"title": "Sign Up",
 			"description": "Account creation page in the {title} online store",
-			"content": {}
+			"content": {
+				"main_part": {
+					"title": "Creating an account",
+					"form": {
+						"email": {
+							"label": "Your Email",
+							"placeholder": "Enter your email",
+							"errors": {
+								"invalid": "Enter the correct email address"
+							}
+						},
+						"password": {
+							"label": "Create a password",
+							"placeholder": "Enter the password",
+							"errors": {
+								"min": "The password must be at least {min} characters",
+								"max": "The maximum length of the password is {max} characters"
+							}
+						},
+						"confirmPassword": {
+							"label": "Repeat password",
+							"placeholder": "Enter password again",
+							"errors": {
+								"notMatch": "Passwords must match each other",
+								"invalid": "A password can contain only letters, numbers, and special characters \"%&$#!.*^_-\""
+							}
+						}
+					}
+				},
+				"optional_part": {
+					"title": "Additional information",
+					"form": {
+						"username": {
+							"title": "Create a username",
+							"label": "Username",
+							"placeholder": "Enter a username",
+							"errors": {
+								"max": "Maximum length of user name is {max} characters",
+								"min": "Minimum length of user name is {min} characters",
+								"invalid": "The username can contain only letters, numbers, and the special character \"_\""
+							}
+						},
+						"gender": {
+							"title": "Select gender",
+							"opts": {
+								"male": "Male",
+								"female": "Female",
+								"other": "Do not specify"
+							},
+							"errors": {}
+						},
+						"birthdate": {
+							"title": "Specify the birthdate",
+							"label": "Select a date",
+							"errors": {}
+						}
+					}
+				},
+				"footer": {
+					"continueBtn": "Continue 1/2",
+					"backBtn": "Return",
+					"submitBtn": "Create an account",
+					"haveProfile": "Do you have a profile? Sign in",
+					"error": "You may be a robot! Go through reCAPTCHA again"
+				},
+				"labels": {
+					"birthdate": "Click to select a date"
+				}
+			}
 		}
 	},
 	"layout": {
@@ -274,6 +337,15 @@
 		"changeLanguage": {
 			"success": "Язык успешно изменён на {lang}",
 			"error": "Failed to change language. Error: {error}"
+		}
+	},
+	"shared": {
+		"auth": {
+			"labels": {
+				"clearBtn": "Clear",
+				"showPassword": "Show password",
+				"hidePassword": "Hide Password"
+			}
 		}
 	}
 }

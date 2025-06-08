@@ -5,7 +5,7 @@ import { useFormContext } from "react-hook-form";
 
 export const useFormInput = (name: TFieldNames) => {
 	const { register, formState, watch, setValue, control, clearErrors, getValues } = useFormContext();
-	const t = useTranslations("global.sign-in.content.labels");
+	const t = useTranslations("shared.auth.labels");
 
 	const value = watch(name);
 	const error = formState.errors[name]?.message || "";

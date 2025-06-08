@@ -1,9 +1,8 @@
-import type { TGenders, TSignUpFields } from "@schemas/sign-up.schema";
-
-import type { InputHTMLAttributes } from "react";
-import type InputMask from "imask/esm/controls/input";
 import type { ReactStateHook } from "@/shared/types/base.type";
 import type { TSignInFields } from "@schemas/sign-in.schema";
+import type { TSignUpFields } from "@schemas/sign-up.schema";
+import type InputMask from "imask/esm/controls/input";
+import type { InputHTMLAttributes } from "react";
 
 type TSetMask = ReactStateHook<InputMask<{ mask: string; lazy: true }> | undefined>;
 
@@ -17,6 +16,13 @@ export interface IFormInputProps extends InputHTMLAttributes<HTMLInputElement> {
 	clearBtnClassName?: string;
 	errorClassName?: string;
 	setMask?: TSetMask;
+	data?: IRadioGroupData[];
+}
+
+export interface IRadioGroupData {
+	id: string;
+	value: string;
+	label: string;
 }
 
 export interface IFormDefaultInputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -28,10 +34,5 @@ export interface IFormDefaultInputProps extends InputHTMLAttributes<HTMLInputEle
 
 export interface IRadioGroupInputProps extends InputHTMLAttributes<HTMLInputElement> {
 	name: TFieldNames;
-}
-
-export interface IGenderRadioGroupData {
-	id: string;
-	value: TGenders;
-	label: string;
+	data: IRadioGroupData[] | undefined;
 }

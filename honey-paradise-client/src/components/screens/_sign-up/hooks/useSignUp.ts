@@ -1,5 +1,4 @@
 import { type TSignUpFields, createSignUpSchema } from "@/shared/lib/schemas/sign-up.schema";
-import type { IIsActive, TCurrentPart, TDataStatus } from "./types/sign-up.type";
 
 import type { TSearchParams } from "@/shared/types/base.type";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { IIsActive, TCurrentPart, TDataStatus } from "../types/sign-up.type";
 
 export const useSignUp = (searchParams: TSearchParams) => {
 	const t = useTranslations("global.sign-up.content");
@@ -36,6 +36,14 @@ export const useSignUp = (searchParams: TSearchParams) => {
 			username: "",
 		},
 	});
+
+	const isDisabled = () => {
+		const isPassValid = !signUpForm.getFieldState("password").invalid && signUpForm.getValues("password").length !== 0;
+		const isEmailValid = !signUpForm.getFieldState("email").invalid && signUpForm.getValues("email").length !== 0;
+		const isConfPassValid = !signUpForm.getFieldState("confirmPassword").invalid && signUpForm.getValues("confirmPassword").length !== 0;
+
+		return !isPassValid || !isEmailValid || !isConfPassValid;
+	};
 
 	const onClickToNext = () => {
 		setIsActive(prev => ({ ...prev, main: false, optional: true }));
@@ -81,5 +89,7 @@ export const useSignUp = (searchParams: TSearchParams) => {
 		onClickToPrevious,
 		signUpForm,
 		currentPart,
+		isDisabled: isDisabled(),
+		t,
 	};
 };
