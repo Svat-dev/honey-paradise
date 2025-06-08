@@ -1,18 +1,18 @@
 import { Button, Calendar, DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui";
 
-import { CalendarIcon } from "lucide-react";
-import type { FC } from "react";
-import type { TFieldNames } from "../../types/form-input.type";
 import { cn } from "@utils/base";
 import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import type { FC } from "react";
 import { useFormDateInput } from "../../hooks/useFormDateInput";
+import type { TFieldNames } from "../../types/form-input.type";
 
 interface IProps {
 	name: TFieldNames;
 }
 
 const DateInput: FC<IProps> = ({ name }) => {
-	const { fnsLocale, isOpen, setDate, setIsOpen, date } = useFormDateInput(name);
+	const { fnsLocale, calendarLocale, isOpen, setDate, setIsOpen, date } = useFormDateInput(name);
 
 	return (
 		<DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
@@ -23,14 +23,19 @@ const DateInput: FC<IProps> = ({ name }) => {
 				</Button>
 			</DropdownMenuTrigger>
 
-			<DropdownMenuContent>
+			<DropdownMenuContent side="top" className="tw-bg-secondary">
 				<Calendar
-					mode="single"
-					selected={date}
-					onSelect={setDate}
-					locale={fnsLocale}
-					initialFocus
-					disabled={date => date > new Date() || date < new Date("1900-01-01")}
+					config={{
+						locale: calendarLocale,
+						type: "default",
+						dateMax: new Date(),
+						dateMin: new Date("1900-01-01"),
+						selectedDates: date && [date],
+						onClickDate: self => {
+							setDate(self.context.selectedDates[0]);
+							setIsOpen(false);
+						},
+					}}
 				/>
 			</DropdownMenuContent>
 		</DropdownMenu>
