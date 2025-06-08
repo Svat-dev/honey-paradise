@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { XIcon } from "lucide-react";
 
 import { cn } from "@utils/base";
-import { type ComponentPropsWithoutRef, type ElementRef, forwardRef, type HTMLAttributes } from "react";
+import { type ComponentPropsWithoutRef, type ComponentRef, forwardRef, type HTMLAttributes } from "react";
 
 const Sheet = SheetPrimitive.Root;
 
@@ -15,7 +15,7 @@ const SheetClose = SheetPrimitive.Close;
 
 const SheetPortal = SheetPrimitive.Portal;
 
-const SheetOverlay = forwardRef<ElementRef<typeof SheetPrimitive.Overlay>, ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>>(
+const SheetOverlay = forwardRef<ComponentRef<typeof SheetPrimitive.Overlay>, ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>>(
 	({ className, ...props }, ref) => (
 		<SheetPrimitive.Overlay
 			className={cn(
@@ -49,7 +49,7 @@ const sheetVariants = cva(
 
 interface SheetContentProps extends ComponentPropsWithoutRef<typeof SheetPrimitive.Content>, VariantProps<typeof sheetVariants> {}
 
-const SheetContent = forwardRef<ElementRef<typeof SheetPrimitive.Content>, SheetContentProps>(
+const SheetContent = forwardRef<ComponentRef<typeof SheetPrimitive.Content>, SheetContentProps>(
 	({ side = "right", className, children, ...props }, ref) => (
 		<SheetPortal>
 			<SheetOverlay />
@@ -73,7 +73,7 @@ const SheetFooter = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) =>
 );
 SheetFooter.displayName = "SheetFooter";
 
-const SheetTitle = forwardRef<ElementRef<typeof SheetPrimitive.Title>, ComponentPropsWithoutRef<typeof SheetPrimitive.Title>>(
+const SheetTitle = forwardRef<ComponentRef<typeof SheetPrimitive.Title>, ComponentPropsWithoutRef<typeof SheetPrimitive.Title>>(
 	({ className, ...props }, ref) => (
 		<SheetPrimitive.Title ref={ref} className={cn("tw-text-lg tw-font-semibold tw-text-foreground", className)} {...props} />
 	)
@@ -81,7 +81,7 @@ const SheetTitle = forwardRef<ElementRef<typeof SheetPrimitive.Title>, Component
 SheetTitle.displayName = SheetPrimitive.Title.displayName;
 
 const SheetDescription = forwardRef<
-	ElementRef<typeof SheetPrimitive.Description>,
+	ComponentRef<typeof SheetPrimitive.Description>,
 	ComponentPropsWithoutRef<typeof SheetPrimitive.Description>
 >(({ className, ...props }, ref) => (
 	<SheetPrimitive.Description ref={ref} className={cn("tw-text-sm tw-text-muted-foreground", className)} {...props} />

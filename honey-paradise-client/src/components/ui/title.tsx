@@ -1,6 +1,6 @@
 import { cn } from "@utils/base/cn";
 import { createElement, type FC } from "react";
-import { type TypeProps } from "./types/title.type";
+import type { TypeProps } from "./types/title.type";
 
 const Title: FC<TypeProps> = ({ children, size = "sm", className }) => {
 	const mapTagBySize = {
