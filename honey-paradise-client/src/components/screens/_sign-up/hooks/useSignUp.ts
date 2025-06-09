@@ -1,4 +1,4 @@
-import { type TSignUpFields, createSignUpSchema } from "@/shared/lib/schemas/sign-up.schema";
+import { type TSignUpFields, createSignUpSchema } from "@schemas/sign-up.schema";
 
 import type { TSearchParams } from "@/shared/types/base.type";
 import { zodResolver } from "@hookform/resolvers/zod";

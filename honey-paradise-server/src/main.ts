@@ -3,14 +3,13 @@ import "reflect-metadata";
 import * as cookieParser from "cookie-parser";
 import * as session from "express-session";
 
-import { ms } from "./shared/lib/common/ms.util";
-
 import { ValidationPipe } from "@nestjs/common/pipes/validation.pipe";
 import { ConfigService } from "@nestjs/config/dist/config.service";
 import { NestFactory } from "@nestjs/core";
 import { RedisStore } from "connect-redis";
 import { CoreModule } from "./core/core.module";
 import { RedisService } from "./core/redis/redis.service";
+import { ms } from "./shared/lib/common/utils/ms.util";
 
 async function bootstrap() {
 	const app = await NestFactory.create(CoreModule, {});
