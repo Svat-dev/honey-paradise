@@ -147,6 +147,13 @@
 					"forgotPassword": "Forgot password?",
 					"noProfile": "No profile? Create",
 					"error": "You may be a robot! Go through reCAPTCHA again"
+				},
+				"toasters": {
+					"success": "You have successfully signed in to your account!",
+					"error": {
+						"client": "Error when logging in to account! Check your email or password",
+						"server": "Error when logging in to account! Server error {code}"
+					}
 				}
 			}
 		},

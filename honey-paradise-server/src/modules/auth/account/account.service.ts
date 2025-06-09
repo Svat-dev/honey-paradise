@@ -4,7 +4,7 @@ import { hash } from "argon2";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { getEmailUsername } from "src/shared/lib/common/utils/get-email-username.util";
 import { ProfileService } from "../profile/profile.service";
-import { CreateUserDto } from "./dto/create-user.dto";
+import type { CreateUserDto } from "./dto/create-user.dto";
 
 @Injectable()
 export class AccountService {

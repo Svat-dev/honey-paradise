@@ -7,3 +7,8 @@ export interface ICreateAccountDto {
 	gender?: EnumGenders;
 	birthdate?: string;
 }
+
+export interface ISignInDto {
+	id: string;
+	password: string;
+}

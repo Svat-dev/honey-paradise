@@ -1,6 +1,7 @@
+import type { ICreateAccountDto, ISignInDto } from "./types/auth-service.type";
+
 import { defaultInstance } from "@/api/instance";
 import { EnumApiRoute } from "@constants/routes";
-import type { ICreateAccountDto } from "./types/auth-service.type";
 
 export const authService = {
 	createAccount: async (dto: ICreateAccountDto, recaptcha?: string) => {
@@ -13,6 +14,14 @@ export const authService = {
 		};
 
 		const res = await defaultInstance.post<boolean>(EnumApiRoute.CREATE_ACCOUNT, data, { headers });
+
+		return res.data;
+	},
+
+	signIn: async (dto: ISignInDto, recaptcha?: string) => {
+		const headers = recaptcha ? { recaptcha } : undefined;
+
+		const res = await defaultInstance.post(EnumApiRoute.SIGN_IN, dto, { headers });
 
 		return res.data;
 	},

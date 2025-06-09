@@ -1,20 +1,20 @@
 "use client";
 
 import { Button } from "@/components/ui";
-import { EnumAppRoute } from "@constants/routes";
-import { FormBlock } from "@/components/ui/layouts";
 import { FormInput } from "@/components/ui/form-input";
-import { FormProvider } from "react-hook-form";
-import Link from "next/link";
-import ReCAPTCHA from "react-google-recaptcha";
+import { FormBlock } from "@/components/ui/layouts";
 import { VALUES } from "@constants/base";
+import { EnumAppRoute } from "@constants/routes";
 import _styles from "@styles/modules/auth-form-wrapper.module.scss";
 import { cn } from "@utils/base";
+import Link from "next/link";
+import ReCAPTCHA from "react-google-recaptcha";
+import { FormProvider } from "react-hook-form";
 import styles from "./styles/sign-in.module.scss";
 import { useSignIn } from "./useSignIn";
 
 const SignIn = () => {
-	const { dataStatus, error, onSubmit, signInForm, onRecaptchaChange, theme, locale, t } = useSignIn();
+	const { dataStatus, error, onSubmit, signInForm, onRecaptchaChange, theme, locale, t, isPending } = useSignIn();
 
 	return (
 		<div data-status={dataStatus} className={cn(_styles["wrapper"], styles["wrapper"])}>
@@ -47,7 +47,7 @@ const SignIn = () => {
 						/>
 
 						<div className={styles["footer-wrapper"]}>
-							<Button variant="secondary" type="submit">
+							<Button variant="secondary" type="submit" isLoading={isPending}>
 								{t("footer.submitBtn")}
 							</Button>
 

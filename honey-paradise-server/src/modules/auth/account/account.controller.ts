@@ -4,7 +4,7 @@ import { Post } from "@nestjs/common/decorators/http/request-mapping.decorator";
 import { Body } from "@nestjs/common/decorators/http/route-params.decorator";
 import { Recaptcha } from "@nestlab/google-recaptcha";
 import { AccountService } from "./account.service";
-import { CreateUserDto } from "./dto/create-user.dto";
+import type { CreateUserDto } from "./dto/create-user.dto";
 
 @Controller("auth/account")
 export class AccountController {
