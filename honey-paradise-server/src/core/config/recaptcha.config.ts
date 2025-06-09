@@ -1,6 +1,6 @@
 import { ConfigService } from "@nestjs/config/dist/config.service";
 import type { GoogleRecaptchaModuleOptions } from "@nestlab/google-recaptcha";
-import { isDev } from "src/shared/lib/common/utils";
+import { isDev } from "src/shared/lib/common/is-dev.util";
 
 export const getRecaptchaConfig = async (config: ConfigService): Promise<GoogleRecaptchaModuleOptions> => ({
 	secretKey: config.getOrThrow<string>("GOOGLE_RECAPTCHA_SECRET_KEY"),

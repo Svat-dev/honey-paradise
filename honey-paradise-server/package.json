@@ -1,16 +1,15 @@
 {
 	"name": "honey-paradise-server",
 	"version": "0.0.1",
-	"description": "",
-	"author": "",
+	"description": "Honey Paradise Backend",
+	"author": "_swuttik_",
 	"private": true,
 	"license": "UNLICENSED",
 	"scripts": {
 		"build": "nest build",
-		"start": "nest start",
-		"start:dev": "nest start --watch",
-		"start:debug": "nest start --debug --watch",
-		"start:prod": "node dist/main"
+		"dev": "nest start --watch",
+		"debug": "nest start --debug --watch",
+		"prod": "node dist/main"
 	},
 	"dependencies": {
 		"@nestjs-modules/mailer": "^2.0.2",
@@ -22,7 +21,7 @@
 		"@nestjs/platform-express": "^10.0.0",
 		"@nestjs/serve-static": "^5.0.3",
 		"@nestlab/google-recaptcha": "^3.10.0",
-		"@prisma/client": "^6.1.0",
+		"@prisma/client": "^6.9.0",
 		"argon2": "^0.41.1",
 		"class-transformer": "^0.5.1",
 		"class-validator": "^0.14.1",
