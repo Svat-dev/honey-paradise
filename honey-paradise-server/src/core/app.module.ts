@@ -3,7 +3,7 @@ import * as path from "path";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { ServeStaticModule } from "@nestjs/serve-static/dist/serve-static.module";
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from "../modules/auth/auth.module";
 
 @Module({
 	imports: [

@@ -1,5 +1,3 @@
-version: "3.7"
-
 services:
   db:
     container_name: postgres
@@ -14,10 +12,23 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - backend
+      - honey-paradise-backend
+
+  redis:
+    container_name: redis
+    image: redis:5.0
+    restart: always
+    ports:
+      - 6379:6379
+    command: redis-server
+    volumes:
+      - redis_data:/data
+    networks:
+      - honey-paradise-backend
 
 volumes:
   postgres_data:
+  redis_data:
 
 networks:
-  backend:
+  honey-paradise-backend:
