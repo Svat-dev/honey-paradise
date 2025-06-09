@@ -5,7 +5,6 @@ import { ConfigModule } from "@nestjs/config";
 import { ServeStaticModule } from "@nestjs/serve-static/dist/serve-static.module";
 import { AccountModule } from "src/modules/auth/account/account.module";
 import { ProfileModule } from "src/modules/auth/profile/profile.module";
-import { SessionModule } from "src/modules/auth/session/session.module";
 import { IS_DEV_ENV } from "src/shared/lib/common/utils/is-dev.util";
 import { PrismaModule } from "./prisma/prisma.module";
 import { RedisModule } from "./redis/redis.module";
@@ -27,7 +26,6 @@ import { RedisModule } from "./redis/redis.module";
 		RedisModule,
 
 		// ...other modules
-		SessionModule,
 		AccountModule,
 		ProfileModule,
 	],

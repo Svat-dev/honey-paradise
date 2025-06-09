@@ -18,11 +18,11 @@
 	}
 }
 
-.return-btn {
-	@apply tw-py-1.5 tw-px-2 tw-border-2 tw-border-muted;
+.submit-btn {
+	@apply tw-py-1.5 tw-px-2 tw-border-2 tw-border-muted tw-min-w-28;
 }
 
-.submit-btn {
+.return-btn {
 	@apply tw-py-1.5 tw-px-2;
 }
 

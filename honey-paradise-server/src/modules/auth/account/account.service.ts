@@ -10,12 +10,6 @@ import { CreateUserDto } from "./dto/create-user.dto";
 export class AccountService {
 	constructor(private readonly prisma: PrismaService, private readonly profileService: ProfileService) {}
 
-	async findAll() {
-		const users = await this.prisma.user.findMany();
-
-		return users;
-	}
-
 	async create(dto: CreateUserDto) {
 		const { email, password, birthdate, gender, username } = dto;
 
@@ -25,7 +19,7 @@ export class AccountService {
 		const isUsernameExist = username ? await this.profileService.getProfile(username, "username") : false;
 		if (isUsernameExist) throw new BadRequestException("Пользователь с таким именем уже существует");
 
-		const newUser = await this.prisma.user.create({
+		await this.prisma.user.create({
 			data: {
 				email,
 				password: await hash(password),

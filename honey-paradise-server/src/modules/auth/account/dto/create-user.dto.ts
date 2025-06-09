@@ -1,4 +1,4 @@
-import { IsDate, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Matches, MaxLength, MinLength } from "class-validator";
+import { IsDateString, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Matches, MaxLength, MinLength } from "class-validator";
 
 import { EnumGenders, type User } from "@prisma/client";
 import { USERNAME_REGEX, VALUES } from "src/shared/lib/common/constants";
@@ -26,7 +26,7 @@ export class CreateUserDto implements Partial<User> {
 	@IsOptional()
 	gender?: EnumGenders;
 
-	@IsDate({ message: "" })
+	@IsDateString({}, { message: "" })
 	@IsOptional()
 	birthdate?: Date;
 }

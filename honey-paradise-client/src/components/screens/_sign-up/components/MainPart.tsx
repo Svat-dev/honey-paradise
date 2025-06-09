@@ -13,9 +13,10 @@ interface IProps {
 	isActive: boolean;
 	disabled: boolean;
 	t: any;
+	isPending: boolean;
 }
 
-const MainPart: FC<IProps> = ({ onClickToNext, isActive, disabled, t }) => {
+const MainPart: FC<IProps> = ({ onClickToNext, isActive, disabled, t, isPending }) => {
 	return (
 		<FormBlock title={t("main_part.title")} containerClassName={styles["section"]} titleClassName={_styles["title"]} active={isActive}>
 			<FormInput
@@ -48,7 +49,7 @@ const MainPart: FC<IProps> = ({ onClickToNext, isActive, disabled, t }) => {
 			/>
 
 			<div className={styles["footer"]}>
-				<Button variant="secondary" onClick={onClickToNext} disabled={disabled}>
+				<Button variant="secondary" onClick={onClickToNext} disabled={disabled} isLoading={isPending}>
 					{t("footer.continueBtn")}
 				</Button>
 

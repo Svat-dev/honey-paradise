@@ -1,5 +1,6 @@
 import { validatePassword, validateUsername } from "@utils/auth";
 
+import { EnumGenders } from "@/shared/types/models";
 import { VALUES } from "@constants/base";
 import { z } from "zod";
 
@@ -27,7 +28,7 @@ export const createSignUpSchema = (t: any) =>
 			password: passwordSchema(t),
 			confirmPassword: passwordSchema(t),
 			username: usernameSchema(t),
-			gender: z.enum(["male", "female", "other"], { message: "" }).optional(),
+			gender: z.nativeEnum(EnumGenders, { message: "" }).optional(),
 			birthdate: z.date({ message: "" }).optional(),
 		})
 		.refine(data => data.password === data.confirmPassword, {
@@ -35,13 +36,11 @@ export const createSignUpSchema = (t: any) =>
 			path: ["confirmPassword"],
 		});
 
-export type TGenders = "male" | "female" | "other";
-
 export type TSignUpFields = {
 	email: string;
 	password: string;
 	confirmPassword: string;
 	username?: string;
-	gender?: TGenders;
+	gender?: EnumGenders;
 	birthdate?: Date;
 };

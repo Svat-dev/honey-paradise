@@ -1,4 +1,5 @@
-import type { TGenders } from "@schemas/sign-up.schema";
+import type { ICreateAccountDto } from "@/services/types/auth-service.type";
+import type { EnumGenders } from "@/shared/types/models";
 
 export interface IIsActive {
 	main: boolean;
@@ -7,8 +8,13 @@ export interface IIsActive {
 
 export interface IGenderRadioGroupData {
 	id: string;
-	value: TGenders;
+	value: EnumGenders;
 	label: string;
+}
+
+export interface ICreateAccountMutateData {
+	dto: ICreateAccountDto;
+	recaptcha: any;
 }
 
 export type TCurrentPart = "main" | "optional";

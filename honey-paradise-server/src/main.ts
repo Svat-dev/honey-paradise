@@ -53,6 +53,3 @@ async function bootstrap() {
 }
 
 bootstrap();
-function parseBoolean(arg0: string): boolean {
-	throw new Error("Function not implemented.");
-}

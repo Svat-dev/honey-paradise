@@ -27,6 +27,7 @@ const SignUp: FC<IProps> = ({ searchParams }) => {
 		currentPart,
 		isDisabled,
 		t,
+		isPending,
 	} = useSignUp(searchParams);
 
 	return (
@@ -38,7 +39,9 @@ const SignUp: FC<IProps> = ({ searchParams }) => {
 
 			<FormProvider {...signUpForm}>
 				<form className={_styles["form"]} onSubmit={signUpForm.handleSubmit(onSubmit)}>
-					{currentPart === "main" && <MainPart onClickToNext={onClickToNext} isActive={isActive.main} disabled={isDisabled} t={t} />}
+					{currentPart === "main" && (
+						<MainPart onClickToNext={onClickToNext} isActive={isActive.main} disabled={isDisabled} isPending={isPending} t={t} />
+					)}
 
 					{currentPart === "optional" && (
 						<OptionalPart
@@ -46,6 +49,8 @@ const SignUp: FC<IProps> = ({ searchParams }) => {
 							onRecaptchaChange={onRecaptchaChange}
 							onClickToPrevious={onClickToPrevious}
 							isActive={isActive.optional}
+							disabled={isDisabled}
+							isPending={isPending}
 						/>
 					)}
 				</form>

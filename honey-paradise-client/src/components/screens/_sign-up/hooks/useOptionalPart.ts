@@ -1,5 +1,6 @@
 import { useLocale, useTranslations } from "next-intl";
 
+import { EnumGenders } from "@/shared/types/models";
 import { useTheme } from "@hooks/useTheme";
 import { useId } from "react";
 import type { IGenderRadioGroupData } from "../types/sign-up.type";
@@ -17,17 +18,17 @@ export const useOptionalPart = () => {
 	const data: IGenderRadioGroupData[] = [
 		{
 			id: radioGroupItemId_1,
-			value: "male",
+			value: EnumGenders.MALE,
 			label: t("optional_part.form.gender.opts.male"),
 		},
 		{
 			id: radioGroupItemId_2,
-			value: "female",
+			value: EnumGenders.FEMALE,
 			label: t("optional_part.form.gender.opts.female"),
 		},
 		{
 			id: radioGroupItemId_3,
-			value: "other",
+			value: EnumGenders.OTHER,
 			label: t("optional_part.form.gender.opts.other"),
 		},
 	];

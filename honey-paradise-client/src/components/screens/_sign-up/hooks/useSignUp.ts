@@ -1,16 +1,23 @@
 import { type TSignUpFields, createSignUpSchema } from "@schemas/sign-up.schema";
 
+import { errorCatch } from "@/api/api-helper";
+import { authService } from "@/services/auth.service";
+import { EnumAppRoute } from "@/shared/lib/constants/routes";
 import type { TSearchParams } from "@/shared/types/base.type";
+import { EnumGenders } from "@/shared/types/models";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { IIsActive, TCurrentPart, TDataStatus } from "../types/sign-up.type";
+import toast from "react-hot-toast";
+import type { ICreateAccountMutateData, IIsActive, TCurrentPart, TDataStatus } from "../types/sign-up.type";
 
 export const useSignUp = (searchParams: TSearchParams) => {
 	const t = useTranslations("global.sign-up.content");
-	const { push } = useRouter();
+	const { push, replace } = useRouter();
 
 	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
 	const [isError, setIsError] = useState<boolean>(false);
@@ -32,9 +39,14 @@ export const useSignUp = (searchParams: TSearchParams) => {
 			password: "",
 			email: "",
 			birthdate: undefined,
-			gender: "other",
-			username: "",
+			gender: EnumGenders.OTHER,
+			username: undefined,
 		},
+	});
+
+	const { isPending, mutateAsync } = useMutation({
+		mutationKey: ["create account"],
+		mutationFn: (data: ICreateAccountMutateData) => authService.createAccount(data.dto, data.recaptcha),
 	});
 
 	const isDisabled = () => {
@@ -66,17 +78,32 @@ export const useSignUp = (searchParams: TSearchParams) => {
 		setIsError(false);
 	};
 
-	const onSubmit = (data: any) => {
+	const onSubmit = async (data: TSignUpFields) => {
 		if (!recaptchaValue) {
 			setIsError(true);
 			setDataStatus("error");
 			return setTimeout(() => setDataStatus("default"), 3000);
 		}
 
-		setDataStatus("good");
-		setTimeout(() => setDataStatus("default"), 3000);
+		try {
+			const { confirmPassword, ..._data } = data;
+			await mutateAsync({ recaptcha: recaptchaValue, dto: { ..._data, birthdate: _data.birthdate?.toISOString() } });
 
-		console.log(data);
+			setDataStatus("good");
+			toast.success(t("toasters.success"));
+
+			return setTimeout(() => {
+				setDataStatus("default");
+				replace(EnumAppRoute.INDEX);
+			}, 3000);
+		} catch (err) {
+			const { error } = errorCatch(err as AxiosError);
+
+			setDataStatus("error");
+			toast.error(t("toasters.error", { e: error.response?.status as number }));
+
+			return setTimeout(() => setDataStatus("default"), 3000);
+		}
 	};
 
 	return {
@@ -89,6 +116,7 @@ export const useSignUp = (searchParams: TSearchParams) => {
 		onClickToPrevious,
 		signUpForm,
 		currentPart,
+		isPending,
 		isDisabled: isDisabled(),
 		t,
 	};

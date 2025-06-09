@@ -15,9 +15,11 @@ interface IProps {
 	onClickToPrevious: VoidFunction;
 	onRecaptchaChange: (token: string | null) => void;
 	isError: boolean;
+	isPending: boolean;
+	disabled: boolean;
 }
 
-const OptionalPart: FC<IProps> = ({ isActive, onClickToPrevious, onRecaptchaChange, isError }) => {
+const OptionalPart: FC<IProps> = ({ isActive, onClickToPrevious, onRecaptchaChange, isError, isPending, disabled }) => {
 	const { data, locale, t, theme } = useOptionalPart();
 
 	return (
@@ -47,11 +49,11 @@ const OptionalPart: FC<IProps> = ({ isActive, onClickToPrevious, onRecaptchaChan
 			</div>
 
 			<div className={styles["footer"]}>
-				<Button variant="secondary" className={styles["return-btn"]} type="submit">
+				<Button variant="secondary" className={styles["submit-btn"]} isLoading={isPending} disabled={disabled} type="submit">
 					{t("footer.submitBtn")}
 				</Button>
 
-				<Button variant="secondary" className={styles["submit-btn"]} onClick={onClickToPrevious}>
+				<Button variant="secondary" className={styles["return-btn"]} onClick={onClickToPrevious}>
 					{t("footer.backBtn")}
 				</Button>
 			</div>

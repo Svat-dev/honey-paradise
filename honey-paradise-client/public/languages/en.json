@@ -220,6 +220,10 @@
 				},
 				"labels": {
 					"birthdate": "Click to select a date"
+				},
+				"toasters": {
+					"success": "Account successfully created!",
+					"error": "Failed to create an account. Error: {err}"
 				}
 			}
 		}
@@ -330,6 +334,9 @@
 				"accept": "Accept the policy",
 				"reject": "Reject the policy",
 				"photo": "Photo of a round cookie"
+			},
+			"toasters": {
+				"error": "Failed to save an information. Error: {e}"
 			}
 		}
 	},

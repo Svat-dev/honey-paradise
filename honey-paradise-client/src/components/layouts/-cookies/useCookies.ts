@@ -20,7 +20,7 @@ export const useCookies = () => {
 			setIsVisible(false);
 		} catch (error) {
 			const err = error as Error;
-			toast.error(`Не удалось сохранить информацию. Ошибка: ${err.name}`);
+			toast.error(t("toasters.error", { err: err.name }));
 		}
 	};
 
