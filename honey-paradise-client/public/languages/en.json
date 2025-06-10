@@ -150,10 +150,7 @@
 				},
 				"toasters": {
 					"success": "You have successfully signed in to your account!",
-					"error": {
-						"client": "Error when logging in to account! Check your email or password",
-						"server": "Error when logging in to account! Server error {code}"
-					}
+					"error": "Error when logging in to account! {e}"
 				}
 			}
 		},
@@ -230,7 +227,7 @@
 				},
 				"toasters": {
 					"success": "Account successfully created!",
-					"error": "Failed to create an account. Error: {err}"
+					"error": "Failed to create an account. {e}"
 				}
 			}
 		}
@@ -360,6 +357,16 @@
 				"showPassword": "Show password",
 				"hidePassword": "Hide Password"
 			}
+		}
+	},
+	"server": {
+		"errors": {
+			"email_is_exist": "This email is already occupied by another user",
+			"username_is_exist": "This username is already occupied by another user",
+			"account_not_found": "There is no account with this email address. Please check the entered data again",
+			"invalid_password": "Invalid password. Please check the entered data again",
+			"auth_to_have_access": "To access this resource, you must be logged in",
+			"500": "Server error 500. Repeat the request later"
 		}
 	}
 }

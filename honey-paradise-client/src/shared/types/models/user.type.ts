@@ -16,3 +16,16 @@ export interface IUser {
 	createdAt: Date;
 	updatedAt: Date;
 }
+
+export interface IUserFull {
+	id: string;
+
+	username: string;
+	email: string;
+
+	avatarPath: string;
+	birthdate: string;
+	gender: EnumGenders;
+
+	createdAt: Date;
+}

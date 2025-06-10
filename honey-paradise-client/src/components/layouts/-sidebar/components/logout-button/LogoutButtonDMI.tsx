@@ -9,13 +9,14 @@ interface ILogoutMenuDMI {
 	title: string;
 	description: string;
 	descClassName?: string;
+	onClick?: VoidFunction;
 }
 
-const LogoutButtonDMI: FC<ILogoutMenuDMI> = ({ description, title, descClassName }) => {
+const LogoutButtonDMI: FC<ILogoutMenuDMI> = ({ description, title, descClassName, onClick }) => {
 	const { handleMouseEnter, handleMouseLeave, isShowed } = useShowDescription();
 
 	return (
-		<DropdownMenuItem className={styles["logout-btn-dmi"]}>
+		<DropdownMenuItem className={styles["logout-btn-dmi"]} onClick={onClick}>
 			<p>{title}</p>
 			<CircleHelpIcon onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} />
 

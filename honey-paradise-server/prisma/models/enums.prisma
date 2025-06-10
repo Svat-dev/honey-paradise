@@ -3,3 +3,8 @@ enum EnumGenders {
   FEMALE
   OTHER
 }
+
+enum EnumUserRoles {
+  REGULAR
+  ADMIN
+}

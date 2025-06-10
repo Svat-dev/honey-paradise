@@ -1,7 +1,7 @@
 "use client";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui";
-import { useProfile } from "@hooks/auth";
+import { useAuth, useMyAccount } from "@hooks/auth";
 import { cn } from "@utils/base";
 import { LogOutIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -16,9 +16,15 @@ interface ILogoutButton {
 const LogoutButton: FC<ILogoutButton> = ({ reversed }) => {
 	const t = useTranslations("layout.sidebar.footer.logout");
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const { IS_AUTHORIZED } = useProfile();
 
-	if (!IS_AUTHORIZED) return <></>;
+	const { isAuthenticated } = useAuth();
+	const { logout } = useMyAccount();
+
+	const onClick = (type: "full" | "partial") => {
+		if (type === "partial") logout();
+	};
+
+	if (!isAuthenticated) return <></>;
 
 	return (
 		<DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
@@ -39,8 +45,19 @@ const LogoutButton: FC<ILogoutButton> = ({ reversed }) => {
 			<DropdownMenuContent className={styles["logout-btn-dmc"]}>
 				<DropdownMenuLabel className="tw-sr-only">{}</DropdownMenuLabel>
 
-				<LogoutButtonDMI title={t("options.short.title")} description={t("options.short.description")} descClassName="-tw-top-14" />
-				<LogoutButtonDMI title={t("options.full.title")} description={t("options.full.description")} descClassName="-tw-top-6" />
+				<LogoutButtonDMI
+					title={t("options.short.title")}
+					description={t("options.short.description")}
+					descClassName="-tw-top-14"
+					onClick={() => onClick("partial")}
+				/>
+
+				<LogoutButtonDMI
+					title={t("options.full.title")}
+					description={t("options.full.description")}
+					descClassName="-tw-top-6"
+					onClick={() => onClick("full")}
+				/>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

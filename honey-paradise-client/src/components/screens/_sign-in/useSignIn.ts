@@ -4,6 +4,7 @@ import { errorCatch } from "@/api/api-helper";
 import { authService } from "@/services/auth.service";
 import { EnumAppRoute } from "@/shared/lib/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuth } from "@hooks/auth";
 import { useTheme } from "@hooks/useTheme";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
@@ -18,9 +19,11 @@ import { ISignInMutateData } from "./types/sign-in.type";
 
 export const useSignIn = () => {
 	const { theme } = useTheme();
-	const { replace } = useRouter();
 	const locale = useLocale();
 	const t = useTranslations("global.sign-in.content");
+
+	const { auth } = useAuth();
+	const { replace } = useRouter();
 
 	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
 	const [error, setError] = useState<boolean>(false);
@@ -60,6 +63,7 @@ export const useSignIn = () => {
 		try {
 			await mutateAsync({ dto: data, recaptcha: recaptchaValue });
 
+			auth();
 			setDataStatus("good");
 			toast.success(t("toasters.success"));
 

@@ -1,6 +1,6 @@
+import { defaultInstance, instance } from "@/api/instance";
 import type { ICreateAccountDto, ISignInDto } from "./types/auth-service.type";
 
-import { defaultInstance } from "@/api/instance";
 import { EnumApiRoute } from "@constants/routes";
 
 export const authService = {
@@ -24,5 +24,17 @@ export const authService = {
 		const res = await defaultInstance.post(EnumApiRoute.SIGN_IN, dto, { headers });
 
 		return res.data;
+	},
+
+	clearSession: async () => {
+		const res = await defaultInstance.post(EnumApiRoute.CLEAR_SESSION, {});
+
+		return res;
+	},
+
+	logout: async () => {
+		const res = await instance.post(EnumApiRoute.LOGOUT, {});
+
+		return res;
 	},
 };

@@ -1,10 +1,10 @@
 import { MenuIcon } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 import { ProfileBlock } from "../ProfileBlock";
 import { MenuSheet } from "../sheet";
 
-const AuthOnBlock = async () => {
-	const t = await getTranslations("layout.header");
+const AuthOnBlock = () => {
+	const t = useTranslations("layout.header");
 
 	return (
 		<>

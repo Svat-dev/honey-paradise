@@ -1,11 +1,13 @@
-import { useProfile } from "@hooks/auth";
+"use client";
+
+import { useAuth } from "@hooks/auth";
 import { AuthOffBlock } from "./AuthOffBlock";
 import { AuthOnBlock } from "./AuthOnBlock";
 
 const RightPart = () => {
-	const { IS_AUTHORIZED } = useProfile();
+	const { isAuthenticated } = useAuth();
 
-	return <div className="tw-flex tw-items-center">{IS_AUTHORIZED ? <AuthOnBlock /> : <AuthOffBlock />}</div>;
+	return <div className="tw-flex tw-items-center">{isAuthenticated ? <AuthOnBlock /> : <AuthOffBlock />}</div>;
 };
 
 export { RightPart };
