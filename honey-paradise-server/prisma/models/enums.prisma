@@ -8,3 +8,30 @@ enum EnumUserRoles {
   REGULAR
   ADMIN
 }
+
+enum EnumTokenTypes {
+  EMAIL_VERIFY
+}
+
+enum EnumNotificationType {
+  ORDER_STATUS
+  ACCOUNT_STATUS
+  SPECIAL_OFFERS
+  TELEGRAM
+}
+
+enum EnumLanguages {
+  RU
+  EN
+}
+
+enum EnumThemes {
+  DARK
+  LIGHT
+}
+
+enum EnumCurrencies {
+  RUBLE
+  DOLLAR
+  EURO
+}

@@ -1,0 +1,33 @@
+model Notification {
+  id String @id @default(uuid()) @db.Uuid
+
+  message String
+  type    EnumNotificationType
+  isRead  Boolean              @default(false) @map("is_read")
+
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String? @map("user_id") @db.Uuid
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("notifications")
+}
+
+model NotificationSettings {
+  id Int @id @default(autoincrement())
+
+  enabled   Boolean? @default(true)
+  withSound Boolean? @default(false) @map("with_sound")
+
+  siteNotificationsType     Boolean? @default(true) @map("site_notifications_type")
+  telegramNotificationsType Boolean? @default(false) @map("telegram_notifications_type")
+
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String? @unique @map("user_id") @db.Uuid
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("notification_settings")
+}
