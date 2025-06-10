@@ -8,5 +8,5 @@ export const UserAgent = createParamDecorator((data: unknown, ctx: ExecutionCont
 		const request = ctx.switchToHttp().getRequest() as Request;
 
 		return request.headers["user-agent"];
-	} else throw new InternalServerErrorException("Unsupported context type");
+	} else throw new InternalServerErrorException("500");
 });

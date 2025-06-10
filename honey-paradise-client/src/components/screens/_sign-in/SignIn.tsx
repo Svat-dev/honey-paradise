@@ -14,7 +14,7 @@ import styles from "./styles/sign-in.module.scss";
 import { useSignIn } from "./useSignIn";
 
 const SignIn = () => {
-	const { dataStatus, error, onSubmit, signInForm, onRecaptchaChange, theme, locale, t, isPending } = useSignIn();
+	const { dataStatus, error, onSubmit, signInForm, onRecaptchaChange, theme, locale, t, isPending, recaptchaRef } = useSignIn();
 
 	return (
 		<div data-status={dataStatus} className={cn(_styles["wrapper"], styles["wrapper"])}>
@@ -40,6 +40,7 @@ const SignIn = () => {
 
 						<ReCAPTCHA
 							sitekey={process.env.GOOGLE_RECAPTCHA_SITE_KEY as string}
+							ref={recaptchaRef}
 							className={styles["recaptcha"]}
 							theme={theme}
 							onChange={onRecaptchaChange}
@@ -47,7 +48,7 @@ const SignIn = () => {
 						/>
 
 						<div className={styles["footer-wrapper"]}>
-							<Button variant="secondary" type="submit" isLoading={isPending}>
+							<Button variant="secondary" type="submit" isLoading={isPending} disabled={dataStatus !== "default"}>
 								{t("footer.submitBtn")}
 							</Button>
 
