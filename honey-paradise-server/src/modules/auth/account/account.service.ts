@@ -1,11 +1,11 @@
-import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
-import { hash } from "argon2";
-import { PrismaService } from "src/core/prisma/prisma.service";
-import { getEmailUsername } from "src/shared/lib/common/utils/get-email-username.util";
-import { userFullOutput } from "src/shared/lib/prisma/outputs/user.output";
-import { ProfileService } from "../profile/profile.service";
 import type { CreateUserDto } from "./dto/create-user.dto";
+import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
+import { PrismaService } from "src/core/prisma/prisma.service";
+import { ProfileService } from "../profile/profile.service";
+import { getEmailUsername } from "src/shared/lib/common/utils/get-email-username.util";
+import { hash } from "argon2";
+import { userFullOutput } from "src/shared/lib/prisma/outputs/user.output";
 
 @Injectable()
 export class AccountService {
@@ -33,6 +33,9 @@ export class AccountService {
 				username: username || getEmailUsername(email),
 				birthdate,
 				gender,
+				settings: { create: {} },
+				notificationSettings: { create: {} },
+				cart: { create: {} },
 			},
 		});
 

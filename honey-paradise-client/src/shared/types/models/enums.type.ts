@@ -23,6 +23,11 @@ export enum EnumNotificationType {
 	TELEGRAM = "TELEGRAM",
 }
 
+export enum EnumThemes {
+	LIGHT = "LIGHT",
+	DARK = "DARK",
+}
+
 export enum EnumCurrencies {
 	RUBLE = "RUBLE",
 	DOLLAR = "DOLLAR",

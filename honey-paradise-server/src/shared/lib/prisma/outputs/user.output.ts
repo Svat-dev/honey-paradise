@@ -22,4 +22,7 @@ export const userFullOutput: Prisma.UserSelect = {
 	gender: true,
 	phoneNumber: true,
 	createdAt: true,
+	settings: true,
+	notificationSettings: true,
+	cart: true,
 };

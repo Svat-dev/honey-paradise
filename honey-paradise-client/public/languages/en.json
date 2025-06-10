@@ -252,9 +252,9 @@
 			"roles": {
 				"admin": "Admin",
 				"regular": "Customer",
-				"vip": "VIP customer",
+				"vip": "V.I.P.",
 				"manager": "Manager",
-				"deliverance": "Deliveryman"
+				"deliverance": "Deliverance"
 			},
 			"auth": {
 				"signIn": "Sign in",

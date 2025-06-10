@@ -24,8 +24,8 @@ enum EnumNotificationType {
 }
 
 enum EnumLanguages {
-  RU
-  EN
+  ru
+  en
 }
 
 enum EnumThemes {

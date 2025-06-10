@@ -30,7 +30,7 @@ export const useMyAccount = () => {
 			if (isAuthenticated) mutate();
 			exit();
 		}
-	}, [isAuthenticated]);
+	}, [isAuthenticated, data?.data, error]);
 
 	return {
 		user: data?.data,
