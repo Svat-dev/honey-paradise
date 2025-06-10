@@ -6,6 +6,9 @@ enum EnumGenders {
 
 enum EnumUserRoles {
   REGULAR
+  VIP
+  MANAGER
+  DELIVERANCE
   ADMIN
 }
 

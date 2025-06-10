@@ -13,13 +13,16 @@ interface IProfileBlock {
 const ProfileBlock: FC<IProfileBlock> = ({ t, picturePosition }) => {
 	const { user } = useMyAccount();
 
+	if (!user) return null;
+
 	const isBase = picturePosition ? picturePosition === "right" : true;
+	const role = user.role.toLowerCase();
 
 	return (
 		<div className={cn("tw-flex tw-items-center tw-gap-3", { "tw-flex-row-reverse": !isBase })}>
 			<div className="tw-flex tw-flex-col tw-leading-4">
 				<span>{user?.username}</span>
-				<span className="tw-text-sm tw-text-muted">{t("roles.admin")}</span>
+				<span className="tw-text-sm tw-text-muted">{t(`roles.${role}`)}</span>
 			</div>
 
 			{user?.avatarPath ? (

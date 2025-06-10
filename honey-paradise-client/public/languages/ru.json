@@ -250,7 +250,11 @@
 				"placeholder": "Введите запрос"
 			},
 			"roles": {
-				"admin": "Админ"
+				"admin": "Админ",
+				"regular": "Покупатель",
+				"vip": "VIP покупатель",
+				"manager": "Менеджер",
+				"deliverance": "Доставка"
 			},
 			"auth": {
 				"signIn": "Войти",

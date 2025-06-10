@@ -250,7 +250,11 @@
 				"placeholder": "Enter a request"
 			},
 			"roles": {
-				"admin": "Admin"
+				"admin": "Admin",
+				"regular": "Customer",
+				"vip": "VIP customer",
+				"manager": "Manager",
+				"deliverance": "Deliveryman"
 			},
 			"auth": {
 				"signIn": "Sign in",

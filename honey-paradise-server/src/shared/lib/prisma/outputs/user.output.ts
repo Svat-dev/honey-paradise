@@ -2,6 +2,7 @@ import type { Prisma } from "@prisma/client";
 
 export const userDefaultOutput: Prisma.UserSelect = {
 	id: true,
+	role: true,
 	username: true,
 	email: true,
 };
@@ -11,6 +12,7 @@ export const userServerOutput: Prisma.UserSelect = {
 	password: true,
 	isTFAEnabled: true,
 	isVerified: true,
+	telegramId: true,
 };
 
 export const userFullOutput: Prisma.UserSelect = {
@@ -18,5 +20,6 @@ export const userFullOutput: Prisma.UserSelect = {
 	avatarPath: true,
 	birthdate: true,
 	gender: true,
+	phoneNumber: true,
 	createdAt: true,
 };
