@@ -4,19 +4,29 @@ import { type ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export const useSearch = () => {
+	const t = useTranslations("layout.header");
+	const [isOpen, setIsOpen] = useState<boolean>(false);
+
 	const searchForm = useForm<IForm>({
 		defaultValues: { term: "" },
 		mode: "onChange",
 	});
 
-	const t = useTranslations("layout.header");
-
-	const [isOpen, setIsOpen] = useState<boolean>(false);
-
 	const value = searchForm.watch("term");
+	const input = searchForm.control._fields["term"]?._f.ref as HTMLInputElement;
 
 	const onClickReset = () => searchForm.resetField("term");
-	const onClick = () => setIsOpen(prev => !prev);
+	const onClick = (type: "open" | "close") => {
+		if (type === "open") {
+			input.focus();
+
+			return setIsOpen(true);
+		} else {
+			input.blur();
+
+			return setIsOpen(false);
+		}
+	};
 
 	const onInput = (e: ChangeEvent<HTMLInputElement>) => {
 		const el = e.currentTarget;
@@ -39,12 +49,12 @@ export const useSearch = () => {
 	useEffect(() => window.addEventListener("keydown", onKeydown));
 
 	return {
-		isOpen,
 		onClick,
 		searchForm,
 		onInput,
 		value,
 		onClickReset,
+		isOpen,
 		t,
 	};
 };
