@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAuth, useMyAccount } from "./auth";
 
 import { TThemes } from "@/shared/types/base.type";
 import { EnumStorageTokens } from "@constants/base";
@@ -6,6 +7,8 @@ import Cookies from "js-cookie";
 
 export const useTheme = () => {
 	const [theme, setTheme] = useState<TThemes>("light");
+	const { isAuthenticated } = useAuth();
+	const { user } = useMyAccount();
 
 	const changeTheme = (_theme: TThemes, isSystem: boolean = false) => {
 		document.body.classList.remove(`${theme}-mode`);
@@ -22,6 +25,13 @@ export const useTheme = () => {
 			_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 			changeTheme(_theme, true);
 			return;
+		} else if (isAuthenticated) {
+			if (user?.settings.defaultTheme) {
+				const _theme = user?.settings.defaultTheme?.toLowerCase();
+				changeTheme(_theme as TThemes);
+
+				return;
+			}
 		}
 
 		changeTheme(_theme);

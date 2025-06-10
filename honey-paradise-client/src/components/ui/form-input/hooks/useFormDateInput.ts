@@ -1,15 +1,16 @@
 import { enUS, ru } from "date-fns/locale";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import type { Calendar, Locale } from "vanilla-calendar-pro";
 
 import { EnumLanguages } from "@/shared/lib/i18n";
+import { useLanguage } from "@i18n/hooks";
 import { toDate } from "date-fns";
 import type { TFieldNames } from "../types/form-input.type";
 import { useFormInput } from "./useFormInput";
 
 export const useFormDateInput = (name: TFieldNames) => {
-	const locale = useLocale();
+	const { locale } = useLanguage();
 	const t = useTranslations("global.sign-up.content");
 
 	const { setValue, getValues, error, clearErrors } = useFormInput(name);

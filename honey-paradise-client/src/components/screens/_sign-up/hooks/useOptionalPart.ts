@@ -1,13 +1,13 @@
-import { useLocale, useTranslations } from "next-intl";
-
 import { EnumGenders } from "@/shared/types/models";
 import { useTheme } from "@hooks/useTheme";
+import { useLanguage } from "@i18n/hooks";
+import { useTranslations } from "next-intl";
 import { useId } from "react";
 import type { IGenderRadioGroupData } from "../types/sign-up.type";
 
 export const useOptionalPart = () => {
 	const t = useTranslations("global.sign-up.content");
-	const locale = useLocale();
+	const { locale } = useLanguage();
 
 	const { theme } = useTheme();
 

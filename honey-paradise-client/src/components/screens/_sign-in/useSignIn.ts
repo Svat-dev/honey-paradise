@@ -7,9 +7,9 @@ import { EnumAppRoute } from "@/shared/lib/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "@hooks/auth";
 import { useTheme } from "@hooks/useTheme";
+import { useLanguage } from "@i18n/hooks";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import type ReCAPTCHA from "react-google-recaptcha";
@@ -20,7 +20,7 @@ import type { TDataStatus } from "../_sign-up/types/sign-up.type";
 import { ISignInMutateData } from "./types/sign-in.type";
 
 export const useSignIn = () => {
-	const locale = useLocale();
+	const { locale } = useLanguage();
 	const et = useTranslations("server.errors");
 	const t = useTranslations("global.sign-in.content");
 

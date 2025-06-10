@@ -1,11 +1,12 @@
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 
 import { EnumLanguages } from "@/shared/lib/i18n";
+import { useLanguage } from "@i18n/hooks";
 import { ILanguagesList } from "../types/data.type";
 
 export const useAvailableLangs = () => {
 	const t = useTranslations("layout.header.sidebarSheet.langsDropdown");
-	const locale = useLocale();
+	const { locale } = useLanguage();
 
 	const availableLanguages: ILanguagesList[] = [
 		{

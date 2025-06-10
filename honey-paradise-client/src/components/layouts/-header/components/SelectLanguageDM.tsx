@@ -3,14 +3,14 @@
 import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui";
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
 
-import { useChangeLang } from "@i18n/hooks/useChangeLang";
+import { useLanguage } from "@/shared/lib/i18n/hooks/useLanguage";
 import { cn } from "@utils/base";
 import { type FC, type PropsWithChildren, useState } from "react";
 import { useAvailableLangs } from "../hooks/useAvailableLangs";
 
 const SelectLanguageDM: FC<PropsWithChildren> = ({ children }) => {
 	const { data, t, currentLangText } = useAvailableLangs();
-	const { change } = useChangeLang();
+	const { change } = useLanguage();
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	return (
