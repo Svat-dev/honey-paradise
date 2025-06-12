@@ -11,7 +11,7 @@ const buttonVariants = cva(
 		variants: {
 			variant: {
 				default: "tw-bg-primary tw-text-primary-foreground tw-shadow hover:tw-bg-primary/90",
-				outline: "tw-border tw-border-input tw-bg-background tw-shadow-sm hover:tw-bg-accent",
+				outline: "tw-border tw-border-black tw-text-black tw-py-1.5 tw-px-2 tw-gap-1 hover:tw-bg-secondary/40",
 				secondary: "tw-bg-secondary tw-text-secondary-foreground tw-shadow-sm hover:tw-bg-secondary/80", // тут закончил
 				ghost: "hover:tw-bg-accent hover:tw-text-accent-foreground",
 				link: "tw-text-primary tw-underline-offset-4 hover:tw-underline",

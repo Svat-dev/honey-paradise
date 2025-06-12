@@ -2,6 +2,7 @@
 	"global": {
 		"logo": "Honey Paradise",
 		"home": { "title": "Home", "description": "The main page of the online store {title}" },
+		"notFound": { "title": "Page not found", "content": {} },
 		"privacy-policy": {
 			"title": "Privacy policy",
 			"description": "Privacy Policy of the {title} online store",
@@ -230,6 +231,17 @@
 					"error": "Failed to create an account. {e}"
 				}
 			}
+		},
+		"confirmation": {
+			"title": {
+				"email": "Email confirmation",
+				"2fa": "Account sign in confirmation"
+			},
+			"description": {
+				"email": "Email confirmation page in the online store {title}",
+				"2fa": "Sign in confirmation page in the online store {title}"
+			},
+			"content": {}
 		}
 	},
 	"layout": {

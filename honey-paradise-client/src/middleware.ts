@@ -8,6 +8,9 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 	const session = cookies.get("session")?.value;
 
 	const isAuthRoute = nextUrl.pathname.startsWith(EnumAppRoute.AUTH);
+	const isConfirmationRoute = nextUrl.pathname.startsWith(EnumAppRoute.CONFIRMATION);
+
+	if (!session && isConfirmationRoute && !nextUrl.searchParams.has("type")) return NextResponse.redirect(new URL(EnumAppRoute.INDEX, url));
 
 	if (session && isAuthRoute) return NextResponse.redirect(new URL(EnumAppRoute.INDEX, url));
 

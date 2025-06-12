@@ -7,7 +7,7 @@ import { VALUES } from "@constants/base";
 import { EnumAppRoute } from "@constants/routes";
 import _styles from "@styles/modules/auth-form-wrapper.module.scss";
 import { cn } from "@utils/base";
-import Link from "next/link";
+import Link from "next/dist/client/link";
 import ReCAPTCHA from "react-google-recaptcha";
 import { FormProvider } from "react-hook-form";
 import styles from "./styles/sign-in.module.scss";

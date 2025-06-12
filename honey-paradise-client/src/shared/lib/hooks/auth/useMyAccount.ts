@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { accountService } from "@/services/account.service";
 import { authService } from "@/services/auth.service";
+import { sessionService } from "@/services/session.service";
 import { useEffect } from "react";
 import { useAuth } from "./useAuth";
 
@@ -22,7 +23,7 @@ export const useMyAccount = () => {
 
 	const { mutate } = useMutation({
 		mutationKey: ["clear session"],
-		mutationFn: () => authService.clearSession(),
+		mutationFn: () => sessionService.clearSession(),
 	});
 
 	useEffect(() => {

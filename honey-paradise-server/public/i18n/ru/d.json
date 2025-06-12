@@ -1,0 +1,8 @@
+{
+	"emails": {
+		"confirmation": {
+			"subject": "Подтверждение электронной почты",
+			"content": {}
+		}
+	}
+}

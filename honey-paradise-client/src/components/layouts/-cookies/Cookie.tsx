@@ -2,9 +2,9 @@
 
 import { Button } from "@/components/ui";
 import { EnumAppRoute } from "@constants/routes";
-import Image from "next/image";
-import Link from "next/dist/client/link";
 import { cn } from "@utils/base";
+import Link from "next/dist/client/link";
+import Image from "next/image";
 import styles from "./cookie.module.scss";
 import { useCookies } from "./useCookies";
 

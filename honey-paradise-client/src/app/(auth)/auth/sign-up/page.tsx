@@ -1,8 +1,8 @@
 import type { Metadata, NextPage } from "next";
 
-import { NO_INDEX_PAGE } from "@constants/base";
 import { SignUp } from "@/components/screens/_sign-up/SignUp";
-import type { TSearchParams } from "@/shared/types/base.type";
+import type { TSearchParams } from "@/shared/types";
+import { NO_INDEX_PAGE } from "@constants/base";
 import { getMetadata } from "@utils/base";
 import { getTranslations } from "next-intl/server";
 

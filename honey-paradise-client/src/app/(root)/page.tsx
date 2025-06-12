@@ -8,12 +8,12 @@ interface IProps {
 }
 
 export async function generateMetadata({}: IProps): Promise<Metadata> {
-	const t = await getTranslations("global");
+	const t = await getTranslations("global.home");
 
 	return {
 		...(await getMetadata({
-			title: t("home.title"),
-			description: t("home.description", { title: t("home.title") }),
+			title: t("title"),
+			description: t("description", { title: t("title") }),
 		})),
 	};
 }

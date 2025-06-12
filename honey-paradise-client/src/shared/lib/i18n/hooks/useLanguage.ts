@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import { useLocale, useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/dist/client/components/navigation";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { EnumStorageTokens } from "../../constants/base";

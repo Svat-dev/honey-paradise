@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/dist/client/components/navigation";
 import { useRef, useState } from "react";
 import type ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from "react-hook-form";

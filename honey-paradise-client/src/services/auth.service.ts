@@ -26,12 +26,6 @@ export const authService = {
 		return res.data;
 	},
 
-	clearSession: async () => {
-		const res = await defaultInstance.post(EnumApiRoute.CLEAR_SESSION, {});
-
-		return res;
-	},
-
 	logout: async () => {
 		const res = await instance.post(EnumApiRoute.LOGOUT, {});
 

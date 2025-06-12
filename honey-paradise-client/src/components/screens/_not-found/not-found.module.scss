@@ -1,0 +1,84 @@
+.main {
+	@apply tw-absolute tw-top-1/2 tw-left-1/2 -tw-translate-x-1/2 -tw-translate-y-1/2 tw-flex tw-items-center tw-gap-4;
+}
+
+.content-wrapper {
+	> h2 {
+		@apply tw-text-3xl;
+	}
+
+	> p {
+		@apply tw-text-gray-500 tw-ml-1 tw-mb-6;
+	}
+}
+
+.actions-wrapper {
+	@apply tw-flex tw-items-center tw-gap-5;
+
+	> button:last-of-type {
+		@apply tw-border-gray-500 tw-text-gray-500;
+
+		&:hover {
+			@apply tw-border-black tw-text-black;
+		}
+	}
+}
+
+.image-wrapper {
+	@apply tw-relative;
+}
+
+.bee {
+	@apply tw-absolute tw-origin-bottom-right;
+}
+
+.bee-0 {
+	@apply tw-left-16 tw-top-14;
+	animation: bee-flying-1 1.5s linear infinite;
+}
+.bee-1 {
+	@apply tw-right-12 -tw-top-10 -tw-rotate-90;
+	animation: bee-flying-1 1.5s linear infinite;
+}
+.bee-2 {
+	@apply tw-left-12 -tw-top-10 tw-rotate-[-110deg];
+	animation: bee-flying-2 1.5s linear infinite;
+}
+.bee-3 {
+	@apply tw-left-12 tw-bottom-20 tw-rotate-180;
+	animation: bee-flying-2 1.5s linear infinite;
+}
+.bee-4 {
+	@apply -tw-left-16 tw-bottom-20 -tw-rotate-45;
+	animation: bee-flying-1 1.5s linear infinite;
+}
+.bee-5 {
+	@apply -tw-left-12 tw-top-20;
+	animation: bee-flying-2 1.5s linear infinite;
+}
+.bee-6 {
+	@apply tw-right-4 tw-bottom-28 -tw-rotate-90;
+	animation: bee-flying-2 1.5s linear infinite;
+}
+.bee-7 {
+	@apply tw-right-32 tw-bottom-0;
+	animation: bee-flying-1 1.5s linear infinite;
+}
+
+@keyframes bee-flying-1 {
+	from {
+		@apply tw-rotate-0;
+	}
+	to {
+		@apply tw-rotate-[360deg];
+	}
+}
+
+@keyframes bee-flying-2 {
+	from {
+		@apply tw-rotate-0;
+	}
+	to {
+		@apply -tw-rotate-[360deg];
+	}
+}

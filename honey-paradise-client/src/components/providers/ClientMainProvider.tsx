@@ -4,6 +4,7 @@ import styles from "@styles/modules/toaster.module.scss";
 import dynamic from "next/dynamic";
 import { type PropsWithChildren } from "react";
 import { Toaster } from "react-hot-toast";
+
 const DynamicCookie = dynamic(() => import("../layouts/-cookies/Cookie").then(mod => mod.Cookie), { ssr: false });
 
 export function ClientMainProvider({ children }: PropsWithChildren) {

@@ -10,7 +10,7 @@ import { useTheme } from "@hooks/useTheme";
 import { useLanguage } from "@i18n/hooks";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/dist/client/components/navigation";
 import { useRef, useState } from "react";
 import type ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
