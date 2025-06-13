@@ -1,21 +1,21 @@
 .wrapper {
-	@apply tw-w-[450px] tw-h-[470px];
+	@apply tw-w-[28.125rem] tw-h-[29.375rem];
 
 	&::after,
 	&::before,
 	> .border-line::after,
 	> .border-line::before {
-		@apply tw-w-[450px] tw-h-[470px];
+		@apply tw-w-[28.125rem] tw-h-[29.375rem];
 	}
 }
 
 .wrapper-higher {
-	@apply tw-w-[470px] tw-h-[640px];
+	@apply tw-w-[29.375rem] tw-h-[40rem];
 
 	&::after,
 	&::before,
 	> .border-line::after,
 	> .border-line::before {
-		@apply tw-w-[470px] tw-h-[640px];
+		@apply tw-w-[29.375rem] tw-h-[40rem];
 	}
 }

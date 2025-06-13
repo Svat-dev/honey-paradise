@@ -1,42 +1,26 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-
-import { accountService } from "@/services/account.service";
-import { authService } from "@/services/auth.service";
-import { sessionService } from "@/services/session.service";
+import { useMyAccountS } from "@/services/hooks/account";
+import { useLogoutS } from "@/services/hooks/auth";
+import { useClearSessionS } from "@/services/hooks/session/useClearSessionS";
 import { useEffect } from "react";
 import { useAuth } from "./useAuth";
 
 export const useMyAccount = () => {
 	const { isAuthenticated, exit } = useAuth();
-
-	const { error, isLoading, data, isPending, refetch } = useQuery({
-		queryKey: ["get my account"],
-		queryFn: () => accountService.getMyAccount(),
-		enabled: isAuthenticated,
-	});
-
-	const { mutate: logout } = useMutation({
-		mutationKey: ["logout"],
-		mutationFn: () => authService.logout(),
-		onSuccess: exit,
-	});
-
-	const { mutate } = useMutation({
-		mutationKey: ["clear session"],
-		mutationFn: () => sessionService.clearSession(),
-	});
+	const { acc, accError, accRefetch, isAccLoading } = useMyAccountS();
+	const { logout } = useLogoutS();
+	const { clearSession } = useClearSessionS();
 
 	useEffect(() => {
-		if (error) {
-			if (isAuthenticated) mutate();
+		if (accError) {
+			if (isAuthenticated) clearSession();
 			exit();
 		}
-	}, [isAuthenticated, data?.data, error]);
+	}, [isAuthenticated, acc?.data, accError]);
 
 	return {
-		user: data?.data,
-		isLoadingProfile: isLoading || isPending,
-		refetch,
+		user: acc?.data,
+		isAccLoading,
+		accRefetch,
 		logout,
 	};
 };

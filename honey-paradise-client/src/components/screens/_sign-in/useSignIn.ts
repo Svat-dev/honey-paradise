@@ -1,14 +1,13 @@
 import { type TSignInFields, createSignInSchema } from "@schemas/sign-in.schema";
 
 import { errorCatch } from "@/api/api-helper";
-import { authService } from "@/services/auth.service";
+import { useSignInS } from "@/services/hooks/auth";
 import { EnumErrorMsgCodes } from "@/shared/lib/constants/base";
 import { EnumAppRoute } from "@/shared/lib/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "@hooks/auth";
 import { useTheme } from "@hooks/useTheme";
 import { useLanguage } from "@i18n/hooks";
-import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useRouter } from "next/dist/client/components/navigation";
 import { useRef, useState } from "react";
@@ -17,7 +16,6 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useTranslations } from "use-intl";
 import type { TDataStatus } from "../_sign-up/types/sign-up.type";
-import { ISignInMutateData } from "./types/sign-in.type";
 
 export const useSignIn = () => {
 	const { locale } = useLanguage();
@@ -27,6 +25,7 @@ export const useSignIn = () => {
 	const { auth } = useAuth();
 	const { replace } = useRouter();
 	const { theme } = useTheme();
+	const { isSignInLoading, signIn } = useSignInS();
 
 	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
 	const [error, setError] = useState<boolean>(false);
@@ -43,11 +42,6 @@ export const useSignIn = () => {
 			id: "",
 			password: "",
 		},
-	});
-
-	const { mutateAsync, isPending } = useMutation({
-		mutationKey: ["sign in"],
-		mutationFn: (data: ISignInMutateData) => authService.signIn(data.dto, data.recaptcha),
 	});
 
 	const onRecaptchaChange = (value: string | null) => {
@@ -78,7 +72,7 @@ export const useSignIn = () => {
 		setTimeout(() => setDataStatus("default"), 3000);
 
 		try {
-			await mutateAsync({ dto: data, recaptcha: recaptchaValue });
+			await signIn({ dto: data, recaptcha: recaptchaValue });
 
 			auth();
 			setDataStatus("good");
@@ -108,7 +102,7 @@ export const useSignIn = () => {
 		error,
 		dataStatus,
 		onRecaptchaChange,
-		isPending,
+		isSignInLoading,
 		recaptchaRef,
 	};
 };

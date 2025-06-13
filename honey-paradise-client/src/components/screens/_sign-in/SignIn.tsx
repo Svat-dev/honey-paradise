@@ -14,7 +14,7 @@ import styles from "./styles/sign-in.module.scss";
 import { useSignIn } from "./useSignIn";
 
 const SignIn = () => {
-	const { dataStatus, error, onSubmit, signInForm, onRecaptchaChange, theme, locale, t, isPending, recaptchaRef } = useSignIn();
+	const { dataStatus, error, onSubmit, signInForm, onRecaptchaChange, theme, locale, t, isSignInLoading, recaptchaRef } = useSignIn();
 
 	return (
 		<div data-status={dataStatus} className={cn(_styles["wrapper"], styles["wrapper"])}>
@@ -48,7 +48,7 @@ const SignIn = () => {
 						/>
 
 						<div className={styles["footer-wrapper"]}>
-							<Button variant="secondary" type="submit" isLoading={isPending} disabled={dataStatus !== "default"}>
+							<Button variant="secondary" type="submit" isLoading={isSignInLoading} disabled={dataStatus !== "default"}>
 								{t("footer.submitBtn")}
 							</Button>
 

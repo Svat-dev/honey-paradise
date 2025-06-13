@@ -1,3 +1,4 @@
+import type { TConfirmationFields } from "@/shared/lib/schemas/confirmation.schema";
 import type { ReactStateHook } from "@/shared/types/base.type";
 import type { TSignInFields } from "@schemas/sign-in.schema";
 import type { TSignUpFields } from "@schemas/sign-up.schema";
@@ -6,8 +7,8 @@ import type { InputHTMLAttributes } from "react";
 
 type TSetMask = ReactStateHook<InputMask<{ mask: string; lazy: true }> | undefined>;
 
-export type TFieldNames = keyof TSignInFields | keyof TSignUpFields | "phoneNumber";
-export type TInputType = "default" | "radio-group" | "date";
+export type TFieldNames = keyof TSignInFields | keyof TSignUpFields | keyof TConfirmationFields | "phoneNumber";
+export type TInputType = "default" | "radio-group" | "date" | "otp";
 
 export interface IFormInputProps extends InputHTMLAttributes<HTMLInputElement> {
 	name: TFieldNames;
@@ -15,8 +16,10 @@ export interface IFormInputProps extends InputHTMLAttributes<HTMLInputElement> {
 	containerClassName?: string;
 	clearBtnClassName?: string;
 	errorClassName?: string;
+	caretClassName?: string;
 	setMask?: TSetMask;
 	data?: IRadioGroupData[];
+	otpSlotsLimit?: number;
 }
 
 export interface IRadioGroupData {

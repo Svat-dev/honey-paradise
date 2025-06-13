@@ -1,0 +1,27 @@
+.checkbox-main-wrapper {
+	@apply tw-relative;
+}
+
+.checkbox-wrapper {
+	@apply tw-flex tw-items-center tw-gap-2;
+}
+
+.checkbox-input {
+	@apply tw-sr-only;
+
+	&:checked + .checkbox-wrapper > .checkbox-decor-input > svg {
+		@apply tw-opacity-100 tw-scale-100;
+	}
+}
+
+.checkbox-decor-input {
+	@apply tw-relative tw-h-7 tw-w-7 tw-bg-secondary tw-rounded-lg tw-cursor-pointer;
+
+	> svg {
+		@apply tw-absolute tw-top-1/2 tw-left-1/2 -tw-translate-x-1/2 -tw-translate-y-1/2 tw-opacity-0 tw-scale-95 tw-transition-all tw-will-change-auto;
+	}
+}
+
+.checkbox-label {
+	@apply tw-text-sm tw-text-black tw-cursor-pointer tw-select-none;
+}

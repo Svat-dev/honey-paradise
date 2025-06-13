@@ -27,7 +27,7 @@ const SignUp: FC<IProps> = ({ searchParams }) => {
 		currentPart,
 		isDisabled,
 		t,
-		isPending,
+		isCreateAccLoading,
 	} = useSignUp(searchParams);
 
 	return (
@@ -40,7 +40,7 @@ const SignUp: FC<IProps> = ({ searchParams }) => {
 			<FormProvider {...signUpForm}>
 				<form className={_styles["form"]} onSubmit={signUpForm.handleSubmit(onSubmit)}>
 					{currentPart === "main" && (
-						<MainPart onClickToNext={onClickToNext} isActive={isActive.main} disabled={isDisabled} isPending={isPending} t={t} />
+						<MainPart onClickToNext={onClickToNext} isActive={isActive.main} disabled={isDisabled} isPending={isCreateAccLoading} t={t} />
 					)}
 
 					{currentPart === "optional" && (
@@ -50,7 +50,7 @@ const SignUp: FC<IProps> = ({ searchParams }) => {
 							onClickToPrevious={onClickToPrevious}
 							isActive={isActive.optional}
 							disabled={isDisabled}
-							isPending={isPending}
+							isPending={isCreateAccLoading}
 						/>
 					)}
 				</form>

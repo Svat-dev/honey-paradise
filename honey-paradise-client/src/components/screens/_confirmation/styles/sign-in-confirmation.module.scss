@@ -1,0 +1,10 @@
+.wrapper::after,
+.wrapper::before,
+.border-line::after,
+.border-line::before {
+	@apply tw-w-[450px] tw-h-[290px];
+}
+
+.wrapper {
+	@apply tw-w-[450px] tw-h-[290px];
+}

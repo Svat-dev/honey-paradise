@@ -1,5 +1,6 @@
 import type { Metadata, NextPage } from "next";
 
+import { Confirmation } from "@/components/screens/_confirmation/Confirmation";
 import type { TSearchParams } from "@/shared/types";
 import { NO_INDEX_PAGE } from "@constants/base";
 import { EnumConfirmationTypes } from "@constants/routes";
@@ -31,7 +32,7 @@ export async function generateMetadata(props: IProps): Promise<Metadata> {
 const ConfirmationPage: NextPage<IProps> = async props => {
 	const searchParams = await props.searchParams;
 
-	return <div></div>;
+	return <Confirmation type={searchParams.type as EnumConfirmationTypes} />;
 };
 
 export default ConfirmationPage;

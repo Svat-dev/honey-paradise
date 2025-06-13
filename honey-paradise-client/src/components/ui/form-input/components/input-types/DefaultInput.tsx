@@ -20,6 +20,7 @@ const DefaultInput: FC<IFormDefaultInputProps> = ({ name, setMask, clearBtnClass
 				{...props}
 				placeholder={props.placeholder ? props.placeholder : name}
 				type={!isPassword ? props.type : isShowPassword ? "text" : props.type}
+				spellCheck={false}
 				{...register(name, { required: "Поле обязательно для заполнения", onChange: clearError })}
 			/>
 

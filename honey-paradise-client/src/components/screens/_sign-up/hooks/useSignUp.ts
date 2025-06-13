@@ -1,13 +1,12 @@
 import { type TSignUpFields, createSignUpSchema } from "@schemas/sign-up.schema";
 
 import { errorCatch } from "@/api/api-helper";
-import { authService } from "@/services/auth.service";
+import { useCreateAccountS } from "@/services/hooks/auth";
 import { EnumAppRoute } from "@/shared/lib/constants/routes";
 import type { TSearchParams } from "@/shared/types/base.type";
 import { EnumGenders } from "@/shared/types/models";
 import { EnumErrorMsgCodes } from "@constants/base";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/dist/client/components/navigation";
@@ -15,12 +14,14 @@ import { useRef, useState } from "react";
 import type ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import type { ICreateAccountMutateData, IIsActive, TCurrentPart, TDataStatus } from "../types/sign-up.type";
+import type { IIsActive, TCurrentPart, TDataStatus } from "../types/sign-up.type";
 
 export const useSignUp = (searchParams: TSearchParams) => {
 	const t = useTranslations("global.sign-up.content");
 	const et = useTranslations("server.errors");
+
 	const { push, replace } = useRouter();
+	const { createAcc, isCreateAccLoading } = useCreateAccountS();
 
 	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
 	const [isError, setIsError] = useState<boolean>(false);
@@ -47,11 +48,6 @@ export const useSignUp = (searchParams: TSearchParams) => {
 			gender: EnumGenders.OTHER,
 			username: undefined,
 		},
-	});
-
-	const { isPending, mutateAsync } = useMutation({
-		mutationKey: ["create account"],
-		mutationFn: (data: ICreateAccountMutateData) => authService.createAccount(data.dto, data.recaptcha),
 	});
 
 	const isDisabled = () => {
@@ -104,7 +100,7 @@ export const useSignUp = (searchParams: TSearchParams) => {
 
 		try {
 			const { confirmPassword, ..._data } = data;
-			await mutateAsync({ recaptcha: recaptchaValue, dto: { ..._data, birthdate: _data.birthdate?.toISOString() } });
+			await createAcc({ recaptcha: recaptchaValue, dto: { ..._data, birthdate: _data.birthdate?.toISOString() } });
 
 			setDataStatus("good");
 			toast.success(t("toasters.success"));
@@ -134,7 +130,7 @@ export const useSignUp = (searchParams: TSearchParams) => {
 		onClickToPrevious,
 		signUpForm,
 		currentPart,
-		isPending,
+		isCreateAccLoading,
 		isDisabled: isDisabled(),
 		recaptchaRef,
 		t,

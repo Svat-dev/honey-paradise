@@ -1,0 +1,46 @@
+.wrapper::after,
+.wrapper::before,
+.border-line::after,
+.border-line::before {
+	@apply tw-w-[36rem] tw-h-[23.5rem];
+}
+
+.wrapper {
+	@apply tw-w-[36rem] tw-h-[23.5rem];
+}
+
+.title-wrapper {
+	@apply tw-flex tw-items-center tw-justify-between tw-mb-7;
+
+	> div > p {
+		@apply tw-mb-8 tw-ml-1 tw-text-muted tw-text-sm tw-leading-5;
+	}
+}
+
+.form-input-wrapper {
+	@apply tw-flex tw-justify-center tw-mb-5;
+}
+
+.form-input-error {
+	@apply -tw-bottom-1;
+}
+
+.form-input-slot {
+	@apply tw-h-14 tw-w-12 !tw-text-lg;
+}
+
+.checkbox-wrapper {
+	@apply tw-mb-6 tw-ml-2;
+}
+
+.actions-wrapper {
+	@apply tw-flex tw-justify-between tw-items-center;
+
+	> button {
+		@apply tw-py-1.5 tw-px-2;
+
+		&:last-of-type {
+			@apply tw-border-2 tw-border-muted;
+		}
+	}
+}

@@ -59,10 +59,16 @@ export default {
 						opacity: "1",
 					},
 				},
+				"caret-blink": {
+					from: { opacity: "1.25rem" },
+					"50%": { height: "0rem" },
+					to: { height: "1.25rem" },
+				},
 			},
 			animation: {
 				"delete-effect": "delete-effect 300ms ease-in forwards",
 				"show-effect": "show-effect 300ms ease-in forwards",
+				"caret-blink": "caret-blink 900ms linear infinite",
 			},
 			fontFamily: {
 				rubik: "var(--font-rubik)",

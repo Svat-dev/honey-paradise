@@ -29,6 +29,8 @@ export const useFormInput = (name: TFieldNames) => {
 				return "radio-group";
 			case "birthdate":
 				return "date";
+			case "pin":
+				return "otp";
 
 			default:
 				return "default";
