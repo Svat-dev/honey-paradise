@@ -41,7 +41,7 @@
 	animation: bee-flying-1 1.5s linear infinite;
 }
 .bee-2 {
-	@apply tw-left-12 -tw-top-10 tw-rotate-[-110deg];
+	@apply tw-left-12 -tw-top-10 -tw-rotate-[290deg];
 	animation: bee-flying-2 1.5s linear infinite;
 }
 .bee-3 {
@@ -53,11 +53,11 @@
 	animation: bee-flying-1 1.5s linear infinite;
 }
 .bee-5 {
-	@apply -tw-left-12 tw-top-20;
+	@apply -tw-left-12 tw-top-20 tw-rotate-180;
 	animation: bee-flying-2 1.5s linear infinite;
 }
 .bee-6 {
-	@apply tw-right-4 tw-bottom-28 -tw-rotate-90;
+	@apply tw-right-4 tw-bottom-28 -tw-rotate-[270deg];
 	animation: bee-flying-2 1.5s linear infinite;
 }
 .bee-7 {

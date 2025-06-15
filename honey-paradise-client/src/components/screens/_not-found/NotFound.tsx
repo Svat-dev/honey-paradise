@@ -2,46 +2,47 @@
 
 import { Button, Title } from "@/components/ui";
 
-import { EnumAppRoute } from "@/shared/lib/constants/routes";
-import { cn } from "@/shared/lib/utils/base";
+import { EnumAppRoute } from "@constants/routes";
 import { MoveLeftIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/dist/client/components/navigation";
 import Image from "next/image";
 import styles from "./not-found.module.scss";
 
 const NotFound = () => {
 	const { refresh, replace } = useRouter();
+	const t = useTranslations("global.notFound.content");
 
 	const limit = 8;
 
 	return (
 		<main className={styles["main"]}>
 			<div className={styles["content-wrapper"]}>
-				<Title size="lg">{"Страница не найдена"}</Title>
-				<p>{"Проверьте корректность введённого адреса или повторите попытку позже"}</p>
+				<Title size="lg">{t("title")}</Title>
+				<p>{t("description")}</p>
 
 				<div className={styles["actions-wrapper"]}>
-					<Button variant="outline" onClick={() => replace(EnumAppRoute.INDEX)}>
+					<Button variant="outline" title={t("labels.toIndex")} onClick={() => replace(EnumAppRoute.INDEX)}>
 						<MoveLeftIcon />
-						{"На главную"}
+						{t("actions.toIndex")}
 					</Button>
 
-					<Button variant="outline" onClick={refresh}>
-						{"Обновить"}
+					<Button variant="outline" title={t("labels.refresh")} onClick={refresh}>
+						{t("actions.refresh")}
 					</Button>
 				</div>
 			</div>
 
 			<div className={styles["image-wrapper"]}>
-				{...Array(limit)
+				{/* {...Array(limit)
 					.fill(0)
 					.map((_, i) => (
 						<div className={cn(styles["bee"], styles[`bee-${i}`])}>
 							<Image src="/assets/flying-bee.png" alt="" width={60} height={60} key={i} />
 						</div>
-					))}
+					))} */}
 
-				<Image src="/assets/not-found.png" alt={"Изображение: не найдено"} width={350} height={362} />
+				<Image src="/assets/not-found.png" alt={t("labels.image")} width={350} height={362} />
 			</div>
 		</main>
 	);

@@ -2,7 +2,22 @@
 	"global": {
 		"logo": "Honey Paradise",
 		"home": { "title": "Home", "description": "The main page of the online store {title}" },
-		"notFound": { "title": "Page not found", "content": {} },
+		"notFound": {
+			"title": "Page not found",
+			"content": {
+				"title": "We don't have this page.",
+				"description": "Check the correctness of the entered address or try again later",
+				"actions": {
+					"toIndex": "To home",
+					"refresh": "Refresh"
+				},
+				"labels": {
+					"toIndex": "To the home page",
+					"refresh": "Refresh page",
+					"image": "Image \"not found\""
+				}
+			}
+		},
 		"privacy-policy": {
 			"title": "Privacy policy",
 			"description": "Privacy Policy of the {title} online store",
