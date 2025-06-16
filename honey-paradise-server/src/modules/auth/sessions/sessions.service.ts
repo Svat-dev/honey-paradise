@@ -1,17 +1,17 @@
 import { destroySession, saveSession } from "src/shared/lib/common/utils/session.util";
 
-import type { AuthLoginDto } from "./dto/auth-login.dto";
-import { ConfigService } from "@nestjs/config/dist/config.service";
-import { ConflictException } from "@nestjs/common/exceptions/conflict.exception";
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
+import { ConflictException } from "@nestjs/common/exceptions/conflict.exception";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
+import { UnauthorizedException } from "@nestjs/common/exceptions/unauthorized.exception";
+import { ConfigService } from "@nestjs/config/dist/config.service";
+import { verify } from "argon2";
+import type { Request } from "express";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { RedisService } from "src/core/redis/redis.service";
-import type { Request } from "express";
-import { UnauthorizedException } from "@nestjs/common/exceptions/unauthorized.exception";
 import { getSessionMetadata } from "src/shared/lib/common/utils/session-metadat.util";
 import { userServerOutput } from "src/shared/lib/prisma/outputs/user.output";
-import { verify } from "argon2";
+import type { AuthLoginDto } from "./dto/auth-login.dto";
 
 @Injectable()
 export class SessionsService {

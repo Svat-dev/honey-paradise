@@ -1,8 +1,0 @@
-{
-	"emails": {
-		"confirmation": {
-			"subject": "Email confirmation",
-			"content": {}
-		}
-	}
-}

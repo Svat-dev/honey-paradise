@@ -10,8 +10,10 @@ model User {
 
   notifications        Notification[]
   notificationSettings NotificationSettings?
-  settings             UserSettings?
-  cart                 Cart?
+
+  settings UserSettings?
+  cart     Cart?
+  token    Token[]
 
   username    String  @unique
   telegramId  String? @unique @map("telegram_id")

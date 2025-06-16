@@ -1,15 +1,20 @@
-import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
-import type { CreateUserDto } from "./dto/create-user.dto";
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
-import { PrismaService } from "src/core/prisma/prisma.service";
-import { ProfileService } from "../profile/profile.service";
-import { getEmailUsername } from "src/shared/lib/common/utils/get-email-username.util";
+import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
 import { hash } from "argon2";
+import { PrismaService } from "src/core/prisma/prisma.service";
+import { getEmailUsername } from "src/shared/lib/common/utils/get-email-username.util";
 import { userFullOutput } from "src/shared/lib/prisma/outputs/user.output";
+import { ProfileService } from "../profile/profile.service";
+import { VerificationService } from "../verification/verification.service";
+import type { CreateUserDto } from "./dto/create-user.dto";
 
 @Injectable()
 export class AccountService {
-	constructor(private readonly prisma: PrismaService, private readonly profileService: ProfileService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly profileService: ProfileService,
+		private readonly verificationService: VerificationService
+	) {}
 
 	async me(id: string) {
 		const user = await this.prisma.user.findUnique({ where: { id }, select: userFullOutput });
@@ -39,6 +44,6 @@ export class AccountService {
 			},
 		});
 
-		return true;
+		return this.verificationService.sendVerificationEmail(email);
 	}
 }

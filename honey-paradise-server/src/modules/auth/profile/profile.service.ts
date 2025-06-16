@@ -20,4 +20,13 @@ export class ProfileService {
 			return profile;
 		}
 	}
+
+	async updateProfileVerified(id: string) {
+		await this.prisma.user.update({
+			where: { id },
+			data: { isVerified: true },
+		});
+
+		return true;
+	}
 }

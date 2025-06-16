@@ -1,0 +1,14 @@
+model Token {
+  id Int @id @default(autoincrement())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique @map("user_id") @db.Uuid
+
+  token     String
+  type      EnumTokenTypes
+  expiresIn DateTime       @map("expires_in")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("tokens")
+}

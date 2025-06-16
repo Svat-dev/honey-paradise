@@ -2,7 +2,14 @@
 	"emails": {
 		"confirmation": {
 			"subject": "Email confirmation",
-			"content": {}
+			"content": {
+				"heading": "Confirm your email address",
+				"greeting": "Hello, {username}!",
+				"code": "Here is your email confirmation code:",
+				"codeLifetime": "This code is valid for only 30 minutes.",
+				"farewell": "Sincerely, Honey Paradise team",
+				"noReply": "Do not reply to this email. It was sent by a robot"
+			}
 		}
 	}
 }
