@@ -44,8 +44,6 @@ export class AccountController {
 	@HttpCode(200)
 	@Post("email/verify")
 	verifyEmail(@Body() dto: EmailVerifyDto, @Req() req: Request, @UserAgent() userAgent: string) {
-		const { token } = dto;
-
-		return this.verificationService.verifyEmail(req, token, userAgent);
+		return this.verificationService.verifyEmail(req, dto, userAgent);
 	}
 }

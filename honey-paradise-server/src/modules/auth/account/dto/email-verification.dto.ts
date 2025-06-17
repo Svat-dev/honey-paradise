@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, Length } from "class-validator";
+import { IsBoolean, IsEmail, IsNotEmpty, IsOptional, IsString, Length } from "class-validator";
 
 export class EmailVerificationDto {
 	@IsNotEmpty({ message: "" })
@@ -12,4 +12,8 @@ export class EmailVerifyDto {
 	@IsString({ message: "" })
 	@Length(6, 6, { message: "" })
 	token: string;
+
+	@IsBoolean({ message: "" })
+	@IsOptional({ message: "" })
+	isNeedAuth?: boolean;
 }

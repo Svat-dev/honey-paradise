@@ -11,6 +11,7 @@ import { ms } from "src/shared/lib/common/utils";
 import { getSessionMetadata } from "src/shared/lib/common/utils/session-metadat.util";
 import { saveSession } from "src/shared/lib/common/utils/session.util";
 import { v4 as uuidv4 } from "uuid";
+import type { EmailVerifyDto } from "../account/dto/email-verification.dto";
 import { ProfileService } from "../profile/profile.service";
 
 @Injectable()
@@ -21,7 +22,9 @@ export class VerificationService {
 		private readonly userService: ProfileService
 	) {}
 
-	async verifyEmail(req: Request, token: string, userAgent: string) {
+	async verifyEmail(req: Request, dto: EmailVerifyDto, userAgent: string) {
+		const { token, isNeedAuth } = dto;
+
 		const existingToken = await this.prisma.token.findFirst({
 			where: {
 				token,
@@ -40,9 +43,12 @@ export class VerificationService {
 			},
 		});
 
-		const metadata = getSessionMetadata(req, userAgent);
+		if (!isNeedAuth) return true;
 
-		return saveSession(req, user, metadata);
+		const metadata = getSessionMetadata(req, userAgent);
+		await saveSession(req, user, metadata);
+
+		return true;
 	}
 
 	async sendVerificationEmail(email: string) {
@@ -68,7 +74,9 @@ export class VerificationService {
 			},
 		});
 
-		return this.mailService.sendConfirmationMail(user.email, token, user.username);
+		await this.mailService.sendConfirmationMail(user.email, token, user.username);
+
+		return true;
 	}
 
 	private async validateToken(token: Token) {

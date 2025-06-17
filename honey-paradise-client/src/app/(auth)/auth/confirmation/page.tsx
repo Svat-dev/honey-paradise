@@ -32,7 +32,7 @@ export async function generateMetadata(props: IProps): Promise<Metadata> {
 const ConfirmationPage: NextPage<IProps> = async props => {
 	const searchParams = await props.searchParams;
 
-	return <Confirmation type={searchParams.type as EnumConfirmationTypes} />;
+	return <Confirmation searchParams={searchParams} />;
 };
 
 export default ConfirmationPage;

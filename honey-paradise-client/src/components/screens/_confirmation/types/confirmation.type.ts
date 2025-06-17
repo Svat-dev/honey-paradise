@@ -1,1 +1,1 @@
-export type TDataStatus = "default" | "loading" | "success" | "error";
+export type TDataStatus = "default" | "loading" | "good" | "error";

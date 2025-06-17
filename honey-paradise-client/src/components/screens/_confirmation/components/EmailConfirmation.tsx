@@ -11,7 +11,7 @@ import { useEmailConfirmation } from "../hooks/useEmailConfirmation";
 import styles from "../styles/email-confirmation.module.scss";
 
 const EmailConfirmation = () => {
-	const { dataStatus, t, confirmationForm, onSubmit, limit, cooldown, refreshCode } = useEmailConfirmation();
+	const { dataStatus, t, confirmationForm, onSubmit, limit, cooldown, refreshCode, isLoading } = useEmailConfirmation();
 
 	return (
 		<section data-status={dataStatus} className={cn(_styles["wrapper"], styles["wrapper"])}>
@@ -21,11 +21,11 @@ const EmailConfirmation = () => {
 				<form className={_styles["form"]} onSubmit={onSubmit}>
 					<div className={styles["title-wrapper"]}>
 						<div>
-							<Title size="lg">{"Подтверждение почты"}</Title>
-							<p>{"Вы почти создали свой аккаунт. Осталось только подтвердить вашу почту. Мы отправили код на указанную эл. почту"}</p>
+							<Title size="lg">{t("email.title")}</Title>
+							<p>{t("email.description")}</p>
 						</div>
 
-						<Image src="/assets/pincode-entering-icon.png" alt="" width={80} height={80} priority />
+						<Image src="/assets/pincode-entering-icon.png" alt={""} width={80} height={80} priority />
 					</div>
 
 					<FormInput
@@ -38,16 +38,16 @@ const EmailConfirmation = () => {
 					/>
 
 					<Checkbox containerClassName={styles["checkbox-wrapper"]} {...confirmationForm.register("signInAfter")}>
-						{"Войти в аккаунт после подтверждения"}
+						{t("email.signInAfter")}
 					</Checkbox>
 
 					<div className={styles["actions-wrapper"]}>
-						<Button variant="secondary" disabled={cooldown !== 0} onClick={refreshCode}>
-							{cooldown === 0 ? "Запросить новый код" : `Запросить новый код - ${cooldown} сек.`}
+						<Button variant="secondary" disabled={cooldown !== 0} onClick={refreshCode} isLoading={isLoading && cooldown !== 0}>
+							{cooldown === 0 ? t("email.actions.resendBtn") : t("email.actions.resendBtnWithCooldown", { cooldown })}
 						</Button>
 
-						<Button variant="secondary" type="submit">
-							Подтвердить
+						<Button variant="secondary" title={t("email.labels.submitBtn")} isLoading={isLoading} type="submit">
+							{t("email.actions.submitBtn")}
 						</Button>
 					</div>
 				</form>

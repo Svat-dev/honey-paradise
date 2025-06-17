@@ -12,6 +12,9 @@ export enum EnumApiRoute {
 	ACCOUNT = `${AUTH}/account`,
 	MY_ACCOUNT = `${ACCOUNT}/me`,
 	CREATE_ACCOUNT = `${ACCOUNT}/create`,
+	ACCOUNT_EMAIL = `${ACCOUNT}/email`,
+	SEND_EMAIL_VERIFICATION_CODE = `${ACCOUNT_EMAIL}/send-code`,
+	VERIFY_EMAIL = `${ACCOUNT_EMAIL}/verify`,
 
 	PROFILE = `/profile`,
 }

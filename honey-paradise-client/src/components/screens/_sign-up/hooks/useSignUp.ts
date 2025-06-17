@@ -5,9 +5,10 @@ import { useCreateAccountS } from "@/services/hooks/auth";
 import { EnumAppRoute } from "@/shared/lib/constants/routes";
 import type { TSearchParams } from "@/shared/types/base.type";
 import { EnumGenders } from "@/shared/types/models";
-import { EnumErrorMsgCodes } from "@constants/base";
+import { EnumErrorMsgCodes, EnumStorageTokens } from "@constants/base";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { AxiosError } from "axios";
+import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/dist/client/components/navigation";
 import { useRef, useState } from "react";
@@ -104,10 +105,11 @@ export const useSignUp = (searchParams: TSearchParams) => {
 
 			setDataStatus("good");
 			toast.success(t("toasters.success"));
+			Cookies.set(EnumStorageTokens.CURRENT_EMAIL, _data.email);
 
 			return setTimeout(() => {
 				setDataStatus("default");
-				replace(EnumAppRoute.INDEX);
+				replace(EnumAppRoute.EMAIL_CONFIRMATION);
 			}, 2000);
 		} catch (err) {
 			const { msgCode } = errorCatch(err as AxiosError);

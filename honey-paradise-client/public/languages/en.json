@@ -242,7 +242,7 @@
 					"birthdate": "Click to select a date"
 				},
 				"toasters": {
-					"success": "Account successfully created!",
+					"success": "Account successfully created! Now confirm it",
 					"error": "Failed to create an account. {e}"
 				}
 			}
@@ -256,7 +256,22 @@
 				"email": "Email confirmation page in the online store {title}",
 				"2fa": "Sign in confirmation page in the online store {title}"
 			},
-			"content": {}
+			"content": {
+				"email": {
+					"title": "Email confirmation",
+					"description": "You have almost created your account. All that remains is to confirm your email. We have sent the code to the specified email address",
+					"signInAfter": "Sign in after verification",
+					"actions": {
+						"resendBtn": "Request a new code",
+						"resendBtnWithCooldown": "Request a new code - {cooldown} sec.",
+						"submitBtn": "Verify"
+					},
+					"labels": {
+						"submitBtn": "Verify an email"
+					}
+				},
+				"2fa": {}
+			}
 		}
 	},
 	"layout": {
