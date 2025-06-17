@@ -3,12 +3,14 @@
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 
 import { cn } from "@utils/base";
-import { Circle } from "lucide-react";
+import { CircleIcon } from "lucide-react";
 import { type ComponentPropsWithoutRef, type ComponentRef, forwardRef } from "react";
+
+import styles from "./styles/radio-group.module.scss";
 
 const RadioGroup = forwardRef<ComponentRef<typeof RadioGroupPrimitive.Root>, ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>>(
 	({ className, ...props }, ref) => {
-		return <RadioGroupPrimitive.Root className={cn("tw-grid tw-gap-2", className)} {...props} ref={ref} />;
+		return <RadioGroupPrimitive.Root className={cn(styles["radio-group-ui"], className)} {...props} ref={ref} />;
 	}
 );
 RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
@@ -16,16 +18,9 @@ RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
 const RadioGroupItem = forwardRef<ComponentRef<typeof RadioGroupPrimitive.Item>, ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>>(
 	({ className, ...props }, ref) => {
 		return (
-			<RadioGroupPrimitive.Item
-				ref={ref}
-				className={cn(
-					"tw-relative tw-aspect-square tw-h-4 tw-w-4 tw-rounded-full tw-border tw-border-black tw-bg-secondary tw-shadow focus:tw-outline-none focus-visible:tw-ring-1 focus-visible:tw-ring-ring disabled:tw-cursor-not-allowed disabled:tw-opacity-50",
-					className
-				)}
-				{...props}
-			>
-				<RadioGroupPrimitive.Indicator className="tw-absolute tw-top-1/2 tw-left-1/2 -tw-translate-y-1/2 -tw-translate-x-1/2 tw-opacity-0 tw-animate-show-effect tw-duration-200">
-					<Circle className="tw-h-3 tw-w-3 tw-fill-black" />
+			<RadioGroupPrimitive.Item ref={ref} className={cn(styles["radio-group-item-ui"], className)} {...props}>
+				<RadioGroupPrimitive.Indicator className={styles["radio-group-item-indicator-ui"]}>
+					<CircleIcon />
 				</RadioGroupPrimitive.Indicator>
 			</RadioGroupPrimitive.Item>
 		);

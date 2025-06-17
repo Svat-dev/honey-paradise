@@ -4,6 +4,7 @@ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 
 import { cn } from "@utils/base";
 import { type ComponentPropsWithoutRef, type ComponentRef, forwardRef, type HTMLAttributes } from "react";
+import styles from "./styles/dropdown-menu.module.scss";
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
 
@@ -22,8 +23,8 @@ const DropdownMenuContent = forwardRef<
 			ref={ref}
 			sideOffset={sideOffset}
 			className={cn(
-				"tw-z-50 tw-max-h-[var(--radix-dropdown-menu-content-available-height)] tw-min-w-[8rem] tw-overflow-y-auto tw-overflow-x-hidden tw-rounded-md tw-border tw-border-muted tw-bg-popover tw-p-1 tw-text-popover-foreground tw-shadow-md",
-				"data-[state=open]:tw-animate-in data-[state=closed]:tw-animate-out data-[state=closed]:tw-fade-out-0 data-[state=open]:tw-fade-in-0 data-[state=closed]:tw-zoom-out-95 data-[state=open]:tw-zoom-in-95 data-[side=bottom]:tw-slide-in-from-top-2 data-[side=left]:tw-slide-in-from-right-2 data-[side=right]:tw-slide-in-from-left-2 data-[side=top]:tw-slide-in-from-bottom-2 tw-origin-[--radix-dropdown-menu-content-transform-origin]",
+				styles["dropdown-menu-content-ui"],
+				"data-[state=open]:tw-animate-in data-[state=closed]:tw-animate-out data-[state=closed]:tw-fade-out-0 data-[state=open]:tw-fade-in-0 data-[state=closed]:tw-zoom-out-95 data-[state=open]:tw-zoom-in-95",
 				className
 			)}
 			{...props}
@@ -38,20 +39,12 @@ const DropdownMenuItem = forwardRef<
 		inset?: boolean;
 	}
 >(({ className, inset, ...props }, ref) => (
-	<DropdownMenuPrimitive.Item
-		ref={ref}
-		className={cn(
-			"tw-flex tw-cursor-pointer tw-select-none tw-items-center tw-gap-2 tw-rounded-sm tw-px-2 tw-py-1.5 tw-text-sm tw-outline-none data-[disabled]:tw-pointer-events-none data-[disabled]:tw-opacity-50 [&>svg]:tw-size-4 [&>svg]:tw-shrink-0",
-			inset && "tw-pl-8",
-			className
-		)}
-		{...props}
-	/>
+	<DropdownMenuPrimitive.Item ref={ref} className={cn(styles["dropdown-menu-item-ui"], inset && "tw-pl-8", className)} {...props} />
 ));
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
 
 const DropdownMenuShortcut = ({ className, ...props }: HTMLAttributes<HTMLSpanElement>) => {
-	return <span className={cn("tw-ml-auto tw-text-xs tw-tracking-widest tw-opacity-60", className)} {...props} />;
+	return <span className={cn(styles["dropdown-menu-shortcut-ui"], className)} {...props} />;
 };
 DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
 
@@ -61,11 +54,7 @@ const DropdownMenuLabel = forwardRef<
 		inset?: boolean;
 	}
 >(({ className, inset, ...props }, ref) => (
-	<DropdownMenuPrimitive.Label
-		ref={ref}
-		className={cn("tw-px-2 tw-py-1.5 tw-text-sm tw-font-semibold", inset && "tw-pl-8", className)}
-		{...props}
-	/>
+	<DropdownMenuPrimitive.Label ref={ref} className={cn(styles["dropdown-menu-label-ui"], inset && "tw-pl-8", className)} {...props} />
 ));
 DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
 

@@ -1,0 +1,43 @@
+.input-otp-ui {
+	@apply tw-relative;
+
+	&:disabled {
+		@apply tw-cursor-not-allowed;
+	}
+}
+
+.input-otp-ui-container {
+	@apply tw-flex tw-items-center tw-gap-2;
+
+	&:has(:disabled) {
+		@apply tw-opacity-50;
+	}
+}
+
+.input-otp-group-ui {
+	@apply tw-flex tw-items-center;
+}
+
+.input-otp-slot-ui {
+	@apply tw-relative tw-bg-secondary tw-flex tw-h-9 tw-w-9 tw-items-center tw-justify-center tw-border-y tw-border-r tw-border-muted tw-text-sm tw-shadow-sm tw-transition-all;
+
+	&:first-child {
+		@apply tw-rounded-l-md tw-border-l;
+	}
+
+	&:last-child {
+		@apply tw-rounded-r-md;
+	}
+}
+
+.input-otp-slot-ui-active {
+	@apply tw-z-10 tw-ring-1 tw-ring-muted-darker;
+}
+
+.input-otp-slot-caret-ui {
+	@apply tw-h-5 tw-w-px tw-bg-muted tw-animate-caret-blink;
+}
+
+.input-otp-slot-caret-container-ui {
+	@apply tw-pointer-events-none tw-absolute tw-inset-0 tw-flex tw-items-center tw-justify-center;
+}

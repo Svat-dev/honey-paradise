@@ -2,6 +2,7 @@ import * as SeparatorPrimitive from "@radix-ui/react-separator";
 
 import { cn } from "@utils/base";
 import type { FC } from "react";
+import styles from "./styles/separator.module.scss";
 
 type TSeparator = SeparatorPrimitive.SeparatorProps;
 
@@ -10,8 +11,8 @@ const Separator: FC<TSeparator> = ({ className, orientation = "horizontal", deco
 		decorative={decorative}
 		orientation={orientation}
 		className={cn(
-			"tw-shrink-0 tw-bg-black tw-bg-opacity-40",
-			orientation === "horizontal" ? "tw-h-[1px] tw-w-full" : "tw-h-full tw-w-[1px]",
+			styles["separator-ui"],
+			orientation === "horizontal" ? styles["separator-ui-horizontal"] : styles["separator-ui-vertical"],
 			className
 		)}
 		{...props}

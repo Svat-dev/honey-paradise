@@ -5,13 +5,14 @@ import { ComponentPropsWithoutRef, ComponentRef, forwardRef, useContext } from "
 
 import { cn } from "@utils/base";
 import { MinusIcon } from "lucide-react";
+import styles from "./styles/input-otp.module.scss";
 
 const InputOTP = forwardRef<ComponentRef<typeof OTPInput>, ComponentPropsWithoutRef<typeof OTPInput>>(
 	({ className, containerClassName, ...props }, ref) => (
 		<OTPInput
 			ref={ref}
-			containerClassName={cn("tw-flex tw-items-center tw-gap-2 has-[:disabled]:tw-opacity-50", containerClassName)}
-			className={cn("disabled:tw-cursor-not-allowed", className)}
+			className={cn(styles["input-otp-ui"], className)}
+			containerClassName={cn(styles["input-otp-ui-container"], containerClassName)}
 			{...props}
 		/>
 	)
@@ -19,7 +20,7 @@ const InputOTP = forwardRef<ComponentRef<typeof OTPInput>, ComponentPropsWithout
 InputOTP.displayName = "InputOTP";
 
 const InputOTPGroup = forwardRef<ComponentRef<"div">, ComponentPropsWithoutRef<"div">>(({ className, ...props }, ref) => (
-	<div ref={ref} className={cn("tw-flex tw-items-center", className)} {...props} />
+	<div ref={ref} className={cn(styles["input-otp-group-ui"], className)} {...props} />
 ));
 InputOTPGroup.displayName = "InputOTPGroup";
 
@@ -29,19 +30,11 @@ const InputOTPSlot = forwardRef<ComponentRef<"div">, ComponentPropsWithoutRef<"d
 		const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index];
 
 		return (
-			<div
-				ref={ref}
-				className={cn(
-					"tw-relative tw-bg-secondary tw-flex tw-h-9 tw-w-9 tw-items-center tw-justify-center tw-border-y tw-border-r tw-border-muted tw-text-sm tw-shadow-sm tw-transition-all first:tw-rounded-l-md first:tw-border-l last:tw-rounded-r-md",
-					isActive && "tw-z-10 tw-ring-1 tw-ring-muted-darker",
-					className
-				)}
-				{...props}
-			>
+			<div ref={ref} className={cn(styles["input-otp-slot-ui"], isActive && styles["input-otp-slot-ui-active"], className)} {...props}>
 				{char}
 				{hasFakeCaret && (
-					<div className="tw-pointer-events-none tw-absolute tw-inset-0 tw-flex tw-items-center tw-justify-center">
-						<div className={cn("tw-h-5 tw-w-px tw-bg-muted tw-animate-caret-blink", caretClassName)} />
+					<div className={styles["input-otp-slot-caret-container-ui"]}>
+						<div className={cn(styles["input-otp-slot-caret-ui"], caretClassName)} />
 					</div>
 				)}
 			</div>

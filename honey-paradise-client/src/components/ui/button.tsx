@@ -5,23 +5,22 @@ import { cn } from "@utils/base";
 import { Loader2Icon } from "lucide-react";
 import { type ButtonHTMLAttributes, forwardRef } from "react";
 
-const buttonVariants = cva(
-	"tw-relative tw-inline-flex tw-items-center tw-justify-center tw-whitespace-nowrap tw-rounded-md tw-text-sm tw-font-medium tw-transition-all tw-will-change-auto focus-visible:tw-outline-none focus-visible:tw-ring-1 focus-visible:tw-ring-ring disabled:tw-pointer-events-none disabled:tw-opacity-50 [&_svg]:tw-pointer-events-none",
-	{
-		variants: {
-			variant: {
-				default: "tw-bg-primary tw-text-primary-foreground tw-shadow hover:tw-bg-primary/90",
-				outline: "tw-border tw-border-black tw-text-black tw-py-1.5 tw-px-2 tw-gap-1 hover:tw-bg-secondary/40",
-				secondary: "tw-bg-secondary tw-text-secondary-foreground tw-shadow-sm hover:tw-bg-secondary/80", // тут закончил
-				ghost: "hover:tw-bg-accent hover:tw-text-accent-foreground",
-				link: "tw-text-primary tw-underline-offset-4 hover:tw-underline",
-			},
+import styles from "./styles/button.module.scss";
+
+const buttonVariants = cva(styles["button-ui"], {
+	variants: {
+		variant: {
+			default: styles["button-ui-default"],
+			outline: styles["button-ui-outline"],
+			secondary: styles["button-ui-secondary"],
+			ghost: styles["button-ui-ghost"],
+			link: styles["button-ui-link"],
 		},
-		defaultVariants: {
-			variant: "default",
-		},
-	}
-);
+	},
+	defaultVariants: {
+		variant: "default",
+	},
+});
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
 	asChild?: boolean;
@@ -33,7 +32,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ className, variant,
 
 	return (
 		<Comp className={cn(buttonVariants({ variant, className }))} type="button" ref={ref} disabled={isLoading || props.disabled} {...props}>
-			{!isLoading ? children : <Loader2Icon className="tw-w-5 tw-h-5 tw-animate-spin" />}
+			{!isLoading ? children : <Loader2Icon className={styles["button-ui-loader"]} />}
 		</Comp>
 	);
 });
