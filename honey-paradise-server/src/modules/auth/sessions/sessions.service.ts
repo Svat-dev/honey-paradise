@@ -7,6 +7,7 @@ import { UnauthorizedException } from "@nestjs/common/exceptions/unauthorized.ex
 import { ConfigService } from "@nestjs/config/dist/config.service";
 import { verify } from "argon2";
 import type { Request } from "express";
+import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { RedisService } from "src/core/redis/redis.service";
 import { getSessionMetadata } from "src/shared/lib/common/utils/session-metadat.util";
@@ -18,7 +19,8 @@ export class SessionsService {
 	constructor(
 		private readonly prisma: PrismaService,
 		private readonly configService: ConfigService,
-		private readonly redisService: RedisService
+		private readonly redisService: RedisService,
+		private readonly i18n: I18nService
 	) {}
 
 	async findByUser(req: Request) {
@@ -84,12 +86,12 @@ export class SessionsService {
 			select: userServerOutput,
 		});
 
-		if (!user) throw new NotFoundException("account_not_found");
+		if (!user) throw new NotFoundException(this.i18n.t("d.errors.account_not_found"));
 
 		const { password, ..._user } = user;
 		const isValidPassword = await verify(user.password, dto.password);
 
-		if (!isValidPassword) throw new UnauthorizedException("invalid_password");
+		if (!isValidPassword) throw new UnauthorizedException(this.i18n.t("d.errors.invalid_password"));
 
 		const metadata = getSessionMetadata(req, userAgent);
 

@@ -2,7 +2,6 @@ import { type TSignInFields, createSignInSchema } from "@schemas/sign-in.schema"
 
 import { errorCatch } from "@/api/api-helper";
 import { useSignInS } from "@/services/hooks/auth";
-import { EnumErrorMsgCodes } from "@/shared/lib/constants/base";
 import { EnumAppRoute } from "@/shared/lib/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "@hooks/auth";
@@ -19,7 +18,6 @@ import type { TDataStatus } from "../_sign-up/types/sign-up.type";
 
 export const useSignIn = () => {
 	const { locale } = useLanguage();
-	const et = useTranslations("server.errors");
 	const t = useTranslations("global.sign-in.content");
 
 	const { auth } = useAuth();
@@ -83,12 +81,9 @@ export const useSignIn = () => {
 				replace(EnumAppRoute.INDEX);
 			}, 2000);
 		} catch (err) {
-			const { msgCode } = errorCatch(err as AxiosError);
-
-			if (msgCode === EnumErrorMsgCodes.SERVER_ERROR) et("500");
-
-			const errMsg = et(msgCode);
+			const { errMsg } = errorCatch(err as AxiosError);
 			const msg = t("toasters.error", { e: errMsg });
+
 			return onError(msg);
 		}
 	};

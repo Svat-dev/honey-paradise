@@ -5,7 +5,7 @@ import { useCreateAccountS } from "@/services/hooks/auth";
 import { EnumAppRoute } from "@/shared/lib/constants/routes";
 import type { TSearchParams } from "@/shared/types/base.type";
 import { EnumGenders } from "@/shared/types/models";
-import { EnumErrorMsgCodes, EnumStorageTokens } from "@constants/base";
+import { EnumStorageTokens } from "@constants/base";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { AxiosError } from "axios";
 import Cookies from "js-cookie";
@@ -19,7 +19,6 @@ import type { IIsActive, TCurrentPart, TDataStatus } from "../types/sign-up.type
 
 export const useSignUp = (searchParams: TSearchParams) => {
 	const t = useTranslations("global.sign-up.content");
-	const et = useTranslations("server.errors");
 
 	const { push, replace } = useRouter();
 	const { createAcc, isCreateAccLoading } = useCreateAccountS();
@@ -112,11 +111,7 @@ export const useSignUp = (searchParams: TSearchParams) => {
 				replace(EnumAppRoute.EMAIL_CONFIRMATION);
 			}, 2000);
 		} catch (err) {
-			const { msgCode } = errorCatch(err as AxiosError);
-
-			if (msgCode === EnumErrorMsgCodes.SERVER_ERROR) et("500");
-
-			const errMsg = et(msgCode);
+			const { errMsg } = errorCatch(err as AxiosError);
 			const msg = t("toasters.error", { e: errMsg });
 			return onError(msg);
 		}
