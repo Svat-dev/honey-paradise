@@ -1,9 +1,9 @@
 import { Controller } from "@nestjs/common/decorators/core/controller.decorator";
 import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
 import { Get, Post } from "@nestjs/common/decorators/http/request-mapping.decorator";
-import { Body, Req } from "@nestjs/common/decorators/http/route-params.decorator";
+import { Body, Req, Res } from "@nestjs/common/decorators/http/route-params.decorator";
 import { Recaptcha } from "@nestlab/google-recaptcha/decorators/recaptcha";
-import { Request } from "express";
+import type { Request, Response } from "express";
 import { Authorization } from "src/shared/decorators/auth.decorator";
 import { Authorized } from "src/shared/decorators/authorized.decorator";
 import { UserAgent } from "src/shared/decorators/user-agent.decorator";
@@ -22,8 +22,8 @@ export class AccountController {
 	@HttpCode(200)
 	@Recaptcha()
 	@Post("create")
-	createAccount(@Body() dto: CreateUserDto) {
-		return this.accountService.create(dto);
+	createAccount(@Body() dto: CreateUserDto, @Res({ passthrough: true }) res: Response) {
+		return this.accountService.create(dto, res);
 	}
 
 	@HttpCode(200)

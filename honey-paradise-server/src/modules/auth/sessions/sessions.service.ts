@@ -1,3 +1,4 @@
+import type { Request, Response } from "express";
 import { destroySession, saveSession } from "src/shared/lib/common/utils/session.util";
 
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
@@ -6,12 +7,13 @@ import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception
 import { UnauthorizedException } from "@nestjs/common/exceptions/unauthorized.exception";
 import { ConfigService } from "@nestjs/config/dist/config.service";
 import { verify } from "argon2";
-import type { Request } from "express";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { RedisService } from "src/core/redis/redis.service";
+import { ms } from "src/shared/lib/common/utils";
 import { getSessionMetadata } from "src/shared/lib/common/utils/session-metadat.util";
 import { userServerOutput } from "src/shared/lib/prisma/outputs/user.output";
+import { VerificationService } from "../verification/verification.service";
 import type { AuthLoginDto } from "./dto/auth-login.dto";
 
 @Injectable()
@@ -20,7 +22,8 @@ export class SessionsService {
 		private readonly prisma: PrismaService,
 		private readonly configService: ConfigService,
 		private readonly redisService: RedisService,
-		private readonly i18n: I18nService
+		private readonly i18n: I18nService,
+		private readonly verificationService: VerificationService
 	) {}
 
 	async findByUser(req: Request) {
@@ -76,7 +79,7 @@ export class SessionsService {
 		return true;
 	}
 
-	async login(dto: AuthLoginDto, req: Request, userAgent: string) {
+	async login(dto: AuthLoginDto, req: Request, res: Response, userAgent: string) {
 		const { id } = dto;
 
 		const user = await this.prisma.user.findFirst({
@@ -93,8 +96,20 @@ export class SessionsService {
 
 		if (!isValidPassword) throw new UnauthorizedException(this.i18n.t("d.errors.invalid_password"));
 
-		const metadata = getSessionMetadata(req, userAgent);
+		if (!user.isVerified) {
+			await this.verificationService.sendVerificationEmail(user.email);
 
+			res.cookie("HONEY_PARADISE_CURRENT_EMAIL", user.email, {
+				sameSite: "lax",
+				maxAge: ms("6h"),
+				domain: "localhost",
+				path: "/auth/confirmation",
+			});
+
+			throw new UnauthorizedException(this.i18n.t("d.errors.account_not_verified"), { cause: "account_not_verified" });
+		}
+
+		const metadata = getSessionMetadata(req, userAgent);
 		return saveSession(req, _user, metadata, this.i18n);
 	}
 

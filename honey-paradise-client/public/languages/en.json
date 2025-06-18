@@ -259,7 +259,10 @@
 			"content": {
 				"email": {
 					"title": "Email confirmation",
-					"description": "You have almost created your account. All that remains is to confirm your email. We have sent the code to the specified email address",
+					"description": {
+						"default": "You have almost created your account. All that remains is to confirm your email. We have sent the code to the specified email address",
+						"notVerified": "Confirm your account to sign in to your account. We have sent the code to your email."
+					},
 					"signInAfter": "Sign in after verification",
 					"actions": {
 						"resendBtn": "Request a new code",

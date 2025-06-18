@@ -5,10 +5,8 @@ import { useCreateAccountS } from "@/services/hooks/auth";
 import { EnumAppRoute } from "@/shared/lib/constants/routes";
 import type { TSearchParams } from "@/shared/types/base.type";
 import { EnumGenders } from "@/shared/types/models";
-import { EnumStorageTokens } from "@constants/base";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { AxiosError } from "axios";
-import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/dist/client/components/navigation";
 import { useRef, useState } from "react";
@@ -82,7 +80,7 @@ export const useSignUp = (searchParams: TSearchParams) => {
 
 	const onError = (msg: string) => {
 		setDataStatus("error");
-		toast.error(msg, { duration: errorDelay, style: { width: "100%", maxWidth: "25rem" } });
+		toast.error(msg, { duration: errorDelay, style: { maxWidth: "25rem" } });
 
 		return setTimeout(() => {
 			setDataStatus("default");
@@ -105,7 +103,6 @@ export const useSignUp = (searchParams: TSearchParams) => {
 
 			setDataStatus("good");
 			toast.success(t("toasters.success"));
-			Cookies.set(EnumStorageTokens.CURRENT_EMAIL, _data.email);
 
 			return setTimeout(() => {
 				setDataStatus("default");

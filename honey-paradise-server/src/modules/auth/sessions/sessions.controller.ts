@@ -1,9 +1,9 @@
 import { Controller } from "@nestjs/common/decorators/core/controller.decorator";
 import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
 import { Get, Post } from "@nestjs/common/decorators/http/request-mapping.decorator";
-import { Body, Req } from "@nestjs/common/decorators/http/route-params.decorator";
+import { Body, Req, Res } from "@nestjs/common/decorators/http/route-params.decorator";
 import { Recaptcha } from "@nestlab/google-recaptcha";
-import type { Request } from "express";
+import type { Request, Response } from "express";
 import { Authorization } from "src/shared/decorators/auth.decorator";
 import { UserAgent } from "src/shared/decorators/user-agent.decorator";
 import { AuthLoginDto } from "./dto/auth-login.dto";
@@ -37,8 +37,8 @@ export class SessionsController {
 	@HttpCode(200)
 	@Recaptcha()
 	@Post("sign-in")
-	login(@Body() dto: AuthLoginDto, @Req() req: Request, @UserAgent() userAgent: string) {
-		return this.sessionsService.login(dto, req, userAgent);
+	login(@Body() dto: AuthLoginDto, @Req() req: Request, @Res({ passthrough: true }) res: Response, @UserAgent() userAgent: string) {
+		return this.sessionsService.login(dto, req, res, userAgent);
 	}
 
 	@HttpCode(200)

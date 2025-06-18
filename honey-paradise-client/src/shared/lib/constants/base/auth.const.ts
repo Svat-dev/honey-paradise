@@ -4,3 +4,8 @@ export const VALUES = {
 	MAX_ID_LENGTH: 15,
 	MIN_ID_LENGTH: 3,
 } as const;
+
+export const errorCauses = {
+	ACCOUNT_NOT_VERIFIED: "account_not_verified",
+	VERIFICATION_TOKEN_EXPIRED: "has_expired",
+} as const;

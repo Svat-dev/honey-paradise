@@ -21,6 +21,7 @@
 		"auth_to_have_access": "To access this resource, you must be logged in",
 		"invalid_code": "You entered the wrong code.\nPlease check the correctness of the input",
 		"code_expired": "This code has expired.\nTry requesting a new code",
+		"account_not_verified": "You have unverified account!\nTo continue, please, verify it now",
 		"500": {
 			"default": "Server error 500.\nRepeat the request later",
 			"cant_send_email": "Couldn't send email, try again later",

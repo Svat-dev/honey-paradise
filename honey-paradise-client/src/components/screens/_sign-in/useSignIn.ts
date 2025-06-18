@@ -2,14 +2,15 @@ import { type TSignInFields, createSignInSchema } from "@schemas/sign-in.schema"
 
 import { errorCatch } from "@/api/api-helper";
 import { useSignInS } from "@/services/hooks/auth";
-import { EnumAppRoute } from "@/shared/lib/constants/routes";
+import { errorCauses } from "@constants/base";
+import { EnumAppRoute } from "@constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "@hooks/auth";
 import { useTheme } from "@hooks/useTheme";
 import { useLanguage } from "@i18n/hooks";
 import { AxiosError } from "axios";
 import { useRouter } from "next/dist/client/components/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -24,7 +25,7 @@ export const useSignIn = () => {
 	const { auth } = useAuth();
 	const { replace } = useRouter();
 	const { theme } = useTheme();
-	const { isSignInLoading, signIn, isSignedIn } = useSignInS();
+	const { isSignInLoading, signIn } = useSignInS();
 
 	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
 	const [error, setError] = useState<boolean>(false);
@@ -50,7 +51,7 @@ export const useSignIn = () => {
 
 	const onError = (msg: string) => {
 		setDataStatus("error");
-		toast.error(msg, { duration: errorDelay, style: { width: "100%", maxWidth: "25rem" } });
+		toast.error(msg, { duration: errorDelay, style: { maxWidth: "25rem" } });
 
 		return setTimeout(() => {
 			setDataStatus("default");
@@ -79,12 +80,22 @@ export const useSignIn = () => {
 				replace(EnumAppRoute.INDEX);
 			}, 2000);
 		} catch (err) {
-			const { errMsg } = errorCatch(err as AxiosError);
-			const msg = t("toasters.error", { e: errMsg });
+			const { errMsg, errCause, error } = errorCatch(err as AxiosError);
+			console.log(error);
 
-			return onError(msg);
+			if (errCause === errorCauses.ACCOUNT_NOT_VERIFIED) {
+				onError(errMsg);
+				return setTimeout(() => replace(`${EnumAppRoute.EMAIL_CONFIRMATION}&utm_source=${EnumAppRoute.SIGN_IN}`), 2500);
+			} else {
+				const msg = t("toasters.error", { e: errMsg });
+				return onError(msg);
+			}
 		}
 	};
+
+	useEffect(() => {
+		if (dataStatus === "error" && recaptchaValue) setDataStatus("default");
+	}, [recaptchaValue]);
 
 	return {
 		t,

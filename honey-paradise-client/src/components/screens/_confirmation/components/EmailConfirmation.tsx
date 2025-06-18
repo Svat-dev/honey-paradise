@@ -2,6 +2,8 @@
 
 import { Button, Checkbox, Title } from "@/components/ui";
 
+import { EnumAppRoute } from "@/shared/lib/constants/routes";
+import type { FC } from "react";
 import { FormInput } from "@/components/ui/form-input";
 import { FormProvider } from "react-hook-form";
 import Image from "next/image";
@@ -10,19 +12,30 @@ import { cn } from "@utils/base";
 import styles from "../styles/email-confirmation.module.scss";
 import { useEmailConfirmation } from "../hooks/useEmailConfirmation";
 
-const EmailConfirmation = () => {
-	const { dataStatus, t, confirmationForm, onSubmit, limit, cooldown, refreshCode, isLoading } = useEmailConfirmation();
+interface IEmailConfirmation {
+	utm_source?: EnumAppRoute;
+}
+
+const EmailConfirmation: FC<IEmailConfirmation> = ({ utm_source }) => {
+	const { dataStatus, t, confirmationForm, onSubmit, limit, cooldown, refreshCode, isLoading, isFromSignIn } =
+		useEmailConfirmation(utm_source);
 
 	return (
-		<section data-status={dataStatus} className={cn(_styles["wrapper"], styles["wrapper"])}>
-			<span data-status={dataStatus} className={cn(_styles["border-line"], styles["border-line"])} />
+		<section
+			data-status={dataStatus}
+			className={cn(_styles["wrapper"], styles["wrapper"], { "!tw-h-[21rem] before:!tw-h-[21rem] after:!tw-h-[21rem]": isFromSignIn })}
+		>
+			<span
+				data-status={dataStatus}
+				className={cn(_styles["border-line"], styles["border-line"], { "before:!tw-h-[21rem] after:!tw-h-[21rem]": isFromSignIn })}
+			/>
 
 			<FormProvider {...confirmationForm}>
 				<form className={_styles["form"]} onSubmit={onSubmit}>
 					<div className={styles["title-wrapper"]}>
 						<div>
 							<Title size="lg">{t("email.title")}</Title>
-							<p>{t("email.description")}</p>
+							<p>{isFromSignIn ? t("email.description.notVerified") : t("email.description.default")}</p>
 						</div>
 
 						<Image src="/assets/pincode-entering-icon.png" alt={""} width={80} height={80} priority />
@@ -37,9 +50,11 @@ const EmailConfirmation = () => {
 						className={styles["form-input-slot"]}
 					/>
 
-					<Checkbox containerClassName={styles["checkbox-wrapper"]} {...confirmationForm.register("signInAfter")}>
-						{t("email.signInAfter")}
-					</Checkbox>
+					{!isFromSignIn && (
+						<Checkbox containerClassName={styles["checkbox-wrapper"]} {...confirmationForm.register("signInAfter")}>
+							{t("email.signInAfter")}
+						</Checkbox>
+					)}
 
 					<div className={styles["actions-wrapper"]}>
 						<Button variant="secondary" disabled={cooldown !== 0} onClick={refreshCode} isLoading={isLoading && cooldown !== 0}>

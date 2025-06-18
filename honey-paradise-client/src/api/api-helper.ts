@@ -10,6 +10,7 @@ export const errorCatch: TErrorCatchFunction = _error => {
 	const txt = error.response?.data.error as string;
 
 	const errMsg = typeof messages !== "string" ? messages?.[0] : messages;
+	const errCause = error.response?.data?.cause || "";
 
-	return { error, errMsg: errMsg || "", txt };
+	return { error, errMsg: errMsg || "", txt, errCause };
 };

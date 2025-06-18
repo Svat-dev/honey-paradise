@@ -86,7 +86,7 @@ export class VerificationService {
 
 		const isExpired = new Date(token.expiresIn) > new Date();
 
-		if (!isExpired) throw new BadRequestException(this.i18n.t("d.errors.code_expired"));
+		if (!isExpired) throw new BadRequestException(this.i18n.t("d.errors.code_expired"), { cause: "has_expired" });
 
 		const existingUser = await this.userService.getProfile(token.userId, "id");
 
