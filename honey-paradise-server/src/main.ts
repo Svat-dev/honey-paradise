@@ -3,12 +3,13 @@ import "reflect-metadata";
 import * as cookieParser from "cookie-parser";
 import * as session from "express-session";
 
-import { ConfigService } from "@nestjs/config/dist/config.service";
-import { CoreModule } from "./core/core.module";
-import { NestFactory } from "@nestjs/core";
-import { RedisService } from "./core/redis/redis.service";
-import { RedisStore } from "connect-redis";
 import { ValidationPipe } from "@nestjs/common/pipes/validation.pipe";
+import { ConfigService } from "@nestjs/config/dist/config.service";
+import { NestFactory } from "@nestjs/core";
+import { RedisStore } from "connect-redis";
+import { CoreModule } from "./core/core.module";
+import { RedisService } from "./core/redis/redis.service";
+import { ExceptionsFilter } from "./shared/filters/exceptions.filter";
 import { ms } from "./shared/lib/common/utils/ms.util";
 
 async function bootstrap() {
@@ -22,6 +23,7 @@ async function bootstrap() {
 	app.use(cookieParser(config.getOrThrow<string>("COOKIES_SECRET")));
 
 	app.useGlobalPipes(new ValidationPipe({ transform: true }));
+	app.useGlobalFilters(new ExceptionsFilter());
 
 	app.use(
 		session({
