@@ -1,10 +1,10 @@
 "use client";
 
-import { OTPInput, OTPInputContext } from "input-otp";
 import { ComponentPropsWithoutRef, ComponentRef, forwardRef, useContext } from "react";
+import { OTPInput, OTPInputContext } from "input-otp";
 
-import { cn } from "@utils/base";
 import { MinusIcon } from "lucide-react";
+import { cn } from "@utils/base";
 import styles from "./styles/input-otp.module.scss";
 
 const InputOTP = forwardRef<ComponentRef<typeof OTPInput>, ComponentPropsWithoutRef<typeof OTPInput>>(

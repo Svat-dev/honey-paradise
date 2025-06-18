@@ -3,12 +3,12 @@
 import { Button, Checkbox, Title } from "@/components/ui";
 
 import { FormInput } from "@/components/ui/form-input";
+import { FormProvider } from "react-hook-form";
+import Image from "next/image";
 import _styles from "@styles/modules/auth-form-wrapper.module.scss";
 import { cn } from "@utils/base";
-import Image from "next/image";
-import { FormProvider } from "react-hook-form";
-import { useEmailConfirmation } from "../hooks/useEmailConfirmation";
 import styles from "../styles/email-confirmation.module.scss";
+import { useEmailConfirmation } from "../hooks/useEmailConfirmation";
 
 const EmailConfirmation = () => {
 	const { dataStatus, t, confirmationForm, onSubmit, limit, cooldown, refreshCode, isLoading } = useEmailConfirmation();

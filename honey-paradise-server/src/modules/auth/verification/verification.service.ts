@@ -56,7 +56,7 @@ export class VerificationService {
 	async sendVerificationEmail(email: string) {
 		const user = await this.userService.getProfile(email, "email");
 
-		if (!user) throw new NotFoundException("Пользователь не найден, проверьте корректность введённой эл. почты");
+		if (!user) throw new NotFoundException(this.i18n.t("d.errors.account_not_found_email"));
 
 		const existingToken = await this.prisma.token.findFirst({
 			where: { userId: user.id, type: EnumTokenTypes.EMAIL_VERIFY },
@@ -82,11 +82,11 @@ export class VerificationService {
 	}
 
 	private async validateToken(token: Token) {
-		if (!token) throw new NotFoundException("Вы ввели неправильный код. Пожалуйста, проверьте правильность ввода");
+		if (!token) throw new NotFoundException(this.i18n.t("d.errors.invalid_code"));
 
 		const isExpired = new Date(token.expiresIn) > new Date();
 
-		if (!isExpired) throw new BadRequestException("Срок действия данного кода истек. Попробуйте запросить новый код");
+		if (!isExpired) throw new BadRequestException(this.i18n.t("d.errors.code_expired"));
 
 		const existingUser = await this.userService.getProfile(token.userId, "id");
 

@@ -2,11 +2,11 @@
 .wrapper::before,
 .border-line::after,
 .border-line::before {
-	@apply tw-w-[36rem] tw-h-[23.5rem];
+	@apply tw-w-[36rem] tw-h-[25rem];
 }
 
 .wrapper {
-	@apply tw-w-[36rem] tw-h-[23.5rem];
+	@apply tw-w-[36rem] tw-h-[25rem];
 }
 
 .title-wrapper {
@@ -18,7 +18,7 @@
 }
 
 .form-input-wrapper {
-	@apply tw-flex tw-justify-center tw-mb-5;
+	@apply tw-flex tw-justify-center tw-mb-5 !important;
 }
 
 .form-input-error {
@@ -26,7 +26,7 @@
 }
 
 .form-input-slot {
-	@apply tw-h-14 tw-w-12 !tw-text-lg;
+	@apply tw-h-14 tw-w-12 !tw-text-lg !important;
 }
 
 .checkbox-wrapper {

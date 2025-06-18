@@ -1,20 +1,21 @@
-import { useSendVerificationCodeS, useVerifyEmailS } from "@/services/hooks/account";
 import { useEffect, useState } from "react";
+import { useSendVerificationCodeS, useVerifyEmailS } from "@/services/hooks/account";
 
-import { errorCatch } from "@/api/api-helper";
-import { EnumStorageTokens } from "@constants/base";
-import { EnumAppRoute } from "@constants/routes";
-import { useAuth } from "@hooks/auth";
-import type { TConfirmationFields } from "@schemas/confirmation.schema";
 import type { AxiosError } from "axios";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import { EnumAppRoute } from "@constants/routes";
+import { EnumStorageTokens } from "@constants/base";
+import type { TConfirmationFields } from "@schemas/confirmation.schema";
+import { errorCatch } from "@/api/api-helper";
 import toast from "react-hot-toast";
+import { useAuth } from "@hooks/auth";
 import { useConfirmation } from "./useConfirmation";
+import { useRouter } from "next/navigation";
 
 export const useEmailConfirmation = () => {
 	const limit = 6;
 	const base_cooldown = 30;
+	const errorDelay = 4000;
 
 	const { confirmationForm, dataStatus, setDataStatus, t } = useConfirmation(limit);
 	const { auth } = useAuth();
@@ -26,13 +27,12 @@ export const useEmailConfirmation = () => {
 	const [cooldown, setCooldown] = useState<number>(base_cooldown);
 
 	const onError = (err: AxiosError) => {
-		const { error } = errorCatch(err);
-		const errMsg = error.response?.data.message;
+		const { errMsg } = errorCatch(err);
 
-		toast.error(errMsg!);
+		toast.error(errMsg, { duration: errorDelay });
 		setDataStatus("error");
 
-		return setTimeout(() => setDataStatus("default"), 3000);
+		return setTimeout(() => setDataStatus("default"), errorDelay);
 	};
 
 	const refreshCode = () => {
@@ -52,14 +52,14 @@ export const useEmailConfirmation = () => {
 
 			await verifyEmailAsync({ token: pin, isNeedAuth: signInAfter });
 
-			toast.success("Вы успешно подтвердили свой аккаунт!");
+			toast.success(t("email.toasters.success"));
 			setDataStatus("good");
 			Cookies.remove(EnumStorageTokens.CURRENT_EMAIL);
 
 			return setTimeout(() => {
 				replace(EnumAppRoute.INDEX);
 				if (signInAfter) auth();
-			}, 3000);
+			}, 2000);
 		} catch (error) {
 			onError(error as AxiosError);
 		}
