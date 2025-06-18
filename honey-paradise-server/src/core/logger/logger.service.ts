@@ -10,7 +10,11 @@ export class LoggerService implements NestLoggerService {
 	private readonly year = new Date().getFullYear();
 	private readonly month = monthsByKeys[new Date().getMonth()];
 	private readonly day = new Date().getDate() < 10 ? `0${new Date().getDate()}` : new Date().getDate();
-	private readonly time = new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds();
+
+	private readonly hours = new Date().getHours() < 10 ? `0${new Date().getHours()}` : new Date().getHours();
+	private readonly minutes = new Date().getMinutes() < 10 ? `0${new Date().getMinutes()}` : new Date().getMinutes();
+	private readonly seconds = new Date().getSeconds() < 10 ? `0${new Date().getSeconds()}` : new Date().getSeconds();
+	private readonly time = this.hours + ":" + this.minutes + ":" + this.seconds;
 
 	private readonly logFile = path.join(__dirname, `../../../logs/${this.year}/${this.month}/${this.day}.log`);
 	private readonly consoleLogger = new ConsoleLogger();
@@ -20,7 +24,12 @@ export class LoggerService implements NestLoggerService {
 		this.consoleLogger.log(message, ctx);
 	}
 
-	error(message: any, trace?: string, ctx?: string) {
+	error(message: any, trace?: any, ctx?: string) {
+		const errCode = trace.status;
+		const canLogError = [500, 403];
+
+		if (!canLogError.includes(errCode)) return true;
+
 		this.writeToFile("error", message, ctx, trace);
 		this.consoleLogger.error(message, trace, ctx);
 	}

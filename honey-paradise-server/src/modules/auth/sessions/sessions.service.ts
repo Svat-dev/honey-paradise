@@ -95,11 +95,11 @@ export class SessionsService {
 
 		const metadata = getSessionMetadata(req, userAgent);
 
-		return saveSession(req, _user, metadata);
+		return saveSession(req, _user, metadata, this.i18n);
 	}
 
 	async logout(req: Request) {
-		return destroySession(req, this.configService);
+		return destroySession(req, this.configService, this.i18n);
 	}
 
 	async clearSession(req: Request) {

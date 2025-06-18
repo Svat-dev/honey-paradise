@@ -19,6 +19,7 @@ import type { IIsActive, TCurrentPart, TDataStatus } from "../types/sign-up.type
 
 export const useSignUp = (searchParams: TSearchParams) => {
 	const t = useTranslations("global.sign-up.content");
+	const errorDelay = 5000;
 
 	const { push, replace } = useRouter();
 	const { createAcc, isCreateAccLoading } = useCreateAccountS();
@@ -81,21 +82,21 @@ export const useSignUp = (searchParams: TSearchParams) => {
 
 	const onError = (msg: string) => {
 		setDataStatus("error");
-		toast.error(msg);
+		toast.error(msg, { duration: errorDelay, style: { width: "100%", maxWidth: "25rem" } });
 
 		return setTimeout(() => {
 			setDataStatus("default");
 
 			setRecaptchaValue(null);
 			recaptchaRef.current?.reset();
-		}, 3000);
+		}, errorDelay);
 	};
 
 	const onSubmit = async (data: TSignUpFields) => {
 		if (!recaptchaValue) {
 			setIsError(true);
 			setDataStatus("error");
-			return setTimeout(() => setDataStatus("default"), 3000);
+			return setTimeout(() => setDataStatus("default"), errorDelay);
 		}
 
 		try {

@@ -19,11 +19,12 @@ import type { TDataStatus } from "../_sign-up/types/sign-up.type";
 export const useSignIn = () => {
 	const { locale } = useLanguage();
 	const t = useTranslations("global.sign-in.content");
+	const errorDelay = 5000;
 
 	const { auth } = useAuth();
 	const { replace } = useRouter();
 	const { theme } = useTheme();
-	const { isSignInLoading, signIn } = useSignInS();
+	const { isSignInLoading, signIn, isSignedIn } = useSignInS();
 
 	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
 	const [error, setError] = useState<boolean>(false);
@@ -49,25 +50,22 @@ export const useSignIn = () => {
 
 	const onError = (msg: string) => {
 		setDataStatus("error");
-		toast.error(msg);
+		toast.error(msg, { duration: errorDelay, style: { width: "100%", maxWidth: "25rem" } });
 
 		return setTimeout(() => {
 			setDataStatus("default");
 
 			setRecaptchaValue(null);
 			recaptchaRef.current?.reset();
-		}, 3000);
+		}, errorDelay);
 	};
 
 	const onSubmit = async (data: TSignInFields) => {
 		if (!recaptchaValue) {
 			setError(true);
 			setDataStatus("error");
-			return setTimeout(() => setDataStatus("default"), 3000);
+			return setTimeout(() => setDataStatus("default"), errorDelay);
 		}
-
-		setDataStatus("good");
-		setTimeout(() => setDataStatus("default"), 3000);
 
 		try {
 			await signIn({ dto: data, recaptcha: recaptchaValue });

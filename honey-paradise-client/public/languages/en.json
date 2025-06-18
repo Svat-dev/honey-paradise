@@ -166,7 +166,7 @@
 				},
 				"toasters": {
 					"success": "You have successfully signed in to your account!",
-					"error": "Error when logging in to account! {e}"
+					"error": "Error when logging in to account!\n{e}"
 				}
 			}
 		},
@@ -243,7 +243,7 @@
 				},
 				"toasters": {
 					"success": "Account successfully created! Now confirm it",
-					"error": "Failed to create an account. {e}"
+					"error": "Failed to create an account.\n{e}"
 				}
 			}
 		},

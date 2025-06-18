@@ -15,9 +15,15 @@
 	"errors": {
 		"email_is_exist": "This email is already occupied by another user",
 		"username_is_exist": "This username is already occupied by another user",
-		"account_not_found": "There is no account with this email address or username. Please check the entered data again",
-		"invalid_password": "Invalid password. Please check the entered data again",
+		"account_not_found": "There is no account with this email address or username.\nPlease check the entered data again",
+		"invalid_password": "Invalid password.\nPlease check the entered data again",
 		"auth_to_have_access": "To access this resource, you must be logged in",
-		"500": "Server error 500. Repeat the request later"
+		"500": {
+			"default": "Server error 500.\nRepeat the request later",
+			"cant_send_email": "Couldn't send email, try again later",
+			"cant_remove_session": "Couldn't end session, try again later",
+			"cant_save_session": "Couldn't save session, try again later",
+			"user_agent_not_found": "User-agent failed found! Contact support"
+		}
 	}
 }

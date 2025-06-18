@@ -29,7 +29,7 @@ export class MailService {
 				to: email,
 			});
 		} catch (error) {
-			throw new InternalServerErrorException(error);
+			throw new InternalServerErrorException(this.i18n.t("d.errors.500.cant_send_email"));
 		}
 	}
 }

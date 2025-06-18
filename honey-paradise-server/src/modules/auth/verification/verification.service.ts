@@ -4,6 +4,7 @@ import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
 import type { Request } from "express";
+import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { MailService } from "src/core/mail/mail.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { TOKENS_LENGTH } from "src/shared/lib/common/constants";
@@ -19,7 +20,8 @@ export class VerificationService {
 	constructor(
 		private readonly prisma: PrismaService,
 		private readonly mailService: MailService,
-		private readonly userService: ProfileService
+		private readonly userService: ProfileService,
+		private readonly i18n: I18nService
 	) {}
 
 	async verifyEmail(req: Request, dto: EmailVerifyDto, userAgent: string) {
@@ -46,7 +48,7 @@ export class VerificationService {
 		if (!isNeedAuth) return true;
 
 		const metadata = getSessionMetadata(req, userAgent);
-		await saveSession(req, user, metadata);
+		await saveSession(req, user, metadata, this.i18n);
 
 		return true;
 	}
