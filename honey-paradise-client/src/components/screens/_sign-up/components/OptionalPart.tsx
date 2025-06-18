@@ -1,14 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui";
-import { FormInput } from "@/components/ui/form-input";
-import { FormBlock } from "@/components/ui/layouts";
-import _styles from "@styles/modules/auth-form-wrapper.module.scss";
 import type { FC } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
-import { useOptionalPart } from "../hooks/useOptionalPart";
-import styles from "../styles/optional-part.module.scss";
+import { FormBlock } from "@/components/ui/layouts";
+import { FormInput } from "@/components/ui/form-input";
 import { OptionalPartSection } from "./OptionalPartSection";
+import ReCAPTCHA from "react-google-recaptcha";
+import _styles from "@styles/modules/auth-form-wrapper.module.scss";
+import styles from "../styles/optional-part.module.scss";
+import { useOptionalPart } from "../hooks/useOptionalPart";
 
 interface IProps {
 	isActive: boolean;

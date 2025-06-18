@@ -4,11 +4,11 @@ import { Button, Separator } from "@/components/ui";
 
 import { EnumAppRoute } from "@constants/routes";
 import { LanguagesIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
 import Link from "next/dist/client/link";
-import { usePathname } from "next/navigation";
 import { SelectLanguageDM } from "../SelectLanguageDM";
 import styles from "./../../styles/right-part.module.scss";
+import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const AuthOffBlock = () => {
 	const t = useTranslations("layout.header");
@@ -21,7 +21,7 @@ const AuthOffBlock = () => {
 	return (
 		<>
 			<SelectLanguageDM>
-				<Button className={styles["change-lang-btn"]} title={t("labels.changeLang")}>
+				<Button variant="secondary" className={styles["change-lang-btn"]} title={t("labels.changeLang")}>
 					<LanguagesIcon />
 				</Button>
 			</SelectLanguageDM>

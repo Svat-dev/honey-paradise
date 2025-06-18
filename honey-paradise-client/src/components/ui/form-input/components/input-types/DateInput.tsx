@@ -1,11 +1,11 @@
 import { Button, Calendar, DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui";
 
-import { cn } from "@utils/base";
-import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import type { FC } from "react";
-import { useFormDateInput } from "../../hooks/useFormDateInput";
 import type { TFieldNames } from "../../types/form-input.type";
+import { cn } from "@utils/base";
+import { format } from "date-fns";
+import { useFormDateInput } from "../../hooks/useFormDateInput";
 
 interface IProps {
 	name: TFieldNames;
@@ -27,7 +27,7 @@ const DateInput: FC<IProps> = ({ name }) => {
 				</Button>
 			</DropdownMenuTrigger>
 
-			<DropdownMenuContent side="top" className="tw-bg-secondary">
+			<DropdownMenuContent side="top" className="!tw-bg-secondary">
 				<Calendar
 					config={{
 						locale: calendarLocale,

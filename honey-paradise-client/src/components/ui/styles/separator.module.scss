@@ -1,11 +1,3 @@
 .separator-ui {
 	@apply tw-shrink-0 tw-bg-black tw-bg-opacity-40;
 }
-
-.separator-ui-horizontal {
-	@apply tw-h-[1px] tw-w-full;
-}
-
-.separator-ui-vertical {
-	@apply tw-h-full tw-w-[1px];
-}
