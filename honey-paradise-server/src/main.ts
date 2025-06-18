@@ -8,12 +8,15 @@ import { ConfigService } from "@nestjs/config/dist/config.service";
 import { NestFactory } from "@nestjs/core";
 import { RedisStore } from "connect-redis";
 import { CoreModule } from "./core/core.module";
+import { LoggerService } from "./core/logger/logger.service";
 import { RedisService } from "./core/redis/redis.service";
 import { ExceptionsFilter } from "./shared/filters/exceptions.filter";
 import { ms } from "./shared/lib/common/utils/ms.util";
 
 async function bootstrap() {
-	const app = await NestFactory.create(CoreModule, {});
+	const app = await NestFactory.create(CoreModule, {
+		bufferLogs: true,
+	});
 
 	const config = app.get(ConfigService);
 	const redis = app.get(RedisService);
@@ -21,6 +24,8 @@ async function bootstrap() {
 	app.setGlobalPrefix("api");
 
 	app.use(cookieParser(config.getOrThrow<string>("COOKIES_SECRET")));
+
+	app.useLogger(new LoggerService());
 
 	app.useGlobalPipes(new ValidationPipe({ transform: true }));
 	app.useGlobalFilters(new ExceptionsFilter());
