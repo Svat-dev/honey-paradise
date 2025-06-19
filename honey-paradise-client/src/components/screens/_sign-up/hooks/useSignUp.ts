@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/dist/client/components/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -90,7 +90,7 @@ export const useSignUp = (searchParams: TSearchParams) => {
 		}, errorDelay);
 	};
 
-	const onSubmit = async (data: TSignUpFields) => {
+	const onSubmitFunc = async (data: TSignUpFields) => {
 		if (!recaptchaValue) {
 			setIsError(true);
 			setDataStatus("error");
@@ -114,6 +114,18 @@ export const useSignUp = (searchParams: TSearchParams) => {
 			return onError(msg);
 		}
 	};
+
+	const onSubmit = signUpForm.handleSubmit(onSubmitFunc);
+
+	const onKeydown = (e: KeyboardEvent) => {
+		if (e.key === "Enter" && !isDisabled()) {
+			e.preventDefault();
+
+			if (currentPart === "main") return onClickToNext();
+		}
+	};
+
+	useEffect(() => window.addEventListener("keydown", onKeydown), []);
 
 	return {
 		dataStatus,

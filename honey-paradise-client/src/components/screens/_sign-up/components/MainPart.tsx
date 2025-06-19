@@ -25,6 +25,8 @@ const MainPart: FC<IProps> = ({ onClickToNext, isActive, disabled, t, isPending 
 				label={t("main_part.form.email.label")}
 				placeholder={t("main_part.form.email.placeholder")}
 				containerClassName="tw-mb-12"
+				tabIndex={0}
+				spellCheck={false}
 				required
 			/>
 
@@ -35,6 +37,8 @@ const MainPart: FC<IProps> = ({ onClickToNext, isActive, disabled, t, isPending 
 				placeholder={t("main_part.form.password.placeholder")}
 				containerClassName="tw-mb-12"
 				maxLength={VALUES.MAX_PASSWORD_LENGTH}
+				tabIndex={1}
+				spellCheck={false}
 				required
 			/>
 
@@ -45,15 +49,19 @@ const MainPart: FC<IProps> = ({ onClickToNext, isActive, disabled, t, isPending 
 				placeholder={t("main_part.form.confirmPassword.placeholder")}
 				containerClassName="tw-mb-12"
 				maxLength={VALUES.MAX_PASSWORD_LENGTH}
+				tabIndex={2}
+				spellCheck={false}
 				required
 			/>
 
 			<div className={styles["footer"]}>
-				<Button variant="secondary" onClick={onClickToNext} disabled={disabled} isLoading={isPending}>
+				<Button variant="secondary" onClick={onClickToNext} disabled={disabled} isLoading={isPending} tabIndex={4}>
 					{t("footer.continueBtn")}
 				</Button>
 
-				<Link href={EnumAppRoute.SIGN_IN}>{t("footer.haveProfile")}</Link>
+				<Link href={EnumAppRoute.SIGN_IN} tabIndex={3}>
+					{t("footer.haveProfile")}
+				</Link>
 			</div>
 		</FormBlock>
 	);

@@ -38,7 +38,7 @@ const SignUp: FC<IProps> = ({ searchParams }) => {
 			<span data-status={dataStatus} className={cn(_styles["border-line"], styles["border-line"])}></span>
 
 			<FormProvider {...signUpForm}>
-				<form className={_styles["form"]} onSubmit={signUpForm.handleSubmit(onSubmit)}>
+				<form className={_styles["form"]} onSubmit={onSubmit}>
 					{currentPart === "main" && (
 						<MainPart onClickToNext={onClickToNext} isActive={isActive.main} disabled={isDisabled} isPending={isCreateAccLoading} t={t} />
 					)}
