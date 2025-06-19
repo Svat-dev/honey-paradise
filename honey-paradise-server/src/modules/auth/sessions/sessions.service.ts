@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import { destroySession, saveSession } from "src/shared/lib/common/utils/session.util";
+import { EnumClientRoutes, EnumErrorCauses, EnumStorageTokens } from "src/shared/types/client/enums.type";
 
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { ConflictException } from "@nestjs/common/exceptions/conflict.exception";
@@ -99,14 +100,14 @@ export class SessionsService {
 		if (!user.isVerified) {
 			await this.verificationService.sendVerificationEmail(user.email);
 
-			res.cookie("HONEY_PARADISE_CURRENT_EMAIL", user.email, {
+			res.cookie(EnumStorageTokens.LOCALE_LANGUAGE, user.email, {
 				sameSite: "lax",
 				maxAge: ms("6h"),
-				domain: "localhost",
-				path: "/auth/confirmation",
+				domain: this.configService.getOrThrow<string>("DOMAIN"),
+				path: EnumClientRoutes.CONFIRMATION,
 			});
 
-			throw new UnauthorizedException(this.i18n.t("d.errors.account_not_verified"), { cause: "account_not_verified" });
+			throw new UnauthorizedException(this.i18n.t("d.errors.account_not_verified"), { cause: EnumErrorCauses.ACCOUNT_NOT_VERIFIED });
 		}
 
 		const metadata = getSessionMetadata(req, userAgent);

@@ -11,6 +11,7 @@ import { TOKENS_LENGTH } from "src/shared/lib/common/constants";
 import { ms } from "src/shared/lib/common/utils";
 import { getSessionMetadata } from "src/shared/lib/common/utils/session-metadat.util";
 import { saveSession } from "src/shared/lib/common/utils/session.util";
+import { EnumErrorCauses } from "src/shared/types/client/enums.type";
 import { v4 as uuidv4 } from "uuid";
 import type { EmailVerifyDto } from "../account/dto/email-verification.dto";
 import { ProfileService } from "../profile/profile.service";
@@ -86,7 +87,7 @@ export class VerificationService {
 
 		const isExpired = new Date(token.expiresIn) > new Date();
 
-		if (!isExpired) throw new BadRequestException(this.i18n.t("d.errors.code_expired"), { cause: "has_expired" });
+		if (!isExpired) throw new BadRequestException(this.i18n.t("d.errors.code_expired"), { cause: EnumErrorCauses.EMAIL_TOKEN_EXPIRED });
 
 		const existingUser = await this.userService.getProfile(token.userId, "id");
 

@@ -1,5 +1,8 @@
+import { EnumClientRoutes, EnumStorageTokens } from "src/shared/types/client/enums.type";
+
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
+import { ConfigService } from "@nestjs/config/dist/config.service";
 import { hash } from "argon2";
 import type { Response } from "express";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
@@ -17,6 +20,7 @@ export class AccountService {
 		private readonly prisma: PrismaService,
 		private readonly profileService: ProfileService,
 		private readonly verificationService: VerificationService,
+		private readonly configService: ConfigService,
 		private readonly i18n: I18nService
 	) {}
 
@@ -48,11 +52,11 @@ export class AccountService {
 			},
 		});
 
-		res.cookie("HONEY_PARADISE_CURRENT_EMAIL", email, {
+		res.cookie(EnumStorageTokens.LOCALE_LANGUAGE, email, {
 			sameSite: "lax",
 			maxAge: ms("6h"),
-			domain: "localhost",
-			path: "/auth/confirmation",
+			domain: this.configService.getOrThrow<string>("DOMAIN"),
+			path: EnumClientRoutes.CONFIRMATION,
 		});
 
 		return this.verificationService.sendVerificationEmail(email);

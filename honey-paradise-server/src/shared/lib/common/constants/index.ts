@@ -1,2 +1,2 @@
-export * from "./api-route.const";
 export * from "./base.const";
+export * from "./routes.const";

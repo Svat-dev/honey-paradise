@@ -10,7 +10,9 @@ import { AccountModule } from "src/modules/auth/account/account.module";
 import { ProfileModule } from "src/modules/auth/profile/profile.module";
 import { SessionsModule } from "src/modules/auth/sessions/sessions.module";
 import { VerificationModule } from "src/modules/auth/verification/verification.module";
+import { EnumApiRoute } from "src/shared/lib/common/constants";
 import { IS_DEV_ENV } from "src/shared/lib/common/utils/is-dev.util";
+import { EnumStorageTokens } from "src/shared/types/client/enums.type";
 import { getI18nConfig } from "./config/i18n.config";
 import { MailModule } from "./mail/mail.module";
 import { PrismaModule } from "./prisma/prisma.module";
@@ -25,13 +27,13 @@ import { RedisModule } from "./redis/redis.module";
 		}),
 		ServeStaticModule.forRoot({
 			rootPath: path.join(__dirname, "../..", "public"),
-			serveRoot: "/static",
+			serveRoot: EnumApiRoute.STATIC,
 		}),
 		I18nModule.forRootAsync({
 			imports: [ConfigModule],
 			inject: [ConfigService],
 			useFactory: getI18nConfig,
-			resolvers: [new CookieResolver(["HONEY_PARADISE_LOCALE_LANGUAGE"])],
+			resolvers: [new CookieResolver([EnumStorageTokens.LOCALE_LANGUAGE])],
 		}),
 		MailModule,
 
