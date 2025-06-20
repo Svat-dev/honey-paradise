@@ -12,10 +12,6 @@ const nextConfig: NextConfig = {
 		remotePatterns: [
 			{
 				protocol: "https",
-				hostname: "github.githubassets.com",
-			},
-			{
-				protocol: "https",
 				hostname: "fonts.gstatic.com",
 			},
 		],

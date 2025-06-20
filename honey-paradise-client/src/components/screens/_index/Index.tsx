@@ -1,7 +1,7 @@
 "use client";
 
-import { format, toDate } from "date-fns";
 import { useGetByUserS, useGetCurrentS, useRemoveSessionS } from "@/services/hooks/session";
+import { format, toDate } from "date-fns";
 
 import { useAuth } from "@hooks/auth";
 import { useLanguage } from "@i18n/hooks";
