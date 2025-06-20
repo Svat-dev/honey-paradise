@@ -2,11 +2,11 @@
 .wrapper::before,
 .border-line::after,
 .border-line::before {
-	@apply tw-w-[28.125rem] tw-h-[31.875rem];
+	@apply tw-w-[28.125rem] tw-h-[37rem];
 }
 
 .wrapper {
-	@apply tw-w-[28.125rem] tw-h-[31.875rem];
+	@apply tw-w-[28.125rem] tw-h-[37rem];
 }
 
 .help-wrapper {
@@ -25,7 +25,7 @@
 	@apply tw-mb-6;
 }
 
-.footer-wrapper {
+.footer-actions {
 	@apply tw-flex tw-items-center tw-gap-4 tw-mb-6;
 
 	> button {
@@ -35,4 +35,66 @@
 	> p {
 		@apply tw-text-red-500 tw-leading-5;
 	}
+}
+
+.footer-socials {
+	@apply tw-flex tw-items-center tw-flex-col;
+
+	> p {
+		@apply tw-relative tw-block tw-w-full tw-text-center tw-text-muted tw-mb-3;
+
+		&::before,
+		&::after {
+			@apply tw-content-[""] tw-absolute tw-block tw-top-1/2 tw-w-1/5 tw-h-px tw-bg-muted;
+		}
+
+		&[lang="ru"] {
+			&::before,
+			&::after {
+				@apply tw-w-1/12 !important;
+			}
+		}
+
+		&::before {
+			@apply tw-right-0;
+		}
+
+		&::after {
+			@apply tw-left-0;
+		}
+	}
+}
+
+.socials-wrapper {
+	@apply tw-flex tw-items-center tw-gap-6;
+
+	> a {
+		@apply tw-relative tw-rounded-full tw-bg-white/80 tw-w-11 tw-h-11 tw-flex tw-overflow-hidden;
+
+		> img {
+			@apply tw-absolute tw-top-1/2 tw-left-1/2 -tw-translate-x-1/2 -tw-translate-y-1/2;
+		}
+
+		&:nth-of-type(3) {
+			> img {
+				@apply tw-left-1/3;
+			}
+		}
+	}
+}
+
+.socials-vk {
+	@apply tw-relative;
+}
+
+.socials-yandex {
+	@apply tw-relative;
+}
+
+.socials-github {
+	@apply tw-relative;
+}
+
+.socials-google {
+	@apply tw-relative;
 }

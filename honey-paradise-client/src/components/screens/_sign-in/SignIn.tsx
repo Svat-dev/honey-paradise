@@ -1,15 +1,15 @@
 "use client";
 
-import { Button } from "@/components/ui";
-import { EnumAppRoute } from "@constants/routes";
-import { FormBlock } from "@/components/ui/layouts";
 import { FormInput } from "@/components/ui/form-input";
-import { FormProvider } from "react-hook-form";
-import Link from "next/dist/client/link";
-import ReCAPTCHA from "react-google-recaptcha";
+import { FormBlock } from "@/components/ui/layouts";
 import { VALUES } from "@constants/base";
+import { EnumAppRoute } from "@constants/routes";
 import _styles from "@styles/modules/auth-form-wrapper.module.scss";
 import { cn } from "@utils/base";
+import Link from "next/dist/client/link";
+import ReCAPTCHA from "react-google-recaptcha";
+import { FormProvider } from "react-hook-form";
+import { Footer } from "./components/Footer";
 import styles from "./styles/sign-in.module.scss";
 import { useSignIn } from "./useSignIn";
 
@@ -53,13 +53,7 @@ const SignIn = () => {
 							tabIndex={5}
 						/>
 
-						<div className={styles["footer-wrapper"]}>
-							<Button variant="secondary" type="submit" isLoading={isSignInLoading} disabled={dataStatus !== "default"} tabIndex={6}>
-								{t("footer.submitBtn")}
-							</Button>
-
-							{error && <p>{t("footer.error")}</p>}
-						</div>
+						<Footer isError={error} isLoading={isSignInLoading} status={dataStatus} t={t} locale={locale} />
 					</FormBlock>
 				</form>
 			</FormProvider>

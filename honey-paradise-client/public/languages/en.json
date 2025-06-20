@@ -162,11 +162,18 @@
 					"submitBtn": "Sign in",
 					"forgotPassword": "Forgot password?",
 					"noProfile": "No profile? Create",
-					"error": "You may be a robot! Go through reCAPTCHA again"
+					"error": "You may be a robot! Go through reCAPTCHA again",
+					"socialAuth": "Sign in using social networks"
 				},
 				"toasters": {
 					"success": "You have successfully signed in to your account!",
 					"error": "Error when logging in to account!\n{e}"
+				},
+				"labels": {
+					"vk": "VKonatkte",
+					"google": "Google",
+					"yandex": "Yandex",
+					"github": "Github"
 				}
 			}
 		},
