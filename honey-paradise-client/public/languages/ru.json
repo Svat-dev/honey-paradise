@@ -285,6 +285,14 @@
 				},
 				"2fa": {}
 			}
+		},
+		"password-recovery": {
+			"title": "Восстановление пароля",
+			"description": "Страница восстановление пароля интернет-магазина {title}",
+			"content": {
+				"reset": {},
+				"change": {}
+			}
 		}
 	},
 	"layout": {

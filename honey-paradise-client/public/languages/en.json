@@ -285,6 +285,14 @@
 				},
 				"2fa": {}
 			}
+		},
+		"password-recovery": {
+			"title": "Password recovery",
+			"description": "{title} online store page of the password recovery page",
+			"content": {
+				"reset": {},
+				"change": {}
+			}
 		}
 	},
 	"layout": {

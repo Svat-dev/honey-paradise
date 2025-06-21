@@ -8,7 +8,7 @@ import { EnumGenders } from "@/shared/types/models";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/dist/client/components/navigation";
+import { redirect, RedirectType, useRouter } from "next/dist/client/components/navigation";
 import { useEffect, useRef, useState } from "react";
 import type ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
@@ -16,16 +16,21 @@ import toast from "react-hot-toast";
 import type { IIsActive, TCurrentPart, TDataStatus } from "../types/sign-up.type";
 
 export const useSignUp = (searchParams: TSearchParams) => {
+	if (!searchParams?.active_tab) return redirect(EnumAppRoute.NOT_FOUND, RedirectType.replace);
+
+	if (!searchParams?.active_tab.includes("main") && !searchParams?.active_tab.includes("optional"))
+		return redirect(EnumAppRoute.NOT_FOUND, RedirectType.replace);
+
 	const t = useTranslations("global.sign-up.content");
 	const errorDelay = 5000;
 
-	const { push, replace } = useRouter();
 	const { createAcc, isCreateAccLoading } = useCreateAccountS();
+	const { push, replace } = useRouter();
 
 	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
 	const [isError, setIsError] = useState<boolean>(false);
 
-	const [currentPart, setCurrentPart] = useState<TCurrentPart>((searchParams.activeTab as any) || "main");
+	const [currentPart, setCurrentPart] = useState<TCurrentPart>(searchParams.active_tab as TCurrentPart);
 	const [dataStatus, setDataStatus] = useState<TDataStatus>("default");
 	const [isActive, setIsActive] = useState<IIsActive>({
 		main: currentPart === "main",
@@ -61,7 +66,7 @@ export const useSignUp = (searchParams: TSearchParams) => {
 		setIsActive(prev => ({ ...prev, main: false, optional: true }));
 		setTimeout(() => {
 			setCurrentPart("optional");
-			push(`?activeTab=optional`);
+			push(`?active_tab=optional`);
 		}, 400);
 	};
 
@@ -69,7 +74,7 @@ export const useSignUp = (searchParams: TSearchParams) => {
 		setIsActive(prev => ({ ...prev, optional: false, main: true }));
 		setTimeout(() => {
 			setCurrentPart("main");
-			push(`?activeTab=main`);
+			push(`?active_tab=main`);
 		}, 400);
 	};
 
