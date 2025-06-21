@@ -22,7 +22,7 @@ const Cookie = () => {
 			<h3 className="tw-sr-only">{t("title")}</h3>
 
 			<div className={styles["content-wrapper"]}>
-				<Image src="/assets/cookies.png" alt={t("labels.photo")} width={60} height={60} loading="lazy" />
+				<Image src="/assets/cookies.webp" alt={t("labels.photo")} width={60} height={60} loading="lazy" />
 				<p>
 					{t("description")}&nbsp;
 					<Link href={EnumAppRoute.COOKIE_POLICY} className={styles["link"]}>

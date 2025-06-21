@@ -38,11 +38,11 @@ const NotFound = () => {
 					.fill(0)
 					.map((_, i) => (
 						<div className={cn(styles["bee"], styles[`bee-${i}`])}>
-							<Image src="/assets/flying-bee.png" alt="" width={60} height={60} key={i} />
+							<Image src="/assets/flying-bee.webp" alt="" width={60} height={60} key={i} />
 						</div>
 					))} */}
 
-				<Image src="/assets/not-found.png" alt={t("labels.image")} width={350} height={362} />
+				<Image src="/assets/not-found.webp" alt={t("labels.image")} width={350} height={362} />
 			</div>
 		</main>
 	);

@@ -2,15 +2,15 @@
 
 import { Button, Checkbox, Title } from "@/components/ui";
 
-import { EnumAppRoute } from "@/shared/lib/constants/routes";
-import type { FC } from "react";
 import { FormInput } from "@/components/ui/form-input";
-import { FormProvider } from "react-hook-form";
-import Image from "next/image";
+import { EnumAppRoute } from "@/shared/lib/constants/routes";
 import _styles from "@styles/modules/auth-form-wrapper.module.scss";
 import { cn } from "@utils/base";
-import styles from "../styles/email-confirmation.module.scss";
+import Image from "next/image";
+import type { FC } from "react";
+import { FormProvider } from "react-hook-form";
 import { useEmailConfirmation } from "../hooks/useEmailConfirmation";
+import styles from "../styles/email-confirmation.module.scss";
 
 interface IEmailConfirmation {
 	utm_source?: EnumAppRoute;
@@ -38,7 +38,7 @@ const EmailConfirmation: FC<IEmailConfirmation> = ({ utm_source }) => {
 							<p>{isFromSignIn ? t("email.description.notVerified") : t("email.description.default")}</p>
 						</div>
 
-						<Image src="/assets/pincode-entering-icon.png" alt={""} width={80} height={80} priority />
+						<Image src="/assets/pincode-entering-icon.webp" alt={""} width={80} height={80} priority />
 					</div>
 
 					<FormInput
