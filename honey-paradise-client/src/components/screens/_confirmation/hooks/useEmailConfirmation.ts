@@ -1,16 +1,16 @@
+import { useSendVerificationCodeS, useVerifyEmailS } from "@/services/hooks/account";
 import { EnumStorageTokens, errorCauses } from "@constants/base";
 import { useEffect, useState } from "react";
-import { useSendVerificationCodeS, useVerifyEmailS } from "@/services/hooks/account";
 
+import { errorCatch } from "@/api/api-helper";
+import { EnumAppRoute } from "@constants/routes";
+import { useAuth } from "@hooks/auth";
+import type { TConfirmationFields } from "@schemas/confirmation.schema";
 import type { AxiosError } from "axios";
 import Cookies from "js-cookie";
-import { EnumAppRoute } from "@constants/routes";
-import type { TConfirmationFields } from "@schemas/confirmation.schema";
-import { errorCatch } from "@/api/api-helper";
-import toast from "react-hot-toast";
-import { useAuth } from "@hooks/auth";
-import { useConfirmation } from "./useConfirmation";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { useConfirmation } from "./useConfirmation";
 
 export const useEmailConfirmation = (utm_source?: EnumAppRoute) => {
 	const limit = 6;
@@ -20,7 +20,7 @@ export const useEmailConfirmation = (utm_source?: EnumAppRoute) => {
 	const { confirmationForm, dataStatus, setDataStatus, t } = useConfirmation(limit);
 	const { auth } = useAuth();
 
-	const { isVerifying, verifyEmailAsync, isVerifiedError } = useVerifyEmailS();
+	const { isVerifying, verifyEmailAsync } = useVerifyEmailS();
 	const { isCodeSending, sendEmailCode } = useSendVerificationCodeS();
 
 	const { replace } = useRouter();

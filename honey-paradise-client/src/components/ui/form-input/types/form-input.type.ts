@@ -8,7 +8,7 @@ import type { InputHTMLAttributes } from "react";
 type TSetMask = ReactStateHook<InputMask<{ mask: string; lazy: true }> | undefined>;
 
 export type TFieldNames = keyof TSignInFields | keyof TSignUpFields | keyof TConfirmationFields | "phoneNumber";
-export type TInputType = "default" | "radio-group" | "date" | "otp";
+export type TInputType = "default" | "default-decor" | "radio-group" | "date" | "otp";
 
 export interface IFormInputProps extends InputHTMLAttributes<HTMLInputElement> {
 	name: TFieldNames;
@@ -20,6 +20,7 @@ export interface IFormInputProps extends InputHTMLAttributes<HTMLInputElement> {
 	setMask?: TSetMask;
 	data?: IRadioGroupData[];
 	otpSlotsLimit?: number;
+	isDecorated?: boolean;
 }
 
 export interface IRadioGroupData {

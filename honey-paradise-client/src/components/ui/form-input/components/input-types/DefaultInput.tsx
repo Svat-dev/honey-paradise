@@ -1,7 +1,8 @@
+import { Input } from "@/components/ui";
 import { cn } from "@utils/base";
 import type { FC } from "react";
 import { useFormDefaultInput } from "../../hooks/useFormDefaultInput";
-import styles from "../../styles/form-input.module.scss";
+import styles from "../../styles/default-input.module.scss";
 import type { IFormDefaultInputProps } from "../../types/form-input.type";
 import { ClearButton } from "../clear-button";
 import { PasswordEye } from "../password-eye";
@@ -14,27 +15,20 @@ const DefaultInput: FC<IFormDefaultInputProps> = ({ name, setMask, clearBtnClass
 
 	return (
 		<div className={styles["input-wrapper"]}>
-			<input
-				className={cn(className, styles["input"], { "tw-tracking-widest": isPassword })}
+			<Input
+				className={cn(className, { "tw-tracking-widest": isPassword })}
 				onInput={onInput}
 				{...props}
 				placeholder={props.placeholder ? props.placeholder : name}
 				type={!isPassword ? props.type : isShowPassword ? "text" : props.type}
 				spellCheck={false}
-				{...register(name, { required: "Поле обязательно для заполнения", onChange: clearError })}
+				{...register(name, { onChange: clearError })}
 			/>
 
-			{label && (
-				<p className={styles["label"]}>
-					{label}
-					{props.required && <span className="tw-text-red-500">*</span>}
-				</p>
-			)}
-
-			<i className={styles["decor-input"]}></i>
+			{props.required && <span className={styles["required"]}>*</span>}
 
 			{isPassword && <PasswordEye value={isShowPassword} onClick={() => setIsShowPassword(prev => !prev)} t={t} />}
-			<ClearButton onClick={clear} value={value} className={clearBtnClassName} t={t} />
+			<ClearButton onClick={clear} value={value} className={cn(clearBtnClassName, "!-tw-translate-y-[45%]")} t={t} />
 		</div>
 	);
 };

@@ -281,6 +281,10 @@
 					},
 					"toasters": {
 						"success": "You successfully verified your email!"
+					},
+					"errors": {
+						"empty": "Enter a pincode",
+						"min": "Minimum length of pincode is {min} characters"
 					}
 				},
 				"2fa": {}

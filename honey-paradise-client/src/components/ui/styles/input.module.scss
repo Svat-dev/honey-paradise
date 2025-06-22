@@ -1,5 +1,5 @@
 .input-ui {
-	@apply tw-flex tw-w-full tw-rounded-md tw-bg-background tw-px-3 tw-py-2 tw-text-sm;
+	@apply tw-flex tw-w-full tw-rounded-md tw-bg-background/60 tw-px-3 tw-py-2 tw-text-sm;
 
 	&[type="file"] {
 		@apply tw-border-0 tw-bg-transparent tw-text-sm tw-font-medium;

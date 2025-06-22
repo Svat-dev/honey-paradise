@@ -1,7 +1,7 @@
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 import type { FC } from "react";
-import styles from "../styles/form-input.module.scss";
+import styles from "../styles/default-input.module.scss";
 
 interface IProps {
 	value: boolean;

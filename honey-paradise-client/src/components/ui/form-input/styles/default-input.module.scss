@@ -1,0 +1,43 @@
+.wrapper {
+	@apply tw-relative;
+}
+
+.error-txt {
+	@apply tw-absolute -tw-bottom-6 tw-px-1.5 tw-leading-3 tw-text-sm;
+}
+
+.input-wrapper {
+	@apply tw-relative;
+}
+
+.required {
+	@apply tw-text-red-500 tw-absolute tw-top-0 tw-right-0;
+}
+
+.password-eye {
+	@apply tw-absolute tw-top-1/2 tw-right-1.5 -tw-translate-y-[25%] tw-z-20 tw-p-px;
+
+	> svg {
+		@apply tw-opacity-70 tw-transition-opacity tw-duration-200 tw-will-change-auto;
+	}
+
+	& ~ .clear-btn {
+		@apply tw-right-8;
+	}
+
+	&:hover > svg {
+		@apply tw-opacity-100;
+	}
+}
+
+.clear-btn {
+	@apply tw-absolute tw-top-1/2 tw-right-1.5 -tw-translate-y-[25%] tw-z-20 tw-p-px tw-opacity-100 tw-scale-100 tw-transition-all tw-will-change-auto;
+
+	> svg {
+		@apply tw-opacity-70 tw-transition-opacity tw-duration-200 tw-will-change-auto;
+	}
+
+	&:hover > svg {
+		@apply tw-opacity-100;
+	}
+}

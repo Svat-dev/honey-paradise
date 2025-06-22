@@ -1,15 +1,3 @@
-.wrapper {
-	@apply tw-relative;
-}
-
-.error-txt {
-	@apply tw-absolute -tw-bottom-6 tw-px-1.5 tw-leading-3 tw-text-sm;
-}
-
-.input-wrapper {
-	@apply tw-relative;
-}
-
 .input {
 	@apply tw-relative tw-w-full tw-pt-5 tw-px-3 tw-pb-2 tw-bg-transparent tw-text-input tw-z-10 tw-transition-all tw-duration-500 tw-will-change-auto;
 
@@ -34,32 +22,4 @@
 
 .label {
 	@apply tw-absolute tw-top-0 tw-left-0 tw-pt-5 tw-px-3 tw-pb-2 tw-text-muted tw-transition-all tw-duration-500 tw-select-none tw-pointer-events-none tw-will-change-auto;
-}
-
-.password-eye {
-	@apply tw-absolute tw-top-1/2 tw-right-1.5 -tw-translate-y-[25%] tw-z-20 tw-p-px;
-
-	> svg {
-		@apply tw-opacity-70 tw-transition-opacity tw-duration-200 tw-will-change-auto;
-	}
-
-	& ~ .clear-btn {
-		@apply tw-right-8;
-	}
-
-	&:hover > svg {
-		@apply tw-opacity-100;
-	}
-}
-
-.clear-btn {
-	@apply tw-absolute tw-top-1/2 tw-right-1.5 -tw-translate-y-[25%] tw-z-20 tw-p-px;
-
-	> svg {
-		@apply tw-opacity-70 tw-transition-opacity tw-duration-200 tw-will-change-auto;
-	}
-
-	&:hover > svg {
-		@apply tw-opacity-100;
-	}
 }

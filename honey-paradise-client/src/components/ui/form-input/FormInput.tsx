@@ -4,11 +4,12 @@ import { cn } from "@/shared/lib/utils/base";
 import type { FC } from "react";
 import { ErrorText } from "./components";
 import { DateInput } from "./components/input-types/DateInput";
+import { DefaultDecorInput } from "./components/input-types/DefaultDecorInput";
 import { DefaultInput } from "./components/input-types/DefaultInput";
 import { OTPInput } from "./components/input-types/OTPInput";
 import { RadioGroupInput } from "./components/input-types/RadioGroupInput";
 import { useFormInput } from "./hooks/useFormInput";
-import styles from "./styles/form-input.module.scss";
+import styles from "./styles/default-input.module.scss";
 import type { IFormInputProps } from "./types/form-input.type";
 
 const FormInput: FC<IFormInputProps> = ({
@@ -20,12 +21,17 @@ const FormInput: FC<IFormInputProps> = ({
 	data,
 	caretClassName,
 	otpSlotsLimit,
+	isDecorated,
 	...props
 }) => {
-	const { error, input_type } = useFormInput(name);
+	const { error, input_type } = useFormInput(name, isDecorated);
 
 	return (
 		<div className={cn(styles["wrapper"], containerClassName)}>
+			{input_type === "default-decor" && (
+				<DefaultDecorInput name={name} setMask={setMask} clearBtnClassName={clearBtnClassName} {...props} />
+			)}
+
 			{input_type === "default" && <DefaultInput name={name} setMask={setMask} clearBtnClassName={clearBtnClassName} {...props} />}
 
 			{input_type === "radio-group" && <RadioGroupInput name={name} data={data} />}

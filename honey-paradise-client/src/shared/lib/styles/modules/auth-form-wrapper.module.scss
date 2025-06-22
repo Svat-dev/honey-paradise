@@ -2,7 +2,7 @@
 .wrapper::before,
 .border-line::after,
 .border-line::before {
-	@apply tw-content-[""] tw-absolute -tw-top-1/2 -tw-left-1/2 tw-z-10 tw-origin-bottom-right tw-transition-all;
+	@apply tw-content-[""] tw-absolute tw-block -tw-top-1/2 -tw-left-1/2 tw-z-10 tw-origin-bottom-right tw-transition-all;
 
 	background: linear-gradient(0deg, transparent, transparent, #4d4d4daf, #4d4d4daf, #4d4d4daf, #4d4d4daf);
 	box-shadow: 0 0 2px 2px #1c1c1c;
