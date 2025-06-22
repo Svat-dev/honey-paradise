@@ -11,7 +11,7 @@
 }
 
 .required {
-	@apply tw-text-red-500 tw-absolute tw-top-0 tw-right-0;
+	@apply tw-text-red-500 tw-text-lg tw-absolute -tw-top-3 -tw-right-1;
 }
 
 .password-eye {

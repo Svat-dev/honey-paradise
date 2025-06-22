@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
+import { hash } from "argon2";
 import { PrismaService } from "src/core/prisma/prisma.service";
 
 @Injectable()
@@ -25,6 +26,15 @@ export class ProfileService {
 		await this.prisma.user.update({
 			where: { id },
 			data: { isVerified: true },
+		});
+
+		return true;
+	}
+
+	async updateProfilePassword(id: string, password: string) {
+		await this.prisma.user.update({
+			where: { id },
+			data: { password: await hash(password) },
 		});
 
 		return true;

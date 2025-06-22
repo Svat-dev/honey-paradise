@@ -11,6 +11,7 @@ export enum EnumApiRoute {
 	CREATE = "/create",
 	ME = "/me",
 	RESET_PASSWORD = "/reset-password",
+	RECOVER_PASSWORD = "/recover-password",
 
 	EMAIL = "/email",
 	SEND_VERIFICATION_CODE = `${EMAIL}/send-code`,

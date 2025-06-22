@@ -37,11 +37,13 @@ export const useFormDefaultInput = (name: TFieldNames, setMask?: ReactStateHook<
 		if (error) clearErrors(name);
 	};
 
+	const showPassword = () => setIsShowPassword(prev => !prev);
+
 	return {
 		onInput,
 		isPassword,
 		isShowPassword,
-		setIsShowPassword,
+		showPassword,
 		clear,
 		clearError,
 		register,

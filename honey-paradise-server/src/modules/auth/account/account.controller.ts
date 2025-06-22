@@ -13,7 +13,7 @@ import { VerificationService } from "../verification/verification.service";
 import { AccountService } from "./account.service";
 import type { CreateUserDto } from "./dto/create-user.dto";
 import type { EmailVerificationDto, EmailVerifyDto } from "./dto/email-verification.dto";
-import type { PasswordRecoverDto } from "./dto/password-recover.dto";
+import type { PasswordRecoverDto, UpdatePasswordDto } from "./dto/password-recover.dto";
 
 @Controller(EnumApiRoute.ACCOUNT)
 export class AccountController {
@@ -54,5 +54,11 @@ export class AccountController {
 	@Post(EnumApiRoute.RESET_PASSWORD)
 	resetPassword(@Body() dto: PasswordRecoverDto, @Req() req: Request, @UserAgent() userAgent: string) {
 		return this.verificationService.sendRecoverPasswordEmail(req, userAgent, dto.email);
+	}
+
+	@HttpCode(HttpStatus.OK)
+	@Post(EnumApiRoute.RECOVER_PASSWORD)
+	recoverPassword(@Body() dto: UpdatePasswordDto) {
+		return this.verificationService.recoverPassword(dto);
 	}
 }
