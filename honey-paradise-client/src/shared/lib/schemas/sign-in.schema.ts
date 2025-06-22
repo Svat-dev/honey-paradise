@@ -19,8 +19,8 @@ export const createSignInSchema = (t: any) =>
 
 		password: z
 			.string()
-			.min(VALUES.MIN_PASSWORD_LENGTH, { message: t("form.password.errors.min", { min: VALUES.MIN_ID_LENGTH }) })
-			.max(VALUES.MAX_PASSWORD_LENGTH, { message: t("form.password.errors.max", { max: VALUES.MAX_ID_LENGTH }) })
+			.min(VALUES.MIN_PASSWORD_LENGTH, { message: t("form.password.errors.min", { min: VALUES.MIN_PASSWORD_LENGTH }) })
+			.max(VALUES.MAX_PASSWORD_LENGTH, { message: t("form.password.errors.max", { max: VALUES.MAX_PASSWORD_LENGTH }) })
 			.refine(validatePassword, { message: "" }),
 	});
 

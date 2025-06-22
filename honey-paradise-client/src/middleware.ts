@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 
 	const isAuthRoute = nextUrl.pathname.startsWith(EnumAppRoute.AUTH);
 	const isConfirmationRoute = nextUrl.pathname.startsWith(EnumAppRoute.CONFIRMATION);
-	const isPasswordRecoveryRoute = nextUrl.pathname.startsWith(EnumAppRoute.FORGOT_PASSWORD);
+	const isPasswordRecoveryRoute = nextUrl.pathname.startsWith(EnumAppRoute.PASSWORD_RECOVERY);
 
 	const searchParams = nextUrl.searchParams;
 

@@ -322,7 +322,25 @@
 						"error": "Failed to send code: {e}"
 					}
 				},
-				"change": {}
+				"change": {
+					"title": "Create a new password",
+					"description": "Enter a new password that you will use to sign in to your account",
+					"submitBtn": "Confirm changes",
+					"labels": {
+						"image": "Password Reset icon",
+						"submitBtn": "Confirm new password",
+						"inputPlaceholder": "Enter a new password"
+					},
+					"errors": {
+						"empty": "Enter password",
+						"min": "Minimum password length {min} characters",
+						"max": "Maximum password length {max} characters"
+					},
+					"toasters": {
+						"success": "You have successfully changed your password",
+						"error": "Error when updating password: {e}"
+					}
+				}
 			}
 		}
 	},

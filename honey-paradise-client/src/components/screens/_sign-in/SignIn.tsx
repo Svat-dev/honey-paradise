@@ -45,7 +45,7 @@ const SignIn = () => {
 						/>
 
 						<div className={styles["help-wrapper"]}>
-							<Link href={EnumAppRoute.FORGOT_PASSWORD} tabIndex={3}>
+							<Link href={EnumAppRoute.RESET_PASSWORD} tabIndex={3}>
 								{t("footer.forgotPassword")}
 							</Link>
 

@@ -10,17 +10,20 @@ export enum EnumAppRoute {
 	INDEX = "/",
 
 	AUTH = "/auth",
-	SIGN_IN = `${EnumAppRoute.AUTH}/sign-in`,
-	SIGN_UP = `${EnumAppRoute.AUTH}/sign-up?active_tab=main`,
-	FORGOT_PASSWORD = `${EnumAppRoute.AUTH}/password-recovery?type=${EnumPasswordRecoverTabs.RESET}`,
+	SIGN_IN = `${AUTH}/sign-in`,
+	SIGN_UP = `${AUTH}/sign-up?active_tab=main`,
 
-	CONFIRMATION = `${EnumAppRoute.AUTH}/confirmation`,
-	EMAIL_CONFIRMATION = `${EnumAppRoute.CONFIRMATION}?type=${EnumConfirmationTypes.EMAIL}`,
-	SIGN_IN_CONFIRMATION = `${EnumAppRoute.CONFIRMATION}?type=${EnumConfirmationTypes.SIGN_IN}`,
+	PASSWORD_RECOVERY = `${AUTH}/password-recovery`,
+	RESET_PASSWORD = `${PASSWORD_RECOVERY}?type=${EnumPasswordRecoverTabs.RESET}`,
+	CHANGE_PASSWORD = `${PASSWORD_RECOVERY}?type=${EnumPasswordRecoverTabs.CHANGE}`,
+
+	CONFIRMATION = `${AUTH}/confirmation`,
+	EMAIL_CONFIRMATION = `${CONFIRMATION}?type=${EnumConfirmationTypes.EMAIL}`,
+	SIGN_IN_CONFIRMATION = `${CONFIRMATION}?type=${EnumConfirmationTypes.SIGN_IN}`,
 
 	DOCS = "/docs",
-	PRIVACY_POLICY = `${EnumAppRoute.DOCS}/privacy-policy`,
-	COOKIE_POLICY = `${EnumAppRoute.DOCS}/cookie-policy`,
+	PRIVACY_POLICY = `${DOCS}/privacy-policy`,
+	COOKIE_POLICY = `${DOCS}/cookie-policy`,
 
 	NOT_FOUND = "/not-found",
 	NOT_AUTH = "/not-auth",

@@ -17,7 +17,7 @@ interface IChangePassword {
 }
 
 const ChangePassword: FC<IChangePassword> = ({ token }) => {
-	const { changePasswordForm, dataStatus, onSubmit, isPasswordUpdating } = useChangePassword(token);
+	const { changePasswordForm, dataStatus, onSubmit, isPasswordUpdating, t } = useChangePassword(token);
 
 	return (
 		<section data-status={dataStatus} className={cn(_styles["wrapper"], styles["wrapper"])}>
@@ -27,25 +27,25 @@ const ChangePassword: FC<IChangePassword> = ({ token }) => {
 				<form className={_styles["form"]} onSubmit={onSubmit}>
 					<div className={styles["title-wrapper"]}>
 						<div>
-							<Title size="lg">{"Придумайте новый пароль"}</Title>
-							<p>{"Введите новый пароль, который Вы будете использовать для входа в аккаунт"}</p>
+							<Title size="lg">{t("title")}</Title>
+							<p>{t("description")}</p>
 						</div>
 
-						<Image src="/assets/reset-password.webp" alt={"Иконка сброса пароля"} width={64} height={64} priority />
+						<Image src="/assets/reset-password.webp" alt={t("labels.image")} width={64} height={64} priority />
 					</div>
 
 					<FormInput
 						name="password"
 						type="password"
-						placeholder={"Новый пароль"}
+						placeholder={t("labels.inputPlaceholder")}
 						containerClassName={styles["input-wrapper"]}
 						maxLength={VALUES.MAX_PASSWORD_LENGTH}
 						required
 					/>
 
 					<div className={styles["actions-wrapper"]}>
-						<Button variant="secondary" title={"Подтвердить изменённый пароль"} type="submit" isLoading={isPasswordUpdating}>
-							{"Подтвердить изменения"}
+						<Button variant="secondary" title={t("labels.submitBtn")} type="submit" isLoading={isPasswordUpdating}>
+							{t("submitBtn")}
 						</Button>
 					</div>
 				</form>

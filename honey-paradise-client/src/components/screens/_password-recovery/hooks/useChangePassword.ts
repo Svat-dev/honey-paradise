@@ -2,8 +2,11 @@ import { type TPasswordChangeFields, createChangePasswordSchema } from "@/shared
 
 import { errorCatch } from "@/api/api-helper";
 import { useUpdatePasswordS } from "@/services/hooks/profile/useUpdatePasswordS";
+import { EnumAppRoute } from "@/shared/lib/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { AxiosError } from "axios";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -13,11 +16,14 @@ export const useChangePassword = (token: string) => {
 	const errorDelay = 4000;
 	const successDelay = 2000;
 
+	const t = useTranslations("global.password-recovery.content.change");
+	const { replace } = useRouter();
+
 	const [dataStatus, setDataStatus] = useState<TDataStatus>("default");
 
 	const { isPasswordUpdating, updatePasswordAsync } = useUpdatePasswordS();
 
-	const changePasswordSchema = createChangePasswordSchema({});
+	const changePasswordSchema = createChangePasswordSchema(t);
 
 	const changePasswordForm = useForm<TPasswordChangeFields>({
 		resolver: zodResolver(changePasswordSchema),
@@ -39,14 +45,15 @@ export const useChangePassword = (token: string) => {
 			await updatePasswordAsync({ password: data.password, token });
 
 			setDataStatus("good");
-			toast.success("Вы успешно изменили свой пароль", { duration: successDelay });
+			toast.success(t("toasters.success"), { duration: successDelay });
 
 			setTimeout(() => {
 				setDataStatus("default");
+				replace(EnumAppRoute.SIGN_IN);
 			}, successDelay);
 		} catch (error) {
 			const { errMsg } = errorCatch(error as AxiosError);
-			const msg = "Ошибка при обновлении пароля " + errMsg;
+			const msg = t("toasters.error", { e: errMsg });
 
 			return onError(msg);
 		}
@@ -59,5 +66,6 @@ export const useChangePassword = (token: string) => {
 		onSubmit: _onSubmit,
 		changePasswordForm,
 		isPasswordUpdating,
+		t,
 	};
 };

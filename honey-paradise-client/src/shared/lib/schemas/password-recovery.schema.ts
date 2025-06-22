@@ -13,8 +13,9 @@ export const createChangePasswordSchema = (t: any) =>
 	z.object({
 		password: z
 			.string({ message: "" })
-			.min(VALUES.MIN_PASSWORD_LENGTH, { message: "Минимальная длина пароля 8 символов" })
-			.max(VALUES.MAX_PASSWORD_LENGTH, { message: "Максимальная длина пароля 24 символов" }),
+			.nonempty(t("errors.empty"))
+			.max(VALUES.MAX_PASSWORD_LENGTH, { message: t("errors.max", { max: VALUES.MAX_PASSWORD_LENGTH }) })
+			.min(VALUES.MIN_PASSWORD_LENGTH, { message: t("errors.min", { min: VALUES.MIN_PASSWORD_LENGTH }) }),
 	});
 
 export type TPasswordResetFields = {
