@@ -82,6 +82,36 @@ export class VerificationService {
 		return true;
 	}
 
+	async sendRecoverPasswordEmail(req: Request, userAgent: string, email: string) {
+		const user = await this.userService.getProfile(email, "email");
+
+		if (!user) throw new NotFoundException(this.i18n.t("d.errors.account_not_found_email"));
+
+		const existingToken = await this.prisma.token.findFirst({
+			where: { userId: user.id, type: EnumTokenTypes.PASSWORD_RECOVERY },
+		});
+
+		if (existingToken) await this.prisma.token.delete({ where: { id: existingToken.id } });
+
+		const token = this.generateAuthToken(EnumTokenTypes.PASSWORD_RECOVERY);
+		const expiresIn = new Date(new Date().getTime() + ms("30m"));
+
+		await this.prisma.token.create({
+			data: {
+				userId: user.id,
+				type: EnumTokenTypes.PASSWORD_RECOVERY,
+				token,
+				expiresIn,
+			},
+		});
+
+		const metadata = getSessionMetadata(req, userAgent);
+
+		await this.mailService.sendPasswordRecoveryMail(user.email, token, user.username, metadata);
+
+		return true;
+	}
+
 	private async validateToken(token: Token) {
 		if (!token) throw new NotFoundException(this.i18n.t("d.errors.invalid_code"));
 

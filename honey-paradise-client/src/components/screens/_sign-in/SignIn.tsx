@@ -23,7 +23,16 @@ const SignIn = () => {
 			<FormProvider {...signInForm}>
 				<form className={_styles["form"]} onSubmit={signInForm.handleSubmit(onSubmit)}>
 					<FormBlock title={t("title")} titleClassName={_styles["title"]} active>
-						<FormInput type="text" name="id" label={t("form.id.label")} containerClassName="tw-mb-12" tabIndex={1} required />
+						<FormInput
+							type="text"
+							name="id"
+							label={t("form.id.label")}
+							containerClassName="tw-mb-12"
+							tabIndex={1}
+							isDecorated={true}
+							required
+						/>
+
 						<FormInput
 							type="password"
 							name="password"
@@ -31,6 +40,7 @@ const SignIn = () => {
 							containerClassName="tw-mb-8"
 							maxLength={VALUES.MAX_PASSWORD_LENGTH}
 							tabIndex={2}
+							isDecorated={true}
 							required
 						/>
 
@@ -38,6 +48,7 @@ const SignIn = () => {
 							<Link href={EnumAppRoute.FORGOT_PASSWORD} tabIndex={3}>
 								{t("footer.forgotPassword")}
 							</Link>
+
 							<Link href={EnumAppRoute.SIGN_UP} tabIndex={4}>
 								{t("footer.noProfile")}
 							</Link>

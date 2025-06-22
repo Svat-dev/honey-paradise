@@ -80,8 +80,7 @@ export const useSignIn = () => {
 				replace(EnumAppRoute.INDEX);
 			}, 2000);
 		} catch (err) {
-			const { errMsg, errCause, error } = errorCatch(err as AxiosError);
-			console.log(error);
+			const { errMsg, errCause } = errorCatch(err as AxiosError);
 
 			if (errCause === errorCauses.ACCOUNT_NOT_VERIFIED) {
 				onError(errMsg);

@@ -3,15 +3,27 @@
 }
 
 .button-ui-default {
-	@apply tw-bg-primary tw-text-primary-foreground tw-shadow hover:tw-bg-primary/90;
+	@apply tw-bg-primary tw-text-primary-foreground tw-shadow;
+
+	&:hover {
+		@apply tw-bg-primary/90;
+	}
 }
 
 .button-ui-outline {
-	@apply tw-border tw-border-black tw-text-black tw-py-1.5 tw-px-2 tw-gap-1 hover:tw-bg-secondary/40;
+	@apply tw-border tw-border-black tw-text-black tw-py-1.5 tw-px-2 tw-gap-1;
+
+	&:hover {
+		@apply tw-bg-secondary/40;
+	}
 }
 
 .button-ui-secondary {
-	@apply tw-bg-secondary tw-text-secondary-foreground tw-shadow-sm hover:tw-bg-secondary/80;
+	@apply tw-bg-secondary tw-text-secondary-foreground tw-shadow-sm;
+
+	&:hover {
+		@apply tw-bg-secondary/80;
+	}
 }
 
 .button-ui-ghost {
@@ -19,7 +31,11 @@
 }
 
 .button-ui-link {
-	@apply tw-text-primary tw-underline-offset-4 hover:tw-underline;
+	@apply tw-text-black tw-underline-offset-4;
+
+	&:hover {
+		@apply tw-underline;
+	}
 }
 
 .button-ui-loader {

@@ -9,8 +9,8 @@ type Props = {
 
 const EmailConfirmationTemplate: React.FC<Props> = ({ token, t }) => {
 	return (
-		<Tailwind>
-			<Html>
+		<Html>
+			<Tailwind>
 				<Body className="bg-[#fffcdf]">
 					<Heading>{t.heading}</Heading>
 
@@ -23,8 +23,8 @@ const EmailConfirmationTemplate: React.FC<Props> = ({ token, t }) => {
 					<Text>{t.farewell}</Text>
 					<Text className="text-sm text-[#4d4d4d]">{t.noReply}</Text>
 				</Body>
-			</Html>
-		</Tailwind>
+			</Tailwind>
+		</Html>
 	);
 };
 

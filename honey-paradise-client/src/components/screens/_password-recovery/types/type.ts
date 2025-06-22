@@ -3,4 +3,4 @@ export enum EnumPasswordRecoverTabs {
 	CHANGE = "change",
 }
 
-export type TDataStatus = "success" | "error" | "loading" | "default";
+export type TDataStatus = "good" | "error" | "loading" | "default";

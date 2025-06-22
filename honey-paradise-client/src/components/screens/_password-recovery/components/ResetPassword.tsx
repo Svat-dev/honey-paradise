@@ -1,34 +1,18 @@
 "use client";
 
-import { Button, Title } from "@/components/ui";
+import { Alert, AlertDescription, AlertTitle, Button, Title } from "@/components/ui";
 
 import { FormInput } from "@/components/ui/form-input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { type TPasswordResetFields, createPasswordResetSchema } from "@schemas/password-recovery.schema";
 import _styles from "@styles/modules/auth-form-wrapper.module.scss";
 import { cn } from "@utils/base";
+import { CheckCircle2Icon } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
+import { useResetPassword } from "../hooks/useResetPassword";
 import styles from "../styles/reset-password.module.scss";
-import type { TDataStatus } from "../types/type";
 
 const ResetPassword = () => {
-	const [dataStatus, setDataStatus] = useState<TDataStatus>("default");
-
-	const resetPasswordSchema = createPasswordResetSchema({});
-
-	const resetPasswordForm = useForm<TPasswordResetFields>({
-		resolver: zodResolver(resetPasswordSchema),
-		mode: "onSubmit",
-		defaultValues: {
-			email: "",
-		},
-	});
-
-	const onSubmit = resetPasswordForm.handleSubmit((data: TPasswordResetFields) => {
-		console.log(data);
-	});
+	const { isCodeSending, onSubmit, dataStatus, isSuccess, resetPasswordForm, resendCode, cooldown, t } = useResetPassword();
 
 	return (
 		<section data-status={dataStatus} className={cn(_styles["wrapper"], styles["wrapper"])}>
@@ -38,24 +22,41 @@ const ResetPassword = () => {
 				<form className={_styles["form"]} onSubmit={onSubmit}>
 					<div className={styles["title-wrapper"]}>
 						<div>
-							<Title size="lg">{"Сброс пароля"}</Title>
-							<p>{"Введите почту, которую вы указывали при регистрации. Мы отправим на нее код для сброса пароля"}</p>
+							<Title size="lg">{t("title")}</Title>
+							<p>{t("description")}</p>
 						</div>
 
-						<Image src="/assets/reset-password.webp" alt={"Иконка сброса пароля"} width={64} height={64} priority />
+						<Image src="/assets/reset-password.webp" alt={t("labels.image")} width={64} height={64} priority />
 					</div>
 
-					<FormInput name="email" placeholder={"Своя электронная почта"} containerClassName={styles["input-wrapper"]} />
+					{isSuccess ? (
+						<>
+							<Alert className={styles["alert"]}>
+								<CheckCircle2Icon />
 
-					<div className={styles["actions-wrapper"]}>
-						<Button variant="secondary" title={"Вернуться к странице входа в аккаунт"}>
-							{"Войти в аккаунт"}
-						</Button>
+								<AlertTitle>{t("alert.title")}</AlertTitle>
+								<AlertDescription>{t("alert.description")}</AlertDescription>
+							</Alert>
 
-						<Button variant="secondary" title={"Отправить код на почту"} type="submit">
-							{"Отправить код"}
-						</Button>
-					</div>
+							<Button variant="link" className="tw-self-start tw-ml-1" onClick={resendCode}>
+								{t("alert.resendBtn")}
+							</Button>
+						</>
+					) : (
+						<>
+							<FormInput name="email" placeholder={t("labels.inputPlaceholder")} containerClassName={styles["input-wrapper"]} />
+
+							<div className={styles["actions-wrapper"]}>
+								<Button variant="secondary" title={t("labels.toAuthBtn")} disabled={isSuccess || isCodeSending}>
+									{t("actions.toAuthBtn")}
+								</Button>
+
+								<Button variant="secondary" title={t("labels.submitBtn")} type="submit" disabled={cooldown !== 0} isLoading={isCodeSending}>
+									{cooldown === 0 ? t("actions.submitBtn") : t("actions.submitBtnCooldown", { cooldown })}
+								</Button>
+							</div>
+						</>
+					)}
 				</form>
 			</FormProvider>
 		</section>

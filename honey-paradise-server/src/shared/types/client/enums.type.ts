@@ -10,4 +10,5 @@ export enum EnumErrorCauses {
 export enum EnumClientRoutes {
 	AUTH = "/auth",
 	CONFIRMATION = `${AUTH}/confirmation`,
+	CHANGE_PASSWORD = `${AUTH}/password-recovery?type=change`,
 }

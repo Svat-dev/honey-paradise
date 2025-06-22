@@ -10,6 +10,10 @@
 				"farewell": "Sincerely, Honey Paradise team",
 				"noReply": "Do not reply to this email. It was sent by a robot"
 			}
+		},
+		"password_recovery": {
+			"subject": "Password recovery",
+			"content": {}
 		}
 	},
 	"errors": {

@@ -32,6 +32,7 @@ const OptionalPart: FC<IProps> = ({ isActive, onClickToPrevious, onRecaptchaChan
 					placeholder={t("optional_part.form.username.placeholder")}
 					containerClassName="tw-mt-2 tw-mb-8"
 					spellCheck={false}
+					isDecorated
 					tabIndex={0}
 				/>
 			</OptionalPartSection>

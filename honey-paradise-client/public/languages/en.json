@@ -294,7 +294,34 @@
 			"title": "Password recovery",
 			"description": "{title} online store page of the password recovery page",
 			"content": {
-				"reset": {},
+				"reset": {
+					"title": "Recover your password",
+					"description": "Enter the email address that you specified during sign up. We will send a password recover code to it",
+					"actions": {
+						"submitBtn": "Send code",
+						"submitBtnCooldown": "Send the code again - {cooldown} sec.",
+						"toAuthBtn": "Sign in to your account"
+					},
+					"alert": {
+						"title": "Check your email",
+						"description": "You have received an email. This email contains a password reset link. You can close this page",
+						"resendBtn": "The code did not arrive? Try sending again"
+					},
+					"labels": {
+						"image": "Password reset icon",
+						"submitBtn": "Send code to email",
+						"toAuthBtn": "Return to account sign in page",
+						"inputPlaceholder": "Your email"
+					},
+					"errors": {
+						"empty": "Enter an email",
+						"invalid": "Enter the correct email address"
+					},
+					"toasters": {
+						"success": "Code has been successfully sent!",
+						"error": "Failed to send code: {e}"
+					}
+				},
 				"change": {}
 			}
 		}

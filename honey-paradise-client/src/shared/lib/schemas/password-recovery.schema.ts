@@ -3,7 +3,10 @@ import { VALUES } from "../constants/base";
 
 export const createPasswordResetSchema = (t: any) =>
 	z.object({
-		email: z.string({ message: "" }).nonempty("Введите эл. почту").email({ message: "Введите корректную эл. почту" }),
+		email: z
+			.string({ message: "" })
+			.nonempty(t("errors.empty"))
+			.email({ message: t("errors.invalid") }),
 	});
 
 export const createChangePasswordSchema = (t: any) =>

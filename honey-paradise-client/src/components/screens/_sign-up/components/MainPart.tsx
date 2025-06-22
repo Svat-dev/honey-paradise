@@ -27,6 +27,7 @@ const MainPart: FC<IProps> = ({ onClickToNext, isActive, disabled, t, isPending 
 				containerClassName="tw-mb-12"
 				tabIndex={0}
 				spellCheck={false}
+				isDecorated
 				required
 			/>
 
@@ -39,6 +40,7 @@ const MainPart: FC<IProps> = ({ onClickToNext, isActive, disabled, t, isPending 
 				maxLength={VALUES.MAX_PASSWORD_LENGTH}
 				tabIndex={1}
 				spellCheck={false}
+				isDecorated
 				required
 			/>
 
@@ -51,6 +53,7 @@ const MainPart: FC<IProps> = ({ onClickToNext, isActive, disabled, t, isPending 
 				maxLength={VALUES.MAX_PASSWORD_LENGTH}
 				tabIndex={2}
 				spellCheck={false}
+				isDecorated
 				required
 			/>
 

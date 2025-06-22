@@ -1,3 +1,4 @@
+export * from "./alert";
 export * from "./button";
 export * from "./calendar";
 export * from "./checkbox";
