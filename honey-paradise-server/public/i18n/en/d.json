@@ -25,6 +25,7 @@
 		"auth_to_have_access": "To access this resource, you must be logged in",
 		"not_have_access": "You don't have access to this resource",
 		"invalid_code": "You entered the wrong code.\nPlease check the correctness of the input",
+		"password_recovery_token_missing": "Password recovery token is invalid or not provided",
 		"code_expired": "This code has expired.\nTry requesting a new code",
 		"account_not_verified": "You have unverified account!\nTo continue, please, verify it now",
 		"500": {

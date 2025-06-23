@@ -9,3 +9,19 @@
 .separator {
 	@apply tw-bg-black tw-h-7 tw-mx-4 tw-rotate-45;
 }
+
+.profile-block-wrapper {
+	@apply tw-flex tw-items-center tw-gap-3;
+}
+
+.profile-block-nickname {
+	@apply tw-flex tw-flex-col tw-leading-4 tw-mr-1;
+}
+
+.profile-block-avatar {
+	@apply tw-flex tw-items-center tw-justify-center tw-bg-white/80 tw-rounded-full tw-p-0.5;
+}
+
+.profile-block-role {
+	@apply tw-text-sm tw-text-muted;
+}

@@ -5,6 +5,7 @@ import { format, toDate } from "date-fns";
 
 import { useAuth } from "@hooks/auth";
 import { useLanguage } from "@i18n/hooks";
+import { getTimeString } from "@utils/get-time";
 
 const Index = () => {
 	useLanguage();
@@ -18,7 +19,9 @@ const Index = () => {
 		const now = new Date().getTime();
 		const diff = now - date.getTime();
 
-		return Math.floor(diff / 60000);
+		const time = getTimeString(diff);
+
+		return time;
 	};
 
 	return (
@@ -29,7 +32,9 @@ const Index = () => {
 						<ul>
 							<li className="tw-font-bold">Устройство</li>
 							<li>Браузер: {currentSession?.data.metadata.device.browser}</li>
-							<li>Операционная система: {currentSession?.data.metadata.device.os}</li>
+							<li>
+								Устройство: {currentSession?.data.metadata.device.type}, {currentSession?.data.metadata.device.os}
+							</li>
 							<li>IP-адрес: {currentSession?.data.metadata.ip}</li>
 
 							<li className="tw-font-bold">Местоположение</li>
@@ -41,7 +46,7 @@ const Index = () => {
 
 							<li className="tw-font-bold">Прочее</li>
 							<li>Время входа: {format(toDate(currentSession?.data.createdAt as string), "dd/MM/yyyy hh:mm:ss")}</li>
-							<li>Продолжительность: {getTime(toDate(currentSession?.data.createdAt as string))} минут</li>
+							<li>Продолжительность: {getTime(toDate(currentSession?.data.createdAt as string))}</li>
 							<li>Идентификатор сессии: {currentSession?.data.id}</li>
 							<li>Пользователь: {currentSession?.data.userId}</li>
 						</ul>

@@ -34,7 +34,7 @@ export interface IUserFull {
 	phoneNumber?: string;
 
 	gender: EnumGenders;
-	avatarPath?: string;
+	avatarPath: string;
 	birthdate?: string;
 
 	settings: ISettings;

@@ -379,7 +379,8 @@
 				"menu": "Menu",
 				"clear": "Clear",
 				"watchCart": "View the cart",
-				"changeLang": "Change language"
+				"changeLang": "Change language",
+				"avatar": "Profile's avatar"
 			},
 			"sidebarSheet": {
 				"title": "Profile Navigation menu",

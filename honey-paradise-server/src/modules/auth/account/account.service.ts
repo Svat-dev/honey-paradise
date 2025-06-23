@@ -7,6 +7,7 @@ import { hash } from "argon2";
 import type { Response } from "express";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
+import { DEFAULT_AVATAR_PATH } from "src/shared/lib/common/constants";
 import { ms } from "src/shared/lib/common/utils";
 import { getEmailUsername } from "src/shared/lib/common/utils/get-email-username.util";
 import { userFullOutput } from "src/shared/lib/prisma/outputs/user.output";
@@ -46,6 +47,7 @@ export class AccountService {
 				username: username || getEmailUsername(email),
 				birthdate,
 				gender,
+				avatarPath: DEFAULT_AVATAR_PATH,
 				settings: { create: {} },
 				notificationSettings: { create: {} },
 				cart: { create: {} },

@@ -14,3 +14,5 @@ export const TOKENS_LENGTH = {
 } as const;
 
 export const USERNAME_REGEX = /^[a-zA-Zа-яА-Я0-9_]+$/;
+
+export const DEFAULT_AVATAR_PATH = "/avatars/default.webp";
