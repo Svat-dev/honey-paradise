@@ -1,14 +1,14 @@
 import { getTranslations } from "next-intl/server";
-import { type FC } from "react";
+import type { FC } from "react";
 import { ChangeThemeButton } from "./components/ChangeThemeButton";
 import { ListItem } from "./components/ListItem";
 import { LogoutButton } from "./components/logout-button/LogoutButton";
 import { getNavListData } from "./data";
 
-interface ISidebar {}
+interface IRootSidebarSidebar {}
 
-const Sidebar: FC<ISidebar> = async ({}) => {
-	const t = await getTranslations("layout.sidebar");
+const RootSidebar: FC<IRootSidebarSidebar> = async ({}) => {
+	const t = await getTranslations("layout.root-sidebar");
 	const data = await getNavListData();
 
 	return (
@@ -33,4 +33,4 @@ const Sidebar: FC<ISidebar> = async ({}) => {
 	);
 };
 
-export { Sidebar };
+export { RootSidebar };

@@ -14,7 +14,7 @@ interface ILogoutButton {
 }
 
 const LogoutButton: FC<ILogoutButton> = ({ reversed }) => {
-	const t = useTranslations("layout.sidebar.footer.logout");
+	const t = useTranslations("layout.root-sidebar.footer.logout");
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	const { isAuthenticated } = useAuth();

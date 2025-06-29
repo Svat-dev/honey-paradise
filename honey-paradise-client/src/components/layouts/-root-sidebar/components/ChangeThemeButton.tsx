@@ -9,7 +9,7 @@ import styles from "../styles/change-theme.module.scss";
 
 const ChangeThemeButton = () => {
 	const { theme, toggleTheme } = useTheme();
-	const t = useTranslations("layout.sidebar.labels");
+	const t = useTranslations("layout.root-sidebar.labels");
 
 	return (
 		<button type="button" title={t("changeTheme")} className={styles["button"]} onClick={toggleTheme}>

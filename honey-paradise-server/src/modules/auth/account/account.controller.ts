@@ -1,6 +1,6 @@
 import { Controller } from "@nestjs/common/decorators/core/controller.decorator";
 import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
-import { Get, Post } from "@nestjs/common/decorators/http/request-mapping.decorator";
+import { Get, Patch, Post } from "@nestjs/common/decorators/http/request-mapping.decorator";
 import { Body, Req, Res } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
 import { Recaptcha } from "@nestlab/google-recaptcha/decorators/recaptcha";
@@ -57,7 +57,7 @@ export class AccountController {
 	}
 
 	@HttpCode(HttpStatus.OK)
-	@Post(EnumApiRoute.RECOVER_PASSWORD)
+	@Patch(EnumApiRoute.RECOVER_PASSWORD)
 	recoverPassword(@Body() dto: UpdatePasswordDto) {
 		return this.verificationService.recoverPassword(dto);
 	}

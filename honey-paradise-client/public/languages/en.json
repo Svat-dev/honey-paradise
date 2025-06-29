@@ -400,7 +400,7 @@
 				}
 			}
 		},
-		"sidebar": {
+		"root-sidebar": {
 			"list": {
 				"title": "Contents",
 				"content": {
@@ -443,6 +443,7 @@
 				"changeTheme": "Change theme"
 			}
 		},
+		"account-sidebar": {},
 		"cookies": {
 			"title": "Agreement with the Cookie policy",
 			"description": "This website uses Cookies to provide you with the best possible experience using our website.",

@@ -1,4 +1,4 @@
-import { LogoutButton } from "@/components/layouts/-sidebar/components/logout-button/LogoutButton";
+import { LogoutButton } from "@/components/layouts/-root-sidebar/components/logout-button/LogoutButton";
 import { SheetFooter } from "@/components/ui";
 import { OrderButton } from "../OrderButton";
 import { SelectLanguageDM } from "../SelectLanguageDM";

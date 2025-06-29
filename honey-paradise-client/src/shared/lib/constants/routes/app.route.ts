@@ -13,6 +13,11 @@ export enum EnumAppRoute {
 	SIGN_IN = `${AUTH}/sign-in`,
 	SIGN_UP = `${AUTH}/sign-up?active_tab=main`,
 
+	ACCOUNT = "/account",
+	SETTINGS = `${ACCOUNT}/settings`,
+	MY_ORDERS = `${ACCOUNT}/orders`,
+	CONNECTIONS = `${ACCOUNT}/connections`,
+
 	PASSWORD_RECOVERY = `${AUTH}/password-recovery`,
 	RESET_PASSWORD = `${PASSWORD_RECOVERY}?type=${EnumPasswordRecoverTabs.RESET}`,
 	CHANGE_PASSWORD = `${PASSWORD_RECOVERY}?type=${EnumPasswordRecoverTabs.CHANGE}`,

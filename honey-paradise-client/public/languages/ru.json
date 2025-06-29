@@ -400,7 +400,7 @@
 				}
 			}
 		},
-		"sidebar": {
+		"root-sidebar": {
 			"list": {
 				"title": "Содержание",
 				"content": {
@@ -443,6 +443,7 @@
 				"changeTheme": "Поменять тему"
 			}
 		},
+		"account-sidebar": {},
 		"cookies": {
 			"title": "Соглашение с политикой Cookies",
 			"description": "Этот сайт использует Cookies, чтобы обеспечить вам наилучший опыт использования нашего сайта.",

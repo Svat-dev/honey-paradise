@@ -1,0 +1,21 @@
+.wrapper {
+	@apply tw-transition-colors tw-will-change-auto tw-mb-4 tw-rounded-2xl;
+
+	&[data-status="false"] {
+		&:hover {
+			@apply tw-bg-muted/10;
+		}
+	}
+
+	&[data-status="true"] {
+		@apply tw-bg-secondary;
+
+		&:hover {
+			@apply tw-bg-secondary/80;
+		}
+	}
+}
+
+.link {
+	@apply tw-flex tw-items-center tw-gap-2 tw-py-3 tw-px-4;
+}

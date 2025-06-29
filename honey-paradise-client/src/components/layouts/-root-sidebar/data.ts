@@ -16,8 +16,8 @@ import { getTranslations } from "next-intl/server";
 import type { INavList } from "./types/data.type";
 
 export async function getNavListData(): Promise<INavList[]> {
-	const topics = await getTranslations("layout.sidebar.list.content.topics");
-	const links = await getTranslations("layout.sidebar.list.content.links");
+	const topics = await getTranslations("layout.root-sidebar.list.content.topics");
+	const links = await getTranslations("layout.root-sidebar.list.content.links");
 
 	const navListData: INavList[] = [
 		{

@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import type { FC } from "react";
 import type { INavList } from "../types/data.type";
 import { MiniListItem } from "./MiniListItem";
 
