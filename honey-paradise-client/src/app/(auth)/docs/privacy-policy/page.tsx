@@ -6,9 +6,7 @@ import { NO_INDEX_PAGE } from "@constants/base";
 import { getMetadata } from "@utils/base";
 import { getTranslations } from "next-intl/server";
 
-interface IProps {
-	params: {};
-}
+interface IProps {}
 
 export async function generateMetadata({}: IProps): Promise<Metadata> {
 	const t = await getTranslations("global.privacy-policy");

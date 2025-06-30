@@ -8,10 +8,7 @@ import { ClearButton } from "../clear-button";
 import { PasswordEye } from "../password-eye";
 
 const DefaultDecorInput: FC<IFormDefaultInputProps> = ({ name, setMask, clearBtnClassName, label, className, ...props }) => {
-	const { clear, clearError, isPassword, isShowPassword, onInput, setIsShowPassword, register, t, value } = useFormDefaultInput(
-		name,
-		setMask
-	);
+	const { clear, clearError, isPassword, isShowPassword, onInput, showPassword, register, t, value } = useFormDefaultInput(name, setMask);
 
 	return (
 		<div className={def_styles["input-wrapper"]}>
@@ -34,7 +31,7 @@ const DefaultDecorInput: FC<IFormDefaultInputProps> = ({ name, setMask, clearBtn
 
 			<i className={styles["decor-input"]}></i>
 
-			{isPassword && <PasswordEye value={isShowPassword} onClick={() => setIsShowPassword(prev => !prev)} t={t} />}
+			{isPassword && <PasswordEye value={isShowPassword} onClick={showPassword} t={t} />}
 			<ClearButton onClick={clear} value={value} className={clearBtnClassName} t={t} />
 		</div>
 	);

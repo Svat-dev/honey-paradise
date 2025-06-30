@@ -1,7 +1,7 @@
 import { EnumAppRoute } from "@constants/routes";
-import Image from "next/image";
-import Link from "next/dist/client/link";
 import { getTranslations } from "next-intl/server";
+import Link from "next/dist/client/link";
+import Image from "next/image";
 import styles from "../styles/left-part.module.scss";
 
 const LeftPart = async () => {

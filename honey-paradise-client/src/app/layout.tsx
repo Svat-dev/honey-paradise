@@ -10,7 +10,6 @@ import { Rubik } from "next/font/google";
 import { type ReactNode } from "react";
 
 interface IMainLayout {
-	params: {};
 	children: ReactNode;
 }
 
@@ -25,7 +24,7 @@ export const metadata: Metadata = {
 	creator: "_swuttik_",
 };
 
-export default async function MainLayout({ children, params }: Readonly<IMainLayout>) {
+export default async function MainLayout({ children }: Readonly<IMainLayout>) {
 	const locale = await getLocale();
 
 	const langs = await getMessages();

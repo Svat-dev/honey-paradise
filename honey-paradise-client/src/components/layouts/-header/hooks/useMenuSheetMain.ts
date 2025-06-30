@@ -1,5 +1,6 @@
 import { BellIcon, CircleUserRoundIcon, ClipboardListIcon } from "lucide-react";
 
+import { EnumAppRoute } from "@/shared/lib/constants/routes";
 import { useTranslations } from "next-intl";
 import type { ISheetLinks } from "../types/data.type";
 
@@ -9,12 +10,12 @@ export const useMenuSheetMain = () => {
 	const sheetLinksData: ISheetLinks[] = [
 		{
 			title: t("links.profile"),
-			link: "/",
+			link: EnumAppRoute.SETTINGS,
 			icon: CircleUserRoundIcon,
 		},
 		{
 			title: t("links.orders"),
-			link: "/",
+			link: EnumAppRoute.MY_ORDERS,
 			icon: ClipboardListIcon,
 		},
 		{

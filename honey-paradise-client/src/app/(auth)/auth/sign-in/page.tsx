@@ -1,13 +1,11 @@
 import type { Metadata, NextPage } from "next";
 
-import { NO_INDEX_PAGE } from "@constants/base";
 import { SignIn } from "@/components/screens/_sign-in/SignIn";
+import { NO_INDEX_PAGE } from "@constants/base";
 import { getMetadata } from "@utils/base";
 import { getTranslations } from "next-intl/server";
 
-interface IProps {
-	params: {};
-}
+interface IProps {}
 
 export async function generateMetadata({}: IProps): Promise<Metadata> {
 	const t = await getTranslations("global.sign-in");

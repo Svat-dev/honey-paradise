@@ -3,9 +3,7 @@ import { getMetadata } from "@utils/base";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
-interface IProps {
-	params: {};
-}
+interface IProps {}
 
 export async function generateMetadata({}: IProps): Promise<Metadata> {
 	const t = await getTranslations("global.home");

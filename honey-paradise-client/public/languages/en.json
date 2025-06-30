@@ -342,6 +342,16 @@
 					}
 				}
 			}
+		},
+		"settings": {
+			"title": "Settings",
+			"description": "Settings page of the online store {title}",
+			"content": {
+				"profile": {},
+				"account": {},
+				"notifications": {},
+				"orders": {}
+			}
 		}
 	},
 	"layout": {

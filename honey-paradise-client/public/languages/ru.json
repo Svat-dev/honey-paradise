@@ -342,6 +342,16 @@
 					}
 				}
 			}
+		},
+		"settings": {
+			"title": "Настройки",
+			"description": "Страница настроек интернет магазина {title}",
+			"content": {
+				"profile": {},
+				"account": {},
+				"notifications": {},
+				"orders": {}
+			}
 		}
 	},
 	"layout": {
