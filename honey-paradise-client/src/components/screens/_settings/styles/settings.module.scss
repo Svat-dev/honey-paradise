@@ -1,0 +1,19 @@
+.content-wrapper {
+	@apply tw-mt-6 tw-ml-10;
+}
+
+.content-desc {
+	@apply tw-ml-1 tw-mb-4 tw-text-muted;
+}
+
+.tabs {
+	@apply tw-relative tw-flex tw-items-center tw-justify-between tw-gap-3 tw-rounded-lg tw-bg-primary tw-h-10 tw-px-1 tw-py-1;
+
+	> button {
+		@apply tw-w-28 tw-text-center tw-z-20;
+	}
+
+	> div {
+		@apply tw-absolute tw-top-1/2 tw-left-0 -tw-translate-y-1/2 tw-bg-secondary tw-rounded-lg tw-h-8 tw-w-28 tw-ml-1 tw-z-10 tw-transition-all tw-will-change-auto;
+	}
+}

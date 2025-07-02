@@ -20,8 +20,10 @@ export async function generateMetadata({}: IProps): Promise<Metadata> {
 	};
 }
 
-const SettingsPage: NextPage<IProps> = props => {
-	return <Settings />;
+const SettingsPage: NextPage<IProps> = async props => {
+	const searchParams = await props.searchParams;
+
+	return <Settings searchParams={searchParams} />;
 };
 
 export default SettingsPage;
