@@ -347,10 +347,36 @@
 			"title": "Настройки",
 			"description": "Страница настроек интернет магазина {title}",
 			"content": {
-				"profile": {},
-				"account": {},
-				"notifications": {},
-				"orders": {}
+				"title": "Настройки",
+				"description": "Здесь Вы можете управлять своими настройками",
+				"tabs": {
+					"profile": "Профиль",
+					"account": "Аккаунт",
+					"notifications": "Уведомления",
+					"devices": "Устройства",
+					"labels": {
+						"profile": "Настройки профиль",
+						"account": "Настройки аккаунта",
+						"notifications": "Настройки уведомлений",
+						"devices": "Настройки устройств"
+					}
+				},
+				"profile": {
+					"title": "Профиль",
+					"description": "Настройте свой профиль как Вы этого хотите, поменяйте аватар, поменяйте информацию о себе"
+				},
+				"account": {
+					"title": "Аккаунт",
+					"description": ""
+				},
+				"notifications": {
+					"title": "Уведомления",
+					"description": ""
+				},
+				"devices": {
+					"title": "Устройства",
+					"description": ""
+				}
 			}
 		}
 	},

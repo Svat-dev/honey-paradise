@@ -7,7 +7,7 @@
 }
 
 .tabs {
-	@apply tw-relative tw-flex tw-items-center tw-justify-between tw-gap-3 tw-rounded-lg tw-bg-primary tw-h-10 tw-px-1 tw-py-1;
+	@apply tw-relative tw-flex tw-items-center tw-justify-between tw-gap-3 tw-w-fit tw-rounded-lg tw-bg-primary tw-h-10 tw-px-1 tw-py-1;
 
 	> button {
 		@apply tw-w-28 tw-text-center tw-z-20;

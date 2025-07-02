@@ -1,7 +1,6 @@
 import { cn } from "@utils/base";
-import { useTranslations } from "next-intl";
 import type { FC } from "react";
-import { getSettingsTabs } from "../data";
+import { useSettingsTabs } from "../hooks/useSettingsTabs";
 import styles from "../styles/settings.module.scss";
 import type { TSettingsTabTypes } from "../types/settings.type";
 
@@ -11,13 +10,12 @@ interface IProps {
 }
 
 const SettingsTabs: FC<IProps> = ({ setActiveTab, activeTab }) => {
-	const t = useTranslations("global.settings.content");
-	const tabs = getSettingsTabs(t);
+	const { tabs } = useSettingsTabs();
 
 	return (
 		<div className={styles["tabs"]}>
 			{tabs.map(tab => (
-				<button key={tab.href} onClick={() => setActiveTab(tab.href)}>
+				<button key={tab.href} title={tab.label} onClick={() => setActiveTab(tab.href)}>
 					{tab.title}
 				</button>
 			))}

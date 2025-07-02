@@ -347,10 +347,36 @@
 			"title": "Settings",
 			"description": "Settings page of the online store {title}",
 			"content": {
-				"profile": {},
-				"account": {},
-				"notifications": {},
-				"orders": {}
+				"title": "Settings",
+				"description": "Here you can manage your settings",
+				"tabs": {
+					"profile": "Profile",
+					"account": "Account",
+					"notifications": "Notifications",
+					"devices": "Devices",
+					"labels": {
+						"profile": "Profile settings",
+						"account": "Account settings",
+						"notifications": "Notification settings",
+						"devices": "Device settings"
+					}
+				},
+				"profile": {
+					"title": "Profile",
+					"description": "Customize your profile as you want, change your avatar, change your personal information"
+				},
+				"account": {
+					"title": "Account",
+					"description": ""
+				},
+				"notifications": {
+					"title": "Notifications",
+					"description": ""
+				},
+				"devices": {
+					"title": "Devices",
+					"description": ""
+				}
 			}
 		}
 	},

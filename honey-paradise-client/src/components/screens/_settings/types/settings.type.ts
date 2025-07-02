@@ -3,4 +3,5 @@ export type TSettingsTabTypes = "profile" | "account" | "notifications" | "devic
 export interface ISettingsTab {
 	title: string;
 	href: TSettingsTabTypes;
+	label: string;
 }
