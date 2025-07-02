@@ -1,7 +1,7 @@
 import { MenuIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { ProfileBlock } from "../ProfileBlock";
 import { MenuSheet } from "../sheet";
+import { ProfileBlock } from "./ProfileBlock";
 
 const AuthOnBlock = () => {
 	const t = useTranslations("layout.header");
@@ -11,7 +11,7 @@ const AuthOnBlock = () => {
 			<ProfileBlock t={t} />
 
 			<MenuSheet>
-				<button type="button" title={t("labels.menu")} className="tw-ml-5">
+				<button type="button" title={t("labels.menu")}>
 					<MenuIcon height={28} width={30} />
 				</button>
 			</MenuSheet>

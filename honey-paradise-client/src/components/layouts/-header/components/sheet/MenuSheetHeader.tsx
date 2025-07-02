@@ -3,7 +3,7 @@
 import { SheetDescription, SheetHeader, SheetTitle } from "@/components/ui";
 
 import { useTranslations } from "next-intl";
-import { ProfileBlock } from "../ProfileBlock";
+import { ProfileBlock } from "../right-part/ProfileBlock";
 
 const MenuSheetHeader = () => {
 	const t = useTranslations("layout.header");

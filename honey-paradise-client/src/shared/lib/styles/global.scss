@@ -25,7 +25,7 @@ body#none-scrollable {
 		// @apply tw-border-red;
 	}
 	body {
-		@apply tw-bg-background tw-text-black tw-font-rubik tw-min-h-screen tw-relative;
+		@apply tw-bg-background tw-text-black tw-font-rubik tw-min-h-screen tw-relative tw-overflow-x-hidden tw-overflow-y-auto;
 	}
 }
 

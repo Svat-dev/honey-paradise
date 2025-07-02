@@ -30,5 +30,6 @@ export const useMyAccount = () => {
 		isAccLoading,
 		accRefetch,
 		logout,
+		accError,
 	};
 };

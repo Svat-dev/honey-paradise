@@ -14,14 +14,14 @@
 	@apply tw-flex tw-items-center tw-gap-3;
 }
 
+.profile-avatar-wrapper {
+	@apply tw-mr-4 tw-animate-show-effect tw-opacity-0;
+}
+
 .profile-block-nickname {
-	@apply tw-flex tw-flex-col tw-leading-4 tw-mr-1;
+	@apply tw-flex tw-flex-col tw-leading-4 tw-mr-1 tw-animate-show-effect tw-opacity-0;
 }
 
-.profile-block-avatar {
-	@apply tw-flex tw-items-center tw-justify-center tw-bg-white/80 tw-rounded-full tw-p-0.5;
-}
-
-.profile-block-role {
+.profile-role {
 	@apply tw-text-sm tw-text-muted;
 }

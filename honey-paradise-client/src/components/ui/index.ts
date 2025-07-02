@@ -1,4 +1,5 @@
 export * from "./alert";
+export * from "./avatar";
 export * from "./button";
 export * from "./calendar";
 export * from "./checkbox";
@@ -8,4 +9,5 @@ export * from "./input-otp";
 export * from "./radio-group";
 export * from "./separator";
 export * from "./sheet";
+export * from "./skeleton";
 export * from "./title";

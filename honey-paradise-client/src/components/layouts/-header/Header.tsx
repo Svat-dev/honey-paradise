@@ -1,6 +1,8 @@
 import { Separator } from "@/components/ui";
-import { EnumAppRoute } from "@/shared/lib/constants/routes";
-import type { FC } from "react";
+import { EnumStorageTokens } from "@constants/base";
+import { EnumAppRoute } from "@constants/routes";
+import { cookies } from "next/dist/server/request/cookies";
+import { memo, type FC } from "react";
 import { LeftPart } from "./components/LeftPart";
 import { MiddlePart } from "./components/MiddlePart";
 import { RightPart } from "./components/right-part/RightPart";
@@ -9,11 +11,12 @@ interface IHeader {
 	route?: EnumAppRoute;
 }
 
-const Header: FC<IHeader> = ({ route }) => {
+const Header: FC<IHeader> = memo(async ({ route }) => {
 	const isNeedSearchInput = route === EnumAppRoute.INDEX;
+	const sessionCookie = (await cookies()).get(EnumStorageTokens.SESSION)?.value;
 
 	return (
-		<header className="tw-w-full tw-bg-primary tw-h-15 tw-sticky">
+		<header className="tw-w-full tw-bg-primary tw-border-b tw-border-muted tw-h-15 tw-sticky">
 			<div className="tw-px-5 tw-h-full tw-flex tw-items-center tw-justify-between">
 				<LeftPart />
 
@@ -27,10 +30,10 @@ const Header: FC<IHeader> = ({ route }) => {
 					</>
 				)}
 
-				<RightPart />
+				<RightPart isAuth={!!sessionCookie} />
 			</div>
 		</header>
 	);
-};
+});
 
 export { Header };

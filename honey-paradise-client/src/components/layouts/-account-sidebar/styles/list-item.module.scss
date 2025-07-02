@@ -8,7 +8,7 @@
 	}
 
 	&[data-status="true"] {
-		@apply tw-bg-secondary;
+		animation: account-sidebar-active-tab-enter 300ms linear forwards;
 
 		&:hover {
 			@apply tw-bg-secondary/80;
@@ -18,4 +18,10 @@
 
 .link {
 	@apply tw-flex tw-items-center tw-gap-2 tw-py-3 tw-px-4;
+}
+
+@keyframes account-sidebar-active-tab-enter {
+	to {
+		@apply tw-bg-secondary;
+	}
 }
