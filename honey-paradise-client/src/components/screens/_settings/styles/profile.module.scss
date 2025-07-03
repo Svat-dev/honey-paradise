@@ -1,0 +1,29 @@
+.avatar-wrapper {
+	@apply tw-flex tw-items-center tw-gap-4 tw-mt-4 tw-ml-1;
+}
+
+.avatar-loading {
+	@apply tw-w-24 tw-h-24 tw-rounded-full !important;
+}
+
+.avatar-image {
+	@apply tw-w-24 tw-h-24;
+
+	> img {
+		@apply tw-animate-show-effect tw-opacity-0;
+	}
+}
+
+.avatar-actions {
+	> div {
+		@apply tw-flex tw-items-center tw-gap-3 tw-mb-2;
+
+		> button:first-of-type {
+			@apply tw-py-2 tw-px-2.5 tw-rounded-2xl !important;
+		}
+	}
+
+	> p {
+		@apply tw-text-muted tw-text-sm tw-font-normal tw-ml-1;
+	}
+}

@@ -1,7 +1,7 @@
 import { type TPasswordChangeFields, createChangePasswordSchema } from "@/shared/lib/schemas/password-recovery.schema";
 
 import { errorCatch } from "@/api/api-helper";
-import { useUpdatePasswordS } from "@/services/hooks/profile/useUpdatePasswordS";
+import { useUpdatePasswordS } from "@/services/hooks/profile";
 import { EnumAppRoute } from "@/shared/lib/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { AxiosError } from "axios";

@@ -28,6 +28,16 @@
 		"password_recovery_token_missing": "Password recovery token is invalid or not provided",
 		"code_expired": "This code has expired.\nTry requesting a new code",
 		"account_not_verified": "You have unverified account!\nTo continue, please, verify it now",
+		"profile": {
+			"avatar_not_found": "You should have an installed avatar to delete it"
+		},
+		"files": {
+			"avatar": {
+				"empty": "File has not been uploaded",
+				"unsupported_type": "Unsupported file format",
+				"too_big": "File size exceeds 10 MB"
+			}
+		},
 		"500": {
 			"default": "Server error 500.\nRepeat the request later",
 			"cant_send_email": "Couldn't send email, try again later",

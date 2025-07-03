@@ -363,7 +363,26 @@
 				},
 				"profile": {
 					"title": "Profile",
-					"description": "Customize your profile as you want, change your avatar, change your personal information"
+					"description": "Customize your profile as you want, change your avatar, change your personal information",
+					"avatar": {
+						"title": "Profile Picture",
+						"updateBtn": "Update image",
+						"uploadRules": "Supported formats: JPG, JPEG, PNG, WEBP or GIF. Max. size: {file_size} MB.",
+						"toasters": {
+							"update": {
+								"success": "You have successfully updated the profile picture",
+								"error": "Error when updating the image:\n{e}"
+							},
+							"delete": {
+								"success": "You have successfully deleted the profile picture",
+								"error": "Error when deleting the image:\n{e}"
+							}
+						}
+					},
+					"labels": {
+						"avatarImage": "Profile picture",
+						"deleteAvatar": "Delete profile picture"
+					}
 				},
 				"account": {
 					"title": "Account",
