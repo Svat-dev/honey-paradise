@@ -19,5 +19,8 @@ export enum EnumApiRoute {
 	SEND_EMAIL_VERIFICATION_CODE = `${ACCOUNT_EMAIL}/send-code`,
 	VERIFY_EMAIL = `${ACCOUNT_EMAIL}/verify`,
 
-	PROFILE = `/profile`,
+	PROFILE = "/profile",
+	AVATAR = `${PROFILE}/avatar`,
+	UPDATE_AVATAR = `${AVATAR}/update`,
+	DELETE_AVATAR = `${AVATAR}/delete`,
 }
