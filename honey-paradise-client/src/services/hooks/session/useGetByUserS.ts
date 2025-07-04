@@ -1,4 +1,5 @@
 import { sessionService } from "@/services/session.service";
+import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetByUserS = () => {
@@ -7,5 +8,8 @@ export const useGetByUserS = () => {
 		queryFn: () => sessionService.getByUser(),
 	});
 
-	return { sessions: data, isSessionsLoading: isLoading || isPending, sessionsRefetch: refetch };
+	return useMemo(
+		() => ({ sessions: data, isSessionsLoading: isLoading || isPending, sessionsRefetch: refetch }),
+		[data, isLoading, isPending]
+	);
 };

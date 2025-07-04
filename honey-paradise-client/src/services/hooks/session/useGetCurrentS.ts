@@ -1,4 +1,5 @@
 import { sessionService } from "@/services/session.service";
+import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetCurrentS = () => {
@@ -7,8 +8,11 @@ export const useGetCurrentS = () => {
 		queryFn: () => sessionService.getCurrent(),
 	});
 
-	return {
-		currentSession: data,
-		isSessionLoading: isLoading || isPending,
-	};
+	return useMemo(
+		() => ({
+			currentSession: data,
+			isSessionLoading: isLoading || isPending,
+		}),
+		[data, isLoading, isPending]
+	);
 };

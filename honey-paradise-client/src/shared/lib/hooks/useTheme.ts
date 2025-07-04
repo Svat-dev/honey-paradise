@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
 import { useAuth, useMyAccount } from "./auth";
+import { useEffect, useMemo, useState } from "react";
 
-import { TThemes } from "@/shared/types/base.type";
-import { EnumStorageTokens } from "@constants/base";
 import Cookies from "js-cookie";
+import { EnumStorageTokens } from "@constants/base";
+import { TThemes } from "@/shared/types/base.type";
 
 export const useTheme = () => {
 	const [theme, setTheme] = useState<TThemes>("light");
@@ -44,8 +44,11 @@ export const useTheme = () => {
 		return changeTheme(newTheme);
 	};
 
-	return {
-		theme,
-		toggleTheme,
-	};
+	return useMemo(
+		() => ({
+			theme,
+			toggleTheme,
+		}),
+		[theme, toggleTheme]
+	);
 };

@@ -9,14 +9,14 @@ export const useMyAccountS = () => {
 	const queryKey = ["get my account"];
 
 	const { error, isLoading, data, isPending, refetch } = useQuery({
-		queryKey: ["get my account"],
+		queryKey,
 		queryFn: () => accountService.getMyAccount(),
 		enabled: isAuthenticated,
 		staleTime: 0,
 	});
 
 	const accRefetch = (opts?: RefetchOptions) => {
-		client.invalidateQueries({ queryKey: ["get my account"], type: "all" });
+		client.invalidateQueries({ queryKey, type: "all" });
 		refetch(opts);
 	};
 
