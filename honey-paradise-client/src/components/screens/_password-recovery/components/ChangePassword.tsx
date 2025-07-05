@@ -2,28 +2,28 @@
 
 import { Button, Title } from "@/components/ui";
 
+import { FC } from "react";
 import { FormInput } from "@/components/ui/form-input";
+import { FormProvider } from "react-hook-form";
+import Image from "next/image";
 import { VALUES } from "@constants/base";
 import _styles from "@styles/modules/auth-form-wrapper.module.scss";
 import { cn } from "@utils/base";
-import Image from "next/image";
-import { FC } from "react";
-import { FormProvider } from "react-hook-form";
-import { useChangePassword } from "../hooks/useChangePassword";
 import styles from "../styles/change-password.module.scss";
+import { useChangePassword } from "../hooks/useChangePassword";
 
 interface IChangePassword {
 	token: string;
 }
 
 const ChangePassword: FC<IChangePassword> = ({ token }) => {
-	const { changePasswordForm, dataStatus, onSubmit, isPasswordUpdating, t } = useChangePassword(token);
+	const { form, dataStatus, onSubmit, isPasswordUpdating, t } = useChangePassword(token);
 
 	return (
 		<section data-status={dataStatus} className={cn(_styles["wrapper"], styles["wrapper"])}>
 			<span data-status={dataStatus} className={cn(_styles["border-line"], styles["border-line"])} />
 
-			<FormProvider {...changePasswordForm}>
+			<FormProvider {...form}>
 				<form className={_styles["form"]} onSubmit={onSubmit}>
 					<div className={styles["title-wrapper"]}>
 						<div>

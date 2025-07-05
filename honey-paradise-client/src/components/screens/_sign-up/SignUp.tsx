@@ -1,14 +1,14 @@
 "use client";
 
-import type { TSearchParams } from "@/shared/types/base.type";
-import _styles from "@styles/modules/auth-form-wrapper.module.scss";
-import { cn } from "@utils/base";
 import type { FC } from "react";
 import { FormProvider } from "react-hook-form";
 import { MainPart } from "./components/MainPart";
 import { OptionalPart } from "./components/OptionalPart";
-import { useSignUp } from "./hooks/useSignUp";
+import type { TSearchParams } from "@/shared/types/base.type";
+import _styles from "@styles/modules/auth-form-wrapper.module.scss";
+import { cn } from "@utils/base";
 import styles from "./styles/sign-up.module.scss";
+import { useSignUp } from "./hooks/useSignUp";
 
 interface IProps {
 	searchParams: TSearchParams;
@@ -18,7 +18,7 @@ const SignUp: FC<IProps> = ({ searchParams }) => {
 	const {
 		dataStatus,
 		onSubmit,
-		signUpForm,
+		form,
 		isError,
 		onRecaptchaChange,
 		isActive,
@@ -37,7 +37,7 @@ const SignUp: FC<IProps> = ({ searchParams }) => {
 		>
 			<span data-status={dataStatus} className={cn(_styles["border-line"], styles["border-line"])}></span>
 
-			<FormProvider {...signUpForm}>
+			<FormProvider {...form}>
 				<form className={_styles["form"]} onSubmit={onSubmit}>
 					{currentPart === "main" && (
 						<MainPart onClickToNext={onClickToNext} isActive={isActive.main} disabled={isDisabled} isPending={isCreateAccLoading} t={t} />

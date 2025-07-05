@@ -2,23 +2,23 @@
 
 import { Alert, AlertDescription, AlertTitle, Button, Title } from "@/components/ui";
 
+import { CheckCircle2Icon } from "lucide-react";
 import { FormInput } from "@/components/ui/form-input";
+import { FormProvider } from "react-hook-form";
+import Image from "next/image";
 import _styles from "@styles/modules/auth-form-wrapper.module.scss";
 import { cn } from "@utils/base";
-import { CheckCircle2Icon } from "lucide-react";
-import Image from "next/image";
-import { FormProvider } from "react-hook-form";
-import { useResetPassword } from "../hooks/useResetPassword";
 import styles from "../styles/reset-password.module.scss";
+import { useResetPassword } from "../hooks/useResetPassword";
 
 const ResetPassword = () => {
-	const { isCodeSending, onSubmit, dataStatus, isSuccess, resetPasswordForm, resendCode, cooldown, t } = useResetPassword();
+	const { isCodeSending, onSubmit, dataStatus, isSuccess, form, resendCode, cooldown, t } = useResetPassword();
 
 	return (
 		<section data-status={dataStatus} className={cn(_styles["wrapper"], styles["wrapper"])}>
 			<span data-status={dataStatus} className={cn(_styles["border-line"], styles["border-line"])} />
 
-			<FormProvider {...resetPasswordForm}>
+			<FormProvider {...form}>
 				<form className={_styles["form"]} onSubmit={onSubmit}>
 					<div className={styles["title-wrapper"]}>
 						<div>

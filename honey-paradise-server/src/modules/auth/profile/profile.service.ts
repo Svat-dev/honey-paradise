@@ -101,13 +101,11 @@ export class ProfileService {
 	async updateProfile(id: string, dto: Prisma.UserUpdateInput) {
 		if (dto.username) {
 			const isExists = await this.getProfile(dto.username as string, "username");
-
 			if (isExists) throw new BadRequestException(this.i18n.t("d.errors.username_is_exist"));
 		}
 
 		if (dto.phoneNumber) {
 			const isExists = await this.getProfile(dto.phoneNumber as string, "phone");
-
 			if (isExists) throw new BadRequestException(this.i18n.t("d.errors.profile.phone_number_is_exist"));
 		}
 

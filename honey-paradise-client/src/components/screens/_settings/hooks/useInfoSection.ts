@@ -37,9 +37,9 @@ export const useInfoSection = (
 
 	const { isProfileUpdating, updateProfileAsync } = useUpdateProfileS();
 
-	const updateUserinfoSchema = createUpdateUserinfoSchema(t);
+	const schema = createUpdateUserinfoSchema(t);
 	const form = useForm<TUpdateUserinfoFields>({
-		resolver: zodResolver(updateUserinfoSchema),
+		resolver: zodResolver(schema),
 		mode: "onChange",
 		values: defaultValues,
 		defaultValues,
@@ -51,7 +51,7 @@ export const useInfoSection = (
 				birthdate: data.birthdate || null,
 				gender: data.gender === gender ? undefined : data.gender,
 				username: data.username === username ? undefined : data.username,
-				phoneNumber: mask!.unmaskedValue === phone ? undefined : mask!.unmaskedValue || null,
+				phoneNumber: getMaskedPhone(phone, PHONE_MASK_PATTERN) === data.phone ? undefined : mask!.unmaskedValue || null,
 			};
 
 			await updateProfileAsync(dto);

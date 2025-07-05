@@ -23,10 +23,10 @@ export const useChangePassword = (token: string) => {
 
 	const { isPasswordUpdating, updatePasswordAsync } = useUpdatePasswordS();
 
-	const changePasswordSchema = createChangePasswordSchema(t);
+	const schema = createChangePasswordSchema(t);
 
-	const changePasswordForm = useForm<TPasswordChangeFields>({
-		resolver: zodResolver(changePasswordSchema),
+	const form = useForm<TPasswordChangeFields>({
+		resolver: zodResolver(schema),
 		mode: "onSubmit",
 		defaultValues: {
 			password: "",
@@ -59,12 +59,12 @@ export const useChangePassword = (token: string) => {
 		}
 	};
 
-	const _onSubmit = changePasswordForm.handleSubmit(onSubmit);
+	const _onSubmit = form.handleSubmit(onSubmit);
 
 	return {
 		dataStatus,
 		onSubmit: _onSubmit,
-		changePasswordForm,
+		form,
 		isPasswordUpdating,
 		t,
 	};

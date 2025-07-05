@@ -9,10 +9,10 @@ export const useConfirmation = (value: 4 | 6) => {
 	const [dataStatus, setDataStatus] = useState<TDataStatus>("default");
 	const t = useTranslations("global.confirmation.content");
 
-	const confirmationSchema = createConfirmationSchema(t, value);
+	const schema = createConfirmationSchema(t, value);
 
-	const confirmationForm = useForm<TConfirmationFields>({
-		resolver: zodResolver(confirmationSchema),
+	const form = useForm<TConfirmationFields>({
+		resolver: zodResolver(schema),
 		defaultValues: {
 			pin: "",
 			signInAfter: true,
@@ -20,5 +20,5 @@ export const useConfirmation = (value: 4 | 6) => {
 		mode: "onSubmit",
 	});
 
-	return { dataStatus, t, confirmationForm, setDataStatus };
+	return { dataStatus, t, form, setDataStatus };
 };

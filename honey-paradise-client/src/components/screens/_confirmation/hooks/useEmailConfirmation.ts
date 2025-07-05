@@ -1,23 +1,23 @@
-import { useSendVerificationCodeS, useVerifyEmailS } from "@/services/hooks/account";
 import { EnumStorageTokens, errorCauses } from "@constants/base";
 import { useEffect, useState } from "react";
+import { useSendVerificationCodeS, useVerifyEmailS } from "@/services/hooks/account";
 
-import { errorCatch } from "@/api/api-helper";
-import { EnumAppRoute } from "@constants/routes";
-import { useAuth } from "@hooks/auth";
-import type { TConfirmationFields } from "@schemas/confirmation.schema";
 import type { AxiosError } from "axios";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import { EnumAppRoute } from "@constants/routes";
+import type { TConfirmationFields } from "@schemas/confirmation.schema";
+import { errorCatch } from "@/api/api-helper";
 import toast from "react-hot-toast";
+import { useAuth } from "@hooks/auth";
 import { useConfirmation } from "./useConfirmation";
+import { useRouter } from "next/navigation";
 
 export const useEmailConfirmation = (utm_source?: EnumAppRoute) => {
 	const limit = 6;
 	const base_cooldown = 30;
 	const errorDelay = 4000;
 
-	const { confirmationForm, dataStatus, setDataStatus, t } = useConfirmation(limit);
+	const { form, dataStatus, setDataStatus, t } = useConfirmation(limit);
 	const { auth } = useAuth();
 
 	const { isVerifying, verifyEmailAsync } = useVerifyEmailS();
@@ -75,8 +75,8 @@ export const useEmailConfirmation = (utm_source?: EnumAppRoute) => {
 	};
 
 	useEffect(() => {
-		if (confirmationForm.formState.errors.pin) confirmationForm.clearErrors("pin");
-	}, [confirmationForm.getValues("pin")]);
+		if (form.formState.errors.pin) form.clearErrors("pin");
+	}, [form.getValues("pin")]);
 
 	useEffect(() => {
 		_setTimeout(
@@ -89,15 +89,15 @@ export const useEmailConfirmation = (utm_source?: EnumAppRoute) => {
 
 	useEffect(() => {
 		if (isFromSignIn) {
-			confirmationForm.setValue("signInAfter", false);
+			form.setValue("signInAfter", false);
 		}
 	}, []);
 
 	return {
 		t,
 		dataStatus,
-		confirmationForm,
-		onSubmit: confirmationForm.handleSubmit(onSubmit),
+		form,
+		onSubmit: form.handleSubmit(onSubmit),
 		limit,
 		cooldown,
 		refreshCode,

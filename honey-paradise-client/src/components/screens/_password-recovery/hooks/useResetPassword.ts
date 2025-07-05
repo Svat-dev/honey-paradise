@@ -21,10 +21,10 @@ export const useResetPassword = () => {
 
 	const { isCodeSending, sendPasswordRecoverCodeAsync } = useSendPasswordRecoverCodeS();
 
-	const resetPasswordSchema = createPasswordResetSchema(t);
+	const schema = createPasswordResetSchema(t);
 
-	const resetPasswordForm = useForm<TPasswordResetFields>({
-		resolver: zodResolver(resetPasswordSchema),
+	const form = useForm<TPasswordResetFields>({
+		resolver: zodResolver(schema),
 		mode: "onSubmit",
 		defaultValues: {
 			email: "",
@@ -66,12 +66,12 @@ export const useResetPassword = () => {
 		}
 	}, [cooldown]);
 
-	const _onSubmit = resetPasswordForm.handleSubmit(onSubmit);
+	const _onSubmit = form.handleSubmit(onSubmit);
 
 	return {
 		onSubmit: _onSubmit,
 		isCodeSending,
-		resetPasswordForm,
+		form,
 		dataStatus,
 		isSuccess,
 		resendCode,

@@ -39,10 +39,9 @@ export const useSignUp = (searchParams: TSearchParams) => {
 
 	const recaptchaRef = useRef<ReCAPTCHA>(null);
 
-	const signUpSchema = createSignUpSchema(t);
-
-	const signUpForm = useForm<TSignUpFields>({
-		resolver: zodResolver(signUpSchema),
+	const schema = createSignUpSchema(t);
+	const form = useForm<TSignUpFields>({
+		resolver: zodResolver(schema),
 		mode: "onChange",
 		defaultValues: {
 			confirmPassword: "",
@@ -55,9 +54,9 @@ export const useSignUp = (searchParams: TSearchParams) => {
 	});
 
 	const isDisabled = () => {
-		const isPassValid = !signUpForm.getFieldState("password").invalid && signUpForm.getValues("password").length !== 0;
-		const isEmailValid = !signUpForm.getFieldState("email").invalid && signUpForm.getValues("email").length !== 0;
-		const isConfPassValid = !signUpForm.getFieldState("confirmPassword").invalid && signUpForm.getValues("confirmPassword").length !== 0;
+		const isPassValid = !form.getFieldState("password").invalid && form.getValues("password").length !== 0;
+		const isEmailValid = !form.getFieldState("email").invalid && form.getValues("email").length !== 0;
+		const isConfPassValid = !form.getFieldState("confirmPassword").invalid && form.getValues("confirmPassword").length !== 0;
 
 		return !isPassValid || !isEmailValid || !isConfPassValid || dataStatus !== "default";
 	};
@@ -120,7 +119,7 @@ export const useSignUp = (searchParams: TSearchParams) => {
 		}
 	};
 
-	const onSubmit = signUpForm.handleSubmit(onSubmitFunc);
+	const onSubmit = form.handleSubmit(onSubmitFunc);
 
 	const onKeydown = (e: KeyboardEvent) => {
 		if (e.key === "Enter" && !isDisabled()) {
@@ -140,7 +139,7 @@ export const useSignUp = (searchParams: TSearchParams) => {
 		onRecaptchaChange,
 		onClickToNext,
 		onClickToPrevious,
-		signUpForm,
+		form,
 		currentPart,
 		isCreateAccLoading,
 		isDisabled: isDisabled(),

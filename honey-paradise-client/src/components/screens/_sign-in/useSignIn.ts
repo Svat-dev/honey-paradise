@@ -33,10 +33,10 @@ export const useSignIn = () => {
 
 	const recaptchaRef = useRef<ReCAPTCHA>(null);
 
-	const signInSchema = createSignInSchema(t);
+	const schema = createSignInSchema(t);
 
-	const signInForm = useForm<TSignInFields>({
-		resolver: zodResolver(signInSchema),
+	const form = useForm<TSignInFields>({
+		resolver: zodResolver(schema),
 		mode: "onSubmit",
 		defaultValues: {
 			id: "",
@@ -100,7 +100,7 @@ export const useSignIn = () => {
 		t,
 		locale,
 		theme,
-		signInForm,
+		form,
 		onSubmit,
 		error,
 		dataStatus,

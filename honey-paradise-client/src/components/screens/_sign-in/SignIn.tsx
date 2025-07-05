@@ -1,27 +1,27 @@
 "use client";
 
-import { FormInput } from "@/components/ui/form-input";
-import { FormBlock } from "@/components/ui/layouts";
-import { VALUES } from "@constants/base";
 import { EnumAppRoute } from "@constants/routes";
-import _styles from "@styles/modules/auth-form-wrapper.module.scss";
-import { cn } from "@utils/base";
+import { Footer } from "./components/Footer";
+import { FormBlock } from "@/components/ui/layouts";
+import { FormInput } from "@/components/ui/form-input";
+import { FormProvider } from "react-hook-form";
 import Link from "next/dist/client/link";
 import ReCAPTCHA from "react-google-recaptcha";
-import { FormProvider } from "react-hook-form";
-import { Footer } from "./components/Footer";
+import { VALUES } from "@constants/base";
+import _styles from "@styles/modules/auth-form-wrapper.module.scss";
+import { cn } from "@utils/base";
 import styles from "./styles/sign-in.module.scss";
 import { useSignIn } from "./useSignIn";
 
 const SignIn = () => {
-	const { dataStatus, error, onSubmit, signInForm, onRecaptchaChange, theme, locale, t, isSignInLoading, recaptchaRef } = useSignIn();
+	const { dataStatus, error, onSubmit, form, onRecaptchaChange, theme, locale, t, isSignInLoading, recaptchaRef } = useSignIn();
 
 	return (
 		<div data-status={dataStatus} className={cn(_styles["wrapper"], styles["wrapper"])}>
 			<span data-status={dataStatus} className={cn(_styles["border-line"], styles["border-line"])}></span>
 
-			<FormProvider {...signInForm}>
-				<form className={_styles["form"]} onSubmit={signInForm.handleSubmit(onSubmit)}>
+			<FormProvider {...form}>
+				<form className={_styles["form"]} onSubmit={form.handleSubmit(onSubmit)}>
 					<FormBlock title={t("title")} titleClassName={_styles["title"]} active>
 						<FormInput
 							type="text"
