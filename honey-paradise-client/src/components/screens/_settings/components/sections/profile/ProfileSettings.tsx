@@ -1,6 +1,6 @@
+import { useMyAccount } from "@hooks/auth";
 import { AvatarSection } from "./AvatarSection";
 import { InfoSection } from "./InfoSection";
-import { useMyAccount } from "@hooks/auth";
 
 const ProfileSettings = () => {
 	const { user, accRefetch, isAccLoading } = useMyAccount();
@@ -9,7 +9,13 @@ const ProfileSettings = () => {
 		<>
 			<AvatarSection avatarPath={user?.avatarPath} username={user?.username} isAccLoading={isAccLoading} refetch={accRefetch} />
 
-			<InfoSection />
+			<InfoSection
+				birthdate={user?.birthdate}
+				gender={user?.gender}
+				phone={user?.phoneNumber}
+				username={user?.username}
+				isLoading={isAccLoading}
+			/>
 		</>
 	);
 };

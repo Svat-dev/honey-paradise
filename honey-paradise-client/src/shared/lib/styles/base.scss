@@ -17,6 +17,10 @@ kbd {
 	@apply tw-font-rubik tw-font-normal tw-text-sm;
 }
 
+hr {
+	@apply tw-bg-muted;
+}
+
 ul {
 	list-style: disc;
 }

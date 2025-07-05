@@ -3,6 +3,7 @@ export const VALUES = {
 	MIN_PASSWORD_LENGTH: 8,
 	MAX_ID_LENGTH: 15,
 	MIN_ID_LENGTH: 3,
+	MIN_PHONE_LENGTH: 18,
 } as const;
 
 export const errorCauses = {

@@ -1,11 +1,11 @@
 import { enUS, ru } from "date-fns/locale";
-import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import type { Calendar, Locale } from "vanilla-calendar-pro";
 
 import { EnumLanguages } from "@/shared/lib/i18n";
 import { useLanguage } from "@i18n/hooks";
 import { toDate } from "date-fns";
+import { useTranslations } from "next-intl";
 import type { TFieldNames } from "../types/form-input.type";
 import { useFormInput } from "./useFormInput";
 
@@ -20,6 +20,10 @@ export const useFormDateInput = (name: TFieldNames) => {
 
 	const fnsLocale = locale === EnumLanguages.RU ? ru : enUS;
 	const calendarLocale: Locale = locale;
+
+	useEffect(() => {
+		if (!date && getValues(name)) setDate(getValues(name));
+	}, [getValues(name)]);
 
 	useEffect(() => {
 		if (error) clearErrors(name);

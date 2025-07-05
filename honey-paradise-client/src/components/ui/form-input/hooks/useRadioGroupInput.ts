@@ -10,12 +10,12 @@ export const useRadioGroupInput = (name: TFieldNames) => {
 		const wrapper = Array.from(wrappers).find(item => item.querySelector("button")?.dataset.state === "checked");
 		const input = wrapper?.querySelector("input");
 
-		setValue("gender", input?.value);
+		setValue(name, input?.value);
 	};
 
 	return {
 		onChange,
 		register,
-		getValues,
+		value: getValues(name),
 	};
 };

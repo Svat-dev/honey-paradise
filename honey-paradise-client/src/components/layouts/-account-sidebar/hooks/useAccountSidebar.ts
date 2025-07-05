@@ -1,4 +1,5 @@
 import { ClipboardListIcon, LinkIcon, SettingsIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { EnumAppRoute } from "@constants/routes";
 import { useTranslations } from "next-intl";
@@ -8,6 +9,12 @@ import type { IAccountNavigation } from "../types/data.type";
 export const useAccountSidebar = () => {
 	const pathname = usePathname();
 	const t = useTranslations("layout.account-sidebar");
+
+	const [height, setHeight] = useState<string>("auto");
+
+	useEffect(() => {
+		if (typeof window !== "undefined") setHeight(`${window.innerHeight - 60}px`);
+	}, []);
 
 	const data: IAccountNavigation[] = [
 		{
@@ -30,5 +37,5 @@ export const useAccountSidebar = () => {
 		},
 	];
 
-	return { data };
+	return { data, height };
 };

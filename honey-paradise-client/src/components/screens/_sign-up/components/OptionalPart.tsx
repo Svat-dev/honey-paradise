@@ -31,18 +31,22 @@ const OptionalPart: FC<IProps> = ({ isActive, onClickToPrevious, onRecaptchaChan
 					label={t("optional_part.form.username.title")}
 					placeholder={t("optional_part.form.username.placeholder")}
 					containerClassName="tw-mt-2 tw-mb-8"
-					spellCheck={false}
 					isDecorated
 					tabIndex={0}
 				/>
 			</OptionalPartSection>
 
 			<OptionalPartSection title={t("optional_part.form.gender.title")}>
-				<FormInput name="gender" data={data} containerClassName="tw-mt-2" spellCheck={false} tabIndex={1} />
+				<FormInput name="gender" genderType="radio-group" data={data} containerClassName="tw-mt-2" tabIndex={1} />
 			</OptionalPartSection>
 
 			<OptionalPartSection title={t("optional_part.form.birthdate.title")}>
-				<FormInput name="birthdate" containerClassName="tw-mt-2" spellCheck={false} tabIndex={2} />
+				<FormInput
+					name="birthdate"
+					containerClassName="tw-mt-2"
+					dateConfig={{ dateMax: new Date().getTime() - 14 * 365 * 24 * 60 * 60 * 1000 }}
+					tabIndex={2}
+				/>
 			</OptionalPartSection>
 
 			<div className={styles["recaptcha"]}>

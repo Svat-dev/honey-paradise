@@ -41,3 +41,19 @@
 		@apply tw-opacity-100;
 	}
 }
+
+.loader {
+	@apply tw-absolute tw-left-3 tw-top-1/2 -tw-translate-y-1/2 tw-flex tw-items-center tw-gap-3 tw-opacity-0 tw-animate-show-effect;
+
+	> div {
+		@apply tw-h-4 tw-w-4 tw-duration-700 !tw-rounded-full;
+
+		&:nth-of-type(2) {
+			@apply tw-delay-150;
+		}
+
+		&:nth-of-type(3) {
+			@apply tw-delay-300;
+		}
+	}
+}

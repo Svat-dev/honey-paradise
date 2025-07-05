@@ -1,4 +1,5 @@
-import { Input } from "@/components/ui";
+import { Input, Skeleton } from "@/components/ui";
+
 import { cn } from "@utils/base";
 import type { FC } from "react";
 import { useFormDefaultInput } from "../../hooks/useFormDefaultInput";
@@ -7,7 +8,7 @@ import type { IFormDefaultInputProps } from "../../types/form-input.type";
 import { ClearButton } from "../clear-button";
 import { PasswordEye } from "../password-eye";
 
-const DefaultInput: FC<IFormDefaultInputProps> = ({ name, setMask, clearBtnClassName, label, className, ...props }) => {
+const DefaultInput: FC<IFormDefaultInputProps> = ({ name, setMask, clearBtnClassName, label, className, isLoading, ...props }) => {
 	const { clear, clearError, isPassword, isShowPassword, onInput, showPassword, register, t, value } = useFormDefaultInput(name, setMask);
 
 	return (
@@ -16,11 +17,20 @@ const DefaultInput: FC<IFormDefaultInputProps> = ({ name, setMask, clearBtnClass
 				className={cn(className, { "tw-tracking-widest": isPassword })}
 				onInput={onInput}
 				{...props}
-				placeholder={props.placeholder ? props.placeholder : name}
+				placeholder={!isLoading ? (props.placeholder ? props.placeholder : name) : undefined}
 				type={!isPassword ? props.type : isShowPassword ? "text" : props.type}
 				spellCheck={false}
+				disabled={props?.disabled || isLoading}
 				{...register(name, { onChange: clearError })}
 			/>
+
+			{isLoading && (
+				<div className={styles["loader"]}>
+					<Skeleton />
+					<Skeleton />
+					<Skeleton />
+				</div>
+			)}
 
 			{props.required && <span className={styles["required"]}>*</span>}
 

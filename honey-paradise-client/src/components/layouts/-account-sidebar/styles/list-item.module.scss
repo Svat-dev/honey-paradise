@@ -17,7 +17,7 @@
 }
 
 .link {
-	@apply tw-flex tw-items-center tw-gap-2 tw-py-3 tw-px-4;
+	@apply tw-flex tw-items-center tw-gap-2 tw-py-3 tw-px-4 tw-whitespace-nowrap;
 }
 
 @keyframes account-sidebar-active-tab-enter {

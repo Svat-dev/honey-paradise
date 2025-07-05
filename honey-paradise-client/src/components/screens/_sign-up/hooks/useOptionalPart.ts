@@ -11,23 +11,19 @@ export const useOptionalPart = () => {
 
 	const { theme } = useTheme();
 
-	const radioGroupItemId_1 = useId();
-	const radioGroupItemId_2 = useId();
-	const radioGroupItemId_3 = useId();
-
 	const data: IGenderRadioGroupData[] = [
 		{
-			id: radioGroupItemId_1,
+			id: useId(),
 			value: EnumGenders.MALE,
 			label: t("optional_part.form.gender.opts.male"),
 		},
 		{
-			id: radioGroupItemId_2,
+			id: useId(),
 			value: EnumGenders.FEMALE,
 			label: t("optional_part.form.gender.opts.female"),
 		},
 		{
-			id: radioGroupItemId_3,
+			id: useId(),
 			value: EnumGenders.OTHER,
 			label: t("optional_part.form.gender.opts.other"),
 		},

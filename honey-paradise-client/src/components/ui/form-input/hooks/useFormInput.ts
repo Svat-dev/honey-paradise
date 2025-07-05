@@ -3,7 +3,7 @@ import type { TFieldNames, TInputType } from "../types/form-input.type";
 import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
 
-export const useFormInput = (name: TFieldNames, isDecorated?: boolean) => {
+export const useFormInput = (name: TFieldNames, isDecorated?: boolean, genderType?: "radio-group" | "dropdown") => {
 	const { register, formState, watch, setValue, control, clearErrors, getValues } = useFormContext();
 	const t = useTranslations("shared.auth.labels");
 
@@ -21,12 +21,12 @@ export const useFormInput = (name: TFieldNames, isDecorated?: boolean) => {
 				return isDecorated ? "default-decor" : "default";
 			case "confirmPassword":
 				return isDecorated ? "default-decor" : "default";
-			case "phoneNumber":
+			case "phone":
 				return isDecorated ? "default-decor" : "default";
 			case "username":
 				return isDecorated ? "default-decor" : "default";
 			case "gender":
-				return "radio-group";
+				return genderType === "radio-group" ? "radio-group" : "dropdown";
 			case "birthdate":
 				return "date";
 			case "pin":

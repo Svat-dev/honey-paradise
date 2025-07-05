@@ -16,7 +16,7 @@ const Header: FC<IHeader> = memo(async ({ route }) => {
 	const sessionCookie = (await cookies()).get(EnumStorageTokens.SESSION)?.value;
 
 	return (
-		<header className="tw-w-full tw-bg-primary tw-border-b tw-border-muted tw-h-15 tw-sticky">
+		<header className="tw-w-full tw-bg-primary tw-border-b tw-border-muted tw-h-15 tw-sticky tw-top-0 tw-z-50">
 			<div className="tw-px-5 tw-h-full tw-flex tw-items-center tw-justify-between">
 				<LeftPart />
 
