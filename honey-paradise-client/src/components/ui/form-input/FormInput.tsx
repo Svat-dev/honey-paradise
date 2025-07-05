@@ -48,7 +48,7 @@ const FormInput: FC<IFormInputProps> = ({
 				<OTPInput limit={otpSlotsLimit as number} containerClassName={containerClassName} caretClassName={caretClassName} {...props} />
 			)}
 
-			{input_type === "dropdown" && <DropdownInput name={name} data={data} isLoading={isLoading} />}
+			{input_type === "dropdown" && <DropdownInput name={name} data={data} isLoading={isLoading} {...props} />}
 
 			{error && <ErrorText error={error as string} className={cn(styles["error-txt"], errorClassName)} />}
 		</div>

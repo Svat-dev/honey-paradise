@@ -1,9 +1,9 @@
 import { useEffect, useMemo } from "react";
 
-import { useAuth } from "./useAuth";
-import { useClearSessionS } from "@/services/hooks/session";
-import { useLogoutS } from "@/services/hooks/auth";
 import { useMyAccountS } from "@/services/hooks/account";
+import { useLogoutS } from "@/services/hooks/auth";
+import { useClearSessionS } from "@/services/hooks/session";
+import { useAuth } from "./useAuth";
 
 export const useMyAccount = () => {
 	const { isAuthenticated, exit, auth } = useAuth();
@@ -29,6 +29,6 @@ export const useMyAccount = () => {
 			logout,
 			accError,
 		}),
-		[acc?.data, isAccLoading, accError, accRefetch]
+		[acc?.data, isAccLoading, accError, accRefetch, isAuthenticated]
 	);
 };

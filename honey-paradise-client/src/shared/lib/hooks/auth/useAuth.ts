@@ -1,5 +1,4 @@
 import { authStore } from "@/shared/store/auth/auth.store";
-import { useMemo } from "react";
 
 export const useAuth = (defaultValue: boolean = false) => {
 	const isAuthenticated = authStore(state => state.isAuthenticated) || defaultValue;
@@ -8,12 +7,9 @@ export const useAuth = (defaultValue: boolean = false) => {
 	const auth = () => setIsAuthenticated(true);
 	const exit = () => setIsAuthenticated(false);
 
-	return useMemo(
-		() => ({
-			isAuthenticated,
-			auth,
-			exit,
-		}),
-		[isAuthenticated, exit, auth]
-	);
+	return {
+		isAuthenticated,
+		auth,
+		exit,
+	};
 };

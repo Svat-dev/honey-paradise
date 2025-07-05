@@ -1,10 +1,10 @@
 import { EnumGenders } from "@/shared/types/models";
-import { useState } from "react";
 import type { TFieldNames } from "../types/form-input.type";
 import { useFormInput } from "./useFormInput";
+import { useState } from "react";
 
 export const useDropdownInput = (name: TFieldNames) => {
-	const { setValue, getValues } = useFormInput(name);
+	const { setValue, getValues, t } = useFormInput(name);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	const onChange = (value: any) => {
@@ -15,9 +15,9 @@ export const useDropdownInput = (name: TFieldNames) => {
 		if (name === "gender") {
 			const _value = getValues(name);
 
-			if (_value === EnumGenders.MALE) return "Мужской";
-			else if (_value === EnumGenders.FEMALE) return "Женский";
-			else return "Не указан";
+			if (_value === EnumGenders.MALE) return t("gender.male");
+			else if (_value === EnumGenders.FEMALE) return t("gender.female");
+			else return t("gender.other");
 		} else return getValues(name);
 	};
 

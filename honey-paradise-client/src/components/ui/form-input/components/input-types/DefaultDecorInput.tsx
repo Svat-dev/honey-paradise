@@ -7,7 +7,7 @@ import type { IFormDefaultInputProps } from "../../types/form-input.type";
 import { ClearButton } from "../clear-button";
 import { PasswordEye } from "../password-eye";
 
-const DefaultDecorInput: FC<IFormDefaultInputProps> = ({ name, setMask, clearBtnClassName, label, className, ...props }) => {
+const DefaultDecorInput: FC<IFormDefaultInputProps> = ({ name, setMask, clearBtnClassName, label, className, isLoading, ...props }) => {
 	const { clear, clearError, isPassword, isShowPassword, onInput, showPassword, register, t, value } = useFormDefaultInput(name, setMask);
 
 	return (

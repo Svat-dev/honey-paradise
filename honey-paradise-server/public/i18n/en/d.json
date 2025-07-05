@@ -29,7 +29,8 @@
 		"code_expired": "This code has expired.\nTry requesting a new code",
 		"account_not_verified": "You have unverified account!\nTo continue, please, verify it now",
 		"profile": {
-			"avatar_not_found": "You should have an installed avatar to delete it"
+			"avatar_not_found": "You should have an installed avatar to delete it",
+			"phone_number_is_exist": "Phone number is already occupied by another user"
 		},
 		"files": {
 			"avatar": {

@@ -1,12 +1,18 @@
 import { defaultInstance, instance } from "@/api/instance";
+import type { IUpdatePasswordDto, IUpdateProfileDto } from "./types/profile-service.type";
 
-import type { AxiosResponse } from "axios";
 import { EnumApiRoute } from "@constants/routes";
-import type { IUpdatePasswordDto } from "./types/profile-service.type";
+import type { AxiosResponse } from "axios";
 
 export const profileService = {
 	updatePassword: async (dto: IUpdatePasswordDto) => {
 		const res = await defaultInstance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.CHANGE_PASSWORD, dto);
+
+		return res;
+	},
+
+	updateProfile: async (dto: IUpdateProfileDto) => {
+		const res = await instance.put<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_PROFILE, dto);
 
 		return res;
 	},

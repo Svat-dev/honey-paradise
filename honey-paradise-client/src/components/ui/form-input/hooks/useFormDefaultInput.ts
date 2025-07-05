@@ -1,4 +1,5 @@
 import type { ReactStateHook } from "@/shared/types/base.type";
+import { PHONE_MASK_PATTERN } from "@constants/base";
 import { onInputRule } from "@utils/input-rule";
 import IMask, { FactoryArg } from "imask";
 import type InputMask from "imask/esm/controls/input";
@@ -19,7 +20,7 @@ export const useFormDefaultInput = (name: TFieldNames, setMask?: ReactStateHook<
 	useEffect(() => {
 		if (input.type && isPhone) {
 			mask = IMask<FactoryArg>(input, {
-				mask: "+{7} (000) 000-00-00",
+				mask: PHONE_MASK_PATTERN,
 				lazy: true,
 			});
 

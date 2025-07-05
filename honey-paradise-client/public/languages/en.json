@@ -379,9 +379,38 @@
 							}
 						}
 					},
+					"personal-info": {
+						"title": "Personal information",
+						"username": { "title": "Username", "placeholder": "Enter an username" },
+						"phone": { "title": "Phone number", "placeholder": "Enter a phone number" },
+						"birthdate": { "title": "Date of birth" },
+						"gender": {
+							"title": "Your gender",
+							"label": "Select gender",
+							"data": {
+								"male": "Male",
+								"female": "Female",
+								"other": "Do not specify"
+							}
+						},
+						"submitBtn": "Save changes",
+						"errors": {
+							"phone": { "invalid": "Enter the correct phone number" },
+							"username": {
+								"max": "The maximum length of the username is {max} characters",
+								"min": "The minimum length of the user name is {min} characters",
+								"invalid": "The user's name can contain only letters, numbers, and the special character \"_\""
+							}
+						},
+						"toasters": {
+							"success": "You have successfully updated your personal information",
+							"error": "Error when saving information:\n{e}"
+						}
+					},
 					"labels": {
 						"avatarImage": "Profile picture",
-						"deleteAvatar": "Delete profile picture"
+						"deleteAvatar": "Delete profile picture",
+						"clearDate": "Clear birthdate"
 					}
 				},
 				"account": {
@@ -531,6 +560,11 @@
 	},
 	"shared": {
 		"auth": {
+			"gender": {
+				"male": "Male",
+				"female": "Female",
+				"other": "Not specified"
+			},
 			"labels": {
 				"clearBtn": "Clear",
 				"showPassword": "Show password",

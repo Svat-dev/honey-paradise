@@ -4,7 +4,7 @@ export enum EnumApiRoute {
 	LOGOUT = `${AUTH}/logout`,
 
 	SESSION = `${AUTH}/session`,
-	CLEAR_SESSION = `${AUTH}/clear`,
+	CLEAR_SESSION = `${SESSION}/clear`,
 	CURRENT_SESSION = `${SESSION}/current`,
 	REMOVE_SESSION = `${SESSION}/remove`,
 	GET_SESSION_BY_USER = `${SESSION}/by-user`,
@@ -20,6 +20,7 @@ export enum EnumApiRoute {
 	VERIFY_EMAIL = `${ACCOUNT_EMAIL}/verify`,
 
 	PROFILE = "/profile",
+	UPDATE_PROFILE = `${PROFILE}/update`,
 	AVATAR = `${PROFILE}/avatar`,
 	UPDATE_AVATAR = `${AVATAR}/update`,
 	DELETE_AVATAR = `${AVATAR}/delete`,

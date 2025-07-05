@@ -4,6 +4,7 @@ import * as sharp from "sharp";
 
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
+import type { Prisma } from "@prisma/client";
 import { hash } from "argon2";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
@@ -77,7 +78,7 @@ export class ProfileService {
 		return true;
 	}
 
-	async getProfile(id: string, type: "email" | "username" | "id") {
+	async getProfile(id: string, type: "email" | "username" | "id" | "phone") {
 		if (type === "id") {
 			const profile = await this.prisma.user.findUnique({ where: { id } });
 
@@ -86,11 +87,33 @@ export class ProfileService {
 			const profile = await this.prisma.user.findUnique({ where: { email: id } });
 
 			return profile;
-		} else {
+		} else if (type === "username") {
 			const profile = await this.prisma.user.findUnique({ where: { username: id } });
 
 			return profile;
+		} else {
+			const profile = await this.prisma.user.findUnique({ where: { phoneNumber: id } });
+
+			return profile;
 		}
+	}
+
+	async updateProfile(id: string, dto: Prisma.UserUpdateInput) {
+		if (dto.username) {
+			const isExists = await this.getProfile(dto.username as string, "username");
+
+			if (isExists) throw new BadRequestException(this.i18n.t("d.errors.username_is_exist"));
+		}
+
+		if (dto.phoneNumber) {
+			const isExists = await this.getProfile(dto.phoneNumber as string, "phone");
+
+			if (isExists) throw new BadRequestException(this.i18n.t("d.errors.profile.phone_number_is_exist"));
+		}
+
+		await this.prisma.user.update({ where: { id }, data: dto });
+
+		return true;
 	}
 
 	async updateProfileVerified(id: string) {

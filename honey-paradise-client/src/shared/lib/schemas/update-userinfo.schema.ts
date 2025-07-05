@@ -7,14 +7,16 @@ export const createUpdateUserinfoSchema = (t: any) =>
 	z.object({
 		username: z
 			.string({ message: "" })
-			.max(VALUES.MAX_ID_LENGTH, { message: "username max" })
+			.max(VALUES.MAX_ID_LENGTH, { message: t("errors.username.max", { max: VALUES.MAX_ID_LENGTH }) })
 			.optional()
-			.refine(data => (data ? data.length >= VALUES.MIN_ID_LENGTH : true), { message: "username min" })
-			.refine(validateUsername, { message: "username invalid" }),
+			.refine(data => (data ? data.length >= VALUES.MIN_ID_LENGTH : true), {
+				message: t("errors.username.min", { min: VALUES.MIN_ID_LENGTH }),
+			})
+			.refine(validateUsername, { message: t("errors.username.invalid") }),
 		phone: z
 			.string({ message: "" })
 			.optional()
-			.refine(data => (data ? data.length >= VALUES.MIN_PHONE_LENGTH : true), { message: "phone min" }),
+			.refine(data => (data ? data.length >= VALUES.MIN_PHONE_LENGTH : true), { message: t("errors.phone.invalid") }),
 		birthdate: z.date({ message: "" }).optional(),
 		gender: z.nativeEnum(EnumGenders, { message: "" }).optional(),
 	});

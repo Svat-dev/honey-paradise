@@ -1,11 +1,11 @@
 import type { TFieldNames, TInputType } from "../types/form-input.type";
 
-import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
+import { useTranslations } from "next-intl";
 
 export const useFormInput = (name: TFieldNames, isDecorated?: boolean, genderType?: "radio-group" | "dropdown") => {
 	const { register, formState, watch, setValue, control, clearErrors, getValues } = useFormContext();
-	const t = useTranslations("shared.auth.labels");
+	const t = useTranslations("shared.auth");
 
 	const value = watch(name);
 	const error = formState.errors[name]?.message || "";

@@ -18,6 +18,7 @@ export enum EnumApiRoute {
 	VERIFY_EMAIL = `${EMAIL}/verify`,
 
 	PROFILE = "/profile",
+	UPDATE_PROFILE = "/update",
 	AVATAR = "/avatar",
 	UPDATE_AVATAR = `${AVATAR}/update`,
 	DELETE_AVATAR = `${AVATAR}/delete`,

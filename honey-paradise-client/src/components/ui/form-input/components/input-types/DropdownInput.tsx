@@ -6,7 +6,7 @@ import type { FC } from "react";
 import { useDropdownInput } from "../../hooks/useDropdownInput";
 import type { IDropdownInputProps } from "../../types/form-input.type";
 
-const DropdownInput: FC<IDropdownInputProps> = ({ name, data, isLoading }) => {
+const DropdownInput: FC<IDropdownInputProps> = ({ name, data, isLoading, ...props }) => {
 	const { value, onChange, isOpen, setIsOpen, label } = useDropdownInput(name);
 
 	if (!data) return null;
@@ -14,7 +14,7 @@ const DropdownInput: FC<IDropdownInputProps> = ({ name, data, isLoading }) => {
 	return (
 		<DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
 			<DropdownMenuTrigger asChild>
-				<Button variant="secondary" className="tw-gap-1 tw-px-2 tw-py-1 tw-mb-1" disabled={isLoading}>
+				<Button variant="secondary" className="tw-gap-1 tw-px-2 tw-py-1 tw-mb-1" title={props.title} disabled={isLoading}>
 					{isLoading ? (
 						<LoaderCircleIcon size={20} className="tw-animate-spin" />
 					) : (

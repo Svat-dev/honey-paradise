@@ -69,7 +69,7 @@ const Index = () => {
 
 								<li className="tw-font-bold">Прочее</li>
 								<li>Время входа: {session.createdAt}</li>
-								<li>Продолжительность: {getTime(toDate(session.createdAt as string))} минут</li>
+								<li>Продолжительность: {getTime(toDate(session.createdAt as string))}</li>
 								<li>Идентификатор сессии: {session.id}</li>
 								<li>Пользователь: {session.userId}</li>
 							</ul>

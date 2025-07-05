@@ -14,6 +14,7 @@ const ProfileSettings = () => {
 				gender={user?.gender}
 				phone={user?.phoneNumber}
 				username={user?.username}
+				refetch={accRefetch}
 				isLoading={isAccLoading}
 			/>
 		</>

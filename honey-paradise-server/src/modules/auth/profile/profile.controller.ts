@@ -1,23 +1,20 @@
 import { Controller } from "@nestjs/common/decorators/core/controller.decorator";
 import { UseInterceptors } from "@nestjs/common/decorators/core/use-interceptors.decorator";
 import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
-import { Patch } from "@nestjs/common/decorators/http/request-mapping.decorator";
-import { UploadedFile } from "@nestjs/common/decorators/http/route-params.decorator";
+import { Patch, Put } from "@nestjs/common/decorators/http/request-mapping.decorator";
+import { Body, UploadedFile } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
 import { FileInterceptor } from "@nestjs/platform-express/multer/interceptors/file.interceptor";
-import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { Authorization } from "src/shared/decorators/auth.decorator";
 import { Authorized } from "src/shared/decorators/authorized.decorator";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
 import { FileValidationPipe } from "src/shared/pipes/file-validation.pipe";
+import { UpdateUserDto } from "./dto/update-userinfo.dto";
 import { ProfileService } from "./profile.service";
 
 @Controller(EnumApiRoute.PROFILE)
 export class ProfileController {
-	constructor(
-		private readonly profileService: ProfileService,
-		i18n: I18nService
-	) {}
+	constructor(private readonly profileService: ProfileService) {}
 
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
@@ -32,5 +29,12 @@ export class ProfileController {
 	@Patch(EnumApiRoute.DELETE_AVATAR)
 	deleteAvatar(@Authorized("id") userId: string) {
 		return this.profileService.deleteAvatar(userId);
+	}
+
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Put(EnumApiRoute.UPDATE_PROFILE)
+	updateUserinfo(@Authorized("id") userId: string, @Body() dto: UpdateUserDto) {
+		return this.profileService.updateProfile(userId, dto);
 	}
 }

@@ -1,7 +1,7 @@
-import type { ICNProps } from "@/shared/types/base.type";
-import { cn } from "@utils/base";
-import { XIcon } from "lucide-react";
 import type { FC } from "react";
+import type { ICNProps } from "@/shared/types/base.type";
+import { XIcon } from "lucide-react";
+import { cn } from "@utils/base";
 import styles from "../styles/default-input.module.scss";
 
 interface IProps extends ICNProps {
@@ -14,7 +14,7 @@ const ClearButton: FC<IProps> = ({ value, onClick, className, t }) => {
 	return (
 		<button
 			type="button"
-			title={t("clearBtn")}
+			title={t("labels.clearBtn")}
 			className={cn(
 				styles["clear-btn"],
 				{
