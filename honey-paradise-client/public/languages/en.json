@@ -498,7 +498,13 @@
 				"changeTheme": "Change theme"
 			}
 		},
-		"account-sidebar": {},
+		"account-sidebar": {
+			"links": {
+				"settings": "Settings",
+				"connections": "Linked accounts",
+				"orders": "My orders"
+			}
+		},
 		"cookies": {
 			"title": "Agreement with the Cookie policy",
 			"description": "This website uses Cookies to provide you with the best possible experience using our website.",

@@ -8,7 +8,7 @@ import type { IAccountNavigation } from "../types/data.type";
 
 export const useAccountSidebar = () => {
 	const pathname = usePathname();
-	const t = useTranslations("layout.account-sidebar");
+	const t = useTranslations("layout.account-sidebar.links");
 
 	const [height, setHeight] = useState<string>("auto");
 
@@ -18,19 +18,19 @@ export const useAccountSidebar = () => {
 
 	const data: IAccountNavigation[] = [
 		{
-			title: "Настройки",
+			title: t("settings"),
 			icon: SettingsIcon,
 			route: EnumAppRoute.SETTINGS,
 			isCurrent: pathname === EnumAppRoute.SETTINGS,
 		},
 		{
-			title: "Связанные учетные записи",
+			title: t("connections"),
 			icon: LinkIcon,
 			route: EnumAppRoute.CONNECTIONS,
 			isCurrent: pathname === EnumAppRoute.CONNECTIONS,
 		},
 		{
-			title: "Мои заказы",
+			title: t("orders"),
 			icon: ClipboardListIcon,
 			route: EnumAppRoute.MY_ORDERS,
 			isCurrent: pathname === EnumAppRoute.MY_ORDERS,

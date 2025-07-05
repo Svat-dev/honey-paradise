@@ -498,7 +498,13 @@
 				"changeTheme": "Поменять тему"
 			}
 		},
-		"account-sidebar": {},
+		"account-sidebar": {
+			"links": {
+				"settings": "Настройки",
+				"connections": "Связанные учетные записи",
+				"orders": "Мои заказы"
+			}
+		},
 		"cookies": {
 			"title": "Соглашение с политикой Cookies",
 			"description": "Этот сайт использует Cookies, чтобы обеспечить вам наилучший опыт использования нашего сайта.",
