@@ -17,7 +17,7 @@ interface IProps {
 }
 
 const AppearanceSection: FC<IProps> = ({ settings, isAccLoading, refetch }) => {
-	const { clearValues, form, isDisabled, language_data, theme_data, onSubmit, isSettingsUpdating } = useAppearanceSection(
+	const { clearValues, form, isDisabled, language_data, theme_data, onSubmit, isSettingsUpdating, t } = useAppearanceSection(
 		settings,
 		refetch
 	);
@@ -25,21 +25,35 @@ const AppearanceSection: FC<IProps> = ({ settings, isAccLoading, refetch }) => {
 	const isLoading = isAccLoading || isSettingsUpdating;
 
 	return (
-		<ProfileSettingSection title="Оформление сайта">
+		<ProfileSettingSection title={t("appearance.title")}>
 			<FormProvider {...form}>
 				<form className={styles["appearance-form-wrapper"]} onSubmit={onSubmit}>
 					<div>
-						<p>{"Базовый язык сайта"}</p>
-						<FormInput name="language" title={"Выберите язык"} align="end" data={language_data} isLoading={isLoading} />
-						<Button variant="secondary" onClick={() => clearValues("language")} disabled={isLoading || !form.getValues("language")}>
+						<p>{t("appearance.language.title")}</p>
+
+						<FormInput name="language" title={t("labels.language.choose")} align="end" data={language_data} isLoading={isLoading} />
+
+						<Button
+							variant="secondary"
+							title={t("labels.language.clear")}
+							onClick={() => clearValues("language")}
+							disabled={isLoading || !form.getValues("language")}
+						>
 							<XIcon size={20} />
 						</Button>
 					</div>
 
 					<div>
-						<p>{"Базовая тема сайта"}</p>
-						<FormInput name="theme" title={"Выберите тему"} align="end" data={theme_data} isLoading={isLoading} />
-						<Button variant="secondary" onClick={() => clearValues("theme")} disabled={isLoading || !form.getValues("theme")}>
+						<p>{t("appearance.theme.title")}</p>
+
+						<FormInput name="theme" title={t("labels.theme.choose")} align="end" data={theme_data} isLoading={isLoading} />
+
+						<Button
+							variant="secondary"
+							title={t("labels.theme.clear")}
+							onClick={() => clearValues("theme")}
+							disabled={isLoading || !form.getValues("theme")}
+						>
 							<XIcon size={20} />
 						</Button>
 					</div>
@@ -49,11 +63,11 @@ const AppearanceSection: FC<IProps> = ({ settings, isAccLoading, refetch }) => {
 						<Button
 							variant="secondary"
 							type="submit"
-							title={"Сохранить изменения"}
+							title={t("appearance.submitBtn")}
 							isLoading={isLoading}
 							disabled={isLoading || isDisabled}
 						>
-							{"Сохранить изменения"}
+							{t("appearance.submitBtn")}
 						</Button>
 					</div>
 				</form>

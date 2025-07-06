@@ -407,10 +407,36 @@
 							"error": "Error when saving information:\n{e}"
 						}
 					},
+					"appearance": {
+						"title": "Website design",
+						"language": {
+							"title": "Basic website language",
+							"ru": "Russian",
+							"en": "English"
+						},
+						"theme": {
+							"title": "Basic website theme",
+							"light": "Light",
+							"dark": "Dark"
+						},
+						"submitBtn": "Save changes",
+						"toasters": {
+							"success": "You have successfully updated the design settings",
+							"error": "Error when saving information:\n{e}"
+						}
+					},
 					"labels": {
 						"avatarImage": "Profile picture",
 						"deleteAvatar": "Delete profile picture",
-						"clearDate": "Clear birthdate"
+						"clearDate": "Clear birthdate",
+						"language": {
+							"choose": "Select a language",
+							"clear": "Delete the base language"
+						},
+						"theme": {
+							"choose": "Select a theme",
+							"clear": "Delete the base theme"
+						}
 					}
 				},
 				"account": {

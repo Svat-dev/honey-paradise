@@ -9,15 +9,17 @@ import { EnumLanguages } from "@/shared/lib/i18n";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { RefetchOptions } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export const useAppearanceSection = (settings: ISettings | undefined, refetch: (opts?: RefetchOptions) => void) => {
+	const t = useTranslations("global.settings.content.profile");
 	const { updateSettingsAsync, isSettingsUpdating } = useUpdateSettingsS();
 
 	const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
-	const schema = createUpdateAppearanceSchema({});
+	const schema = createUpdateAppearanceSchema();
 	const form = useForm<TUpdateAppearanceFields>({
 		resolver: zodResolver(schema),
 		mode: "onChange",
@@ -38,10 +40,10 @@ export const useAppearanceSection = (settings: ISettings | undefined, refetch: (
 			await updateSettingsAsync({ defaultLanguage: language, defaultTheme: theme });
 
 			refetch();
-			toast.success("Данные успешно сохранены");
+			toast.success(t("appearance.toasters.success"));
 		} catch (e) {
 			const { errMsg } = errorCatch(e as AxiosError);
-			const msg = errMsg;
+			const msg = t("appearance.toasters.success", { e: errMsg });
 
 			toast.error(msg);
 		}
@@ -58,13 +60,13 @@ export const useAppearanceSection = (settings: ISettings | undefined, refetch: (
 	};
 
 	const language_data: IDropdownData[] = [
-		{ id: useId(), value: EnumLanguages.RU, label: "Русский" },
-		{ id: useId(), value: EnumLanguages.EN, label: "Английский" },
+		{ id: useId(), value: EnumLanguages.RU, label: t("appearance.language.ru") },
+		{ id: useId(), value: EnumLanguages.EN, label: t("appearance.language.en") },
 	];
 
 	const theme_data: IDropdownData[] = [
-		{ id: useId(), value: EnumThemes.DARK, label: "Темная" },
-		{ id: useId(), value: EnumThemes.LIGHT, label: "Светлая" },
+		{ id: useId(), value: EnumThemes.DARK, label: t("appearance.theme.dark") },
+		{ id: useId(), value: EnumThemes.LIGHT, label: t("appearance.theme.light") },
 	];
 
 	useEffect(() => {
@@ -83,5 +85,6 @@ export const useAppearanceSection = (settings: ISettings | undefined, refetch: (
 		theme_data,
 		isDisabled,
 		isSettingsUpdating,
+		t,
 	};
 };

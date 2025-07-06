@@ -118,7 +118,7 @@ export class ProfileService {
 	async updateSettings(userId: string, dto: Prisma.UserSettingsUpdateInput) {
 		const settings = await this.prisma.userSettings.findUnique({ where: { userId } });
 
-		if (!settings) throw new NotFoundException("Не найдено настроек пользователя, обратитесь в поддержку");
+		if (!settings) throw new NotFoundException(this.i18n.t("d.errors.profile.settings_not_found"));
 
 		await this.prisma.userSettings.update({ where: { id: settings.id }, data: dto });
 
