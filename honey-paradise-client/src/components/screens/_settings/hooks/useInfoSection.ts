@@ -82,7 +82,7 @@ export const useInfoSection = (
 	useEffect(() => {
 		if (!form.formState.isValid) return setIsDisabled(true);
 
-		const json_default = JSON.stringify(defaultValues);
+		const json_default = JSON.stringify(form.formState.defaultValues);
 		const json_values = JSON.stringify(form.getValues());
 
 		if (json_default === json_values) return setIsDisabled(true);

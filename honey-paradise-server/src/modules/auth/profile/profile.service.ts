@@ -4,6 +4,7 @@ import * as sharp from "sharp";
 
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
+import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
 import type { Prisma } from "@prisma/client";
 import { hash } from "argon2";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
@@ -110,6 +111,16 @@ export class ProfileService {
 		}
 
 		await this.prisma.user.update({ where: { id }, data: dto });
+
+		return true;
+	}
+
+	async updateSettings(userId: string, dto: Prisma.UserSettingsUpdateInput) {
+		const settings = await this.prisma.userSettings.findUnique({ where: { userId } });
+
+		if (!settings) throw new NotFoundException("Не найдено настроек пользователя, обратитесь в поддержку");
+
+		await this.prisma.userSettings.update({ where: { id: settings.id }, data: dto });
 
 		return true;
 	}

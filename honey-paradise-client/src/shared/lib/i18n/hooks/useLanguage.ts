@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/dist/client/components/navigation";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import toast from "react-hot-toast";
 import { EnumStorageTokens } from "../../constants/base";
 import { useAuth, useMyAccount } from "../../hooks/auth";
@@ -38,11 +38,16 @@ export const useLanguage = () => {
 		}
 	};
 
+	const localeLang = (type: "full" | "short"): string => {
+		if (type === "full") return LANGS_BY_KEY[`${locale}_full` as EnumLanguages];
+		else return LANGS_BY_KEY[locale as EnumLanguages];
+	};
+
 	useEffect(() => {
 		if (isAuthenticated) {
 			if (user?.settings.defaultLanguage) change(user.settings.defaultLanguage, true);
 		}
 	}, []);
 
-	return { change, locale };
+	return useMemo(() => ({ change, locale, localeLang }), [locale, user, isAuthenticated]);
 };

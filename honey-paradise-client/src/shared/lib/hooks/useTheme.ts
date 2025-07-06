@@ -1,12 +1,15 @@
-import { useAuth, useMyAccount } from "./auth";
+import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
+import { useAuth, useMyAccount } from "./auth";
 
-import Cookies from "js-cookie";
-import { EnumStorageTokens } from "@constants/base";
 import { TThemes } from "@/shared/types/base.type";
+import { EnumStorageTokens } from "@constants/base";
+import Cookies from "js-cookie";
 
 export const useTheme = () => {
+	const t = useTranslations("shared.theme");
 	const [theme, setTheme] = useState<TThemes>("light");
+
 	const { isAuthenticated } = useAuth();
 	const { user } = useMyAccount();
 
@@ -16,6 +19,11 @@ export const useTheme = () => {
 		document.body.classList.add(`${_theme}-mode`);
 
 		return isSystem ? true : Cookies.set(EnumStorageTokens.THEME_MODE, _theme);
+	};
+
+	const localeTheme = (type: "full" | "short") => {
+		if (theme === "light") return t(`light.${type}`);
+		else return t(`dark.${type}`);
 	};
 
 	useEffect(() => {
@@ -48,7 +56,8 @@ export const useTheme = () => {
 		() => ({
 			theme,
 			toggleTheme,
+			localeTheme,
 		}),
-		[theme, toggleTheme]
+		[theme, toggleTheme, localeTheme]
 	);
 };

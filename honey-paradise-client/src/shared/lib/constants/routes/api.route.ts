@@ -21,6 +21,10 @@ export enum EnumApiRoute {
 
 	PROFILE = "/profile",
 	UPDATE_PROFILE = `${PROFILE}/update`,
+
+	SETTINGS = `${PROFILE}/settings`,
+	UPDATE_SETTINGS = `${SETTINGS}/update`,
+
 	AVATAR = `${PROFILE}/avatar`,
 	UPDATE_AVATAR = `${AVATAR}/update`,
 	DELETE_AVATAR = `${AVATAR}/delete`,

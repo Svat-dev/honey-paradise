@@ -560,15 +560,25 @@
 	},
 	"shared": {
 		"auth": {
-			"gender": {
-				"male": "Male",
-				"female": "Female",
-				"other": "Not specified"
+			"notSpecified": {
+				"gender": "Not specified",
+				"language": "Not specified. Current - {current}",
+				"theme": "Not specified. Current - {current}"
 			},
 			"labels": {
 				"clearBtn": "Clear",
 				"showPassword": "Show password",
 				"hidePassword": "Hide Password"
+			}
+		},
+		"theme": {
+			"dark": {
+				"full": "Dark theme",
+				"short": "Dark"
+			},
+			"light": {
+				"full": "Light theme",
+				"short": "Light"
 			}
 		}
 	}

@@ -560,15 +560,25 @@
 	},
 	"shared": {
 		"auth": {
-			"gender": {
-				"male": "Мужской",
-				"female": "Женский",
-				"other": "Не указан"
+			"notSpecified": {
+				"gender": "Не указан",
+				"language": "Не указан. Текущий - {current}",
+				"theme": "Не указана. Текущая - {current}"
 			},
 			"labels": {
 				"clearBtn": "Очистить",
 				"showPassword": "Показать пароль",
 				"hidePassword": "Скрыть пароль"
+			}
+		},
+		"theme": {
+			"dark": {
+				"full": "Темная тема",
+				"short": "Темная"
+			},
+			"light": {
+				"full": "Светлая тема",
+				"short": "Светлая"
 			}
 		}
 	}

@@ -9,6 +9,7 @@ import { Authorization } from "src/shared/decorators/auth.decorator";
 import { Authorized } from "src/shared/decorators/authorized.decorator";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
 import { FileValidationPipe } from "src/shared/pipes/file-validation.pipe";
+import { UpdateUserSettingsDto } from "./dto/update-user-settings.dto";
 import { UpdateUserDto } from "./dto/update-userinfo.dto";
 import { ProfileService } from "./profile.service";
 
@@ -36,5 +37,12 @@ export class ProfileController {
 	@Put(EnumApiRoute.UPDATE_PROFILE)
 	updateUserinfo(@Authorized("id") userId: string, @Body() dto: UpdateUserDto) {
 		return this.profileService.updateProfile(userId, dto);
+	}
+
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Put(EnumApiRoute.UPDATE_SETTINGS)
+	updateUserSettings(@Authorized("id") userId: string, @Body() dto: UpdateUserSettingsDto) {
+		return this.profileService.updateSettings(userId, dto);
 	}
 }

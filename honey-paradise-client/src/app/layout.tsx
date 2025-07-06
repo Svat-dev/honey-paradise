@@ -4,10 +4,12 @@ import { getLocale, getMessages } from "next-intl/server";
 
 import { ClientMainProvider } from "@/components/providers/ClientMainProvider";
 import { MainProvider } from "@/components/providers/MainProvider";
+import { EnumStorageTokens } from "@constants/base";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { Rubik } from "next/font/google";
-import { type ReactNode } from "react";
+import { cookies } from "next/headers";
+import type { ReactNode } from "react";
 
 interface IMainLayout {
 	children: ReactNode;
@@ -29,12 +31,14 @@ export default async function MainLayout({ children }: Readonly<IMainLayout>) {
 
 	const langs = await getMessages();
 
+	const isAgreedWithCookie = (await cookies()).get(EnumStorageTokens.IS_AGREE_WITH_COOKIES)?.value;
+
 	return (
 		<html lang={locale}>
 			<MainProvider>
 				<body className={`${RubikText.variable} tw-antialiased`}>
 					<NextIntlClientProvider messages={langs}>
-						<ClientMainProvider>{children}</ClientMainProvider>
+						<ClientMainProvider cookie={isAgreedWithCookie}>{children}</ClientMainProvider>
 					</NextIntlClientProvider>
 				</body>
 			</MainProvider>

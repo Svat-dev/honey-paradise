@@ -1,4 +1,6 @@
-import type { EnumGenders } from "@/shared/types/models";
+import type { EnumGenders, EnumThemes } from "@/shared/types/models";
+
+import type { EnumLanguages } from "@i18n/index";
 
 export interface IUpdatePasswordDto {
 	password: string;
@@ -10,4 +12,9 @@ export interface IUpdateProfileDto {
 	username?: string;
 	gender?: EnumGenders;
 	birthdate?: Date | null;
+}
+
+export interface IUpdateUserSettingsDto {
+	defaultLanguage?: EnumLanguages | null;
+	defaultTheme?: EnumThemes | null;
 }

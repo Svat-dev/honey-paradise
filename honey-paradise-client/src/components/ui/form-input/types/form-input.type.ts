@@ -1,4 +1,5 @@
 import type { TConfirmationFields } from "@/shared/lib/schemas/confirmation.schema";
+import type { TUpdateAppearanceFields } from "@/shared/lib/schemas/update-appearance.schema";
 import type { TUpdateUserinfoFields } from "@/shared/lib/schemas/update-userinfo.schema";
 import type { ReactStateHook } from "@/shared/types/base.type";
 import type { TSignInFields } from "@schemas/sign-in.schema";
@@ -11,7 +12,12 @@ import type { Options } from "vanilla-calendar-pro";
 
 type TSetMask = ReactStateHook<InputMask<FactoryArg> | undefined>;
 
-export type TFieldNames = keyof TSignInFields | keyof TSignUpFields | keyof TConfirmationFields | keyof TUpdateUserinfoFields;
+export type TFieldNames =
+	| keyof TSignInFields
+	| keyof TSignUpFields
+	| keyof TConfirmationFields
+	| keyof TUpdateUserinfoFields
+	| keyof TUpdateAppearanceFields;
 
 export type TInputType = "default" | "default-decor" | "radio-group" | "date" | "otp" | "dropdown";
 
@@ -24,10 +30,11 @@ export interface IFormInputProps extends InputHTMLAttributes<HTMLInputElement> {
 	errorClassName?: string;
 	caretClassName?: string;
 	setMask?: TSetMask;
-	data?: IRadioGroupData[];
+	data?: IRadioGroupData[] | IDropdownData[];
 	otpSlotsLimit?: number;
 	isDecorated?: boolean;
 	genderType?: "radio-group" | "dropdown";
+	align?: "center" | "start" | "end";
 	dateConfig?: Options;
 }
 
@@ -58,5 +65,6 @@ export interface IRadioGroupInputProps extends InputHTMLAttributes<HTMLInputElem
 export interface IDropdownInputProps extends InputHTMLAttributes<HTMLInputElement> {
 	name: TFieldNames;
 	data: IDropdownData[] | undefined;
+	align?: "center" | "start" | "end";
 	isLoading?: boolean;
 }
