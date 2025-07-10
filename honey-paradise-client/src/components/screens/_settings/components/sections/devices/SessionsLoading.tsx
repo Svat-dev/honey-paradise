@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Skeleton } from "@/components/ui";
+import { Skeleton } from "@/components/ui/common";
 import styles from "../../../styles/devices.module.scss";
 
 interface IProps {

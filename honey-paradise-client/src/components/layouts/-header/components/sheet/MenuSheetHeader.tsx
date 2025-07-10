@@ -1,9 +1,9 @@
 "use client";
 
-import { SheetDescription, SheetHeader, SheetTitle } from "@/components/ui";
+import { SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/common";
 
-import { useTranslations } from "next-intl";
 import { ProfileBlock } from "../right-part/ProfileBlock";
+import { useTranslations } from "next-intl";
 
 const MenuSheetHeader = () => {
 	const t = useTranslations("layout.header");

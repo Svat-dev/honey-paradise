@@ -1,15 +1,15 @@
 "use client";
 
-import { Alert, AlertDescription, AlertTitle, Button, Title } from "@/components/ui";
+import { Alert, AlertDescription, AlertTitle, Button, Title } from "@/components/ui/common";
 
-import { CheckCircle2Icon } from "lucide-react";
-import { FormInput } from "@/components/ui/form-input";
-import { FormProvider } from "react-hook-form";
-import Image from "next/image";
+import { FormInput } from "@/components/ui/components/form-input";
 import _styles from "@styles/modules/auth-form-wrapper.module.scss";
 import { cn } from "@utils/base";
-import styles from "../styles/reset-password.module.scss";
+import { CheckCircle2Icon } from "lucide-react";
+import Image from "next/image";
+import { FormProvider } from "react-hook-form";
 import { useResetPassword } from "../hooks/useResetPassword";
+import styles from "../styles/reset-password.module.scss";
 
 const ResetPassword = () => {
 	const { isCodeSending, onSubmit, dataStatus, isSuccess, form, resendCode, cooldown, t } = useResetPassword();

@@ -1,6 +1,6 @@
 "use client";
 
-import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/common";
 import { useAuth, useMyAccount } from "@hooks/auth";
 import { cn } from "@utils/base";
 import { LogOutIcon } from "lucide-react";

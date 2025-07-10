@@ -1,13 +1,13 @@
 "use client";
 
-import { Button, Title } from "@/components/ui";
+import { Button, Title } from "@/components/ui/common";
 
 import { EnumAppRoute } from "@constants/routes";
-import { MoveLeftIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useRouter } from "next/dist/client/components/navigation";
 import Image from "next/image";
+import { MoveLeftIcon } from "lucide-react";
 import styles from "./not-found.module.scss";
+import { useRouter } from "next/dist/client/components/navigation";
+import { useTranslations } from "next-intl";
 
 const NotFound = () => {
 	const { refresh, replace } = useRouter();

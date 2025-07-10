@@ -1,5 +1,5 @@
 import { ALLOWED_AVATAR_FILE_TYPES, MAX_AVATAR_FILE_SIZE } from "@constants/base";
-import { Avatar, AvatarFallback, AvatarImage, Button, Skeleton } from "@/components/ui";
+import { Avatar, AvatarFallback, AvatarImage, Button, Skeleton } from "@/components/ui/common";
 
 import type { FC } from "react";
 import { ProfileSettingSection } from "./ProfileSettingSection";

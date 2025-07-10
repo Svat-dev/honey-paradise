@@ -1,8 +1,8 @@
-import { Button, Separator } from "@/components/ui";
+import { Button, Separator } from "@/components/ui/common";
 
 import type { FC } from "react";
-import styles from "../../../styles/profile.module.scss";
 import { ProfileSettingSection } from "./ProfileSettingSection";
+import styles from "../../../styles/profile.module.scss";
 
 interface ITelegramSection {
 	telegramId: string | undefined;

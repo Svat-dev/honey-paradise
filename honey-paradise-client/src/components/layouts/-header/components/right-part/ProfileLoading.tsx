@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui";
+import { Skeleton } from "@/components/ui/common";
 
 const ProfileLoading = () => {
 	return (

@@ -1,13 +1,13 @@
-import type { Calendar, Locale } from "vanilla-calendar-pro";
 import { enUS, ru } from "date-fns/locale";
 import { useEffect, useState } from "react";
+import type { Calendar, Locale } from "vanilla-calendar-pro";
 
-import { EnumLanguages } from "@/shared/lib/i18n";
-import type { TFieldNames } from "../types/form-input.type";
-import { toDate } from "date-fns";
-import { useFormInput } from "./useFormInput";
 import { useLanguage } from "@i18n/hooks";
+import { EnumLanguages } from "@i18n/index";
+import { toDate } from "date-fns";
 import { useTranslations } from "next-intl";
+import type { TFieldNames } from "../types/form-input.type";
+import { useFormInput } from "./useFormInput";
 
 export const useFormDateInput = (name: TFieldNames) => {
 	const { locale } = useLanguage();

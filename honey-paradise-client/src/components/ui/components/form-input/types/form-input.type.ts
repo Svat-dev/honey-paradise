@@ -1,9 +1,9 @@
-import type { TConfirmationFields } from "@/shared/lib/schemas/confirmation.schema";
-import type { TUpdateAppearanceFields } from "@/shared/lib/schemas/update-appearance.schema";
-import type { TUpdateUserinfoFields } from "@/shared/lib/schemas/update-userinfo.schema";
 import type { ReactStateHook } from "@/shared/types/base.type";
+import type { TConfirmationFields } from "@schemas/confirmation.schema";
 import type { TSignInFields } from "@schemas/sign-in.schema";
 import type { TSignUpFields } from "@schemas/sign-up.schema";
+import type { TUpdateAppearanceFields } from "@schemas/update-appearance.schema";
+import type { TUpdateUserinfoFields } from "@schemas/update-userinfo.schema";
 import type { FactoryArg } from "imask";
 import type InputMask from "imask/esm/controls/input";
 import type { LucideIcon } from "lucide-react";

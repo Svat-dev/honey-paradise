@@ -1,13 +1,13 @@
 "use client";
 
-import { Sheet, SheetTrigger } from "@/components/ui";
 import type { FC, PropsWithChildren } from "react";
 import { MenuSheetFooter, MenuSheetHeader, MenuSheetMain } from "./index";
+import { Sheet, SheetTrigger } from "@/components/ui/common";
 
-import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
+import { useTranslations } from "next-intl";
 
-const DynamicSheetContent = dynamic(() => import("@/components/ui").then(mod => mod.SheetContent));
+const DynamicSheetContent = dynamic(() => import("@/components/ui/common").then(mod => mod.SheetContent));
 
 interface IMenuSheet extends PropsWithChildren {}
 

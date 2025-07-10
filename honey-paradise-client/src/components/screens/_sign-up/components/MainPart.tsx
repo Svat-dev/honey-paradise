@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui";
-import { FormInput } from "@/components/ui/form-input";
+import { Button } from "@/components/ui/common";
+import { FormInput } from "@/components/ui/components/form-input";
 import { FormBlock } from "@/components/ui/layouts";
 import { VALUES } from "@constants/base";
 import { EnumAppRoute } from "@constants/routes";

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Input } from "@/components/ui";
+import { Button, Input } from "@/components/ui/common";
 import { SearchIcon, XIcon } from "lucide-react";
 
 import { cn } from "@utils/base";

@@ -2,9 +2,9 @@
 
 import { MoveRightIcon, ShoppingCartIcon } from "lucide-react";
 
-import { Button } from "@/components/ui";
-import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/common";
 import styles from "../styles/order-button.module.scss";
+import { useTranslations } from "next-intl";
 
 const OrderButton = () => {
 	const t = useTranslations("layout.header.labels");

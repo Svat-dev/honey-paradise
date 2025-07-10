@@ -1,11 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui";
-import { cn } from "@utils/base";
+import { Button } from "@/components/ui/common";
 import { SearchIcon } from "lucide-react";
-import { useSearch } from "../hooks/useSearch";
-import styles from "../styles/middle-part.module.scss";
 import { SearchInput } from "./SearchInput";
+import { cn } from "@utils/base";
+import styles from "../styles/middle-part.module.scss";
+import { useSearch } from "../hooks/useSearch";
 
 const MiddlePart = () => {
 	const { onClick, searchForm, onInput, value, onClickReset, isOpen, t } = useSearch();

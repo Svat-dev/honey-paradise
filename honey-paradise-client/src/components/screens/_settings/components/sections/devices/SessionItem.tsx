@@ -1,12 +1,13 @@
-import { Button } from "@/components/ui";
-import { DotIcon } from "lucide-react";
-import type { FC } from "react";
+import { Button } from "@/components/ui/common";
+import { ConfirmModal } from "@/components/ui/components/ConfirmModal";
 import type { ISessionMetadata } from "@/shared/types/models/session.type";
-import { capitalize } from "@utils/index";
 import { getBrowserIcon } from "@utils/get-browser-icon";
 import { getSessionTimeString } from "@utils/get-session-time";
-import styles from "../../../styles/devices.module.scss";
+import { capitalize } from "@utils/index";
+import { DotIcon } from "lucide-react";
+import type { FC } from "react";
 import toast from "react-hot-toast";
+import styles from "../../../styles/devices.module.scss";
 
 interface IProps {
 	remove: (sid: string) => Promise<void>;
@@ -75,9 +76,15 @@ const SessionItem: FC<IProps> = ({ createdAt, metadata, remove, isCurrent, sid }
 				<Button variant="default">{"Сведения"}</Button>
 
 				{!isCurrent && (
-					<Button variant="destructive" onClick={handleRemove}>
-						{"Удалить"}
-					</Button>
+					<ConfirmModal
+						heading={"Удаление сессии"}
+						desc={
+							"Вы уверены, что хотите удалить эту сессию? Это действие приведёт к необратимому удалению сессии на этом устройстве и завершит все активные действия, связанные с ним"
+						}
+						onConfirm={handleRemove}
+					>
+						<Button variant="destructive">{"Удалить"}</Button>
+					</ConfirmModal>
 				)}
 			</div>
 		</article>

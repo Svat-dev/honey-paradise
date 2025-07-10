@@ -1,4 +1,4 @@
-import { Button, Calendar, DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui";
+import { Button, Calendar, DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/common";
 import { CalendarIcon, LoaderCircleIcon } from "lucide-react";
 
 import { cn } from "@utils/base";

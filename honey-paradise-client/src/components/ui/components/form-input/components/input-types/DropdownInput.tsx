@@ -1,4 +1,4 @@
-import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui";
+import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/common";
 import { CheckIcon, ChevronDownIcon, LoaderCircleIcon } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils/base";

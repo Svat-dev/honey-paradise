@@ -1,4 +1,4 @@
-import { Input, Skeleton } from "@/components/ui";
+import { Input, Skeleton } from "@/components/ui/common";
 
 import { cn } from "@utils/base";
 import type { FC } from "react";

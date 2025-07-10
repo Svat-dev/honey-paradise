@@ -1,7 +1,7 @@
+import { useSessions } from "@hooks/auth";
+import styles from "../../../styles/devices.module.scss";
 import { SessionItem } from "./SessionItem";
 import { SessionsLoading } from "./SessionsLoading";
-import styles from "../../../styles/devices.module.scss";
-import { useSessions } from "@hooks/auth";
 
 const DevicesSettings = () => {
 	const { sessions, currentSession, removeSession, isSessionLoading } = useSessions();

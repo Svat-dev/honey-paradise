@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/shared/lib/utils/base";
+import { cn } from "@utils/base";
 import type { FC } from "react";
 import { ErrorText } from "./components";
 import { DateInput } from "./components/input-types/DateInput";

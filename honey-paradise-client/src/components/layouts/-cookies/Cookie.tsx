@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui";
+import { Button } from "@/components/ui/common";
 import { EnumAppRoute } from "@constants/routes";
-import { cn } from "@utils/base";
-import Link from "next/dist/client/link";
 import Image from "next/image";
+import Link from "next/dist/client/link";
+import { cn } from "@utils/base";
 import { memo } from "react";
 import styles from "./cookie.module.scss";
 import { useCookies } from "./useCookies";

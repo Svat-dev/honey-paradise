@@ -1,4 +1,4 @@
-import { DropdownMenuItem } from "@/components/ui";
+import { DropdownMenuItem } from "@/components/ui/common";
 import { cn } from "@/shared/lib/utils/base";
 import { CircleHelpIcon } from "lucide-react";
 import { type FC } from "react";

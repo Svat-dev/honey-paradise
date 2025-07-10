@@ -1,4 +1,4 @@
-import { RadioGroup, RadioGroupItem } from "@/components/ui";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/common";
 
 import type { FC } from "react";
 import { useRadioGroupInput } from "../../hooks/useRadioGroupInput";

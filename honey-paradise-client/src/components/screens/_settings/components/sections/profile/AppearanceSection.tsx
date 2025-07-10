@@ -1,6 +1,6 @@
-import { Button, Separator } from "@/components/ui";
+import { Button, Separator } from "@/components/ui/common";
 
-import { FormInput } from "@/components/ui/form-input";
+import { FormInput } from "@/components/ui/components/form-input";
 import type { ISettings } from "@/shared/types/models";
 import type { RefetchOptions } from "@tanstack/react-query";
 import { XIcon } from "lucide-react";

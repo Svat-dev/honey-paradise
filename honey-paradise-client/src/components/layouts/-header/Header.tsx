@@ -1,4 +1,4 @@
-import { Separator } from "@/components/ui";
+import { Separator } from "@/components/ui/common";
 import { EnumStorageTokens } from "@constants/base";
 import { EnumAppRoute } from "@constants/routes";
 import { cookies } from "next/dist/server/request/cookies";

@@ -3,7 +3,7 @@ import { EnumThemes, type ISettings } from "@/shared/types/models";
 import { useEffect, useId, useState } from "react";
 
 import { errorCatch } from "@/api/api-helper";
-import type { IDropdownData } from "@/components/ui/form-input/types/form-input.type";
+import type { IDropdownData } from "@/components/ui/components/form-input/types/form-input.type";
 import { useUpdateSettingsS } from "@/services/hooks/profile";
 import { EnumLanguages } from "@/shared/lib/i18n";
 import { zodResolver } from "@hookform/resolvers/zod";

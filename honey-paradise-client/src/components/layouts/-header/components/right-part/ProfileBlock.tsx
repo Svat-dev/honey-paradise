@@ -1,16 +1,16 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common";
 
-import { EnumUserRoles } from "@/shared/types/models";
-import { useMyAccount } from "@hooks/auth";
-import { cn } from "@utils/base";
-import { getAvatarPath } from "@utils/get-avatar-path";
 import type { AxiosError } from "axios";
+import { EnumUserRoles } from "@/shared/types/models";
 import type { FC } from "react";
-import styles from "../../styles/right-part.module.scss";
 import { ProfileError } from "./ProfileError";
 import { ProfileLoading } from "./ProfileLoading";
+import { cn } from "@utils/base";
+import { getAvatarPath } from "@utils/get-avatar-path";
+import styles from "../../styles/right-part.module.scss";
+import { useMyAccount } from "@hooks/auth";
 
 interface IProfileBlock {
 	t: any;

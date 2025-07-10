@@ -1,6 +1,6 @@
 import type { FC, HTMLAttributes, PropsWithChildren } from "react";
 
-import { Title } from "@/components/ui";
+import { Title } from "@/components/ui/common";
 import { cn } from "@utils/base";
 
 interface ISettingsSection extends HTMLAttributes<HTMLDivElement> {

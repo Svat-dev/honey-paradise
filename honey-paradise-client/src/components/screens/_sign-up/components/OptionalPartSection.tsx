@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren } from "react";
 
-import { Title } from "@/components/ui";
+import { Title } from "@/components/ui/common";
 import { cn } from "@utils/base";
 
 interface IProps extends PropsWithChildren {

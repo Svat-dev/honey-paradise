@@ -1,6 +1,13 @@
 "use client";
 
-import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui";
+import {
+	Button,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuTrigger,
+} from "@/components/ui/common";
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
 
 import { useLanguage } from "@/shared/lib/i18n/hooks/useLanguage";

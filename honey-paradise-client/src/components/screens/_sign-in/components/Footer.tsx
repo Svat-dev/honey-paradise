@@ -1,9 +1,9 @@
-import type { TDataStatus } from "@/components/screens/_sign-up/types/sign-up.type";
-import { Button } from "@/components/ui";
+import { Button } from "@/components/ui/common";
 import { EnumAppRoute } from "@constants/routes";
-import Link from "next/dist/client/link";
-import Image from "next/image";
 import type { FC } from "react";
+import Image from "next/image";
+import Link from "next/dist/client/link";
+import type { TDataStatus } from "@/components/screens/_sign-up/types/sign-up.type";
 import styles from "../styles/sign-in.module.scss";
 
 interface IFooter {

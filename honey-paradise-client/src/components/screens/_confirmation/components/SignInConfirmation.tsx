@@ -1,11 +1,11 @@
 "use client";
 
-import { Title } from "@/components/ui";
+import type { TDataStatus } from "../types/confirmation.type";
+import { Title } from "@/components/ui/common";
 import _styles from "@styles/modules/auth-form-wrapper.module.scss";
 import { cn } from "@utils/base";
-import { useState } from "react";
 import styles from "../styles/sign-in-confirmation.module.scss";
-import type { TDataStatus } from "../types/confirmation.type";
+import { useState } from "react";
 
 const SignInConfirmation = () => {
 	const [dataStatus, setDataStatus] = useState<TDataStatus>("default");

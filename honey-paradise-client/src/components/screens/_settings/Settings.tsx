@@ -1,8 +1,8 @@
-import { Title } from "@/components/ui";
-import type { TSearchParams } from "@/shared/types";
-import { getTranslations } from "next-intl/server";
 import type { FC } from "react";
 import { SettingsContent } from "./components/SettingsContent";
+import type { TSearchParams } from "@/shared/types";
+import { Title } from "@/components/ui/common";
+import { getTranslations } from "next-intl/server";
 import styles from "./styles/settings.module.scss";
 
 interface IProps {

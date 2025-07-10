@@ -1,4 +1,4 @@
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/common";
 import type { FC, InputHTMLAttributes } from "react";
 
 import { REGEXP_ONLY_DIGITS } from "input-otp";

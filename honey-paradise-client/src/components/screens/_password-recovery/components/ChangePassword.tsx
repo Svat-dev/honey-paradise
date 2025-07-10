@@ -1,16 +1,16 @@
 "use client";
 
-import { Button, Title } from "@/components/ui";
+import { Button, Title } from "@/components/ui/common";
 
-import { FC } from "react";
-import { FormInput } from "@/components/ui/form-input";
-import { FormProvider } from "react-hook-form";
-import Image from "next/image";
+import { FormInput } from "@/components/ui/components/form-input";
 import { VALUES } from "@constants/base";
 import _styles from "@styles/modules/auth-form-wrapper.module.scss";
 import { cn } from "@utils/base";
-import styles from "../styles/change-password.module.scss";
+import Image from "next/image";
+import { FC } from "react";
+import { FormProvider } from "react-hook-form";
 import { useChangePassword } from "../hooks/useChangePassword";
+import styles from "../styles/change-password.module.scss";
 
 interface IChangePassword {
 	token: string;

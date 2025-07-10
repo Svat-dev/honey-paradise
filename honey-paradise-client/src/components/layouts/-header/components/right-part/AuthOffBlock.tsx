@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Separator } from "@/components/ui";
+import { Button, Separator } from "@/components/ui/common";
 
 import { EnumAppRoute } from "@constants/routes";
 import { LanguagesIcon } from "lucide-react";

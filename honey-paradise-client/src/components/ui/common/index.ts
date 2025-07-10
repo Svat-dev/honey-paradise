@@ -3,6 +3,7 @@ export * from "./avatar";
 export * from "./button";
 export * from "./calendar";
 export * from "./checkbox";
+export * from "./dialog";
 export * from "./dropdown-menu";
 export * from "./input";
 export * from "./input-otp";

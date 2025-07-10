@@ -1,4 +1,4 @@
-import { ChromeIcon, EdgeIcon, FirefoxIcon, OperaIcon, SafariIcon, YandexIcon } from "@/components/ui/icons";
+import { ChromeIcon, EdgeIcon, FirefoxIcon, OperaIcon, SafariIcon, YandexIcon } from "@/components/ui/common/icons";
 import { CircleHelpIcon, type LucideProps } from "lucide-react";
 import type { FC } from "react";
 import { TSessionBrowsers } from "./types/get-browser-icon.type";

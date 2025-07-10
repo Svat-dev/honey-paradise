@@ -1,5 +1,5 @@
 import { errorCatch } from "@/api/api-helper";
-import type { IDropdownData } from "@/components/ui/form-input/types/form-input.type";
+import type { IDropdownData } from "@/components/ui/components/form-input/types/form-input.type";
 import { useUpdateProfileS } from "@/services/hooks/profile";
 import type { IUpdateProfileDto } from "@/services/types/profile-service.type";
 import { EnumGenders } from "@/shared/types/models";

@@ -1,8 +1,8 @@
 "use client";
 
-import { Button, Checkbox, Title } from "@/components/ui";
+import { Button, Checkbox, Title } from "@/components/ui/common";
 
-import { FormInput } from "@/components/ui/form-input";
+import { FormInput } from "@/components/ui/components/form-input";
 import { EnumAppRoute } from "@/shared/lib/constants/routes";
 import _styles from "@styles/modules/auth-form-wrapper.module.scss";
 import { cn } from "@utils/base";
