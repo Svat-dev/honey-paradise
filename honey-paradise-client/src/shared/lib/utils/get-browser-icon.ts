@@ -1,8 +1,9 @@
 import { ChromeIcon, EdgeIcon, FirefoxIcon, OperaIcon, SafariIcon, YandexIcon } from "@/components/ui/icons";
 import { CircleHelpIcon, type LucideProps } from "lucide-react";
 import type { FC } from "react";
+import { TSessionBrowsers } from "./types/get-browser-icon.type";
 
-export function getBrowserIcon(browser: string): FC<LucideProps> {
+export function getBrowserIcon(browser: TSessionBrowsers): FC<LucideProps> {
 	switch (browser.toLowerCase()) {
 		case "chrome":
 			return ChromeIcon;

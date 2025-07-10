@@ -1,15 +1,19 @@
 import { sessionService } from "@/services/session.service";
-import { useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { type RefetchOptions, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useGetByUserS = () => {
+	const client = useQueryClient();
+	const queryKey = ["get sessions by user"];
+
 	const { data, refetch, isLoading, isPending } = useQuery({
-		queryKey: ["get sessions by user"],
+		queryKey,
 		queryFn: () => sessionService.getByUser(),
 	});
 
-	return useMemo(
-		() => ({ sessions: data, isSessionsLoading: isLoading || isPending, sessionsRefetch: refetch }),
-		[data, isLoading, isPending]
-	);
+	const sessionsRefetch = (opts?: RefetchOptions) => {
+		client.invalidateQueries({ queryKey, type: "all" });
+		refetch(opts);
+	};
+
+	return { sessions: data, isSessionsLoading: isLoading || isPending, sessionsRefetch };
 };

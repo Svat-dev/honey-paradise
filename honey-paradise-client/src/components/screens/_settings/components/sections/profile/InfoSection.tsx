@@ -1,15 +1,15 @@
 import { Button, Separator } from "@/components/ui";
 
-import type { EnumGenders } from "@/shared/types/models";
-import type { FC } from "react";
 import { FormInput } from "@/components/ui/form-input";
-import { FormProvider } from "react-hook-form";
-import { ProfileSettingSection } from "./ProfileSettingSection";
-import type { RefetchOptions } from "@tanstack/react-query";
+import type { EnumGenders } from "@/shared/types/models";
 import { VALUES } from "@constants/base";
+import type { RefetchOptions } from "@tanstack/react-query";
 import { XIcon } from "lucide-react";
-import styles from "../../../styles/profile.module.scss";
+import type { FC } from "react";
+import { FormProvider } from "react-hook-form";
 import { useInfoSection } from "../../../hooks/useInfoSection";
+import styles from "../../../styles/profile.module.scss";
+import { ProfileSettingSection } from "./ProfileSettingSection";
 
 interface IProps {
 	gender: EnumGenders | undefined;
@@ -41,6 +41,7 @@ const InfoSection: FC<IProps> = ({ birthdate, gender, phone, username, isLoading
 							name="username"
 							placeholder={t("username.placeholder")}
 							errorClassName="!-tw-bottom-4"
+							tabIndex={1}
 							isLoading={_isLoading}
 							maxLength={VALUES.MAX_ID_LENGTH}
 						/>
@@ -52,6 +53,7 @@ const InfoSection: FC<IProps> = ({ birthdate, gender, phone, username, isLoading
 							name="phone"
 							placeholder={t("phone.placeholder")}
 							setMask={setMask}
+							tabIndex={2}
 							isLoading={_isLoading}
 							errorClassName="!-tw-bottom-4"
 						/>

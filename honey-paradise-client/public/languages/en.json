@@ -449,7 +449,7 @@
 				},
 				"devices": {
 					"title": "Devices",
-					"description": ""
+					"description": "The devices from which you signed into your account are displayed here. You can also manage these devices"
 				}
 			}
 		}

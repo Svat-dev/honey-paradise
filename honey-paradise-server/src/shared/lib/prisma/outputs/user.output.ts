@@ -5,6 +5,7 @@ export const userDefaultOutput: Prisma.UserSelect = {
 	role: true,
 	username: true,
 	email: true,
+	telegramId: true,
 };
 
 export const userServerOutput: Prisma.UserSelect = {
@@ -12,7 +13,6 @@ export const userServerOutput: Prisma.UserSelect = {
 	password: true,
 	isTFAEnabled: true,
 	isVerified: true,
-	telegramId: true,
 };
 
 export const userFullOutput: Prisma.UserSelect = {

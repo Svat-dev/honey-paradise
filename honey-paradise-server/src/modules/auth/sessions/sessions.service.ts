@@ -50,10 +50,14 @@ export class SessionsService {
 			}
 		}
 
-		userSessions.sort((a, b) => b.createdAt - a.createdAt);
-		userSessions.filter(session => session.id !== req.session.id);
-
 		const filteredSessions = userSessions.map(({ cookie, ...session }) => ({ ...session }));
+
+		filteredSessions.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+		filteredSessions.sort((a, b) => {
+			if (a.id === req.session.id) return -1;
+			if (b.id === req.session.id) return 1;
+			return a.id - b.id;
+		});
 
 		return filteredSessions;
 	}

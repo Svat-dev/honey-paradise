@@ -5,10 +5,11 @@ import { EnumAppRoute } from "@constants/routes";
 import { cn } from "@utils/base";
 import Link from "next/dist/client/link";
 import Image from "next/image";
+import { memo } from "react";
 import styles from "./cookie.module.scss";
 import { useCookies } from "./useCookies";
 
-const Cookie = () => {
+const Cookie = memo(() => {
 	const { isAgreeWithCookies, isVisible, remove, t } = useCookies();
 
 	if (isAgreeWithCookies === "true") return;
@@ -36,6 +37,6 @@ const Cookie = () => {
 			</Button>
 		</div>
 	);
-};
+});
 
 export { Cookie };

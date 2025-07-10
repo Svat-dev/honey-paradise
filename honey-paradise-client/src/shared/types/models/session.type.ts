@@ -1,3 +1,8 @@
+import { TSessionBrowsers } from "@utils/types/get-browser-icon.type";
+
+export type TDeviceTypes = "desktop" | "mobile" | "tablet";
+export type TOsTypes = "android" | "ios" | "windows";
+
 export interface ILocationInfo {
 	country: string;
 	city: string;
@@ -6,9 +11,9 @@ export interface ILocationInfo {
 }
 
 export interface IDeviceInfo {
-	browser: string;
-	os: string;
-	type: string;
+	browser: TSessionBrowsers;
+	os: TOsTypes;
+	type: TDeviceTypes;
 }
 
 export interface ISessionMetadata {

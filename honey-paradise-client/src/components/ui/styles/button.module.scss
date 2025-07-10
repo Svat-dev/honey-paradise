@@ -41,3 +41,19 @@
 .button-ui-loader {
 	@apply tw-w-5 tw-h-5 tw-animate-spin;
 }
+
+.button-ui-destructive {
+	@apply tw-bg-red-600 tw-text-white;
+
+	&:hover {
+		@apply tw-bg-red-500;
+	}
+}
+
+.button-ui-destructive-outline {
+	@apply tw-bg-transparent tw-border tw-border-red-600;
+
+	&:hover {
+		@apply tw-bg-secondary/40;
+	}
+}

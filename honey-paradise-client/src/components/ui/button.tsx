@@ -15,6 +15,8 @@ const buttonVariants = cva(styles["button-ui"], {
 			secondary: styles["button-ui-secondary"],
 			ghost: styles["button-ui-ghost"],
 			link: styles["button-ui-link"],
+			destructive: styles["button-ui-destructive"],
+			"destructive-outline": styles["button-ui-destructive-outline"],
 		},
 	},
 	defaultVariants: {

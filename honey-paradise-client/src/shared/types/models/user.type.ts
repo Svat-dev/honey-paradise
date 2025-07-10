@@ -32,6 +32,7 @@ export interface IUserFull {
 	username: string;
 	email: string;
 	phoneNumber?: string;
+	telegramId?: string;
 
 	gender: EnumGenders;
 	avatarPath: string;
