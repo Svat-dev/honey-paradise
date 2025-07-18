@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/common";
 import { ConfirmModal } from "@/components/ui/components/ConfirmModal";
 import type { ISessionMetadata } from "@/shared/types/models/session.type";
-import { getBrowserIcon } from "@utils/get-browser-icon";
 import { getSessionTimeString } from "@utils/get-session-time";
 import { capitalize } from "@utils/index";
 import { DotIcon } from "lucide-react";
 import type { FC } from "react";
-import toast from "react-hot-toast";
+import { useSessionItem } from "../../../hooks/useSessionItem";
 import styles from "../../../styles/devices.module.scss";
+import { SessionModal } from "./SessionModal";
 
 interface IProps {
 	remove: (sid: string) => Promise<void>;
@@ -18,17 +18,9 @@ interface IProps {
 }
 
 const SessionItem: FC<IProps> = ({ createdAt, metadata, remove, isCurrent, sid }) => {
-	const {
-		device: { browser, os, type },
-		location: { city, country },
-	} = metadata;
+	const removeFunc = async () => await remove(sid);
 
-	const Icon = getBrowserIcon(browser);
-
-	const handleRemove = async () => {
-		if (!isCurrent) await remove(sid);
-		else toast.error("Вы не можете удалить текущую сессию");
-	};
+	const { Icon, browser, city, country, handleRemove, os, t } = useSessionItem(metadata, removeFunc, isCurrent);
 
 	return (
 		<article className={styles["session-item"]}>
@@ -49,7 +41,7 @@ const SessionItem: FC<IProps> = ({ createdAt, metadata, remove, isCurrent, sid }
 									<span />
 									<span />
 								</span>
-								Текущее устройство
+								{t("content.current")}
 							</p>
 
 							<DotIcon size={20} className="tw-text-muted" />
@@ -73,17 +65,17 @@ const SessionItem: FC<IProps> = ({ createdAt, metadata, remove, isCurrent, sid }
 			</div>
 
 			<div>
-				<Button variant="default">{"Сведения"}</Button>
+				<SessionModal createdAt={createdAt} metadata={metadata}>
+					<Button variant="default" title={t("labels.moreBtn")}>
+						{t("content.moreBtn")}
+					</Button>
+				</SessionModal>
 
 				{!isCurrent && (
-					<ConfirmModal
-						heading={"Удаление сессии"}
-						desc={
-							"Вы уверены, что хотите удалить эту сессию? Это действие приведёт к необратимому удалению сессии на этом устройстве и завершит все активные действия, связанные с ним"
-						}
-						onConfirm={handleRemove}
-					>
-						<Button variant="destructive">{"Удалить"}</Button>
+					<ConfirmModal heading={t("modals.confirm.title")} desc={t("modals.confirm.description")} onConfirm={handleRemove}>
+						<Button variant="destructive" title={t("labels.removeBtn")}>
+							{t("content.removeBtn")}
+						</Button>
 					</ConfirmModal>
 				)}
 			</div>

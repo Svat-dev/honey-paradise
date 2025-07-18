@@ -3,7 +3,7 @@
 }
 
 .dialog-content-ui {
-	@apply tw-fixed tw-left-1/2 tw-top-1/2 tw-z-50 tw-grid tw-w-full tw-max-w-lg -tw-translate-x-1/2 -tw-translate-y-1/2 tw-gap-4 tw-border tw-bg-primary tw-p-6 tw-shadow-lg tw-duration-200 sm:tw-rounded-lg;
+	@apply tw-fixed tw-left-1/2 tw-top-1/2 tw-z-50 tw-grid tw-w-full tw-max-w-lg -tw-translate-x-1/2 -tw-translate-y-1/2 tw-gap-4 tw-border tw-border-muted tw-bg-primary tw-p-6 tw-shadow-lg tw-duration-200 sm:tw-rounded-lg;
 }
 
 .dialog-close-btn-ui {
