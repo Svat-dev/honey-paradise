@@ -449,7 +449,59 @@
 				},
 				"devices": {
 					"title": "Devices",
-					"description": "The devices from which you signed into your account are displayed here. You can also manage these devices"
+					"description": "The devices from which you signed into your account are displayed here. You can also manage these devices",
+					"content": {
+						"current": "Current device",
+						"time": {
+							"now": "just now",
+							"week": "more then {weeks, plural, =1 {# week} other {# weeks}} ago",
+							"minute": {
+								"default": "{minutes, plural, =1 {minute} other {# minutes}} ago"
+							},
+							"hour": {
+								"default": "{hours, plural, =1 {hour} other {# hours}} ago"
+							},
+							"day": {
+								"default": "{days, plural, =1 {day} other {# days}} ago"
+							},
+							"yesterday": {
+								"midnight": "yesterday at midnight",
+								"midday": "yesterday at noon",
+								"withDate": "yesterday at {time}",
+								"withoutDate": "yesterday"
+							}
+						},
+						"moreBtn": "More",
+						"removeBtn": "Remove"
+					},
+					"modals": {
+						"confirm": {
+							"title": "Removing the session",
+							"description": "Are you sure you want to remove this session? This action will permanently remove the session on this device and terminate all active actions related to it.",
+							"cancelBtn": "Cancel",
+							"confirmBtn": "Ok"
+						},
+						"more": {
+							"title": "Session's information",
+							"description": "General information about the session and the sing in location is provided here",
+							"content": {
+								"device": "Device:",
+								"location": "Device location:",
+								"ip": "IP-address:",
+								"time": "Sign in date:"
+							},
+							"closeBtn": "Close"
+						}
+					},
+					"toasters": {
+						"serverError": "Error while removing session:\n{e}",
+						"clientError": "You can't remove the current session"
+					},
+					"labels": {
+						"moreBtn": "More information",
+						"removeBtn": "Remove session",
+						"closeBtn": "Close the window"
+					}
 				}
 			}
 		}

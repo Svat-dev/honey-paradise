@@ -3,7 +3,7 @@ import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
 import { Get, Post } from "@nestjs/common/decorators/http/request-mapping.decorator";
 import { Body, Req, Res } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
-import { Recaptcha } from "@nestlab/google-recaptcha";
+import { Recaptcha } from "@nestlab/google-recaptcha/decorators/recaptcha";
 import type { Request, Response } from "express";
 import { Authorization } from "src/shared/decorators/auth.decorator";
 import { UserAgent } from "src/shared/decorators/user-agent.decorator";

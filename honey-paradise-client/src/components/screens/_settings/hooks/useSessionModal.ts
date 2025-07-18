@@ -19,22 +19,22 @@ export const useSessionModal = (metadata: ISessionMetadata, createdAt: string) =
 	const data: ISessionInfo[] = [
 		{
 			id: useId(),
-			text: "Устройство:",
+			text: t("modals.more.content.device"),
 			value: `${metadata.device.browser}, ${metadata.device.os}`,
 		},
 		{
 			id: useId(),
-			text: "Место входа:",
+			text: t("modals.more.content.location"),
 			value: `${metadata.location.country}, ${metadata.location.city}`,
 		},
 		{
 			id: useId(),
-			text: "IP-адрес:",
+			text: t("modals.more.content.ip"),
 			value: metadata.ip,
 		},
 		{
 			id: useId(),
-			text: "Дата входа:",
+			text: t("modals.more.content.time"),
 			value: `${format(createdAt, "dd.MM.yyyy")}, (${getSessionTimeString(createdAt)})`,
 		},
 	];
