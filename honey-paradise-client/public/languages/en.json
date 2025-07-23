@@ -454,7 +454,7 @@
 						"current": "Current device",
 						"time": {
 							"now": "just now",
-							"week": "more then {weeks, plural, =1 {# week} other {# weeks}} ago",
+							"week": "more than {weeks, plural, =1 {# week} other {# weeks}} ago",
 							"minute": {
 								"default": "{minutes, plural, =1 {minute} other {# minutes}} ago"
 							},
@@ -657,6 +657,16 @@
 			"light": {
 				"full": "Light theme",
 				"short": "Light"
+			}
+		},
+		"confirmModal": {
+			"btns": {
+				"confirm": "Ok",
+				"cancel": "Cancel"
+			},
+			"labels": {
+				"confirm": "Confirm action",
+				"cancel": "Cancel action"
 			}
 		}
 	}

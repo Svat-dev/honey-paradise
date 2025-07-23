@@ -10,7 +10,10 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/common";
-import { useState, type FC, type PropsWithChildren } from "react";
+import { type FC, type PropsWithChildren } from "react";
+
+import { useConfirmModal } from "./hooks/useConfirmModal";
+import styles from "./styles/confirm-modal.module.scss";
 
 interface IConfirmModalProps extends PropsWithChildren {
 	heading: string;
@@ -19,16 +22,7 @@ interface IConfirmModalProps extends PropsWithChildren {
 }
 
 const ConfirmModal: FC<IConfirmModalProps> = ({ children, heading, desc, onConfirm }) => {
-	const [isOpen, setIsOpen] = useState<boolean>(false);
-
-	const close = () => setIsOpen(false);
-
-	const confirm = () => {
-		try {
-			onConfirm();
-			close();
-		} catch (e) {}
-	};
+	const { close, confirm, isOpen, setIsOpen, t } = useConfirmModal(onConfirm);
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -36,17 +30,17 @@ const ConfirmModal: FC<IConfirmModalProps> = ({ children, heading, desc, onConfi
 
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle className="!tw-text-xl">{heading}</DialogTitle>
-					<DialogDescription className="!tw-leading-5 tw-ml-1">{desc}</DialogDescription>
+					<DialogTitle className={styles["title"]}>{heading}</DialogTitle>
+					<DialogDescription className={styles["description"]}>{desc}</DialogDescription>
 				</DialogHeader>
 
-				<DialogFooter className="tw-items-center tw-px-1 !tw-justify-between">
-					<Button variant="secondary" className="tw-py-2 tw-px-3" onClick={confirm}>
-						{"Да"}
+				<DialogFooter className={styles["footer"]}>
+					<Button variant="secondary" title={t("labels.confirm")} onClick={confirm}>
+						{t("btns.confirm")}
 					</Button>
 
-					<Button variant="secondary" className="tw-py-2 tw-px-3 tw-border tw-border-muted" onClick={close}>
-						{"Отменить"}
+					<Button variant="secondary" title={t("labels.cancel")} onClick={close}>
+						{t("btns.cancel")}
 					</Button>
 				</DialogFooter>
 			</DialogContent>

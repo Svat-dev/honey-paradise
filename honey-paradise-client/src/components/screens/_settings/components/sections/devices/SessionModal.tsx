@@ -9,7 +9,8 @@ import {
 	DialogTrigger,
 } from "@/components/ui/common";
 import { Map, Placemark, YMaps } from "@pbe/react-yandex-maps";
-import { type FC } from "react";
+
+import type { FC } from "react";
 import { useSessionModal } from "../../../hooks/useSessionModal";
 import type { ISessionModalProps } from "../../../types/session-modal.type";
 

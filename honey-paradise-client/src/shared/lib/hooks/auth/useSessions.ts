@@ -19,14 +19,4 @@ export const useSessions = () => {
 		sessionsRefetch,
 		isSessionLoading: isLoading,
 	};
-
-	// return useMemo(
-	// 	() => ({
-	// 		removeSession: remove,
-	// 		sessions: sessions?.data,
-	// 		currentSession: currentSession?.data,
-	// 		sessionsRefetch,
-	// 	}),
-	// 	[currentSession, sessions, sessionsRefetch]
-	// );
 };
