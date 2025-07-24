@@ -1,8 +1,13 @@
-import type { TAxiosError, TErrorCatchFunction } from "./types/api-helper.type";
+import type { TAxiosError, TContentTypes, TErrorCatchFunction } from "./types/api-helper.type";
 
-export const getContentType = () => ({
-	"Content-Type": "application/json",
-});
+export const getContentType = (type: TContentTypes) => {
+	let contentType: string = "application/json";
+
+	if (type === "form-data") contentType = "multipart/form-data";
+	else if (type === "image") contentType = "image/webp";
+
+	return { "Content-Type": contentType };
+};
 
 export const errorCatch: TErrorCatchFunction = _error => {
 	const error = _error as TAxiosError;

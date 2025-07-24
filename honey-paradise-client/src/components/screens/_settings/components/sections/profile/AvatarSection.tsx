@@ -1,13 +1,14 @@
-import { ALLOWED_AVATAR_FILE_TYPES, MAX_AVATAR_FILE_SIZE } from "@constants/base";
 import { Avatar, AvatarFallback, AvatarImage, Button, Skeleton } from "@/components/ui/common";
+import { ALLOWED_AVATAR_FILE_TYPES, MAX_AVATAR_FILE_SIZE } from "@constants/base";
 
-import type { FC } from "react";
-import { ProfileSettingSection } from "./ProfileSettingSection";
+import { ConfirmModal } from "@/components/ui/components/ConfirmModal";
 import type { RefetchOptions } from "@tanstack/react-query";
-import { TrashIcon } from "lucide-react";
 import { getAvatarPath } from "@utils/get-avatar-path";
-import styles from "../../../styles/profile.module.scss";
+import { TrashIcon } from "lucide-react";
+import type { FC } from "react";
 import { useAvatar } from "../../../hooks/useAvatar";
+import styles from "../../../styles/profile.module.scss";
+import { ProfileSettingSection } from "./ProfileSettingSection";
 
 interface IProps {
 	refetch: (opts?: RefetchOptions) => void;
@@ -47,14 +48,11 @@ const AvatarSection: FC<IProps> = ({ avatarPath, username, refetch, isAccLoading
 							{t("avatar.updateBtn")}
 						</Button>
 
-						<Button
-							variant="link"
-							title={t("labels.deleteAvatar")}
-							onClick={handleOnDelete}
-							disabled={isLoading || !isCanDelete(avatarPath)}
-						>
-							<TrashIcon className="tw-text-muted" size={24} />
-						</Button>
+						<ConfirmModal heading={t("modals.avatarDelete.heading")} desc={t("modals.avatarDelete.description")} onConfirm={handleOnDelete}>
+							<Button variant="link" title={t("labels.deleteAvatar")} disabled={isLoading || !isCanDelete(avatarPath)}>
+								<TrashIcon className="tw-text-muted" size={24} />
+							</Button>
+						</ConfirmModal>
 					</div>
 
 					<p>{t("avatar.uploadRules", { file_size: MAX_AVATAR_FILE_SIZE })}</p>

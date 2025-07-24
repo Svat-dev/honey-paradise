@@ -1,6 +1,7 @@
 import { defaultInstance, instance } from "@/api/instance";
 import type { IUpdatePasswordDto, IUpdateProfileDto, IUpdateUserSettingsDto } from "./types/profile-service.type";
 
+import { getContentType } from "@/api/api-helper";
 import { EnumApiRoute } from "@constants/routes";
 import type { AxiosResponse } from "axios";
 
@@ -24,7 +25,9 @@ export const profileService = {
 	},
 
 	updateAvatar: async (dto: FormData) => {
-		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_AVATAR, dto);
+		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_AVATAR, dto, {
+			headers: getContentType("form-data"),
+		});
 
 		return res;
 	},

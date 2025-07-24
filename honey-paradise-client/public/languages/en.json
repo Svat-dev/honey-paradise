@@ -425,6 +425,13 @@
 							"error": "Error when saving information:\n{e}"
 						}
 					},
+					"telegram-linking": {},
+					"modals": {
+						"avatarDelete": {
+							"heading": "Removing an avatar",
+							"description": "Are you sure you want to delete your avatar? Once deleted, it cannot be restored. Default avatar will be set instead deleted avatar"
+						}
+					},
 					"labels": {
 						"avatarImage": "Profile picture",
 						"deleteAvatar": "Delete profile picture",
