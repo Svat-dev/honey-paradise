@@ -99,10 +99,26 @@ export class ProfileService {
 		}
 	}
 
+	async checkUnique(id: string, type: "email" | "username" | "phone") {
+		const existingUser = await this.prisma.user.findFirst({
+			where: {
+				OR: [
+					{ email: type === "email" ? id : undefined },
+					{ username: type === "username" ? id : undefined },
+					{ phoneNumber: type === "phone" ? id : undefined },
+				],
+			},
+		});
+
+		if (existingUser) throw new BadRequestException(this.i18n.t(`d.errors.${type}.is_exist`));
+
+		return true;
+	}
+
 	async updateProfile(id: string, dto: Prisma.UserUpdateInput) {
 		if (dto.username) {
 			const isExists = await this.getProfile(dto.username as string, "username");
-			if (isExists) throw new BadRequestException(this.i18n.t("d.errors.username_is_exist"));
+			if (isExists) throw new BadRequestException(this.i18n.t("d.errors.username.is_exist"));
 		}
 
 		if (dto.phoneNumber) {

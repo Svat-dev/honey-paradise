@@ -65,7 +65,7 @@ export class VerificationService {
 			},
 		});
 
-		if (!existingToken) throw new BadRequestException(this.i18n.t("d.errors.password_recovery_token_missing"));
+		if (!existingToken) throw new BadRequestException(this.i18n.t("d.errors.verification.password_recovery_token_missing"));
 		const user = await this.validateToken(existingToken);
 
 		await this.userService.updateProfilePassword(user.id, password);
@@ -83,7 +83,7 @@ export class VerificationService {
 	async sendVerificationEmail(email: string) {
 		const user = await this.userService.getProfile(email, "email");
 
-		if (!user) throw new NotFoundException(this.i18n.t("d.errors.account_not_found_email"));
+		if (!user) throw new NotFoundException(this.i18n.t("d.errors.account.not_found_email"));
 
 		const existingToken = await this.prisma.token.findFirst({
 			where: { userId: user.id, type: EnumTokenTypes.EMAIL_VERIFY },
@@ -111,7 +111,7 @@ export class VerificationService {
 	async sendRecoverPasswordEmail(req: Request, userAgent: string, email: string) {
 		const user = await this.userService.getProfile(email, "email");
 
-		if (!user) throw new NotFoundException(this.i18n.t("d.errors.account_not_found_email"));
+		if (!user) throw new NotFoundException(this.i18n.t("d.errors.account.not_found_email"));
 
 		const existingToken = await this.prisma.token.findFirst({
 			where: { userId: user.id, type: EnumTokenTypes.PASSWORD_RECOVERY },
@@ -139,11 +139,12 @@ export class VerificationService {
 	}
 
 	private async validateToken(token: Token) {
-		if (!token) throw new NotFoundException(this.i18n.t("d.errors.invalid_code"));
+		if (!token) throw new NotFoundException(this.i18n.t("d.errors.verification.invalid_code"));
 
 		const isExpired = new Date(token.expiresIn).getTime() > new Date().getTime();
 
-		if (!isExpired) throw new BadRequestException(this.i18n.t("d.errors.code_expired"), { cause: EnumErrorCauses.EMAIL_TOKEN_EXPIRED });
+		if (!isExpired)
+			throw new BadRequestException(this.i18n.t("d.errors.verification.code_expired"), { cause: EnumErrorCauses.EMAIL_TOKEN_EXPIRED });
 
 		const existingUser = await this.userService.getProfile(token.userId, "id");
 

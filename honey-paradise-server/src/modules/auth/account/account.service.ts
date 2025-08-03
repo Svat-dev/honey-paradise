@@ -35,10 +35,10 @@ export class AccountService {
 		const { email, password, birthdate, gender, username } = dto;
 
 		const isEmailExist = await this.profileService.getProfile(email, "email");
-		if (isEmailExist) throw new BadRequestException(this.i18n.t("d.errors.email_is_exist"));
+		if (isEmailExist) throw new BadRequestException(this.i18n.t("d.errors.email.is_exist"));
 
 		const isUsernameExist = username ? await this.profileService.getProfile(username, "username") : false;
-		if (isUsernameExist) throw new BadRequestException(this.i18n.t("d.errors.username_is_exist"));
+		if (isUsernameExist) throw new BadRequestException(this.i18n.t("d.errors.username.is_exist"));
 
 		await this.prisma.user.create({
 			data: {

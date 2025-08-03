@@ -1,5 +1,17 @@
 .button-ui {
-	@apply tw-relative tw-inline-flex tw-items-center tw-justify-center tw-whitespace-nowrap tw-rounded-md tw-text-sm tw-font-medium tw-transition-all tw-will-change-auto focus-visible:tw-outline-none disabled:tw-pointer-events-none disabled:tw-opacity-50 [&_svg]:tw-pointer-events-none [&_svg]:tw-select-none;
+	@apply tw-relative tw-inline-flex tw-items-center tw-justify-center tw-whitespace-nowrap tw-rounded-md tw-text-sm tw-font-medium tw-transition-all tw-will-change-auto;
+
+	&:disabled {
+		@apply tw-cursor-not-allowed tw-opacity-50;
+	}
+
+	&[data-loading="true"] {
+		@apply tw-cursor-wait;
+	}
+
+	& svg {
+		@apply tw-pointer-events-none tw-select-none;
+	}
 }
 
 .button-ui-default {

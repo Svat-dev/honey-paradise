@@ -1,14 +1,16 @@
 import { Button, Separator } from "@/components/ui/common";
+import { LoaderIcon, XIcon } from "lucide-react";
+import { CheckmarkIcon, ErrorIcon } from "react-hot-toast";
 
 import { FormInput } from "@/components/ui/components/form-input";
 import type { EnumGenders } from "@/shared/types/models";
 import { VALUES } from "@constants/base";
 import type { RefetchOptions } from "@tanstack/react-query";
-import { XIcon } from "lucide-react";
 import type { FC } from "react";
 import { FormProvider } from "react-hook-form";
 import { useInfoSection } from "../../../hooks/useInfoSection";
 import styles from "../../../styles/profile.module.scss";
+import _styles from "../../../styles/settings.module.scss";
 import { ProfileSettingSection } from "./ProfileSettingSection";
 
 interface IProps {
@@ -21,13 +23,8 @@ interface IProps {
 }
 
 const InfoSection: FC<IProps> = ({ birthdate, gender, phone, username, isLoading, refetch }) => {
-	const { data, form, isDisabled, onSubmit, setMask, isProfileUpdating, t, clearBirthdate } = useInfoSection(
-		gender,
-		birthdate,
-		username,
-		phone,
-		refetch
-	);
+	const { data, form, isDisabled, onSubmit, setMask, isProfileUpdating, t, clearBirthdate, uniqueFields, isCheckingUnique } =
+		useInfoSection(gender, birthdate, username, phone, refetch);
 
 	const _isLoading = isLoading || isProfileUpdating;
 
@@ -44,7 +41,15 @@ const InfoSection: FC<IProps> = ({ birthdate, gender, phone, username, isLoading
 							tabIndex={1}
 							isLoading={_isLoading}
 							maxLength={VALUES.MAX_ID_LENGTH}
-						/>
+						>
+							{uniqueFields.username === true ? (
+								<CheckmarkIcon className={_styles["unique-status-icon"]} />
+							) : uniqueFields.username === false ? (
+								<ErrorIcon className={_styles["unique-status-icon"]} />
+							) : uniqueFields.username === "loading" ? (
+								<LoaderIcon size={20} className={_styles["unique-status-loading-icon"]} />
+							) : undefined}
+						</FormInput>
 					</div>
 
 					<div>
@@ -56,7 +61,15 @@ const InfoSection: FC<IProps> = ({ birthdate, gender, phone, username, isLoading
 							tabIndex={2}
 							isLoading={_isLoading}
 							errorClassName="!-tw-bottom-4"
-						/>
+						>
+							{uniqueFields.phone === true ? (
+								<CheckmarkIcon className={_styles["unique-status-icon"]} />
+							) : uniqueFields.phone === false ? (
+								<ErrorIcon className={_styles["unique-status-icon"]} />
+							) : uniqueFields.phone === "loading" ? (
+								<LoaderIcon size={20} className={_styles["unique-status-loading-icon"]} />
+							) : undefined}
+						</FormInput>
 					</div>
 
 					<div>
@@ -79,7 +92,13 @@ const InfoSection: FC<IProps> = ({ birthdate, gender, phone, username, isLoading
 
 					<div>
 						<Separator />
-						<Button variant="secondary" type="submit" title={t("submitBtn")} isLoading={_isLoading} disabled={isDisabled || _isLoading}>
+						<Button
+							variant="secondary"
+							type="submit"
+							title={t("submitBtn")}
+							isLoading={_isLoading || isCheckingUnique}
+							disabled={isDisabled || _isLoading || isCheckingUnique}
+						>
 							{t("submitBtn")}
 						</Button>
 					</div>

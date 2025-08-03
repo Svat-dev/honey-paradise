@@ -1,12 +1,14 @@
 import { errorCatch } from "@/api/api-helper";
 import type { IDropdownData } from "@/components/ui/components/form-input/types/form-input.type";
-import { useUpdateProfileS } from "@/services/hooks/profile";
+import { useUniqueFieldCheckS, useUpdateProfileS } from "@/services/hooks/profile";
 import type { IUpdateProfileDto } from "@/services/types/profile-service.type";
 import { EnumGenders } from "@/shared/types/models";
 import { PHONE_MASK_PATTERN } from "@constants/base";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useDebounce } from "@hooks/base";
 import { type TUpdateUserinfoFields, createUpdateUserinfoSchema } from "@schemas/update-userinfo.schema";
 import type { RefetchOptions } from "@tanstack/react-query";
+import { checkPhoneNumber, validateUsername } from "@utils/auth";
 import { getMaskedPhone } from "@utils/get-masked-phone.util";
 import type { AxiosError } from "axios";
 import { toDate } from "date-fns";
@@ -15,6 +17,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import type { IUniqueFieldsState } from "../types/info-section.type";
 
 export const useInfoSection = (
 	gender: EnumGenders | undefined,
@@ -34,8 +37,13 @@ export const useInfoSection = (
 
 	const [mask, setMask] = useState<InputMask<FactoryArg> | undefined>(undefined);
 	const [isDisabled, setIsDisabled] = useState<boolean>(false);
+	const [uniqueFields, setUniqueFields] = useState<IUniqueFieldsState>({
+		username: null,
+		phone: null,
+	});
 
 	const { isProfileUpdating, updateProfileAsync } = useUpdateProfileS();
+	const { checkFieldUniqueAsync, isCheckingUnique } = useUniqueFieldCheckS();
 
 	const schema = createUpdateUserinfoSchema(t);
 	const form = useForm<TUpdateUserinfoFields>({
@@ -44,6 +52,23 @@ export const useInfoSection = (
 		values: defaultValues,
 		defaultValues,
 	});
+
+	const checkUnique = (field: "username" | "phone", value: string) => {
+		const isDisabled = value.length === 0 || form.formState.defaultValues?.[field] === (field === "phone" ? mask?.value : value);
+
+		if (!isDisabled && (field === "username" ? validateUsername(value) : checkPhoneNumber(value))) {
+			setUniqueFields(prev => ({ ...prev, [field]: "loading" }));
+
+			checkFieldUniqueAsync({ field: field, fieldValue: value })
+				.then(() => setUniqueFields(prev => ({ ...prev, [field]: true })))
+				.catch(e => {
+					const { errMsg } = errorCatch(e as AxiosError);
+					form.setError(field, { message: errMsg });
+
+					setUniqueFields(prev => ({ ...prev, [field]: false }));
+				});
+		} else setUniqueFields(prev => ({ ...prev, [field]: null }));
+	};
 
 	const onSubmit = async (data: TUpdateUserinfoFields) => {
 		try {
@@ -82,6 +107,10 @@ export const useInfoSection = (
 	useEffect(() => {
 		if (!form.formState.isValid) return setIsDisabled(true);
 
+		for (const key in uniqueFields) {
+			if (uniqueFields[key as keyof typeof uniqueFields] === false) return setIsDisabled(true);
+		}
+
 		const json_default = JSON.stringify(form.formState.defaultValues);
 		const json_values = JSON.stringify(form.getValues());
 
@@ -90,7 +119,23 @@ export const useInfoSection = (
 			if (!form.getValues("username")) return setIsDisabled(true);
 			else return setIsDisabled(false);
 		}
-	}, [form.getValues()]);
+	}, [form.getValues(), uniqueFields]);
+
+	useDebounce(
+		() => {
+			checkUnique("username", form.getValues("username") || "");
+		},
+		200,
+		[form.getValues("username")]
+	);
+
+	useDebounce(
+		() => {
+			checkUnique("phone", mask?.unmaskedValue || "");
+		},
+		200,
+		[form.getValues("phone")]
+	);
 
 	return {
 		form,
@@ -100,6 +145,8 @@ export const useInfoSection = (
 		onSubmit: form.handleSubmit(onSubmit),
 		isProfileUpdating,
 		clearBirthdate,
+		uniqueFields,
+		isCheckingUnique,
 		t,
 	};
 };

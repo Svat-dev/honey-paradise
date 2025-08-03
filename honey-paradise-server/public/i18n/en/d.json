@@ -17,17 +17,28 @@
 		}
 	},
 	"errors": {
-		"email_is_exist": "This email is already occupied by another user",
-		"username_is_exist": "This username is already occupied by another user",
-		"account_not_found": "There is no account with this email address or username.\nPlease check the entered data again",
-		"account_not_found_email": "There is no account with this email address or username.\nPlease check the data again",
-		"invalid_password": "Invalid password.\nPlease check the entered data again",
 		"auth_to_have_access": "To access this resource, you must be logged in",
 		"not_have_access": "You don't have access to this resource",
-		"invalid_code": "You entered the wrong code.\nPlease check the correctness of the input",
-		"password_recovery_token_missing": "Password recovery token is invalid or not provided",
-		"code_expired": "This code has expired.\nTry requesting a new code",
-		"account_not_verified": "You have unverified account!\nTo continue, please, verify it now",
+		"invalid_password": "Invalid password.\nPlease check the entered data again",
+		"email": {
+			"is_exist": "This email is already occupied by another user"
+		},
+		"username": {
+			"is_exist": "This username is already occupied by another user"
+		},
+		"phone": {
+			"is_exist": "This phone number is already occupied by another user"
+		},
+		"verification": {
+			"invalid_code": "You entered the wrong code.\nPlease check the correctness of the input",
+			"code_expired": "This code has expired.\nTry requesting a new code",
+			"password_recovery_token_missing": "Password recovery token is invalid or not provided"
+		},
+		"account": {
+			"not_found": "There is no account with this email address or username.\nPlease check the entered data again",
+			"not_found_email": "There is no account with this email address or username.\nPlease check the data again",
+			"not_verified": "You have unverified account!\nTo continue, please, verify it now"
+		},
 		"profile": {
 			"avatar_not_found": "You should have an installed avatar to delete it",
 			"phone_number_is_exist": "Phone number is already occupied by another user",

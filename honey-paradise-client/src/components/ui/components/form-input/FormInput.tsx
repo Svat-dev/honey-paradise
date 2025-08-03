@@ -1,7 +1,8 @@
 "use client";
 
+import type { FC, PropsWithChildren } from "react";
+
 import { cn } from "@utils/base";
-import type { FC } from "react";
 import { ErrorText } from "./components";
 import { DateInput } from "./components/input-types/DateInput";
 import { DefaultDecorInput } from "./components/input-types/DefaultDecorInput";
@@ -13,7 +14,7 @@ import { useFormInput } from "./hooks/useFormInput";
 import styles from "./styles/default-input.module.scss";
 import type { IFormInputProps } from "./types/form-input.type";
 
-const FormInput: FC<IFormInputProps> = ({
+const FormInput: FC<PropsWithChildren<IFormInputProps>> = ({
 	name,
 	containerClassName,
 	errorClassName,

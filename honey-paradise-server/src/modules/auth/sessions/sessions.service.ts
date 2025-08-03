@@ -94,7 +94,7 @@ export class SessionsService {
 			select: userServerOutput,
 		});
 
-		if (!user) throw new NotFoundException(this.i18n.t("d.errors.account_not_found"));
+		if (!user) throw new NotFoundException(this.i18n.t("d.errors.account.not_found"));
 
 		const { password, ..._user } = user;
 		const isValidPassword = await verify(user.password, dto.password);
@@ -111,7 +111,7 @@ export class SessionsService {
 				path: EnumClientRoutes.CONFIRMATION,
 			});
 
-			throw new UnauthorizedException(this.i18n.t("d.errors.account_not_verified"), { cause: EnumErrorCauses.ACCOUNT_NOT_VERIFIED });
+			throw new UnauthorizedException(this.i18n.t("d.errors.account.not_verified"), { cause: EnumErrorCauses.ACCOUNT_NOT_VERIFIED });
 		}
 
 		const metadata = getSessionMetadata(req, userAgent);

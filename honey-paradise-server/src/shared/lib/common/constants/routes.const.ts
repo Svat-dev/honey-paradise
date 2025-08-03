@@ -19,6 +19,7 @@ export enum EnumApiRoute {
 
 	PROFILE = "/profile",
 	UPDATE_PROFILE = "/update",
+	CHECK_UNIQUE = "/check-unique",
 
 	SETTINGS = "/settings",
 	UPDATE_SETTINGS = `${SETTINGS}/update`,

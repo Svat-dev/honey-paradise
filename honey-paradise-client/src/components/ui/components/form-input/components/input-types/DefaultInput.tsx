@@ -1,14 +1,23 @@
 import { Input, Skeleton } from "@/components/ui/common";
+import type { FC, PropsWithChildren } from "react";
 
 import { cn } from "@utils/base";
-import type { FC } from "react";
 import { useFormDefaultInput } from "../../hooks/useFormDefaultInput";
 import styles from "../../styles/default-input.module.scss";
 import type { IFormDefaultInputProps } from "../../types/form-input.type";
 import { ClearButton } from "../clear-button";
 import { PasswordEye } from "../password-eye";
 
-const DefaultInput: FC<IFormDefaultInputProps> = ({ name, setMask, clearBtnClassName, label, className, isLoading, ...props }) => {
+const DefaultInput: FC<PropsWithChildren<IFormDefaultInputProps>> = ({
+	name,
+	setMask,
+	clearBtnClassName,
+	label,
+	className,
+	isLoading,
+	children,
+	...props
+}) => {
 	const { clear, clearError, isPassword, isShowPassword, onInput, showPassword, register, t, value } = useFormDefaultInput(name, setMask);
 
 	return (
@@ -33,6 +42,8 @@ const DefaultInput: FC<IFormDefaultInputProps> = ({ name, setMask, clearBtnClass
 			)}
 
 			{props.required && <span className={styles["required"]}>*</span>}
+
+			{children}
 
 			{isPassword && <PasswordEye value={isShowPassword} onClick={showPassword} className="!-tw-translate-y-[45%]" t={t} />}
 			<ClearButton onClick={clear} value={value} className={cn(clearBtnClassName, "!-tw-translate-y-[45%]")} t={t} />

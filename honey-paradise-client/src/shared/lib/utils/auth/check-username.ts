@@ -1,6 +1,10 @@
+import { VALUES } from "@constants/base";
+
 export function validateUsername(input: string | undefined): boolean {
-	if (!input) return true;
+	if (!input) return false;
 
 	const regex = /^[a-zA-Zа-яА-Я0-9_]+$/;
-	return regex.test(input);
+	const regexRes = regex.test(input);
+
+	return input.length >= VALUES.MIN_ID_LENGTH && input.length <= VALUES.MAX_ID_LENGTH && regexRes;
 }

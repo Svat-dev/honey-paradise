@@ -15,7 +15,7 @@ export function getSessionMetadata(req: Request, userAgent: string): SessionMeta
 	// 	? req.headers["cf-connecting-ip"][0]
 	// 	: req.headers["cf-connecting-ip"] ||
 	// 	  (typeof req.headers["x-forwarded-for"] === "string" ? req.headers["x-forwarded-for"].split(",")[0] : req.ip);
-	const ip = "172.22.224.1"; // pskov 109.207.190.162 tula 172.22.224.1
+	const ip = "109.207.190.162"; // pskov 109.207.190.162 tula 172.22.224.1
 
 	const location = lookup(ip);
 	const device = new DeviceDetector().parse(userAgent);

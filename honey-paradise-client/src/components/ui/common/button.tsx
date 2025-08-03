@@ -33,7 +33,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ className, variant,
 	const Comp = asChild ? Slot : "button";
 
 	return (
-		<Comp className={cn(buttonVariants({ variant, className }))} type="button" ref={ref} disabled={isLoading || props.disabled} {...props}>
+		<Comp
+			className={cn(buttonVariants({ variant, className }))}
+			type="button"
+			ref={ref}
+			disabled={isLoading || props.disabled}
+			{...props}
+			data-loading={isLoading}
+		>
 			{!isLoading ? children : <Loader2Icon className={styles["button-ui-loader"]} />}
 		</Comp>
 	);

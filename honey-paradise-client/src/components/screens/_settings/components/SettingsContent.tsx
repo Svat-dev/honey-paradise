@@ -2,7 +2,7 @@
 
 import type { FC } from "react";
 import { useSettingsContent } from "../hooks/useSettingsContent";
-import { AccountSettings } from "./sections/AccountSettings";
+import { AccountSettings } from "./sections/account/AccountSettings";
 import { DevicesSettings } from "./sections/devices/DevicesSettings";
 import { NotificationsSettings } from "./sections/NotificationsSettings";
 import { ProfileSettings } from "./sections/profile/ProfileSettings";

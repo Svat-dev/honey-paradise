@@ -6,6 +6,12 @@ import { EnumApiRoute } from "@constants/routes";
 import type { AxiosResponse } from "axios";
 
 export const profileService = {
+	uniqueFieldCheck: async (fieldValue: string | undefined, field: "email" | "username" | "phone") => {
+		const res = await instance.post<any, AxiosResponse<boolean>>(`${EnumApiRoute.CHECK_UNIQUE}/${field}`, { fieldValue });
+
+		return res;
+	},
+
 	updatePassword: async (dto: IUpdatePasswordDto) => {
 		const res = await defaultInstance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.CHANGE_PASSWORD, dto);
 

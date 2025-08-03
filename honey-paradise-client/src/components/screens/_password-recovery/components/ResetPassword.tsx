@@ -44,7 +44,13 @@ const ResetPassword = () => {
 						</>
 					) : (
 						<>
-							<FormInput name="email" placeholder={t("labels.inputPlaceholder")} containerClassName={styles["input-wrapper"]} required />
+							<FormInput
+								name="email"
+								type="email"
+								placeholder={t("labels.inputPlaceholder")}
+								containerClassName={styles["input-wrapper"]}
+								required
+							/>
 
 							<div className={styles["actions-wrapper"]}>
 								<Button variant="secondary" title={t("labels.toAuthBtn")} disabled={isSuccess || isCodeSending}>

@@ -17,3 +17,12 @@
 		@apply tw-absolute tw-top-1/2 tw-left-0 -tw-translate-y-1/2 tw-bg-secondary tw-rounded-lg tw-h-8 tw-w-28 tw-ml-1 tw-z-10 tw-transition-all tw-will-change-auto;
 	}
 }
+
+.unique-status-icon {
+	@apply tw-absolute !important;
+	@apply tw-top-1/4 tw-right-8 tw-pointer-events-none;
+}
+
+.unique-status-loading-icon {
+	@apply tw-absolute tw-top-1/4 tw-right-8 tw-pointer-events-none tw-text-muted tw-animate-spin;
+}

@@ -17,8 +17,7 @@ interface IEmailConfirmation {
 }
 
 const EmailConfirmation: FC<IEmailConfirmation> = ({ utm_source }) => {
-	const { dataStatus, t, confirmationForm, onSubmit, limit, cooldown, refreshCode, isLoading, isFromSignIn } =
-		useEmailConfirmation(utm_source);
+	const { dataStatus, t, form, onSubmit, limit, cooldown, refreshCode, isLoading, isFromSignIn } = useEmailConfirmation(utm_source);
 
 	return (
 		<section
@@ -30,7 +29,7 @@ const EmailConfirmation: FC<IEmailConfirmation> = ({ utm_source }) => {
 				className={cn(_styles["border-line"], styles["border-line"], { "before:!tw-h-[21rem] after:!tw-h-[21rem]": isFromSignIn })}
 			/>
 
-			<FormProvider {...confirmationForm}>
+			<FormProvider {...form}>
 				<form className={_styles["form"]} onSubmit={onSubmit}>
 					<div className={styles["title-wrapper"]}>
 						<div>
@@ -51,7 +50,7 @@ const EmailConfirmation: FC<IEmailConfirmation> = ({ utm_source }) => {
 					/>
 
 					{!isFromSignIn && (
-						<Checkbox containerClassName={styles["checkbox-wrapper"]} {...confirmationForm.register("signInAfter")}>
+						<Checkbox containerClassName={styles["checkbox-wrapper"]} {...form.register("signInAfter")}>
 							{t("email.signInAfter")}
 						</Checkbox>
 					)}
