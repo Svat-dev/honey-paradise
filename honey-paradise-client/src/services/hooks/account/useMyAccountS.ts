@@ -12,7 +12,6 @@ export const useMyAccountS = () => {
 		queryKey,
 		queryFn: () => accountService.getMyAccount(),
 		enabled: isAuthenticated,
-		staleTime: 0,
 	});
 
 	const accRefetch = (opts?: RefetchOptions) => {

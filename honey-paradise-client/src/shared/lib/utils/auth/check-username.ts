@@ -1,7 +1,7 @@
 import { VALUES } from "@constants/base";
 
-export function validateUsername(input: string | undefined): boolean {
-	if (!input) return false;
+export function validateUsername(input: string | undefined, type: "schema" | "unique-check" = "schema"): boolean {
+	if (!input) return type === "schema" ? true : false;
 
 	const regex = /^[a-zA-Zа-яА-Я0-9_]+$/;
 	const regexRes = regex.test(input);

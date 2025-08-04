@@ -56,7 +56,7 @@ export const useInfoSection = (
 	const checkUnique = (field: "username" | "phone", value: string) => {
 		const isDisabled = value.length === 0 || form.formState.defaultValues?.[field] === (field === "phone" ? mask?.value : value);
 
-		if (!isDisabled && (field === "username" ? validateUsername(value) : checkPhoneNumber(value))) {
+		if (!isDisabled && (field === "username" ? validateUsername(value, "unique-check") : checkPhoneNumber(value))) {
 			setUniqueFields(prev => ({ ...prev, [field]: "loading" }));
 
 			checkFieldUniqueAsync({ field: field, fieldValue: value })

@@ -17,7 +17,7 @@ export class ExceptionsFilter implements ExceptionFilter {
 		const response = ctx.getResponse() as Response;
 
 		const status = exception instanceof HttpException ? exception.getStatus() : 500;
-		const message = exception instanceof HttpException ? exception.message : i18nCtx.t("d.errors.500" as never);
+		const message = exception instanceof HttpException ? exception.message : i18nCtx.t("d.errors.500.default" as never);
 		const cause = exception instanceof HttpException ? exception.cause : "";
 
 		this.logger.error(message, exception);

@@ -2,15 +2,13 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common";
 
-import type { AxiosError } from "axios";
 import { EnumUserRoles } from "@/shared/types/models";
-import type { FC } from "react";
-import { ProfileError } from "./ProfileError";
-import { ProfileLoading } from "./ProfileLoading";
+import { useMyAccount } from "@hooks/auth";
 import { cn } from "@utils/base";
 import { getAvatarPath } from "@utils/get-avatar-path";
+import type { FC } from "react";
 import styles from "../../styles/right-part.module.scss";
-import { useMyAccount } from "@hooks/auth";
+import { ProfileLoading } from "./ProfileLoading";
 
 interface IProfileBlock {
 	t: any;
@@ -20,7 +18,7 @@ interface IProfileBlock {
 const ProfileBlock: FC<IProfileBlock> = ({ t, picturePosition }) => {
 	const { user, accError, isAccLoading } = useMyAccount();
 
-	if (accError) return <ProfileError error={accError as AxiosError} />;
+	if (accError) return;
 
 	const isReversed = picturePosition ? picturePosition === "left" : false;
 

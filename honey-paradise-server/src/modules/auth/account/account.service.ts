@@ -44,7 +44,7 @@ export class AccountService {
 			data: {
 				email,
 				password: await hash(password),
-				username: username || getEmailUsername(email),
+				username: username || (await this.getUsernameFromEmail(email)),
 				birthdate,
 				gender,
 				avatarPath: DEFAULT_AVATAR_PATH,
@@ -62,5 +62,30 @@ export class AccountService {
 		});
 
 		return this.verificationService.sendVerificationEmail(email);
+	}
+
+	private async getUsernameFromEmail(email: string) {
+		let res: any;
+
+		const emailUsername = getEmailUsername(email);
+
+		const isUsernameExist = await this.profileService.getProfile(emailUsername, "username");
+
+		if (isUsernameExist) {
+			const getAllUsernames = await this.prisma.user.findMany({
+				where: {
+					username: { contains: `${emailUsername}_` },
+				},
+			});
+
+			if (getAllUsernames.length) {
+				const usernames = getAllUsernames.map(user => user.username).sort((a, b) => Number(b.split("_")[1]) - Number(a.split("_")[1]));
+
+				const lastUsername = Number(usernames[0].split("_")[1]);
+				res = `${emailUsername}_${lastUsername + 1}`;
+			} else res = `${emailUsername}_1`;
+		} else res = emailUsername;
+
+		return res;
 	}
 }
