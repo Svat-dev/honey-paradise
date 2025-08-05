@@ -1,6 +1,8 @@
 * {
 	@apply tw-m-0 tw-p-0 tw-box-border;
-	// outline: solid 1px red; /* Test boxes */
+
+	scrollbar-width: thin;
+	scrollbar-color: rgb(var(--primary)) transparent;
 }
 
 html {
@@ -24,6 +26,20 @@ body#none-scrollable {
 	* {
 		// @apply tw-border-red;
 	}
+
+	::-webkit-scrollbar {
+		width: 5px;
+	}
+
+	::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: rgb(var(--primary));
+		border-radius: 5px;
+	}
+
 	body {
 		@apply tw-bg-background tw-text-black tw-font-rubik tw-min-h-screen tw-relative tw-overflow-x-hidden tw-overflow-y-auto;
 	}
