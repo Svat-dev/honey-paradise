@@ -12,20 +12,26 @@ export const accountService = {
 		return res;
 	},
 
+	updateEmail: async (dto: IEmailVerificationDto) => {
+		const res = await instance.post<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_EMAIL, dto);
+
+		return res;
+	},
+
 	sendVerificationCode: async (dto: IEmailVerificationDto) => {
-		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(`${EnumApiRoute.SEND_EMAIL_VERIFICATION_CODE}`, dto);
+		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(EnumApiRoute.SEND_EMAIL_VERIFICATION_CODE, dto);
 
 		return res;
 	},
 
 	sendPasswordRecoverCode: async (dto: IPasswordRecoverDto) => {
-		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(`${EnumApiRoute.RESET_PASSWORD}`, dto);
+		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(EnumApiRoute.RESET_PASSWORD, dto);
 
 		return res;
 	},
 
 	verifyEmail: async (dto: IEmailVerifyDto) => {
-		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(`${EnumApiRoute.VERIFY_EMAIL}`, dto);
+		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(EnumApiRoute.VERIFY_EMAIL, dto);
 
 		return res;
 	},

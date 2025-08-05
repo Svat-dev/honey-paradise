@@ -28,6 +28,7 @@ export interface IUser {
 export interface IUserFull {
 	id: string;
 	role: EnumUserRoles;
+	isVerified: boolean;
 
 	username: string;
 	email: string;

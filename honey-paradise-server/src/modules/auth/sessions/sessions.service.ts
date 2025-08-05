@@ -104,11 +104,11 @@ export class SessionsService {
 		if (!user.isVerified) {
 			await this.verificationService.sendVerificationEmail(user.email);
 
-			res.cookie(EnumStorageTokens.LOCALE_LANGUAGE, user.email, {
+			res.cookie(EnumStorageTokens.CURRENT_EMAIL, user.email, {
 				sameSite: "lax",
 				maxAge: ms("6h"),
 				domain: this.configService.getOrThrow<string>("DOMAIN"),
-				path: EnumClientRoutes.CONFIRMATION,
+				path: EnumClientRoutes.AUTH,
 			});
 
 			throw new UnauthorizedException(this.i18n.t("d.errors.account.not_verified"), { cause: EnumErrorCauses.ACCOUNT_NOT_VERIFIED });

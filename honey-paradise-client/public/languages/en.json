@@ -267,8 +267,9 @@
 				"email": {
 					"title": "Email confirmation",
 					"description": {
-						"default": "You have almost created your account. All that remains is to confirm your email. We have sent the code to the specified email address",
-						"notVerified": "Confirm your account to sign in to your account. We have sent the code to your email."
+						"default": "Confirm your email address. We have sent you an email with a confirmation code, check an email and enter it",
+						"notVerified": "Confirm your account to sign in to your account. We have sent the code to your email.",
+						"signUp": "You have almost created your account. All that remains is to confirm your email. We have sent the code to the specified email address"
 					},
 					"signInAfter": "Sign in after verification",
 					"actions": {
@@ -448,7 +449,32 @@
 				},
 				"account": {
 					"title": "Account",
-					"description": ""
+					"description": "The account settings are shown here, you can manage these settings here",
+					"content": {
+						"email": {
+							"title": "Email address",
+							"verified": {
+								"true": "Confirmed",
+								"false": "Not confirmed"
+							},
+							"placeholder": "Enter an email address",
+							"errors": {
+								"invalid": "Enter the correct email address"
+							},
+							"actions": {
+								"confirmEmail": "Confirm email",
+								"changeEmail": "Save changes"
+							}
+						},
+						"labels": {
+							"resetFieldBtn": "Reset input field",
+							"confirmEmailBtn": "Confirm email",
+							"changeEmailBtn": "Save email changes"
+						},
+						"toasters": {
+							"success": "You have successfully changed your email address"
+						}
+					}
 				},
 				"notifications": {
 					"title": "Notifications",

@@ -1,5 +1,6 @@
 export enum EnumStorageTokens {
 	LOCALE_LANGUAGE = "HONEY_PARADISE_LOCALE_LANGUAGE",
+	CURRENT_EMAIL = "HONEY_PARADISE_CURRENT_EMAIL",
 }
 
 export enum EnumErrorCauses {

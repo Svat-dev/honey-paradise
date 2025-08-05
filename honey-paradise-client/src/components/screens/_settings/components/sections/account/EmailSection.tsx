@@ -1,70 +1,87 @@
-import { Button, Separator, Title } from "@/components/ui/common";
-import { FormProvider, useForm } from "react-hook-form";
+import { Button, Separator, Skeleton, Title } from "@/components/ui/common";
+import { LoaderIcon, RefreshCcwIcon } from "lucide-react";
+import { CheckmarkIcon, ErrorIcon } from "react-hot-toast";
 
 import { FormInput } from "@/components/ui/components/form-input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { createUpdateAccountSchema, type TUpdateAccountFields } from "@schemas/update-account.schema";
-import { useTranslations } from "next-intl";
-import { useEffect, useState, type FC } from "react";
+import type { RefetchOptions } from "@tanstack/react-query";
+import type { FC } from "react";
+import { FormProvider } from "react-hook-form";
+import { useEmailSection } from "../../../hooks/useEmailSection";
+import styles from "../../../styles/account.module.scss";
+import _styles from "../../../styles/settings.module.scss";
 
 interface IProps {
 	email: string | undefined;
+	isVerified: boolean | undefined;
+	accRefetch: (opts?: RefetchOptions) => void;
 	isAccLoading: boolean;
 }
 
-const EmailSection: FC<IProps> = ({ email, isAccLoading }) => {
-	const t = useTranslations("global.settings.content.account");
+const EmailSection: FC<IProps> = ({ email, isVerified, isAccLoading, accRefetch }) => {
+	const { form, isDisabled, onSubmit, emailUnique, isCheckingUnique, resetFields, confirmEmail, isEmailUpdating, t } = useEmailSection(
+		email,
+		accRefetch
+	);
 
-	const [isDisabled, setIsDisabled] = useState<boolean>(true);
-
-	const schema = createUpdateAccountSchema({});
-	const form = useForm<TUpdateAccountFields>({
-		resolver: zodResolver(schema),
-		mode: "onChange",
-		values: { email },
-		defaultValues: { email },
-	});
-
-	useEffect(() => {
-		const res = form.getValues("email") === form.formState.defaultValues?.email || !form.formState.isValid;
-		return setIsDisabled(res);
-	}, [form.getValues()]);
-
-	const onSubmit = (data: any) => {
-		console.log(data);
-	};
-
-	const isLoading = isAccLoading;
+	const isLoading = isAccLoading || isEmailUpdating;
 
 	return (
-		<section className={"tw-relative tw-w-full tw-bg-primary tw-rounded-lg tw-p-3 tw-mb-5"}>
+		<section className={styles["email-wrapper"]}>
 			<FormProvider {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="tw-flex tw-flex-col tw-px-1 tw-mt-2 tw-mb-4">
-					<Title size="sm" className="tw-font-medium">
-						{"Электронная почта"}
-					</Title>
+				<form onSubmit={onSubmit}>
+					<div>
+						<div>
+							<Title size="sm">{t("email.title")}</Title>
+
+							{isLoading ? <Skeleton /> : <span data-verified={isVerified}>{t(`email.verified.${isVerified as boolean}`)}</span>}
+						</div>
+
+						<Button variant="ghost" title={t("labels.resetFieldBtn")} disabled={isLoading} onClick={resetFields}>
+							<RefreshCcwIcon size={20} />
+						</Button>
+					</div>
 
 					<FormInput
 						name="email"
 						type="email"
-						placeholder={"Введите эл. почту"}
+						placeholder={t("email.placeholder")}
 						isLoading={isAccLoading}
 						errorClassName="!-tw-bottom-4"
 						containerClassName="tw-mb-8 tw-mt-3"
-					/>
+					>
+						{emailUnique === true ? (
+							<CheckmarkIcon className={_styles["unique-status-icon"]} />
+						) : emailUnique === false ? (
+							<ErrorIcon className={_styles["unique-status-icon"]} />
+						) : emailUnique === "loading" ? (
+							<LoaderIcon size={20} className={_styles["unique-status-loading-icon"]} />
+						) : undefined}
+					</FormInput>
 
-					<div className="tw-flex tw-flex-col tw-items-end">
-						<Separator className="tw-absolute tw-left-0" />
-						<Button
-							variant="secondary"
-							type="submit"
-							className="tw-py-1.5 tw-px-2 tw-border tw-border-muted tw-mr-6 tw-mt-4"
-							title={"Подтвердить изменение эл. почты"}
-							isLoading={isLoading}
-							disabled={isLoading || isDisabled}
-						>
-							{"Подтвердить"}
-						</Button>
+					<div>
+						<Separator />
+
+						<div>
+							<Button
+								variant="secondary"
+								title={t("labels.confirmEmailBtn")}
+								onClick={confirmEmail}
+								isLoading={isLoading}
+								disabled={isLoading || isVerified}
+							>
+								{t("email.actions.confirmEmail")}
+							</Button>
+
+							<Button
+								variant="secondary"
+								type="submit"
+								title={t("labels.changeEmailBtn")}
+								isLoading={isLoading || isCheckingUnique}
+								disabled={isLoading || isDisabled}
+							>
+								{t("email.actions.changeEmail")}
+							</Button>
+						</div>
 					</div>
 				</form>
 			</FormProvider>

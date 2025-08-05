@@ -1,7 +1,8 @@
+import { EnumAppRoute, EnumConfirmationTypes } from "./shared/lib/constants/routes";
+
 import { NextRequest } from "next/dist/server/web/spec-extension/request";
 import { NextResponse } from "next/dist/server/web/spec-extension/response";
 import { EnumPasswordRecoverTabs } from "./components/screens/_password-recovery/types/type";
-import { EnumAppRoute } from "./shared/lib/constants/routes";
 
 export async function middleware(request: NextRequest, response: NextResponse) {
 	const { url, cookies, nextUrl } = request;
@@ -16,7 +17,10 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 
 	const searchParams = nextUrl.searchParams;
 
-	if (!session && isConfirmationRoute && !searchParams.get("type")) return NextResponse.redirect(new URL(EnumAppRoute.INDEX, url));
+	if (isConfirmationRoute) {
+		if (!searchParams.get("type")) return NextResponse.redirect(new URL(EnumAppRoute.INDEX, url));
+		if (session && searchParams.get("type") === EnumConfirmationTypes.EMAIL) return NextResponse.next();
+	}
 
 	if (!session && isAccountRoute) return NextResponse.redirect(new URL(EnumAppRoute.NOT_AUTH, url));
 

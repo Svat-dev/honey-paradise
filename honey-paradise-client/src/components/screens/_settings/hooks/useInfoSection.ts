@@ -53,20 +53,22 @@ export const useInfoSection = (
 		defaultValues,
 	});
 
-	const checkUnique = (field: "username" | "phone", value: string) => {
+	const checkUnique = async (field: "username" | "phone", value: string) => {
 		const isDisabled = value.length === 0 || form.formState.defaultValues?.[field] === (field === "phone" ? mask?.value : value);
 
 		if (!isDisabled && (field === "username" ? validateUsername(value, "unique-check") : checkPhoneNumber(value))) {
-			setUniqueFields(prev => ({ ...prev, [field]: "loading" }));
+			try {
+				setUniqueFields(prev => ({ ...prev, [field]: "loading" }));
 
-			checkFieldUniqueAsync({ field: field, fieldValue: value })
-				.then(() => setUniqueFields(prev => ({ ...prev, [field]: true })))
-				.catch(e => {
-					const { errMsg } = errorCatch(e as AxiosError);
-					form.setError(field, { message: errMsg });
+				await checkFieldUniqueAsync({ field, fieldValue: value });
 
-					setUniqueFields(prev => ({ ...prev, [field]: false }));
-				});
+				setUniqueFields(prev => ({ ...prev, [field]: true }));
+			} catch (e) {
+				const { errMsg } = errorCatch(e as AxiosError);
+				form.setError(field, { message: errMsg });
+
+				setUniqueFields(prev => ({ ...prev, [field]: false }));
+			}
 		} else setUniqueFields(prev => ({ ...prev, [field]: null }));
 	};
 
@@ -122,16 +124,16 @@ export const useInfoSection = (
 	}, [form.getValues(), uniqueFields]);
 
 	useDebounce(
-		() => {
-			checkUnique("username", form.getValues("username") || "");
+		async () => {
+			await checkUnique("username", form.getValues("username") || "");
 		},
 		200,
 		[form.getValues("username")]
 	);
 
 	useDebounce(
-		() => {
-			checkUnique("phone", mask?.unmaskedValue || "");
+		async () => {
+			await checkUnique("phone", mask?.unmaskedValue || "");
 		},
 		200,
 		[form.getValues("phone")]

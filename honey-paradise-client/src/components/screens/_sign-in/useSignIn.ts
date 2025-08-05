@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "@hooks/auth";
 import { useTheme } from "@hooks/useTheme";
 import { useLanguage } from "@i18n/hooks";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import { useRouter } from "next/dist/client/components/navigation";
 import { useEffect, useRef, useState } from "react";
 import type ReCAPTCHA from "react-google-recaptcha";

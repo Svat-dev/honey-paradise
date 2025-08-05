@@ -6,7 +6,7 @@ const AccountSettings = () => {
 
 	return (
 		<>
-			<EmailSection email={user?.email} isAccLoading={isAccLoading} />
+			<EmailSection email={user?.email} isVerified={user?.isVerified} accRefetch={accRefetch} isAccLoading={isAccLoading} />
 		</>
 	);
 };

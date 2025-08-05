@@ -17,16 +17,17 @@ interface IEmailConfirmation {
 }
 
 const EmailConfirmation: FC<IEmailConfirmation> = ({ utm_source }) => {
-	const { dataStatus, t, form, onSubmit, limit, cooldown, refreshCode, isLoading, isFromSignIn } = useEmailConfirmation(utm_source);
+	const { dataStatus, t, form, onSubmit, limit, cooldown, refreshCode, isLoading, isFromSignIn, isFromAccount } =
+		useEmailConfirmation(utm_source);
 
 	return (
 		<section
 			data-status={dataStatus}
-			className={cn(_styles["wrapper"], styles["wrapper"], { "!tw-h-[21rem] before:!tw-h-[21rem] after:!tw-h-[21rem]": isFromSignIn })}
+			className={cn(_styles["wrapper"], styles["wrapper"], { "!tw-h-[21rem] before:!tw-h-[21rem] after:!tw-h-[21rem]": !!utm_source })}
 		>
 			<span
 				data-status={dataStatus}
-				className={cn(_styles["border-line"], styles["border-line"], { "before:!tw-h-[21rem] after:!tw-h-[21rem]": isFromSignIn })}
+				className={cn(_styles["border-line"], styles["border-line"], { "before:!tw-h-[21rem] after:!tw-h-[21rem]": !!utm_source })}
 			/>
 
 			<FormProvider {...form}>
@@ -34,7 +35,13 @@ const EmailConfirmation: FC<IEmailConfirmation> = ({ utm_source }) => {
 					<div className={styles["title-wrapper"]}>
 						<div>
 							<Title size="lg">{t("email.title")}</Title>
-							<p>{isFromSignIn ? t("email.description.notVerified") : t("email.description.default")}</p>
+							<p>
+								{isFromSignIn
+									? t("email.description.notVerified")
+									: isFromAccount
+									? t("email.description.default")
+									: t("email.description.signUp")}
+							</p>
 						</div>
 
 						<Image src="/assets/pincode-entering-icon.webp" alt={""} width={80} height={80} priority />
@@ -49,7 +56,7 @@ const EmailConfirmation: FC<IEmailConfirmation> = ({ utm_source }) => {
 						className={styles["form-input-slot"]}
 					/>
 
-					{!isFromSignIn && (
+					{!isFromSignIn && !isFromAccount && (
 						<Checkbox containerClassName={styles["checkbox-wrapper"]} {...form.register("signInAfter")}>
 							{t("email.signInAfter")}
 						</Checkbox>

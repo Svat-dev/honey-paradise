@@ -16,6 +16,7 @@ export enum EnumApiRoute {
 	CHANGE_PASSWORD = `${ACCOUNT}/recover-password`,
 
 	ACCOUNT_EMAIL = `${ACCOUNT}/email`,
+	UPDATE_EMAIL = `${ACCOUNT_EMAIL}/update`,
 	SEND_EMAIL_VERIFICATION_CODE = `${ACCOUNT_EMAIL}/send-code`,
 	VERIFY_EMAIL = `${ACCOUNT_EMAIL}/verify`,
 

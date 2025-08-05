@@ -1,9 +1,9 @@
 import { EnumPasswordRecoverTabs } from "@/components/screens/_password-recovery/types/type";
 
 export enum EnumConfirmationTypes {
-	EMAIL = "emailConfirmation",
-	PHONE = "phoneConfirmation",
-	SIGN_IN = "signInConfirmation",
+	EMAIL = "email_confirmation",
+	PHONE = "phone_confirmation",
+	SIGN_IN = "sign_in_confirmation",
 }
 
 export enum EnumAppRoute {

@@ -23,6 +23,13 @@ export class AccountController {
 	) {}
 
 	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Get(EnumApiRoute.ME)
+	getMe(@Authorized("id") id: string) {
+		return this.accountService.me(id);
+	}
+
+	@HttpCode(HttpStatus.OK)
 	@Recaptcha()
 	@Post(EnumApiRoute.CREATE)
 	createAccount(@Body() dto: CreateUserDto, @Res({ passthrough: true }) res: Response) {
@@ -31,9 +38,11 @@ export class AccountController {
 
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
-	@Get(EnumApiRoute.ME)
-	getMe(@Authorized("id") id: string) {
-		return this.accountService.me(id);
+	@Post(EnumApiRoute.UPDATE_EMAIL)
+	updateEmail(@Authorized("id") id: string, @Body() dto: EmailVerificationDto) {
+		const { email } = dto;
+
+		return this.accountService.changeEmail(id, email);
 	}
 
 	@HttpCode(HttpStatus.OK)

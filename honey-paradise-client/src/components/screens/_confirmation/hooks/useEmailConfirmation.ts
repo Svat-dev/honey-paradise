@@ -1,16 +1,16 @@
+import { useSendVerificationCodeS, useVerifyEmailS } from "@/services/hooks/account";
 import { EnumStorageTokens, errorCauses } from "@constants/base";
 import { useEffect, useState } from "react";
-import { useSendVerificationCodeS, useVerifyEmailS } from "@/services/hooks/account";
 
+import { errorCatch } from "@/api/api-helper";
+import { EnumAppRoute } from "@constants/routes";
+import { useAuth } from "@hooks/auth";
+import type { TConfirmationFields } from "@schemas/confirmation.schema";
 import type { AxiosError } from "axios";
 import Cookies from "js-cookie";
-import { EnumAppRoute } from "@constants/routes";
-import type { TConfirmationFields } from "@schemas/confirmation.schema";
-import { errorCatch } from "@/api/api-helper";
-import toast from "react-hot-toast";
-import { useAuth } from "@hooks/auth";
-import { useConfirmation } from "./useConfirmation";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { useConfirmation } from "./useConfirmation";
 
 export const useEmailConfirmation = (utm_source?: EnumAppRoute) => {
 	const limit = 6;
@@ -21,13 +21,14 @@ export const useEmailConfirmation = (utm_source?: EnumAppRoute) => {
 	const { auth } = useAuth();
 
 	const { isVerifying, verifyEmailAsync } = useVerifyEmailS();
-	const { isCodeSending, sendEmailCode } = useSendVerificationCodeS();
+	const { isCodeSending, sendEmailCodeAsync } = useSendVerificationCodeS();
 
 	const { replace } = useRouter();
 	const [cooldown, setCooldown] = useState<number>(base_cooldown);
 	const [timeout, _setTimeout] = useState<NodeJS.Timeout>();
 
 	const isFromSignIn = utm_source === EnumAppRoute.SIGN_IN;
+	const isFromAccount = utm_source === EnumAppRoute.ACCOUNT;
 
 	const onError = (err: AxiosError) => {
 		const { errMsg, errCause } = errorCatch(err);
@@ -43,12 +44,13 @@ export const useEmailConfirmation = (utm_source?: EnumAppRoute) => {
 		return setTimeout(() => setDataStatus("default"), errorDelay);
 	};
 
-	const refreshCode = () => {
+	const refreshCode = async () => {
 		try {
 			const email = Cookies.get(EnumStorageTokens.CURRENT_EMAIL) || "";
 
+			await sendEmailCodeAsync(email);
+
 			setCooldown(base_cooldown);
-			sendEmailCode(email);
 		} catch (error) {
 			onError(error as AxiosError);
 		}
@@ -66,7 +68,7 @@ export const useEmailConfirmation = (utm_source?: EnumAppRoute) => {
 			setDataStatus("good");
 
 			return setTimeout(() => {
-				replace(EnumAppRoute.INDEX);
+				replace(isFromAccount ? EnumAppRoute.SETTINGS : EnumAppRoute.INDEX);
 				if (signInAfter) auth();
 			}, 2000);
 		} catch (error) {
@@ -88,9 +90,7 @@ export const useEmailConfirmation = (utm_source?: EnumAppRoute) => {
 	}, [cooldown]);
 
 	useEffect(() => {
-		if (isFromSignIn) {
-			form.setValue("signInAfter", false);
-		}
+		if (isFromSignIn || isFromAccount) form.setValue("signInAfter", false);
 	}, []);
 
 	return {
@@ -103,5 +103,6 @@ export const useEmailConfirmation = (utm_source?: EnumAppRoute) => {
 		refreshCode,
 		isLoading: isCodeSending || isVerifying,
 		isFromSignIn,
+		isFromAccount,
 	};
 };

@@ -54,14 +54,30 @@ export class AccountService {
 			},
 		});
 
-		res.cookie(EnumStorageTokens.LOCALE_LANGUAGE, email, {
+		res.cookie(EnumStorageTokens.CURRENT_EMAIL, email, {
 			sameSite: "lax",
 			maxAge: ms("6h"),
 			domain: this.configService.getOrThrow<string>("DOMAIN"),
-			path: EnumClientRoutes.CONFIRMATION,
+			path: EnumClientRoutes.AUTH,
 		});
 
 		return this.verificationService.sendVerificationEmail(email);
+	}
+
+	async changeEmail(id: string, email: string) {
+		const user = await this.profileService.getProfile(email, "email");
+
+		if (user) throw new BadRequestException(this.i18n.t("d.errors.email.is_exist"));
+
+		await this.prisma.user.update({
+			where: { id },
+			data: {
+				email,
+				isVerified: false,
+			},
+		});
+
+		return true;
 	}
 
 	private async getUsernameFromEmail(email: string) {
