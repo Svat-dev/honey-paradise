@@ -11,8 +11,11 @@ export enum EnumApiRoute {
 	CREATE = "/create",
 	ME = "/me",
 	UPDATE = "/update",
-	RESET_PASSWORD = "/reset-password",
-	RECOVER_PASSWORD = "/recover-password",
+
+	PASSWORD = "/password",
+	RESET_PASSWORD = `${PASSWORD}/reset`,
+	RECOVER_PASSWORD = `${PASSWORD}/recover`,
+	UPDATE_PASSWORD = `${PASSWORD}/update`,
 
 	EMAIL = "/email",
 	UPDATE_EMAIL = `${EMAIL}/update`,

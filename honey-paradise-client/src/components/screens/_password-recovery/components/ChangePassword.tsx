@@ -17,7 +17,7 @@ interface IChangePassword {
 }
 
 const ChangePassword: FC<IChangePassword> = ({ token }) => {
-	const { form, dataStatus, onSubmit, isPasswordUpdating, t } = useChangePassword(token);
+	const { form, dataStatus, onSubmit, isPasswordRecovering, t } = useChangePassword(token);
 
 	return (
 		<section data-status={dataStatus} className={cn(_styles["wrapper"], styles["wrapper"])}>
@@ -44,7 +44,7 @@ const ChangePassword: FC<IChangePassword> = ({ token }) => {
 					/>
 
 					<div className={styles["actions-wrapper"]}>
-						<Button variant="secondary" title={t("labels.submitBtn")} type="submit" isLoading={isPasswordUpdating}>
+						<Button variant="secondary" title={t("labels.submitBtn")} type="submit" isLoading={isPasswordRecovering}>
 							{t("submitBtn")}
 						</Button>
 					</div>

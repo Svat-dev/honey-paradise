@@ -4,6 +4,7 @@ import { ConfigService } from "@nestjs/config/dist/config.service";
 import { GoogleRecaptchaModule } from "@nestlab/google-recaptcha/google-recaptcha.module";
 import { getRecaptchaConfig } from "src/core/config/recaptcha.config";
 import { ProfileModule } from "../profile/profile.module";
+import { SessionsModule } from "../sessions/sessions.module";
 import { VerificationModule } from "../verification/verification.module";
 import { AccountController } from "./account.controller";
 import { AccountService } from "./account.service";
@@ -17,6 +18,7 @@ import { AccountService } from "./account.service";
 		}),
 		ProfileModule,
 		VerificationModule,
+		SessionsModule,
 	],
 	controllers: [AccountController],
 	providers: [AccountService],

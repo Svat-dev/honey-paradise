@@ -1,10 +1,10 @@
-import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 import { useAuth, useMyAccount } from "./auth";
 
 import { TThemes } from "@/shared/types/base.type";
-import { EnumStorageTokens } from "@constants/base";
+import { EnumStorageKeys } from "@constants/base";
 import Cookies from "js-cookie";
+import { useTranslations } from "next-intl";
 
 export const useTheme = () => {
 	const t = useTranslations("shared.theme");
@@ -18,7 +18,7 @@ export const useTheme = () => {
 		setTheme(_theme);
 		document.body.classList.add(`${_theme}-mode`);
 
-		return isSystem ? true : Cookies.set(EnumStorageTokens.THEME_MODE, _theme);
+		return isSystem ? true : Cookies.set(EnumStorageKeys.THEME_MODE, _theme);
 	};
 
 	const localeTheme = (type: "full" | "short") => {
@@ -27,7 +27,7 @@ export const useTheme = () => {
 	};
 
 	useEffect(() => {
-		let _theme = (Cookies.get(EnumStorageTokens.THEME_MODE) as TThemes) || null;
+		let _theme = (Cookies.get(EnumStorageKeys.THEME_MODE) as TThemes) || null;
 
 		if (!_theme) {
 			_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";

@@ -68,7 +68,7 @@ export class VerificationService {
 		if (!existingToken) throw new BadRequestException(this.i18n.t("d.errors.verification.password_recovery_token_missing"));
 		const user = await this.validateToken(existingToken);
 
-		await this.userService.updateProfilePassword(user.id, password);
+		await this.userService.updatePassword(user.id, password);
 
 		await this.prisma.token.delete({
 			where: {

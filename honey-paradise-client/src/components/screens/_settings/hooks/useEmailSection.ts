@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { errorCatch } from "@/api/api-helper";
 import { useSendVerificationCodeS, useUpdateEmailS } from "@/services/hooks/account";
 import { useUniqueFieldCheckS } from "@/services/hooks/profile";
-import { EnumStorageTokens } from "@constants/base";
+import { EnumStorageKeys } from "@constants/base";
 import { EnumAppRoute } from "@constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDebounce } from "@hooks/base";
@@ -39,7 +39,7 @@ export const useEmailSection = (email: string | undefined, accRefetch: (opts?: R
 	const resetFields = () => form.reset();
 
 	const confirmEmail = () => {
-		Cookies.set(EnumStorageTokens.CURRENT_EMAIL, email!, {
+		Cookies.set(EnumStorageKeys.CURRENT_EMAIL, email!, {
 			sameSite: "lax",
 			domain: process.env.NEXT_PUBLIC_DOMAIN,
 			expires: 0.25,
@@ -58,7 +58,7 @@ export const useEmailSection = (email: string | undefined, accRefetch: (opts?: R
 			accRefetch();
 			setIsDisabled(true);
 
-			toast.success(t("toasters.success"));
+			toast.success(t("toasters.email.success"));
 		} catch (error) {
 			const { errMsg } = errorCatch(error as AxiosError);
 

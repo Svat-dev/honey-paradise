@@ -4,7 +4,7 @@ import { getLocale, getMessages } from "next-intl/server";
 
 import { ClientMainProvider } from "@/components/providers/ClientMainProvider";
 import { MainProvider } from "@/components/providers/MainProvider";
-import { EnumStorageTokens } from "@constants/base";
+import { EnumStorageKeys } from "@constants/base";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { Rubik } from "next/font/google";
@@ -31,7 +31,7 @@ export default async function MainLayout({ children }: Readonly<IMainLayout>) {
 
 	const langs = await getMessages();
 
-	const isAgreedWithCookie = (await cookies()).get(EnumStorageTokens.IS_AGREE_WITH_COOKIES)?.value;
+	const isAgreedWithCookie = (await cookies()).get(EnumStorageKeys.IS_AGREE_WITH_COOKIES)?.value;
 
 	return (
 		<html lang={locale}>

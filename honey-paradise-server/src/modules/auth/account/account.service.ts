@@ -1,10 +1,10 @@
+import type { Request, Response } from "express";
 import { EnumClientRoutes, EnumStorageTokens } from "src/shared/types/client/enums.type";
 
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
 import { ConfigService } from "@nestjs/config/dist/config.service";
 import { hash } from "argon2";
-import type { Response } from "express";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { DEFAULT_AVATAR_PATH } from "src/shared/lib/common/constants";
@@ -12,6 +12,7 @@ import { ms } from "src/shared/lib/common/utils";
 import { getEmailUsername } from "src/shared/lib/common/utils/get-email-username.util";
 import { userFullOutput } from "src/shared/lib/prisma/outputs/user.output";
 import { ProfileService } from "../profile/profile.service";
+import { SessionsService } from "../sessions/sessions.service";
 import { VerificationService } from "../verification/verification.service";
 import type { CreateUserDto } from "./dto/create-user.dto";
 
@@ -21,6 +22,7 @@ export class AccountService {
 		private readonly prisma: PrismaService,
 		private readonly profileService: ProfileService,
 		private readonly verificationService: VerificationService,
+		private readonly sessionsService: SessionsService,
 		private readonly configService: ConfigService,
 		private readonly i18n: I18nService
 	) {}
@@ -78,6 +80,16 @@ export class AccountService {
 		});
 
 		return true;
+	}
+
+	async updatePassword(id: string, password: string, req: Request) {
+		const { isTFAEnabled } = await this.profileService.updatePassword(id, password);
+
+		if (isTFAEnabled) {
+			await this.sessionsService.logout(req);
+
+			return { res: "redirect/logout" };
+		} else return true;
 	}
 
 	private async getUsernameFromEmail(email: string) {

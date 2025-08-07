@@ -26,4 +26,5 @@ export const userFullOutput: Prisma.UserSelect = {
 	notificationSettings: true,
 	cart: true,
 	isVerified: true,
+	isTFAEnabled: true,
 };

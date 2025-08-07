@@ -10,6 +10,7 @@ import { hash } from "argon2";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { DEFAULT_AVATAR_PATH } from "src/shared/lib/common/constants";
+import { UpdateUserSettingsDto } from "./dto/update-user-settings.dto";
 
 @Injectable()
 export class ProfileService {
@@ -131,29 +132,40 @@ export class ProfileService {
 		return true;
 	}
 
-	async updateSettings(userId: string, dto: Prisma.UserSettingsUpdateInput) {
+	async updateSettings(userId: string, dto: UpdateUserSettingsDto) {
 		const settings = await this.prisma.userSettings.findUnique({ where: { userId } });
 
 		if (!settings) throw new NotFoundException(this.i18n.t("d.errors.profile.settings_not_found"));
 
-		await this.prisma.userSettings.update({ where: { id: settings.id }, data: dto });
+		if (typeof dto.isTFAEnabled === "boolean") {
+			const { isTFAEnabled, ...other } = dto;
+
+			await this.prisma.user.update({ where: { id: userId }, data: { isTFAEnabled } });
+
+			await this.prisma.userSettings.update({ where: { id: settings.id }, data: other });
+		} else {
+			const { isTFAEnabled, ...other } = dto;
+
+			await this.prisma.userSettings.update({ where: { id: settings.id }, data: other });
+		}
 
 		return true;
+	}
+
+	async updatePassword(userId: string, password: string) {
+		const user = await this.getProfile(userId, "id");
+
+		if (!user) throw new NotFoundException(this.i18n.t("d.errors.profile.not_found"));
+
+		await this.prisma.user.update({ where: { id: user.id }, data: { password: await hash(password) } });
+
+		return user;
 	}
 
 	async updateProfileVerified(id: string) {
 		await this.prisma.user.update({
 			where: { id },
 			data: { isVerified: true },
-		});
-
-		return true;
-	}
-
-	async updateProfilePassword(id: string, password: string) {
-		await this.prisma.user.update({
-			where: { id },
-			data: { password: await hash(password) },
 		});
 
 		return true;

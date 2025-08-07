@@ -3,15 +3,23 @@
 }
 
 .error-txt {
-	@apply tw-absolute -tw-bottom-6 tw-px-1.5 tw-leading-3 tw-text-sm;
+	@apply tw-absolute -tw-bottom-5 tw-px-1.5 tw-leading-3 tw-text-sm;
 }
 
 .input-wrapper {
 	@apply tw-relative;
+
+	> input:focus ~ span.label {
+		@apply tw-text-black;
+	}
 }
 
 .required {
 	@apply tw-text-red-500 tw-text-lg tw-absolute -tw-top-3 -tw-right-1;
+}
+
+.label {
+	@apply tw-absolute -tw-top-5 tw-left-1 tw-text-muted tw-text-sm tw-transition-colors;
 }
 
 .password-eye {

@@ -1,7 +1,7 @@
 import { Controller } from "@nestjs/common/decorators/core/controller.decorator";
 import { UseInterceptors } from "@nestjs/common/decorators/core/use-interceptors.decorator";
 import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
-import { Patch, Post, Put } from "@nestjs/common/decorators/http/request-mapping.decorator";
+import { Delete, Patch, Post, Put } from "@nestjs/common/decorators/http/request-mapping.decorator";
 import { Body, Param, UploadedFile } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
 import { FileInterceptor } from "@nestjs/platform-express/multer/interceptors/file.interceptor";
@@ -36,7 +36,7 @@ export class ProfileController {
 
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
-	@Patch(EnumApiRoute.DELETE_AVATAR)
+	@Delete(EnumApiRoute.DELETE_AVATAR)
 	deleteAvatar(@Authorized("id") userId: string) {
 		return this.profileService.deleteAvatar(userId);
 	}

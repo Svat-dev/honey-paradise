@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/common";
-import { EnumStorageTokens } from "@constants/base";
+import { EnumStorageKeys } from "@constants/base";
 import { EnumAppRoute } from "@constants/routes";
 import { cookies } from "next/dist/server/request/cookies";
 import { memo, type FC } from "react";
@@ -13,7 +13,7 @@ interface IHeader {
 
 const Header: FC<IHeader> = memo(async ({ route }) => {
 	const isNeedSearchInput = route === EnumAppRoute.INDEX;
-	const sessionCookie = (await cookies()).get(EnumStorageTokens.SESSION)?.value || false;
+	const sessionCookie = (await cookies()).get(EnumStorageKeys.SESSION)?.value || false;
 
 	return (
 		<header className="tw-w-full tw-bg-primary tw-border-b tw-border-muted tw-h-15 tw-sticky tw-top-0 tw-z-50">

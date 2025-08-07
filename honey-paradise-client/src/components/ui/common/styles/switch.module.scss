@@ -1,0 +1,43 @@
+.switch-ui {
+	@apply tw-relative tw-inline-flex tw-h-6 tw-w-12 tw-shrink-0 tw-cursor-pointer tw-items-center tw-rounded-full tw-border-[3px] tw-border-transparent tw-shadow-md tw-transition-colors;
+
+	&[data-state="checked"] {
+		@apply tw-bg-primary;
+
+		> svg {
+			@apply tw-left-0;
+		}
+	}
+
+	&[data-state="unchecked"] {
+		@apply tw-bg-secondary;
+
+		> svg {
+			@apply tw-right-0;
+		}
+	}
+
+	&:disabled {
+		@apply tw-cursor-not-allowed tw-opacity-50;
+	}
+
+	&:focus-visible {
+		@apply tw-outline-none tw-ring-2 tw-ring-black tw-ring-offset-2 tw-ring-offset-background;
+	}
+}
+
+.switch-loader-ui {
+	@apply tw-absolute tw-animate-spin;
+}
+
+.switch-thumb-ui {
+	@apply tw-pointer-events-none tw-block tw-h-5 tw-w-5 tw-rounded-full tw-bg-background tw-shadow-lg tw-ring-0 tw-transition-transform;
+
+	&[data-state="checked"] {
+		@apply tw-translate-x-6;
+	}
+
+	&[data-state="unchecked"] {
+		@apply tw-translate-x-0;
+	}
+}

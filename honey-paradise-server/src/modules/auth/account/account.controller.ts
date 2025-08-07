@@ -13,7 +13,7 @@ import { VerificationService } from "../verification/verification.service";
 import { AccountService } from "./account.service";
 import type { CreateUserDto } from "./dto/create-user.dto";
 import type { EmailVerificationDto, EmailVerifyDto } from "./dto/email-verification.dto";
-import type { PasswordRecoverDto, UpdatePasswordDto } from "./dto/password-recover.dto";
+import { PasswordRecoverDto, UpdatePasswordAuthDto, UpdatePasswordDto } from "./dto/password-recover.dto";
 
 @Controller(EnumApiRoute.ACCOUNT)
 export class AccountController {
@@ -38,7 +38,7 @@ export class AccountController {
 
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
-	@Post(EnumApiRoute.UPDATE_EMAIL)
+	@Patch(EnumApiRoute.UPDATE_EMAIL)
 	updateEmail(@Authorized("id") id: string, @Body() dto: EmailVerificationDto) {
 		const { email } = dto;
 
@@ -63,6 +63,15 @@ export class AccountController {
 	@Post(EnumApiRoute.RESET_PASSWORD)
 	resetPassword(@Body() dto: PasswordRecoverDto, @Req() req: Request, @UserAgent() userAgent: string) {
 		return this.verificationService.sendRecoverPasswordEmail(req, userAgent, dto.email);
+	}
+
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Patch(EnumApiRoute.UPDATE_PASSWORD)
+	updatePassword(@Authorized("id") id: string, @Body() dto: UpdatePasswordAuthDto, @Req() req: Request) {
+		const { password } = dto;
+
+		return this.accountService.updatePassword(id, password, req);
 	}
 
 	@HttpCode(HttpStatus.OK)

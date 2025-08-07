@@ -1,5 +1,5 @@
 import { useSendVerificationCodeS, useVerifyEmailS } from "@/services/hooks/account";
-import { EnumStorageTokens, errorCauses } from "@constants/base";
+import { EnumStorageKeys, errorCauses } from "@constants/base";
 import { useEffect, useState } from "react";
 
 import { errorCatch } from "@/api/api-helper";
@@ -46,7 +46,7 @@ export const useEmailConfirmation = (utm_source?: EnumAppRoute) => {
 
 	const refreshCode = async () => {
 		try {
-			const email = Cookies.get(EnumStorageTokens.CURRENT_EMAIL) || "";
+			const email = Cookies.get(EnumStorageKeys.CURRENT_EMAIL) || "";
 
 			await sendEmailCodeAsync(email);
 
@@ -64,7 +64,7 @@ export const useEmailConfirmation = (utm_source?: EnumAppRoute) => {
 
 			toast.success(t("email.toasters.success"));
 			clearTimeout(timeout);
-			Cookies.remove(EnumStorageTokens.CURRENT_EMAIL);
+			Cookies.remove(EnumStorageKeys.CURRENT_EMAIL);
 			setDataStatus("good");
 
 			return setTimeout(() => {

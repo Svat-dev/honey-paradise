@@ -22,5 +22,6 @@ import { SessionsService } from "./sessions.service";
 	],
 	controllers: [SessionsController],
 	providers: [SessionsService],
+	exports: [SessionsService],
 })
 export class SessionsModule {}

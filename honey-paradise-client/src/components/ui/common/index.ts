@@ -11,4 +11,5 @@ export * from "./radio-group";
 export * from "./separator";
 export * from "./sheet";
 export * from "./skeleton";
+export * from "./switch";
 export * from "./title";

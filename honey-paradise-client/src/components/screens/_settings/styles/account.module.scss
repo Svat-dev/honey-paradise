@@ -61,3 +61,23 @@
 		}
 	}
 }
+
+.security-wrapper {
+	@apply tw-relative tw-flex tw-flex-col tw-w-full tw-bg-primary tw-rounded-lg tw-px-4 tw-pt-5 tw-pb-3 tw-mb-5;
+
+	> h4 {
+		@apply tw-font-medium tw-mb-2;
+	}
+
+	> div {
+		@apply tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1;
+
+		> div > p:last-of-type {
+			@apply tw-text-muted tw-text-sm tw-ml-0.5;
+		}
+
+		&:not(:last-of-type) {
+			@apply tw-mb-5 tw-border-b tw-border-muted;
+		}
+	}
+}

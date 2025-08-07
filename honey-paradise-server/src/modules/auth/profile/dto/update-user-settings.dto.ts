@@ -1,7 +1,7 @@
-import { EnumLanguages, EnumThemes, type UserSettings } from "@prisma/client";
-import { IsEnum, IsOptional } from "class-validator";
+import { EnumLanguages, EnumThemes, type User, type UserSettings } from "@prisma/client";
+import { IsBoolean, IsEnum, IsOptional } from "class-validator";
 
-export class UpdateUserSettingsDto implements Partial<UserSettings> {
+export class UpdateUserSettingsDto implements Partial<UserSettings & User> {
 	@IsEnum(EnumLanguages, { message: "" })
 	@IsOptional({ message: "" })
 	defaultLanguage?: EnumLanguages;
@@ -9,4 +9,12 @@ export class UpdateUserSettingsDto implements Partial<UserSettings> {
 	@IsEnum(EnumThemes, { message: "" })
 	@IsOptional({ message: "" })
 	defaultTheme?: EnumThemes;
+
+	@IsBoolean({ message: "" })
+	@IsOptional({ message: "" })
+	useFullLogout?: boolean;
+
+	@IsBoolean({ message: "" })
+	@IsOptional({ message: "" })
+	isTFAEnabled?: boolean;
 }

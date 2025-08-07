@@ -1,7 +1,7 @@
 import { type TPasswordChangeFields, createChangePasswordSchema } from "@/shared/lib/schemas/password-recovery.schema";
 
 import { errorCatch } from "@/api/api-helper";
-import { useUpdatePasswordS } from "@/services/hooks/profile";
+import { useRecoverPasswordS } from "@/services/hooks/account";
 import { EnumAppRoute } from "@/shared/lib/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { AxiosError } from "axios";
@@ -21,7 +21,7 @@ export const useChangePassword = (token: string) => {
 
 	const [dataStatus, setDataStatus] = useState<TDataStatus>("default");
 
-	const { isPasswordUpdating, updatePasswordAsync } = useUpdatePasswordS();
+	const { isPasswordRecovering, recoverPasswordAsync } = useRecoverPasswordS();
 
 	const schema = createChangePasswordSchema(t);
 
@@ -42,7 +42,7 @@ export const useChangePassword = (token: string) => {
 
 	const onSubmit = async (data: TPasswordChangeFields) => {
 		try {
-			await updatePasswordAsync({ password: data.password, token });
+			await recoverPasswordAsync({ password: data.password, token });
 
 			setDataStatus("good");
 			toast.success(t("toasters.success"), { duration: successDelay });
@@ -65,7 +65,7 @@ export const useChangePassword = (token: string) => {
 		dataStatus,
 		onSubmit: _onSubmit,
 		form,
-		isPasswordUpdating,
+		isPasswordRecovering,
 		t,
 	};
 };

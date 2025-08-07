@@ -1,19 +1,13 @@
-import { defaultInstance, instance } from "@/api/instance";
-import type { IUpdatePasswordDto, IUpdateProfileDto, IUpdateUserSettingsDto } from "./types/profile-service.type";
+import type { IUpdateProfileDto, IUpdateUserSettingsDto } from "./types/profile-service.type";
 
 import { getContentType } from "@/api/api-helper";
+import { instance } from "@/api/instance";
 import { EnumApiRoute } from "@constants/routes";
 import type { AxiosResponse } from "axios";
 
 export const profileService = {
 	uniqueFieldCheck: async (fieldValue: string | undefined, field: "email" | "username" | "phone") => {
 		const res = await instance.post<any, AxiosResponse<boolean>>(`${EnumApiRoute.CHECK_UNIQUE}/${field}`, { fieldValue });
-
-		return res;
-	},
-
-	updatePassword: async (dto: IUpdatePasswordDto) => {
-		const res = await defaultInstance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.CHANGE_PASSWORD, dto);
 
 		return res;
 	},
@@ -39,7 +33,7 @@ export const profileService = {
 	},
 
 	deleteAvatar: async () => {
-		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.DELETE_AVATAR);
+		const res = await instance.delete<any, AxiosResponse<boolean>>(EnumApiRoute.DELETE_AVATAR);
 
 		return res;
 	},

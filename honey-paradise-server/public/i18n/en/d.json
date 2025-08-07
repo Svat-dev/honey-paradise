@@ -40,6 +40,7 @@
 			"not_verified": "You have unverified account!\nTo continue, please, verify it now"
 		},
 		"profile": {
+			"not_found": "User profile not found",
 			"avatar_not_found": "You should have an installed avatar to delete it",
 			"phone_number_is_exist": "Phone number is already occupied by another user",
 			"settings_not_found": "No user settings found, please contact support"

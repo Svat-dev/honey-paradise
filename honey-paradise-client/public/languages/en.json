@@ -466,13 +466,30 @@
 								"changeEmail": "Save changes"
 							}
 						},
+						"security": {
+							"title": "Account securance",
+							"password": {
+								"title": "Password",
+								"description": "The password is the key to your account. Don't tell anyone about it. If necessary, you can change it here to improve security"
+							},
+							"2fa": {
+								"title": "Use two-factor authentication",
+								"description": "Ensure the security of your account using two-factor authentication via a bundle of e-mail and a one-time code"
+							},
+							"fullLogout": {
+								"title": "Use full account logout",
+								"description": "By fully logging out of your account, you clear the cache and delete all cookies-files related to the design of the site."
+							}
+						},
 						"labels": {
 							"resetFieldBtn": "Reset input field",
 							"confirmEmailBtn": "Confirm email",
-							"changeEmailBtn": "Save email changes"
+							"changeEmailBtn": "Save email changes",
+							"changePasswordBtn": "Change password"
 						},
 						"toasters": {
-							"success": "You have successfully changed your email address"
+							"email": { "success": "You have successfully changed your email address" },
+							"security": { "success": "Changed information has successfully saved" }
 						}
 					}
 				},
@@ -680,6 +697,12 @@
 				"clearBtn": "Clear",
 				"showPassword": "Show password",
 				"hidePassword": "Hide Password"
+			}
+		},
+		"ui": {
+			"switch": {
+				"enable": "Enable{txt}",
+				"disable": "Disable{txt}"
 			}
 		},
 		"theme": {

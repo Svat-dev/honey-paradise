@@ -3,7 +3,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/dist/client/components/navigation";
 import { useEffect, useMemo } from "react";
 import toast from "react-hot-toast";
-import { EnumStorageTokens } from "../../constants/base";
+import { EnumStorageKeys } from "../../constants/base";
 import { useAuth, useMyAccount } from "../../hooks/auth";
 import { LANGS_BY_KEY, type EnumLanguages } from "../config";
 
@@ -20,7 +20,7 @@ export const useLanguage = () => {
 		if (!lang || locale === lang) return;
 
 		try {
-			Cookies.set(EnumStorageTokens.LANGUAGE, lang);
+			Cookies.set(EnumStorageKeys.LANGUAGE, lang);
 
 			if (!userDefault) {
 				const toastText = `${t("success", { lang: LANGS_BY_KEY[lang] })}`;

@@ -12,9 +12,9 @@ const DefaultInput: FC<PropsWithChildren<IFormDefaultInputProps>> = ({
 	name,
 	setMask,
 	clearBtnClassName,
-	label,
 	className,
 	isLoading,
+	label,
 	children,
 	...props
 }) => {
@@ -42,6 +42,8 @@ const DefaultInput: FC<PropsWithChildren<IFormDefaultInputProps>> = ({
 			)}
 
 			{props.required && <span className={styles["required"]}>*</span>}
+
+			{label && <span className={styles["label"]}>{label}</span>}
 
 			{children}
 
