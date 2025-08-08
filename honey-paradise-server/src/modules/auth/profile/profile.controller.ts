@@ -10,9 +10,9 @@ import { Authorized } from "src/shared/decorators/authorized.decorator";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
 import { FileValidationPipe } from "src/shared/pipes/file-validation.pipe";
 import { UniqueFieldCheckPipe } from "src/shared/pipes/unique-field-check.pipe";
-import { UniqueFieldCheckDto } from "./dto/unique-field-check.dto";
-import { UpdateUserSettingsDto } from "./dto/update-user-settings.dto";
-import { UpdateUserDto } from "./dto/update-userinfo.dto";
+import type { UniqueFieldCheckDto } from "./dto/unique-field-check.dto";
+import type { UpdateUserSettingsDto } from "./dto/update-user-settings.dto";
+import type { UpdateUserDto } from "./dto/update-userinfo.dto";
 import { ProfileService } from "./profile.service";
 
 @Controller(EnumApiRoute.PROFILE)

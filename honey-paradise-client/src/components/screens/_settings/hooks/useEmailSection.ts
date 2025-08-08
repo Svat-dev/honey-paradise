@@ -43,7 +43,7 @@ export const useEmailSection = (email: string | undefined, accRefetch: (opts?: R
 			sameSite: "lax",
 			domain: process.env.NEXT_PUBLIC_DOMAIN,
 			expires: 0.25,
-			path: EnumAppRoute.AUTH,
+			path: EnumAppRoute.INDEX,
 		});
 
 		sendEmailCode();

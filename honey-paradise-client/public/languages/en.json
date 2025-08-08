@@ -167,7 +167,8 @@
 				},
 				"toasters": {
 					"success": "You have successfully signed in to your account!",
-					"error": "Error when logging in to account!\n{e}"
+					"error": "Error when logging in to account!\n{e}",
+					"2fa": "You will now be redirected to the account sign in confirmation page"
 				},
 				"labels": {
 					"vk": "VKonatkte",
@@ -487,17 +488,45 @@
 							"fullLogout": {
 								"title": "Use full account logout",
 								"description": "By fully logging out of your account, you clear the cache and delete all cookies-files related to the design of the site."
+							},
+							"changePasswordModal": {
+								"title": "Password change",
+								"description": "Change your password to whatever you want, if you have two-factor auth enabled, you will need to sign in to your account again after the change",
+								"confirmBtn": "Save changes",
+								"placeholders": {
+									"new": "Enter new password",
+									"confirmNew": "Confirm new password"
+								},
+								"errors": {
+									"min": "Minimum password length {min} characters",
+									"max": "Maximum password length {max} characters",
+									"empty": "Enter a password"
+								}
+							}
+						},
+						"actions": {
+							"title": "Actions",
+							"logout": {
+								"title": "Exit | Logout",
+								"description": "End the session to log out of your account on this device",
+								"btn": "Log out from account"
+							},
+							"delete": {
+								"title": "Deleting an account",
+								"description": "Deleting an account will lead to its complete destruction without the possibility of refund",
+								"btn": "Delete account"
 							}
 						},
 						"labels": {
 							"resetFieldBtn": "Reset input field",
-							"confirmEmailBtn": "Confirm email",
+							"confirmEmailBtn": "Save an email",
 							"changeEmailBtn": "Save email changes",
 							"changePasswordBtn": "Change password"
 						},
 						"toasters": {
 							"email": { "success": "You have successfully changed your email address" },
-							"security": { "success": "Changed information has successfully saved" }
+							"security": { "success": "Changed information has successfully saved" },
+							"changePasswordModal": { "success": "You have successfully changed your password" }
 						}
 					}
 				},

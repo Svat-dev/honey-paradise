@@ -73,7 +73,7 @@ export const useSignIn = () => {
 			const { tfa } = await signIn({ dto: data, recaptcha: recaptchaValue });
 
 			if (tfa) {
-				toast("Сейчас вы будете перенаправлены на страницу подтверждения входа", { duration: successDelay, icon: "🔒" });
+				toast(t("toasters.2fa"), { duration: successDelay, icon: "🔒" });
 				setTimeout(() => replace(EnumAppRoute.SIGN_IN_CONFIRMATION), successDelay);
 			} else {
 				auth();

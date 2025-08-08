@@ -9,8 +9,8 @@ import { Authorization } from "src/shared/decorators/auth.decorator";
 import { UserAgent } from "src/shared/decorators/user-agent.decorator";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
 import { VerificationService } from "../verification/verification.service";
-import { AuthLoginDto } from "./dto/auth-login.dto";
-import { AuthTfaDto } from "./dto/auth-tfa.dto";
+import type { AuthLoginDto } from "./dto/auth-login.dto";
+import type { AuthTfaDto } from "./dto/auth-tfa.dto";
 import { SessionsService } from "./sessions.service";
 
 @Controller(EnumApiRoute.AUTH)

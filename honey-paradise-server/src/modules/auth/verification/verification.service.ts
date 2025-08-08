@@ -3,6 +3,7 @@ import { EnumTokenTypes, type Token } from "@prisma/client";
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
+import { hash, verify } from "argon2";
 import type { Request, Response } from "express";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { MailService } from "src/core/mail/mail.service";
@@ -16,7 +17,7 @@ import { v4 as uuidv4 } from "uuid";
 import type { EmailVerifyDto } from "../account/dto/email-verification.dto";
 import type { UpdatePasswordDto } from "../account/dto/password-recover.dto";
 import { ProfileService } from "../profile/profile.service";
-import { AuthTfaDto } from "../sessions/dto/auth-tfa.dto";
+import type { AuthTfaDto } from "../sessions/dto/auth-tfa.dto";
 
 @Injectable()
 export class VerificationService {
@@ -30,14 +31,9 @@ export class VerificationService {
 	async verifyEmail(req: Request, res: Response, dto: EmailVerifyDto, userAgent: string) {
 		const { token, isNeedAuth } = dto;
 
-		const existingToken = await this.prisma.token.findFirst({
-			where: {
-				token,
-				type: EnumTokenTypes.EMAIL_VERIFY,
-			},
-		});
+		const existingTokens = await this.prisma.token.findMany({ where: { type: EnumTokenTypes.EMAIL_VERIFY } });
 
-		const user = await this.validateToken(existingToken);
+		const user = await this.validateToken(existingTokens, token);
 
 		await this.userService.updateProfileVerified(user.id);
 
@@ -61,15 +57,9 @@ export class VerificationService {
 	async recoverPassword(dto: UpdatePasswordDto) {
 		const { password, token } = dto;
 
-		const existingToken = await this.prisma.token.findFirst({
-			where: {
-				token,
-				type: EnumTokenTypes.PASSWORD_RECOVERY,
-			},
-		});
+		const existingTokens = await this.prisma.token.findMany({ where: { type: EnumTokenTypes.PASSWORD_RECOVERY } });
 
-		if (!existingToken) throw new BadRequestException(this.i18n.t("d.errors.verification.password_recovery_token_missing"));
-		const user = await this.validateToken(existingToken);
+		const user = await this.validateToken(existingTokens, token, "password-recover");
 
 		await this.userService.updatePassword(user.id, password);
 
@@ -86,14 +76,9 @@ export class VerificationService {
 	async verifyTFA(req: Request, res: Response, dto: AuthTfaDto, userAgent: string) {
 		const { token } = dto;
 
-		const existingToken = await this.prisma.token.findFirst({
-			where: {
-				token,
-				type: EnumTokenTypes.TFA_VERIFY,
-			},
-		});
+		const existingTokens = await this.prisma.token.findMany({ where: { type: EnumTokenTypes.TFA_VERIFY } });
 
-		const user = await this.validateToken(existingToken);
+		const user = await this.validateToken(existingTokens, token);
 
 		await this.prisma.token.delete({
 			where: {
@@ -127,7 +112,7 @@ export class VerificationService {
 			data: {
 				userId: user.id,
 				type: EnumTokenTypes.EMAIL_VERIFY,
-				token,
+				token: await hash(token),
 				expiresIn,
 			},
 		});
@@ -155,7 +140,7 @@ export class VerificationService {
 			data: {
 				userId: user.id,
 				type: EnumTokenTypes.TFA_VERIFY,
-				token,
+				token: await hash(token),
 				expiresIn,
 			},
 		});
@@ -185,7 +170,7 @@ export class VerificationService {
 			data: {
 				userId: user.id,
 				type: EnumTokenTypes.PASSWORD_RECOVERY,
-				token,
+				token: await hash(token),
 				expiresIn,
 			},
 		});
@@ -197,8 +182,25 @@ export class VerificationService {
 		return true;
 	}
 
-	private async validateToken(token: Token) {
-		if (!token) throw new NotFoundException(this.i18n.t("d.errors.verification.invalid_code"));
+	private async validateToken(tokens: Token[], code: string, type: "default" | "password-recover" = "default") {
+		let token: Token | null = null;
+
+		for (const item of tokens) {
+			const result = await verify(item.token, code);
+
+			if (result) {
+				token = item;
+				break;
+			}
+		}
+
+		if (!token) {
+			if (type === "default") {
+				throw new BadRequestException(this.i18n.t("d.errors.verification.invalid_code"));
+			} else {
+				throw new BadRequestException(this.i18n.t("d.errors.verification.password_recovery_token_missing"));
+			}
+		}
 
 		const isExpired = new Date(token.expiresIn).getTime() > new Date().getTime();
 

@@ -17,7 +17,7 @@ interface IEmailConfirmation {
 }
 
 const EmailConfirmation: FC<IEmailConfirmation> = ({ utm_source }) => {
-	const { dataStatus, t, form, onSubmit, limit, cooldown, refreshCode, isLoading, isFromSignIn, isFromAccount } =
+	const { dataStatus, t, form, onSubmit, limit, cooldown, refreshCode, isLoading, isFromSignIn, isFromAccount, isCodeSending } =
 		useEmailConfirmation(utm_source);
 
 	return (
@@ -66,14 +66,20 @@ const EmailConfirmation: FC<IEmailConfirmation> = ({ utm_source }) => {
 						<Button
 							variant="secondary"
 							title={t("actions.resendBtn")}
-							disabled={cooldown !== 0}
+							disabled={cooldown !== 0 || isLoading || isCodeSending}
 							onClick={refreshCode}
-							isLoading={isLoading && cooldown !== 0}
+							isLoading={isCodeSending}
 						>
 							{cooldown === 0 ? t("actions.resendBtn") : t("actions.resendBtnWithCooldown", { cooldown })}
 						</Button>
 
-						<Button variant="secondary" title={t("labels.submitBtn")} isLoading={isLoading} type="submit">
+						<Button
+							variant="secondary"
+							title={t("labels.submitBtn")}
+							disabled={isCodeSending || isLoading}
+							isLoading={isLoading}
+							type="submit"
+						>
 							{t("actions.submitBtn")}
 						</Button>
 					</div>

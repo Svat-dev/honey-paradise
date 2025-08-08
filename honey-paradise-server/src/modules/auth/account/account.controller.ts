@@ -13,7 +13,7 @@ import { VerificationService } from "../verification/verification.service";
 import { AccountService } from "./account.service";
 import type { CreateUserDto } from "./dto/create-user.dto";
 import type { EmailVerifyDto, UpdateEmailDto } from "./dto/email-verification.dto";
-import { PasswordRecoverDto, UpdatePasswordAuthDto, UpdatePasswordDto } from "./dto/password-recover.dto";
+import type { PasswordRecoverDto, UpdatePasswordAuthDto, UpdatePasswordDto } from "./dto/password-recover.dto";
 
 @Controller(EnumApiRoute.ACCOUNT)
 export class AccountController {

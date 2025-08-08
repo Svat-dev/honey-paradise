@@ -13,7 +13,7 @@ export const accountService = {
 	},
 
 	updateEmail: async (dto: IPasswordRecoverDto) => {
-		const res = await instance.post<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_EMAIL, dto);
+		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_EMAIL, dto);
 
 		return res;
 	},

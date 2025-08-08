@@ -51,7 +51,8 @@ export const useEmailConfirmation = (utm_source?: EnumAppRoute) => {
 		limit,
 		cooldown,
 		refreshCode,
-		isLoading: isCodeSending || isVerifying,
+		isLoading: isVerifying,
+		isCodeSending,
 		isFromSignIn,
 		isFromAccount,
 	};

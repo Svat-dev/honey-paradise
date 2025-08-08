@@ -54,6 +54,9 @@ export const useSecuritySection = (accRefetch: (opts?: RefetchOptions) => void) 
 };
 
 export const useChangePasswordModal = () => {
+	const t = useTranslations("global.settings.content.account.content");
+	const et = useTranslations("global.settings.content.account.content.security.changePasswordModal");
+
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	const { isPasswordUpdating, updatePasswordAsync } = useUpdatePasswordS();
@@ -61,7 +64,7 @@ export const useChangePasswordModal = () => {
 	const defaultValues =
 		typeof window !== "undefined" ? JSON.parse(sessionStorage.getItem(EnumSessionStorageKeys.CHANGE_PASSWORD_MODAL) || "{}") : {};
 
-	const schema = createChangeTwoPasswordSchema(() => {});
+	const schema = createChangeTwoPasswordSchema(et);
 	const form = useForm<TPasswordChangeTwoFields>({
 		resolver: zodResolver(schema),
 		mode: "onChange",
@@ -75,7 +78,7 @@ export const useChangePasswordModal = () => {
 			form.reset();
 			setIsOpen(false);
 
-			toast.success("Пароль успешно изменен");
+			toast.success(t("toasters.changePasswordModal.success"));
 		} catch (e) {
 			const { errMsg } = errorCatch(e as AxiosError);
 
@@ -97,5 +100,6 @@ export const useChangePasswordModal = () => {
 		isOpen,
 		setIsOpen,
 		isPasswordUpdating,
+		t,
 	};
 };

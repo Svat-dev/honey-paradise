@@ -18,7 +18,7 @@ import { useChangePasswordModal } from "../../../hooks/useSecuritySection";
 interface IProps extends PropsWithChildren {}
 
 const ChangePasswordModal: FC<IProps> = ({ children }) => {
-	const { form, isOpen, isPasswordUpdating, onSubmit, setIsOpen } = useChangePasswordModal();
+	const { form, isOpen, isPasswordUpdating, onSubmit, setIsOpen, t } = useChangePasswordModal();
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -27,18 +27,16 @@ const ChangePasswordModal: FC<IProps> = ({ children }) => {
 				<FormProvider {...form}>
 					<form onSubmit={onSubmit}>
 						<DialogHeader className="tw-mb-7">
-							<DialogTitle>{"Изменение пароля"}</DialogTitle>
+							<DialogTitle>{t("security.changePasswordModal.title")}</DialogTitle>
 
-							<DialogDescription className="tw-ml-1">
-								{"Поменяйте свой пароль на какой пожелаете, если у вас включена 2fa после смены вам нужно будет войти в аккаунт снова"}
-							</DialogDescription>
+							<DialogDescription className="tw-ml-1">{t("security.changePasswordModal.description")}</DialogDescription>
 						</DialogHeader>
 
 						<FormInput
 							name="password"
 							type="password"
 							placeholder="••••••••••"
-							label="Введите новый пароль"
+							label={t("security.changePasswordModal.placeholders.new")}
 							tabIndex={1}
 							disabled={isPasswordUpdating}
 							containerClassName="tw-mb-12"
@@ -50,7 +48,7 @@ const ChangePasswordModal: FC<IProps> = ({ children }) => {
 							name="confirmPassword"
 							type="password"
 							placeholder="••••••••••"
-							label="Подтвердите новый пароль"
+							label={t("security.changePasswordModal.placeholders.confirmNew")}
 							tabIndex={2}
 							disabled={isPasswordUpdating}
 							containerClassName="tw-mb-10"
@@ -62,11 +60,12 @@ const ChangePasswordModal: FC<IProps> = ({ children }) => {
 							<Button
 								variant="secondary"
 								type="submit"
+								title={t("labels.changePasswordBtn")}
 								tabIndex={3}
 								className="tw-py-1.5 tw-px-2 tw-border tw-border-muted"
 								isLoading={isPasswordUpdating}
 							>
-								{"Сохранить изменения"}
+								{t("security.changePasswordModal.confirmBtn")}
 							</Button>
 						</DialogFooter>
 					</form>
@@ -77,4 +76,3 @@ const ChangePasswordModal: FC<IProps> = ({ children }) => {
 };
 
 export { ChangePasswordModal };
-

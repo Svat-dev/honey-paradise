@@ -10,7 +10,7 @@ import { hash } from "argon2";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { DEFAULT_AVATAR_PATH } from "src/shared/lib/common/constants";
-import { UpdateUserSettingsDto } from "./dto/update-user-settings.dto";
+import type { UpdateUserSettingsDto } from "./dto/update-user-settings.dto";
 
 @Injectable()
 export class ProfileService {

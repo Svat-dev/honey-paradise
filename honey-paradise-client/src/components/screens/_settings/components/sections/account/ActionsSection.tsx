@@ -1,23 +1,25 @@
 import { Button, Separator, Title } from "@/components/ui/common";
 
 import { useMyAccount } from "@hooks/auth";
+import { useTranslations } from "next-intl";
 import styles from "../../../styles/account.module.scss";
 
 const ActionsSection = () => {
+	const t = useTranslations("global.settings.content.account.content.actions");
 	const { isAccLoading, logout } = useMyAccount();
 
 	return (
 		<section className={styles["actions-wrapper"]}>
-			<Title size="sm">{"Действия"}</Title>
+			<Title size="sm">{t("title")}</Title>
 
 			<div>
 				<div>
-					<p>{"Выход"}</p>
-					<p>{"Завершите сеанс, чтобы выйти из аккаунта на этом устройстве"}</p>
+					<p>{t("logout.title")}</p>
+					<p>{t("logout.description")}</p>
 				</div>
 
-				<Button variant="destructive" isLoading={isAccLoading} onClick={() => logout()}>
-					{"Выйти из системы"}
+				<Button variant="destructive" title={t("logout.btn")} isLoading={isAccLoading} onClick={() => logout()}>
+					{t("logout.btn")}
 				</Button>
 			</div>
 
@@ -25,12 +27,12 @@ const ActionsSection = () => {
 
 			<div>
 				<div>
-					<p>{"Удаление аккаунта"}</p>
-					<p>{"Удаление аккаунта приведет к его полному уничтожению без возможности возврата"}</p>
+					<p>{t("delete.title")}</p>
+					<p>{t("delete.description")}</p>
 				</div>
 
-				<Button variant="destructive" disabled>
-					{"Удалить аккаунт"}
+				<Button variant="destructive" title={t("delete.btn")} disabled>
+					{t("delete.btn")}
 				</Button>
 			</div>
 		</section>
