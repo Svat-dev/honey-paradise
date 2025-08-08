@@ -39,8 +39,10 @@ export class VerificationService {
 
 		await this.prisma.token.delete({
 			where: {
-				userId: user.id,
-				type: EnumTokenTypes.EMAIL_VERIFY,
+				user_id_type: {
+					userId: user.id,
+					type: EnumTokenTypes.EMAIL_VERIFY,
+				},
 			},
 		});
 
@@ -65,8 +67,10 @@ export class VerificationService {
 
 		await this.prisma.token.delete({
 			where: {
-				userId: user.id,
-				type: EnumTokenTypes.PASSWORD_RECOVERY,
+				user_id_type: {
+					userId: user.id,
+					type: EnumTokenTypes.PASSWORD_RECOVERY,
+				},
 			},
 		});
 
@@ -82,8 +86,10 @@ export class VerificationService {
 
 		await this.prisma.token.delete({
 			where: {
-				userId: user.id,
-				type: EnumTokenTypes.TFA_VERIFY,
+				user_id_type: {
+					userId: user.id,
+					type: EnumTokenTypes.TFA_VERIFY,
+				},
 			},
 		});
 
@@ -93,7 +99,7 @@ export class VerificationService {
 		return saveSession(req, user, metadata, this.i18n);
 	}
 
-	async sendVerificationEmail(req: Request) {
+	async sendVerificationEmail(req: Request, userAgent: string) {
 		const email = req.cookies[EnumStorageKeys.CURRENT_EMAIL];
 		const user = await this.userService.getProfile(email, "email");
 
@@ -117,7 +123,9 @@ export class VerificationService {
 			},
 		});
 
-		await this.mailService.sendConfirmationMail(user.email, token, user.username);
+		const metadata = getSessionMetadata(req, userAgent);
+
+		await this.mailService.sendConfirmationMail(user.email, token, user.username, metadata);
 
 		return true;
 	}
@@ -152,7 +160,8 @@ export class VerificationService {
 		return true;
 	}
 
-	async sendRecoverPasswordEmail(req: Request, userAgent: string, email: string) {
+	async sendRecoverPasswordEmail(req: Request, res: Response, userAgent: string) {
+		const email = req.cookies[EnumStorageKeys.CURRENT_EMAIL];
 		const user = await this.userService.getProfile(email, "email");
 
 		if (!user) throw new NotFoundException(this.i18n.t("d.errors.account.not_found_email"));
@@ -175,8 +184,9 @@ export class VerificationService {
 			},
 		});
 
-		const metadata = getSessionMetadata(req, userAgent);
+		res.clearCookie(EnumStorageKeys.CURRENT_EMAIL);
 
+		const metadata = getSessionMetadata(req, userAgent);
 		await this.mailService.sendPasswordRecoveryMail(user.email, token, user.username, metadata);
 
 		return true;

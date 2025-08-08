@@ -2,22 +2,71 @@
 	"emails": {
 		"confirmation": {
 			"subject": "Email confirmation",
+			"preview": "Confirm your email, your code is {token}",
+			"title": "Email confirmation",
 			"content": {
-				"heading": "Confirm your email address",
-				"greeting": "Hello, {username}!",
-				"code": "Here is your email confirmation code:",
-				"codeLifetime": "This code is valid for only 30 minutes.",
-				"farewell": "Sincerely, Honey Paradise team",
-				"noReply": "Do not reply to this email. It was sent by a robot"
+				"heading": "Confirm your account login",
+				"greeting": {
+					"1": "Hello, {username}!",
+					"2": "Someone is trying to register using your email!",
+					"3": "If it's you, just confirm your email to start using your account"
+				},
+				"code": "To confirm your email, enter the following code"
 			}
 		},
 		"password_recovery": {
 			"subject": "Password recovery",
-			"content": {}
+			"preview": "Password recover. Follow the link to reset your password",
+			"title": "Reset your account password",
+			"content": {
+				"heading": "Follow the link to reset your password",
+				"greeting": {
+					"1": "Hello, {username}!",
+					"2": "Someone requested a password reset from your account, if it's not you, then check",
+					"3": "in the settings for devices unknown to you",
+					"link": "devices section"
+				},
+				"button": {
+					"label": "To recover the password, please click on the button below:",
+					"text": "Recover password",
+					"link": "Or follow the link:"
+				}
+			}
 		},
 		"tfa": {
-			"subject": "Двухфакторная аутентификация",
-			"content": {}
+			"subject": "Two-factor authentication",
+			"preview": "Two-factor authentication. Enter the code, {token}, to sign in to your account",
+			"title": "Account sign in confirmation",
+			"content": {
+				"heading": "Confirm signing in to your account",
+				"greeting": {
+					"1": "Hello, {username}!",
+					"2": "Someone is trying to sign in to your account from a new device!"
+				},
+				"code": "To sign in, enter the following code"
+			}
+		},
+		"shared": {
+			"app_name": "Honey Paradise",
+			"codeLifetime": "Pay attention! The code is only valid for 30 minutes.",
+			"notYou": {
+				"default": "If you didn't initiate this request, please ignore this message",
+				"link": "change password",
+				"withAdvice": {
+					"1": "If you didn't initiate this request, please. ignore this message, you should also",
+					"2": " to increase security"
+				}
+			},
+			"support": "If you have any questions or encounter difficulties, do not hesitate to contact our support team at",
+			"farewell": "Sincerely, Honey Paradise Team",
+			"noreply": "Do not reply to this email. It was sent by a robot",
+			"device-info": {
+				"heading": "Device information:",
+				"location": "Location:",
+				"os": "Operating system:",
+				"browser": "Browser:",
+				"ip": "IP address:"
+			}
 		}
 	},
 	"errors": {

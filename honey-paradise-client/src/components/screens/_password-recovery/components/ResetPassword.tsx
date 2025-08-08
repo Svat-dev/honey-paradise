@@ -12,7 +12,7 @@ import { useResetPassword } from "../hooks/useResetPassword";
 import styles from "../styles/reset-password.module.scss";
 
 const ResetPassword = () => {
-	const { isCodeSending, onSubmit, dataStatus, isSuccess, form, resendCode, cooldown, t } = useResetPassword();
+	const { isCodeSending, onSubmit, dataStatus, isSuccess, form, resendCode, cooldown, toAuth, t } = useResetPassword();
 
 	return (
 		<section data-status={dataStatus} className={cn(_styles["wrapper"], styles["wrapper"])}>
@@ -53,7 +53,7 @@ const ResetPassword = () => {
 							/>
 
 							<div className={styles["actions-wrapper"]}>
-								<Button variant="secondary" title={t("labels.toAuthBtn")} disabled={isSuccess || isCodeSending}>
+								<Button variant="secondary" title={t("labels.toAuthBtn")} onClick={toAuth} disabled={isSuccess || isCodeSending}>
 									{t("actions.toAuthBtn")}
 								</Button>
 

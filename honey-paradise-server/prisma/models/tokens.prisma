@@ -1,8 +1,8 @@
 model Token {
-  id Int @id @default(autoincrement())
+  id Int @unique @default(autoincrement())
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @unique @map("user_id") @db.Uuid
+  userId String @map("user_id") @db.Uuid
 
   token     String
   type      EnumTokenTypes
@@ -10,5 +10,6 @@ model Token {
 
   createdAt DateTime @default(now()) @map("created_at")
 
+  @@id(fields: [userId, type], name: "user_id_type")
   @@map("tokens")
 }

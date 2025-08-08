@@ -13,7 +13,7 @@ import { VerificationService } from "../verification/verification.service";
 import { AccountService } from "./account.service";
 import type { CreateUserDto } from "./dto/create-user.dto";
 import type { EmailVerifyDto, UpdateEmailDto } from "./dto/email-verification.dto";
-import type { PasswordRecoverDto, UpdatePasswordAuthDto, UpdatePasswordDto } from "./dto/password-recover.dto";
+import type { UpdatePasswordAuthDto, UpdatePasswordDto } from "./dto/password-recover.dto";
 
 @Controller(EnumApiRoute.ACCOUNT)
 export class AccountController {
@@ -32,8 +32,13 @@ export class AccountController {
 	@HttpCode(HttpStatus.OK)
 	@Recaptcha()
 	@Post(EnumApiRoute.CREATE)
-	createAccount(@Body() dto: CreateUserDto, @Req() req: Request, @Res({ passthrough: true }) res: Response) {
-		return this.accountService.create(dto, req, res);
+	createAccount(
+		@Body() dto: CreateUserDto,
+		@Req() req: Request,
+		@Res({ passthrough: true }) res: Response,
+		@UserAgent() userAgent: string
+	) {
+		return this.accountService.create(dto, req, res, userAgent);
 	}
 
 	@HttpCode(HttpStatus.OK)
@@ -47,8 +52,8 @@ export class AccountController {
 
 	@HttpCode(HttpStatus.OK)
 	@Post(EnumApiRoute.SEND_VERIFICATION_CODE)
-	sendEmailVerification(@Req() req: Request) {
-		return this.verificationService.sendVerificationEmail(req);
+	sendEmailVerification(@Req() req: Request, @UserAgent() userAgent: string) {
+		return this.verificationService.sendVerificationEmail(req, userAgent);
 	}
 
 	@HttpCode(HttpStatus.OK)
@@ -59,8 +64,8 @@ export class AccountController {
 
 	@HttpCode(HttpStatus.OK)
 	@Post(EnumApiRoute.RESET_PASSWORD)
-	resetPassword(@Body() dto: PasswordRecoverDto, @Req() req: Request, @UserAgent() userAgent: string) {
-		return this.verificationService.sendRecoverPasswordEmail(req, userAgent, dto.email);
+	resetPassword(@Req() req: Request, @Res({ passthrough: true }) res: Response, @UserAgent() userAgent: string) {
+		return this.verificationService.sendRecoverPasswordEmail(req, res, userAgent);
 	}
 
 	@HttpCode(HttpStatus.OK)

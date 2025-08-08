@@ -1,57 +1,103 @@
 import * as React from "react";
 
-import { Body, Heading, Html, Link, Preview, Section, Tailwind, Text } from "@react-email/components";
+import { Body, Button, Font, Head, Hr, Html, Preview, Section, Tailwind } from "@react-email/components";
 
+import { EnumClientRoutes } from "src/shared/types/client/enums.type";
 import type { SessionMetadata } from "src/shared/types/session-metadata.type";
 
 type Props = {
 	link: string;
 	email: string;
-	username: string;
 	metadata: SessionMetadata;
+	domain: string;
 	t: any;
 };
 
-const PasswordRecoveryTemplate: React.FC<Props> = ({ link, t, username, metadata, email }) => {
+const PasswordRecoveryTemplate: React.FC<Props> = ({ link, t, domain, metadata, email }) => {
+	const index_page = `${domain}${EnumClientRoutes.INDEX}`;
+	const change_password_page = `${domain}${EnumClientRoutes.RESET_PASSWORD}`;
+	const devices_page = `${domain}${EnumClientRoutes.DEVICES}`;
+
 	return (
 		<Html>
-			<Preview>Сброс пароля</Preview>
+			<Preview>{t.password_recovery.preview}</Preview>
+			<Head>
+				<title>{t.password_recovery.title}</title>
+				<Font fallbackFontFamily={"Arial"} fontFamily="Rubik" />
+			</Head>
 			<Tailwind>
-				<Body className="max-w-2xl mx-auto p-6 bg-[#fffcdf]">
-					<Section className="text-center mb-8">
-						<Heading className="text-3xl text-black font-bold">Сброс пароля</Heading>
+				<Body className="bg-[#fffcdf] flex flex-col items-center justify-center w-full h-full text-base">
+					<Section className="max-w-[550px]">
+						<h2 className="text-2xl font-bold mt-8 text-center uppercase">
+							<a href={index_page} className="no-underline text-black">
+								{t.shared.app_name}
+							</a>
+						</h2>
 
-						<Text className="text-black text-base mt-2">Здравствуйте, {username}!</Text>
-						<Text className="text-black text-base mt-2">Вы запросили сброс пароля для вашей учетной записи.</Text>
-						<Text className="text-black text-base mt-2">Чтобы создать новый пароль, нажмите на ссылку ниже:</Text>
-						<Link href={link} className="inline-flex justify-center items-center rounded-full text-sm font-medium text-black px-5 py-2">
-							Сбросить пароль
-						</Link>
-					</Section>
+						<Hr className="bg-[#FFD700] w-full h-[2px] my-5" />
 
-					<Section className="rounded-lg p-6 mb-6">
-						<Heading className="text-xl font-semibold">Информация о запросе:</Heading>
+						<p className="mb-2 text-center">{t.password_recovery.content.greeting["1"]}</p>
+						<p className="mb-5">
+							{t.password_recovery.content.greeting["2"]}{" "}
+							<a href={devices_page} className="text-black underline">
+								{t.password_recovery.content.greeting.link}
+							</a>{" "}
+							{t.password_recovery.content.greeting["3"]}
+						</p>
 
-						<ul className="list-disc list-inside text-black mt-2">
-							<li>
-								🌍 Расположение: {metadata.location.country}, {metadata.location.city}
+						<p className="mb-1">{t.shared["device-info"].heading}</p>
+						<ul className="list-none rounded-md py-1 px-3 mr-10 mb-5">
+							<li className="mb-1">
+								<span className="font-semibold">🌍 {t.shared["device-info"].location}</span> {metadata.location.country},{" "}
+								{metadata.location.city}
 							</li>
-							<li>📱 Операционная система: {metadata.device.os}</li>
-							<li>🌐 Браузер: {metadata.device.browser}</li>
-							<li>💻 IP-адрес: {metadata.ip}</li>
+							<li className="mb-1">
+								<span className="font-semibold">📱 {t.shared["device-info"].os}</span> {metadata.device.os}
+							</li>
+							<li className="mb-1">
+								<span className="font-semibold">🌐 {t.shared["device-info"].browser}</span> {metadata.device.browser}
+							</li>
+							<li>
+								<span className="font-semibold">💻 {t.shared["device-info"].ip}</span> {metadata.ip}
+							</li>
 						</ul>
 
-						<Text className="text-gray-600 mt-2">Если вы не инициировали этот запрос, пожалуйста, игнорируйте это сообщение.</Text>
-					</Section>
+						<p className="mb-5">{t.password_recovery.content.button.label}</p>
+						<Section className="text-center">
+							<Button href={link} type="button" className="bg-[#FFD700] py-2 px-3 rounded-md w-fit cursor-pointer text-black">
+								{t.password_recovery.content.button.text}
+							</Button>
+							<p className="text-gray-600 text-xs text-center mt-2">
+								{t.password_recovery.content.button.link}{" "}
+								<a href={link} className="underline text-gray-600">
+									{link}
+								</a>
+							</p>
+						</Section>
 
-					<Section className="text-center mt-8">
-						<Text className="text-gray-600">
-							Если у вас есть вопросы или вы столкнулись с трудностями, не стесняйтесь обращаться в нашу службу поддержки по адресу{" "}
-							<Link href={`mailto:${email}`} className="text-black underline">
-								{email}
-							</Link>
-							.
-						</Text>
+						<Hr className="bg-[#FFD700] w-full h-[2px] my-5" />
+
+						<p className="text-sm text-gray-600">
+							{t.shared.notYou.withAdvice["1"]}{" "}
+							<a href={change_password_page} className="text-black underline">
+								{t.shared.notYou.link}
+							</a>
+							{t.shared.notYou.withAdvice["2"]}
+						</p>
+
+						<footer className="mt-12">
+							<p className="text-center text-gray-600 mb-4">
+								{t.shared.support}{" "}
+								<a href={`mailto:${email}`} className="text-black underline">
+									{email}
+								</a>
+								.
+							</p>
+
+							<p>{t.shared.farewell}</p>
+
+							<p className="text-gray-600 text-sm text-center mt-5">{t.shared.noreply}</p>
+						</footer>
 					</Section>
 				</Body>
 			</Tailwind>

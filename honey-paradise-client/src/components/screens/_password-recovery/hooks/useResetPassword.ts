@@ -1,9 +1,13 @@
 import { errorCatch } from "@/api/api-helper";
 import { useSendPasswordRecoverCodeS } from "@/services/hooks/account";
+import { EnumStorageKeys } from "@constants/base";
+import { EnumAppRoute } from "@constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createPasswordResetSchema, type TPasswordResetFields } from "@schemas/password-recovery.schema";
 import type { AxiosError } from "axios";
+import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -14,6 +18,7 @@ export const useResetPassword = () => {
 	const successDelay = 2000;
 
 	const t = useTranslations("global.password-recovery.content.reset");
+	const { push } = useRouter();
 
 	const [dataStatus, setDataStatus] = useState<TDataStatus>("default");
 	const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -36,6 +41,10 @@ export const useResetPassword = () => {
 		setDataStatus("default");
 	};
 
+	const toAuth = () => {
+		push(EnumAppRoute.SIGN_IN);
+	};
+
 	const onError = (msg: string) => {
 		setDataStatus("error");
 		toast.error(msg, { duration: errorDelay });
@@ -45,6 +54,13 @@ export const useResetPassword = () => {
 
 	const onSubmit = async (data: TPasswordResetFields) => {
 		try {
+			Cookies.set(EnumStorageKeys.CURRENT_EMAIL, data.email, {
+				sameSite: "lax",
+				domain: process.env.NEXT_PUBLIC_DOMAIN,
+				expires: 0.25,
+				path: EnumAppRoute.INDEX,
+			});
+
 			await sendPasswordRecoverCodeAsync(data.email);
 
 			setDataStatus("good");
@@ -76,6 +92,7 @@ export const useResetPassword = () => {
 		isSuccess,
 		resendCode,
 		cooldown,
+		toAuth,
 		t,
 	};
 };

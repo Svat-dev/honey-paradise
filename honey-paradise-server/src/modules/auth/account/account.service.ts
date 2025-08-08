@@ -33,7 +33,7 @@ export class AccountService {
 		return user;
 	}
 
-	async create(dto: CreateUserDto, req: Request, res: Response) {
+	async create(dto: CreateUserDto, req: Request, res: Response, userAgent: string) {
 		const { email, password, birthdate, gender, username } = dto;
 
 		const isEmailExist = await this.profileService.getProfile(email, "email");
@@ -63,7 +63,7 @@ export class AccountService {
 			path: EnumClientRoutes.INDEX,
 		});
 
-		return this.verificationService.sendVerificationEmail(req);
+		return this.verificationService.sendVerificationEmail(req, userAgent);
 	}
 
 	async changeEmail(id: string, email: string) {

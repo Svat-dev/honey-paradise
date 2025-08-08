@@ -1,13 +1,6 @@
-import { IsEmail, IsNotEmpty, IsString, IsUUID, MaxLength, MinLength } from "class-validator";
+import { IsNotEmpty, IsString, IsUUID, MaxLength, MinLength } from "class-validator";
 
 import { VALUES } from "src/shared/lib/common/constants";
-
-export class PasswordRecoverDto {
-	@IsNotEmpty({ message: "" })
-	@IsString({ message: "" })
-	@IsEmail({}, { message: "" })
-	email: string;
-}
 
 export class UpdatePasswordAuthDto {
 	@IsNotEmpty({ message: "" })

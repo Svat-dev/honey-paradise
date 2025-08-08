@@ -102,7 +102,7 @@ export class SessionsService {
 		if (!isValidPassword) throw new UnauthorizedException(this.i18n.t("d.errors.invalid_password"));
 
 		if (!user.isVerified) {
-			await this.verificationService.sendVerificationEmail(req);
+			await this.verificationService.sendVerificationEmail(req, userAgent);
 
 			res.cookie(EnumStorageKeys.CURRENT_EMAIL, user.email, {
 				sameSite: "lax",
