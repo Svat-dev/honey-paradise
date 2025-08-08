@@ -1,11 +1,10 @@
 import { errorCatch } from "@/api/api-helper";
 import { useSendVerificationCodeS } from "@/services/hooks/account";
 import { useSendTFACodeS } from "@/services/hooks/auth";
-import { EnumStorageKeys, errorCauses } from "@constants/base";
+import { errorCauses } from "@constants/base";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createConfirmationSchema, type TConfirmationFields } from "@schemas/confirmation.schema";
 import type { AxiosError } from "axios";
-import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -52,10 +51,8 @@ export const useConfirmation = (value: 4 | 6) => {
 
 	const refreshCode = async () => {
 		try {
-			const email = Cookies.get(EnumStorageKeys.CURRENT_EMAIL) || "";
-
 			if (value === 4) await sendTFACodeAsync();
-			else if (value === 6) await sendEmailCodeAsync(email);
+			else if (value === 6) await sendEmailCodeAsync();
 			else throw new Error("Error 500. Cant refresh code");
 
 			setCooldown(base_cooldown);

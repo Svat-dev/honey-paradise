@@ -1,11 +1,5 @@
 import { defaultInstance, instance } from "@/api/instance";
-import type {
-	IEmailVerificationDto,
-	IEmailVerifyDto,
-	IPasswordRecoverDto,
-	IRecoverPasswordDto,
-	IUpdatePasswordDto,
-} from "./types/account-service.type";
+import type { IEmailVerifyDto, IPasswordRecoverDto, IRecoverPasswordDto, IUpdatePasswordDto } from "./types/account-service.type";
 
 import type { IUserFull } from "@/shared/types/models";
 import { EnumApiRoute } from "@constants/routes";
@@ -18,7 +12,7 @@ export const accountService = {
 		return res;
 	},
 
-	updateEmail: async (dto: IEmailVerificationDto) => {
+	updateEmail: async (dto: IPasswordRecoverDto) => {
 		const res = await instance.post<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_EMAIL, dto);
 
 		return res;
@@ -36,8 +30,8 @@ export const accountService = {
 		return res;
 	},
 
-	sendVerificationCode: async (dto: IEmailVerificationDto) => {
-		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(EnumApiRoute.SEND_EMAIL_VERIFICATION_CODE, dto);
+	sendVerificationCode: async () => {
+		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(EnumApiRoute.SEND_EMAIL_VERIFICATION_CODE, {});
 
 		return res;
 	},

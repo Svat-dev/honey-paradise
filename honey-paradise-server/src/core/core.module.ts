@@ -12,7 +12,7 @@ import { SessionsModule } from "src/modules/auth/sessions/sessions.module";
 import { VerificationModule } from "src/modules/auth/verification/verification.module";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
 import { IS_DEV_ENV } from "src/shared/lib/common/utils/is-dev.util";
-import { EnumStorageTokens } from "src/shared/types/client/enums.type";
+import { EnumStorageKeys } from "src/shared/types/client/enums.type";
 import { getI18nConfig } from "./config/i18n.config";
 import { MailModule } from "./mail/mail.module";
 import { PrismaModule } from "./prisma/prisma.module";
@@ -33,7 +33,7 @@ import { RedisModule } from "./redis/redis.module";
 			imports: [ConfigModule],
 			inject: [ConfigService],
 			useFactory: getI18nConfig,
-			resolvers: [new CookieResolver([EnumStorageTokens.LOCALE_LANGUAGE])],
+			resolvers: [new CookieResolver([EnumStorageKeys.LOCALE_LANGUAGE])],
 		}),
 		MailModule,
 

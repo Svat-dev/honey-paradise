@@ -1,6 +1,6 @@
 import { IsBoolean, IsEmail, IsNotEmpty, IsOptional, IsString, Length } from "class-validator";
 
-export class EmailVerificationDto {
+export class UpdateEmailDto {
 	@IsNotEmpty({ message: "" })
 	@IsString({ message: "" })
 	@IsEmail({}, { message: "" })

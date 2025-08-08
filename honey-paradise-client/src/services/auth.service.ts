@@ -1,8 +1,8 @@
 import { defaultInstance, instance } from "@/api/instance";
+import type { AxiosResponse } from "axios";
 import type { IAuthTfaDto, ICreateAccountDto, ISignInDto } from "./types/auth-service.type";
 
 import { EnumApiRoute } from "@constants/routes";
-import type { AxiosResponse } from "axios";
 
 export const authService = {
 	createAccount: async (dto: ICreateAccountDto, recaptcha?: string) => {
@@ -14,7 +14,7 @@ export const authService = {
 			birthdate: dto.birthdate || undefined,
 		};
 
-		const res = await defaultInstance.post<boolean>(EnumApiRoute.CREATE_ACCOUNT, data, { headers });
+		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(EnumApiRoute.CREATE_ACCOUNT, data, { headers });
 
 		return res.data;
 	},
@@ -28,19 +28,19 @@ export const authService = {
 	},
 
 	sendTFACode: async () => {
-		const res = await defaultInstance.post(EnumApiRoute.SEND_TFA_CODE, {});
+		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(EnumApiRoute.SEND_TFA_CODE, {});
 
 		return res;
 	},
 
 	verifyTFACode: async (dto: IAuthTfaDto) => {
-		const res = await defaultInstance.post(EnumApiRoute.VERIFY_TFA, dto);
+		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(EnumApiRoute.VERIFY_TFA, dto);
 
 		return res;
 	},
 
 	logout: async () => {
-		const res = await instance.post(EnumApiRoute.LOGOUT, {});
+		const res = await instance.post<any, AxiosResponse<boolean>>(EnumApiRoute.LOGOUT, {});
 
 		return res;
 	},

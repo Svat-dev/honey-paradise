@@ -1,7 +1,3 @@
-export interface IEmailVerificationDto {
-	email: string;
-}
-
 export interface IUpdatePasswordDto {
 	password: string;
 }

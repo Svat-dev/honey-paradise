@@ -11,7 +11,7 @@ import { TOKENS_LENGTH } from "src/shared/lib/common/constants";
 import { ms } from "src/shared/lib/common/utils";
 import { getSessionMetadata } from "src/shared/lib/common/utils/session-metadat.util";
 import { saveSession } from "src/shared/lib/common/utils/session.util";
-import { EnumErrorCauses, EnumStorageTokens } from "src/shared/types/client/enums.type";
+import { EnumErrorCauses, EnumStorageKeys } from "src/shared/types/client/enums.type";
 import { v4 as uuidv4 } from "uuid";
 import type { EmailVerifyDto } from "../account/dto/email-verification.dto";
 import type { UpdatePasswordDto } from "../account/dto/password-recover.dto";
@@ -27,7 +27,7 @@ export class VerificationService {
 		private readonly i18n: I18nService
 	) {}
 
-	async verifyEmail(req: Request, dto: EmailVerifyDto, userAgent: string) {
+	async verifyEmail(req: Request, res: Response, dto: EmailVerifyDto, userAgent: string) {
 		const { token, isNeedAuth } = dto;
 
 		const existingToken = await this.prisma.token.findFirst({
@@ -47,6 +47,8 @@ export class VerificationService {
 				type: EnumTokenTypes.EMAIL_VERIFY,
 			},
 		});
+
+		res.clearCookie(EnumStorageKeys.CURRENT_EMAIL);
 
 		if (!isNeedAuth) return true;
 
@@ -100,13 +102,14 @@ export class VerificationService {
 			},
 		});
 
-		res.clearCookie(EnumStorageTokens.CURRENT_EMAIL);
+		res.clearCookie(EnumStorageKeys.CURRENT_EMAIL);
 
 		const metadata = getSessionMetadata(req, userAgent);
 		return saveSession(req, user, metadata, this.i18n);
 	}
 
-	async sendVerificationEmail(email: string) {
+	async sendVerificationEmail(req: Request) {
+		const email = req.cookies[EnumStorageKeys.CURRENT_EMAIL];
 		const user = await this.userService.getProfile(email, "email");
 
 		if (!user) throw new NotFoundException(this.i18n.t("d.errors.account.not_found_email"));

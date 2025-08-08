@@ -1,10 +1,8 @@
 import { useVerifyEmailS } from "@/services/hooks/account";
-import { EnumStorageKeys } from "@constants/base";
 import { EnumAppRoute } from "@constants/routes";
 import { useAuth } from "@hooks/auth";
 import type { TConfirmationFields } from "@schemas/confirmation.schema";
 import type { AxiosError } from "axios";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
@@ -30,7 +28,6 @@ export const useEmailConfirmation = (utm_source?: EnumAppRoute) => {
 
 			toast.success(t("email.toasters.success"));
 			clearTimeout(timeout);
-			Cookies.remove(EnumStorageKeys.CURRENT_EMAIL);
 			setDataStatus("good");
 
 			return setTimeout(() => {

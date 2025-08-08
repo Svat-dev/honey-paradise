@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { destroySession, saveSession } from "src/shared/lib/common/utils/session.util";
-import { EnumClientRoutes, EnumErrorCauses, EnumStorageTokens } from "src/shared/types/client/enums.type";
+import { EnumClientRoutes, EnumErrorCauses, EnumStorageKeys } from "src/shared/types/client/enums.type";
 
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { ConflictException } from "@nestjs/common/exceptions/conflict.exception";
@@ -102,9 +102,9 @@ export class SessionsService {
 		if (!isValidPassword) throw new UnauthorizedException(this.i18n.t("d.errors.invalid_password"));
 
 		if (!user.isVerified) {
-			await this.verificationService.sendVerificationEmail(user.email);
+			await this.verificationService.sendVerificationEmail(req);
 
-			res.cookie(EnumStorageTokens.CURRENT_EMAIL, user.email, {
+			res.cookie(EnumStorageKeys.CURRENT_EMAIL, user.email, {
 				sameSite: "lax",
 				maxAge: ms("6h"),
 				domain: this.configService.getOrThrow<string>("DOMAIN"),
@@ -115,7 +115,7 @@ export class SessionsService {
 		}
 
 		if (user.isTFAEnabled) {
-			res.cookie(EnumStorageTokens.CURRENT_EMAIL, user.email, {
+			res.cookie(EnumStorageKeys.CURRENT_EMAIL, user.email, {
 				sameSite: "lax",
 				maxAge: ms("6h"),
 				domain: this.configService.getOrThrow<string>("DOMAIN"),
@@ -134,7 +134,7 @@ export class SessionsService {
 	}
 
 	async sendTFACode(req: Request, userAgent: string) {
-		const email = await req.cookies[EnumStorageTokens.CURRENT_EMAIL];
+		const email = await req.cookies[EnumStorageKeys.CURRENT_EMAIL];
 		const user = await this.prisma.user.findUnique({ where: { email } });
 
 		if (!user || !email) throw new NotFoundException(this.i18n.t("d.errors.profile.not_found"));

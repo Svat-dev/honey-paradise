@@ -46,7 +46,7 @@ export const useEmailSection = (email: string | undefined, accRefetch: (opts?: R
 			path: EnumAppRoute.AUTH,
 		});
 
-		sendEmailCode(email!);
+		sendEmailCode();
 
 		push(`${EnumAppRoute.EMAIL_CONFIRMATION}&utm_source=${EnumAppRoute.ACCOUNT}`);
 	};

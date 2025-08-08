@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { EnumClientRoutes, EnumStorageTokens } from "src/shared/types/client/enums.type";
+import { EnumClientRoutes, EnumStorageKeys } from "src/shared/types/client/enums.type";
 
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
@@ -33,7 +33,7 @@ export class AccountService {
 		return user;
 	}
 
-	async create(dto: CreateUserDto, res: Response) {
+	async create(dto: CreateUserDto, req: Request, res: Response) {
 		const { email, password, birthdate, gender, username } = dto;
 
 		const isEmailExist = await this.profileService.getProfile(email, "email");
@@ -56,14 +56,14 @@ export class AccountService {
 			},
 		});
 
-		res.cookie(EnumStorageTokens.CURRENT_EMAIL, email, {
+		res.cookie(EnumStorageKeys.CURRENT_EMAIL, email, {
 			sameSite: "lax",
 			maxAge: ms("6h"),
 			domain: this.configService.getOrThrow<string>("DOMAIN"),
 			path: EnumClientRoutes.INDEX,
 		});
 
-		return this.verificationService.sendVerificationEmail(email);
+		return this.verificationService.sendVerificationEmail(req);
 	}
 
 	async changeEmail(id: string, email: string) {
