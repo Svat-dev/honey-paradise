@@ -58,7 +58,8 @@ export const useChangePasswordModal = () => {
 
 	const { isPasswordUpdating, updatePasswordAsync } = useUpdatePasswordS();
 
-	const defaultValues = JSON.parse(sessionStorage.getItem(EnumSessionStorageKeys.CHANGE_PASSWORD_MODAL) || "{}");
+	const defaultValues =
+		typeof window !== "undefined" ? JSON.parse(sessionStorage.getItem(EnumSessionStorageKeys.CHANGE_PASSWORD_MODAL) || "{}") : {};
 
 	const schema = createChangeTwoPasswordSchema(() => {});
 	const form = useForm<TPasswordChangeTwoFields>({

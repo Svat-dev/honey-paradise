@@ -12,3 +12,7 @@ export interface ISignInDto {
 	id: string;
 	password: string;
 }
+
+export interface IAuthTfaDto {
+	token: string;
+}

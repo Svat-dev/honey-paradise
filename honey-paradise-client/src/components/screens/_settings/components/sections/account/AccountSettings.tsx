@@ -1,4 +1,5 @@
 import { useMyAccount } from "@/shared/lib/hooks/auth";
+import { ActionsSection } from "./ActionsSection";
 import { EmailSection } from "./EmailSection";
 import { SecuritySection } from "./SecuritySection";
 
@@ -15,6 +16,8 @@ const AccountSettings = () => {
 				accRefetch={accRefetch}
 				isAccLoading={isAccLoading}
 			/>
+
+			<ActionsSection />
 		</>
 	);
 };

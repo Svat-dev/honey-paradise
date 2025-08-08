@@ -60,7 +60,7 @@ export class AccountService {
 			sameSite: "lax",
 			maxAge: ms("6h"),
 			domain: this.configService.getOrThrow<string>("DOMAIN"),
-			path: EnumClientRoutes.AUTH,
+			path: EnumClientRoutes.INDEX,
 		});
 
 		return this.verificationService.sendVerificationEmail(email);

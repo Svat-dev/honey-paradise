@@ -69,15 +69,60 @@
 		@apply tw-font-medium tw-mb-2;
 	}
 
-	> div {
-		@apply tw-flex tw-items-center tw-justify-between tw-px-2 tw-py-1;
+	> div:nth-of-type(2n) {
+		@apply tw-my-4;
+	}
 
-		> div > p:last-of-type {
-			@apply tw-text-muted tw-text-sm tw-ml-0.5;
+	> div:nth-of-type(2n - 1) {
+		@apply tw-grid tw-items-center tw-gap-4 tw-px-2 tw-py-1;
+		grid-template-columns: auto 1fr min-content;
+
+		> div {
+			&:first-of-type {
+				@apply tw-flex tw-items-center tw-justify-center tw-bg-secondary tw-p-2 tw-rounded-full;
+			}
+
+			> p:first-of-type {
+				@apply tw-font-medium;
+			}
+
+			> p:last-of-type {
+				@apply tw-text-muted tw-text-sm tw-ml-0.5;
+			}
 		}
 
-		&:not(:last-of-type) {
-			@apply tw-mb-5 tw-border-b tw-border-muted;
+		> :last-child {
+			@apply tw-justify-self-end;
+		}
+	}
+}
+
+.actions-wrapper {
+	@apply tw-w-full tw-rounded-lg tw-px-4 tw-py-3 tw-mb-5 tw-border-2 tw-border-red-500;
+
+	> h4 {
+		@apply tw-font-medium tw-mb-1;
+	}
+
+	> div:nth-of-type(2n) {
+		@apply tw-bg-red-500 tw-h-[2px] tw-my-4 !important;
+	}
+
+	> div:nth-of-type(2n - 1) {
+		@apply tw-flex tw-items-center tw-justify-between tw-px-1;
+
+		> div {
+			> p:first-of-type {
+				@apply tw-font-medium;
+			}
+
+			> p:last-of-type {
+				@apply tw-text-muted tw-text-sm;
+			}
+		}
+
+		> button {
+			@apply tw-px-2 tw-py-1.5;
 		}
 	}
 }

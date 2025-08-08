@@ -10,7 +10,7 @@ export const VALUES = {
 export const TOKENS_LENGTH = {
 	EMAIL_VERIFY: 6,
 	PASSWORD_RECOVERY: MAX,
-	TFA_VERIFY: 0,
+	TFA_VERIFY: 4,
 } as const;
 
 export const USERNAME_REGEX = /^[a-zA-Zа-яА-Я0-9_]+$/;

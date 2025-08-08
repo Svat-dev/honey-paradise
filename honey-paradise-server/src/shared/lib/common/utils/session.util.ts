@@ -14,7 +14,7 @@ export function saveSession(req: Request, user: Partial<User>, metadata: Session
 		req.session.save(err => {
 			if (err) return reject(new InternalServerErrorException(i18n.t("d.errors.500.cant_save_session")));
 
-			resolve({ user });
+			resolve({ tfa: false });
 		});
 	});
 }

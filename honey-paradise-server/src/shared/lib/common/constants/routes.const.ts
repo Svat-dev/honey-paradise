@@ -7,6 +7,10 @@ export enum EnumApiRoute {
 	SIGN_IN = "/sign-in",
 	LOGOUT = "/logout",
 
+	TFA = "/tfa",
+	VERIFY_TFA = `${TFA}/verify`,
+	SEND_TFA_CODE = `${TFA}/send-code`,
+
 	ACCOUNT = `${AUTH}/account`,
 	CREATE = "/create",
 	ME = "/me",

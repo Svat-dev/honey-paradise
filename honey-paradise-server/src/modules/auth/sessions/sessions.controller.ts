@@ -8,12 +8,17 @@ import type { Request, Response } from "express";
 import { Authorization } from "src/shared/decorators/auth.decorator";
 import { UserAgent } from "src/shared/decorators/user-agent.decorator";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
+import { VerificationService } from "../verification/verification.service";
 import { AuthLoginDto } from "./dto/auth-login.dto";
+import { AuthTfaDto } from "./dto/auth-tfa.dto";
 import { SessionsService } from "./sessions.service";
 
 @Controller(EnumApiRoute.AUTH)
 export class SessionsController {
-	constructor(private readonly sessionsService: SessionsService) {}
+	constructor(
+		private readonly sessionsService: SessionsService,
+		private readonly verificationService: VerificationService
+	) {}
 
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
@@ -47,6 +52,18 @@ export class SessionsController {
 	@Post(EnumApiRoute.SIGN_IN)
 	login(@Body() dto: AuthLoginDto, @Req() req: Request, @Res({ passthrough: true }) res: Response, @UserAgent() userAgent: string) {
 		return this.sessionsService.login(dto, req, res, userAgent);
+	}
+
+	@HttpCode(HttpStatus.OK)
+	@Post(EnumApiRoute.SEND_TFA_CODE)
+	sendTfaCode(@Req() req: Request, @UserAgent() userAgent: string) {
+		return this.sessionsService.sendTFACode(req, userAgent);
+	}
+
+	@HttpCode(HttpStatus.OK)
+	@Post(EnumApiRoute.VERIFY_TFA)
+	verifyTfa(@Body() dto: AuthTfaDto, @Req() req: Request, @Res({ passthrough: true }) res: Response, @UserAgent() userAgent: string) {
+		return this.verificationService.verifyTFA(req, res, dto, userAgent);
 	}
 
 	@HttpCode(HttpStatus.OK)

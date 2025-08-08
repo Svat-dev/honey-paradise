@@ -6,6 +6,7 @@ import { render } from "@react-email/components";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { EmailConfirmationTemplate } from "src/shared/lib/mail/EmailConfirmationTemplate";
 import { PasswordRecoveryTemplate } from "src/shared/lib/mail/PasswordRecoveryTemplate";
+import { TFAAuthTemplate } from "src/shared/lib/mail/TFAAuthTemplate";
 import { EnumClientRoutes } from "src/shared/types/client/enums.type";
 import type { SessionMetadata } from "src/shared/types/session-metadata.type";
 
@@ -28,12 +29,21 @@ export class MailService {
 
 	async sendPasswordRecoveryMail(email: string, token: string, username: string, metadata: SessionMetadata) {
 		const subject = this.i18n.t("d.emails.password_recovery.subject");
-		const sender = await this.config.getOrThrow<string>("MAIL_USER");
+		const sender = this.config.getOrThrow<string>("MAIL_USER");
 		const link = `${this.config.getOrThrow<string>("CLIENT_URL")}/${EnumClientRoutes.CHANGE_PASSWORD}&token=${token}`;
 
 		const html = await render(
 			await PasswordRecoveryTemplate({ email: sender, link, metadata, t: this.i18n.t("d.emails.password_recovery.content"), username })
 		);
+
+		return this.sendMail(html, subject, email);
+	}
+
+	async sendTFAEmail(email: string, token: string, username: string, metadata: SessionMetadata) {
+		const subject = this.i18n.t("d.emails.tfa.subject");
+		const sender = this.config.getOrThrow<string>("MAIL_USER");
+
+		const html = await render(await TFAAuthTemplate({ email: sender, metadata, t: this.i18n.t("d.emails.tfa.content"), username, token }));
 
 		return this.sendMail(html, subject, email);
 	}

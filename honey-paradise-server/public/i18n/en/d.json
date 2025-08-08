@@ -14,12 +14,17 @@
 		"password_recovery": {
 			"subject": "Password recovery",
 			"content": {}
+		},
+		"tfa": {
+			"subject": "Двухфакторная аутентификация",
+			"content": {}
 		}
 	},
 	"errors": {
 		"auth_to_have_access": "To access this resource, you must be logged in",
 		"not_have_access": "You don't have access to this resource",
 		"invalid_password": "Invalid password.\nPlease check the entered data again",
+		"tfa_not_enabled": "Two-factor authentication is not enabled on this account",
 		"email": {
 			"is_exist": "This email is already occupied by another user"
 		},

@@ -108,14 +108,42 @@ export class SessionsService {
 				sameSite: "lax",
 				maxAge: ms("6h"),
 				domain: this.configService.getOrThrow<string>("DOMAIN"),
-				path: EnumClientRoutes.AUTH,
+				path: EnumClientRoutes.INDEX,
 			});
 
 			throw new UnauthorizedException(this.i18n.t("d.errors.account.not_verified"), { cause: EnumErrorCauses.ACCOUNT_NOT_VERIFIED });
 		}
 
+		if (user.isTFAEnabled) {
+			res.cookie(EnumStorageTokens.CURRENT_EMAIL, user.email, {
+				sameSite: "lax",
+				maxAge: ms("6h"),
+				domain: this.configService.getOrThrow<string>("DOMAIN"),
+				path: EnumClientRoutes.INDEX,
+			});
+
+			await this.verificationService.sendTFAEmail(req, userAgent, user.email);
+
+			return {
+				tfa: true,
+			};
+		}
+
 		const metadata = getSessionMetadata(req, userAgent);
 		return saveSession(req, _user, metadata, this.i18n);
+	}
+
+	async sendTFACode(req: Request, userAgent: string) {
+		const email = await req.cookies[EnumStorageTokens.CURRENT_EMAIL];
+		const user = await this.prisma.user.findUnique({ where: { email } });
+
+		if (!user || !email) throw new NotFoundException(this.i18n.t("d.errors.profile.not_found"));
+
+		if (!user.isTFAEnabled) throw new ConflictException(this.i18n.t("d.errors.tfa_not_enabled"));
+
+		await this.verificationService.sendTFAEmail(req, userAgent, email);
+
+		return true;
 	}
 
 	async logout(req: Request) {

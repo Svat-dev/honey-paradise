@@ -10,7 +10,7 @@ import Image from "next/image";
 import type { FC } from "react";
 import { FormProvider } from "react-hook-form";
 import { useEmailConfirmation } from "../hooks/useEmailConfirmation";
-import styles from "../styles/email-confirmation.module.scss";
+import styles from "../styles/confirmation.module.scss";
 
 interface IEmailConfirmation {
 	utm_source?: EnumAppRoute;
@@ -63,12 +63,18 @@ const EmailConfirmation: FC<IEmailConfirmation> = ({ utm_source }) => {
 					)}
 
 					<div className={styles["actions-wrapper"]}>
-						<Button variant="secondary" disabled={cooldown !== 0} onClick={refreshCode} isLoading={isLoading && cooldown !== 0}>
-							{cooldown === 0 ? t("email.actions.resendBtn") : t("email.actions.resendBtnWithCooldown", { cooldown })}
+						<Button
+							variant="secondary"
+							title={t("actions.resendBtn")}
+							disabled={cooldown !== 0}
+							onClick={refreshCode}
+							isLoading={isLoading && cooldown !== 0}
+						>
+							{cooldown === 0 ? t("actions.resendBtn") : t("actions.resendBtnWithCooldown", { cooldown })}
 						</Button>
 
-						<Button variant="secondary" title={t("email.labels.submitBtn")} isLoading={isLoading} type="submit">
-							{t("email.actions.submitBtn")}
+						<Button variant="secondary" title={t("labels.submitBtn")} isLoading={isLoading} type="submit">
+							{t("actions.submitBtn")}
 						</Button>
 					</div>
 				</form>

@@ -3,7 +3,7 @@ import { EnumTokenTypes, type Token } from "@prisma/client";
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
-import type { Request } from "express";
+import type { Request, Response } from "express";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { MailService } from "src/core/mail/mail.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
@@ -11,11 +11,12 @@ import { TOKENS_LENGTH } from "src/shared/lib/common/constants";
 import { ms } from "src/shared/lib/common/utils";
 import { getSessionMetadata } from "src/shared/lib/common/utils/session-metadat.util";
 import { saveSession } from "src/shared/lib/common/utils/session.util";
-import { EnumErrorCauses } from "src/shared/types/client/enums.type";
+import { EnumErrorCauses, EnumStorageTokens } from "src/shared/types/client/enums.type";
 import { v4 as uuidv4 } from "uuid";
 import type { EmailVerifyDto } from "../account/dto/email-verification.dto";
 import type { UpdatePasswordDto } from "../account/dto/password-recover.dto";
 import { ProfileService } from "../profile/profile.service";
+import { AuthTfaDto } from "../sessions/dto/auth-tfa.dto";
 
 @Injectable()
 export class VerificationService {
@@ -80,6 +81,31 @@ export class VerificationService {
 		return true;
 	}
 
+	async verifyTFA(req: Request, res: Response, dto: AuthTfaDto, userAgent: string) {
+		const { token } = dto;
+
+		const existingToken = await this.prisma.token.findFirst({
+			where: {
+				token,
+				type: EnumTokenTypes.TFA_VERIFY,
+			},
+		});
+
+		const user = await this.validateToken(existingToken);
+
+		await this.prisma.token.delete({
+			where: {
+				userId: user.id,
+				type: EnumTokenTypes.TFA_VERIFY,
+			},
+		});
+
+		res.clearCookie(EnumStorageTokens.CURRENT_EMAIL);
+
+		const metadata = getSessionMetadata(req, userAgent);
+		return saveSession(req, user, metadata, this.i18n);
+	}
+
 	async sendVerificationEmail(email: string) {
 		const user = await this.userService.getProfile(email, "email");
 
@@ -104,6 +130,36 @@ export class VerificationService {
 		});
 
 		await this.mailService.sendConfirmationMail(user.email, token, user.username);
+
+		return true;
+	}
+
+	async sendTFAEmail(req: Request, userAgent: string, email: string) {
+		const user = await this.userService.getProfile(email, "email");
+
+		if (!user) throw new NotFoundException(this.i18n.t("d.errors.account.not_found_email"));
+
+		const existingToken = await this.prisma.token.findFirst({
+			where: { userId: user.id, type: EnumTokenTypes.TFA_VERIFY },
+		});
+
+		if (existingToken) await this.prisma.token.delete({ where: { id: existingToken.id } });
+
+		const token = this.generateAuthToken(EnumTokenTypes.TFA_VERIFY);
+		const expiresIn = new Date(new Date().getTime() + ms("30m"));
+
+		await this.prisma.token.create({
+			data: {
+				userId: user.id,
+				type: EnumTokenTypes.TFA_VERIFY,
+				token,
+				expiresIn,
+			},
+		});
+
+		const metadata = getSessionMetadata(req, userAgent);
+
+		await this.mailService.sendTFAEmail(user.email, token, user.username, metadata);
 
 		return true;
 	}

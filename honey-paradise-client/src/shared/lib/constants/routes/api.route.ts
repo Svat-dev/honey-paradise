@@ -3,6 +3,10 @@ export enum EnumApiRoute {
 	SIGN_IN = `${AUTH}/sign-in`,
 	LOGOUT = `${AUTH}/logout`,
 
+	TFA = `${AUTH}/tfa`,
+	VERIFY_TFA = `${TFA}/verify`,
+	SEND_TFA_CODE = `${TFA}/send-code`,
+
 	SESSION = `${AUTH}/session`,
 	CLEAR_SESSION = `${SESSION}/clear`,
 	CURRENT_SESSION = `${SESSION}/current`,

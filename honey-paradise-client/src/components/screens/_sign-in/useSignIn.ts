@@ -21,6 +21,7 @@ export const useSignIn = () => {
 	const { locale } = useLanguage();
 	const t = useTranslations("global.sign-in.content");
 	const errorDelay = 5000;
+	const successDelay = 2000;
 
 	const { auth } = useAuth();
 	const { replace } = useRouter();
@@ -69,16 +70,21 @@ export const useSignIn = () => {
 		}
 
 		try {
-			await signIn({ dto: data, recaptcha: recaptchaValue });
+			const { tfa } = await signIn({ dto: data, recaptcha: recaptchaValue });
 
-			auth();
-			setDataStatus("good");
-			toast.success(t("toasters.success"));
+			if (tfa) {
+				toast("Сейчас вы будете перенаправлены на страницу подтверждения входа", { duration: successDelay, icon: "🔒" });
+				setTimeout(() => replace(EnumAppRoute.SIGN_IN_CONFIRMATION), successDelay);
+			} else {
+				auth();
+				setDataStatus("good");
+				toast.success(t("toasters.success"));
 
-			return setTimeout(() => {
-				setDataStatus("default");
-				replace(EnumAppRoute.INDEX);
-			}, 2000);
+				return setTimeout(() => {
+					setDataStatus("default");
+					replace(EnumAppRoute.INDEX);
+				}, successDelay);
+			}
 		} catch (err) {
 			const { errMsg, errCause } = errorCatch(err as AxiosError);
 

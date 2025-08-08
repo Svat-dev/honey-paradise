@@ -9,7 +9,7 @@ export const useMyAccount = () => {
 	const { isAuthenticated, exit, auth } = useAuth();
 
 	const { acc, accError, accRefetch, isAccLoading } = useMyAccountS();
-	const { logout } = useLogoutS();
+	const { logout, isLogoutLoading } = useLogoutS();
 	const { clearSession } = useClearSessionS();
 
 	useEffect(() => {
@@ -24,11 +24,11 @@ export const useMyAccount = () => {
 	return useMemo(
 		() => ({
 			user: acc?.data,
-			isAccLoading,
+			isAccLoading: isLogoutLoading || isAccLoading,
 			accRefetch,
 			logout,
 			accError,
 		}),
-		[acc?.data, isAccLoading, accError, accRefetch, isAuthenticated]
+		[acc?.data, isAccLoading, isLogoutLoading, accError, accRefetch, isAuthenticated]
 	);
 };

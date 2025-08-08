@@ -1,13 +1,13 @@
-import { Button, Switch, Title } from "@/components/ui/common";
+import { Button, Separator, Switch, Title } from "@/components/ui/common";
+import { Edit2Icon, KeyRoundIcon, LogOutIcon, ShieldCheckIcon } from "lucide-react";
 
 import type { RefetchOptions } from "@tanstack/react-query";
-import { Edit2Icon } from "lucide-react";
 import dynamic from "next/dynamic";
 import type { FC } from "react";
 import { useSecuritySection } from "../../../hooks/useSecuritySection";
 import styles from "../../../styles/account.module.scss";
 
-const DynamicChangePasswordModal = dynamic(() => import("./ChangePasswordModal").then(mod => mod.ChangePasswordModal), { ssr: false });
+const DynamicChangePasswordModal = dynamic(() => import("./ChangePasswordModal").then(mod => mod.ChangePasswordModal));
 
 interface ISecuritySection {
 	isTFAEnabled: boolean | undefined;
@@ -27,6 +27,10 @@ const SecuritySection: FC<ISecuritySection> = ({ isFullLogoutEnabled, isTFAEnabl
 
 			<div>
 				<div>
+					<KeyRoundIcon size={24} aria-hidden />
+				</div>
+
+				<div>
 					<p>{t("security.password.title")}</p>
 					<p>{t("security.password.description")}</p>
 				</div>
@@ -38,7 +42,13 @@ const SecuritySection: FC<ISecuritySection> = ({ isFullLogoutEnabled, isTFAEnabl
 				</DynamicChangePasswordModal>
 			</div>
 
+			<Separator orientation="horizontal" />
+
 			<div>
+				<div>
+					<ShieldCheckIcon size={24} aria-hidden />
+				</div>
+
 				<div>
 					<p>{t("security.2fa.title")} | 2FA</p>
 					<p>{t("security.2fa.description")}</p>
@@ -52,7 +62,13 @@ const SecuritySection: FC<ISecuritySection> = ({ isFullLogoutEnabled, isTFAEnabl
 				/>
 			</div>
 
+			<Separator orientation="horizontal" />
+
 			<div className="tw-mb-2">
+				<div>
+					<LogOutIcon size={24} aria-hidden />
+				</div>
+
 				<div>
 					<p>{t("security.fullLogout.title")}</p>
 					<p>{t("security.fullLogout.description")}</p>

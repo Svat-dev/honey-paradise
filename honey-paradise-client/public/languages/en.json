@@ -272,23 +272,31 @@
 						"signUp": "You have almost created your account. All that remains is to confirm your email. We have sent the code to the specified email address"
 					},
 					"signInAfter": "Sign in after verification",
-					"actions": {
-						"resendBtn": "Request a new code",
-						"resendBtnWithCooldown": "Request a new code - {cooldown} sec.",
-						"submitBtn": "Verify"
-					},
-					"labels": {
-						"submitBtn": "Verify an email"
-					},
 					"toasters": {
 						"success": "You successfully verified your email!"
-					},
-					"errors": {
-						"empty": "Enter a pincode",
-						"min": "Minimum length of pincode is {min} characters"
 					}
 				},
-				"2fa": {}
+				"2fa": {
+					"title": "Two-factor authentication",
+					"description": {
+						"default": "You're almost signed in. We have already sent the code to your email, check it and enter the code"
+					},
+					"toasters": {
+						"success": "You have successfully signed in to your account!"
+					}
+				},
+				"actions": {
+					"resendBtn": "Request a new code",
+					"resendBtnWithCooldown": "Request a new code - {cooldown} sec.",
+					"submitBtn": "Verify"
+				},
+				"labels": {
+					"submitBtn": "Verify an email"
+				},
+				"errors": {
+					"empty": "Enter a pincode",
+					"min": "Minimum length of pincode is {min} characters"
+				}
 			}
 		},
 		"password-recovery": {
