@@ -32,13 +32,16 @@ export default async function MainLayout({ children }: Readonly<IMainLayout>) {
 	const langs = await getMessages();
 
 	const isAgreedWithCookie = (await cookies()).get(EnumStorageKeys.IS_AGREE_WITH_COOKIES)?.value;
+	const session = (await cookies()).get(EnumStorageKeys.SESSION)?.value;
 
 	return (
 		<html lang={locale}>
 			<MainProvider>
 				<body className={`${RubikText.variable} tw-antialiased`}>
 					<NextIntlClientProvider messages={langs}>
-						<ClientMainProvider cookie={isAgreedWithCookie}>{children}</ClientMainProvider>
+						<ClientMainProvider cookie={isAgreedWithCookie} session={session}>
+							{children}
+						</ClientMainProvider>
 					</NextIntlClientProvider>
 				</body>
 			</MainProvider>

@@ -1,4 +1,30 @@
-export interface INotifications {}
+import type { EnumNotificationType } from "./enums.type";
+
+export interface INotification {
+	id: string;
+
+	message: string;
+	type: EnumNotificationType;
+	isRead: boolean;
+	isViewed: boolean;
+
+	userId: string;
+
+	createdAt: string;
+	updatedAt: string;
+}
+
+export interface INotificationUser {
+	id: string;
+
+	message: string;
+	type: EnumNotificationType;
+	isRead: boolean;
+	isViewed: boolean;
+
+	createdAt: string;
+	updatedAt: string;
+}
 
 export interface INotificationSettings {
 	id: number;
@@ -9,5 +35,5 @@ export interface INotificationSettings {
 	siteNotificationsType: boolean;
 	telegramNotificationsType: boolean;
 
-	createdAt: Date;
+	createdAt: string;
 }

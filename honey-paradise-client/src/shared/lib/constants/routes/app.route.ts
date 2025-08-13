@@ -15,6 +15,8 @@ export enum EnumAppRoute {
 
 	ACCOUNT = "/account",
 	SETTINGS = `${ACCOUNT}/settings`,
+	NOTIFICATIONS = `${ACCOUNT}/notifications`,
+	MY_CART = `${ACCOUNT}/cart`,
 	MY_ORDERS = `${ACCOUNT}/orders`,
 	CONNECTIONS = `${ACCOUNT}/connections`,
 

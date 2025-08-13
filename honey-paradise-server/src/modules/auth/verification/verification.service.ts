@@ -1,4 +1,4 @@
-import { EnumTokenTypes, type Token } from "@prisma/client";
+import { EnumNotificationType, EnumTokenTypes, type Token } from "@prisma/client";
 
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
@@ -8,6 +8,7 @@ import type { Request, Response } from "express";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { MailService } from "src/core/mail/mail.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
+import { NotificationsService } from "src/modules/notifications/notifications.service";
 import { TOKENS_LENGTH } from "src/shared/lib/common/constants";
 import { ms } from "src/shared/lib/common/utils";
 import { getSessionMetadata } from "src/shared/lib/common/utils/session-metadat.util";
@@ -25,6 +26,7 @@ export class VerificationService {
 		private readonly prisma: PrismaService,
 		private readonly mailService: MailService,
 		private readonly userService: ProfileService,
+		private readonly notificationsService: NotificationsService,
 		private readonly i18n: I18nService
 	) {}
 
@@ -92,6 +94,8 @@ export class VerificationService {
 				},
 			},
 		});
+
+		await this.notificationsService.send(user.id, "На ваш аккаунт только что был совершен вход", EnumNotificationType.ACCOUNT_STATUS);
 
 		res.clearCookie(EnumStorageKeys.CURRENT_EMAIL);
 

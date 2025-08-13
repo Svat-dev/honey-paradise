@@ -41,5 +41,11 @@ export enum EnumApiRoute {
 	SESSION_BY_USER = `${SESSION}/by-user`,
 	CURRENT_SESSION = `${SESSION}/current`,
 	REMOVE_SESSION = `${SESSION}/remove`,
+	REMOVE_ALL_SESSIONS = `${SESSION}/remove-all`,
 	CLEAR_SESSION = `${SESSION}/clear`,
+
+	NOTIFICATIONS = "/notifications",
+	SEND = "/send",
+	NOTIFICATIONS_GET_ALL = "/all",
+	MARK_AS_READ = "/mark-as-read",
 }

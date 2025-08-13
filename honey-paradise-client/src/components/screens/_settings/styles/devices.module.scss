@@ -1,5 +1,25 @@
 .wrapper {
 	@apply tw-flex tw-flex-col tw-gap-5;
+
+	> div {
+		@apply tw-flex tw-items-center tw-gap-4 tw-self-end;
+
+		> button:first-of-type {
+			@apply tw-p-1;
+
+			> svg {
+				@apply tw-transition-all;
+			}
+
+			&:hover > svg {
+				@apply tw-rotate-180 tw-text-muted;
+			}
+		}
+
+		> button:last-of-type {
+			@apply tw-py-1.5 tw-px-2;
+		}
+	}
 }
 
 .loading-item {

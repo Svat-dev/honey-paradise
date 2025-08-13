@@ -1,8 +1,8 @@
+import { Title } from "@/components/ui/common";
+import type { TSearchParams } from "@/shared/types";
+import { getTranslations } from "next-intl/server";
 import type { FC } from "react";
 import { SettingsContent } from "./components/SettingsContent";
-import type { TSearchParams } from "@/shared/types";
-import { Title } from "@/components/ui/common";
-import { getTranslations } from "next-intl/server";
 import styles from "./styles/settings.module.scss";
 
 interface IProps {
@@ -14,7 +14,7 @@ const Settings: FC<IProps> = async ({ searchParams }) => {
 
 	return (
 		<article className={styles["content-wrapper"]}>
-			<Title size="lg" className="tw-font-bold tw-tracking-tight">
+			<Title size="lg" className="tw-font-bold">
 				{t("title")}
 			</Title>
 

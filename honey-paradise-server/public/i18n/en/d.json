@@ -83,6 +83,9 @@
 		"phone": {
 			"is_exist": "This phone number is already occupied by another user"
 		},
+		"notifications": {
+			"not_found": "Notification not found"
+		},
 		"verification": {
 			"invalid_code": "You entered the wrong code.\nPlease check the correctness of the input",
 			"code_expired": "This code has expired.\nTry requesting a new code",

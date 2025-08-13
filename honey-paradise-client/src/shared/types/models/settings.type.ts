@@ -11,3 +11,13 @@ export interface ISettings {
 	createdAt: Date;
 	updatedAt: Date;
 }
+
+export interface ISettingsUser {
+	id: string;
+
+	defaultLanguage?: EnumLanguages;
+	defaultTheme?: EnumThemes;
+	useFullLogout: boolean;
+
+	updatedAt: Date;
+}

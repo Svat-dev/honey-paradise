@@ -55,7 +55,7 @@ const TFAAuthTemplate: React.FC<Props> = ({ token, t, domain, metadata, email })
 							</li>
 						</ul>
 
-						<p className="mb-1">{t.tfa.code}</p>
+						<p className="mb-1">{t.tfa.content.code}</p>
 						<div className="bg-gray-500/20 border border-gray-500/40 rounded-sm w-full py-3 mb-1">
 							<p className="text-2xl text-center tracking-widest">{token}</p>
 						</div>

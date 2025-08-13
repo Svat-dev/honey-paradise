@@ -1,11 +1,13 @@
 import { BellIcon, CircleUserRoundIcon, ClipboardListIcon } from "lucide-react";
 
-import { EnumAppRoute } from "@/shared/lib/constants/routes";
+import { EnumAppRoute } from "@constants/routes";
+import { useMyNotifications } from "@hooks/auth";
 import { useTranslations } from "next-intl";
 import type { ISheetLinks } from "../types/data.type";
 
 export const useMenuSheetMain = () => {
 	const t = useTranslations("layout.header");
+	const { unReadLength, isNotificationsLoading } = useMyNotifications();
 
 	const sheetLinksData: ISheetLinks[] = [
 		{
@@ -20,7 +22,7 @@ export const useMenuSheetMain = () => {
 		},
 		{
 			title: t("links.notifications"),
-			link: "/",
+			link: EnumAppRoute.NOTIFICATIONS,
 			icon: BellIcon,
 			isNotifications: true,
 		},
@@ -28,6 +30,8 @@ export const useMenuSheetMain = () => {
 
 	return {
 		data: sheetLinksData,
+		unReadLength,
+		isNotificationsLoading,
 		t,
 	};
 };

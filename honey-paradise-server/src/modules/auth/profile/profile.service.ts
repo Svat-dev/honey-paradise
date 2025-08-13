@@ -2,15 +2,15 @@ import * as fs from "fs";
 import * as path from "path";
 import * as sharp from "sharp";
 
-import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
+import { DEFAULT_AVATAR_PATH } from "src/shared/lib/common/constants";
+import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
+import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
 import type { Prisma } from "@prisma/client";
-import { hash } from "argon2";
-import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
-import { DEFAULT_AVATAR_PATH } from "src/shared/lib/common/constants";
 import type { UpdateUserSettingsDto } from "./dto/update-user-settings.dto";
+import { hash } from "argon2";
 
 @Injectable()
 export class ProfileService {

@@ -1,12 +1,16 @@
 import { errorCatch } from "@/api/api-helper";
+import { getTimeAsWordString } from "@/shared/lib/utils/get-time-as-word";
 import type { ISessionMetadata } from "@/shared/types/models/session.type";
 import { getBrowserIcon } from "@utils/get-browser-icon";
 import type { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
-export const useSessionItem = (metadata: ISessionMetadata, remove: () => Promise<void>, isCurrent: boolean) => {
+export const useSessionItem = (metadata: ISessionMetadata, remove: () => Promise<void>, isCurrent: boolean, createdAt: string) => {
 	const t = useTranslations("global.settings.content.devices");
+	const dt = useTranslations("shared.time");
+	const [time, setTime] = useState<string>(getTimeAsWordString(createdAt));
 
 	const {
 		device: { browser, os },
@@ -28,6 +32,10 @@ export const useSessionItem = (metadata: ISessionMetadata, remove: () => Promise
 		} else toast.error(t("toasters.clientError"));
 	};
 
+	setInterval(() => {
+		setTime(getTimeAsWordString(createdAt, dt));
+	}, 1000 * 60 * 3);
+
 	return {
 		Icon,
 		browser,
@@ -35,6 +43,7 @@ export const useSessionItem = (metadata: ISessionMetadata, remove: () => Promise
 		city,
 		country,
 		handleRemove,
+		time,
 		t,
 	};
 };

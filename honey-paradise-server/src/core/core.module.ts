@@ -10,6 +10,7 @@ import { AccountModule } from "src/modules/auth/account/account.module";
 import { ProfileModule } from "src/modules/auth/profile/profile.module";
 import { SessionsModule } from "src/modules/auth/sessions/sessions.module";
 import { VerificationModule } from "src/modules/auth/verification/verification.module";
+import { NotificationsModule } from "src/modules/notifications/notifications.module";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
 import { IS_DEV_ENV } from "src/shared/lib/common/utils/is-dev.util";
 import { EnumStorageKeys } from "src/shared/types/client/enums.type";
@@ -41,11 +42,14 @@ import { RedisModule } from "./redis/redis.module";
 		PrismaModule,
 		RedisModule,
 
+		// websockets modules
+
 		// ...other modules
 		AccountModule,
 		ProfileModule,
 		SessionsModule,
 		VerificationModule,
+		NotificationsModule,
 	],
 })
 export class CoreModule {}

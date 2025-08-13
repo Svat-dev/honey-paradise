@@ -3,3 +3,4 @@ export * from "./base.const";
 export * from "./data.const";
 export * from "./files.const";
 export * from "./seo.const";
+export * from "./websockets.const";

@@ -13,3 +13,15 @@ export const useRemoveSessionS = () => {
 		isRemovingSession: isPending,
 	};
 };
+
+export const useRemoveAllSessionsS = () => {
+	const { mutateAsync, isPending } = useMutation({
+		mutationKey: ["remove all sessions"],
+		mutationFn: () => sessionService.removeAllSessions(),
+	});
+
+	return {
+		removeAllSessions: mutateAsync,
+		isAllSessionsRemoving: isPending,
+	};
+};

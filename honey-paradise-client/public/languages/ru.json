@@ -353,6 +353,11 @@
 				}
 			}
 		},
+		"notifications": {
+			"title": "Уведомления",
+			"description": "Страница уведомлений интернет-магазина {title}",
+			"content": {}
+		},
 		"settings": {
 			"title": "Настройки",
 			"description": "Страница настроек интернет магазина {title}",
@@ -539,36 +544,9 @@
 					"description": "Здесь отображаются устройства, с которых выполнен вход в ваш аккаунт. Вы также можете данными устройствами",
 					"content": {
 						"current": "Текущее устройство",
-						"time": {
-							"now": "только что",
-							"week": "более {weeks, plural, =1 {недели} other {# недель}} назад",
-							"minute": {
-								"default": "ru",
-								"1": "{minutes, plural, =1 {} other {# }}минуту назад",
-								"2-4": "{minutes} минуты назад",
-								"other": "{minutes} минут назад"
-							},
-							"hour": {
-								"default": "ru",
-								"1": "{hours, plural, =1 {} other {# }}час назад",
-								"2-4": "{hours} часа назад",
-								"other": "{hours} часов назад"
-							},
-							"day": {
-								"default": "ru",
-								"1": "{days, plural, =1 {} other {# }}день назад",
-								"2-4": "{days} дня назад",
-								"other": "{days} дней назад"
-							},
-							"yesterday": {
-								"midnight": "вчера в полночь",
-								"midday": "вчера в полдень",
-								"withDate": "вчера в {time}",
-								"withoutDate": "вчера"
-							}
-						},
 						"moreBtn": "Подробнее",
-						"removeBtn": "Удалить"
+						"removeBtn": "Удалить",
+						"removeAll": "Выйти на всех устройствах"
 					},
 					"modals": {
 						"confirm": {
@@ -596,6 +574,7 @@
 					"labels": {
 						"moreBtn": "Подробная информация",
 						"removeBtn": "Удалить сессию",
+						"removeAllBtn": "Выйти на всех устройствах кроме этого",
 						"closeBtn": "Закрыть окно"
 					}
 				}
@@ -704,6 +683,8 @@
 		"account-sidebar": {
 			"links": {
 				"settings": "Настройки",
+				"notifications": "Уведомления",
+				"cart": "Корзина",
 				"connections": "Связанные учетные записи",
 				"orders": "Мои заказы"
 			}
@@ -749,6 +730,34 @@
 			"switch": {
 				"enable": "Включить{txt}",
 				"disable": "Отключить{txt}"
+			}
+		},
+		"time": {
+			"now": "только что",
+			"week": "более {weeks, plural, =1 {недели} other {# недель}} назад",
+			"minute": {
+				"default": "ru",
+				"1": "{minutes, plural, =1 {} other {# }}минуту назад",
+				"2-4": "{minutes} минуты назад",
+				"other": "{minutes} минут назад"
+			},
+			"hour": {
+				"default": "ru",
+				"1": "{hours, plural, =1 {} other {# }}час назад",
+				"2-4": "{hours} часа назад",
+				"other": "{hours} часов назад"
+			},
+			"day": {
+				"default": "ru",
+				"1": "{days, plural, =1 {} other {# }}день назад",
+				"2-4": "{days} дня назад",
+				"other": "{days} дней назад"
+			},
+			"yesterday": {
+				"midnight": "вчера в полночь",
+				"midday": "вчера в полдень",
+				"withDate": "вчера в {time}",
+				"withoutDate": "вчера"
 			}
 		},
 		"theme": {

@@ -4,13 +4,16 @@ import { EnumClientRoutes, EnumErrorCauses, EnumStorageKeys } from "src/shared/t
 
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { ConflictException } from "@nestjs/common/exceptions/conflict.exception";
+import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
 import { UnauthorizedException } from "@nestjs/common/exceptions/unauthorized.exception";
 import { ConfigService } from "@nestjs/config/dist/config.service";
+import { EnumNotificationType } from "@prisma/client";
 import { verify } from "argon2";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { RedisService } from "src/core/redis/redis.service";
+import { NotificationsService } from "src/modules/notifications/notifications.service";
 import { ms } from "src/shared/lib/common/utils";
 import { getSessionMetadata } from "src/shared/lib/common/utils/session-metadat.util";
 import { userServerOutput } from "src/shared/lib/prisma/outputs/user.output";
@@ -23,43 +26,15 @@ export class SessionsService {
 		private readonly prisma: PrismaService,
 		private readonly configService: ConfigService,
 		private readonly redisService: RedisService,
-		private readonly i18n: I18nService,
-		private readonly verificationService: VerificationService
+		private readonly verificationService: VerificationService,
+		private readonly notificationsService: NotificationsService,
+		private readonly i18n: I18nService
 	) {}
 
 	async findByUser(req: Request) {
-		const userId = req.session.userId;
+		const sessions = await this.getAllUserSessions(req);
 
-		if (!userId) throw new NotFoundException("Пользователь не обнаружен в сессии");
-
-		const keys = await this.redisService.keys("*");
-		const userSessions = [];
-
-		for (const key of keys) {
-			const sessionData = await this.redisService.get(key);
-
-			if (sessionData) {
-				const session = JSON.parse(sessionData);
-
-				if (session.userId === userId) {
-					userSessions.push({
-						...session,
-						id: key.split(":")[1],
-					});
-				}
-			}
-		}
-
-		const filteredSessions = userSessions.map(({ cookie, ...session }) => ({ ...session }));
-
-		filteredSessions.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-		filteredSessions.sort((a, b) => {
-			if (a.id === req.session.id) return -1;
-			if (b.id === req.session.id) return 1;
-			return a.id - b.id;
-		});
-
-		return filteredSessions;
+		return sessions;
 	}
 
 	async findCurrent(req: Request) {
@@ -122,6 +97,11 @@ export class SessionsService {
 				path: EnumClientRoutes.INDEX,
 			});
 
+			await this.notificationsService.send(
+				user.id,
+				"Кто-то только что запросил доступ к вашему аккаунту. Если это не вы просто проигнорируйте это уведомление \nБолее подробная информация указана в письме на вашей эл. почте",
+				EnumNotificationType.ACCOUNT_STATUS
+			);
 			await this.verificationService.sendTFAEmail(req, userAgent, user.email);
 
 			return {
@@ -150,9 +130,59 @@ export class SessionsService {
 		return destroySession(req, this.configService, this.i18n);
 	}
 
+	async removeAllSessions(req: Request) {
+		const sessions = await this.getAllUserSessions(req);
+		sessions.shift();
+
+		for (const session of sessions) {
+			try {
+				await this.redisService.del(`${this.configService.getOrThrow<string>("SESSION_FOLDER")}${session.id}`);
+			} catch (error) {
+				throw new InternalServerErrorException(`Cant delete session with id: ${session.id}`);
+			}
+		}
+
+		return true;
+	}
+
 	async clearSession(req: Request) {
 		req.res.clearCookie(this.configService.getOrThrow<string>("SESSION_NAME"));
 
 		return true;
+	}
+
+	private async getAllUserSessions(req: Request) {
+		const userId = req.session.userId;
+
+		if (!userId) throw new NotFoundException("Пользователь не обнаружен в сессии");
+
+		const keys = await this.redisService.keys("*");
+		const userSessions = [];
+
+		for (const key of keys) {
+			const sessionData = await this.redisService.get(key);
+
+			if (sessionData) {
+				const session = JSON.parse(sessionData);
+
+				if (session.userId === userId) {
+					userSessions.push({
+						...session,
+						id: key.split(":")[1],
+					});
+				}
+			}
+		}
+
+		const filteredSessions = userSessions.map(({ cookie, ...session }) => ({ ...session }));
+
+		filteredSessions.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+		filteredSessions.sort((a, b) => {
+			if (a.id === req.session.id) return -1;
+			if (b.id === req.session.id) return 1;
+			return a.id - b.id;
+		});
+
+		return filteredSessions;
 	}
 }

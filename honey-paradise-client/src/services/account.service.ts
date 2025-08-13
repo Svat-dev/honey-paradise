@@ -12,6 +12,12 @@ export const accountService = {
 		return res;
 	},
 
+	getMyId: async () => {
+		const res = await instance.get<any, AxiosResponse<{ userId: string }>>(EnumApiRoute.MY_ID);
+
+		return res;
+	},
+
 	updateEmail: async (dto: IPasswordRecoverDto) => {
 		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_EMAIL, dto);
 

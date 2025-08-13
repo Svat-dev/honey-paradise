@@ -1,10 +1,16 @@
+import { Button } from "@/components/ui/common";
 import { useSessions } from "@hooks/auth";
+import { RefreshCcwIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import styles from "../../../styles/devices.module.scss";
 import { SessionItem } from "./SessionItem";
 import { SessionsLoading } from "./SessionsLoading";
 
 const DevicesSettings = () => {
-	const { sessions, currentSession, removeSession, isSessionLoading } = useSessions();
+	const t = useTranslations("global.settings.content.devices");
+	const { sessions, currentSession, removeSession, removeAllSessions, isSessionLoading, sessionsRefetch } = useSessions();
+
+	const disabled = sessions?.length === 1 || isSessionLoading;
 
 	return (
 		<div className={styles["wrapper"]}>
@@ -30,6 +36,22 @@ const DevicesSettings = () => {
 					/>
 				))
 			)}
+
+			<div>
+				<Button variant="ghost" onClick={() => sessionsRefetch()} disabled={isSessionLoading}>
+					<RefreshCcwIcon size={24} />
+				</Button>
+
+				<Button
+					variant="destructive"
+					title={t("labels.removeAllBtn")}
+					onClick={removeAllSessions}
+					disabled={disabled}
+					isLoading={isSessionLoading}
+				>
+					{t("content.removeAll")}
+				</Button>
+			</div>
 		</div>
 	);
 };

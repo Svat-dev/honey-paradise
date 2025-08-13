@@ -11,10 +11,12 @@ export enum EnumApiRoute {
 	CLEAR_SESSION = `${SESSION}/clear`,
 	CURRENT_SESSION = `${SESSION}/current`,
 	REMOVE_SESSION = `${SESSION}/remove`,
+	REMOVE_ALL_SESSIONS = `${SESSION}/remove-all`,
 	GET_SESSION_BY_USER = `${SESSION}/by-user`,
 
 	ACCOUNT = `${AUTH}/account`,
 	MY_ACCOUNT = `${ACCOUNT}/me`,
+	MY_ID = `${MY_ACCOUNT}/id`,
 	CREATE_ACCOUNT = `${ACCOUNT}/create`,
 
 	PASSWORD = `${ACCOUNT}/password`,
@@ -37,4 +39,8 @@ export enum EnumApiRoute {
 	AVATAR = `${PROFILE}/avatar`,
 	UPDATE_AVATAR = `${AVATAR}/update`,
 	DELETE_AVATAR = `${AVATAR}/delete`,
+
+	NOTIFICATIONS = "/notifications",
+	NOTIFICATIONS_GET_ALL = `${NOTIFICATIONS}/all`,
+	MARK_AS_READ = `${NOTIFICATIONS}/mark-as-read`,
 }

@@ -7,6 +7,7 @@ export * from "./dialog";
 export * from "./dropdown-menu";
 export * from "./input";
 export * from "./input-otp";
+export * from "./pagination";
 export * from "./radio-group";
 export * from "./separator";
 export * from "./sheet";

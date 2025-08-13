@@ -4,9 +4,11 @@ import { EnumClientRoutes, EnumStorageKeys } from "src/shared/types/client/enums
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
 import { ConfigService } from "@nestjs/config/dist/config.service";
+import { EnumNotificationType } from "@prisma/client";
 import { hash } from "argon2";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
+import { NotificationsService } from "src/modules/notifications/notifications.service";
 import { DEFAULT_AVATAR_PATH } from "src/shared/lib/common/constants";
 import { ms } from "src/shared/lib/common/utils";
 import { getEmailUsername } from "src/shared/lib/common/utils/get-email-username.util";
@@ -24,6 +26,7 @@ export class AccountService {
 		private readonly verificationService: VerificationService,
 		private readonly sessionsService: SessionsService,
 		private readonly configService: ConfigService,
+		private readonly notificationsService: NotificationsService,
 		private readonly i18n: I18nService
 	) {}
 
@@ -84,6 +87,8 @@ export class AccountService {
 
 	async updatePassword(id: string, password: string, req: Request) {
 		const { isTFAEnabled } = await this.profileService.updatePassword(id, password);
+
+		await this.notificationsService.send(id, "Ваш пароль был только что изменен на ...", EnumNotificationType.ACCOUNT_STATUS);
 
 		if (isTFAEnabled) {
 			await this.sessionsService.logout(req);

@@ -353,6 +353,11 @@
 				}
 			}
 		},
+		"notifications": {
+			"title": "Notifications",
+			"description": "Notifications page of the online store {title}",
+			"content": {}
+		},
 		"settings": {
 			"title": "Settings",
 			"description": "Settings page of the online store {title}",
@@ -539,27 +544,9 @@
 					"description": "The devices from which you signed into your account are displayed here. You can also manage these devices",
 					"content": {
 						"current": "Current device",
-						"time": {
-							"now": "just now",
-							"week": "more than {weeks, plural, =1 {# week} other {# weeks}} ago",
-							"minute": {
-								"default": "{minutes, plural, =1 {minute} other {# minutes}} ago"
-							},
-							"hour": {
-								"default": "{hours, plural, =1 {hour} other {# hours}} ago"
-							},
-							"day": {
-								"default": "{days, plural, =1 {day} other {# days}} ago"
-							},
-							"yesterday": {
-								"midnight": "yesterday at midnight",
-								"midday": "yesterday at noon",
-								"withDate": "yesterday at {time}",
-								"withoutDate": "yesterday"
-							}
-						},
 						"moreBtn": "More",
-						"removeBtn": "Remove"
+						"removeBtn": "Remove",
+						"removeAll": "Logout on all devices"
 					},
 					"modals": {
 						"confirm": {
@@ -587,6 +574,7 @@
 					"labels": {
 						"moreBtn": "More information",
 						"removeBtn": "Remove session",
+						"removeAllBtn": "Logout on all devices, except this one",
 						"closeBtn": "Close the window"
 					}
 				}
@@ -695,6 +683,8 @@
 		"account-sidebar": {
 			"links": {
 				"settings": "Settings",
+				"notifications": "Notifications",
+				"cart": "My cart",
 				"connections": "Linked accounts",
 				"orders": "My orders"
 			}
@@ -740,6 +730,25 @@
 			"switch": {
 				"enable": "Enable{txt}",
 				"disable": "Disable{txt}"
+			}
+		},
+		"time": {
+			"now": "just now",
+			"week": "more than {weeks, plural, =1 {# week} other {# weeks}} ago",
+			"minute": {
+				"default": "{minutes, plural, =1 {minute} other {# minutes}} ago"
+			},
+			"hour": {
+				"default": "{hours, plural, =1 {hour} other {# hours}} ago"
+			},
+			"day": {
+				"default": "{days, plural, =1 {day} other {# days}} ago"
+			},
+			"yesterday": {
+				"midnight": "yesterday at midnight",
+				"midday": "yesterday at noon",
+				"withDate": "yesterday at {time}",
+				"withoutDate": "yesterday"
 			}
 		},
 		"theme": {

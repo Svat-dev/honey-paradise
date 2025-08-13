@@ -1,13 +1,12 @@
 import { Button } from "@/components/ui/common";
 import { ConfirmModal } from "@/components/ui/components/ConfirmModal";
-import type { ISessionMetadata } from "@/shared/types/models/session.type";
-import { getSessionTimeString } from "@utils/get-session-time";
-import { capitalize } from "@utils/index";
 import { DotIcon } from "lucide-react";
 import type { FC } from "react";
-import { useSessionItem } from "../../../hooks/useSessionItem";
-import styles from "../../../styles/devices.module.scss";
+import type { ISessionMetadata } from "@/shared/types/models/session.type";
 import { SessionModal } from "./SessionModal";
+import { capitalize } from "@utils/index";
+import styles from "../../../styles/devices.module.scss";
+import { useSessionItem } from "../../../hooks/useSessionItem";
 
 interface IProps {
 	remove: (sid: string) => Promise<void>;
@@ -20,7 +19,7 @@ interface IProps {
 const SessionItem: FC<IProps> = ({ createdAt, metadata, remove, isCurrent, sid }) => {
 	const removeFunc = async () => await remove(sid);
 
-	const { Icon, browser, city, country, handleRemove, os, t } = useSessionItem(metadata, removeFunc, isCurrent);
+	const { Icon, browser, city, country, handleRemove, os, t, time } = useSessionItem(metadata, removeFunc, isCurrent, createdAt);
 
 	return (
 		<article className={styles["session-item"]}>
@@ -58,7 +57,7 @@ const SessionItem: FC<IProps> = ({ createdAt, metadata, remove, isCurrent, sid }
 
 							<DotIcon size={20} className="tw-text-muted" />
 
-							<p className="tw-text-muted">{getSessionTimeString(createdAt)}</p>
+							<p className="tw-text-muted">{time}</p>
 						</div>
 					)}
 				</div>

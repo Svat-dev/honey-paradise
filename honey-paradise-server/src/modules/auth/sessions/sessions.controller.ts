@@ -1,7 +1,7 @@
 import { Controller } from "@nestjs/common/decorators/core/controller.decorator";
 import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
-import { Get, Post } from "@nestjs/common/decorators/http/request-mapping.decorator";
-import { Body, Req, Res } from "@nestjs/common/decorators/http/route-params.decorator";
+import { Delete, Get, Post } from "@nestjs/common/decorators/http/request-mapping.decorator";
+import { Body, Param, Req, Res } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
 import { Recaptcha } from "@nestlab/google-recaptcha/decorators/recaptcha";
 import type { Request, Response } from "express";
@@ -35,13 +35,6 @@ export class SessionsController {
 	}
 
 	@HttpCode(HttpStatus.OK)
-	@Authorization()
-	@Post(EnumApiRoute.REMOVE_SESSION)
-	remove(@Body() dto: { sid: string }, @Req() req: Request) {
-		return this.sessionsService.remove(req, dto.sid);
-	}
-
-	@HttpCode(HttpStatus.OK)
 	@Post(EnumApiRoute.CLEAR_SESSION)
 	clearSession(@Req() req: Request) {
 		return this.sessionsService.clearSession(req);
@@ -71,5 +64,19 @@ export class SessionsController {
 	@Post(EnumApiRoute.LOGOUT)
 	logout(@Req() req: Request) {
 		return this.sessionsService.logout(req);
+	}
+
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Delete(`${EnumApiRoute.REMOVE_SESSION}/:sid`)
+	remove(@Param("sid") sid: string, @Req() req: Request) {
+		return this.sessionsService.remove(req, sid);
+	}
+
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Delete(EnumApiRoute.REMOVE_ALL_SESSIONS)
+	removeAll(@Req() req: Request) {
+		return this.sessionsService.removeAllSessions(req);
 	}
 }

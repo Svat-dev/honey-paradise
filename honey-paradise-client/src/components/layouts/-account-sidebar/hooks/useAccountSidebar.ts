@@ -1,4 +1,4 @@
-import { ClipboardListIcon, LinkIcon, SettingsIcon } from "lucide-react";
+import { BellIcon, ClipboardListIcon, LinkIcon, SettingsIcon, ShoppingCartIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { EnumAppRoute } from "@constants/routes";
@@ -22,6 +22,18 @@ export const useAccountSidebar = () => {
 			icon: SettingsIcon,
 			route: EnumAppRoute.SETTINGS,
 			isCurrent: pathname === EnumAppRoute.SETTINGS,
+		},
+		{
+			title: t("notifications"),
+			icon: BellIcon,
+			route: EnumAppRoute.NOTIFICATIONS,
+			isCurrent: pathname === EnumAppRoute.NOTIFICATIONS,
+		},
+		{
+			title: t("cart"),
+			icon: ShoppingCartIcon,
+			route: EnumAppRoute.MY_CART,
+			isCurrent: pathname === EnumAppRoute.MY_CART,
 		},
 		{
 			title: t("connections"),

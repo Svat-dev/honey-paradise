@@ -2,7 +2,7 @@ import { cn } from "@utils/base/cn";
 import { createElement, type FC } from "react";
 import type { TypeProps } from "./types/title.type";
 
-const Title: FC<TypeProps> = ({ children, size = "sm", className }: TypeProps) => {
+const Title: FC<TypeProps> = ({ children, size = "sm", className }) => {
 	const mapTagBySize = {
 		xs: "h5",
 		sm: "h4",
