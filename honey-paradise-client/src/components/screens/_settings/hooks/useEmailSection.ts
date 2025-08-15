@@ -15,7 +15,7 @@ import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 export const useEmailSection = (email: string | undefined, accRefetch: (opts?: RefetchOptions) => void) => {
 	const t = useTranslations("global.settings.content.account.content");

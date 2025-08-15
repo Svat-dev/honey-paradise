@@ -9,7 +9,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import type { TDataStatus } from "../types/type";
 
 export const useChangePassword = (token: string) => {

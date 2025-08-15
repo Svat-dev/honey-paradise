@@ -4,6 +4,7 @@ import { Pagination, PaginationContent } from "@/components/ui/common";
 
 import Image from "next/image";
 import { useNotificationsContent } from "../hooks/useNotificationsContent";
+import styles from "../styles/notifications.module.scss";
 import { NotificationItem } from "./NotificationItem";
 import { NotificationsFilters } from "./NotificationsFilters";
 import { NotificationsLoading } from "./NotificationsLoading";
@@ -15,7 +16,7 @@ const NotificationsContent = () => {
 		<>
 			<NotificationsFilters />
 
-			<section className="tw-flex tw-flex-col tw-gap-4 tw-mb-16 tw-pr-3 tw-max-h-[29rem] tw-overflow-y-scroll">
+			<section className={styles["items-wrapper"]}>
 				{isNotificationsLoading ? (
 					<NotificationsLoading limit={5} />
 				) : notifications && notifications.length > 0 ? (
@@ -25,9 +26,9 @@ const NotificationsContent = () => {
 						))}
 					</>
 				) : (
-					<div className="tw-flex tw-items-center tw-gap-5 tw-rounded-md tw-w-fit tw-mt-5 tw-opacity-0 tw-animate-show-effect tw-self-center">
-						<Image src="/assets/not-found-notifications.webp" alt={"Not found"} width={250} height={155} />
-						<p className="tw-leading-7">
+					<div className={styles["not-found"]}>
+						<Image src="/assets/not-found-notifications.webp" alt={"Фото: Не найдено"} width={250} height={155} />
+						<p>
 							Ваши уведомления не найдены или их просто нет
 							<br />
 							Когда придут первые уведомления, они здесь появятся
@@ -35,7 +36,7 @@ const NotificationsContent = () => {
 					</div>
 				)}
 
-				<div className="tw-absolute -tw-bottom-6 tw-pb-7 tw-w-full tw-bg-background tw-flex tw-justify-center tw-opacity-0 tw-animate-show-effect">
+				<div className={styles["pagination-wrapper"]}>
 					<Pagination>
 						<PaginationContent
 							pages={Math.ceil(notificationsLength! / 5)}

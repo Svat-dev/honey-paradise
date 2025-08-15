@@ -1,6 +1,6 @@
 import type { EnumNotificationType, INotificationUser } from "@/shared/types/models";
 
-import type { EnumNotificationsSort } from "@/shared/store/types/notifications-filter-store.type";
+import type { EnumNotificationsSortType } from "@/shared/store/types/notifications-filter-store.type";
 
 export interface IGetAllNotificationsResponse {
 	notifications: INotificationUser[];
@@ -9,9 +9,9 @@ export interface IGetAllNotificationsResponse {
 }
 
 export interface INotificationsQueryParams {
-	sort?: EnumNotificationsSort;
+	sort?: EnumNotificationsSortType;
 	is_read?: string | boolean | null;
-	type?: EnumNotificationType | null;
+	types?: EnumNotificationType[];
 	page?: string | number;
 	per_page: string | number;
 }

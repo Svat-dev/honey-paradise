@@ -12,7 +12,7 @@ import { redirect, RedirectType, useRouter } from "next/dist/client/components/n
 import { useEffect, useRef, useState } from "react";
 import type ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import type { IIsActive, TCurrentPart, TDataStatus } from "../types/sign-up.type";
 
 export const useSignUp = (searchParams: TSearchParams) => {

@@ -1,13 +1,14 @@
 import { create } from "zustand";
-import { EnumNotificationsSort, type INotificationsFilterStore } from "./types/notifications-filter-store.type";
+import { EnumNotificationType } from "../types/models";
+import { EnumNotificationsSortType, type INotificationsFilterStore } from "./types/notifications-filter-store.type";
 
 const initialQS: Pick<INotificationsFilterStore, "queryParams"> = {
 	queryParams: {
 		per_page: 5,
 		page: 1,
 		is_read: null,
-		sort: EnumNotificationsSort.NEWEST,
-		type: null,
+		sort: EnumNotificationsSortType.NEWEST,
+		types: Object.values(EnumNotificationType).filter(item => item !== EnumNotificationType.TELEGRAM),
 	},
 };
 

@@ -5,12 +5,12 @@ export interface INotificationsFilterStore extends IActions {
 	isFilterUpdated: boolean;
 }
 
-export enum EnumNotificationsSort {
+export enum EnumNotificationsSortType {
 	OLDEST = "OLDEST",
 	NEWEST = "NEWEST",
 }
 
 interface IActions {
-	updateQueryParam: (data: { key: keyof INotificationsQueryParams; value: string }) => void;
+	updateQueryParam: (data: { key: keyof INotificationsQueryParams; value: string | string[] }) => void;
 	reset: VoidFunction;
 }

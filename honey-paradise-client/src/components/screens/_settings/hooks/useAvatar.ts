@@ -5,7 +5,7 @@ import { useUpdateAvatarS } from "@/services/hooks/profile";
 import type { RefetchOptions } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 export const useAvatar = (refetch: (opts?: RefetchOptions) => void) => {
 	const t = useTranslations("global.settings.content.profile");

@@ -7,7 +7,7 @@ import type { AxiosResponse } from "axios";
 export const notificationsService = {
 	getAll: async (queryData = {} as INotificationsQueryParams) => {
 		const res = await instance.get<any, AxiosResponse<IGetAllNotificationsResponse>>(EnumApiRoute.NOTIFICATIONS_GET_ALL, {
-			params: queryData,
+			params: { ...queryData, types: queryData.types?.join(",") },
 		});
 
 		return res;
@@ -15,6 +15,18 @@ export const notificationsService = {
 
 	markAsRead: async (ids: string[]) => {
 		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.MARK_AS_READ, { ids });
+
+		return res;
+	},
+
+	markAsArchived: async (ids: string[]) => {
+		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.MARK_AS_ARCHIVED, { ids });
+
+		return res;
+	},
+
+	delete: async (ids: string[]) => {
+		const res = await instance.delete<any, AxiosResponse<boolean>>(EnumApiRoute.DELETE_NOTIFICATIONS, { data: { ids } });
 
 		return res;
 	},

@@ -6,6 +6,7 @@ export function getNotificationHeadingByType(type: EnumNotificationType) {
 	if (type === EnumNotificationType.ACCOUNT_STATUS) heading = "Безопасность аккаунта";
 	else if (type === EnumNotificationType.ORDER_STATUS) heading = "Статус вашего заказа";
 	else if (type === EnumNotificationType.SPECIAL_OFFERS) heading = "Специальное предложение";
+	else if (type === EnumNotificationType.TELEGRAM) heading = "Телеграм уведомления";
 
 	return heading;
 }

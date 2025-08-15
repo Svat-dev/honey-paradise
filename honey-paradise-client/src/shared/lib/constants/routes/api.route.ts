@@ -43,4 +43,6 @@ export enum EnumApiRoute {
 	NOTIFICATIONS = "/notifications",
 	NOTIFICATIONS_GET_ALL = `${NOTIFICATIONS}/all`,
 	MARK_AS_READ = `${NOTIFICATIONS}/mark-as-read`,
+	MARK_AS_ARCHIVED = `${NOTIFICATIONS}/mark-as-archived`,
+	DELETE_NOTIFICATIONS = `${NOTIFICATIONS}/delete`,
 }

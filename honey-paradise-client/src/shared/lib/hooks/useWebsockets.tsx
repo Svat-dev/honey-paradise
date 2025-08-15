@@ -5,7 +5,7 @@ import { NotificationsToaster } from "@/components/ui/components/NotificationsTo
 import { useGetMyId } from "@/services/hooks/account";
 import styles from "@styles/modules/toaster.module.scss";
 import { useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { io } from "socket.io-client";
 
 export const useWebsockets = (isAuthenticated: boolean | undefined) => {
@@ -27,6 +27,10 @@ export const useWebsockets = (isAuthenticated: boolean | undefined) => {
 					className: styles["notifications-toaster"],
 				});
 
+				if (msg.message === "notifications/refresh") client.invalidateQueries({ queryKey: ["get all notifications"] });
+			});
+
+			notifications_socket.on(EnumWSRoutes.REFRESH_NOTIFICATIONS, msg => {
 				if (msg.message === "notifications/refresh") client.invalidateQueries({ queryKey: ["get all notifications"] });
 			});
 		} else return;

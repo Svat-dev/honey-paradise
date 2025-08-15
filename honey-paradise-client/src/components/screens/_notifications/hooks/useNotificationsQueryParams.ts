@@ -9,16 +9,10 @@ export const useNotificationsQueryParams = () => {
 	const searchParams = useSearchParams();
 	const { replace } = useRouter();
 
-	const { isFilterUpdated, queryParams, updateQueryParam } = notificationsFilterStore();
-
-	useEffect(() => {
-		searchParams.forEach((value, key) => {
-			updateQueryParam({
-				key: key as keyof INotificationsQueryParams,
-				value,
-			});
-		});
-	}, []);
+	const isFilterUpdated = notificationsFilterStore(state => state.isFilterUpdated);
+	const queryParams = notificationsFilterStore(state => state.queryParams);
+	const updateQueryParam = notificationsFilterStore(state => state.updateQueryParam);
+	const _reset = notificationsFilterStore(state => state.reset);
 
 	const updateQueryParams = (key: keyof INotificationsQueryParams, value: string) => {
 		const newParams = new URLSearchParams(searchParams.toString());
@@ -27,12 +21,27 @@ export const useNotificationsQueryParams = () => {
 		else newParams.delete(key);
 
 		replace(pathname + `?${newParams.toString()}`, { scroll: false });
-		updateQueryParam({ key, value });
+		updateQueryParam({ key, value: key === "types" ? value.split(",") : value });
 	};
+
+	const reset = () => {
+		_reset();
+		replace(pathname);
+	};
+
+	useEffect(() => {
+		searchParams.forEach((value, key) => {
+			updateQueryParam({
+				key: key as keyof INotificationsQueryParams,
+				value: key === "types" ? value.split(",") : value,
+			});
+		});
+	}, []);
 
 	return {
 		updateQueryParams,
 		queryParams,
 		isFilterUpdated,
+		reset,
 	};
 };

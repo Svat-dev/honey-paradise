@@ -38,6 +38,11 @@ const PaginationContent: FC<IPaginationContentProps> = ({
 		next: arrows === "next" || arrows === true,
 	};
 
+	const disabledArrows = {
+		prev: (!infinite && page === 1) || isLoading,
+		next: (!infinite && page === pages) || isLoading,
+	};
+
 	const schema = getPaginationSchema(pages, maxPages, page);
 
 	const onInfiniteChange = (fn: (page: number) => void, newPage: number) => {
@@ -61,7 +66,7 @@ const PaginationContent: FC<IPaginationContentProps> = ({
 		<>
 			{activeArrows.prev && (
 				<>
-					<PaginationItem onClick={() => setCurrentPage(page - 1)} disabled={!infinite && page === 1} isArrow>
+					<PaginationItem onClick={() => setCurrentPage(page - 1)} disabled={disabledArrows.prev} isArrow>
 						<ChevronLeftIcon size={24} />
 					</PaginationItem>
 					<Separator orientation="vertical" className="tw-bg-muted !tw-h-6 tw-mx-1" />
@@ -91,7 +96,7 @@ const PaginationContent: FC<IPaginationContentProps> = ({
 			{activeArrows.next && (
 				<>
 					<Separator orientation="vertical" className="tw-bg-muted !tw-h-6 tw-mx-1" />
-					<PaginationItem onClick={() => setCurrentPage(page + 1)} disabled={!infinite && page === pages} isArrow>
+					<PaginationItem onClick={() => setCurrentPage(page + 1)} disabled={disabledArrows.next} isArrow>
 						<ChevronRightIcon size={24} />
 					</PaginationItem>
 				</>

@@ -13,7 +13,7 @@ import { useRouter } from "next/dist/client/components/navigation";
 import { useEffect, useRef, useState } from "react";
 import type ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { useTranslations } from "use-intl";
 import type { TDataStatus } from "../_sign-up/types/sign-up.type";
 

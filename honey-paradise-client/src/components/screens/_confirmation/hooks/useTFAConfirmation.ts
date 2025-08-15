@@ -4,7 +4,7 @@ import { useAuth } from "@hooks/auth";
 import type { TConfirmationFields } from "@schemas/confirmation.schema";
 import type { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { useConfirmation } from "./useConfirmation";
 
 export const useTFAConfirmation = () => {

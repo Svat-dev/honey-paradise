@@ -1,7 +1,5 @@
 import { IsEnum, IsOptional, IsString } from "class-validator";
 
-import { EnumNotificationType } from "@prisma/client";
-
 export enum EnumNotificationsSort {
 	OLDEST = "OLDEST",
 	NEWEST = "NEWEST",
@@ -17,8 +15,8 @@ export class GetAllQueryDto {
 	is_read?: string;
 
 	@IsOptional({ message: "" })
-	@IsEnum(EnumNotificationType, { message: "" })
-	type?: EnumNotificationType;
+	@IsString({ message: "" })
+	types?: string;
 
 	@IsOptional({ message: "" })
 	@IsString({ message: "" })

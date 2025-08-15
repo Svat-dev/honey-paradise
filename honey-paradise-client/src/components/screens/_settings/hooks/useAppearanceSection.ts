@@ -11,7 +11,7 @@ import type { RefetchOptions } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 export const useAppearanceSection = (settings: ISettings | undefined, refetch: (opts?: RefetchOptions) => void) => {
 	const t = useTranslations("global.settings.content.profile");

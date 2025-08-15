@@ -12,3 +12,15 @@ export const useMarkAsReadS = () => {
 		isMarkingAsRead: isPending,
 	};
 };
+
+export const useMarkAsArchivedS = () => {
+	const { mutateAsync, isPending } = useMutation({
+		mutationKey: ["mark notification as archived"],
+		mutationFn: (id: string[]) => notificationsService.markAsArchived(id),
+	});
+
+	return {
+		markAsArchivedAsync: mutateAsync,
+		isMarkingAsArchived: isPending,
+	};
+};

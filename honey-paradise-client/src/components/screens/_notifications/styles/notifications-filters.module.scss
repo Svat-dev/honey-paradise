@@ -1,0 +1,45 @@
+.wrapper {
+	@apply tw-flex tw-flex-wrap tw-items-center tw-gap-5 tw-bg-primary tw-rounded-md tw-w-full tw-px-3 tw-py-4 tw-mb-8;
+}
+
+.checkbox {
+	@apply tw-size-6 !important;
+}
+
+.reset {
+	> svg {
+		@apply tw-transition-all tw-will-change-auto tw-duration-500;
+	}
+
+	&:hover > svg {
+		@apply tw-rotate-[360deg] tw-text-muted;
+	}
+}
+
+.dm-trigger {
+	@apply tw-px-3 tw-py-2 tw-text-sm tw-font-medium;
+
+	> svg {
+		@apply tw-mr-2;
+	}
+}
+
+.dm-content {
+	@apply tw-flex tw-flex-col;
+}
+
+.dm-item {
+	@apply tw-flex tw-items-center tw-justify-between tw-gap-3 tw-cursor-pointer tw-transition-colors tw-will-change-auto;
+
+	> div {
+		@apply tw-flex tw-items-center tw-gap-2;
+	}
+
+	&:hover {
+		@apply tw-text-muted;
+	}
+}
+
+.dm-checkbox-item {
+	@apply tw-my-1.5 tw-px-2;
+}

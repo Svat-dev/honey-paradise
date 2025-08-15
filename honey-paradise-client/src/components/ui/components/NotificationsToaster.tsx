@@ -7,7 +7,7 @@ import { EnumAppRoute } from "@constants/routes";
 import type { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 interface IProps {
 	id: string;

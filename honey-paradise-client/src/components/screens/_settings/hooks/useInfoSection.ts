@@ -16,7 +16,7 @@ import type { FactoryArg, InputMask } from "imask";
 import { useTranslations } from "next-intl";
 import { useEffect, useId, useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import type { IUniqueFieldsState } from "../types/info-section.type";
 
 export const useInfoSection = (

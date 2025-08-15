@@ -8,7 +8,7 @@ import type { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import type { TDataStatus } from "../types/confirmation.type";
 
 export const useConfirmation = (value: 4 | 6) => {

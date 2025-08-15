@@ -1,6 +1,6 @@
 import { ArrayNotEmpty, IsNotEmpty, IsString, IsUUID } from "class-validator";
 
-export class MarkAsDto {
+export class NotificationsIdsDto {
 	@ArrayNotEmpty({ message: "" })
 	@IsNotEmpty({ message: "", each: true })
 	@IsString({ message: "", each: true })

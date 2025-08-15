@@ -2,7 +2,7 @@ import Cookies from "js-cookie";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/dist/client/components/navigation";
 import { useEffect, useMemo } from "react";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { EnumStorageKeys } from "../../constants/base";
 import { useAuth, useMyAccount } from "../../hooks/auth";
 import { LANGS_BY_KEY, type EnumLanguages } from "../config";

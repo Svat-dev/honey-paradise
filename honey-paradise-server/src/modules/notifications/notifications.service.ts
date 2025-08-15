@@ -1,13 +1,14 @@
+import { EnumNotificationType, type Notification, type Prisma } from "@prisma/client";
+
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
-import type { EnumNotificationType } from "@prisma/client";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { getPagination } from "src/shared/lib/common/utils/get-pagination.util";
 import { notificationUserOutput } from "src/shared/lib/prisma/outputs/notifications.output";
 import { NotificationGateway } from "../../shared/websockets/notifications.gateway";
 import { ProfileService } from "../auth/profile/profile.service";
-import type { GetAllQueryDto } from "./dto/get-all.dto";
+import { EnumNotificationsSort, type GetAllQueryDto } from "./dto/get-all.dto";
 
 @Injectable()
 export class NotificationsService {
@@ -23,18 +24,18 @@ export class NotificationsService {
 
 		if (!user) throw new NotFoundException(this.i18n.t("d.errors.profile.not_found"));
 
-		const { is_read, sort, type } = query;
 		const { perPage, skip } = getPagination(query.page, query.per_page);
+		const filters = this.getFilters(query);
 
 		const notifications = await this.prisma.notification.findMany({
-			where: { userId: user.id },
-			orderBy: { createdAt: "desc" },
+			where: { userId: user.id, ...filters },
+			orderBy: { createdAt: query.sort === EnumNotificationsSort.NEWEST ? "desc" : "asc" },
 			select: notificationUserOutput,
 			skip,
 			take: perPage,
 		});
 
-		const length = await this.prisma.notification.count({ where: { userId: user.id } });
+		const length = await this.prisma.notification.count({ where: { userId: user.id, ...filters } });
 		const unReadLength = await this.prisma.notification.count({ where: { userId: user.id, isRead: false } });
 
 		return { notifications, length, unReadLength };
@@ -54,30 +55,62 @@ export class NotificationsService {
 			select: { id: true },
 		});
 
-		this.socket.handleNewNotification({ userId: user.id, message: "notifications/refresh", nid: id });
+		this.socket.handleNewNotification({ userId: user.id, nid: id });
 
 		return true;
 	}
 
-	async markAsRead(id: string[]) {
-		const notification = await this.prisma.notification.findMany({ where: { id: { in: id } } });
+	async markAsRead(userId: string, ids: string[]) {
+		const notifications = await this.getAllNotificationsByIds(ids);
 
-		if (notification.length <= 0) throw new NotFoundException(this.i18n.t("d.errors.notifications.not_found"));
-
-		for (const item of notification) {
+		for (const item of notifications) {
 			await this.prisma.notification.update({ where: { id: item.id }, data: { isRead: true } });
 		}
 
+		this.socket.handleRefreshNotifications({ userId });
+
 		return true;
 	}
 
-	async delete(id: string) {
-		const notification = await this.prisma.notification.findUnique({ where: { id } });
+	async markAsArchived(userId: string, ids: string[]) {
+		const notifications = await this.getAllNotificationsByIds(ids);
 
-		if (!notification) throw new NotFoundException(this.i18n.t("d.errors.notifications.not_found"));
+		for (const item of notifications) {
+			await this.prisma.notification.update({ where: { id: item.id }, data: { archivedAt: new Date() } });
+		}
 
-		await this.prisma.notification.delete({ where: { id: notification.id } });
+		this.socket.handleRefreshNotifications({ userId });
 
 		return true;
+	}
+
+	async delete(userId: string, ids: string[]) {
+		const notifications = await this.getAllNotificationsByIds(ids);
+
+		for (const item of notifications) {
+			await this.prisma.notification.delete({ where: { id: item.id } });
+		}
+
+		this.socket.handleRefreshNotifications({ userId });
+
+		return true;
+	}
+
+	private async getAllNotificationsByIds(ids: string[]): Promise<Notification[]> {
+		const notifications = await this.prisma.notification.findMany({ where: { id: { in: ids } } });
+
+		if (notifications.length <= 0) throw new NotFoundException(this.i18n.t("d.errors.notifications.not_found"));
+
+		return notifications;
+	}
+
+	private getFilters(query: GetAllQueryDto): Prisma.NotificationWhereInput {
+		const { is_read, types } = query;
+
+		return {
+			archivedAt: null,
+			...(types && types.split(",").length > 0 && { type: { in: types.split(",") as any } }),
+			...(is_read && { isRead: is_read === "false" ? undefined : true }),
+		};
 	}
 }

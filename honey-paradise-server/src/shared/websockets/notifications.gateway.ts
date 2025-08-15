@@ -32,10 +32,18 @@ export class NotificationGateway implements OnGatewayConnection, OnGatewayDiscon
 	}
 
 	@SubscribeMessage(EnumWSRoutes.NEW_NOTIFICATION)
-	handleNewNotification(@MessageBody() payload: { userId: string; message: string; nid: string }) {
+	handleNewNotification(@MessageBody() payload: { userId: string; nid: string }) {
 		this.server.to(payload.userId).emit(EnumWSRoutes.NEW_NOTIFICATION, {
-			message: payload.message,
+			message: "notifications/refresh",
 			nid: payload.nid,
+			timestamp: new Date().toISOString(),
+		});
+	}
+
+	@SubscribeMessage(EnumWSRoutes.REFRESH_NOTIFICATIONS)
+	handleRefreshNotifications(@MessageBody() payload: { userId: string }) {
+		this.server.to(payload.userId).emit(EnumWSRoutes.REFRESH_NOTIFICATIONS, {
+			message: "notifications/refresh",
 			timestamp: new Date().toISOString(),
 		});
 	}

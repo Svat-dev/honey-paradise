@@ -2,7 +2,7 @@ import { EnumStorageKeys } from "@constants/base";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 export const useCookies = () => {
 	const isAgreeWithCookies = Cookies.get(EnumStorageKeys.IS_AGREE_WITH_COOKIES) || "";

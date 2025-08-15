@@ -48,4 +48,6 @@ export enum EnumApiRoute {
 	SEND = "/send",
 	NOTIFICATIONS_GET_ALL = "/all",
 	MARK_AS_READ = "/mark-as-read",
+	MARK_AS_ARCHIVED = "/mark-as-archived",
+	DELETE_NOTIFICATIONS = "/delete",
 }
