@@ -10,11 +10,12 @@ import { NotificationsFilters } from "./NotificationsFilters";
 import { NotificationsLoading } from "./NotificationsLoading";
 
 const NotificationsContent = () => {
-	const { isNotificationsLoading, notifications, notificationsLength, updateQueryParams, queryParams } = useNotificationsContent();
+	const { isNotificationsLoading, notifications, notificationsLength, updateQueryParams, queryParams, unReadLength } =
+		useNotificationsContent();
 
 	return (
 		<>
-			<NotificationsFilters />
+			<NotificationsFilters unReadLength={unReadLength || 0} />
 
 			<section className={styles["items-wrapper"]}>
 				{isNotificationsLoading ? (

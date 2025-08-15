@@ -77,6 +77,8 @@ export const useNotificationsDM = (nid: string, isRead: boolean, isOpen: boolean
 	);
 
 	const onKeydown = async (e: KeyboardEvent) => {
+		if (!isOpen) return;
+
 		if (e.shiftKey && e.key === "R") {
 			e.preventDefault();
 			await onMarkAsRead();
@@ -99,8 +101,13 @@ export const useNotificationsDM = (nid: string, isRead: boolean, isOpen: boolean
 	};
 
 	useEffect(() => {
-		if (isOpen) return window.addEventListener("keydown", onKeydown);
-	}, [isOpen]);
+		if (isOpen) {
+			window.addEventListener("keydown", onKeydown);
+			return () => window.removeEventListener("keydown", onKeydown);
+		}
+
+		return;
+	}, [isOpen, onKeydown]);
 
 	return {
 		data,

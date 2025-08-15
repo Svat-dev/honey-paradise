@@ -30,6 +30,13 @@ export class NotificationsController {
 
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
+	@Patch(EnumApiRoute.MARK_AS_READ_ALL)
+	markAsReadAll(@Authorized("id") userId: string) {
+		return this.notificationsService.markAsReadAll(userId);
+	}
+
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
 	@Patch(EnumApiRoute.MARK_AS_ARCHIVED)
 	markAsArchived(@Authorized("id") userId: string, @Body() dto: NotificationsIdsDto) {
 		return this.notificationsService.markAsArchived(userId, dto.ids);

@@ -63,8 +63,20 @@ export class NotificationsService {
 	async markAsRead(userId: string, ids: string[]) {
 		const notifications = await this.getAllNotificationsByIds(ids);
 
-		for (const item of notifications) {
-			await this.prisma.notification.update({ where: { id: item.id }, data: { isRead: true } });
+		for (const { id } of notifications) {
+			await this.prisma.notification.update({ where: { id }, data: { isRead: true } });
+		}
+
+		this.socket.handleRefreshNotifications({ userId });
+
+		return true;
+	}
+
+	async markAsReadAll(userId: string) {
+		const notifications = await this.prisma.notification.findMany({ where: { userId } });
+
+		for (const { id } of notifications) {
+			await this.prisma.notification.update({ where: { id }, data: { isRead: true } });
 		}
 
 		this.socket.handleRefreshNotifications({ userId });
@@ -75,8 +87,8 @@ export class NotificationsService {
 	async markAsArchived(userId: string, ids: string[]) {
 		const notifications = await this.getAllNotificationsByIds(ids);
 
-		for (const item of notifications) {
-			await this.prisma.notification.update({ where: { id: item.id }, data: { archivedAt: new Date() } });
+		for (const { id } of notifications) {
+			await this.prisma.notification.update({ where: { id }, data: { archivedAt: new Date() } });
 		}
 
 		this.socket.handleRefreshNotifications({ userId });
@@ -87,8 +99,8 @@ export class NotificationsService {
 	async delete(userId: string, ids: string[]) {
 		const notifications = await this.getAllNotificationsByIds(ids);
 
-		for (const item of notifications) {
-			await this.prisma.notification.delete({ where: { id: item.id } });
+		for (const { id } of notifications) {
+			await this.prisma.notification.delete({ where: { id } });
 		}
 
 		this.socket.handleRefreshNotifications({ userId });
@@ -110,7 +122,7 @@ export class NotificationsService {
 		return {
 			archivedAt: null,
 			...(types && types.split(",").length > 0 && { type: { in: types.split(",") as any } }),
-			...(is_read && { isRead: is_read === "false" ? undefined : true }),
+			...(is_read && { isRead: is_read === "true" ? false : undefined }),
 		};
 	}
 }

@@ -6,7 +6,7 @@ import { useNotificationsQueryParams } from "./useNotificationsQueryParams";
 export const useNotificationsContent = () => {
 	const { queryParams, updateQueryParams, isFilterUpdated } = useNotificationsQueryParams();
 
-	const { notifications, notificationsLength, isNotificationsLoading } = useMyNotifications(queryParams, isFilterUpdated);
+	const { notifications, notificationsLength, isNotificationsLoading, unReadLength } = useMyNotifications(queryParams, isFilterUpdated);
 
 	const [length, setLength] = useState<number | undefined>(notificationsLength);
 
@@ -19,6 +19,7 @@ export const useNotificationsContent = () => {
 		notificationsLength: length,
 		isNotificationsLoading,
 		updateQueryParams,
+		unReadLength,
 		queryParams,
 	};
 };

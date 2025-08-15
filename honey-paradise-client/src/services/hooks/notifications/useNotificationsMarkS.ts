@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 export const useMarkAsReadS = () => {
 	const { mutateAsync, isPending } = useMutation({
 		mutationKey: ["mark notification as read"],
-		mutationFn: (id: string[]) => notificationsService.markAsRead(id),
+		mutationFn: (ids: string[]) => notificationsService.markAsRead(ids),
 	});
 
 	return {
@@ -13,10 +13,22 @@ export const useMarkAsReadS = () => {
 	};
 };
 
+export const useMarkAsReadAllS = () => {
+	const { mutateAsync, isPending } = useMutation({
+		mutationKey: ["mark notification as read all"],
+		mutationFn: () => notificationsService.markAsReadAll(),
+	});
+
+	return {
+		markAsReadAllAsync: mutateAsync,
+		isAllMarkingAsRead: isPending,
+	};
+};
+
 export const useMarkAsArchivedS = () => {
 	const { mutateAsync, isPending } = useMutation({
 		mutationKey: ["mark notification as archived"],
-		mutationFn: (id: string[]) => notificationsService.markAsArchived(id),
+		mutationFn: (ids: string[]) => notificationsService.markAsArchived(ids),
 	});
 
 	return {

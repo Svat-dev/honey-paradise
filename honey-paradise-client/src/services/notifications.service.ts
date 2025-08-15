@@ -19,6 +19,12 @@ export const notificationsService = {
 		return res;
 	},
 
+	markAsReadAll: async () => {
+		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.MARK_AS_READ_ALL);
+
+		return res;
+	},
+
 	markAsArchived: async (ids: string[]) => {
 		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.MARK_AS_ARCHIVED, { ids });
 

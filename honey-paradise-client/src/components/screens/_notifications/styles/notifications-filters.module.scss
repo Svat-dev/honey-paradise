@@ -1,5 +1,17 @@
 .wrapper {
-	@apply tw-flex tw-flex-wrap tw-items-center tw-gap-5 tw-bg-primary tw-rounded-md tw-w-full tw-px-3 tw-py-4 tw-mb-8;
+	@apply tw-flex tw-items-center tw-justify-between tw-bg-primary tw-rounded-md tw-w-full tw-px-3 tw-py-4 tw-mb-8;
+}
+
+.filters-wrapper {
+	@apply tw-flex tw-flex-wrap tw-items-center tw-gap-5;
+}
+
+.actions-wrapper {
+	@apply tw-flex tw-items-center tw-gap-5;
+
+	> button {
+		@apply tw-px-2 tw-py-1.5;
+	}
 }
 
 .checkbox {
