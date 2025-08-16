@@ -2,20 +2,23 @@
 
 import { Pagination, PaginationContent } from "@/components/ui/common";
 
+import { NotificationsContextProvider } from "@/components/providers/NotificationsContext";
 import Image from "next/image";
 import { useNotificationsContent } from "../hooks/useNotificationsContent";
 import styles from "../styles/notifications.module.scss";
+import { NotificationsFilters } from "./filters/NotificationsFiltersWrapper";
 import { NotificationItem } from "./NotificationItem";
-import { NotificationsFilters } from "./NotificationsFilters";
 import { NotificationsLoading } from "./NotificationsLoading";
 
 const NotificationsContent = () => {
 	const { isNotificationsLoading, notifications, notificationsLength, updateQueryParams, queryParams, unReadLength } =
 		useNotificationsContent();
 
+	const pages = Math.ceil(notificationsLength! / 5);
+
 	return (
-		<>
-			<NotificationsFilters unReadLength={unReadLength || 0} />
+		<NotificationsContextProvider>
+			<NotificationsFilters unReadLength={unReadLength || 0} disabled={notificationsLength === 0} />
 
 			<section className={styles["items-wrapper"]}>
 				{isNotificationsLoading ? (
@@ -38,9 +41,9 @@ const NotificationsContent = () => {
 				)}
 
 				<div className={styles["pagination-wrapper"]}>
-					<Pagination>
+					<Pagination className={pages === 1 && !isNotificationsLoading ? "tw-hidden" : ""}>
 						<PaginationContent
-							pages={Math.ceil(notificationsLength! / 5)}
+							pages={pages}
 							currentPage={queryParams.page ? +queryParams.page : undefined}
 							onChangePage={page => updateQueryParams("page", String(page))}
 							isLoading={typeof notificationsLength !== "number" && isNotificationsLoading}
@@ -50,7 +53,7 @@ const NotificationsContent = () => {
 					</Pagination>
 				</div>
 			</section>
-		</>
+		</NotificationsContextProvider>
 	);
 };
 

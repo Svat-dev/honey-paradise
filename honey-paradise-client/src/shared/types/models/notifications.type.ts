@@ -6,7 +6,6 @@ export interface INotification {
 	message: string;
 	type: EnumNotificationType;
 	isRead: boolean;
-	isViewed: boolean;
 
 	userId: string;
 
@@ -20,7 +19,6 @@ export interface INotificationUser {
 	message: string;
 	type: EnumNotificationType;
 	isRead: boolean;
-	isViewed: boolean;
 
 	createdAt: string;
 	updatedAt: string;

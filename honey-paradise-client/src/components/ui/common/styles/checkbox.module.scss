@@ -15,7 +15,11 @@
 }
 
 .checkbox-decor-input {
-	@apply tw-relative tw-h-7 tw-w-7 tw-bg-secondary tw-rounded-lg tw-cursor-pointer;
+	@apply tw-relative tw-h-7 tw-w-7 tw-bg-secondary tw-rounded-lg tw-cursor-pointer tw-transition-opacity tw-will-change-auto;
+
+	&[data-disabled="true"] {
+		@apply tw-opacity-60 tw-cursor-not-allowed;
+	}
 
 	> svg {
 		@apply tw-absolute tw-top-1/2 tw-left-1/2 -tw-translate-x-1/2 -tw-translate-y-1/2 tw-opacity-0 tw-scale-95 tw-transition-all tw-will-change-auto;

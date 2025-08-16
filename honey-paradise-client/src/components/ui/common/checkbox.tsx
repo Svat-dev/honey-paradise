@@ -20,7 +20,7 @@ const Checkbox = forwardRef<HTMLInputElement, PropsWithChildren<ICheckbox>>(
 				<input className={styles["checkbox-input"]} type="checkbox" spellCheck={false} id={id} ref={ref} {...props} />
 
 				<label htmlFor={id} className={styles["checkbox-wrapper"]}>
-					<div className={cn(styles["checkbox-decor-input"], className)}>
+					<div className={cn(styles["checkbox-decor-input"], className)} data-disabled={props.disabled}>
 						<CheckIcon size={18} strokeWidth={3} />
 					</div>
 

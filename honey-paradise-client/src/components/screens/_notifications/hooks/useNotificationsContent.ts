@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useMyNotifications } from "@hooks/auth";
 import { useNotificationsQueryParams } from "./useNotificationsQueryParams";
@@ -14,12 +14,19 @@ export const useNotificationsContent = () => {
 		if (typeof notificationsLength === "number") setLength(notificationsLength);
 	}, [notificationsLength]);
 
-	return {
-		notifications,
-		notificationsLength: length,
-		isNotificationsLoading,
-		updateQueryParams,
-		unReadLength,
-		queryParams,
-	};
+	useEffect(() => {
+		document.body.setAttribute("id", "none-scrollable-2");
+	}, []);
+
+	return useMemo(
+		() => ({
+			notifications,
+			notificationsLength: length,
+			isNotificationsLoading,
+			updateQueryParams,
+			unReadLength,
+			queryParams,
+		}),
+		[notifications?.length, length, isNotificationsLoading, unReadLength, queryParams]
+	);
 };

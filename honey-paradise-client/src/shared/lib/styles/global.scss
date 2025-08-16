@@ -16,6 +16,10 @@ body#none-scrollable {
 	@apply tw-pr-[18px] tw-overflow-hidden;
 }
 
+body#none-scrollable-2 {
+	@apply tw-overflow-y-hidden;
+}
+
 @media screen and (prefers-reduced-motion: reduce) {
 	html {
 		scroll-behavior: auto;

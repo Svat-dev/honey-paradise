@@ -1,8 +1,8 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo } from "react";
 
 import type { INotificationsQueryParams } from "@/services/types/notifications-service.type";
 import { notificationsFilterStore } from "@/shared/store/notifications-filter.store";
-import { useEffect } from "react";
 
 export const useNotificationsQueryParams = () => {
 	const pathname = usePathname();
@@ -36,12 +36,12 @@ export const useNotificationsQueryParams = () => {
 				value: key === "types" ? value.split(",") : value,
 			});
 		});
+
+		replace(`${pathname}?page=${queryParams.page}`);
 	}, []);
 
-	return {
-		updateQueryParams,
-		queryParams,
-		isFilterUpdated,
-		reset,
-	};
+	return useMemo(
+		() => ({ updateQueryParams, queryParams, isFilterUpdated, reset }),
+		[queryParams, isFilterUpdated, updateQueryParams, reset]
+	);
 };

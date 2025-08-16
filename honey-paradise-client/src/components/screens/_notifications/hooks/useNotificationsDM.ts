@@ -1,48 +1,26 @@
-import { useMarkAsArchivedS, useMarkAsReadS, useNotificationsDeleteS } from "@/services/hooks/notifications";
-import { FolderDownIcon, SquareCheckBigIcon, SquareMousePointerIcon, Trash2Icon } from "lucide-react";
+import { FolderDownIcon, SquareCheckBigIcon, SquareMousePointerIcon, Trash2Icon, XCircleIcon } from "lucide-react";
 import { useEffect, useMemo } from "react";
 
-import { errorCatch } from "@/api/api-helper";
-import type { AxiosError } from "axios";
-import { toast } from "react-hot-toast";
+import { useManageNotifications } from "@hooks/auth";
+import { useNotificationsContext } from "@hooks/context";
 import type { INotificationDMData } from "../types/dropdown-menu.type";
 
 export const useNotificationsDM = (nid: string, isRead: boolean, isOpen: boolean) => {
-	const { markAsReadAsync } = useMarkAsReadS();
-	const { markAsArchivedAsync } = useMarkAsArchivedS();
-	const { deleteNotificationsAsync } = useNotificationsDeleteS();
+	const { isSelectMode, selectedIds, setSelectMode, removeSelectedId } = useNotificationsContext();
+
+	const { deleteNotification, markAsArchived, markAsRead } = useManageNotifications();
+
+	const isSelected = selectedIds.includes(nid);
 
 	const onMarkAsRead = async () => {
-		try {
-			await markAsReadAsync([nid]);
+		if (isRead) return;
 
-			toast.success("Уведомление прочитано");
-		} catch (e) {
-			const { errMsg } = errorCatch(e as AxiosError);
-			toast.error(errMsg);
-		}
+		await markAsRead([nid]);
 	};
 
-	const onMarkAsArchived = async () => {
-		try {
-			await markAsArchivedAsync([nid]);
-
-			toast.success("Уведомление помещено в архив");
-		} catch (e) {
-			const { errMsg } = errorCatch(e as AxiosError);
-			toast.error(errMsg);
-		}
-	};
-
-	const onDelete = async () => {
-		try {
-			await deleteNotificationsAsync([nid]);
-
-			toast.success("Уведомление удалено");
-		} catch (e) {
-			const { errMsg } = errorCatch(e as AxiosError);
-			toast.error(errMsg);
-		}
+	const onClickSelect = () => {
+		if (isSelected) removeSelectedId(nid);
+		else setSelectMode(nid);
 	};
 
 	const data: INotificationDMData[] = useMemo(
@@ -52,51 +30,54 @@ export const useNotificationsDM = (nid: string, isRead: boolean, isOpen: boolean
 				text: "Прочитать",
 				shortcut: "Shift + R",
 				onClick: onMarkAsRead,
-				disabled: isRead,
+				disabled: isRead || isSelectMode,
 			},
 			{
-				Icon: SquareMousePointerIcon,
-				text: "Выбрать",
-				shortcut: "Shift + C", // TODO Начать делать select mode
+				Icon: isSelected ? XCircleIcon : SquareMousePointerIcon,
+				text: isSelected ? "Не выбирать" : "Выбрать",
+				shortcut: "Shift + C",
+				onClick: onClickSelect,
 			},
 			{
 				Icon: FolderDownIcon,
 				text: "Архивировать",
 				shortcut: "Shift + A",
-				onClick: onMarkAsArchived,
+				onClick: () => markAsArchived([nid]),
+				disabled: isSelectMode,
 			},
 			{
 				Icon: Trash2Icon,
 				text: "Удалить",
 				shortcut: "Shift + D",
-				onClick: onDelete,
+				onClick: () => deleteNotification([nid]),
+				disabled: isSelectMode,
 				delete: true,
 			},
 		],
-		[isRead]
+		[isRead, isSelected, isSelectMode]
 	);
 
 	const onKeydown = async (e: KeyboardEvent) => {
 		if (!isOpen) return;
 
-		if (e.shiftKey && e.key === "R") {
+		if (!isSelectMode && e.shiftKey && e.key === "R") {
 			e.preventDefault();
 			await onMarkAsRead();
 		}
 
 		if (e.shiftKey && e.key === "C") {
 			e.preventDefault();
-			console.info(`Selected ${nid} notification`);
+			onClickSelect();
 		}
 
-		if (e.shiftKey && e.key === "A") {
+		if (!isSelectMode && e.shiftKey && e.key === "A") {
 			e.preventDefault();
-			await onMarkAsArchived();
+			await markAsArchived([nid]);
 		}
 
-		if (e.shiftKey && e.key === "D") {
+		if (!isSelectMode && e.shiftKey && e.key === "D") {
 			e.preventDefault();
-			await onDelete();
+			await deleteNotification([nid]);
 		}
 	};
 

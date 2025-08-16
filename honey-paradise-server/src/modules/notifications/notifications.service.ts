@@ -36,7 +36,7 @@ export class NotificationsService {
 		});
 
 		const length = await this.prisma.notification.count({ where: { userId: user.id, ...filters } });
-		const unReadLength = await this.prisma.notification.count({ where: { userId: user.id, isRead: false } });
+		const unReadLength = await this.prisma.notification.count({ where: { userId: user.id, isRead: false, archivedAt: null } });
 
 		return { notifications, length, unReadLength };
 	}

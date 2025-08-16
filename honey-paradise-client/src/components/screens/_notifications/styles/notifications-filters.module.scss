@@ -12,6 +12,22 @@
 	> button {
 		@apply tw-px-2 tw-py-1.5;
 	}
+
+	> div {
+		@apply tw-flex tw-items-center tw-gap-2;
+
+		> button {
+			@apply tw-p-2;
+
+			> svg {
+				@apply tw-transition-colors tw-will-change-auto;
+			}
+
+			&:hover > svg {
+				@apply tw-text-muted;
+			}
+		}
+	}
 }
 
 .checkbox {

@@ -12,10 +12,21 @@ const DynamicNotificationsItemDM = dynamic(() => import("./dropdown/Notification
 interface INotificationItem extends Partial<INotificationUser> {}
 
 const NotificationItem: FC<INotificationItem> = ({ id, isRead, message, type, createdAt }) => {
-	const { onContextMenu, title, time, isOpen, setIsOpen } = useNotificationItem(type, createdAt);
+	const { onContextMenu, title, time, isOpen, setIsOpen, isSelected, isSelectMode, onClick, onMouseEnter, onMouseLeave } =
+		useNotificationItem(id, type, !!isRead, createdAt);
 
 	return (
-		<article className={styles["item"]} onContextMenu={onContextMenu}>
+		<article
+			className={styles["item"]}
+			data-selected={isSelected}
+			data-select-mode={isSelectMode}
+			onClick={onClick}
+			onContextMenu={onContextMenu}
+			onMouseEnter={onMouseEnter}
+			onMouseLeave={onMouseLeave}
+		>
+			<div className={styles["item-overlay"]} role="none" />
+
 			<div className={styles["item-content-wrapper"]}>
 				<div className={cn({ "tw-italic": !isRead })}>
 					<Title size="sm">{title}</Title>

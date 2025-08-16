@@ -1,7 +1,12 @@
 import { type RefetchOptions, useQuery, useQueryClient } from "@tanstack/react-query";
 
+import { errorCatch } from "@/api/api-helper";
+import { useMarkAsArchivedS, useMarkAsReadS, useNotificationsDeleteS } from "@/services/hooks/notifications";
 import { notificationsService } from "@/services/notifications.service";
 import type { INotificationsQueryParams } from "@/services/types/notifications-service.type";
+import type { AxiosError } from "axios";
+import { useMemo } from "react";
+import toast from "react-hot-toast";
 import { useAuth } from "./useAuth";
 
 export const useMyNotifications = (queryParams = {} as INotificationsQueryParams, enabled: boolean = true) => {
@@ -27,19 +32,59 @@ export const useMyNotifications = (queryParams = {} as INotificationsQueryParams
 	const notificationsLength = data?.data.length;
 	const unReadLength = data?.data.unReadLength;
 
-	// return useMemo(
-	// 	() => ({
-	// 		isNotificationsLoading,
-	// 		notifications,
-	// 		refetchNotifications,
-	// 	}),
-	// 	[isNotificationsLoading, notifications, refetchNotifications]
-	// );
-	return {
-		isNotificationsLoading,
-		notifications,
-		notificationsLength,
-		refetchNotifications,
-		unReadLength,
+	return useMemo(
+		() => ({ isNotificationsLoading, notifications, notificationsLength, refetchNotifications, unReadLength }),
+		[isNotificationsLoading, notifications, notificationsLength, refetchNotifications, unReadLength]
+	);
+};
+
+export const useManageNotifications = () => {
+	const { markAsReadAsync, isMarkingAsRead } = useMarkAsReadS();
+	const { markAsArchivedAsync, isMarkingAsArchived } = useMarkAsArchivedS();
+	const { deleteNotificationsAsync, isDeleting } = useNotificationsDeleteS();
+
+	const markAsRead = async (ids: string[], not_toast?: boolean) => {
+		try {
+			await markAsReadAsync(ids);
+
+			if (!not_toast) toast.success("Уведомление прочитано");
+		} catch (e) {
+			const { errMsg } = errorCatch(e as AxiosError);
+			if (!not_toast) toast.error(errMsg);
+		}
 	};
+
+	const markAsArchived = async (ids: string[]) => {
+		try {
+			await markAsArchivedAsync(ids);
+
+			toast.success("Уведомление помещено в архив");
+		} catch (e) {
+			const { errMsg } = errorCatch(e as AxiosError);
+			toast.error(errMsg);
+		}
+	};
+
+	const deleteNotification = async (ids: string[]) => {
+		try {
+			await deleteNotificationsAsync(ids);
+
+			toast.success("Уведомление удалено");
+		} catch (e) {
+			const { errMsg } = errorCatch(e as AxiosError);
+			toast.error(errMsg);
+		}
+	};
+
+	return useMemo(
+		() => ({
+			isMarkingAsRead,
+			isMarkingAsArchived,
+			isDeleting,
+			markAsRead,
+			markAsArchived,
+			deleteNotification,
+		}),
+		[markAsRead, markAsArchived, deleteNotification, isMarkingAsRead, isMarkingAsArchived, isDeleting]
+	);
 };
