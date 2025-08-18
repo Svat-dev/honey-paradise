@@ -1,4 +1,5 @@
 import { FolderDownIcon, SquareCheckBigIcon, SquareMousePointerIcon, Trash2Icon, XCircleIcon } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo } from "react";
 
 import { useManageNotifications } from "@hooks/auth";
@@ -6,6 +7,9 @@ import { useNotificationsContext } from "@hooks/context";
 import type { INotificationDMData } from "../types/dropdown-menu.type";
 
 export const useNotificationsDM = (nid: string, isRead: boolean, isOpen: boolean) => {
+	const t = useTranslations("global.notifications.content.notification.dropdown");
+	const locale = useLocale();
+
 	const { isSelectMode, selectedIds, setSelectMode, removeSelectedId } = useNotificationsContext();
 
 	const { deleteNotification, markAsArchived, markAsRead } = useManageNotifications();
@@ -27,34 +31,34 @@ export const useNotificationsDM = (nid: string, isRead: boolean, isOpen: boolean
 		() => [
 			{
 				Icon: SquareCheckBigIcon,
-				text: "Прочитать",
+				text: t("read"),
 				shortcut: "Shift + R",
 				onClick: onMarkAsRead,
 				disabled: isRead || isSelectMode,
 			},
 			{
 				Icon: isSelected ? XCircleIcon : SquareMousePointerIcon,
-				text: isSelected ? "Не выбирать" : "Выбрать",
+				text: t("select", { isSelected: String(isSelected) }),
 				shortcut: "Shift + C",
 				onClick: onClickSelect,
 			},
 			{
 				Icon: FolderDownIcon,
-				text: "Архивировать",
+				text: t("archive"),
 				shortcut: "Shift + A",
 				onClick: () => markAsArchived([nid]),
-				disabled: isSelectMode,
+				disabled: isSelectMode || !isRead,
 			},
 			{
 				Icon: Trash2Icon,
-				text: "Удалить",
+				text: t("delete"),
 				shortcut: "Shift + D",
 				onClick: () => deleteNotification([nid]),
 				disabled: isSelectMode,
 				delete: true,
 			},
 		],
-		[isRead, isSelected, isSelectMode]
+		[isRead, isSelected, isSelectMode, locale]
 	);
 
 	const onKeydown = async (e: KeyboardEvent) => {
@@ -70,7 +74,7 @@ export const useNotificationsDM = (nid: string, isRead: boolean, isOpen: boolean
 			onClickSelect();
 		}
 
-		if (!isSelectMode && e.shiftKey && e.key === "A") {
+		if (!isSelectMode && isRead && e.shiftKey && e.key === "A") {
 			e.preventDefault();
 			await markAsArchived([nid]);
 		}
@@ -92,5 +96,6 @@ export const useNotificationsDM = (nid: string, isRead: boolean, isOpen: boolean
 
 	return {
 		data,
+		t,
 	};
 };

@@ -356,7 +356,51 @@
 		"notifications": {
 			"title": "Notifications",
 			"description": "Notifications page of the online store {title}",
-			"content": {}
+			"content": {
+				"title": "My notifications",
+				"description": "Here are all the notifications for the last 3 months that have come to you, including notifications about the order, account security, and others",
+				"NotFound": "Your notifications have not been found or are simply not there<br></br>When the first notifications arrive, they will appear here",
+				"notification": {
+					"isRead": " {isRead, select, true {Read} false {Not read} other {}}",
+					"type": {
+						"accountStatus": "Account security",
+						"OrderStatus": "Status of your orders",
+						"specialOffers": "Special offers",
+						"telegram": "Telegram notifications"
+					},
+					"dropdown": {
+						"title": "Actions",
+						"read": "Read",
+						"select": "{IsSelected, select, false {Select} true {Do not select} other {}}",
+						"archive": "Archive",
+						"delete": "Delete"
+					}
+				},
+				"filters": {
+					"notificationsTypeBtn": "Selected: {length}",
+					"sortTypeBtn": "Sorting",
+					"onlyNotRead": "Unread only",
+					"sortTypes": {
+						"newest": "New on top",
+						"oldest": "Old on top"
+					},
+					"actions": {
+						"selectedTxt": "Selected items: {length}",
+						"cancelBtn": "Cancel",
+						"ReadAll": "Read all"
+					}
+				},
+				"labels": {
+					"notFoundImage": "Photo: Not found",
+					"notificationsTypeBtn": "Notification type",
+					"sortTypeBtn": "Sort type",
+					"refreshAndResetBtn": "Reset filters and update data",
+					"readSelectedBtn": "Mark as read",
+					"archiveSelectedBtn": "Archive selected",
+					"deleteSelectedBtn": "Delete selected",
+					"cancelBtn": "Deselect"
+				}
+			}
 		},
 		"settings": {
 			"title": "Settings",
@@ -743,6 +787,9 @@
 			},
 			"day": {
 				"default": "{days, plural, =1 {day} other {# days}} ago"
+			},
+			"month": {
+				"default": "{months, plural, =1 {month} other {# months}} ago"
 			},
 			"yesterday": {
 				"midnight": "yesterday at midnight",

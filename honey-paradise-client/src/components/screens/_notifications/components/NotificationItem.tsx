@@ -12,7 +12,7 @@ const DynamicNotificationsItemDM = dynamic(() => import("./dropdown/Notification
 interface INotificationItem extends Partial<INotificationUser> {}
 
 const NotificationItem: FC<INotificationItem> = ({ id, isRead, message, type, createdAt }) => {
-	const { onContextMenu, title, time, isOpen, setIsOpen, isSelected, isSelectMode, onClick, onMouseEnter, onMouseLeave } =
+	const { onContextMenu, title, time, isOpen, setIsOpen, isSelected, isSelectMode, onClick, onMouseEnter, onMouseLeave, t } =
 		useNotificationItem(id, type, !!isRead, createdAt);
 
 	return (
@@ -37,7 +37,7 @@ const NotificationItem: FC<INotificationItem> = ({ id, isRead, message, type, cr
 
 					<DotIcon size={24} />
 
-					<span>{isRead ? "Прочитано" : "Не прочитано"}</span>
+					<span>{t("isRead", { isRead: String(isRead) })}</span>
 				</div>
 
 				<p>{message}</p>

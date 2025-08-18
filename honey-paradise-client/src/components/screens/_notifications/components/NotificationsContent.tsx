@@ -11,7 +11,7 @@ import { NotificationItem } from "./NotificationItem";
 import { NotificationsLoading } from "./NotificationsLoading";
 
 const NotificationsContent = () => {
-	const { isNotificationsLoading, notifications, notificationsLength, updateQueryParams, queryParams, unReadLength } =
+	const { isNotificationsLoading, notifications, notificationsLength, updateQueryParams, queryParams, unReadLength, t } =
 		useNotificationsContent();
 
 	const pages = Math.ceil(notificationsLength! / 5);
@@ -31,17 +31,13 @@ const NotificationsContent = () => {
 					</>
 				) : (
 					<div className={styles["not-found"]}>
-						<Image src="/assets/not-found-notifications.webp" alt={"Фото: Не найдено"} width={250} height={155} />
-						<p>
-							Ваши уведомления не найдены или их просто нет
-							<br />
-							Когда придут первые уведомления, они здесь появятся
-						</p>
+						<Image src="/assets/not-found-notifications.webp" alt={t("labels.notFoundImage")} width={250} height={155} loading="lazy" />
+						<p>{t.rich("notFound", { br: () => <br /> })}</p>
 					</div>
 				)}
 
 				<div className={styles["pagination-wrapper"]}>
-					<Pagination className={pages === 1 && !isNotificationsLoading ? "tw-hidden" : ""}>
+					<Pagination className={[0, 1].includes(pages) && !isNotificationsLoading ? "tw-hidden" : ""}>
 						<PaginationContent
 							pages={pages}
 							currentPage={queryParams.page ? +queryParams.page : undefined}

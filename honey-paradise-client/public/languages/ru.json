@@ -356,7 +356,51 @@
 		"notifications": {
 			"title": "Уведомления",
 			"description": "Страница уведомлений интернет-магазина {title}",
-			"content": {}
+			"content": {
+				"title": "Мои уведомления",
+				"description": "Здесь находятся все уведомления за последние 3 месяца, которые приходили к вам, включая уведомления о заказе, безопасности аккаунта и другие",
+				"notFound": "Ваши уведомления не найдены или их просто нет<br></br>Когда придут первые уведомления, они здесь появятся",
+				"notification": {
+					"isRead": " {isRead, select, true {Прочитано} false {Не прочитано} other {}}",
+					"type": {
+						"accountStatus": "Безопасность аккаунта",
+						"orderStatus": "Статус вашего заказа",
+						"specialOffers": "Специальное предложение",
+						"telegram": "Телеграм уведомления"
+					},
+					"dropdown": {
+						"title": "Действия",
+						"read": "Прочитать",
+						"select": "{isSelected, select, false {Выбрать} true {Не выбирать} other {}}",
+						"archive": "Архивировать",
+						"delete": "Удалить"
+					}
+				},
+				"filters": {
+					"notificationsTypeBtn": "Выбрано: {length}",
+					"sortTypeBtn": "Сортировка",
+					"onlyNotRead": "Только непрочитанные",
+					"sortTypes": {
+						"newest": "Новые сверху",
+						"oldest": "Старые сверху"
+					},
+					"actions": {
+						"selectedTxt": "Выбрано элементов: {length}",
+						"cancelBtn": "Отменить",
+						"readAll": "Прочитать все"
+					}
+				},
+				"labels": {
+					"notFoundImage": "Фото: Не найдено",
+					"notificationsTypeBtn": "Тип уведомлений",
+					"sortTypeBtn": "Вид сортировки",
+					"refreshAndResetBtn": "Сбросить фильтры и обновить данные",
+					"readSelectedBtn": "Отметить как прочитанные",
+					"archiveSelectedBtn": "Архивировать выбранные",
+					"deleteSelectedBtn": "Удалить выбранные",
+					"cancelBtn": "Отменить выбор"
+				}
+			}
 		},
 		"settings": {
 			"title": "Настройки",
@@ -752,6 +796,12 @@
 				"1": "{days, plural, =1 {} other {# }}день назад",
 				"2-4": "{days} дня назад",
 				"other": "{days} дней назад"
+			},
+			"month": {
+				"default": "ru",
+				"1": "{months, plural, =1 {} other {# }}месяц назад",
+				"2-4": "{months} месяца назад",
+				"other": "{months} месяцев назад"
 			},
 			"yesterday": {
 				"midnight": "вчера в полночь",

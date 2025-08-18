@@ -1,7 +1,6 @@
 import { Button, Checkbox, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/common";
 import { CheckIcon, FilterIcon, RotateCwIcon } from "lucide-react";
 
-import { getNotificationHeadingByType } from "@utils/get-notification-heading-by-type";
 import type { FC } from "react";
 import { useNotificationsFilters } from "../../hooks/useNotificationsFilters";
 import styles from "../../styles/notifications-filters.module.scss";
@@ -20,15 +19,17 @@ const FiltersWrapper: FC<IFiltersWrapperProps> = ({ isAllMarkingAsRead, disabled
 		onChangeNotificationsType,
 		onChangeSortType,
 		reset,
+		heading,
+		t,
 	} = useNotificationsFilters();
 
 	return (
 		<div className={styles["filters-wrapper"]}>
 			<DropdownMenu>
 				<DropdownMenuTrigger disabled={disabled || isAllMarkingAsRead} asChild>
-					<Button variant="secondary" title="Тип уведомлений" className={styles["dm-trigger"]}>
+					<Button variant="secondary" title={t("labels.notificationsTypeBtn")} className={styles["dm-trigger"]}>
 						<FilterIcon size={16} />
-						Выбрано: {types?.length}
+						{t("filters.notificationsTypeBtn", { length: types?.length || 0 })}
 					</Button>
 				</DropdownMenuTrigger>
 
@@ -41,7 +42,7 @@ const FiltersWrapper: FC<IFiltersWrapperProps> = ({ isAllMarkingAsRead, disabled
 							className={styles["checkbox"]}
 							containerClassName={styles["dm-checkbox-item"]}
 						>
-							{getNotificationHeadingByType(item.type)}
+							{heading(item.type)}
 						</Checkbox>
 					))}
 				</DropdownMenuContent>
@@ -49,9 +50,9 @@ const FiltersWrapper: FC<IFiltersWrapperProps> = ({ isAllMarkingAsRead, disabled
 
 			<DropdownMenu>
 				<DropdownMenuTrigger disabled={disabled || isAllMarkingAsRead} asChild>
-					<Button variant="secondary" title="Вид сортировки" className={styles["dm-trigger"]}>
+					<Button variant="secondary" title={t("labels.sortTypeBtn")} className={styles["dm-trigger"]}>
 						<SortIcon className="tw-opacity-0 tw-animate-show-effect" />
-						{"Сортировка"}
+						{t("filters.sortTypeBtn")}
 					</Button>
 				</DropdownMenuTrigger>
 
@@ -74,12 +75,12 @@ const FiltersWrapper: FC<IFiltersWrapperProps> = ({ isAllMarkingAsRead, disabled
 				onChange={e => onChangeIsRead(e.currentTarget.checked)}
 				disabled={isAllMarkingAsRead || disabled}
 			>
-				Только непрочитанные
+				{t("filters.onlyNotRead")}
 			</Checkbox>
 
 			<Button
 				variant="ghost"
-				title={"Сбросить фильтры и обновить данные"}
+				title={t("labels.refreshAndResetBtn")}
 				className={styles["reset"]}
 				onClick={reset}
 				disabled={isAllMarkingAsRead}

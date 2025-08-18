@@ -1,9 +1,13 @@
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 
 import { useMyNotifications } from "@hooks/auth";
 import { useNotificationsQueryParams } from "./useNotificationsQueryParams";
 
 export const useNotificationsContent = () => {
+	const t = useTranslations("global.notifications.content");
+	const locale = useLocale();
+
 	const { queryParams, updateQueryParams, isFilterUpdated } = useNotificationsQueryParams();
 
 	const { notifications, notificationsLength, isNotificationsLoading, unReadLength } = useMyNotifications(queryParams, isFilterUpdated);
@@ -26,7 +30,8 @@ export const useNotificationsContent = () => {
 			updateQueryParams,
 			unReadLength,
 			queryParams,
+			t,
 		}),
-		[notifications?.length, length, isNotificationsLoading, unReadLength, queryParams]
+		[notifications?.length, length, isNotificationsLoading, unReadLength, queryParams, locale]
 	);
 };

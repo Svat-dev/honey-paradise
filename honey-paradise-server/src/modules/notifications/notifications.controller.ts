@@ -3,6 +3,7 @@ import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
 import { Delete, Get, Patch } from "@nestjs/common/decorators/http/request-mapping.decorator";
 import { Body, Query } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
+import { Cron } from "@nestjs/schedule/dist/decorators/cron.decorator";
 import { Authorization } from "src/shared/decorators/auth.decorator";
 import { Authorized } from "src/shared/decorators/authorized.decorator";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
@@ -47,5 +48,10 @@ export class NotificationsController {
 	@Delete(EnumApiRoute.DELETE_NOTIFICATIONS)
 	delete(@Authorized("id") userId: string, @Body() dto: NotificationsIdsDto) {
 		return this.notificationsService.delete(userId, dto.ids);
+	}
+
+	@Cron("0 0 0 * * 1", { timeZone: "UTC" })
+	checkExpiredNotifications() {
+		return this.notificationsService.checkExpiredNotifications();
 	}
 }

@@ -36,3 +36,16 @@ export function getDaysString(days: number, t: any): string {
 
 	return daysStr;
 }
+
+export function getMonthsString(months: number, t: any): string {
+	const monthsStr =
+		t("month.default", { months }) !== "ru"
+			? t("month.default", { months })
+			: months % 10 === 1 && months % 100 !== 11
+			? t("month.1", { months })
+			: months % 10 >= 2 && months % 10 <= 4 && (months % 100 < 10 || months % 100 >= 20)
+			? t("month.2-4", { months })
+			: t("month.other", { months });
+
+	return monthsStr;
+}

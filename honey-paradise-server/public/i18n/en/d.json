@@ -84,7 +84,10 @@
 			"is_exist": "This phone number is already occupied by another user"
 		},
 		"notifications": {
-			"not_found": "Notification not found"
+			"not_found": "Notification not found",
+			"already_read": "Notification has already been read",
+			"already_archived": "Notification has already been archived",
+			"not_read_to_archive": "Notification has not been read to be archived"
 		},
 		"verification": {
 			"invalid_code": "You entered the wrong code.\nPlease check the correctness of the input",

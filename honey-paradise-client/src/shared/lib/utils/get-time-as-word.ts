@@ -1,12 +1,18 @@
 import { addHours, toDate } from "date-fns";
-import { getDaysString, getHoursString, getMinutesString } from "./get-time";
+import { getDaysString, getHoursString, getMinutesString, getMonthsString } from "./get-time";
 
 import { useTranslations } from "next-intl";
 
-export function getTimeAsWordString(createdAtStr: string, dt?: any): string {
+/**
+ * Генерирует строку времени в разговорном формате
+ * @param {string} startTime - время отсчета в формате ISO
+ * @param {any} dt - Не обязательный параметр, если не передан, будет использоваться локализация по умолчанию
+ * @returns {string} Строка времени в формате "сегодня в 12:00", 2 дня назад, 1 minute ago...
+ */
+export function getTimeAsWordString(startTime: string, dt?: any): string {
 	const now = new Date().getTime();
-	const createdAt = toDate(createdAtStr).getTime();
-	const createAtISO = addHours(toDate(createdAtStr), 3).toISOString();
+	const createdAt = toDate(startTime).getTime();
+	const createAtISO = addHours(toDate(startTime), 3).toISOString();
 
 	const t = dt || useTranslations("shared.time");
 
@@ -32,6 +38,7 @@ export function getTimeAsWordString(createdAtStr: string, dt?: any): string {
 			: t("yesterday.withDate", { time: `${hours}:${minutes}` });
 	} else {
 		if (days < 7) return getDaysString(days, t);
-		else return t("week", { weeks: Math.floor(days / 7) });
+		else if (days < 30) return t("week", { weeks: Math.floor(days / 7) });
+		else return getMonthsString(Math.floor(days / 30), t);
 	}
 }

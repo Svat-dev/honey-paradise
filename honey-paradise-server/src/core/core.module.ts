@@ -5,6 +5,7 @@ import { CookieResolver, I18nModule } from "nestjs-i18n";
 import { Module } from "@nestjs/common/decorators/modules/module.decorator";
 import { ConfigModule } from "@nestjs/config/dist/config.module";
 import { ConfigService } from "@nestjs/config/dist/config.service";
+import { ScheduleModule } from "@nestjs/schedule/dist/schedule.module";
 import { ServeStaticModule } from "@nestjs/serve-static/dist/serve-static.module";
 import { AccountModule } from "src/modules/auth/account/account.module";
 import { ProfileModule } from "src/modules/auth/profile/profile.module";
@@ -36,6 +37,7 @@ import { RedisModule } from "./redis/redis.module";
 			useFactory: getI18nConfig,
 			resolvers: [new CookieResolver([EnumStorageKeys.LOCALE_LANGUAGE])],
 		}),
+		ScheduleModule.forRoot(),
 		MailModule,
 
 		// ...database modules

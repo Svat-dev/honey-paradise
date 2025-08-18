@@ -1,11 +1,13 @@
 import { SortAscIcon, SortDescIcon } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 
 import { errorCatch } from "@/api/api-helper";
 import { useMarkAsReadAllS } from "@/services/hooks/notifications";
-import { useManageNotifications } from "@/shared/lib/hooks/auth";
 import { EnumNotificationsSortType } from "@/shared/store/types/notifications-filter-store.type";
 import { EnumNotificationType } from "@/shared/types/models";
+import { useManageNotifications } from "@hooks/auth";
 import { useNotificationsContext } from "@hooks/context";
+import { getNotificationHeadingByType } from "@utils/get-notification-heading-by-type";
 import type { AxiosError } from "axios";
 import { useMemo } from "react";
 import toast from "react-hot-toast";
@@ -33,6 +35,9 @@ export const useNotificationsFiltersWrapper = () => {
 };
 
 export const useNotificationsFilters = () => {
+	const t = useTranslations("global.notifications.content");
+	const locale = useLocale();
+
 	const { queryParams, updateQueryParams, reset } = useNotificationsQueryParams();
 
 	const notificationsFilters: INotificationFilters = useMemo(
@@ -41,17 +46,17 @@ export const useNotificationsFilters = () => {
 				{
 					icon: SortDescIcon,
 					type: EnumNotificationsSortType.NEWEST,
-					label: "Новые",
+					label: t("filters.sortTypes.newest"),
 				},
 				{
 					icon: SortAscIcon,
 					type: EnumNotificationsSortType.OLDEST,
-					label: "Старые",
+					label: t("filters.sortTypes.oldest"),
 				},
 			],
 			notificationType: Object.values(EnumNotificationType).map(type => ({ type })),
 		}),
-		[]
+		[locale]
 	);
 
 	const onChangeSortType = (type: EnumNotificationsSortType) => updateQueryParams("sort", type);
@@ -72,6 +77,8 @@ export const useNotificationsFilters = () => {
 
 	const SortIcon = notificationsFilters.sortType.find(item => item.type === queryParams.sort)?.icon || SortDescIcon;
 
+	const heading = (type: EnumNotificationType) => getNotificationHeadingByType(type, t);
+
 	return useMemo(
 		() => ({
 			onChangeSortType,
@@ -81,12 +88,16 @@ export const useNotificationsFilters = () => {
 			SortIcon,
 			notificationsFilters,
 			reset,
+			heading,
+			t,
 		}),
-		[queryParams.is_read, queryParams.sort, queryParams.types]
+		[queryParams.is_read, queryParams.sort, queryParams.types, locale]
 	);
 };
 
 export const useNotificationsFiltersActions = () => {
+	const t = useTranslations("global.notifications.content");
+
 	const { isSelectMode, selectedIds, cancelSelectMode } = useNotificationsContext();
 	const { deleteNotification, markAsArchived, markAsRead, isDeleting, isMarkingAsArchived, isMarkingAsRead } = useManageNotifications();
 
@@ -127,5 +138,6 @@ export const useNotificationsFiltersActions = () => {
 		deleteSelected,
 		archiveSelected,
 		readSelected,
+		t,
 	};
 };

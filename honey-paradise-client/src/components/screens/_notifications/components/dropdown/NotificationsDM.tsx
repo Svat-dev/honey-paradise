@@ -22,18 +22,18 @@ interface IProps {
 }
 
 const NotificationsItemDM: FC<IProps> = ({ nid, isRead, isOpen, setIsOpen }) => {
-	const { data } = useNotificationsDM(nid!, !!isRead, isOpen);
+	const { data, t } = useNotificationsDM(nid!, !!isRead, isOpen);
 
 	return (
 		<DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
 			<DropdownMenuTrigger asChild>
-				<Button variant="ghost" className="[&_>_svg]:hover:tw-text-muted">
+				<Button variant="ghost" title={t("title")} className="[&_>_svg]:hover:tw-text-muted">
 					<MoreVerticalIcon size={24} className="tw-transition-colors" />
 				</Button>
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent side="left">
-				<DropdownMenuLabel className="tw-sr-only">{"Действия"}</DropdownMenuLabel>
+				<DropdownMenuLabel className="tw-sr-only">{t("title")}</DropdownMenuLabel>
 
 				<DropdownMenuGroup>{data.map(item => !item.delete && <NotificationsDMItem key={item.text} {...item} />)}</DropdownMenuGroup>
 

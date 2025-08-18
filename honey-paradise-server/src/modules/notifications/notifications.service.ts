@@ -1,9 +1,11 @@
 import { EnumNotificationType, type Notification, type Prisma } from "@prisma/client";
 
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
+import { ConflictException } from "@nestjs/common/exceptions/conflict.exception";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
+import { ms } from "src/shared/lib/common/utils";
 import { getPagination } from "src/shared/lib/common/utils/get-pagination.util";
 import { notificationUserOutput } from "src/shared/lib/prisma/outputs/notifications.output";
 import { NotificationGateway } from "../../shared/websockets/notifications.gateway";
@@ -63,7 +65,9 @@ export class NotificationsService {
 	async markAsRead(userId: string, ids: string[]) {
 		const notifications = await this.getAllNotificationsByIds(ids);
 
-		for (const { id } of notifications) {
+		for (const { id, isRead } of notifications) {
+			if (isRead) throw new ConflictException(this.i18n.t("d.errors.notifications.already_read"));
+
 			await this.prisma.notification.update({ where: { id }, data: { isRead: true } });
 		}
 
@@ -75,8 +79,8 @@ export class NotificationsService {
 	async markAsReadAll(userId: string) {
 		const notifications = await this.prisma.notification.findMany({ where: { userId } });
 
-		for (const { id } of notifications) {
-			await this.prisma.notification.update({ where: { id }, data: { isRead: true } });
+		for (const { id, isRead } of notifications) {
+			if (!isRead) await this.prisma.notification.update({ where: { id }, data: { isRead: true } });
 		}
 
 		this.socket.handleRefreshNotifications({ userId });
@@ -87,7 +91,10 @@ export class NotificationsService {
 	async markAsArchived(userId: string, ids: string[]) {
 		const notifications = await this.getAllNotificationsByIds(ids);
 
-		for (const { id } of notifications) {
+		for (const { id, isRead, archivedAt } of notifications) {
+			if (!isRead) throw new ConflictException(this.i18n.t("d.errors.notifications.not_read_to_archive"));
+			if (archivedAt) throw new ConflictException(this.i18n.t("d.errors.notifications.already_archived"));
+
 			await this.prisma.notification.update({ where: { id }, data: { archivedAt: new Date() } });
 		}
 
@@ -104,6 +111,24 @@ export class NotificationsService {
 		}
 
 		this.socket.handleRefreshNotifications({ userId });
+
+		return true;
+	}
+
+	async checkExpiredNotifications() {
+		const readNotifications = await this.prisma.notification.findMany({ where: { isRead: true } });
+
+		for (const { id, archivedAt, updatedAt } of readNotifications) {
+			if (archivedAt) {
+				const diff = new Date().getTime() - archivedAt.getTime();
+				if (diff > ms("12w")) await this.prisma.notification.delete({ where: { id } });
+				else continue;
+			} else {
+				const diff = new Date().getTime() - updatedAt.getTime();
+				if (diff > ms("12w")) await this.prisma.notification.update({ where: { id }, data: { archivedAt: new Date() } });
+				continue;
+			}
+		}
 
 		return true;
 	}

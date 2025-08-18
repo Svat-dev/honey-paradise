@@ -13,42 +13,49 @@ interface IActionsProps {
 }
 
 const ActionsWrapper: FC<IActionsProps> = ({ markAsReadAll, isAllMarkingAsRead, unReadLength, disabled }) => {
-	const { cancelSelectMode, archiveSelected, deleteSelected, readSelected, isSelectMode, selectedLength } =
+	const { cancelSelectMode, archiveSelected, deleteSelected, readSelected, isSelectMode, selectedLength, t } =
 		useNotificationsFiltersActions();
 
 	return (
 		<div className={styles["actions-wrapper"]}>
 			{isSelectMode ? (
 				<div>
-					<p>Выбрано элементов: {selectedLength}</p>
+					<p>{t("filters.actions.selectedTxt", { length: selectedLength })}</p>
 
 					<Separator orientation="vertical" className="!tw-h-7 tw-bg-muted tw-mx-3" />
 
-					<Button variant="ghost" title={"Отметить как прочитанные"} disabled={unReadLength === 0 || disabled} onClick={readSelected}>
+					<Button variant="ghost" title={t("labels.readSelectedBtn")} disabled={unReadLength === 0 || disabled} onClick={readSelected}>
 						<CheckSquareIcon size={20} />
 					</Button>
-					<Button variant="ghost" title={"Архивировать выбранные"} disabled={disabled} onClick={archiveSelected}>
+					<Button variant="ghost" title={t("labels.archiveSelectedBtn")} disabled={disabled} onClick={archiveSelected}>
 						<FolderDownIcon size={20} />
 					</Button>
-					<Button variant="ghost" title={"Удалить выбранные"} className="tw-text-red-500" disabled={disabled} onClick={deleteSelected}>
+					<Button
+						variant="ghost"
+						title={t("labels.deleteSelectedBtn")}
+						className="tw-text-red-500"
+						disabled={disabled}
+						onClick={deleteSelected}
+					>
 						<Trash2Icon size={20} />
 					</Button>
 
 					<Separator orientation="vertical" className="!tw-h-7 tw-bg-muted tw-mx-3" />
 
-					<Button variant="destructive" onClick={cancelSelectMode}>
-						{"Отменить"}
+					<Button variant="destructive" title={t("labels.cancelBtn")} onClick={cancelSelectMode}>
+						{t("filters.actions.cancelBtn")}
 					</Button>
 				</div>
 			) : (
 				<>
 					<Button
 						variant="secondary"
+						title={t("filters.actions.readAll")}
 						onClick={markAsReadAll}
 						disabled={isAllMarkingAsRead || disabled || unReadLength === 0}
 						isLoading={isAllMarkingAsRead}
 					>
-						{"Прочитать все"}
+						{t("filters.actions.readAll")}
 					</Button>
 				</>
 			)}
