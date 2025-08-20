@@ -18,6 +18,22 @@
 				}
 			}
 		},
+		"notAuth": {
+			"title": "Not authorized",
+			"content": {
+				"title": "You are not authorized",
+				"description": "You must be authorized to access this page. Sign in and try again later",
+				"actions": {
+					"toIndex": "Sign in",
+					"refresh": "Refresh"
+				},
+				"labels": {
+					"toIndex": "To the account login page",
+					"refresh": "Refresh page",
+					"image": "Image \"User is not authorized\""
+				}
+			}
+		},
 		"privacy-policy": {
 			"title": "Privacy policy",
 			"description": "Privacy Policy of the {title} online store",
@@ -359,19 +375,19 @@
 			"content": {
 				"title": "My notifications",
 				"description": "Here are all the notifications for the last 3 months that have come to you, including notifications about the order, account security, and others",
-				"NotFound": "Your notifications have not been found or are simply not there<br></br>When the first notifications arrive, they will appear here",
+				"notFound": "Your notifications have not been found or are simply not there<br></br>When the first notifications arrive, they will appear here",
 				"notification": {
 					"isRead": " {isRead, select, true {Read} false {Not read} other {}}",
 					"type": {
 						"accountStatus": "Account security",
-						"OrderStatus": "Status of your orders",
+						"orderStatus": "Status of your orders",
 						"specialOffers": "Special offers",
 						"telegram": "Telegram notifications"
 					},
 					"dropdown": {
 						"title": "Actions",
 						"read": "Read",
-						"select": "{IsSelected, select, false {Select} true {Do not select} other {}}",
+						"select": "{isSelected, select, false {Select} true {Don't select} other {}}",
 						"archive": "Archive",
 						"delete": "Delete"
 					}
@@ -387,7 +403,7 @@
 					"actions": {
 						"selectedTxt": "Selected items: {length}",
 						"cancelBtn": "Cancel",
-						"ReadAll": "Read all"
+						"readAll": "Read all"
 					}
 				},
 				"labels": {
@@ -398,7 +414,7 @@
 					"readSelectedBtn": "Mark as read",
 					"archiveSelectedBtn": "Archive selected",
 					"deleteSelectedBtn": "Delete selected",
-					"cancelBtn": "Deselect"
+					"cancelBtn": "Cancel"
 				}
 			}
 		},

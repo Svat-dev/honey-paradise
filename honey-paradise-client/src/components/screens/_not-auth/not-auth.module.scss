@@ -1,0 +1,25 @@
+.container {
+	@apply tw-absolute tw-top-1/2 tw-left-1/2 -tw-translate-x-1/2 -tw-translate-y-1/2 tw-flex tw-items-center tw-gap-4;
+}
+
+.content-wrapper {
+	> h2 {
+		@apply tw-text-3xl;
+	}
+
+	> p {
+		@apply tw-text-gray-500 tw-ml-1 tw-mb-6;
+	}
+}
+
+.actions-wrapper {
+	@apply tw-flex tw-items-center tw-gap-5;
+
+	> button:last-of-type {
+		@apply tw-border-gray-500 tw-text-gray-500;
+
+		&:hover {
+			@apply tw-border-black tw-text-black;
+		}
+	}
+}

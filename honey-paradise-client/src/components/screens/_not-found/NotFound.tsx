@@ -3,13 +3,14 @@
 import { Button, Title } from "@/components/ui/common";
 
 import { EnumAppRoute } from "@constants/routes";
-import Image from "next/image";
 import { MoveLeftIcon } from "lucide-react";
-import styles from "./not-found.module.scss";
-import { useRouter } from "next/dist/client/components/navigation";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/dist/client/components/navigation";
+import Image from "next/image";
+import { memo } from "react";
+import styles from "./not-found.module.scss";
 
-const NotFound = () => {
+const NotFound = memo(() => {
 	const { refresh, replace } = useRouter();
 	const t = useTranslations("global.notFound.content");
 
@@ -46,6 +47,6 @@ const NotFound = () => {
 			</div>
 		</main>
 	);
-};
+});
 
 export { NotFound };
