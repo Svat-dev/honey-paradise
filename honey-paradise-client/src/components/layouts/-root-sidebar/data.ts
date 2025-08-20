@@ -11,7 +11,7 @@ import {
 	ShieldAlertIcon,
 } from "lucide-react";
 
-import { EnumAppRoute } from "@/shared/lib/constants/routes";
+import { EnumAppRoute } from "@constants/routes";
 import { getTranslations } from "next-intl/server";
 import type { INavList } from "./types/data.type";
 

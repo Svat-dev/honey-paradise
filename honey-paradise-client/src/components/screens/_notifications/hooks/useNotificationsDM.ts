@@ -1,14 +1,15 @@
 import { FolderDownIcon, SquareCheckBigIcon, SquareMousePointerIcon, Trash2Icon, XCircleIcon } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useEffect, useMemo } from "react";
 
 import { useManageNotifications } from "@hooks/auth";
 import { useNotificationsContext } from "@hooks/context";
+import { useLanguage } from "@i18n/hooks";
 import type { INotificationDMData } from "../types/dropdown-menu.type";
 
 export const useNotificationsDM = (nid: string, isRead: boolean, isOpen: boolean) => {
 	const t = useTranslations("global.notifications.content.notification.dropdown");
-	const locale = useLocale();
+	const { locale } = useLanguage();
 
 	const { isSelectMode, selectedIds, setSelectMode, removeSelectedId } = useNotificationsContext();
 

@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/common";
-import { ConfirmModal } from "@/components/ui/components/ConfirmModal";
-import { DotIcon } from "lucide-react";
-import type { FC } from "react";
 import type { ISessionMetadata } from "@/shared/types/models/session.type";
-import { SessionModal } from "./SessionModal";
 import { capitalize } from "@utils/index";
-import styles from "../../../styles/devices.module.scss";
+import { DotIcon } from "lucide-react";
+import dynamic from "next/dynamic";
+import type { FC } from "react";
 import { useSessionItem } from "../../../hooks/useSessionItem";
+import styles from "../../../styles/devices.module.scss";
+import { SessionModal } from "./SessionModal";
+
+const DynamicConfirmModal = dynamic(() => import("@/components/ui/components/ConfirmModal").then(mod => mod.ConfirmModal));
 
 interface IProps {
 	remove: (sid: string) => Promise<void>;
@@ -71,11 +73,11 @@ const SessionItem: FC<IProps> = ({ createdAt, metadata, remove, isCurrent, sid }
 				</SessionModal>
 
 				{!isCurrent && (
-					<ConfirmModal heading={t("modals.confirm.title")} desc={t("modals.confirm.description")} onConfirm={handleRemove}>
+					<DynamicConfirmModal heading={t("modals.confirm.title")} desc={t("modals.confirm.description")} onConfirm={handleRemove}>
 						<Button variant="destructive" title={t("labels.removeBtn")}>
 							{t("content.removeBtn")}
 						</Button>
-					</ConfirmModal>
+					</DynamicConfirmModal>
 				)}
 			</div>
 		</article>

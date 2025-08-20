@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useMemo, useState } from "react";
 
 import { getTimeAsWordString } from "@/shared/lib/utils/get-time-as-word";
 import type { ISessionMetadata } from "@/shared/types/models/session.type";
@@ -18,28 +18,27 @@ export const useSessionModal = (metadata: ISessionMetadata, createdAt: string) =
 	const center = [metadata.location.latidute, metadata.location.longitude];
 	const lang = locale === "ru" ? "ru_RU" : "en_US";
 
-	const data: ISessionInfo[] = [
-		{
-			id: useId(),
-			text: t("modals.more.content.device"),
-			value: `${metadata.device.browser}, ${metadata.device.os}`,
-		},
-		{
-			id: useId(),
-			text: t("modals.more.content.location"),
-			value: `${metadata.location.country}, ${metadata.location.city}`,
-		},
-		{
-			id: useId(),
-			text: t("modals.more.content.ip"),
-			value: metadata.ip,
-		},
-		{
-			id: useId(),
-			text: t("modals.more.content.time"),
-			value: `${format(createdAt, "dd.MM.yyyy")}, (${time})`,
-		},
-	];
+	const data: ISessionInfo[] = useMemo(
+		() => [
+			{
+				text: t("modals.more.content.device"),
+				value: `${metadata.device.browser}, ${metadata.device.os}`,
+			},
+			{
+				text: t("modals.more.content.location"),
+				value: `${metadata.location.country}, ${metadata.location.city}`,
+			},
+			{
+				text: t("modals.more.content.ip"),
+				value: metadata.ip,
+			},
+			{
+				text: t("modals.more.content.time"),
+				value: `${format(createdAt, "dd.MM.yyyy")}, (${time})`,
+			},
+		],
+		[locale]
+	);
 
 	setInterval(() => {
 		setTime(getTimeAsWordString(createdAt, dt));

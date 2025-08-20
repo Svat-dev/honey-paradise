@@ -7,7 +7,6 @@ export interface ISessionModalProps extends PropsWithChildren {
 }
 
 export interface ISessionInfo {
-	id: string;
 	text: string;
 	value: string;
 }

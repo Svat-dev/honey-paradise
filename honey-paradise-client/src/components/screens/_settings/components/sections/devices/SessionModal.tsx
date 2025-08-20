@@ -31,7 +31,7 @@ const SessionModal: FC<ISessionModalProps> = ({ children, createdAt, metadata })
 				</DialogHeader>
 
 				{data.map(item => (
-					<div className="tw-flex tw-items-center" key={item.id}>
+					<div className="tw-flex tw-items-center" key={item.value}>
 						<span className="tw-font-medium">{item.text}</span>
 						<span className="tw-ml-2 tw-text-muted">{item.value}</span>
 					</div>

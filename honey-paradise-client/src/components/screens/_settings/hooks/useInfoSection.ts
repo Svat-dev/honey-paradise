@@ -6,6 +6,7 @@ import { EnumGenders } from "@/shared/types/models";
 import { PHONE_MASK_PATTERN } from "@constants/base";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDebounce } from "@hooks/base";
+import { useLanguage } from "@i18n/hooks";
 import { type TUpdateUserinfoFields, createUpdateUserinfoSchema } from "@schemas/update-userinfo.schema";
 import type { RefetchOptions } from "@tanstack/react-query";
 import { checkPhoneNumber, validateUsername } from "@utils/auth";
@@ -14,7 +15,7 @@ import type { AxiosError } from "axios";
 import { toDate } from "date-fns";
 import type { FactoryArg, InputMask } from "imask";
 import { useTranslations } from "next-intl";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import type { IUniqueFieldsState } from "../types/info-section.type";
@@ -34,6 +35,7 @@ export const useInfoSection = (
 	};
 
 	const t = useTranslations("global.settings.content.profile.personal-info");
+	const { locale } = useLanguage();
 
 	const [mask, setMask] = useState<InputMask<FactoryArg> | undefined>(undefined);
 	const [isDisabled, setIsDisabled] = useState<boolean>(false);
@@ -100,11 +102,14 @@ export const useInfoSection = (
 		}
 	};
 
-	const data: IDropdownData[] = [
-		{ id: useId(), label: t("gender.data.male"), value: EnumGenders.MALE },
-		{ id: useId(), label: t("gender.data.female"), value: EnumGenders.FEMALE },
-		{ id: useId(), label: t("gender.data.other"), value: EnumGenders.OTHER },
-	];
+	const data: IDropdownData[] = useMemo(
+		() => [
+			{ id: EnumGenders.MALE, label: t("gender.data.male"), value: EnumGenders.MALE },
+			{ id: EnumGenders.FEMALE, label: t("gender.data.female"), value: EnumGenders.FEMALE },
+			{ id: EnumGenders.OTHER, label: t("gender.data.other"), value: EnumGenders.OTHER },
+		],
+		[locale]
+	);
 
 	useEffect(() => {
 		if (!form.formState.isValid) return setIsDisabled(true);

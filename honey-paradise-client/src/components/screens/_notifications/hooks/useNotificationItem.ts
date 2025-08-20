@@ -1,9 +1,10 @@
 import { useManageNotifications } from "@/shared/lib/hooks/auth";
 import type { EnumNotificationType } from "@/shared/types/models";
 import { useNotificationsContext } from "@hooks/context";
+import { useLanguage } from "@i18n/hooks";
 import { getNotificationHeadingByType } from "@utils/get-notification-heading-by-type";
 import { getTimeAsWordString } from "@utils/get-time-as-word";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { type MouseEventHandler, useMemo, useState } from "react";
 
 export const useNotificationItem = (
@@ -14,7 +15,7 @@ export const useNotificationItem = (
 ) => {
 	const t = useTranslations("global.notifications.content.notification");
 	const dt = useTranslations("shared.time");
-	const locale = useLocale();
+	const { locale } = useLanguage();
 
 	const { isSelectMode, addSelectedId, removeSelectedId, selectedIds } = useNotificationsContext();
 	const { markAsRead } = useManageNotifications();

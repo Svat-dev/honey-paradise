@@ -24,7 +24,7 @@ export const useSignIn = () => {
 	const successDelay = 2000;
 
 	const { auth } = useAuth();
-	const { replace } = useRouter();
+	const { replace, prefetch } = useRouter();
 	const { theme } = useTheme();
 	const { isSignInLoading, signIn } = useSignInS();
 
@@ -74,14 +74,14 @@ export const useSignIn = () => {
 
 			if (tfa) {
 				toast(t("toasters.2fa"), { duration: successDelay, icon: "🔒" });
+				prefetch(EnumAppRoute.SIGN_IN_CONFIRMATION);
 				setTimeout(() => replace(EnumAppRoute.SIGN_IN_CONFIRMATION), successDelay);
 			} else {
-				auth();
 				setDataStatus("good");
 				toast.success(t("toasters.success"));
 
 				return setTimeout(() => {
-					setDataStatus("default");
+					auth();
 					replace(EnumAppRoute.INDEX);
 				}, successDelay);
 			}
@@ -90,6 +90,7 @@ export const useSignIn = () => {
 
 			if (errCause === errorCauses.ACCOUNT_NOT_VERIFIED) {
 				onError(errMsg);
+				prefetch(`${EnumAppRoute.EMAIL_CONFIRMATION}&utm_source=${EnumAppRoute.SIGN_IN}`);
 				return setTimeout(() => replace(`${EnumAppRoute.EMAIL_CONFIRMATION}&utm_source=${EnumAppRoute.SIGN_IN}`), 2500);
 			} else {
 				const msg = t("toasters.error", { e: errMsg });

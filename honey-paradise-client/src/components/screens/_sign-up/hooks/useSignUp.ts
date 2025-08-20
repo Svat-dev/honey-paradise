@@ -2,6 +2,7 @@ import { type TSignUpFields, createSignUpSchema } from "@schemas/sign-up.schema"
 
 import { errorCatch } from "@/api/api-helper";
 import { useCreateAccountS } from "@/services/hooks/auth";
+import type { ICreateAccountDto } from "@/services/types/auth-service.type";
 import { EnumAppRoute } from "@/shared/lib/constants/routes";
 import type { TSearchParams } from "@/shared/types/base.type";
 import { EnumGenders } from "@/shared/types/models";
@@ -25,7 +26,7 @@ export const useSignUp = (searchParams: TSearchParams) => {
 	const errorDelay = 5000;
 
 	const { createAcc, isCreateAccLoading } = useCreateAccountS();
-	const { push, replace } = useRouter();
+	const { push, replace, prefetch } = useRouter();
 
 	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
 	const [isError, setIsError] = useState<boolean>(false);
@@ -94,7 +95,7 @@ export const useSignUp = (searchParams: TSearchParams) => {
 		}, errorDelay);
 	};
 
-	const onSubmitFunc = async (data: TSignUpFields) => {
+	const onSubmitFunc = async (formData: TSignUpFields) => {
 		if (!recaptchaValue) {
 			setIsError(true);
 			setDataStatus("error");
@@ -102,14 +103,16 @@ export const useSignUp = (searchParams: TSearchParams) => {
 		}
 
 		try {
-			const { confirmPassword, ..._data } = data;
-			await createAcc({ recaptcha: recaptchaValue, dto: { ..._data, birthdate: _data.birthdate?.toISOString() } });
+			const { confirmPassword, ..._data } = formData;
+			const data: ICreateAccountDto = { ..._data, birthdate: _data.birthdate?.toISOString() };
+
+			await createAcc({ recaptcha: recaptchaValue, dto: data });
 
 			setDataStatus("good");
+			prefetch(EnumAppRoute.EMAIL_CONFIRMATION);
 			toast.success(t("toasters.success"));
 
 			return setTimeout(() => {
-				setDataStatus("default");
 				replace(EnumAppRoute.EMAIL_CONFIRMATION);
 			}, 2000);
 		} catch (err) {

@@ -1,5 +1,5 @@
 import { SortAscIcon, SortDescIcon } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 
 import { errorCatch } from "@/api/api-helper";
 import { useMarkAsReadAllS } from "@/services/hooks/notifications";
@@ -7,6 +7,7 @@ import { EnumNotificationsSortType } from "@/shared/store/types/notifications-fi
 import { EnumNotificationType } from "@/shared/types/models";
 import { useManageNotifications } from "@hooks/auth";
 import { useNotificationsContext } from "@hooks/context";
+import { useLanguage } from "@i18n/hooks";
 import { getNotificationHeadingByType } from "@utils/get-notification-heading-by-type";
 import type { AxiosError } from "axios";
 import { useMemo } from "react";
@@ -36,7 +37,7 @@ export const useNotificationsFiltersWrapper = () => {
 
 export const useNotificationsFilters = () => {
 	const t = useTranslations("global.notifications.content");
-	const locale = useLocale();
+	const { locale } = useLanguage();
 
 	const { queryParams, updateQueryParams, reset } = useNotificationsQueryParams();
 

@@ -1,8 +1,9 @@
+import { useId, useMemo } from "react";
+
 import { EnumGenders } from "@/shared/types/models";
 import { useTheme } from "@hooks/useTheme";
 import { useLanguage } from "@i18n/hooks";
 import { useTranslations } from "next-intl";
-import { useId } from "react";
 import type { IGenderRadioGroupData } from "../types/sign-up.type";
 
 export const useOptionalPart = () => {
@@ -11,23 +12,26 @@ export const useOptionalPart = () => {
 
 	const { theme } = useTheme();
 
-	const data: IGenderRadioGroupData[] = [
-		{
-			id: useId(),
-			value: EnumGenders.MALE,
-			label: t("optional_part.form.gender.opts.male"),
-		},
-		{
-			id: useId(),
-			value: EnumGenders.FEMALE,
-			label: t("optional_part.form.gender.opts.female"),
-		},
-		{
-			id: useId(),
-			value: EnumGenders.OTHER,
-			label: t("optional_part.form.gender.opts.other"),
-		},
-	];
+	const data: IGenderRadioGroupData[] = useMemo(
+		() => [
+			{
+				id: useId(),
+				value: EnumGenders.MALE,
+				label: t("optional_part.form.gender.opts.male"),
+			},
+			{
+				id: useId(),
+				value: EnumGenders.FEMALE,
+				label: t("optional_part.form.gender.opts.female"),
+			},
+			{
+				id: useId(),
+				value: EnumGenders.OTHER,
+				label: t("optional_part.form.gender.opts.other"),
+			},
+		],
+		[locale]
+	);
 
 	return {
 		data,

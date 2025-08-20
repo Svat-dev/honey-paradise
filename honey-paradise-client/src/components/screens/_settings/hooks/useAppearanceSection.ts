@@ -1,12 +1,13 @@
 import { type TUpdateAppearanceFields, createUpdateAppearanceSchema } from "@/shared/lib/schemas/update-appearance.schema";
 import { EnumThemes, type ISettings } from "@/shared/types/models";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { errorCatch } from "@/api/api-helper";
 import type { IDropdownData } from "@/components/ui/components/form-input/types/form-input.type";
 import { useUpdateSettingsS } from "@/services/hooks/profile";
 import { EnumLanguages } from "@/shared/lib/i18n";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useLanguage } from "@i18n/hooks";
 import type { RefetchOptions } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
@@ -15,6 +16,7 @@ import { toast } from "react-hot-toast";
 
 export const useAppearanceSection = (settings: ISettings | undefined, refetch: (opts?: RefetchOptions) => void) => {
 	const t = useTranslations("global.settings.content.profile");
+	const { locale } = useLanguage();
 	const { updateSettingsAsync, isSettingsUpdating } = useUpdateSettingsS();
 
 	const [isDisabled, setIsDisabled] = useState<boolean>(false);
@@ -59,15 +61,21 @@ export const useAppearanceSection = (settings: ISettings | undefined, refetch: (
 		}
 	};
 
-	const language_data: IDropdownData[] = [
-		{ id: useId(), value: EnumLanguages.RU, label: t("appearance.language.ru") },
-		{ id: useId(), value: EnumLanguages.EN, label: t("appearance.language.en") },
-	];
+	const language_data: IDropdownData[] = useMemo(
+		() => [
+			{ id: EnumLanguages.RU, value: EnumLanguages.RU, label: t("appearance.language.ru") },
+			{ id: EnumLanguages.EN, value: EnumLanguages.EN, label: t("appearance.language.en") },
+		],
+		[locale]
+	);
 
-	const theme_data: IDropdownData[] = [
-		{ id: useId(), value: EnumThemes.DARK, label: t("appearance.theme.dark") },
-		{ id: useId(), value: EnumThemes.LIGHT, label: t("appearance.theme.light") },
-	];
+	const theme_data: IDropdownData[] = useMemo(
+		() => [
+			{ id: EnumThemes.DARK, value: EnumThemes.DARK, label: t("appearance.theme.dark") },
+			{ id: EnumThemes.LIGHT, value: EnumThemes.LIGHT, label: t("appearance.theme.light") },
+		],
+		[locale]
+	);
 
 	useEffect(() => {
 		const json_default = JSON.stringify(form.formState.defaultValues);
