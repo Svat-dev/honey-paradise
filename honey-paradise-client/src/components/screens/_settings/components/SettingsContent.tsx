@@ -4,7 +4,7 @@ import type { FC } from "react";
 import { useSettingsContent } from "../hooks/useSettingsContent";
 import { AccountSettings } from "./sections/account/AccountSettings";
 import { DevicesSettings } from "./sections/devices/DevicesSettings";
-import { NotificationsSettings } from "./sections/NotificationsSettings";
+import { NotificationsSettings } from "./sections/notifications/NotificationsSettings";
 import { ProfileSettings } from "./sections/profile/ProfileSettings";
 import { SettingsSection } from "./SettingsSection";
 import { SettingsTabs } from "./SettingsTabs";

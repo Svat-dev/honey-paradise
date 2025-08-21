@@ -1,7 +1,7 @@
 import { Button, Separator, Switch, Title } from "@/components/ui/common";
 import { Edit2Icon, KeyRoundIcon, LogOutIcon, ShieldCheckIcon } from "lucide-react";
 
-import type { RefetchOptions } from "@tanstack/react-query";
+import type { TRefetchFunction } from "@/shared/types";
 import dynamic from "next/dynamic";
 import type { FC } from "react";
 import { useSecuritySection } from "../../../hooks/useSecuritySection";
@@ -12,7 +12,7 @@ const DynamicChangePasswordModal = dynamic(() => import("./ChangePasswordModal")
 interface ISecuritySection {
 	isTFAEnabled: boolean | undefined;
 	isFullLogoutEnabled: boolean | undefined;
-	accRefetch: (opts?: RefetchOptions) => void;
+	accRefetch: TRefetchFunction;
 	isAccLoading: boolean;
 }
 

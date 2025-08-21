@@ -11,8 +11,9 @@ export class WsAuthGuard implements CanActivate {
 		const client = context.switchToWs().getClient() as Socket;
 
 		const token = client.handshake.auth.userId;
+		const session = client.handshake.auth.sid;
 
-		if (!token || !this.validateToken(token)) {
+		if (!token || !session || !this.validateToken(token)) {
 			throw new WsException("Не авторизован");
 		}
 

@@ -4,17 +4,17 @@ import { errorCatch } from "@/api/api-helper";
 import { useUpdatePasswordS } from "@/services/hooks/account";
 import { useUpdateSettingsS } from "@/services/hooks/profile";
 import type { IUpdateUserSettingsDto } from "@/services/types/profile-service.type";
+import type { TRefetchFunction } from "@/shared/types";
 import { EnumSessionStorageKeys } from "@constants/base";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDebounce } from "@hooks/base";
-import type { RefetchOptions } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
-export const useSecuritySection = (accRefetch: (opts?: RefetchOptions) => void) => {
+export const useSecuritySection = (accRefetch: TRefetchFunction) => {
 	const t = useTranslations("global.settings.content.account.content");
 
 	const { isSettingsUpdating, updateSettingsAsync } = useUpdateSettingsS();

@@ -12,7 +12,6 @@ export const useMyAccountS = () => {
 		queryKey,
 		queryFn: () => accountService.getMyAccount(),
 		enabled: isAuthenticated,
-		// refetchInterval: 1000 * 15, // must be 1 minute
 	});
 
 	const accRefetch = (opts?: RefetchOptions) => {

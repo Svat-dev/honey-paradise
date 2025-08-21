@@ -19,7 +19,7 @@ export const profileService = {
 	},
 
 	updateSettings: async (dto: IUpdateUserSettingsDto) => {
-		const res = await instance.put<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_SETTINGS, dto);
+		const res = await instance.put<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_PROFILE_SETTINGS, dto);
 
 		return res;
 	},

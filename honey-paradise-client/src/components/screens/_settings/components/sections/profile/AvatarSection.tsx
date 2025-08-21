@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage, Button, Skeleton } from "@/components/ui/common";
 import { ALLOWED_AVATAR_FILE_TYPES, MAX_AVATAR_FILE_SIZE } from "@constants/base";
 
-import type { RefetchOptions } from "@tanstack/react-query";
+import type { TRefetchFunction } from "@/shared/types";
 import { getAvatarPath } from "@utils/get-avatar-path";
 import { TrashIcon } from "lucide-react";
 import dynamic from "next/dynamic";
@@ -13,7 +13,7 @@ import { ProfileSettingSection } from "./ProfileSettingSection";
 const DynamicConfirmModal = dynamic(() => import("@/components/ui/components/ConfirmModal").then(mod => mod.ConfirmModal));
 
 interface IProps {
-	refetch: (opts?: RefetchOptions) => void;
+	refetch: TRefetchFunction;
 	isAccLoading: boolean;
 	username?: string;
 	avatarPath?: string;

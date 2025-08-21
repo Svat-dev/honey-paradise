@@ -11,6 +11,7 @@ import { notificationUserOutput } from "src/shared/lib/prisma/outputs/notificati
 import { NotificationGateway } from "../../shared/websockets/notifications.gateway";
 import { ProfileService } from "../auth/profile/profile.service";
 import { EnumNotificationsSort, type GetAllQueryDto } from "./dto/get-all.dto";
+import type { UpdateNotificationsSettingsDto } from "./dto/update-notifications-settings.dto";
 
 @Injectable()
 export class NotificationsService {
@@ -111,6 +112,21 @@ export class NotificationsService {
 		}
 
 		this.socket.handleRefreshNotifications({ userId });
+
+		return true;
+	}
+
+	async updateSettings(userId: string, dto: UpdateNotificationsSettingsDto) {
+		const user = await this.profileService.getProfile(userId, "id");
+
+		if (!user) throw new NotFoundException(this.i18n.t("d.errors.profile.not_found"));
+
+		if (typeof dto.enabled === "boolean" && dto.enabled === false) {
+			await this.prisma.notificationSettings.update({
+				where: { userId: user.id },
+				data: { ...dto, enabled: false, withSound: false },
+			});
+		} else await this.prisma.notificationSettings.update({ where: { userId: user.id }, data: dto });
 
 		return true;
 	}

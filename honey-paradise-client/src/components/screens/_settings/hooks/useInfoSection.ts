@@ -2,13 +2,13 @@ import { errorCatch } from "@/api/api-helper";
 import type { IDropdownData } from "@/components/ui/components/form-input/types/form-input.type";
 import { useUniqueFieldCheckS, useUpdateProfileS } from "@/services/hooks/profile";
 import type { IUpdateProfileDto } from "@/services/types/profile-service.type";
+import type { TRefetchFunction } from "@/shared/types";
 import { EnumGenders } from "@/shared/types/models";
 import { PHONE_MASK_PATTERN } from "@constants/base";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDebounce } from "@hooks/base";
 import { useLanguage } from "@i18n/hooks";
 import { type TUpdateUserinfoFields, createUpdateUserinfoSchema } from "@schemas/update-userinfo.schema";
-import type { RefetchOptions } from "@tanstack/react-query";
 import { checkPhoneNumber, validateUsername } from "@utils/auth";
 import { getMaskedPhone } from "@utils/get-masked-phone.util";
 import type { AxiosError } from "axios";
@@ -25,7 +25,7 @@ export const useInfoSection = (
 	birthdate: string | undefined,
 	username: string | undefined,
 	phone: string | undefined,
-	refetch: (opts?: RefetchOptions) => void
+	refetch: TRefetchFunction
 ) => {
 	const defaultValues: TUpdateUserinfoFields = {
 		birthdate: birthdate ? toDate(birthdate) : undefined,

@@ -377,7 +377,7 @@
 				"description": "Здесь находятся все уведомления за последние 3 месяца, которые приходили к вам, включая уведомления о заказе, безопасности аккаунта и другие",
 				"notFound": "Ваши уведомления не найдены или их просто нет<br></br>Когда придут первые уведомления, они здесь появятся",
 				"notification": {
-					"isRead": " {isRead, select, true {Прочитано} false {Не прочитано} other {}}",
+					"isRead": "{isRead, select, true {Прочитано} false {Не прочитано} other {}}",
 					"type": {
 						"accountStatus": "Безопасность аккаунта",
 						"orderStatus": "Статус вашего заказа",
@@ -527,10 +527,7 @@
 					"content": {
 						"email": {
 							"title": "Электронная почта",
-							"verified": {
-								"true": "Подтверждена",
-								"false": "Не подтверждена"
-							},
+							"verified": "{isVerified, select, true {Подтверждена} false {Не подтверждена} other {}}",
 							"placeholder": "Введите адрес электронной почты",
 							"errors": {
 								"invalid": "Введите корректную эл. почту"
@@ -771,6 +768,14 @@
 		"changeLanguage": {
 			"success": "Language is successfully changed to {lang}",
 			"error": "Не удалось поменять язык. Ошибка: {error}"
+		},
+		"notifications": {
+			"newNotification": {
+				"text": "У вас есть новые уведомления!",
+				"read": "Прочитать",
+				"check": "Посмотреть"
+			},
+			"sessionDeleted": "Кто-то только что выгнал вас из аккаунта. Войдите снова"
 		}
 	},
 	"shared": {
@@ -845,6 +850,9 @@
 				"confirm": "Подтвердить",
 				"cancel": "Отменить действие"
 			}
+		},
+		"notifications": {
+			"desktop": "Вам пришло новое уведомление!"
 		}
 	}
 }

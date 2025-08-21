@@ -1,6 +1,5 @@
-import { notificationSettingsUserOutput, notificationUserOutput } from "./notifications.output";
-
 import type { Prisma } from "@prisma/client";
+import { notificationSettingsUserOutput } from "./notifications.output";
 
 export const userDefaultOutput: Prisma.UserSelect = {
 	id: true,
@@ -36,9 +35,8 @@ export const userFullOutput: Prisma.UserSelect = {
 	phoneNumber: true,
 
 	settings: { select: userSettingsOutput },
-	cart: true,
-	notifications: { select: notificationUserOutput, orderBy: { createdAt: "desc" } },
 	notificationSettings: { select: notificationSettingsUserOutput },
+	cart: true,
 
 	isTFAEnabled: true,
 	isVerified: true,

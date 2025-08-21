@@ -1,6 +1,10 @@
 import type { Dispatch, SetStateAction } from "react";
 
+import type { RefetchOptions } from "@tanstack/react-query";
+
 export type ReactStateHook<T> = Dispatch<SetStateAction<T>>;
+
+export type TRefetchFunction = (opts?: RefetchOptions) => void;
 
 export interface ICNProps {
 	className?: string;

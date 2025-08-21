@@ -23,12 +23,19 @@ export class NotificationGateway implements OnGatewayConnection, OnGatewayDiscon
 	private roomId: string;
 
 	async handleConnection(client: Socket) {
+		const sid = client.handshake.auth["sid"];
+		const userId = client.handshake.auth["userId"];
+
+		if (!userId || !sid) return;
+
 		this.roomId = client.handshake.auth["userId"];
+
 		await client.join(this.roomId);
+		await client.join(sid);
 	}
 
 	async handleDisconnect(client: Socket) {
-		await client.leave(this.roomId);
+		if (this.roomId) await client.leave(this.roomId);
 	}
 
 	@SubscribeMessage(EnumWSRoutes.NEW_NOTIFICATION)
@@ -46,5 +53,15 @@ export class NotificationGateway implements OnGatewayConnection, OnGatewayDiscon
 			message: "notifications/refresh",
 			timestamp: new Date().toISOString(),
 		});
+	}
+
+	@SubscribeMessage(EnumWSRoutes.REMOVE_SESSION)
+	handleRemoveSession(@MessageBody() payload: { sid: string }) {
+		this.server.to(payload.sid).emit(EnumWSRoutes.REMOVE_SESSION, {
+			message: "sessions/refresh",
+			timestamp: new Date().toISOString(),
+		});
+
+		this.server.in(payload.sid).disconnectSockets(true);
 	}
 }

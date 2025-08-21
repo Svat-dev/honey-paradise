@@ -15,3 +15,11 @@ export interface INotificationsQueryParams {
 	page?: string | number;
 	per_page: string | number;
 }
+
+export interface IUpdateNotificationsSettingsDto {
+	enabled?: boolean;
+	withSound?: boolean;
+
+	siteNotificationsType?: boolean;
+	telegramNotificationsType?: boolean;
+}

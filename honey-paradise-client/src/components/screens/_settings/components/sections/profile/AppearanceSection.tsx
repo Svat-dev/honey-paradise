@@ -1,8 +1,8 @@
 import { Button, Separator } from "@/components/ui/common";
 
 import { FormInput } from "@/components/ui/components/form-input";
+import type { TRefetchFunction } from "@/shared/types";
 import type { ISettings } from "@/shared/types/models";
-import type { RefetchOptions } from "@tanstack/react-query";
 import { XIcon } from "lucide-react";
 import type { FC } from "react";
 import { FormProvider } from "react-hook-form";
@@ -13,7 +13,7 @@ import { ProfileSettingSection } from "./ProfileSettingSection";
 interface IProps {
 	settings: ISettings | undefined;
 	isAccLoading: boolean;
-	refetch: (opts?: RefetchOptions) => void;
+	refetch: TRefetchFunction;
 }
 
 const AppearanceSection: FC<IProps> = ({ settings, isAccLoading, refetch }) => {

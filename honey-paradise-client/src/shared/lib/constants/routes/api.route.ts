@@ -16,7 +16,6 @@ export enum EnumApiRoute {
 
 	ACCOUNT = `${AUTH}/account`,
 	MY_ACCOUNT = `${ACCOUNT}/me`,
-	MY_ID = `${MY_ACCOUNT}/id`,
 	CREATE_ACCOUNT = `${ACCOUNT}/create`,
 
 	PASSWORD = `${ACCOUNT}/password`,
@@ -33,9 +32,6 @@ export enum EnumApiRoute {
 	UPDATE_PROFILE = `${PROFILE}/update`,
 	CHECK_UNIQUE = `${PROFILE}/check-unique`,
 
-	SETTINGS = `${PROFILE}/settings`,
-	UPDATE_SETTINGS = `${SETTINGS}/update`,
-
 	AVATAR = `${PROFILE}/avatar`,
 	UPDATE_AVATAR = `${AVATAR}/update`,
 	DELETE_AVATAR = `${AVATAR}/delete`,
@@ -47,4 +43,9 @@ export enum EnumApiRoute {
 	MARK_AS_READ_ALL = `${MARK_AS_READ}/all`,
 	MARK_AS_ARCHIVED = `${NOTIFICATIONS_MARK_AS}/as-archived`,
 	DELETE_NOTIFICATIONS = `${NOTIFICATIONS}/delete`,
+
+	SETTINGS = "/settings",
+	UPDATE_SETTINGS = `${SETTINGS}/update`,
+	UPDATE_PROFILE_SETTINGS = `${PROFILE}${UPDATE_SETTINGS}`,
+	UPDATE_NOTIFICATIONS_SETTINGS = `${NOTIFICATIONS}${UPDATE_SETTINGS}`,
 }

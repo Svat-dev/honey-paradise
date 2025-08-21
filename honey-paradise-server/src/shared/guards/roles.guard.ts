@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { ForbiddenException } from "@nestjs/common/exceptions/forbidden.exception";
 import type { CanActivate } from "@nestjs/common/interfaces/features/can-activate.interface";
 import type { ExecutionContext } from "@nestjs/common/interfaces/features/execution-context.interface";
-import type { Reflector } from "@nestjs/core/services/reflector.service";
+import { Reflector } from "@nestjs/core/services/reflector.service";
 import type { EnumUserRoles } from "@prisma/client";
 import { I18nContext } from "nestjs-i18n/dist/i18n.context";
 import { ROLES_KEY } from "../decorators/roles.decorator";

@@ -527,10 +527,7 @@
 					"content": {
 						"email": {
 							"title": "Email address",
-							"verified": {
-								"true": "Confirmed",
-								"false": "Not confirmed"
-							},
+							"verified": "{isVerified, select, true {Confirmed} false {Not confirmed} other {}}",
 							"placeholder": "Enter an email address",
 							"errors": {
 								"invalid": "Enter the correct email address"
@@ -771,6 +768,14 @@
 		"changeLanguage": {
 			"success": "Язык успешно изменён на {lang}",
 			"error": "Failed to change language. Error: {error}"
+		},
+		"notifications": {
+			"newNotification": {
+				"text": "You have new notifications!",
+				"read": "Read",
+				"check": "View"
+			},
+			"sessionDeleted": "Someone just kicked you out of your account. Sign in again"
 		}
 	},
 	"shared": {
@@ -833,6 +838,9 @@
 				"confirm": "Confirm action",
 				"cancel": "Cancel action"
 			}
+		},
+		"notifications": {
+			"desktop": "You have received a new notification!"
 		}
 	}
 }

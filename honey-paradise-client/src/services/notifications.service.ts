@@ -1,4 +1,8 @@
-import type { IGetAllNotificationsResponse, INotificationsQueryParams } from "./types/notifications-service.type";
+import type {
+	IGetAllNotificationsResponse,
+	INotificationsQueryParams,
+	IUpdateNotificationsSettingsDto,
+} from "./types/notifications-service.type";
 
 import { instance } from "@/api/instance";
 import { EnumApiRoute } from "@constants/routes";
@@ -9,6 +13,12 @@ export const notificationsService = {
 		const res = await instance.get<any, AxiosResponse<IGetAllNotificationsResponse>>(EnumApiRoute.NOTIFICATIONS_GET_ALL, {
 			params: { ...queryData, types: queryData.types?.join(",") },
 		});
+
+		return res;
+	},
+
+	updateSettings: async (dto: IUpdateNotificationsSettingsDto) => {
+		const res = await instance.put<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_NOTIFICATIONS_SETTINGS, dto);
 
 		return res;
 	},

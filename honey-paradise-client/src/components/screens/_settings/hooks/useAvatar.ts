@@ -2,12 +2,12 @@ import { type ChangeEvent, useRef } from "react";
 
 import { errorCatch } from "@/api/api-helper";
 import { useUpdateAvatarS } from "@/services/hooks/profile";
-import type { RefetchOptions } from "@tanstack/react-query";
+import type { TRefetchFunction } from "@/shared/types";
 import type { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
 import { toast } from "react-hot-toast";
 
-export const useAvatar = (refetch: (opts?: RefetchOptions) => void) => {
+export const useAvatar = (refetch: TRefetchFunction) => {
 	const t = useTranslations("global.settings.content.profile");
 
 	const inputRef = useRef<HTMLInputElement>(null);

@@ -6,15 +6,15 @@ import { errorCatch } from "@/api/api-helper";
 import type { IDropdownData } from "@/components/ui/components/form-input/types/form-input.type";
 import { useUpdateSettingsS } from "@/services/hooks/profile";
 import { EnumLanguages } from "@/shared/lib/i18n";
+import type { TRefetchFunction } from "@/shared/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLanguage } from "@i18n/hooks";
-import type { RefetchOptions } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
-export const useAppearanceSection = (settings: ISettings | undefined, refetch: (opts?: RefetchOptions) => void) => {
+export const useAppearanceSection = (settings: ISettings | undefined, refetch: TRefetchFunction) => {
 	const t = useTranslations("global.settings.content.profile");
 	const { locale } = useLanguage();
 	const { updateSettingsAsync, isSettingsUpdating } = useUpdateSettingsS();

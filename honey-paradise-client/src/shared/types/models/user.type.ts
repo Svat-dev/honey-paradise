@@ -1,5 +1,5 @@
 import type { EnumGenders, EnumUserRoles } from "./enums.type";
-import type { INotificationSettings, INotificationUser } from "./notifications.type";
+import type { INotificationSettings } from "./notifications.type";
 
 import type { ISettingsUser } from "./settings.type";
 
@@ -42,7 +42,6 @@ export interface IUserFull {
 	birthdate?: string;
 
 	settings: ISettingsUser;
-	notifications: INotificationUser[];
 	notificationSettings: INotificationSettings;
 
 	createdAt: Date;

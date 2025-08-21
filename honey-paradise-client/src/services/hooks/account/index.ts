@@ -1,4 +1,3 @@
-export * from "./useGetMyId";
 export * from "./useMyAccountS";
 export * from "./useRecoverPasswordS";
 export * from "./useSendPasswordRecoverCodeS";

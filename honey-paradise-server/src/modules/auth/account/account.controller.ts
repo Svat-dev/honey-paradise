@@ -30,13 +30,6 @@ export class AccountController {
 	}
 
 	@HttpCode(HttpStatus.OK)
-	@Authorization()
-	@Get(`${EnumApiRoute.ME}/id`)
-	getMeField(@Authorized("id") id: string) {
-		return { userId: id };
-	}
-
-	@HttpCode(HttpStatus.OK)
 	@Recaptcha()
 	@Post(EnumApiRoute.CREATE)
 	createAccount(

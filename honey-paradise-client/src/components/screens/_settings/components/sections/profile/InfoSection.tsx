@@ -3,9 +3,9 @@ import { LoaderIcon, XIcon } from "lucide-react";
 import { CheckmarkIcon, ErrorIcon } from "react-hot-toast";
 
 import { FormInput } from "@/components/ui/components/form-input";
+import type { TRefetchFunction } from "@/shared/types";
 import type { EnumGenders } from "@/shared/types/models";
 import { VALUES } from "@constants/base";
-import type { RefetchOptions } from "@tanstack/react-query";
 import type { FC } from "react";
 import { FormProvider } from "react-hook-form";
 import { useInfoSection } from "../../../hooks/useInfoSection";
@@ -19,7 +19,7 @@ interface IProps {
 	username: string | undefined;
 	phone: string | undefined;
 	isLoading: boolean;
-	refetch: (opts?: RefetchOptions) => void;
+	refetch: TRefetchFunction;
 }
 
 const InfoSection: FC<IProps> = ({ birthdate, gender, phone, username, isLoading, refetch }) => {

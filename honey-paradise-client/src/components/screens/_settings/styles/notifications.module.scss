@@ -1,0 +1,56 @@
+.permissions-wrapper {
+	@apply tw-relative tw-flex tw-flex-col tw-w-full tw-bg-primary tw-rounded-lg tw-px-4 tw-pt-5 tw-pb-3 tw-mb-5;
+
+	> h4 {
+		@apply tw-font-medium tw-mb-2;
+	}
+
+	> div:nth-of-type(2n) {
+		@apply tw-my-4;
+	}
+
+	> div:last-of-type {
+		span {
+			@apply tw-ring-1 tw-ring-inset tw-rounded-full tw-px-1.5 tw-py-0.5 tw-text-sm tw-ml-2;
+
+			&[data-permission="granted"] {
+				@apply tw-ring-green-700 tw-bg-green-400 tw-text-green-950;
+			}
+
+			&[data-permission="default"] {
+				@apply tw-text-black tw-bg-secondary tw-ring-secondary;
+			}
+
+			&[data-permission="denied"] {
+				@apply tw-ring-red-800 tw-bg-red-400 tw-text-red-950;
+			}
+		}
+
+		> button {
+			@apply tw-py-1.5 tw-px-2;
+		}
+	}
+}
+
+.switch-wrapper {
+	@apply tw-grid tw-items-center tw-gap-4 tw-px-2 tw-py-1;
+	grid-template-columns: auto 1fr min-content;
+
+	> div {
+		&:first-of-type {
+			@apply tw-flex tw-items-center tw-justify-center tw-bg-secondary tw-p-2 tw-rounded-full;
+		}
+
+		> p:first-of-type {
+			@apply tw-font-medium;
+		}
+
+		> p:last-of-type {
+			@apply tw-text-muted tw-text-sm tw-ml-0.5;
+		}
+	}
+
+	> :last-child {
+		@apply tw-justify-self-end;
+	}
+}

@@ -1,7 +1,7 @@
 .main-toaster {
-	@apply tw-bg-secondary/80 tw-text-secondary-foreground tw-border tw-border-muted !important;
+	@apply tw-bg-secondary tw-text-secondary-foreground tw-border tw-border-muted !important;
 }
 
 .notifications-toaster {
-	@apply tw-bg-secondary/80 tw-text-secondary-foreground tw-border tw-border-muted tw-max-w-[500px] !important;
+	@apply tw-bg-secondary tw-text-secondary-foreground tw-border tw-border-muted tw-max-w-[32rem] !important;
 }

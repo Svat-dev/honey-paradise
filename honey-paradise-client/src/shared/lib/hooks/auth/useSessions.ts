@@ -1,5 +1,7 @@
 import { useGetByUserS, useGetCurrentS, useRemoveAllSessionsS, useRemoveSessionS } from "@/services/hooks/session";
 
+import { useMemo } from "react";
+
 export const useSessions = () => {
 	const { currentSession, isSessionLoading } = useGetCurrentS();
 	const { sessions, sessionsRefetch, isSessionsLoading } = useGetByUserS();
@@ -18,12 +20,15 @@ export const useSessions = () => {
 
 	const isLoading = isSessionLoading || isSessionsLoading || isRemovingSession || isAllSessionsRemoving;
 
-	return {
-		sessions: sessions?.data,
-		currentSession: currentSession?.data,
-		removeSession: remove,
-		removeAllSessions: removeAll,
-		sessionsRefetch,
-		isSessionLoading: isLoading,
-	};
+	return useMemo(
+		() => ({
+			sessions: sessions?.data,
+			currentSession: currentSession?.data,
+			removeSession: remove,
+			removeAllSessions: removeAll,
+			sessionsRefetch,
+			isSessionLoading: isLoading,
+		}),
+		[sessions?.data, currentSession?.data, isLoading]
+	);
 };

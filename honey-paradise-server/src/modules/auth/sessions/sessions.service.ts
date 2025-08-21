@@ -17,6 +17,7 @@ import { NotificationsService } from "src/modules/notifications/notifications.se
 import { ms } from "src/shared/lib/common/utils";
 import { getSessionMetadata } from "src/shared/lib/common/utils/session-metadat.util";
 import { userServerOutput } from "src/shared/lib/prisma/outputs/user.output";
+import { NotificationGateway } from "src/shared/websockets/notifications.gateway";
 import { VerificationService } from "../verification/verification.service";
 import type { AuthLoginDto } from "./dto/auth-login.dto";
 
@@ -28,6 +29,7 @@ export class SessionsService {
 		private readonly redisService: RedisService,
 		private readonly verificationService: VerificationService,
 		private readonly notificationsService: NotificationsService,
+		private readonly socket: NotificationGateway,
 		private readonly i18n: I18nService
 	) {}
 
@@ -55,6 +57,8 @@ export class SessionsService {
 		if (req.session.id === id) throw new ConflictException("Текущую сессию удалить нельзя");
 
 		await this.redisService.del(`${this.configService.getOrThrow<string>("SESSION_FOLDER")}${id}`);
+
+		this.socket.handleRemoveSession({ sid: id });
 
 		return true;
 	}
