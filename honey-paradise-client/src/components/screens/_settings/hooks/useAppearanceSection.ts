@@ -1,5 +1,5 @@
-import { type TUpdateAppearanceFields, createUpdateAppearanceSchema } from "@/shared/lib/schemas/update-appearance.schema";
-import { EnumThemes, type ISettings } from "@/shared/types/models";
+import { createUpdateAppearanceSchema, type TUpdateAppearanceFields } from "@/shared/lib/schemas/update-appearance.schema";
+import { EnumThemes, ISettingsUser } from "@/shared/types/models";
 import { useEffect, useMemo, useState } from "react";
 
 import { errorCatch } from "@/api/api-helper";
@@ -14,7 +14,7 @@ import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
-export const useAppearanceSection = (settings: ISettings | undefined, refetch: TRefetchFunction) => {
+export const useAppearanceSection = (settings: ISettingsUser | undefined, refetch: TRefetchFunction) => {
 	const t = useTranslations("global.settings.content.profile");
 	const { locale } = useLanguage();
 	const { updateSettingsAsync, isSettingsUpdating } = useUpdateSettingsS();

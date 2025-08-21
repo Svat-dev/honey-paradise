@@ -500,7 +500,10 @@
 							"error": "Error when saving information:\n{e}"
 						}
 					},
-					"telegram-linking": {},
+					"telegram-linking": {
+						"title": "Привязка Телеграм-аккаунта",
+						"description": "Привяжите свой телеграм-аккаунт, чтобы получать уведомления о безопасности и специальных акциях"
+					},
 					"modals": {
 						"avatarDelete": {
 							"heading": "Removing an avatar",
@@ -594,7 +597,47 @@
 				},
 				"notifications": {
 					"title": "Notifications",
-					"description": ""
+					"description": "Configure notifications so that you feel comfortable receiving them",
+					"content": {
+						"permissions": {
+							"title": "Granted permissions",
+							"enabled": {
+								"title": "Enable notifications",
+								"description": "Allow notifications to come directly to your website and make themselves felt with a pop-up window"
+							},
+							"sound": {
+								"title": "Enable notification sound",
+								"description": "Turn on the sound for notifications to know when they arrive"
+							},
+							"push": {
+								"title": "Push notifications on this device",
+								"description": "Enable push notifications to receive notifications directly to the desktop",
+								"permitted": "{permission, select, granted {Allowed} denied {Denied} other {Not requested}}",
+								"reqPermBtn": "Request access"
+							}
+						},
+						"destination": {
+							"title": "Receiving preferences",
+							"site": {
+								"title": "Enable notifications on the site",
+								"description": "Select notifications on the site so that they arrive on the site in the browser"
+							},
+							"tg": {
+								"title": "Enable notifications in Telegram",
+								"description": "Turn on Telegram alerts, they will be sent to you in telegram via our bot",
+								"linked": "{isLinked, select, true {Linked} false {Not linked} other {}}",
+								"loading": "Loading...",
+								"linkBtn": "Link Telegram"
+							}
+						},
+						"labels": {
+							"reqPermBtn": "Request access to push notifications",
+							"linkBtn": "Link telegram account"
+						},
+						"toasters": {
+							"success": "Settings successfully updated"
+						}
+					}
 				},
 				"devices": {
 					"title": "Devices",

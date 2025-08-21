@@ -9,12 +9,18 @@ const NotificationsSettings = () => {
 		<>
 			<PermissionsSection
 				isAccLoading={isAccLoading}
+				accRefetch={accRefetch}
 				isEnabled={!!user?.notificationSettings.enabled}
 				isWithSound={!!user?.notificationSettings.withSound}
-				accRefetch={accRefetch}
 			/>
 
-			<DestinationTypes />
+			<DestinationTypes
+				isAccLoading={isAccLoading}
+				accRefetch={accRefetch}
+				isTgLinked={!!user?.telegramId}
+				isSiteNotification={!!user?.notificationSettings.siteNotificationsType}
+				isTgNotification={!!user?.notificationSettings.telegramNotificationsType}
+			/>
 		</>
 	);
 };

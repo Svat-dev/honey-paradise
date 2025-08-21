@@ -1,8 +1,8 @@
 import { Button, Separator } from "@/components/ui/common";
+import type { ISettingsUser } from "@/shared/types/models";
 
 import { FormInput } from "@/components/ui/components/form-input";
 import type { TRefetchFunction } from "@/shared/types";
-import type { ISettings } from "@/shared/types/models";
 import { XIcon } from "lucide-react";
 import type { FC } from "react";
 import { FormProvider } from "react-hook-form";
@@ -11,7 +11,7 @@ import styles from "../../../styles/profile.module.scss";
 import { ProfileSettingSection } from "./ProfileSettingSection";
 
 interface IProps {
-	settings: ISettings | undefined;
+	settings: ISettingsUser | undefined;
 	isAccLoading: boolean;
 	refetch: TRefetchFunction;
 }

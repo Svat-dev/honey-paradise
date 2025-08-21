@@ -4,6 +4,7 @@ import { Edit2Icon, KeyRoundIcon, LogOutIcon, ShieldCheckIcon } from "lucide-rea
 import type { TRefetchFunction } from "@/shared/types";
 import dynamic from "next/dynamic";
 import type { FC } from "react";
+import slugify from "slugify";
 import { useSecuritySection } from "../../../hooks/useSecuritySection";
 import styles from "../../../styles/account.module.scss";
 
@@ -23,7 +24,10 @@ const SecuritySection: FC<ISecuritySection> = ({ isFullLogoutEnabled, isTFAEnabl
 
 	return (
 		<section className={styles["security-wrapper"]}>
-			<Title size="sm">{t("security.title")}</Title>
+			<Title size="sm">
+				{t("security.title")}
+				<a className="tw-opacity-0 tw-size-0" id={slugify(t("security.title"), { locale: "en", lower: true })} />
+			</Title>
 
 			<div>
 				<div>

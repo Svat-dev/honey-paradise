@@ -1,5 +1,5 @@
-.permissions-wrapper {
-	@apply tw-relative tw-flex tw-flex-col tw-w-full tw-bg-primary tw-rounded-lg tw-px-4 tw-pt-5 tw-pb-3 tw-mb-5;
+.switches-content-wrapper {
+	@apply tw-relative tw-flex tw-flex-col tw-w-full tw-bg-primary tw-rounded-lg tw-px-4 tw-py-5 tw-mb-5;
 
 	> h4 {
 		@apply tw-font-medium tw-mb-2;
@@ -8,9 +8,11 @@
 	> div:nth-of-type(2n) {
 		@apply tw-my-4;
 	}
+}
 
+.permissions-wrapper {
 	> div:last-of-type {
-		span {
+		div > span {
 			@apply tw-ring-1 tw-ring-inset tw-rounded-full tw-px-1.5 tw-py-0.5 tw-text-sm tw-ml-2;
 
 			&[data-permission="granted"] {
@@ -52,5 +54,25 @@
 
 	> :last-child {
 		@apply tw-justify-self-end;
+	}
+}
+
+.destination-types-wrapper {
+	> div:last-of-type {
+		div > span {
+			@apply tw-ring-1 tw-ring-inset tw-rounded-full tw-px-1.5 tw-py-0.5 tw-text-sm tw-ml-2 tw-inline;
+
+			&[data-linked="true"] {
+				@apply tw-ring-green-700 tw-bg-green-400 tw-text-green-950;
+			}
+
+			&[data-linked="loading"] {
+				@apply tw-text-black tw-bg-secondary tw-ring-secondary;
+			}
+
+			&[data-linked="false"] {
+				@apply tw-ring-red-800 tw-bg-red-400 tw-text-red-950;
+			}
+		}
 	}
 }

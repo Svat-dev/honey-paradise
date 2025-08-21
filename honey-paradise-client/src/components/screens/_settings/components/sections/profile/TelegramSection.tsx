@@ -1,22 +1,22 @@
 import { Button, Separator } from "@/components/ui/common";
 
+import { useTranslations } from "next-intl";
 import type { FC } from "react";
-import { ProfileSettingSection } from "./ProfileSettingSection";
 import styles from "../../../styles/profile.module.scss";
+import { ProfileSettingSection } from "./ProfileSettingSection";
 
 interface ITelegramSection {
 	telegramId: string | undefined;
 }
 
 const TelegramSection: FC<ITelegramSection> = ({ telegramId }) => {
+	const t = useTranslations("global.settings.content.profile.telegram-linking");
+
 	const statusTxt = !telegramId ? "Не привязан" : "Привязан";
 	const telegramUse = "@swutIIk_get";
 
 	return (
-		<ProfileSettingSection
-			title={"Привязка Телеграм-аккаунта"}
-			description={"Привяжите свой телеграм-аккаунт, чтобы получать уведомления о безопасности и специальных акциях"}
-		>
+		<ProfileSettingSection title={t("title")} description={t("description")}>
 			<div className={styles["telegram-connect-wrapper"]}>
 				<div>
 					<p>

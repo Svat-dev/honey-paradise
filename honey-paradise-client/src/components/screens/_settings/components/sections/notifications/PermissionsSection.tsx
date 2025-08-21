@@ -1,9 +1,11 @@
 import { Button, Separator, Switch, Title } from "@/components/ui/common";
 import { AlertOctagonIcon, BellIcon, MegaphoneIcon } from "lucide-react";
+import { useNotificationsSettings, usePermissionSection } from "../../../hooks/useNotificationsSettings";
 
 import type { TRefetchFunction } from "@/shared/types";
+import { cn } from "@utils/base";
 import type { FC } from "react";
-import { usePermissionSection } from "../../../hooks/usePermissionSection";
+import slugify from "slugify";
 import styles from "../../../styles/notifications.module.scss";
 
 interface IProps {
@@ -14,13 +16,17 @@ interface IProps {
 }
 
 const PermissionsSection: FC<IProps> = ({ isAccLoading, accRefetch, isEnabled, isWithSound }) => {
-	const { isSettingsUpdating, onRequestPermission, onSwitchChange, permission } = usePermissionSection(accRefetch);
+	const { onRequestPermission, permission } = usePermissionSection();
+	const { isSettingsUpdating, onSwitchChange, getTitles, t } = useNotificationsSettings(accRefetch);
 
 	const isLoading = isAccLoading || isSettingsUpdating;
 
 	return (
-		<section className={styles["permissions-wrapper"]}>
-			<Title size="sm">{"Разрешения уведомлений"}</Title>
+		<section className={cn(styles["switches-content-wrapper"], styles["permissions-wrapper"])}>
+			<Title size="sm">
+				{t("permissions.title")}
+				<a className="tw-opacity-0 tw-size-0" id={slugify(t("permissions.title"), { locale: "en", lower: true })} />
+			</Title>
 
 			<div className={styles["switch-wrapper"]}>
 				<div>
@@ -28,12 +34,12 @@ const PermissionsSection: FC<IProps> = ({ isAccLoading, accRefetch, isEnabled, i
 				</div>
 
 				<div>
-					<p>{"Включить уведомления"}</p>
-					<p>{"Позвольте уведомлениям приходить вам прямиком на сайт и давать о себе знать всплывающим окном"}</p>
+					<p>{t("permissions.enabled.title")}</p>
+					<p>{t("permissions.enabled.description")}</p>
 				</div>
 
 				<Switch
-					title={"Включить уведомления"}
+					title={getTitles().enabled}
 					checked={isEnabled}
 					onCheckedChange={state => onSwitchChange(state, "enabled")}
 					isLoading={isLoading}
@@ -48,12 +54,12 @@ const PermissionsSection: FC<IProps> = ({ isAccLoading, accRefetch, isEnabled, i
 				</div>
 
 				<div>
-					<p>{"Включить звук уведомлений"}</p>
-					<p>{"Включите звук для уведомлений, чтобы знать, когда они приходят"}</p>
+					<p>{t("permissions.sound.title")}</p>
+					<p>{t("permissions.sound.description")}</p>
 				</div>
 
 				<Switch
-					title={"Включить звук уведомлений"}
+					title={getTitles().sound}
 					checked={isWithSound}
 					onCheckedChange={state => onSwitchChange(state, "withSound")}
 					disabled={!isEnabled}
@@ -69,17 +75,13 @@ const PermissionsSection: FC<IProps> = ({ isAccLoading, accRefetch, isEnabled, i
 				</div>
 
 				<div>
-					<p>
-						{"Push-уведомления на этом устройстве"}
-						<span data-permission={permission}>
-							{permission === "granted" ? "Разрешено" : permission === "denied" ? "Запрещено" : "Не запрошено"}
-						</span>
-					</p>
-					<p>{"Включите push-уведомления, чтобы получать уведомления прямо на рабочий стол"}</p>
+					<p className="tw-inline">{t("permissions.push.title")}</p>
+					<span data-permission={permission}>{t("permissions.push.permitted", { permission })}</span>
+					<p>{t("permissions.push.description")}</p>
 				</div>
 
-				<Button variant="secondary" disabled={permission === "granted"} onClick={onRequestPermission}>
-					{"Запросить доступ"}
+				<Button variant="secondary" title={t("labels.reqPermBtn")} disabled={permission === "granted"} onClick={onRequestPermission}>
+					{t("permissions.push.reqPermBtn")}
 				</Button>
 			</div>
 		</section>

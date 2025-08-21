@@ -2,6 +2,7 @@ import { Button, Separator, Title } from "@/components/ui/common";
 
 import { useMyAccount } from "@hooks/auth";
 import { useTranslations } from "next-intl";
+import slugify from "slugify";
 import styles from "../../../styles/account.module.scss";
 
 const ActionsSection = () => {
@@ -10,7 +11,10 @@ const ActionsSection = () => {
 
 	return (
 		<section className={styles["actions-wrapper"]}>
-			<Title size="sm">{t("title")}</Title>
+			<Title size="sm">
+				{t("title")}
+				<a className="tw-opacity-0 tw-size-0" id={slugify(t("title"), { locale: "en", lower: true })} />
+			</Title>
 
 			<div>
 				<div>

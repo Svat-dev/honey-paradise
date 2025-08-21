@@ -6,6 +6,7 @@ import { FormInput } from "@/components/ui/components/form-input";
 import type { TRefetchFunction } from "@/shared/types";
 import type { FC } from "react";
 import { FormProvider } from "react-hook-form";
+import slugify from "slugify";
 import { useEmailSection } from "../../../hooks/useEmailSection";
 import styles from "../../../styles/account.module.scss";
 import _styles from "../../../styles/settings.module.scss";
@@ -31,7 +32,10 @@ const EmailSection: FC<IProps> = ({ email, isVerified, isAccLoading, accRefetch 
 				<form onSubmit={onSubmit}>
 					<div>
 						<div>
-							<Title size="sm">{t("email.title")}</Title>
+							<Title size="sm">
+								{t("email.title")}
+								<a className="tw-opacity-0 tw-size-0" id={slugify(t("email.title"), { locale: "en", lower: true })} />
+							</Title>
 
 							{isLoading ? <Skeleton /> : <span data-verified={isVerified}>{t("email.verified", { isVerified: String(isVerified) })}</span>}
 						</div>

@@ -3,7 +3,7 @@
  * @param {number} pages - Общее количество страниц
  * @param {number} maxPages - Максимальное количество отображаемых страниц
  * @param {number} curPage - Текущая страница
- * @returns {number[] | string[]} Массив номеров страниц
+ * @returns {number[] | string[]} Массив номеров страниц и разделителей
  */
 export function getPaginationSchema(pages: number, maxPages: number, curPage: number): string[] | number[] {
 	if (isNaN(pages) || isNaN(maxPages) || isNaN(curPage)) return [1, 2, 3, 4, 5];
