@@ -18,6 +18,9 @@ export enum EnumClientRoutes {
 	CHANGE_PASSWORD = `${AUTH}/password-recovery?type=change`,
 
 	ACCOUNT = "/account",
+
 	SETTINGS = `${ACCOUNT}/settings`,
 	DEVICES = `${SETTINGS}?active_tab=devices`,
+
+	CONNECTIONS = `${ACCOUNT}/connections`,
 }

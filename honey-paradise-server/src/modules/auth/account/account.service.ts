@@ -4,7 +4,7 @@ import { EnumClientRoutes, EnumStorageKeys } from "src/shared/types/client/enums
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
 import { ConfigService } from "@nestjs/config/dist/config.service";
-import { EnumNotificationType } from "@prisma/client";
+import { EnumNotificationType, EnumProviderTypes, type Provider, type User } from "@prisma/client";
 import { hash } from "argon2";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
@@ -13,6 +13,7 @@ import { DEFAULT_AVATAR_PATH } from "src/shared/lib/common/constants";
 import { ms } from "src/shared/lib/common/utils";
 import { getEmailUsername } from "src/shared/lib/common/utils/get-email-username.util";
 import { userFullOutput } from "src/shared/lib/prisma/outputs/user.output";
+import { v4 as uuidv4 } from "uuid";
 import { ProfileService } from "../profile/profile.service";
 import { SessionsService } from "../sessions/sessions.service";
 import { VerificationService } from "../verification/verification.service";
@@ -37,27 +38,12 @@ export class AccountService {
 	}
 
 	async create(dto: CreateUserDto, req: Request, res: Response, userAgent: string) {
-		const { email, password, birthdate, gender, username } = dto;
+		const { email } = dto;
 
 		const isEmailExist = await this.profileService.getProfile(email, "email");
 		if (isEmailExist) throw new BadRequestException(this.i18n.t("d.errors.email.is_exist"));
 
-		const isUsernameExist = username ? await this.profileService.getProfile(username, "username") : false;
-		if (isUsernameExist) throw new BadRequestException(this.i18n.t("d.errors.username.is_exist"));
-
-		await this.prisma.user.create({
-			data: {
-				email,
-				password: await hash(password),
-				username: username || (await this.getUsernameFromEmail(email)),
-				birthdate,
-				gender,
-				avatarPath: DEFAULT_AVATAR_PATH,
-				settings: { create: {} },
-				notificationSettings: { create: {} },
-				cart: { create: {} },
-			},
-		});
+		await this.createNew({ ...dto, avatarPath: DEFAULT_AVATAR_PATH }, true);
 
 		res.cookie(EnumStorageKeys.CURRENT_EMAIL, email, {
 			sameSite: "lax",
@@ -67,6 +53,41 @@ export class AccountService {
 		});
 
 		return this.verificationService.sendVerificationEmail(req, userAgent);
+	}
+
+	async createNew(dto: Partial<User & Provider>, isRegister: boolean = false) {
+		const { email, password, birthdate, gender, username, avatarPath, providerId, type, isVerified } = dto;
+
+		const isUsernameExist = username ? await this.profileService.getProfile(username, "username") : false;
+		if (isUsernameExist && isRegister) throw new BadRequestException(this.i18n.t("d.errors.username.is_exist"));
+
+		const new_username = typeof username === "undefined" ? await this.getUsernameFromEmail(email) : username;
+
+		const user = await this.prisma.user.create({
+			data: {
+				email,
+				password: await hash(password),
+				username: new_username,
+				birthdate,
+				gender,
+				avatarPath,
+				isVerified,
+				settings: { create: {} },
+				notificationSettings: { create: {} },
+				cart: { create: {} },
+			},
+			select: { id: true },
+		});
+
+		await this.prisma.provider.create({
+			data: {
+				userId: user.id,
+				providerId: providerId || uuidv4(),
+				type: type ? (type.toUpperCase() as EnumProviderTypes) : EnumProviderTypes.CREDENTIALS,
+			},
+		});
+
+		return user;
 	}
 
 	async changeEmail(id: string, email: string) {

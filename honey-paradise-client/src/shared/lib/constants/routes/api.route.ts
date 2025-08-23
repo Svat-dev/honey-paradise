@@ -3,6 +3,9 @@ export enum EnumApiRoute {
 	SIGN_IN = `${AUTH}/sign-in`,
 	LOGOUT = `${AUTH}/logout`,
 
+	OAUTH = `${AUTH}/oauth`,
+	OAUTH_CONNECT = `${OAUTH}/connect`,
+
 	TFA = `${AUTH}/tfa`,
 	VERIFY_TFA = `${TFA}/verify`,
 	SEND_TFA_CODE = `${TFA}/send-code`,
@@ -31,6 +34,10 @@ export enum EnumApiRoute {
 	PROFILE = "/profile",
 	UPDATE_PROFILE = `${PROFILE}/update`,
 	CHECK_UNIQUE = `${PROFILE}/check-unique`,
+
+	CONNECTIONS = `${AUTH}/connections`,
+	DISCONNECT = `${CONNECTIONS}/disconnect`,
+	ALL_CONNECTIONS = `${CONNECTIONS}/all`,
 
 	AVATAR = `${PROFILE}/avatar`,
 	UPDATE_AVATAR = `${AVATAR}/update`,

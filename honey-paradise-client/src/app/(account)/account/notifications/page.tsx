@@ -2,6 +2,7 @@ import type { Metadata, NextPage } from "next";
 
 import { Notifications } from "@/components/screens/_notifications/Notifications";
 import type { TSearchParams } from "@/shared/types";
+import { NO_INDEX_PAGE } from "@constants/base";
 import { getMetadata } from "@utils/base";
 import { getTranslations } from "next-intl/server";
 
@@ -17,6 +18,7 @@ export async function generateMetadata({}: IProps): Promise<Metadata> {
 			title: t("title"),
 			description: t("description", { title: t("title") }),
 		})),
+		...NO_INDEX_PAGE,
 	};
 }
 

@@ -12,20 +12,24 @@ export const useOptionalPart = () => {
 
 	const { theme } = useTheme();
 
+	const id1 = useId();
+	const id2 = useId();
+	const id3 = useId();
+
 	const data: IGenderRadioGroupData[] = useMemo(
 		() => [
 			{
-				id: useId(),
+				id: id1,
 				value: EnumGenders.MALE,
 				label: t("optional_part.form.gender.opts.male"),
 			},
 			{
-				id: useId(),
+				id: id2,
 				value: EnumGenders.FEMALE,
 				label: t("optional_part.form.gender.opts.female"),
 			},
 			{
-				id: useId(),
+				id: id3,
 				value: EnumGenders.OTHER,
 				label: t("optional_part.form.gender.opts.other"),
 			},

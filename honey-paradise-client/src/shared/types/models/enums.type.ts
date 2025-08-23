@@ -33,3 +33,11 @@ export enum EnumCurrencies {
 	DOLLAR = "DOLLAR",
 	EURO = "EURO",
 }
+
+export enum EnumProviderTypes {
+	CREDENTIALS = "CREDENTIALS",
+	GOOGLE = "GOOGLE",
+	GITHUB = "GITHUB",
+	VK = "VK",
+	YANDEX = "YANDEX",
+}

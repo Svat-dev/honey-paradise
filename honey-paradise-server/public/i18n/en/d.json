@@ -71,6 +71,7 @@
 	},
 	"errors": {
 		"auth_to_have_access": "To access this resource, you must be logged in",
+		"not_auth": "Failed authorization. Try again later.",
 		"not_have_access": "You don't have access to this resource",
 		"invalid_password": "Invalid password.\nPlease check the entered data again",
 		"tfa_not_enabled": "Two-factor authentication is not enabled on this account",
@@ -82,6 +83,9 @@
 		},
 		"phone": {
 			"is_exist": "This phone number is already occupied by another user"
+		},
+		"provider": {
+			"not_found": "No provider with this ID was found"
 		},
 		"notifications": {
 			"not_found": "Notification not found",

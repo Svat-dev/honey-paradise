@@ -25,7 +25,7 @@ export class LoggerService implements NestLoggerService {
 	}
 
 	error(message: any, trace?: any, ctx?: string) {
-		const errCode = trace.status;
+		const errCode = trace?.status;
 		const canLogError = [500, 403];
 
 		if (!canLogError.includes(errCode)) return true;

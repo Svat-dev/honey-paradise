@@ -679,6 +679,14 @@
 					}
 				}
 			}
+		},
+		"connections": {
+			"title": "Connections",
+			"description": "Linked accounts page online store {title}",
+			"content": {
+				"title": "Linked Accounts",
+				"description": "Linked accounts that you can use to sign in are displayed here"
+			}
 		}
 	},
 	"layout": {

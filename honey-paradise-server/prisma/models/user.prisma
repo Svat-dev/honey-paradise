@@ -11,16 +11,17 @@ model User {
   notifications        Notification[]
   notificationSettings NotificationSettings?
 
-  settings UserSettings?
-  cart     Cart?
-  token    Token[]
+  settings  UserSettings?
+  cart      Cart?
+  token     Token[]
+  providers Provider[]
 
   username    String  @unique
   telegramId  String? @unique @map("telegram_id")
   phoneNumber String? @unique @map("phone_number")
 
   avatarPath String?      @map("avatar_path")
-  gender     EnumGenders?
+  gender     EnumGenders? @default(OTHER)
   birthdate  DateTime?
 
   createdAt DateTime @default(now()) @map("created_at")

@@ -9,6 +9,7 @@ import { ScheduleModule } from "@nestjs/schedule/dist/schedule.module";
 import { ServeStaticModule } from "@nestjs/serve-static/dist/serve-static.module";
 import { AccountModule } from "src/modules/auth/account/account.module";
 import { ProfileModule } from "src/modules/auth/profile/profile.module";
+import { ProvidersModule } from "src/modules/auth/providers/providers.module";
 import { SessionsModule } from "src/modules/auth/sessions/sessions.module";
 import { VerificationModule } from "src/modules/auth/verification/verification.module";
 import { NotificationsModule } from "src/modules/notifications/notifications.module";
@@ -50,6 +51,7 @@ import { RedisModule } from "./redis/redis.module";
 		AccountModule,
 		ProfileModule,
 		SessionsModule,
+		ProvidersModule,
 		VerificationModule,
 		NotificationsModule,
 	],
