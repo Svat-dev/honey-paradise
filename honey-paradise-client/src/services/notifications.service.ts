@@ -1,5 +1,6 @@
 import type {
 	IGetAllNotificationsResponse,
+	INotificationsIdsDto,
 	INotificationsQueryParams,
 	IUpdateNotificationsSettingsDto,
 } from "./types/notifications-service.type";
@@ -23,8 +24,8 @@ export const notificationsService = {
 		return res;
 	},
 
-	markAsRead: async (ids: string[]) => {
-		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.MARK_AS_READ, { ids });
+	markAsRead: async (dto: INotificationsIdsDto) => {
+		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.MARK_AS_READ, dto);
 
 		return res;
 	},
@@ -35,8 +36,8 @@ export const notificationsService = {
 		return res;
 	},
 
-	markAsArchived: async (ids: string[]) => {
-		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.MARK_AS_ARCHIVED, { ids });
+	markAsArchived: async (dto: INotificationsIdsDto) => {
+		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.MARK_AS_ARCHIVED, dto);
 
 		return res;
 	},

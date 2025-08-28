@@ -62,10 +62,11 @@ export class VerificationService {
 		const { password, token } = dto;
 
 		const existingTokens = await this.prisma.token.findMany({ where: { type: EnumTokenTypes.PASSWORD_RECOVERY } });
-
 		const user = await this.validateToken(existingTokens, token, "password-recover");
 
 		await this.userService.updatePassword(user.id, password);
+
+		await this.notificationsService.send(user.id, "На вашем аккаунте был только что изменен пароль", EnumNotificationType.ACCOUNT_STATUS);
 
 		await this.prisma.token.delete({
 			where: {
@@ -95,11 +96,16 @@ export class VerificationService {
 			},
 		});
 
-		await this.notificationsService.send(user.id, "На ваш аккаунт только что был совершен вход", EnumNotificationType.ACCOUNT_STATUS);
-
 		res.clearCookie(EnumStorageKeys.CURRENT_EMAIL);
 
 		const metadata = getSessionMetadata(req, userAgent);
+
+		await this.notificationsService.send(
+			user.id,
+			`Кто-то только что вошел на ваш аккаунт рядом с ${metadata.location.country}, ${metadata.location.city}`,
+			EnumNotificationType.ACCOUNT_STATUS
+		);
+
 		return saveSession(req, user, metadata, this.i18n);
 	}
 

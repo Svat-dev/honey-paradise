@@ -1,19 +1,21 @@
-import type { EnumProviderTypes, Provider } from "@prisma/client";
+import { EnumNotificationType, type EnumProviderTypes, type Provider } from "@prisma/client";
 import type { Request, Response } from "express";
 
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
-import { ConflictException } from "@nestjs/common/exceptions/conflict.exception";
+import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
-import { UnauthorizedException } from "@nestjs/common/exceptions/unauthorized.exception";
 import { ConfigService } from "@nestjs/config/dist/config.service";
+import { randomBytes } from "crypto";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
+import { NotificationsService } from "src/modules/notifications/notifications.service";
+import { capitalize } from "src/shared/lib/common/utils/capitalize.util";
 import { getSessionMetadata } from "src/shared/lib/common/utils/session-metadat.util";
 import { saveSession } from "src/shared/lib/common/utils/session.util";
 import { providerDefaultOutput } from "src/shared/lib/prisma/outputs/providers.outpur";
 import { EnumClientRoutes } from "src/shared/types/client/enums.type";
+import type { IException } from "src/shared/types/exception.type";
 import type { IProviderUser } from "src/shared/types/providers.type";
-import { v4 as uuidv4 } from "uuid";
 import { AccountService } from "../account/account.service";
 import { ProfileService } from "../profile/profile.service";
 
@@ -22,32 +24,42 @@ export class ProvidersService {
 	constructor(
 		private readonly profileService: ProfileService,
 		private readonly accountService: AccountService,
+		private readonly notificationsService: NotificationsService,
 		private readonly prisma: PrismaService,
 		private readonly config: ConfigService,
 		private readonly i18n: I18nService
 	) {}
 
 	async oAuth_first(req: Request, res: Response, userAgent: string) {
-		if (!req.user) throw new UnauthorizedException(this.i18n.t("d.errors.not_auth"));
+		if (!req.user) return this.throwError(res, this.i18n.t("d.errors.not_auth"), HttpStatus.UNAUTHORIZED, "oauth");
 
 		const { email, provider, providerId, avatar, username } = req.user as IProviderUser;
 
 		const existingProvider = await this.getProviderById(providerId);
 
-		if (req.session.userId) {
-			return this.connectUserToProvider(req.session.userId, existingProvider, req.user as IProviderUser, res);
+		if (req.session.userId && req.session.id) {
+			const userId = req.session.userId;
+			const sid = req.session.id;
+
+			return this.connectUserToProvider(userId, existingProvider, req.user as IProviderUser, res);
 		}
 
 		const existingUser = await this.profileService.getProfile(email, "email");
 
 		if (existingProvider) {
 			const user = await this.profileService.getProfile(existingProvider.userId, "id");
-			if (!user) throw new NotFoundException(this.i18n.t("d.errors.profile.not_found"));
+			if (!user) return this.throwError(res, this.i18n.t("d.errors.profile.not_found"), HttpStatus.NOT_FOUND, "oauth");
 
-			const metadata = getSessionMetadata(req, userAgent);
+			await this.notificationsService.send(
+				user.id,
+				`На ваш аккаунт только что был совершен вход через ${existingProvider.type.toLocaleUpperCase("ru")}`,
+				EnumNotificationType.ACCOUNT_STATUS
+			);
+
+			const metadata = getSessionMetadata(req, userAgent, existingProvider.type);
 			await saveSession(req, user, metadata, this.i18n);
 		} else {
-			if (existingUser) throw new UnauthorizedException(this.i18n.t("d.errors.not_auth"));
+			if (existingUser) return this.throwError(res, this.i18n.t("d.errors.not_auth"), HttpStatus.UNAUTHORIZED, "oauth");
 
 			const user = await this.accountService.createNew({
 				avatarPath: avatar,
@@ -56,10 +68,10 @@ export class ProvidersService {
 				isVerified: true,
 				providerId,
 				type: provider as EnumProviderTypes,
-				password: uuidv4(),
+				password: randomBytes(20).toString("hex"),
 			});
 
-			const metadata = getSessionMetadata(req, userAgent);
+			const metadata = getSessionMetadata(req, userAgent, provider.toLowerCase() as EnumProviderTypes);
 			await saveSession(req, user, metadata, this.i18n);
 		}
 
@@ -81,6 +93,12 @@ export class ProvidersService {
 
 		await this.prisma.provider.delete({ where: { id: provider.id } });
 
+		await this.notificationsService.send(
+			userId,
+			`Учетная запись ${provider.type} только что была отсоединена от вашего аккаунта`,
+			EnumNotificationType.ACCOUNT_STATUS
+		);
+
 		return true;
 	}
 
@@ -88,11 +106,25 @@ export class ProvidersService {
 		const { provider, providerId } = data;
 
 		const user = await this.profileService.getProfile(userId, "id");
-		if (!user) throw new NotFoundException(this.i18n.t("d.errors.profile.not_found"));
+		if (!user) return this.throwError(res, this.i18n.t("d.errors.profile.not_found"), HttpStatus.NOT_FOUND, "connect");
 
 		if (existingProvider) {
-			if (existingProvider.userId === user.id) throw new ConflictException("d.errors.provider.already_connected_by_you");
-			else throw new ConflictException("d.errors.provider.already_connected");
+			if (existingProvider.userId === user.id)
+				return this.throwError(
+					res,
+					this.i18n.t("d.errors.provider.already_connected_by_you", {
+						args: { provider: capitalize(existingProvider.type.toLowerCase()) },
+					}),
+					HttpStatus.CONFLICT,
+					"connect"
+				);
+			else
+				return this.throwError(
+					res,
+					this.i18n.t("d.errors.provider.already_connected", { args: { provider: capitalize(existingProvider.type.toLowerCase()) } }),
+					HttpStatus.CONFLICT,
+					"connect"
+				);
 		}
 
 		await this.prisma.provider.create({
@@ -103,6 +135,12 @@ export class ProvidersService {
 			},
 		});
 
+		await this.notificationsService.send(
+			user.id,
+			`Учетная запись ${provider} только что была соединена с вашим аккаунтом`,
+			EnumNotificationType.ACCOUNT_STATUS
+		);
+
 		return res.redirect(this.config.getOrThrow<string>("CLIENT_URL") + EnumClientRoutes.CONNECTIONS + "?connect=true");
 	}
 
@@ -110,5 +148,26 @@ export class ProvidersService {
 		const provider = await this.prisma.provider.findUnique({ where: { providerId: id }, select: providerDefaultOutput });
 
 		return provider;
+	}
+
+	private async throwError(res: Response, msg: string, status: HttpStatus, type: "connect" | "oauth") {
+		const exception: IException = {
+			message: msg,
+			status,
+			timestamp: new Date().toISOString(),
+		};
+
+		const searchParams = new URLSearchParams();
+
+		for (const key in exception) {
+			searchParams.set(key, exception[key].toString());
+		}
+
+		searchParams.set("error", "true");
+
+		const url =
+			this.config.getOrThrow<string>("CLIENT_URL") + (type === "connect" ? EnumClientRoutes.CONNECTIONS : EnumClientRoutes.SIGN_IN);
+
+		res.redirect(url + `?${searchParams.toString()}`);
 	}
 }

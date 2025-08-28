@@ -5,6 +5,7 @@ import { Get, Patch } from "@nestjs/common/decorators/http/request-mapping.decor
 import { Body, Req, Res } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
 import { AuthGuard } from "@nestjs/passport/dist/auth.guard";
+import { SkipThrottle } from "@nestjs/throttler/dist/throttler.decorator";
 import { EnumProviderTypes } from "@prisma/client";
 import type { Request, Response } from "express";
 import { Authorization } from "src/shared/decorators/auth.decorator";
@@ -20,6 +21,7 @@ export class ProvidersController {
 
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
+	@SkipThrottle({ auth: true })
 	@Get(EnumApiRoute.ALL_CONNECTIONS)
 	getAllConnections(@Authorized("id") userId: string) {
 		return this.providersService.getProvidersByUser(userId);

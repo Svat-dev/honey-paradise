@@ -5,7 +5,7 @@ import type { IPaginationContentProps, IPaginationItemProps, IPaginationProps } 
 
 import { Button, Separator, Skeleton } from "@/components/ui/common";
 import { cn } from "@utils/base";
-import { getPaginationSchema } from "@utils/get-pagination-schema";
+import { getPaginationSchema } from "@utils/ui";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 const Pagination: FC<PropsWithChildren<IPaginationProps>> = ({ children, className, ...props }) => {

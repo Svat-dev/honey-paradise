@@ -4,7 +4,6 @@ import { errorCatch } from "@/api/api-helper";
 import { useUpdatePasswordS } from "@/services/hooks/account";
 import { useUpdateSettingsS } from "@/services/hooks/profile";
 import type { IUpdateUserSettingsDto } from "@/services/types/profile-service.type";
-import type { TRefetchFunction } from "@/shared/types";
 import { EnumSessionStorageKeys } from "@constants/base";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDebounce } from "@hooks/base";
@@ -14,7 +13,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
-export const useSecuritySection = (accRefetch: TRefetchFunction) => {
+export const useSecuritySection = () => {
 	const t = useTranslations("global.settings.content.account.content");
 
 	const { isSettingsUpdating, updateSettingsAsync } = useUpdateSettingsS();
@@ -23,7 +22,6 @@ export const useSecuritySection = (accRefetch: TRefetchFunction) => {
 		try {
 			await updateSettingsAsync({ [field]: value });
 
-			accRefetch();
 			toast.success("Настройки успешно обновлены!");
 		} catch (e) {
 			const { errMsg } = errorCatch(e as AxiosError);

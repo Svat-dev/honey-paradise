@@ -403,7 +403,8 @@
 					"actions": {
 						"selectedTxt": "Selected items: {length}",
 						"cancelBtn": "Cancel",
-						"readAll": "Read all"
+						"readAll": "Read all",
+						"refresh": "Refresh"
 					}
 				},
 				"labels": {
@@ -662,6 +663,7 @@
 								"device": "Device:",
 								"location": "Device location:",
 								"ip": "IP-address:",
+								"method": "Logged in using:",
 								"time": "Sign in date:"
 							},
 							"closeBtn": "Close"
@@ -835,6 +837,14 @@
 				"gender": "Not specified",
 				"language": "Not specified. Current - {current}",
 				"theme": "Not specified. Current - {current}"
+			},
+			"methods": {
+				"google": "Google",
+				"yandex": "Yandex ID",
+				"vk": "VK ID",
+				"github": "Github",
+				"telegram": "telegram bot",
+				"credentials": "login & password"
 			},
 			"labels": {
 				"clearBtn": "Clear",

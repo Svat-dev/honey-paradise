@@ -23,7 +23,7 @@ const NotificationsToaster: FC<IProps> = ({ id, nid }) => {
 
 	const onMarkAsRead = async () => {
 		try {
-			await markAsReadAsync([nid]);
+			await markAsReadAsync({ ids: [nid] });
 
 			toast.dismiss(id);
 		} catch (error) {

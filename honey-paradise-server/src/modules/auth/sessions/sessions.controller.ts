@@ -3,16 +3,19 @@ import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
 import { Delete, Get, Post } from "@nestjs/common/decorators/http/request-mapping.decorator";
 import { Body, Param, Req, Res } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
+import { SkipThrottle, Throttle } from "@nestjs/throttler/dist/throttler.decorator";
 import { Recaptcha } from "@nestlab/google-recaptcha/decorators/recaptcha";
 import type { Request, Response } from "express";
 import { Authorization } from "src/shared/decorators/auth.decorator";
 import { UserAgent } from "src/shared/decorators/user-agent.decorator";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
+import { ms } from "src/shared/lib/common/utils";
 import { VerificationService } from "../verification/verification.service";
 import type { AuthLoginDto } from "./dto/auth-login.dto";
 import type { AuthTfaDto } from "./dto/auth-tfa.dto";
 import { SessionsService } from "./sessions.service";
 
+@SkipThrottle({ auth: true })
 @Controller(EnumApiRoute.AUTH)
 export class SessionsController {
 	constructor(
@@ -42,6 +45,7 @@ export class SessionsController {
 
 	@HttpCode(HttpStatus.OK)
 	@Recaptcha()
+	@Throttle({ default: { limit: 10, ttl: ms("10min") } })
 	@Post(EnumApiRoute.SIGN_IN)
 	login(@Body() dto: AuthLoginDto, @Req() req: Request, @Res({ passthrough: true }) res: Response, @UserAgent() userAgent: string) {
 		return this.sessionsService.login(dto, req, res, userAgent);

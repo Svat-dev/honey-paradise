@@ -6,7 +6,6 @@ import { errorCatch } from "@/api/api-helper";
 import type { IDropdownData } from "@/components/ui/components/form-input/types/form-input.type";
 import { useUpdateSettingsS } from "@/services/hooks/profile";
 import { EnumLanguages } from "@/shared/lib/i18n";
-import type { TRefetchFunction } from "@/shared/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLanguage } from "@i18n/hooks";
 import type { AxiosError } from "axios";
@@ -14,9 +13,10 @@ import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
-export const useAppearanceSection = (settings: ISettingsUser | undefined, refetch: TRefetchFunction) => {
+export const useAppearanceSection = (settings: ISettingsUser | undefined) => {
 	const t = useTranslations("global.settings.content.profile");
 	const { locale } = useLanguage();
+
 	const { updateSettingsAsync, isSettingsUpdating } = useUpdateSettingsS();
 
 	const [isDisabled, setIsDisabled] = useState<boolean>(false);
@@ -41,7 +41,6 @@ export const useAppearanceSection = (settings: ISettingsUser | undefined, refetc
 
 			await updateSettingsAsync({ defaultLanguage: language, defaultTheme: theme });
 
-			refetch();
 			toast.success(t("appearance.toasters.success"));
 		} catch (e) {
 			const { errMsg } = errorCatch(e as AxiosError);

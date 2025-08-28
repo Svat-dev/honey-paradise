@@ -6,7 +6,6 @@ import { useMenuSheetMain } from "../../hooks/useMenuSheetMain";
 
 const MenuSheetMain = () => {
 	const { data, unReadLength, isNotificationsLoading } = useMenuSheetMain();
-	console.log(unReadLength);
 
 	return (
 		<ul className="tw-list-none tw-flex tw-flex-col tw-items-end tw-mt-5">

@@ -75,6 +75,11 @@
 		"not_have_access": "You don't have access to this resource",
 		"invalid_password": "Invalid password.\nPlease check the entered data again",
 		"tfa_not_enabled": "Two-factor authentication is not enabled on this account",
+		"ddos": {
+			"default": "Too many requests, try again later",
+			"auth": "",
+			"mail": ""
+		},
 		"email": {
 			"is_exist": "This email is already occupied by another user"
 		},
@@ -85,7 +90,9 @@
 			"is_exist": "This phone number is already occupied by another user"
 		},
 		"provider": {
-			"not_found": "No provider with this ID was found"
+			"not_found": "No provider with this ID was found",
+			"already_connected_by_you": "{provider} is already connected to your account",
+			"already_connected": "{provider} is already connected to another account"
 		},
 		"notifications": {
 			"not_found": "Notification not found",

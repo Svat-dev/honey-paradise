@@ -1,10 +1,17 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { profileService } from "@/services/profile.service";
-import { useMutation } from "@tanstack/react-query";
+import { queryKeys } from "@/shared/lib/constants/routes";
 
 export const useUpdateAvatarS = () => {
+	const client = useQueryClient();
+
+	const onSuccess = () => client.invalidateQueries({ queryKey: [queryKeys.getMyAccount], type: "all" });
+
 	const { mutateAsync, mutate, isPending } = useMutation({
-		mutationKey: ["profile update avatar"],
+		mutationKey: [queryKeys.updateProfileAvatar],
 		mutationFn: (dto: FormData) => profileService.updateAvatar(dto),
+		onSuccess,
 	});
 
 	const {
@@ -12,8 +19,9 @@ export const useUpdateAvatarS = () => {
 		mutate: _mutate,
 		isPending: _isPending,
 	} = useMutation({
-		mutationKey: ["profile delete avatar"],
+		mutationKey: [queryKeys.deleteProfileAvatar],
 		mutationFn: () => profileService.deleteAvatar(),
+		onSuccess,
 	});
 
 	return {

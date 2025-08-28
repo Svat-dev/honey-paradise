@@ -7,10 +7,9 @@ import styles from "../../styles/notifications-filters.module.scss";
 
 interface IFiltersWrapperProps {
 	isAllMarkingAsRead: boolean;
-	disabled: boolean;
 }
 
-const FiltersWrapper: FC<IFiltersWrapperProps> = ({ isAllMarkingAsRead, disabled }) => {
+const FiltersWrapper: FC<IFiltersWrapperProps> = ({ isAllMarkingAsRead }) => {
 	const {
 		notificationsFilters: { notificationType, sortType },
 		queryParams: { is_read, sort, types },
@@ -26,7 +25,7 @@ const FiltersWrapper: FC<IFiltersWrapperProps> = ({ isAllMarkingAsRead, disabled
 	return (
 		<div className={styles["filters-wrapper"]}>
 			<DropdownMenu>
-				<DropdownMenuTrigger disabled={disabled || isAllMarkingAsRead} asChild>
+				<DropdownMenuTrigger disabled={isAllMarkingAsRead} asChild>
 					<Button variant="secondary" title={t("labels.notificationsTypeBtn")} className={styles["dm-trigger"]}>
 						<FilterIcon size={16} />
 						{t("filters.notificationsTypeBtn", { length: types?.length || 0 })}
@@ -49,7 +48,7 @@ const FiltersWrapper: FC<IFiltersWrapperProps> = ({ isAllMarkingAsRead, disabled
 			</DropdownMenu>
 
 			<DropdownMenu>
-				<DropdownMenuTrigger disabled={disabled || isAllMarkingAsRead} asChild>
+				<DropdownMenuTrigger disabled={isAllMarkingAsRead} asChild>
 					<Button variant="secondary" title={t("labels.sortTypeBtn")} className={styles["dm-trigger"]}>
 						<SortIcon className="tw-opacity-0 tw-animate-show-effect" />
 						{t("filters.sortTypeBtn")}
@@ -73,7 +72,7 @@ const FiltersWrapper: FC<IFiltersWrapperProps> = ({ isAllMarkingAsRead, disabled
 				className={styles["checkbox"]}
 				checked={is_read === "true"}
 				onChange={e => onChangeIsRead(e.currentTarget.checked)}
-				disabled={isAllMarkingAsRead || disabled}
+				disabled={isAllMarkingAsRead}
 			>
 				{t("filters.onlyNotRead")}
 			</Checkbox>

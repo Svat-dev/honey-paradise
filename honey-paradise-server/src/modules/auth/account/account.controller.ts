@@ -3,12 +3,14 @@ import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
 import { Get, Patch, Post } from "@nestjs/common/decorators/http/request-mapping.decorator";
 import { Body, Req, Res } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
+import { SkipThrottle, Throttle } from "@nestjs/throttler/dist/throttler.decorator";
 import { Recaptcha } from "@nestlab/google-recaptcha/decorators/recaptcha";
 import type { Request, Response } from "express";
 import { Authorization } from "src/shared/decorators/auth.decorator";
 import { Authorized } from "src/shared/decorators/authorized.decorator";
 import { UserAgent } from "src/shared/decorators/user-agent.decorator";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
+import { ms } from "src/shared/lib/common/utils";
 import { VerificationService } from "../verification/verification.service";
 import { AccountService } from "./account.service";
 import type { CreateUserDto } from "./dto/create-user.dto";
@@ -24,6 +26,7 @@ export class AccountController {
 
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
+	@SkipThrottle({ auth: true })
 	@Get(EnumApiRoute.ME)
 	getMe(@Authorized("id") id: string) {
 		return this.accountService.me(id);
@@ -51,18 +54,23 @@ export class AccountController {
 	}
 
 	@HttpCode(HttpStatus.OK)
+	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
+	@SkipThrottle({ auth: true })
 	@Post(EnumApiRoute.SEND_VERIFICATION_CODE)
 	sendEmailVerification(@Req() req: Request, @UserAgent() userAgent: string) {
 		return this.verificationService.sendVerificationEmail(req, userAgent);
 	}
 
 	@HttpCode(HttpStatus.OK)
+	@SkipThrottle({ auth: true })
 	@Post(EnumApiRoute.VERIFY_EMAIL)
 	verifyEmail(@Body() dto: EmailVerifyDto, @Req() req: Request, @Res({ passthrough: true }) res: Response, @UserAgent() userAgent: string) {
 		return this.verificationService.verifyEmail(req, res, dto, userAgent);
 	}
 
 	@HttpCode(HttpStatus.OK)
+	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
+	@SkipThrottle({ auth: true })
 	@Post(EnumApiRoute.RESET_PASSWORD)
 	resetPassword(@Req() req: Request, @Res({ passthrough: true }) res: Response, @UserAgent() userAgent: string) {
 		return this.verificationService.sendRecoverPasswordEmail(req, res, userAgent);

@@ -9,7 +9,7 @@ import { useAuth } from "@hooks/auth";
 import { useTheme } from "@hooks/useTheme";
 import { useLanguage } from "@i18n/hooks";
 import type { AxiosError } from "axios";
-import { useRouter } from "next/dist/client/components/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/dist/client/components/navigation";
 import { useEffect, useRef, useState } from "react";
 import type ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
@@ -18,13 +18,17 @@ import { useTranslations } from "use-intl";
 import type { TDataStatus } from "../_sign-up/types/sign-up.type";
 
 export const useSignIn = () => {
-	const { locale } = useLanguage();
 	const t = useTranslations("global.sign-in.content");
+	const { locale } = useLanguage();
+
 	const errorDelay = 5000;
 	const successDelay = 2000;
 
-	const { auth } = useAuth();
 	const { replace, prefetch } = useRouter();
+	const searchParams = useSearchParams();
+	const pathname = usePathname();
+
+	const { auth } = useAuth();
 	const { theme } = useTheme();
 	const { isSignInLoading, signIn } = useSignInS();
 
@@ -102,6 +106,16 @@ export const useSignIn = () => {
 	useEffect(() => {
 		if (dataStatus === "error" && recaptchaValue) setDataStatus("default");
 	}, [recaptchaValue]);
+
+	useEffect(() => {
+		if (searchParams.get("error") && searchParams.get("error") === "true") {
+			const msg = searchParams.get("message") || "";
+			const sts = searchParams.get("status") || "";
+
+			toast.error(`Произошла ошибка ${sts}: \n${msg}`);
+			return replace(pathname, { scroll: true });
+		}
+	}, []);
 
 	return {
 		t,

@@ -2,7 +2,7 @@ import { errorCatch } from "@/api/api-helper";
 import type { IDropdownData } from "@/components/ui/components/form-input/types/form-input.type";
 import { useUniqueFieldCheckS, useUpdateProfileS } from "@/services/hooks/profile";
 import type { IUpdateProfileDto } from "@/services/types/profile-service.type";
-import type { TRefetchFunction } from "@/shared/types";
+import { getMaskedPhone } from "@/shared/lib/utils/get-masked-phone";
 import { EnumGenders } from "@/shared/types/models";
 import { PHONE_MASK_PATTERN } from "@constants/base";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,7 +10,6 @@ import { useDebounce } from "@hooks/base";
 import { useLanguage } from "@i18n/hooks";
 import { type TUpdateUserinfoFields, createUpdateUserinfoSchema } from "@schemas/update-userinfo.schema";
 import { checkPhoneNumber, validateUsername } from "@utils/auth";
-import { getMaskedPhone } from "@utils/get-masked-phone.util";
 import type { AxiosError } from "axios";
 import { toDate } from "date-fns";
 import type { FactoryArg, InputMask } from "imask";
@@ -24,8 +23,7 @@ export const useInfoSection = (
 	gender: EnumGenders | undefined,
 	birthdate: string | undefined,
 	username: string | undefined,
-	phone: string | undefined,
-	refetch: TRefetchFunction
+	phone: string | undefined
 ) => {
 	const defaultValues: TUpdateUserinfoFields = {
 		birthdate: birthdate ? toDate(birthdate) : undefined,
@@ -85,7 +83,6 @@ export const useInfoSection = (
 
 			await updateProfileAsync(dto);
 
-			refetch();
 			toast.success(t("toasters.success"));
 		} catch (e) {
 			console.log(e);

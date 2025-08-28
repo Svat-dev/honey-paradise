@@ -2,7 +2,6 @@ import { Button, Separator, Switch, Title } from "@/components/ui/common";
 import { AlertOctagonIcon, BellIcon, MegaphoneIcon } from "lucide-react";
 import { useNotificationsSettings, usePermissionSection } from "../../../hooks/useNotificationsSettings";
 
-import type { TRefetchFunction } from "@/shared/types";
 import { cn } from "@utils/base";
 import type { FC } from "react";
 import slugify from "slugify";
@@ -12,12 +11,11 @@ interface IProps {
 	isAccLoading: boolean;
 	isEnabled: boolean;
 	isWithSound: boolean;
-	accRefetch: TRefetchFunction;
 }
 
-const PermissionsSection: FC<IProps> = ({ isAccLoading, accRefetch, isEnabled, isWithSound }) => {
+const PermissionsSection: FC<IProps> = ({ isAccLoading, isEnabled, isWithSound }) => {
 	const { onRequestPermission, permission } = usePermissionSection();
-	const { isSettingsUpdating, onSwitchChange, getTitles, t } = useNotificationsSettings(accRefetch);
+	const { isSettingsUpdating, onSwitchChange, getTitles, t } = useNotificationsSettings();
 
 	const isLoading = isAccLoading || isSettingsUpdating;
 

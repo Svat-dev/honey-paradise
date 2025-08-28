@@ -2,6 +2,7 @@
 
 import type { FC } from "react";
 import { useSettingsContent } from "../hooks/useSettingsContent";
+import { EnumSettingsTabTypes } from "../types/settings.type";
 import { AccountSettings } from "./sections/account/AccountSettings";
 import { DevicesSettings } from "./sections/devices/DevicesSettings";
 import { NotificationsSettings } from "./sections/notifications/NotificationsSettings";
@@ -20,19 +21,19 @@ const SettingsContent: FC<IProps> = ({ activeTabServer }) => {
 		<>
 			<SettingsTabs activeTab={activeTab} setActiveTab={changeTab} />
 
-			{activeTab === "profile" ? (
+			{activeTab === EnumSettingsTabTypes.PROFILE ? (
 				<SettingsSection title={t("profile.title")} description={t("profile.description")}>
 					<ProfileSettings />
 				</SettingsSection>
-			) : activeTab === "account" ? (
+			) : activeTab === EnumSettingsTabTypes.ACCOUNT ? (
 				<SettingsSection title={t("account.title")} description={t("account.description")}>
 					<AccountSettings />
 				</SettingsSection>
-			) : activeTab === "notifications" ? (
+			) : activeTab === EnumSettingsTabTypes.NOTIFICATIONS ? (
 				<SettingsSection title={t("notifications.title")} description={t("notifications.description")}>
 					<NotificationsSettings />
 				</SettingsSection>
-			) : activeTab === "devices" ? (
+			) : activeTab === EnumSettingsTabTypes.DEVICES ? (
 				<SettingsSection title={t("devices.title")} description={t("devices.description")}>
 					<DevicesSettings />
 				</SettingsSection>

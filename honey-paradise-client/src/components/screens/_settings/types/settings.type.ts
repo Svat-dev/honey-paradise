@@ -1,7 +1,12 @@
-export type TSettingsTabTypes = "profile" | "account" | "notifications" | "devices";
+export enum EnumSettingsTabTypes {
+	PROFILE = "profile",
+	ACCOUNT = "account",
+	NOTIFICATIONS = "notifications",
+	DEVICES = "devices",
+}
 
 export interface ISettingsTab {
 	title: string;
-	href: TSettingsTabTypes;
+	href: EnumSettingsTabTypes;
 	label: string;
 }

@@ -1,14 +1,17 @@
 import { LogoutButton } from "@/components/layouts/-root-sidebar/components/logout-button/LogoutButton";
+import { SheetFooter } from "@/components/ui/common";
+import { useMyAccount } from "@/shared/lib/hooks/auth";
 import { OrderButton } from "../OrderButton";
 import { SelectLanguageDM } from "../SelectLanguageDM";
-import { SheetFooter } from "@/components/ui/common";
 
 const MenuSheetFooter = () => {
+	const { user } = useMyAccount();
+
 	return (
 		<SheetFooter className="tw-mt-8 tw-items-end tw-gap-1">
-			<SelectLanguageDM />
+			{!user?.settings.defaultLanguage && <SelectLanguageDM />}
 			<OrderButton />
-			<LogoutButton reversed />
+			<LogoutButton reversed oneClick />
 		</SheetFooter>
 	);
 };

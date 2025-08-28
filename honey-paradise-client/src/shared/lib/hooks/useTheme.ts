@@ -57,7 +57,8 @@ export const useTheme = () => {
 			theme,
 			toggleTheme,
 			localeTheme,
+			userTheme: user?.settings.defaultTheme || null,
 		}),
-		[theme, toggleTheme, localeTheme]
+		[theme, toggleTheme, localeTheme, user?.settings.defaultTheme]
 	);
 };

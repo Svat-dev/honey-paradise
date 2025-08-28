@@ -1,7 +1,7 @@
 import { useLanguage } from "@i18n/hooks";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
-import type { ISettingsTab } from "../types/settings.type";
+import { EnumSettingsTabTypes, type ISettingsTab } from "../types/settings.type";
 
 export const useSettingsTabs = () => {
 	const t = useTranslations("global.settings.content.tabs");
@@ -10,22 +10,22 @@ export const useSettingsTabs = () => {
 	const tabs: ISettingsTab[] = useMemo(
 		() => [
 			{
-				href: "profile",
+				href: EnumSettingsTabTypes.PROFILE,
 				title: t("profile"),
 				label: t("labels.profile"),
 			},
 			{
-				href: "account",
+				href: EnumSettingsTabTypes.ACCOUNT,
 				title: t("account"),
 				label: t("labels.account"),
 			},
 			{
-				href: "notifications",
+				href: EnumSettingsTabTypes.NOTIFICATIONS,
 				title: t("notifications"),
 				label: t("labels.notifications"),
 			},
 			{
-				href: "devices",
+				href: EnumSettingsTabTypes.DEVICES,
 				title: t("devices"),
 				label: t("labels.devices"),
 			},

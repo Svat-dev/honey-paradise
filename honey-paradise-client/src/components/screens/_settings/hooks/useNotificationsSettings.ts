@@ -3,7 +3,6 @@ import { useEffect, useMemo, useState } from "react";
 import { errorCatch } from "@/api/api-helper";
 import { useUpdateSettingsS } from "@/services/hooks/notifications";
 import type { IUpdateNotificationsSettingsDto } from "@/services/types/notifications-service.type";
-import type { TRefetchFunction } from "@/shared/types";
 import { EnumAppRoute } from "@constants/routes";
 import { useLanguage } from "@i18n/hooks";
 import type { AxiosError } from "axios";
@@ -11,7 +10,7 @@ import { useTranslations } from "next-intl";
 import toast from "react-hot-toast";
 import slugify from "slugify";
 
-export const useNotificationsSettings = (accRefetch: TRefetchFunction) => {
+export const useNotificationsSettings = () => {
 	const t = useTranslations("global.settings.content.notifications.content");
 	const tgt = useTranslations("global.settings.content.profile.telegram-linking");
 
@@ -22,7 +21,6 @@ export const useNotificationsSettings = (accRefetch: TRefetchFunction) => {
 		try {
 			await updateSettingsAsync({ [field]: value });
 
-			accRefetch();
 			toast.success(t("toasters.success"));
 		} catch (e) {
 			const { errMsg } = errorCatch(e as AxiosError);
@@ -76,8 +74,11 @@ export const usePermissionSection = () => {
 		if (Notification.permission) setPermission(Notification.permission);
 	}, []);
 
-	return {
-		onRequestPermission,
-		permission,
-	};
+	return useMemo(
+		() => ({
+			onRequestPermission,
+			permission,
+		}),
+		[permission, onRequestPermission]
+	);
 };

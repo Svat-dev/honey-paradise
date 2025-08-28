@@ -6,6 +6,7 @@ import { Logger } from "@nestjs/common/services/logger.service";
 import type { Response } from "express";
 import { I18nContext } from "nestjs-i18n/dist/i18n.context";
 import { I18nTranslation } from "nestjs-i18n/dist/interfaces/i18n-translation.interface";
+import type { IException } from "../types/exception.type";
 
 @Catch()
 export class ExceptionsFilter implements ExceptionFilter {
@@ -17,17 +18,19 @@ export class ExceptionsFilter implements ExceptionFilter {
 		const response = ctx.getResponse() as Response;
 
 		const status = exception instanceof HttpException ? exception.getStatus() : 500;
-		const message = exception instanceof HttpException ? exception.message : i18nCtx.t("d.errors.500.default" as never);
+		const message = exception instanceof HttpException ? exception.message : i18nCtx?.t("d.errors.500.default" as never);
 		const cause = exception instanceof HttpException ? (exception.getStatus() === 500 ? exception.message : exception.cause) : "";
 
 		this.logger.error(message, exception);
 
-		response.status(status).json({
+		const newException: IException = {
 			status,
 			message,
 			cause,
 			timestamp: new Date().toISOString(),
 			path: ctx.getRequest().url,
-		});
+		};
+
+		response.status(status).json(newException);
 	}
 }

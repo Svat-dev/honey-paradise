@@ -6,22 +6,16 @@ import { FiltersWrapper } from "./NotificationsFilters";
 
 interface IProps {
 	unReadLength: number;
-	disabled: boolean;
 }
 
-const NotificationsFilters: FC<IProps> = ({ unReadLength, disabled }) => {
+const NotificationsFilters: FC<IProps> = ({ unReadLength }) => {
 	const { isAllMarkingAsRead, markAsReadAll } = useNotificationsFiltersWrapper();
 
 	return (
 		<div className={styles["wrapper"]}>
-			<FiltersWrapper isAllMarkingAsRead={isAllMarkingAsRead} disabled={disabled} />
+			<FiltersWrapper isAllMarkingAsRead={isAllMarkingAsRead} />
 
-			<ActionsWrapper
-				isAllMarkingAsRead={isAllMarkingAsRead}
-				markAsReadAll={markAsReadAll}
-				unReadLength={unReadLength}
-				disabled={disabled}
-			/>
+			<ActionsWrapper isAllMarkingAsRead={isAllMarkingAsRead} markAsReadAll={markAsReadAll} unReadLength={unReadLength} />
 		</div>
 	);
 };

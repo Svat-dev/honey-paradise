@@ -1,33 +1,29 @@
 "use client";
 
-import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/common";
-import { useAuth, useMyAccount } from "@hooks/auth";
+import { DropdownMenu, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/common";
+
 import { cn } from "@utils/base";
 import { LogOutIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useState, type FC } from "react";
+import dynamic from "next/dynamic";
+import type { FC } from "react";
 import styles from "../../styles/logout-button.module.scss";
 import { LogoutButtonDMI } from "./LogoutButtonDMI";
+import { useLogoutButton } from "./useLogoutButton";
+
+const DynamicDropdownMenuContent = dynamic(() => import("@/components/ui/common").then(mod => mod.DropdownMenuContent));
 
 interface ILogoutButton {
 	reversed?: boolean;
+	oneClick?: boolean;
 }
 
-const LogoutButton: FC<ILogoutButton> = ({ reversed }) => {
-	const t = useTranslations("layout.root-sidebar.footer.logout");
-	const [isOpen, setIsOpen] = useState<boolean>(false);
-
-	const { isAuthenticated } = useAuth();
-	const { logout } = useMyAccount();
-
-	const onClick = (type: "full" | "partial") => {
-		if (type === "partial") logout();
-	};
+const LogoutButton: FC<ILogoutButton> = ({ reversed, oneClick }) => {
+	const { isAuthenticated, isOpen, onOpenChange, onClick, t } = useLogoutButton(!!oneClick);
 
 	if (!isAuthenticated) return <></>;
 
 	return (
-		<DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+		<DropdownMenu open={isOpen} onOpenChange={onOpenChange}>
 			<DropdownMenuTrigger asChild>
 				<button
 					type="button"
@@ -42,7 +38,7 @@ const LogoutButton: FC<ILogoutButton> = ({ reversed }) => {
 				</button>
 			</DropdownMenuTrigger>
 
-			<DropdownMenuContent className={styles["logout-btn-dmc"]}>
+			<DynamicDropdownMenuContent className={styles["logout-btn-dmc"]}>
 				<DropdownMenuLabel className="tw-sr-only">{}</DropdownMenuLabel>
 
 				<LogoutButtonDMI
@@ -58,7 +54,7 @@ const LogoutButton: FC<ILogoutButton> = ({ reversed }) => {
 					descClassName="-tw-top-6"
 					onClick={() => onClick("full")}
 				/>
-			</DropdownMenuContent>
+			</DynamicDropdownMenuContent>
 		</DropdownMenu>
 	);
 };

@@ -1,10 +1,18 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { notificationsService } from "@/services/notifications.service";
-import { useMutation } from "@tanstack/react-query";
+import type { INotificationsIdsDto } from "@/services/types/notifications-service.type";
+import { queryKeys } from "@constants/routes";
 
 export const useMarkAsReadS = () => {
+	const client = useQueryClient();
+
+	const onSuccess = () => client.invalidateQueries({ queryKey: [queryKeys.getAllUserNotifications], type: "all" });
+
 	const { mutateAsync, isPending } = useMutation({
-		mutationKey: ["mark notification as read"],
-		mutationFn: (ids: string[]) => notificationsService.markAsRead(ids),
+		mutationKey: [queryKeys.markNotificationAsRead],
+		mutationFn: (dto: INotificationsIdsDto) => notificationsService.markAsRead(dto),
+		onSuccess,
 	});
 
 	return {
@@ -14,9 +22,14 @@ export const useMarkAsReadS = () => {
 };
 
 export const useMarkAsReadAllS = () => {
+	const client = useQueryClient();
+
+	const onSuccess = () => client.invalidateQueries({ queryKey: [queryKeys.getAllUserNotifications], type: "all" });
+
 	const { mutateAsync, isPending } = useMutation({
-		mutationKey: ["mark notification as read all"],
+		mutationKey: [queryKeys.markAllNotificationAsRead],
 		mutationFn: () => notificationsService.markAsReadAll(),
+		onSuccess,
 	});
 
 	return {
@@ -26,9 +39,14 @@ export const useMarkAsReadAllS = () => {
 };
 
 export const useMarkAsArchivedS = () => {
+	const client = useQueryClient();
+
+	const onSuccess = () => client.invalidateQueries({ queryKey: [queryKeys.getAllUserNotifications], type: "all" });
+
 	const { mutateAsync, isPending } = useMutation({
-		mutationKey: ["mark notification as archived"],
-		mutationFn: (ids: string[]) => notificationsService.markAsArchived(ids),
+		mutationKey: [queryKeys.markNotificationAsArchived],
+		mutationFn: (dto: INotificationsIdsDto) => notificationsService.markAsArchived(dto),
+		onSuccess,
 	});
 
 	return {

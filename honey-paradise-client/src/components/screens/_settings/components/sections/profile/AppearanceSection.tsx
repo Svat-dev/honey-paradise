@@ -1,8 +1,7 @@
 import { Button, Separator } from "@/components/ui/common";
-import type { ISettingsUser } from "@/shared/types/models";
 
 import { FormInput } from "@/components/ui/components/form-input";
-import type { TRefetchFunction } from "@/shared/types";
+import type { ISettingsUser } from "@/shared/types/models";
 import { XIcon } from "lucide-react";
 import type { FC } from "react";
 import { FormProvider } from "react-hook-form";
@@ -13,14 +12,10 @@ import { ProfileSettingSection } from "./ProfileSettingSection";
 interface IProps {
 	settings: ISettingsUser | undefined;
 	isAccLoading: boolean;
-	refetch: TRefetchFunction;
 }
 
-const AppearanceSection: FC<IProps> = ({ settings, isAccLoading, refetch }) => {
-	const { clearValues, form, isDisabled, language_data, theme_data, onSubmit, isSettingsUpdating, t } = useAppearanceSection(
-		settings,
-		refetch
-	);
+const AppearanceSection: FC<IProps> = ({ settings, isAccLoading }) => {
+	const { clearValues, form, isDisabled, language_data, theme_data, onSubmit, isSettingsUpdating, t } = useAppearanceSection(settings);
 
 	const isLoading = isAccLoading || isSettingsUpdating;
 

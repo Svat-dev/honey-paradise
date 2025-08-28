@@ -6,6 +6,7 @@ import type { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
+import { EnumSettingsTabTypes } from "../../_settings/types/settings.type";
 import { useConfirmation } from "./useConfirmation";
 
 export const useEmailConfirmation = (utm_source?: EnumAppRoute) => {
@@ -31,7 +32,7 @@ export const useEmailConfirmation = (utm_source?: EnumAppRoute) => {
 			setDataStatus("good");
 
 			return setTimeout(() => {
-				replace(isFromAccount ? EnumAppRoute.SETTINGS : EnumAppRoute.INDEX);
+				replace(isFromAccount ? `${EnumAppRoute.SETTINGS}?active_tab=${EnumSettingsTabTypes.ACCOUNT}` : EnumAppRoute.INDEX);
 				if (signInAfter) auth();
 			}, 2000);
 		} catch (e) {

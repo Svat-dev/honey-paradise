@@ -8,7 +8,7 @@ import { useAuth } from "./useAuth";
 export const useMyAccount = () => {
 	const { isAuthenticated, exit, auth } = useAuth();
 
-	const { acc, accError, accRefetch, isAccLoading } = useMyAccountS();
+	const { acc, accError, accRefetch, isAccLoading, isAccSuccess } = useMyAccountS();
 	const { logout, isLogoutLoading } = useLogoutS();
 	const { clearSession } = useClearSessionS();
 
@@ -28,7 +28,8 @@ export const useMyAccount = () => {
 			accRefetch,
 			logout,
 			accError,
+			isAccSuccess,
 		}),
-		[acc?.data, isAccLoading, isLogoutLoading, accError, accRefetch, isAuthenticated]
+		[acc?.data, isAccLoading, isLogoutLoading, accError, accRefetch, isAccSuccess, isAuthenticated]
 	);
 };

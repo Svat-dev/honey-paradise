@@ -1,11 +1,11 @@
-import { useManageNotifications } from "@/shared/lib/hooks/auth";
+import { getNotificationHeadingByType } from "@/shared/lib/utils/get-notification-heading";
+import { getTimeAsWordString } from "@/shared/lib/utils/time/get-time-as-word";
 import type { EnumNotificationType } from "@/shared/types/models";
+import { useManageNotifications } from "@hooks/auth";
 import { useNotificationsContext } from "@hooks/context";
 import { useLanguage } from "@i18n/hooks";
-import { getNotificationHeadingByType } from "@utils/get-notification-heading-by-type";
-import { getTimeAsWordString } from "@utils/get-time-as-word";
 import { useTranslations } from "next-intl";
-import { type MouseEventHandler, useMemo, useState } from "react";
+import { type MouseEventHandler, useEffect, useMemo, useState } from "react";
 
 export const useNotificationItem = (
 	id: string | undefined,
@@ -35,8 +35,8 @@ export const useNotificationItem = (
 	};
 
 	const onMouseEnter: MouseEventHandler<HTMLElement> = () => {
-		if (isRead || !id) return;
-		const timeout = setTimeout(() => markAsRead([id], true), 2000);
+		if (isRead || !id || isSelectMode) return;
+		const timeout = setTimeout(() => markAsRead({ ids: [id], single: true }, true), 2000);
 		setReadTimeout(timeout);
 	};
 
@@ -54,9 +54,10 @@ export const useNotificationItem = (
 		else return addSelectedId(id!);
 	};
 
-	setInterval(() => {
-		setTime(getTimeAsWordString(createdAt!, dt));
-	}, 1000 * 60 * 3);
+	useEffect(() => {
+		const interval = setInterval(() => setTime(getTimeAsWordString(createdAt!, dt)), 1000 * 60 * 3);
+		return () => clearInterval(interval);
+	}, []);
 
 	return useMemo(
 		() => ({

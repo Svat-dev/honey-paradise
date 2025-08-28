@@ -403,7 +403,8 @@
 					"actions": {
 						"selectedTxt": "Выбрано элементов: {length}",
 						"cancelBtn": "Отменить",
-						"readAll": "Прочитать все"
+						"readAll": "Прочитать все",
+						"refresh": "Обновить"
 					}
 				},
 				"labels": {
@@ -662,6 +663,7 @@
 								"device": "Устройство:",
 								"location": "Место входа:",
 								"ip": "IP-адрес:",
+								"method": "Вход совершен используя:",
 								"time": "Дата входа:"
 							},
 							"closeBtn": "Закрыть"
@@ -835,6 +837,14 @@
 				"gender": "Не указан",
 				"language": "Не указан. Текущий - {current}",
 				"theme": "Не указана. Текущая - {current}"
+			},
+			"methods": {
+				"google": "Google",
+				"yandex": "Яндекс ID",
+				"vk": "VK ID",
+				"github": "Github",
+				"telegram": "телеграм-бот",
+				"credentials": "логин и пароль"
 			},
 			"labels": {
 				"clearBtn": "Очистить",

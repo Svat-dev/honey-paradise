@@ -3,17 +3,18 @@ import { type RefetchOptions, useQuery, useQueryClient } from "@tanstack/react-q
 import { errorCatch } from "@/api/api-helper";
 import { useMarkAsArchivedS, useMarkAsReadS, useNotificationsDeleteS } from "@/services/hooks/notifications";
 import { notificationsService } from "@/services/notifications.service";
-import type { INotificationsQueryParams } from "@/services/types/notifications-service.type";
+import type { INotificationsIdsDto, INotificationsQueryParams } from "@/services/types/notifications-service.type";
 import type { AxiosError } from "axios";
 import { useMemo } from "react";
 import toast from "react-hot-toast";
+import { queryKeys } from "../../constants/routes";
 import { useAuth } from "./useAuth";
 
 export const useMyNotifications = (queryParams = {} as INotificationsQueryParams, enabled: boolean = true) => {
 	const client = useQueryClient();
 	const { isAuthenticated } = useAuth();
 
-	const queryKey = "get all notifications";
+	const queryKey = queryKeys.getAllUserNotifications;
 
 	const { data, isLoading, isPending, refetch } = useQuery({
 		queryKey: [queryKey, queryParams],
@@ -43,9 +44,9 @@ export const useManageNotifications = () => {
 	const { markAsArchivedAsync, isMarkingAsArchived } = useMarkAsArchivedS();
 	const { deleteNotificationsAsync, isDeleting } = useNotificationsDeleteS();
 
-	const markAsRead = async (ids: string[], not_toast?: boolean) => {
+	const markAsRead = async (dto: INotificationsIdsDto, not_toast?: boolean) => {
 		try {
-			await markAsReadAsync(ids);
+			await markAsReadAsync(dto);
 
 			if (!not_toast) toast.success("Уведомление прочитано");
 		} catch (e) {
@@ -54,9 +55,9 @@ export const useManageNotifications = () => {
 		}
 	};
 
-	const markAsArchived = async (ids: string[]) => {
+	const markAsArchived = async (dto: INotificationsIdsDto) => {
 		try {
-			await markAsArchivedAsync(ids);
+			await markAsArchivedAsync(dto);
 
 			toast.success("Уведомление помещено в архив");
 		} catch (e) {

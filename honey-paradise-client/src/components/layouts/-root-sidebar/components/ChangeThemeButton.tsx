@@ -8,8 +8,10 @@ import { useTranslations } from "next-intl";
 import styles from "../styles/change-theme.module.scss";
 
 const ChangeThemeButton = () => {
-	const { theme, toggleTheme } = useTheme();
+	const { theme, toggleTheme, userTheme } = useTheme();
 	const t = useTranslations("layout.root-sidebar.labels");
+
+	if (userTheme !== null) return <></>;
 
 	return (
 		<button type="button" title={t("changeTheme")} className={styles["button"]} onClick={toggleTheme}>

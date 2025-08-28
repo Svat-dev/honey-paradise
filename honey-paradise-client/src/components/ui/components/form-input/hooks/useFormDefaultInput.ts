@@ -1,6 +1,6 @@
+import { onInputRule } from "@/shared/lib/utils/auth/input-rule";
 import type { ReactStateHook } from "@/shared/types/base.type";
 import { PHONE_MASK_PATTERN } from "@constants/base";
-import { onInputRule } from "@utils/input-rule";
 import IMask, { FactoryArg } from "imask";
 import type InputMask from "imask/esm/controls/input";
 import { type ChangeEvent, useEffect, useState } from "react";

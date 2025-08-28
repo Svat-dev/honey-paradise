@@ -1,10 +1,12 @@
+import { useEffect, useState } from "react";
+
 import { errorCatch } from "@/api/api-helper";
-import { getTimeAsWordString } from "@/shared/lib/utils/get-time-as-word";
+import { getBrowserIcon } from "@/shared/lib/utils/session/get-browser-icon";
+import { getTimeAsWordString } from "@/shared/lib/utils/time/get-time-as-word";
 import type { ISessionMetadata } from "@/shared/types/models/session.type";
-import { getBrowserIcon } from "@utils/get-browser-icon";
 import type { AxiosError } from "axios";
+import { HelpCircleIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 import { toast } from "react-hot-toast";
 
 export const useSessionItem = (metadata: ISessionMetadata, remove: () => Promise<void>, isCurrent: boolean, createdAt: string) => {
@@ -17,7 +19,7 @@ export const useSessionItem = (metadata: ISessionMetadata, remove: () => Promise
 		location: { city, country },
 	} = metadata;
 
-	const Icon = getBrowserIcon(browser);
+	const Icon = browser ? getBrowserIcon(browser) : HelpCircleIcon;
 
 	const handleRemove = async () => {
 		if (!isCurrent) {
@@ -32,9 +34,11 @@ export const useSessionItem = (metadata: ISessionMetadata, remove: () => Promise
 		} else toast.error(t("toasters.clientError"));
 	};
 
-	setInterval(() => {
-		setTime(getTimeAsWordString(createdAt, dt));
-	}, 1000 * 60 * 3);
+	useEffect(() => {
+		setInterval(() => {
+			setTime(getTimeAsWordString(createdAt, dt));
+		}, 1000 * 60 * 3);
+	}, []);
 
 	return {
 		Icon,

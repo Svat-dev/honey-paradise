@@ -2,12 +2,11 @@ import { type ChangeEvent, useRef } from "react";
 
 import { errorCatch } from "@/api/api-helper";
 import { useUpdateAvatarS } from "@/services/hooks/profile";
-import type { TRefetchFunction } from "@/shared/types";
 import type { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
 import { toast } from "react-hot-toast";
 
-export const useAvatar = (refetch: TRefetchFunction) => {
+export const useAvatar = () => {
 	const t = useTranslations("global.settings.content.profile");
 
 	const inputRef = useRef<HTMLInputElement>(null);
@@ -25,7 +24,6 @@ export const useAvatar = (refetch: TRefetchFunction) => {
 
 			await updateAvatarAsync(formData);
 
-			refetch();
 			toast.success(t("avatar.toasters.update.success"));
 		} catch (err) {
 			const { errMsg } = errorCatch(err as AxiosError);
@@ -40,7 +38,6 @@ export const useAvatar = (refetch: TRefetchFunction) => {
 		try {
 			await removeAvatarAsync();
 
-			refetch();
 			toast.success(t("avatar.toasters.delete.success"));
 		} catch (err) {
 			const { errMsg } = errorCatch(err as AxiosError);

@@ -12,6 +12,7 @@ export enum EnumClientRoutes {
 	INDEX = "/",
 	AUTH = "/auth",
 
+	SIGN_IN = `${AUTH}/sign-in`,
 	CONFIRMATION = `${AUTH}/confirmation`,
 
 	RESET_PASSWORD = `${AUTH}/password-recovery?type=reset`,

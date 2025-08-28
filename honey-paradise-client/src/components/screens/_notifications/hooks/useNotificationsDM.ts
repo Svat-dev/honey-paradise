@@ -1,10 +1,10 @@
 import { FolderDownIcon, SquareCheckBigIcon, SquareMousePointerIcon, Trash2Icon, XCircleIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { useEffect, useMemo } from "react";
 
 import { useManageNotifications } from "@hooks/auth";
 import { useNotificationsContext } from "@hooks/context";
 import { useLanguage } from "@i18n/hooks";
+import { useTranslations } from "next-intl";
 import type { INotificationDMData } from "../types/dropdown-menu.type";
 
 export const useNotificationsDM = (nid: string, isRead: boolean, isOpen: boolean) => {
@@ -20,7 +20,7 @@ export const useNotificationsDM = (nid: string, isRead: boolean, isOpen: boolean
 	const onMarkAsRead = async () => {
 		if (isRead) return;
 
-		await markAsRead([nid]);
+		await markAsRead({ ids: [nid], single: true });
 	};
 
 	const onClickSelect = () => {
@@ -47,7 +47,7 @@ export const useNotificationsDM = (nid: string, isRead: boolean, isOpen: boolean
 				Icon: FolderDownIcon,
 				text: t("archive"),
 				shortcut: "Shift + A",
-				onClick: () => markAsArchived([nid]),
+				onClick: () => markAsArchived({ ids: [nid], single: true }),
 				disabled: isSelectMode || !isRead,
 			},
 			{
@@ -77,7 +77,7 @@ export const useNotificationsDM = (nid: string, isRead: boolean, isOpen: boolean
 
 		if (!isSelectMode && isRead && e.shiftKey && e.key === "A") {
 			e.preventDefault();
-			await markAsArchived([nid]);
+			await markAsArchived({ ids: [nid], single: true });
 		}
 
 		if (!isSelectMode && e.shiftKey && e.key === "D") {

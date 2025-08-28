@@ -5,22 +5,21 @@ import { InfoSection } from "./InfoSection";
 import { TelegramSection } from "./TelegramSection";
 
 const ProfileSettings = () => {
-	const { user, accRefetch, isAccLoading } = useMyAccount();
+	const { user, isAccLoading } = useMyAccount();
 
 	return (
 		<>
-			<AvatarSection avatarPath={user?.avatarPath} username={user?.username} isAccLoading={isAccLoading} refetch={accRefetch} />
+			<AvatarSection avatarPath={user?.avatarPath} username={user?.username} isAccLoading={isAccLoading} />
 
 			<InfoSection
 				birthdate={user?.birthdate}
 				gender={user?.gender}
 				phone={user?.phoneNumber}
 				username={user?.username}
-				refetch={accRefetch}
 				isLoading={isAccLoading}
 			/>
 
-			<AppearanceSection settings={user?.settings} isAccLoading={isAccLoading} refetch={accRefetch} />
+			<AppearanceSection settings={user?.settings} isAccLoading={isAccLoading} />
 
 			<TelegramSection telegramId={user?.telegramId} />
 		</>

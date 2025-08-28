@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/common";
 import { Map, Placemark, YMaps } from "@pbe/react-yandex-maps";
 
+import Image from "next/image";
 import type { FC } from "react";
 import { useSessionModal } from "../../../hooks/useSessionModal";
 import type { ISessionModalProps } from "../../../types/session-modal.type";
@@ -33,7 +34,15 @@ const SessionModal: FC<ISessionModalProps> = ({ children, createdAt, metadata })
 				{data.map(item => (
 					<div className="tw-flex tw-items-center" key={item.value}>
 						<span className="tw-font-medium">{item.text}</span>
-						<span className="tw-ml-2 tw-text-muted">{item.value}</span>
+						<span className="tw-inline-flex tw-items-center tw-gap-1 tw-ml-2 tw-text-muted">
+							{item.icon &&
+								(typeof item.icon === "string" ? (
+									<Image src={`/icons/providers/${item.icon}.svg`} alt={item.value} width={20} height={20} />
+								) : (
+									<item.icon size={20} />
+								))}
+							{item.value}
+						</span>
 					</div>
 				))}
 

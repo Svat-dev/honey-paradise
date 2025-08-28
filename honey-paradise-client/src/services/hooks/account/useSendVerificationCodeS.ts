@@ -1,9 +1,10 @@
 import { accountService } from "@/services/account.service";
+import { queryKeys } from "@constants/routes";
 import { useMutation } from "@tanstack/react-query";
 
 export const useSendVerificationCodeS = () => {
 	const { mutateAsync, mutate, isPending } = useMutation({
-		mutationKey: ["send email verification code"],
+		mutationKey: [queryKeys.sendVerificationCode],
 		mutationFn: () => accountService.sendVerificationCode(),
 	});
 

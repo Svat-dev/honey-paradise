@@ -1,4 +1,4 @@
-import { onInputRuleWithSpaces } from "@/shared/lib/utils/input-rule";
+import { onInputRuleWithSpaces } from "@/shared/lib/utils/auth/input-rule";
 import { useTranslations } from "next-intl";
 import { type ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

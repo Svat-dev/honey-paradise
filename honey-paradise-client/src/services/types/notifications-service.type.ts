@@ -8,6 +8,11 @@ export interface IGetAllNotificationsResponse {
 	unReadLength: number;
 }
 
+export interface INotificationsIdsDto {
+	ids: string[];
+	single?: boolean;
+}
+
 export interface INotificationsQueryParams {
 	sort?: EnumNotificationsSortType;
 	is_read?: string | boolean | null;

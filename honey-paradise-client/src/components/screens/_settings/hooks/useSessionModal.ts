@@ -1,6 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import { getTimeAsWordString } from "@/shared/lib/utils/get-time-as-word";
+import { getProviderIcon } from "@/shared/lib/utils/session/get-provider-icon";
+import { getTimeAsWordString } from "@/shared/lib/utils/time/get-time-as-word";
 import type { ISessionMetadata } from "@/shared/types/models/session.type";
 import { useLanguage } from "@i18n/hooks";
 import { format } from "date-fns";
@@ -11,6 +12,7 @@ export const useSessionModal = (metadata: ISessionMetadata, createdAt: string) =
 	const { locale } = useLanguage();
 	const t = useTranslations("global.settings.content.devices");
 	const dt = useTranslations("shared.time");
+	const mt = useTranslations("shared.auth.methods");
 
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [time, setTime] = useState<string>(getTimeAsWordString(createdAt));
@@ -33,6 +35,11 @@ export const useSessionModal = (metadata: ISessionMetadata, createdAt: string) =
 				value: metadata.ip,
 			},
 			{
+				text: t("modals.more.content.method"),
+				value: mt(metadata.method.toLowerCase() as any),
+				icon: getProviderIcon(metadata.method),
+			},
+			{
 				text: t("modals.more.content.time"),
 				value: `${format(createdAt, "dd.MM.yyyy")}, (${time})`,
 			},
@@ -40,9 +47,11 @@ export const useSessionModal = (metadata: ISessionMetadata, createdAt: string) =
 		[locale]
 	);
 
-	setInterval(() => {
-		setTime(getTimeAsWordString(createdAt, dt));
-	}, 1000 * 60 * 3);
+	useEffect(() => {
+		setInterval(() => {
+			setTime(getTimeAsWordString(createdAt, dt));
+		}, 1000 * 60 * 3);
+	}, []);
 
 	return {
 		isOpen,

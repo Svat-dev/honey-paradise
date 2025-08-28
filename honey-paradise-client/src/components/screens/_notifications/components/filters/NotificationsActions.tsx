@@ -9,11 +9,10 @@ interface IActionsProps {
 	markAsReadAll: () => Promise<void>;
 	isAllMarkingAsRead: boolean;
 	unReadLength: number;
-	disabled: boolean;
 }
 
-const ActionsWrapper: FC<IActionsProps> = ({ markAsReadAll, isAllMarkingAsRead, unReadLength, disabled }) => {
-	const { cancelSelectMode, archiveSelected, deleteSelected, readSelected, isSelectMode, selectedLength, t } =
+const ActionsWrapper: FC<IActionsProps> = ({ markAsReadAll, isAllMarkingAsRead, unReadLength }) => {
+	const { cancelSelectMode, archiveSelected, deleteSelected, readSelected, isSelectMode, selectedLength, refresh, t } =
 		useNotificationsFiltersActions();
 
 	return (
@@ -24,19 +23,15 @@ const ActionsWrapper: FC<IActionsProps> = ({ markAsReadAll, isAllMarkingAsRead, 
 
 					<Separator orientation="vertical" className="!tw-h-7 tw-bg-muted tw-mx-3" />
 
-					<Button variant="ghost" title={t("labels.readSelectedBtn")} disabled={unReadLength === 0 || disabled} onClick={readSelected}>
+					<Button variant="ghost" title={t("labels.readSelectedBtn")} disabled={unReadLength === 0} onClick={readSelected}>
 						<CheckSquareIcon size={20} />
 					</Button>
-					<Button variant="ghost" title={t("labels.archiveSelectedBtn")} disabled={disabled} onClick={archiveSelected}>
+
+					<Button variant="ghost" title={t("labels.archiveSelectedBtn")} onClick={archiveSelected}>
 						<FolderDownIcon size={20} />
 					</Button>
-					<Button
-						variant="ghost"
-						title={t("labels.deleteSelectedBtn")}
-						className="tw-text-red-500"
-						disabled={disabled}
-						onClick={deleteSelected}
-					>
+
+					<Button variant="ghost" title={t("labels.deleteSelectedBtn")} className="tw-text-red-500" onClick={deleteSelected}>
 						<Trash2Icon size={20} />
 					</Button>
 
@@ -48,11 +43,14 @@ const ActionsWrapper: FC<IActionsProps> = ({ markAsReadAll, isAllMarkingAsRead, 
 				</div>
 			) : (
 				<>
+					<Button variant="secondary" title={t("filters.actions.refresh")} onClick={refresh} disabled={isAllMarkingAsRead}>
+						{t("filters.actions.refresh")}
+					</Button>
 					<Button
 						variant="secondary"
 						title={t("filters.actions.readAll")}
 						onClick={markAsReadAll}
-						disabled={isAllMarkingAsRead || disabled || unReadLength === 0}
+						disabled={isAllMarkingAsRead || unReadLength === 0}
 						isLoading={isAllMarkingAsRead}
 					>
 						{t("filters.actions.readAll")}

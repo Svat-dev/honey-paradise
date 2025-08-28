@@ -3,7 +3,6 @@ import { LoaderIcon, XIcon } from "lucide-react";
 import { CheckmarkIcon, ErrorIcon } from "react-hot-toast";
 
 import { FormInput } from "@/components/ui/components/form-input";
-import type { TRefetchFunction } from "@/shared/types";
 import type { EnumGenders } from "@/shared/types/models";
 import { VALUES } from "@constants/base";
 import type { FC } from "react";
@@ -19,12 +18,11 @@ interface IProps {
 	username: string | undefined;
 	phone: string | undefined;
 	isLoading: boolean;
-	refetch: TRefetchFunction;
 }
 
-const InfoSection: FC<IProps> = ({ birthdate, gender, phone, username, isLoading, refetch }) => {
+const InfoSection: FC<IProps> = ({ birthdate, gender, phone, username, isLoading }) => {
 	const { data, form, isDisabled, onSubmit, setMask, isProfileUpdating, t, clearBirthdate, uniqueFields, isCheckingUnique } =
-		useInfoSection(gender, birthdate, username, phone, refetch);
+		useInfoSection(gender, birthdate, username, phone);
 
 	const _isLoading = isLoading || isProfileUpdating;
 

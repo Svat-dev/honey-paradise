@@ -3,7 +3,7 @@ import { useGetByUserS, useGetCurrentS, useRemoveAllSessionsS, useRemoveSessionS
 import { useMemo } from "react";
 
 export const useSessions = () => {
-	const { currentSession, isSessionLoading } = useGetCurrentS();
+	const { currentSession, isSessionLoading, isSuccess } = useGetCurrentS();
 	const { sessions, sessionsRefetch, isSessionsLoading } = useGetByUserS();
 	const { removeSessionAsync, isRemovingSession } = useRemoveSessionS();
 	const { removeAllSessions, isAllSessionsRemoving } = useRemoveAllSessionsS();
@@ -28,7 +28,8 @@ export const useSessions = () => {
 			removeAllSessions: removeAll,
 			sessionsRefetch,
 			isSessionLoading: isLoading,
+			isSessionSuccess: isSuccess,
 		}),
-		[sessions?.data, currentSession?.data, isLoading]
+		[sessions?.data, currentSession?.data, isLoading, isSuccess]
 	);
 };

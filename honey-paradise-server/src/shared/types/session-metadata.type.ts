@@ -1,3 +1,5 @@
+import type { EnumProviderTypes } from "@prisma/client";
+
 export interface LocationInfo {
 	country: string;
 	city: string;
@@ -14,5 +16,6 @@ export interface DeviceInfo {
 export interface SessionMetadata {
 	location: LocationInfo;
 	device: DeviceInfo;
+	method: EnumProviderTypes;
 	ip: string;
 }

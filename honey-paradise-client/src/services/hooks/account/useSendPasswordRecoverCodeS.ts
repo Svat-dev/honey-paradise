@@ -1,9 +1,10 @@
 import { accountService } from "@/services/account.service";
+import { queryKeys } from "@constants/routes";
 import { useMutation } from "@tanstack/react-query";
 
 export const useSendPasswordRecoverCodeS = () => {
 	const { mutateAsync, mutate, isPending } = useMutation({
-		mutationKey: ["send password recover code"],
+		mutationKey: [queryKeys.sendRecoverPasswordCode],
 		mutationFn: (email: string) => accountService.sendPasswordRecoverCode({ email }),
 	});
 

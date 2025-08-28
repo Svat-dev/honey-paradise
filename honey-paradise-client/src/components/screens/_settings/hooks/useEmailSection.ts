@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { errorCatch } from "@/api/api-helper";
 import { useSendVerificationCodeS, useUpdateEmailS } from "@/services/hooks/account";
 import { useUniqueFieldCheckS } from "@/services/hooks/profile";
-import type { TRefetchFunction } from "@/shared/types";
 import { EnumStorageKeys } from "@constants/base";
 import { EnumAppRoute } from "@constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,7 +16,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
-export const useEmailSection = (email: string | undefined, accRefetch: TRefetchFunction) => {
+export const useEmailSection = (email: string | undefined) => {
 	const t = useTranslations("global.settings.content.account.content");
 	const { push } = useRouter();
 
@@ -55,9 +54,7 @@ export const useEmailSection = (email: string | undefined, accRefetch: TRefetchF
 		try {
 			await updateEmailAsync(data.email);
 
-			accRefetch();
 			setIsDisabled(true);
-
 			toast.success(t("toasters.email.success"));
 		} catch (error) {
 			const { errMsg } = errorCatch(error as AxiosError);

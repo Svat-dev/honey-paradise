@@ -5,9 +5,11 @@ import { Delete, Patch, Post, Put } from "@nestjs/common/decorators/http/request
 import { Body, Param, UploadedFile } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
 import { FileInterceptor } from "@nestjs/platform-express/multer/interceptors/file.interceptor";
+import { SkipThrottle, Throttle } from "@nestjs/throttler/dist/throttler.decorator";
 import { Authorization } from "src/shared/decorators/auth.decorator";
 import { Authorized } from "src/shared/decorators/authorized.decorator";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
+import { ms } from "src/shared/lib/common/utils";
 import { FileValidationPipe } from "src/shared/pipes/file-validation.pipe";
 import { UniqueFieldCheckPipe } from "src/shared/pipes/unique-field-check.pipe";
 import type { UniqueFieldCheckDto } from "./dto/unique-field-check.dto";
@@ -15,6 +17,7 @@ import type { UpdateUserSettingsDto } from "./dto/update-user-settings.dto";
 import type { UpdateUserDto } from "./dto/update-userinfo.dto";
 import { ProfileService } from "./profile.service";
 
+@SkipThrottle({ auth: true })
 @Controller(EnumApiRoute.PROFILE)
 export class ProfileController {
 	constructor(private readonly profileService: ProfileService) {}
@@ -28,6 +31,7 @@ export class ProfileController {
 
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
+	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
 	@UseInterceptors(FileInterceptor("avatar"))
 	@Patch(EnumApiRoute.UPDATE_AVATAR)
 	updateAvatar(@Authorized("id") userId: string, @UploadedFile(FileValidationPipe) file: Express.Multer.File) {
@@ -36,6 +40,7 @@ export class ProfileController {
 
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
+	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
 	@Delete(EnumApiRoute.DELETE_AVATAR)
 	deleteAvatar(@Authorized("id") userId: string) {
 		return this.profileService.deleteAvatar(userId);

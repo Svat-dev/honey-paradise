@@ -1,7 +1,7 @@
 "use client";
 
+import { useWebsockets } from "@/shared/lib/hooks/websockets/useWebsockets";
 import { useAuth } from "@hooks/auth";
-import { useWebsockets } from "@hooks/useWebsockets";
 import styles from "@styles/modules/toaster.module.scss";
 import { useId, type PropsWithChildren } from "react";
 import { Toaster, type DefaultToastOptions } from "react-hot-toast";

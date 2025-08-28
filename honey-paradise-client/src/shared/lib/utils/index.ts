@@ -1,3 +1,4 @@
-export * from "./capitalize";
 export * from "./convert-price";
-export * from "./format-tel-number";
+export * from "./get-avatar-path";
+export * from "./get-masked-phone";
+export * from "./get-notification-heading";

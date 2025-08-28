@@ -4,6 +4,6 @@ export enum EnumWSPaths {
 
 export enum EnumWSRoutes {
 	NEW_NOTIFICATION = "new-notification",
-	REFRESH_NOTIFICATIONS = "refresh-notifications",
+	NEW_ERROR = "new-error",
 	REMOVE_SESSION = "remove-session",
 }

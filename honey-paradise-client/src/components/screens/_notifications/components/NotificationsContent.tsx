@@ -14,15 +14,16 @@ const NotificationsContent = () => {
 	const { isNotificationsLoading, notifications, notificationsLength, updateQueryParams, queryParams, unReadLength, t } =
 		useNotificationsContent();
 
-	const pages = Math.ceil(notificationsLength! / 5);
+	const limit = 6;
+	const pages = Math.ceil(notificationsLength! / limit);
 
 	return (
 		<NotificationsContextProvider>
-			<NotificationsFilters unReadLength={unReadLength || 0} disabled={notificationsLength === 0} />
+			<NotificationsFilters unReadLength={unReadLength || 0} />
 
 			<section className={styles["items-wrapper"]}>
 				{isNotificationsLoading ? (
-					<NotificationsLoading limit={5} />
+					<NotificationsLoading limit={limit} />
 				) : notifications && notifications.length > 0 ? (
 					<>
 						{notifications?.map(item => (
@@ -43,7 +44,7 @@ const NotificationsContent = () => {
 							currentPage={queryParams.page ? +queryParams.page : undefined}
 							onChangePage={page => updateQueryParams("page", String(page))}
 							isLoading={typeof notificationsLength !== "number" && isNotificationsLoading}
-							maxPages={5}
+							maxPages={limit}
 							arrows
 						/>
 					</Pagination>

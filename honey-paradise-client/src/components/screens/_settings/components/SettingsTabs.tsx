@@ -2,11 +2,11 @@ import { cn } from "@utils/base";
 import type { FC } from "react";
 import { useSettingsTabs } from "../hooks/useSettingsTabs";
 import styles from "../styles/settings.module.scss";
-import type { TSettingsTabTypes } from "../types/settings.type";
+import { EnumSettingsTabTypes } from "../types/settings.type";
 
 interface IProps {
-	setActiveTab: (tab: TSettingsTabTypes) => void;
-	activeTab: TSettingsTabTypes;
+	setActiveTab: (tab: EnumSettingsTabTypes) => void;
+	activeTab: EnumSettingsTabTypes;
 }
 
 const SettingsTabs: FC<IProps> = ({ setActiveTab, activeTab }) => {

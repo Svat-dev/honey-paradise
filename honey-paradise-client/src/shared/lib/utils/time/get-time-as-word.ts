@@ -1,5 +1,5 @@
+import { getDaysString, getHoursString, getMinutesString, getMonthsString } from "@utils/time";
 import { addHours, toDate } from "date-fns";
-import { getDaysString, getHoursString, getMinutesString, getMonthsString } from "./get-time";
 
 import { useTranslations } from "next-intl";
 

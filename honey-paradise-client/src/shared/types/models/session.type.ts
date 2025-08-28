@@ -1,4 +1,5 @@
-import { TSessionBrowsers } from "@utils/types/get-browser-icon.type";
+import type { TSessionBrowsers } from "@utils/types/get-browser-icon.type";
+import type { EnumProviderTypes } from "./enums.type";
 
 export type TDeviceTypes = "desktop" | "mobile" | "tablet";
 export type TOsTypes = "android" | "ios" | "windows";
@@ -19,6 +20,7 @@ export interface IDeviceInfo {
 export interface ISessionMetadata {
 	location: ILocationInfo;
 	device: IDeviceInfo;
+	method: EnumProviderTypes;
 	ip: string;
 }
 

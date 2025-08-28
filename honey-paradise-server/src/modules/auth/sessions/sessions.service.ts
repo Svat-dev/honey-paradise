@@ -114,6 +114,13 @@ export class SessionsService {
 		}
 
 		const metadata = getSessionMetadata(req, userAgent);
+
+		await this.notificationsService.send(
+			user.id,
+			`Кто-то только что вошел на ваш аккаунт рядом с ${metadata.location.country}, ${metadata.location.city}`,
+			EnumNotificationType.ACCOUNT_STATUS
+		);
+
 		return saveSession(req, _user, metadata, this.i18n);
 	}
 

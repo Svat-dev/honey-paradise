@@ -1,7 +1,6 @@
 import { Button, Separator, Switch, Title } from "@/components/ui/common";
 
 import { TelegramIcon } from "@/components/ui/common/icons";
-import type { TRefetchFunction } from "@/shared/types";
 import { cn } from "@utils/base";
 import { GlobeIcon } from "lucide-react";
 import Link from "next/link";
@@ -11,15 +10,14 @@ import { useNotificationsSettings } from "../../../hooks/useNotificationsSetting
 import styles from "../../../styles/notifications.module.scss";
 
 interface IProps {
-	accRefetch: TRefetchFunction;
 	isAccLoading: boolean;
 	isSiteNotification: boolean;
 	isTgNotification: boolean;
 	isTgLinked: boolean;
 }
 
-const DestinationTypes: FC<IProps> = ({ accRefetch, isAccLoading, isSiteNotification, isTgNotification, isTgLinked }) => {
-	const { isSettingsUpdating, onSwitchChange, getTitles, t, tgLinkRoute } = useNotificationsSettings(accRefetch);
+const DestinationTypes: FC<IProps> = ({ isAccLoading, isSiteNotification, isTgNotification, isTgLinked }) => {
+	const { isSettingsUpdating, onSwitchChange, getTitles, t, tgLinkRoute } = useNotificationsSettings();
 
 	const isLoading = isAccLoading || isSettingsUpdating;
 

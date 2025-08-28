@@ -3,7 +3,6 @@ import { LoaderIcon, RefreshCcwIcon } from "lucide-react";
 import { CheckmarkIcon, ErrorIcon } from "react-hot-toast";
 
 import { FormInput } from "@/components/ui/components/form-input";
-import type { TRefetchFunction } from "@/shared/types";
 import type { FC } from "react";
 import { FormProvider } from "react-hook-form";
 import slugify from "slugify";
@@ -14,15 +13,12 @@ import _styles from "../../../styles/settings.module.scss";
 interface IProps {
 	email: string | undefined;
 	isVerified: boolean | undefined;
-	accRefetch: TRefetchFunction;
 	isAccLoading: boolean;
 }
 
-const EmailSection: FC<IProps> = ({ email, isVerified, isAccLoading, accRefetch }) => {
-	const { form, isDisabled, onSubmit, emailUnique, isCheckingUnique, resetFields, confirmEmail, isEmailUpdating, t } = useEmailSection(
-		email,
-		accRefetch
-	);
+const EmailSection: FC<IProps> = ({ email, isVerified, isAccLoading }) => {
+	const { form, isDisabled, onSubmit, emailUnique, isCheckingUnique, resetFields, confirmEmail, isEmailUpdating, t } =
+		useEmailSection(email);
 
 	const isLoading = isAccLoading || isEmailUpdating;
 

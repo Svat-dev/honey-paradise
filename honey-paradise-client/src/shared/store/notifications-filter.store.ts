@@ -4,7 +4,7 @@ import { EnumNotificationsSortType, type INotificationsFilterStore } from "./typ
 
 const initialQS: Pick<INotificationsFilterStore, "queryParams"> = {
 	queryParams: {
-		per_page: 5,
+		per_page: 6,
 		page: 1,
 		is_read: null,
 		sort: EnumNotificationsSortType.NEWEST,
@@ -22,5 +22,12 @@ export const notificationsFilterStore = create<INotificationsFilterStore>(set =>
 			isFilterUpdated: true,
 		})),
 
-	reset: () => set(() => ({ ...initialQS, isFilterUpdated: true })),
+	reset: () =>
+		set(() => ({
+			queryParams: {
+				...initialQS.queryParams,
+				types: Object.values(EnumNotificationType).filter(item => item !== EnumNotificationType.TELEGRAM),
+			},
+			isFilterUpdated: true,
+		})),
 }));

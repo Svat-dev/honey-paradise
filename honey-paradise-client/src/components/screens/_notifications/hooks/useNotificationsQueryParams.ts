@@ -26,7 +26,7 @@ export const useNotificationsQueryParams = () => {
 
 	const reset = () => {
 		_reset();
-		replace(pathname);
+		replace(pathname + `?page=${queryParams.page}`);
 	};
 
 	useEffect(() => {

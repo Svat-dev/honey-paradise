@@ -1,12 +1,12 @@
 import { useGetAllS, useRemoveProviderS } from "@/services/hooks/providers";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 
 import { errorCatch } from "@/api/api-helper";
+import { getProviderName } from "@/shared/lib/utils/session/get-provider-name";
 import { EnumProviderTypes } from "@/shared/types/models";
 import { API_URL } from "@constants/base";
 import { EnumApiRoute } from "@constants/routes";
-import { getProviderName } from "@utils/get-provider-name";
 import type { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import type { IConnectionsData } from "../types/connections.type";
@@ -16,6 +16,7 @@ export const useConnectionsContent = (oauth: string, connect: string) => {
 	const { removeProviderAsync, isRemoving } = useRemoveProviderS();
 
 	const { replace } = useRouter();
+	const searchParams = useSearchParams();
 	const pathname = usePathname();
 
 	const data: IConnectionsData[] = useMemo(
@@ -59,10 +60,16 @@ export const useConnectionsContent = (oauth: string, connect: string) => {
 	useEffect(() => {
 		if (oauth === "true") {
 			toast.success("Авторизация успешна!");
-			replace(pathname, { scroll: true });
+			return replace(pathname, { scroll: true });
 		} else if (connect === "true") {
 			toast.success("Учетная запись успешно привязана!");
-			replace(pathname, { scroll: true });
+			return replace(pathname, { scroll: true });
+		} else if (searchParams.get("error") && searchParams.get("error") === "true") {
+			const msg = searchParams.get("message") || "";
+			const sts = searchParams.get("status") || "";
+
+			toast.error(`Произошла ошибка ${sts}: \n${msg}`);
+			return replace(pathname, { scroll: true });
 		}
 	}, []);
 

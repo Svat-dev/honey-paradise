@@ -1,4 +1,5 @@
 import { providerService } from "@/services/providers.service";
+import { queryKeys } from "@/shared/lib/constants/routes";
 import { useAuth } from "@hooks/auth";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
@@ -7,7 +8,7 @@ export const useGetAllS = () => {
 	const { isAuthenticated } = useAuth();
 
 	const { data, isPending, isLoading, refetch } = useQuery({
-		queryKey: ["get all providers by user"],
+		queryKey: [queryKeys.getAllProviders],
 		queryFn: () => providerService.getAll(),
 		enabled: isAuthenticated,
 	});

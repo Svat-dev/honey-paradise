@@ -91,17 +91,22 @@ export class AccountService {
 	}
 
 	async changeEmail(id: string, email: string) {
-		const user = await this.profileService.getProfile(email, "email");
+		const existingUser = await this.profileService.getProfile(email, "email");
 
-		if (user) throw new BadRequestException(this.i18n.t("d.errors.email.is_exist"));
+		if (existingUser) throw new BadRequestException(this.i18n.t("d.errors.email.is_exist"));
 
-		await this.prisma.user.update({
+		const user = await this.prisma.user.update({
 			where: { id },
 			data: {
 				email,
 				isVerified: false,
 			},
+			select: { id: true, email: true },
 		});
+
+		const msg = `Ваша эл. почта была только что изменена на ${user.email}, теперь ее необходимо подтвердить`;
+
+		await this.notificationsService.send(user.id, msg, EnumNotificationType.ACCOUNT_STATUS);
 
 		return true;
 	}
@@ -109,7 +114,7 @@ export class AccountService {
 	async updatePassword(id: string, password: string, req: Request) {
 		const { isTFAEnabled } = await this.profileService.updatePassword(id, password);
 
-		await this.notificationsService.send(id, "Ваш пароль был только что изменен на ...", EnumNotificationType.ACCOUNT_STATUS);
+		await this.notificationsService.send(id, "На вашем аккаунте был только что изменен пароль", EnumNotificationType.ACCOUNT_STATUS);
 
 		if (isTFAEnabled) {
 			await this.sessionsService.logout(req);

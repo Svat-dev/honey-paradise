@@ -20,7 +20,7 @@ import { EnumWSPaths, EnumWSRoutes } from "src/shared/lib/common/constants";
 export class NotificationGateway implements OnGatewayConnection, OnGatewayDisconnect {
 	@WebSocketServer() private server: Server;
 
-	private roomId: string;
+	private roomsByUser: Map<string, Set<string>> = new Map();
 
 	async handleConnection(client: Socket) {
 		const sid = client.handshake.auth["sid"];
@@ -28,14 +28,34 @@ export class NotificationGateway implements OnGatewayConnection, OnGatewayDiscon
 
 		if (!userId || !sid) return;
 
-		this.roomId = client.handshake.auth["userId"];
+		// Rejoin existing rooms for this user
+		if (this.roomsByUser.has(userId)) {
+			const rooms = this.roomsByUser.get(userId)!;
+			for (const room of rooms) await client.join(room);
+		}
 
-		await client.join(this.roomId);
+		// Join the user's room (userId)
+		await client.join(userId);
+
+		// Add the room to the map
+		if (!this.roomsByUser.has(userId)) this.roomsByUser.set(userId, new Set([userId]));
+		else this.roomsByUser.get(userId)!.add(userId);
+
+		// Join the session room (sid)
 		await client.join(sid);
+
+		return true;
 	}
 
 	async handleDisconnect(client: Socket) {
-		if (this.roomId) await client.leave(this.roomId);
+		const userId = client.handshake.auth["userId"];
+
+		if (userId && this.roomsByUser.has(userId)) {
+			const rooms = this.roomsByUser.get(userId)!;
+			for (const room of rooms) await client.leave(room);
+		}
+
+		return true;
 	}
 
 	@SubscribeMessage(EnumWSRoutes.NEW_NOTIFICATION)
@@ -43,14 +63,6 @@ export class NotificationGateway implements OnGatewayConnection, OnGatewayDiscon
 		this.server.to(payload.userId).emit(EnumWSRoutes.NEW_NOTIFICATION, {
 			message: "notifications/refresh",
 			nid: payload.nid,
-			timestamp: new Date().toISOString(),
-		});
-	}
-
-	@SubscribeMessage(EnumWSRoutes.REFRESH_NOTIFICATIONS)
-	handleRefreshNotifications(@MessageBody() payload: { userId: string }) {
-		this.server.to(payload.userId).emit(EnumWSRoutes.REFRESH_NOTIFICATIONS, {
-			message: "notifications/refresh",
 			timestamp: new Date().toISOString(),
 		});
 	}

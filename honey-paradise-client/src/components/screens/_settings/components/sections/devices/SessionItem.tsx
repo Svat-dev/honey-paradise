@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/common";
 import type { ISessionMetadata } from "@/shared/types/models/session.type";
-import { capitalize } from "@utils/index";
+import { capitalize } from "@utils/base";
 import { DotIcon } from "lucide-react";
 import dynamic from "next/dynamic";
 import type { FC } from "react";
