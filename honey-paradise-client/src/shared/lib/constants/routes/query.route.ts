@@ -5,9 +5,12 @@ export const queryKeys = {
 	getAllProviders: "get all user providers",
 	getUserSessions: "get all user sessions",
 	getCurrentSession: "get current user session",
+	getTelegramInfo: "get user telegram info",
 
 	recoverPassword: "account recover password",
 	createAccount: "account create",
+	connectTg: "account connect telegram",
+	disconnectTg: "account disconnect telegram",
 
 	sendRecoverPasswordCode: "send password recover code",
 	sendVerificationCode: "send email verification code",
@@ -25,6 +28,8 @@ export const queryKeys = {
 
 	logout: "logout",
 	signIn: "sign in",
+	telegramSignIn: "sign in with telegram",
+	cancelTelegramSignIn: "cancel signing in with telegram",
 
 	deleteNotifications: "delete selected notifications",
 	deleteProfileAvatar: "delete profile avatar",

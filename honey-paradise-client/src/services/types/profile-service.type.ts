@@ -14,4 +14,5 @@ export interface IUpdateUserSettingsDto {
 	defaultTheme?: EnumThemes | null;
 	useFullLogout?: boolean;
 	isTFAEnabled?: boolean;
+	useTgTfaLogin?: boolean;
 }

@@ -3,15 +3,15 @@ import "reflect-metadata";
 import * as cookieParser from "cookie-parser";
 import * as session from "express-session";
 
-import { ValidationPipe } from "@nestjs/common/pipes/validation.pipe";
 import { ConfigService } from "@nestjs/config/dist/config.service";
-import { NestFactory } from "@nestjs/core";
-import { IoAdapter } from "@nestjs/platform-socket.io/adapters/io-adapter";
-import { RedisStore } from "connect-redis";
 import { CoreModule } from "./core/core.module";
-import { LoggerService } from "./core/logger/logger.service";
-import { RedisService } from "./core/redis/redis.service";
 import { ExceptionsFilter } from "./shared/filters/exceptions.filter";
+import { IoAdapter } from "@nestjs/platform-socket.io/adapters/io-adapter";
+import { LoggerService } from "./core/logger/logger.service";
+import { NestFactory } from "@nestjs/core";
+import { RedisService } from "./core/redis/redis.service";
+import { RedisStore } from "connect-redis";
+import { ValidationPipe } from "@nestjs/common/pipes/validation.pipe";
 import { ms } from "./shared/lib/common/utils/ms.util";
 
 async function bootstrap() {

@@ -6,6 +6,7 @@ import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
 import { SkipThrottle, Throttle } from "@nestjs/throttler/dist/throttler.decorator";
 import { Recaptcha } from "@nestlab/google-recaptcha/decorators/recaptcha";
 import type { Request, Response } from "express";
+import { TelegramService } from "src/core/telegram/telegram.service";
 import { Authorization } from "src/shared/decorators/auth.decorator";
 import { Authorized } from "src/shared/decorators/authorized.decorator";
 import { UserAgent } from "src/shared/decorators/user-agent.decorator";
@@ -21,7 +22,8 @@ import type { UpdatePasswordAuthDto, UpdatePasswordDto } from "./dto/password-re
 export class AccountController {
 	constructor(
 		private readonly accountService: AccountService,
-		private readonly verificationService: VerificationService
+		private readonly verificationService: VerificationService,
+		private readonly telegramService: TelegramService
 	) {}
 
 	@HttpCode(HttpStatus.OK)
@@ -30,6 +32,21 @@ export class AccountController {
 	@Get(EnumApiRoute.ME)
 	getMe(@Authorized("id") id: string) {
 		return this.accountService.me(id);
+	}
+
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@SkipThrottle({ auth: true })
+	@Get(EnumApiRoute.TELEGRAM)
+	getTgInfo(@Authorized("id") id: string) {
+		return this.accountService.getTelegramInfo(id);
+	}
+
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Post(EnumApiRoute.DISCONNECT_TG)
+	disconnectTg(@Authorized("id") id: string) {
+		return this.accountService.disconnectTelegram(id);
 	}
 
 	@HttpCode(HttpStatus.OK)
@@ -58,7 +75,7 @@ export class AccountController {
 	@SkipThrottle({ auth: true })
 	@Post(EnumApiRoute.SEND_VERIFICATION_CODE)
 	sendEmailVerification(@Req() req: Request, @UserAgent() userAgent: string) {
-		return this.verificationService.sendVerificationEmail(req, userAgent);
+		return this.accountService.sendEmailVerificationCode(req, userAgent);
 	}
 
 	@HttpCode(HttpStatus.OK)
@@ -66,6 +83,13 @@ export class AccountController {
 	@Post(EnumApiRoute.VERIFY_EMAIL)
 	verifyEmail(@Body() dto: EmailVerifyDto, @Req() req: Request, @Res({ passthrough: true }) res: Response, @UserAgent() userAgent: string) {
 		return this.verificationService.verifyEmail(req, res, dto, userAgent);
+	}
+
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Post(EnumApiRoute.CONNECT_TG)
+	connectTelegram(@Authorized("id") id: string) {
+		return this.verificationService.connectTelegram(id);
 	}
 
 	@HttpCode(HttpStatus.OK)
@@ -88,6 +112,6 @@ export class AccountController {
 	@HttpCode(HttpStatus.OK)
 	@Patch(EnumApiRoute.RECOVER_PASSWORD)
 	recoverPassword(@Body() dto: UpdatePasswordDto) {
-		return this.verificationService.recoverPassword(dto);
+		return this.accountService.recoverPassword(dto);
 	}
 }

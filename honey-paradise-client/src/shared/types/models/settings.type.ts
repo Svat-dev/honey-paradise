@@ -6,7 +6,9 @@ export interface ISettings {
 
 	defaultLanguage?: EnumLanguages;
 	defaultTheme?: EnumThemes;
+
 	useFullLogout: boolean;
+	useTgTfaLogin: boolean;
 
 	createdAt: Date;
 	updatedAt: Date;
@@ -17,7 +19,9 @@ export interface ISettingsUser {
 
 	defaultLanguage?: EnumLanguages;
 	defaultTheme?: EnumThemes;
+
 	useFullLogout: boolean;
+	useTgTfaLogin: boolean;
 
 	updatedAt: Date;
 }

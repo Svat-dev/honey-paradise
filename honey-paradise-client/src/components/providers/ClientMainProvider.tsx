@@ -1,6 +1,6 @@
 "use client";
 
-import { useWebsockets } from "@/shared/lib/hooks/websockets/useWebsockets";
+import { useNotificationWebsockets } from "@/shared/lib/hooks/websockets/useWebsockets";
 import { useAuth } from "@hooks/auth";
 import styles from "@styles/modules/toaster.module.scss";
 import { useId, type PropsWithChildren } from "react";
@@ -23,7 +23,7 @@ export function ClientMainProvider({ children, cookie, session }: IProps) {
 	const { isAuthenticated } = useAuth(!!session);
 	const id = useId();
 
-	useWebsockets(isAuthenticated);
+	useNotificationWebsockets(isAuthenticated);
 
 	return (
 		<>

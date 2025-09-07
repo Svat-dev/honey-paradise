@@ -181,8 +181,14 @@
 					"error": "You may be a robot! Go through reCAPTCHA again",
 					"socialAuth": "Sign in using social networks"
 				},
+				"alert": {
+					"title": "Waiting for a response from the server",
+					"description": "We have sent a confirmation message in Telegram. Please check it and confirm the sign in.",
+					"cancelBtn": "Cancel sign in"
+				},
 				"toasters": {
 					"success": "You have successfully signed in to your account!",
+					"checkTg": "Check Telegram and confirm sign in",
 					"error": "Error when logging in to account!\n{e}",
 					"2fa": "You will now be redirected to the account sign in confirmation page"
 				},
@@ -502,13 +508,35 @@
 						}
 					},
 					"telegram-linking": {
-						"title": "Привязка Телеграм-аккаунта",
-						"description": "Привяжите свой телеграм-аккаунт, чтобы получать уведомления о безопасности и специальных акциях"
+						"title": "Telegram profile",
+						"description": "Link your telegram account to receive notifications about security and special promotions",
+						"status": "Connected status: <text>{sts, select, true {Connected} false {Not connected} other {}}</text>",
+						"tgId": "Your telegram ID: <text>{id}</text>",
+						"tgUse": "Your telegram username: <link>@{username}</link>",
+						"actions": {
+							"connect": "Connect telegram",
+							"disconnect": "Disconnect telegram",
+							"telegramBot": "Telegram bot"
+						},
+						"labels": {
+							"connectBtn": "Connect telegram account",
+							"disconnectBtn": "Disconnect telegram account"
+						}
 					},
 					"modals": {
 						"avatarDelete": {
 							"heading": "Removing an avatar",
 							"description": "Are you sure you want to delete your avatar? Once deleted, it cannot be restored. Default avatar will be set instead deleted avatar"
+						},
+						"telegramConnect": {
+							"heading": "Confirmation of binding",
+							"description": "To apply, you need to click on the button below, it will redirect you to our telegram bot.\nPlease be aware that the link is active for 30 minutes only!",
+							"submitBtn": "Continue in Telegram",
+							"cancelBtn": "Cancel"
+						},
+						"telegramDisconnect": {
+							"heading": "Are you sure you want to unlink telegram",
+							"description": "You definitely want to unlink the telegram account from your account, you will lose the opportunity to receive notifications in our bot"
 						}
 					},
 					"labels": {
@@ -554,6 +582,10 @@
 							"fullLogout": {
 								"title": "Use full account logout",
 								"description": "By fully logging out of your account, you clear the cache and delete all cookies-files related to the design of the site."
+							},
+							"tg2fa": {
+								"title": "Use authorization via Telegram",
+								"description": "Enable sign in via telegram to increase the security of your account (you need to connect a Telegram bot, two-factor authentication and enable notifications in Telegram)"
 							},
 							"changePasswordModal": {
 								"title": "Password change",
@@ -829,6 +861,10 @@
 				"check": "View"
 			},
 			"sessionDeleted": "Someone just kicked you out of your account. Sign in again"
+		},
+		"auth": {
+			"reqAccepted": "The entry has been approved.\nYou will now be redirected",
+			"error": "Server response could not be processed"
 		}
 	},
 	"shared": {

@@ -5,6 +5,7 @@ import { ConflictException } from "@nestjs/common/exceptions/conflict.exception"
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
+import { TelegramService } from "src/core/telegram/telegram.service";
 import { getPagination } from "src/shared/lib/common/utils/get-pagination.util";
 import { notificationUserOutput } from "src/shared/lib/prisma/outputs/notifications.output";
 import { NotificationGateway } from "../../shared/websockets/notifications.gateway";
@@ -19,6 +20,7 @@ export class NotificationsService {
 		private readonly prisma: PrismaService,
 		private readonly profileService: ProfileService,
 		private readonly socket: NotificationGateway,
+		private readonly telegramService: TelegramService,
 		private readonly i18n: I18nService
 	) {}
 
@@ -45,8 +47,13 @@ export class NotificationsService {
 	}
 
 	async send(userId: string, msg: string, type: EnumNotificationType) {
-		const user = await this.profileService.getProfile(userId, "id");
+		const user = await this.prisma.user.findUnique({
+			where: { id: userId },
+			select: { notificationSettings: true, id: true, telegramId: true },
+		});
 		if (!user) throw new NotFoundException(this.i18n.t("d.errors.profile.not_found"));
+
+		if (!user.notificationSettings.enabled) return false;
 
 		const { id } = await this.prisma.notification.create({
 			data: {
@@ -57,7 +64,10 @@ export class NotificationsService {
 			select: { id: true },
 		});
 
-		this.socket.handleNewNotification({ userId: user.id, nid: id });
+		if (user.notificationSettings.siteNotificationsType) this.socket.handleNewNotification({ userId: user.id, nid: id });
+
+		if (user.notificationSettings.telegramNotificationsType && user.telegramId)
+			await this.telegramService.sendTelegramNotification(Number(user.telegramId), id, msg);
 
 		return true;
 	}
@@ -125,6 +135,15 @@ export class NotificationsService {
 				data: { ...dto, enabled: false, withSound: false },
 			});
 		} else await this.prisma.notificationSettings.update({ where: { userId: user.id }, data: dto });
+
+		if (typeof dto.telegramNotificationsType === "boolean" && dto.telegramNotificationsType === false) {
+			await this.prisma.notificationSettings.update({
+				where: { userId: user.id },
+				data: { telegramNotificationsType: false },
+			});
+
+			await this.profileService.updateSettings(userId, { useTgTfaLogin: false });
+		}
 
 		return true;
 	}

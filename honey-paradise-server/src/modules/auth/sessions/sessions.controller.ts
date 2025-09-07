@@ -10,7 +10,6 @@ import { Authorization } from "src/shared/decorators/auth.decorator";
 import { UserAgent } from "src/shared/decorators/user-agent.decorator";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
 import { ms } from "src/shared/lib/common/utils";
-import { VerificationService } from "../verification/verification.service";
 import type { AuthLoginDto } from "./dto/auth-login.dto";
 import type { AuthTfaDto } from "./dto/auth-tfa.dto";
 import { SessionsService } from "./sessions.service";
@@ -18,10 +17,7 @@ import { SessionsService } from "./sessions.service";
 @SkipThrottle({ auth: true })
 @Controller(EnumApiRoute.AUTH)
 export class SessionsController {
-	constructor(
-		private readonly sessionsService: SessionsService,
-		private readonly verificationService: VerificationService
-	) {}
+	constructor(private readonly sessionsService: SessionsService) {}
 
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
@@ -52,6 +48,20 @@ export class SessionsController {
 	}
 
 	@HttpCode(HttpStatus.OK)
+	@Throttle({ default: { limit: 10, ttl: ms("10min") } })
+	@Post(EnumApiRoute.TG_TFA_LOGIN)
+	tfaTgLogin(@Req() req: Request, @UserAgent() userAgent: string, @Body() dto: AuthTfaDto) {
+		return this.sessionsService.verifyTelegramTFAToken(dto, req, userAgent);
+	}
+
+	@HttpCode(HttpStatus.OK)
+	@Throttle({ default: { limit: 10, ttl: ms("10min") } })
+	@Post(EnumApiRoute.CANCEL_TG_TFA_LOGIN)
+	cancelTfaTgLogin(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+		return this.sessionsService.cancelTgTfaLogin(req, res);
+	}
+
+	@HttpCode(HttpStatus.OK)
 	@Post(EnumApiRoute.SEND_TFA_CODE)
 	sendTfaCode(@Req() req: Request, @UserAgent() userAgent: string) {
 		return this.sessionsService.sendTFACode(req, userAgent);
@@ -60,7 +70,7 @@ export class SessionsController {
 	@HttpCode(HttpStatus.OK)
 	@Post(EnumApiRoute.VERIFY_TFA)
 	verifyTfa(@Body() dto: AuthTfaDto, @Req() req: Request, @Res({ passthrough: true }) res: Response, @UserAgent() userAgent: string) {
-		return this.verificationService.verifyTFA(req, res, dto, userAgent);
+		return this.sessionsService.verifyTFAToken(dto, req, res, userAgent);
 	}
 
 	@HttpCode(HttpStatus.OK)

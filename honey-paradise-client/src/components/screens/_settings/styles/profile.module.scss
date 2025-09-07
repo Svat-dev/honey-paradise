@@ -102,29 +102,46 @@
 }
 
 .telegram-connect-wrapper {
-	@apply tw-flex tw-flex-col tw-px-1 tw-mt-2 tw-mb-4;
+	@apply tw-flex tw-flex-col tw-px-1 tw-mt-2 tw-mb-4 tw-gap-5;
 
 	> div:nth-of-type(1) {
-		@apply tw-flex tw-flex-col tw-gap-1 tw-mb-3;
+		@apply tw-flex tw-flex-col tw-gap-2;
 
-		> p > span {
-			@apply tw-italic tw-font-normal;
-		}
+		> p {
+			@apply tw-opacity-0 tw-animate-show-effect;
 
-		> p:nth-of-type(1) > span {
-			@apply tw-tracking-wide;
+			> a,
+			> span {
+				@apply tw-underline tw-font-medium tw-select-none;
+			}
+
+			&:first-of-type > span {
+				@apply tw-no-underline;
+			}
 		}
 	}
 
 	> div:nth-of-type(2) {
 		@apply tw-flex tw-flex-col tw-items-end;
 
-		> button {
-			@apply tw-py-1.5 tw-px-2 tw-border tw-border-muted tw-mr-6 tw-mt-4;
+		> div:first-of-type {
+			@apply tw-absolute tw-left-0;
 		}
 
-		> div {
-			@apply tw-absolute tw-left-0;
+		> div:last-of-type {
+			@apply tw-flex tw-items-center tw-gap-4 tw-mt-4 tw-mr-6;
+
+			> a {
+				@apply tw-text-black tw-transition-colors;
+
+				&:hover {
+					@apply tw-text-muted;
+				}
+			}
+
+			> button {
+				@apply tw-py-1.5 tw-px-2;
+			}
 		}
 	}
 }

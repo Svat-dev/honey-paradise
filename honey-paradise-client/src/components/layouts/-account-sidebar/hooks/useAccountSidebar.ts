@@ -1,11 +1,11 @@
 import { BellIcon, ClipboardListIcon, LinkIcon, SettingsIcon, ShoppingCartIcon } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useLayoutEffect, useMemo, useState } from "react";
 
 import { EnumAppRoute } from "@constants/routes";
-import { useLanguage } from "@i18n/hooks";
-import { useTranslations } from "next-intl";
-import { usePathname } from "next/navigation";
 import type { IAccountNavigation } from "../types/data.type";
+import { useLanguage } from "@i18n/hooks";
+import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export const useAccountSidebar = () => {
 	const t = useTranslations("layout.account-sidebar.links");
@@ -14,7 +14,7 @@ export const useAccountSidebar = () => {
 
 	const [height, setHeight] = useState<string>("auto");
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		if (typeof window !== "undefined") setHeight(`${window.innerHeight - 60}px`);
 	}, []);
 

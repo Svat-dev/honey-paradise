@@ -16,3 +16,8 @@ export interface ISignInDto {
 export interface IAuthTfaDto {
 	token: string;
 }
+
+export interface ISignInResponse {
+	tfa: boolean;
+	tg: boolean;
+}

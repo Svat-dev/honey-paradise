@@ -17,4 +17,8 @@ export class UpdateUserSettingsDto implements Partial<UserSettings & User> {
 	@IsBoolean({ message: "" })
 	@IsOptional({ message: "" })
 	isTFAEnabled?: boolean;
+
+	@IsBoolean({ message: "" })
+	@IsOptional({ message: "" })
+	useTgTfaLogin?: boolean;
 }

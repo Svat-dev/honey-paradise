@@ -1,6 +1,6 @@
+import { CronService } from "./cron.service";
 import { Module } from "@nestjs/common/decorators/modules/module.decorator";
 import { ScheduleModule } from "@nestjs/schedule/dist/schedule.module";
-import { CronService } from "./cron.service";
 
 @Module({
 	imports: [ScheduleModule.forRoot()],

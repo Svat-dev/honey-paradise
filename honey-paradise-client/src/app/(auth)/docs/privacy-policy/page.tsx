@@ -2,21 +2,19 @@ import type { Metadata, NextPage } from "next";
 
 import PrivacyPolicy from "@/components/screens/_privacy-policy/PrivacyPolicy.mdx";
 import { Container } from "@/components/ui/layouts/container";
-import { NO_INDEX_PAGE } from "@constants/base";
 import { getMetadata } from "@utils/base";
 import { getTranslations } from "next-intl/server";
 
 interface IProps {}
 
 export async function generateMetadata({}: IProps): Promise<Metadata> {
-	const t = await getTranslations("global.privacy-policy");
+	const t = await getTranslations("global");
 
 	return {
 		...(await getMetadata({
-			title: t("title"),
-			description: t("description", { title: t("title") }),
+			title: t("privacy-policy.title"),
+			description: t("privacy-policy.description", { title: t("logo") }),
 		})),
-		...NO_INDEX_PAGE,
 	};
 }
 

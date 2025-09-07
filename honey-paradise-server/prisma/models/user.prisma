@@ -35,7 +35,9 @@ model UserSettings {
 
   defaultLanguage EnumLanguages? @map("default_language")
   defaultTheme    EnumThemes?    @map("default_theme")
-  useFullLogout   Boolean?       @default(false) @map("use_full_logout")
+
+  useFullLogout Boolean? @default(false) @map("use_full_logout")
+  useTgTfaLogin Boolean? @default(false) @map("use_tg_tfa_login")
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique @map("user_id") @db.Uuid

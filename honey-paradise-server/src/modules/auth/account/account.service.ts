@@ -3,21 +3,25 @@ import { EnumClientRoutes, EnumStorageKeys } from "src/shared/types/client/enums
 
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
+import { ConflictException } from "@nestjs/common/exceptions/conflict.exception";
+import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
 import { ConfigService } from "@nestjs/config/dist/config.service";
 import { EnumNotificationType, EnumProviderTypes, type Provider, type User } from "@prisma/client";
 import { hash } from "argon2";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
+import { TelegramService } from "src/core/telegram/telegram.service";
 import { NotificationsService } from "src/modules/notifications/notifications.service";
 import { DEFAULT_AVATAR_PATH } from "src/shared/lib/common/constants";
 import { ms } from "src/shared/lib/common/utils";
 import { getEmailUsername } from "src/shared/lib/common/utils/get-email-username.util";
-import { userFullOutput } from "src/shared/lib/prisma/outputs/user.output";
+import { userFullOutput, userServerOutput } from "src/shared/lib/prisma/outputs/user.output";
 import { v4 as uuidv4 } from "uuid";
 import { ProfileService } from "../profile/profile.service";
 import { SessionsService } from "../sessions/sessions.service";
 import { VerificationService } from "../verification/verification.service";
 import type { CreateUserDto } from "./dto/create-user.dto";
+import type { UpdatePasswordDto } from "./dto/password-recover.dto";
 
 @Injectable()
 export class AccountService {
@@ -28,6 +32,7 @@ export class AccountService {
 		private readonly sessionsService: SessionsService,
 		private readonly configService: ConfigService,
 		private readonly notificationsService: NotificationsService,
+		private readonly telegramService: TelegramService,
 		private readonly i18n: I18nService
 	) {}
 
@@ -37,13 +42,41 @@ export class AccountService {
 		return user;
 	}
 
+	async getTelegramInfo(userId: string) {
+		const user = await this.profileService.getProfile(userId, "id");
+
+		if (!user.telegramId) throw new BadRequestException(this.i18n.t("d.errors.account.telegram_not_connected"));
+
+		const { username } = await this.telegramService.getTgUsername(+user.telegramId);
+
+		return {
+			connected: true,
+			tgUsername: username,
+			tgId: user.telegramId,
+		};
+	}
+
+	async disconnectTelegram(userId: string) {
+		const user = await this.profileService.getProfile(userId, "id");
+
+		if (!user.telegramId) throw new ConflictException(this.i18n.t("d.errors.account.telegram_not_connected"));
+
+		await this.profileService.updateProfile(user.id, { telegramId: null });
+
+		await this.notificationsService.updateSettings(userId, { siteNotificationsType: true, telegramNotificationsType: false });
+
+		await this.notificationsService.send(userId, "Telegram аккаунт был только что отвязан", EnumNotificationType.ACCOUNT_STATUS);
+
+		return true;
+	}
+
 	async create(dto: CreateUserDto, req: Request, res: Response, userAgent: string) {
 		const { email } = dto;
 
 		const isEmailExist = await this.profileService.getProfile(email, "email");
 		if (isEmailExist) throw new BadRequestException(this.i18n.t("d.errors.email.is_exist"));
 
-		await this.createNew({ ...dto, avatarPath: DEFAULT_AVATAR_PATH }, true);
+		const user = await this.createNew({ ...dto, avatarPath: DEFAULT_AVATAR_PATH }, true);
 
 		res.cookie(EnumStorageKeys.CURRENT_EMAIL, email, {
 			sameSite: "lax",
@@ -52,7 +85,7 @@ export class AccountService {
 			path: EnumClientRoutes.INDEX,
 		});
 
-		return this.verificationService.sendVerificationEmail(req, userAgent);
+		return this.verificationService.sendVerificationEmail(req, userAgent, user);
 	}
 
 	async createNew(dto: Partial<User & Provider>, isRegister: boolean = false) {
@@ -76,7 +109,7 @@ export class AccountService {
 				notificationSettings: { create: {} },
 				cart: { create: {} },
 			},
-			select: { id: true },
+			select: { ...userServerOutput },
 		});
 
 		await this.prisma.provider.create({
@@ -88,6 +121,27 @@ export class AccountService {
 		});
 
 		return user;
+	}
+
+	async sendEmailVerificationCode(req: Request, userAgent: string, _email?: string) {
+		const email = _email || (await req.cookies[EnumStorageKeys.CURRENT_EMAIL]);
+		const user = await this.prisma.user.findUnique({
+			where: { email },
+			select: {
+				...userServerOutput,
+				notificationSettings: { select: { enabled: true, telegramNotificationsType: true } },
+			},
+		});
+
+		if (!user || !email) throw new NotFoundException(this.i18n.t("d.errors.profile.not_found"));
+
+		const token = await this.verificationService.sendVerificationEmail(req, userAgent, user);
+
+		if (user.telegramId && user.notificationSettings.enabled && user.notificationSettings.telegramNotificationsType) {
+			await this.telegramService.sendEmailConfirmationCode(Number(user.telegramId), token);
+		}
+
+		return true;
 	}
 
 	async changeEmail(id: string, email: string) {
@@ -121,6 +175,14 @@ export class AccountService {
 
 			return { res: "redirect/logout" };
 		} else return true;
+	}
+
+	async recoverPassword(dto: UpdatePasswordDto) {
+		const { id } = await this.verificationService.recoverPassword(dto);
+
+		await this.notificationsService.send(id, "На вашем аккаунте был только что изменен пароль", EnumNotificationType.ACCOUNT_STATUS);
+
+		return true;
 	}
 
 	private async getUsernameFromEmail(email: string) {

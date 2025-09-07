@@ -15,3 +15,9 @@ export interface IEmailVerifyDto {
 	token: string;
 	isNeedAuth?: boolean;
 }
+
+export interface ITelegramInfoResponse {
+	connected: boolean;
+	tgUsername: string;
+	tgId: string;
+}

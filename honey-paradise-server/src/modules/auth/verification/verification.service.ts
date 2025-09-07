@@ -1,4 +1,4 @@
-import { EnumNotificationType, EnumTokenTypes, type Token } from "@prisma/client";
+import { EnumTokenTypes, type Token, type User } from "@prisma/client";
 
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
@@ -8,7 +8,6 @@ import type { Request, Response } from "express";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { MailService } from "src/core/mail/mail.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
-import { NotificationsService } from "src/modules/notifications/notifications.service";
 import { TOKENS_LENGTH } from "src/shared/lib/common/constants";
 import { ms } from "src/shared/lib/common/utils";
 import { getSessionMetadata } from "src/shared/lib/common/utils/session-metadat.util";
@@ -26,7 +25,6 @@ export class VerificationService {
 		private readonly prisma: PrismaService,
 		private readonly mailService: MailService,
 		private readonly userService: ProfileService,
-		private readonly notificationsService: NotificationsService,
 		private readonly i18n: I18nService
 	) {}
 
@@ -66,8 +64,6 @@ export class VerificationService {
 
 		await this.userService.updatePassword(user.id, password);
 
-		await this.notificationsService.send(user.id, "На вашем аккаунте был только что изменен пароль", EnumNotificationType.ACCOUNT_STATUS);
-
 		await this.prisma.token.delete({
 			where: {
 				user_id_type: {
@@ -77,10 +73,10 @@ export class VerificationService {
 			},
 		});
 
-		return true;
+		return { id: user.id };
 	}
 
-	async verifyTFA(req: Request, res: Response, dto: AuthTfaDto, userAgent: string) {
+	async verifyTFA(res: Response, dto: AuthTfaDto) {
 		const { token } = dto;
 
 		const existingTokens = await this.prisma.token.findMany({ where: { type: EnumTokenTypes.TFA_VERIFY } });
@@ -98,106 +94,79 @@ export class VerificationService {
 
 		res.clearCookie(EnumStorageKeys.CURRENT_EMAIL);
 
-		const metadata = getSessionMetadata(req, userAgent);
-
-		await this.notificationsService.send(
-			user.id,
-			`Кто-то только что вошел на ваш аккаунт рядом с ${metadata.location.country}, ${metadata.location.city}`,
-			EnumNotificationType.ACCOUNT_STATUS
-		);
-
-		return saveSession(req, user, metadata, this.i18n);
+		return { id: user.id };
 	}
 
-	async sendVerificationEmail(req: Request, userAgent: string) {
-		const email = req.cookies[EnumStorageKeys.CURRENT_EMAIL];
-		const user = await this.userService.getProfile(email, "email");
+	async verifyTelegramConnectToken(token: string, chatId: number) {
+		const exitingTokens = await this.prisma.token.findMany({ where: { type: EnumTokenTypes.TELEGRAM_CONNECT } });
+		const user = await this.validateToken(exitingTokens, token);
 
-		if (!user) throw new NotFoundException(this.i18n.t("d.errors.account.not_found_email"));
-
-		const existingToken = await this.prisma.token.findFirst({
-			where: { userId: user.id, type: EnumTokenTypes.EMAIL_VERIFY },
+		await this.prisma.token.delete({
+			where: { user_id_type: { userId: user.id, type: EnumTokenTypes.TELEGRAM_CONNECT } },
 		});
 
-		if (existingToken) await this.prisma.token.delete({ where: { id: existingToken.id } });
+		await this.userService.updateProfile(user.id, { telegramId: String(chatId) });
 
-		const token = this.generateAuthToken(EnumTokenTypes.EMAIL_VERIFY);
-		const expiresIn = new Date(new Date().getTime() + ms("30m"));
+		return true;
+	}
 
-		await this.prisma.token.create({
-			data: {
-				userId: user.id,
-				type: EnumTokenTypes.EMAIL_VERIFY,
-				token: await hash(token),
-				expiresIn,
-			},
+	async verifyTelegramAuthToken(dto: AuthTfaDto) {
+		const exitingTokens = await this.prisma.token.findMany({ where: { type: EnumTokenTypes.TELEGRAM_TFA_AUTH } });
+		const user = await this.validateToken(exitingTokens, dto.token);
+
+		await this.prisma.token.delete({
+			where: { user_id_type: { userId: user.id, type: EnumTokenTypes.TELEGRAM_TFA_AUTH } },
 		});
+
+		return { id: user.id };
+	}
+
+	async sendTelegramAuthToken(chatId: number) {
+		const user = await this.userService.getProfile(String(chatId), "tg-id");
+		if (!user) throw new NotFoundException(this.i18n.t("d.errors.account.telegram_not_connected"));
+
+		const token = await this.createToken(user.id, EnumTokenTypes.TELEGRAM_TFA_AUTH, ms("10min"));
+
+		return token;
+	}
+
+	async connectTelegram(userId: string): Promise<{ url: string }> {
+		const user = await this.userService.getProfile(userId, "id");
+
+		const token = await this.createToken(user.id, EnumTokenTypes.TELEGRAM_CONNECT, ms("30m"));
+
+		const url = "https://t.me/honey_paradise_tg_bot?start=" + token;
+
+		return { url };
+	}
+
+	async sendVerificationEmail(req: Request, userAgent: string, user: Pick<User, "id" | "email" | "username">): Promise<string> {
+		const token = await this.createToken(user.id, EnumTokenTypes.EMAIL_VERIFY, ms("30m"));
 
 		const metadata = getSessionMetadata(req, userAgent);
 
 		await this.mailService.sendConfirmationMail(user.email, token, user.username, metadata);
 
-		return true;
+		return token;
 	}
 
-	async sendTFAEmail(req: Request, userAgent: string, email: string) {
-		const user = await this.userService.getProfile(email, "email");
-
-		if (!user) throw new NotFoundException(this.i18n.t("d.errors.account.not_found_email"));
-
-		const existingToken = await this.prisma.token.findFirst({
-			where: { userId: user.id, type: EnumTokenTypes.TFA_VERIFY },
-		});
-
-		if (existingToken) await this.prisma.token.delete({ where: { id: existingToken.id } });
-
-		const token = this.generateAuthToken(EnumTokenTypes.TFA_VERIFY);
-		const expiresIn = new Date(new Date().getTime() + ms("30m"));
-
-		await this.prisma.token.create({
-			data: {
-				userId: user.id,
-				type: EnumTokenTypes.TFA_VERIFY,
-				token: await hash(token),
-				expiresIn,
-			},
-		});
+	async sendTFACode(req: Request, userAgent: string, user: Pick<User, "id" | "email" | "username">): Promise<string> {
+		const token = await this.createToken(user.id, EnumTokenTypes.TFA_VERIFY, ms("30m"));
 
 		const metadata = getSessionMetadata(req, userAgent);
 
 		await this.mailService.sendTFAEmail(user.email, token, user.username, metadata);
 
-		return true;
+		return token;
 	}
 
 	async sendRecoverPasswordEmail(req: Request, res: Response, userAgent: string) {
-		const email = req.cookies[EnumStorageKeys.CURRENT_EMAIL];
+		const email = await req.cookies[EnumStorageKeys.CURRENT_EMAIL];
 		const user = await this.userService.getProfile(email, "email");
 
 		if (!user) throw new NotFoundException(this.i18n.t("d.errors.account.not_found_email"));
 
-		const existingToken = await this.prisma.token.findFirst({
-			where: { userId: user.id, type: EnumTokenTypes.PASSWORD_RECOVERY },
-		});
-
-		if (existingToken) await this.prisma.token.delete({ where: { id: existingToken.id } });
-
-		const token = this.generateAuthToken(EnumTokenTypes.PASSWORD_RECOVERY);
-		const expiresIn = new Date(new Date().getTime() + ms("30m"));
-
-		await this.prisma.token.create({
-			data: {
-				userId: user.id,
-				type: EnumTokenTypes.PASSWORD_RECOVERY,
-				token: await hash(token),
-				expiresIn,
-			},
-		});
-
-		res.clearCookie(EnumStorageKeys.CURRENT_EMAIL);
-
-		const metadata = getSessionMetadata(req, userAgent);
-		await this.mailService.sendPasswordRecoveryMail(user.email, token, user.username, metadata);
+		const token = await this.createToken(user.id, EnumTokenTypes.PASSWORD_RECOVERY, ms("30m"));
 
 		return true;
 	}
@@ -232,10 +201,37 @@ export class VerificationService {
 		return existingUser;
 	}
 
+	private async createToken(userId: string, type: EnumTokenTypes, expiresTime: number): Promise<string> {
+		const existingToken = await this.prisma.token.findUnique({
+			where: { user_id_type: { userId, type } },
+			select: { id: true },
+		});
+
+		if (existingToken) await this.prisma.token.delete({ where: { id: existingToken.id } });
+
+		const token = this.generateAuthToken(type);
+		const expiresIn = new Date(new Date().getTime() + expiresTime);
+
+		await this.prisma.token.create({
+			data: {
+				userId,
+				type,
+				token: await hash(token),
+				expiresIn,
+			},
+		});
+
+		return token;
+	}
+
 	private generateAuthToken(type: EnumTokenTypes): string {
 		let token: string = "";
 
-		if (type === EnumTokenTypes.PASSWORD_RECOVERY) {
+		if (
+			type === EnumTokenTypes.PASSWORD_RECOVERY ||
+			type === EnumTokenTypes.TELEGRAM_CONNECT ||
+			type === EnumTokenTypes.TELEGRAM_TFA_AUTH
+		) {
 			token = uuidv4();
 		} else if (type === EnumTokenTypes.EMAIL_VERIFY) {
 			for (let i = 0; i < TOKENS_LENGTH.EMAIL_VERIFY; i++) {

@@ -8,9 +8,9 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { io, type Socket } from "socket.io-client";
-import { useWSNewNotification } from "./useWSNewNotification";
+import { useWSNewNotification } from "./callbacks/useWSNewNotification";
 
-export const useWebsockets = (isAuthenticated: boolean | undefined) => {
+export const useNotificationWebsockets = (isAuthenticated: boolean | undefined) => {
 	const { push } = useRouter();
 	const { user, isAccSuccess } = useMyAccount();
 	const { currentSession, isSessionSuccess } = useSessions();

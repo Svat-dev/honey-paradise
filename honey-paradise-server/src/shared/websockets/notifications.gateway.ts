@@ -65,6 +65,8 @@ export class NotificationGateway implements OnGatewayConnection, OnGatewayDiscon
 			nid: payload.nid,
 			timestamp: new Date().toISOString(),
 		});
+
+		return true;
 	}
 
 	@SubscribeMessage(EnumWSRoutes.REMOVE_SESSION)
@@ -75,5 +77,7 @@ export class NotificationGateway implements OnGatewayConnection, OnGatewayDiscon
 		});
 
 		this.server.in(payload.sid).disconnectSockets(true);
+
+		return true;
 	}
 }

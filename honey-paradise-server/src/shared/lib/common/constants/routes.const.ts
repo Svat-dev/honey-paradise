@@ -20,6 +20,12 @@ export enum EnumApiRoute {
 	ME = "/me",
 	UPDATE = "/update",
 
+	TELEGRAM = "/tg",
+	DISCONNECT_TG = `${TELEGRAM}/disconnect`,
+	CONNECT_TG = `${TELEGRAM}/connect`,
+	TG_TFA_LOGIN = `${TELEGRAM}/2fa-login`,
+	CANCEL_TG_TFA_LOGIN = `${TELEGRAM}/cancel-2fa-login`,
+
 	PASSWORD = "/password",
 	RESET_PASSWORD = `${PASSWORD}/reset`,
 	RECOVER_PASSWORD = `${PASSWORD}/recover`,

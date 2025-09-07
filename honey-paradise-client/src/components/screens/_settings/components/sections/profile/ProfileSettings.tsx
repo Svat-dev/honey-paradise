@@ -1,8 +1,8 @@
-import { useMyAccount } from "@hooks/auth";
 import { AppearanceSection } from "./AppearanceSection";
 import { AvatarSection } from "./AvatarSection";
 import { InfoSection } from "./InfoSection";
 import { TelegramSection } from "./TelegramSection";
+import { useMyAccount } from "@hooks/auth";
 
 const ProfileSettings = () => {
 	const { user, isAccLoading } = useMyAccount();
@@ -21,7 +21,7 @@ const ProfileSettings = () => {
 
 			<AppearanceSection settings={user?.settings} isAccLoading={isAccLoading} />
 
-			<TelegramSection telegramId={user?.telegramId} />
+			<TelegramSection />
 		</>
 	);
 };

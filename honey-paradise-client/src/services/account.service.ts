@@ -1,9 +1,15 @@
+import type {
+	IEmailVerifyDto,
+	IPasswordRecoverDto,
+	IRecoverPasswordDto,
+	ITelegramInfoResponse,
+	IUpdatePasswordDto,
+} from "./types/account-service.type";
 import { defaultInstance, instance } from "@/api/instance";
-import type { IEmailVerifyDto, IPasswordRecoverDto, IRecoverPasswordDto, IUpdatePasswordDto } from "./types/account-service.type";
 
-import type { IUserFull } from "@/shared/types/models";
-import { EnumApiRoute } from "@constants/routes";
 import type { AxiosResponse } from "axios";
+import { EnumApiRoute } from "@constants/routes";
+import type { IUserFull } from "@/shared/types/models";
 
 export const accountService = {
 	getMyAccount: async () => {
@@ -12,8 +18,26 @@ export const accountService = {
 		return res;
 	},
 
+	getTelegramInfo: async () => {
+		const res = await instance.get<any, AxiosResponse<ITelegramInfoResponse>>(EnumApiRoute.TELEGRAM);
+
+		return res;
+	},
+
 	updateEmail: async (dto: IPasswordRecoverDto) => {
 		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_EMAIL, dto);
+
+		return res;
+	},
+
+	connectTelegram: async () => {
+		const res = await instance.post<any, AxiosResponse<{ url: string }>>(EnumApiRoute.CONNECT_TG);
+
+		return res.data;
+	},
+
+	disconnectTelegram: async () => {
+		const res = await instance.post<any, AxiosResponse<boolean>>(EnumApiRoute.DISCONNECT_TG);
 
 		return res;
 	},

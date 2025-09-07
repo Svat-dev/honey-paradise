@@ -13,7 +13,8 @@ export async function generateMetadata({}: IProps): Promise<Metadata> {
 	return {
 		...(await getMetadata({
 			title: t("title"),
-			description: t("description", { title: t("title") }),
+			description: "",
+			index: false,
 		})),
 		...NO_INDEX_PAGE,
 	};

@@ -1,6 +1,7 @@
 export enum EnumStorageKeys {
 	LOCALE_LANGUAGE = "HONEY_PARADISE_LOCALE_LANGUAGE",
 	CURRENT_EMAIL = "HONEY_PARADISE_CURRENT_EMAIL",
+	SOCKET_SESSION_TOKEN = "HONEY_PARADISE_SOCKET_SESSION_TOKEN",
 }
 
 export enum EnumErrorCauses {
@@ -22,6 +23,8 @@ export enum EnumClientRoutes {
 
 	SETTINGS = `${ACCOUNT}/settings`,
 	DEVICES = `${SETTINGS}?active_tab=devices`,
+
+	NOTIFICATIONS = `${ACCOUNT}/notifications`,
 
 	CONNECTIONS = `${ACCOUNT}/connections`,
 }

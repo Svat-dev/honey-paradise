@@ -17,13 +17,11 @@ export async function generateMetadata(props: IProps): Promise<Metadata> {
 
 	const title = type === EnumConfirmationTypes.SIGN_IN ? t("title.2fa") : type === EnumConfirmationTypes.EMAIL ? t("title.email") : "";
 
-	const description =
-		type === EnumConfirmationTypes.SIGN_IN ? t("title.2fa") : type === EnumConfirmationTypes.EMAIL ? t("title.email") : "";
-
 	return {
 		...(await getMetadata({
 			title,
-			description,
+			description: "",
+			index: false,
 		})),
 		...NO_INDEX_PAGE,
 	};

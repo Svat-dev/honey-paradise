@@ -21,6 +21,12 @@ export enum EnumApiRoute {
 	MY_ACCOUNT = `${ACCOUNT}/me`,
 	CREATE_ACCOUNT = `${ACCOUNT}/create`,
 
+	TELEGRAM = `${ACCOUNT}/tg`,
+	CONNECT_TG = `${TELEGRAM}/connect`,
+	DISCONNECT_TG = `${TELEGRAM}/disconnect`,
+	TG_TFA_LOGIN = `${AUTH}/tg/2fa-login`,
+	CANCEL_TG_TFA_LOGIN = `${AUTH}/tg/cancel-2fa-login`,
+
 	PASSWORD = `${ACCOUNT}/password`,
 	RESET_PASSWORD = `${PASSWORD}/reset`,
 	RECOVER_PASSWORD = `${PASSWORD}/recover`,

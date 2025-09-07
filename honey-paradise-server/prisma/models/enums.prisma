@@ -16,6 +16,8 @@ enum EnumTokenTypes {
   EMAIL_VERIFY
   PASSWORD_RECOVERY
   TFA_VERIFY
+  TELEGRAM_CONNECT
+  TELEGRAM_TFA_AUTH
 }
 
 enum EnumNotificationType {

@@ -1,14 +1,16 @@
 import { type TSignInFields, createSignInSchema } from "@schemas/sign-in.schema";
 
 import { errorCatch } from "@/api/api-helper";
-import { useSignInS } from "@/services/hooks/auth";
-import { errorCauses } from "@constants/base";
+import { useCancelTelegramSignInS, useSignInS } from "@/services/hooks/auth";
+import { EnumStorageKeys, errorCauses } from "@constants/base";
 import { EnumAppRoute } from "@constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "@hooks/auth";
 import { useTheme } from "@hooks/useTheme";
+import { useSessionWebsockets } from "@hooks/websockets/useSessionWebsockets";
 import { useLanguage } from "@i18n/hooks";
 import type { AxiosError } from "axios";
+import Cookies from "js-cookie";
 import { usePathname, useRouter, useSearchParams } from "next/dist/client/components/navigation";
 import { useEffect, useRef, useState } from "react";
 import type ReCAPTCHA from "react-google-recaptcha";
@@ -31,10 +33,12 @@ export const useSignIn = () => {
 	const { auth } = useAuth();
 	const { theme } = useTheme();
 	const { isSignInLoading, signIn } = useSignInS();
+	const { cancelTgSignIn, isCancelTgSignInLoading } = useCancelTelegramSignInS();
 
 	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
 	const [error, setError] = useState<boolean>(false);
 	const [dataStatus, setDataStatus] = useState<TDataStatus>("default");
+	const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
 	const recaptchaRef = useRef<ReCAPTCHA>(null);
 
@@ -54,17 +58,30 @@ export const useSignIn = () => {
 		setError(false);
 	};
 
-	const onError = (msg: string) => {
+	const onError = (msg: string, reset: boolean = false) => {
 		setDataStatus("error");
+		setRecaptchaValue(null);
+		recaptchaRef.current?.reset();
+
+		if (reset) form.reset();
+
 		toast.error(msg, { duration: errorDelay, style: { maxWidth: "25rem" } });
 
-		return setTimeout(() => {
-			setDataStatus("default");
-
-			setRecaptchaValue(null);
-			recaptchaRef.current?.reset();
-		}, errorDelay);
+		return setTimeout(() => setDataStatus("default"), errorDelay);
 	};
+
+	const onCancelTgSignIn = async () => {
+		try {
+			await cancelTgSignIn();
+			form.reset();
+			toast.success("Вход отменен!");
+		} catch (err) {
+			const { errMsg } = errorCatch(err as AxiosError);
+			onError(errMsg);
+		}
+	};
+
+	const { connectSocket, isTgSignInLoading } = useSessionWebsockets(msg => onError(msg, true));
 
 	const onSubmit = async (data: TSignInFields) => {
 		if (!recaptchaValue) {
@@ -74,9 +91,19 @@ export const useSignIn = () => {
 		}
 
 		try {
-			const { tfa } = await signIn({ dto: data, recaptcha: recaptchaValue });
+			const { tfa, tg } = await signIn({ dto: data, recaptcha: recaptchaValue });
 
 			if (tfa) {
+				if (tg) {
+					connectSocket();
+
+					setIsSuccess(true);
+					setDataStatus("good");
+
+					toast(t("toasters.checkTg"), { duration: successDelay, icon: "📲" });
+					return setTimeout(() => replace(pathname + "?waiting=true"), 1000);
+				}
+
 				toast(t("toasters.2fa"), { duration: successDelay, icon: "🔒" });
 				prefetch(EnumAppRoute.SIGN_IN_CONFIRMATION);
 				setTimeout(() => replace(EnumAppRoute.SIGN_IN_CONFIRMATION), successDelay);
@@ -108,6 +135,18 @@ export const useSignIn = () => {
 	}, [recaptchaValue]);
 
 	useEffect(() => {
+		if (searchParams.get("waiting") === "true" && Cookies.get(EnumStorageKeys.SOCKET_SESSION_TOKEN)) {
+			connectSocket();
+			setDataStatus("good");
+			setIsSuccess(true);
+		} else {
+			replace(pathname, { scroll: true });
+			setDataStatus("default");
+			setIsSuccess(false);
+		}
+	}, [searchParams.get("waiting"), Cookies.get(EnumStorageKeys.SOCKET_SESSION_TOKEN)]);
+
+	useEffect(() => {
 		if (searchParams.get("error") && searchParams.get("error") === "true") {
 			const msg = searchParams.get("message") || "";
 			const sts = searchParams.get("status") || "";
@@ -123,10 +162,14 @@ export const useSignIn = () => {
 		theme,
 		form,
 		onSubmit,
+		onCancelTgSignIn,
 		error,
 		dataStatus,
 		onRecaptchaChange,
 		isSignInLoading,
+		isTgSignInLoading,
+		isCancelTgSignInLoading,
 		recaptchaRef,
+		isSuccess,
 	};
 };

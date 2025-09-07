@@ -80,7 +80,7 @@ export class ProfileService {
 		return true;
 	}
 
-	async getProfile(id: string, type: "email" | "username" | "id" | "phone") {
+	async getProfile(id: string, type: "email" | "username" | "id" | "phone" | "tg-id") {
 		if (type === "id") {
 			const profile = await this.prisma.user.findUnique({ where: { id } });
 
@@ -93,8 +93,12 @@ export class ProfileService {
 			const profile = await this.prisma.user.findUnique({ where: { username: id } });
 
 			return profile;
-		} else {
+		} else if (type === "phone") {
 			const profile = await this.prisma.user.findUnique({ where: { phoneNumber: id } });
+
+			return profile;
+		} else {
+			const profile = await this.prisma.user.findUnique({ where: { telegramId: id } });
 
 			return profile;
 		}
@@ -127,6 +131,11 @@ export class ProfileService {
 			if (isExists) throw new BadRequestException(this.i18n.t("d.errors.profile.phone_number_is_exist"));
 		}
 
+		if (dto.telegramId) {
+			const isExists = await this.getProfile(dto.telegramId as string, "tg-id");
+			if (isExists) throw new BadRequestException(this.i18n.t("d.errors.profile.telegram_id_is_exist"));
+		}
+
 		await this.prisma.user.update({ where: { id }, data: { ...dto } });
 
 		return true;
@@ -140,9 +149,13 @@ export class ProfileService {
 		if (typeof dto.isTFAEnabled === "boolean") {
 			const { isTFAEnabled, ...other } = dto;
 
-			await this.prisma.user.update({ where: { id: userId }, data: { isTFAEnabled } });
-
 			await this.prisma.userSettings.update({ where: { id: settings.id }, data: other });
+
+			if (isTFAEnabled) await this.prisma.user.update({ where: { id: userId }, data: { isTFAEnabled: true } });
+			else {
+				await this.prisma.user.update({ where: { id: userId }, data: { isTFAEnabled: false } });
+				await this.prisma.userSettings.update({ where: { id: settings.id }, data: { useTgTfaLogin: false } });
+			}
 		} else {
 			const { isTFAEnabled, ...other } = dto;
 

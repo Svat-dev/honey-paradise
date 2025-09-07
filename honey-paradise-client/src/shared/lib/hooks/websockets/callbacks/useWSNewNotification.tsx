@@ -6,9 +6,9 @@ import type { Socket } from "socket.io-client";
 import { queryKeys } from "@constants/routes";
 import styles from "@styles/modules/toaster.module.scss";
 import toast from "react-hot-toast";
-import { useLanguage } from "../../i18n/hooks";
+import { useLanguage } from "@i18n/hooks";
 import { useQueryClient } from "@tanstack/react-query";
-import { useSound } from "../useSound";
+import { useSound } from "../../useSound";
 import { useTranslations } from "next-intl";
 import { z } from "zod";
 

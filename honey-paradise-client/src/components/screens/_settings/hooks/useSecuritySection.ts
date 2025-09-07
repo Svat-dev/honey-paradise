@@ -22,7 +22,7 @@ export const useSecuritySection = () => {
 		try {
 			await updateSettingsAsync({ [field]: value });
 
-			toast.success("Настройки успешно обновлены!");
+			toast.success(t("toasters.security.success"));
 		} catch (e) {
 			const { errMsg } = errorCatch(e as AxiosError);
 
@@ -33,13 +33,16 @@ export const useSecuritySection = () => {
 	const getTitles = () => {
 		const tfa_server = t("security.2fa.title").split(" ");
 		const fullLogout_server = t("security.fullLogout.title").split(" ");
+		const tg_tfa_server = t("security.tg2fa.title").split(" ");
 
 		tfa_server.shift();
 		fullLogout_server.shift();
+		tg_tfa_server.shift();
 
 		return {
 			tfa: " " + tfa_server.join(" "),
 			fullLogout: " " + fullLogout_server.join(" "),
+			tgTfa: " " + tg_tfa_server.join(" "),
 		};
 	};
 

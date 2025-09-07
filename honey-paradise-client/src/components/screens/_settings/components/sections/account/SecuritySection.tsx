@@ -1,21 +1,24 @@
 import { Button, Separator, Switch, Title } from "@/components/ui/common";
 import { Edit2Icon, KeyRoundIcon, LogOutIcon, ShieldCheckIcon } from "lucide-react";
 
-import dynamic from "next/dynamic";
 import type { FC } from "react";
+import { TelegramIcon } from "@/components/ui/common/icons";
+import dynamic from "next/dynamic";
 import slugify from "slugify";
-import { useSecuritySection } from "../../../hooks/useSecuritySection";
 import styles from "../../../styles/account.module.scss";
+import { useSecuritySection } from "../../../hooks/useSecuritySection";
 
 const DynamicChangePasswordModal = dynamic(() => import("./ChangePasswordModal").then(mod => mod.ChangePasswordModal));
 
 interface ISecuritySection {
 	isTFAEnabled: boolean | undefined;
 	isFullLogoutEnabled: boolean | undefined;
+	useTgTfaLogin: boolean | undefined;
+	isTgTfaDisabled: boolean;
 	isAccLoading: boolean;
 }
 
-const SecuritySection: FC<ISecuritySection> = ({ isFullLogoutEnabled, isTFAEnabled, isAccLoading }) => {
+const SecuritySection: FC<ISecuritySection> = ({ isFullLogoutEnabled, isTFAEnabled, isAccLoading, useTgTfaLogin, isTgTfaDisabled }) => {
 	const { isSettingsUpdating, onSwitchChange, getTitles, t } = useSecuritySection();
 
 	const isLoading = isSettingsUpdating || isAccLoading;
@@ -61,6 +64,27 @@ const SecuritySection: FC<ISecuritySection> = ({ isFullLogoutEnabled, isTFAEnabl
 					onCheckedChange={state => onSwitchChange(state, "isTFAEnabled")}
 					checked={isTFAEnabled}
 					isLoading={isLoading}
+				/>
+			</div>
+
+			<Separator orientation="horizontal" />
+
+			<div>
+				<div>
+					<TelegramIcon size={24} fill="none" aria-hidden />
+				</div>
+
+				<div>
+					<p>{t("security.tg2fa.title")}</p>
+					<p>{t("security.tg2fa.description")}</p>
+				</div>
+
+				<Switch
+					title={getTitles().tgTfa}
+					onCheckedChange={state => onSwitchChange(state, "useTgTfaLogin")}
+					checked={useTgTfaLogin}
+					isLoading={isLoading}
+					disabled={isLoading || !isTFAEnabled || isTgTfaDisabled}
 				/>
 			</div>
 

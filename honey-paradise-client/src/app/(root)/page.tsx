@@ -6,12 +6,12 @@ import { getTranslations } from "next-intl/server";
 interface IProps {}
 
 export async function generateMetadata({}: IProps): Promise<Metadata> {
-	const t = await getTranslations("global.home");
+	const t = await getTranslations("global");
 
 	return {
 		...(await getMetadata({
-			title: t("title"),
-			description: t("description", { title: t("title") }),
+			title: t("home.title"),
+			description: t("home.description", { title: t("logo") }),
 		})),
 	};
 }
