@@ -21,3 +21,7 @@ export interface ITelegramInfoResponse {
 	tgUsername: string;
 	tgId: string;
 }
+
+export type TConnectTelegramResponse = { url: string };
+
+export type TUpdatePasswordResponse = boolean | { res: string };

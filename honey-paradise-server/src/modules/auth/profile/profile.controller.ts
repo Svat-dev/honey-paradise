@@ -5,6 +5,7 @@ import { Delete, Patch, Post, Put } from "@nestjs/common/decorators/http/request
 import { Body, Param, UploadedFile } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
 import { FileInterceptor } from "@nestjs/platform-express/multer/interceptors/file.interceptor";
+import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { SkipThrottle, Throttle } from "@nestjs/throttler/dist/throttler.decorator";
 import { Authorization } from "src/shared/decorators/auth.decorator";
 import { Authorized } from "src/shared/decorators/authorized.decorator";
@@ -12,16 +13,20 @@ import { EnumApiRoute } from "src/shared/lib/common/constants";
 import { ms } from "src/shared/lib/common/utils";
 import { FileValidationPipe } from "src/shared/pipes/file-validation.pipe";
 import { UniqueFieldCheckPipe } from "src/shared/pipes/unique-field-check.pipe";
-import type { UniqueFieldCheckDto } from "./dto/unique-field-check.dto";
-import type { UpdateUserSettingsDto } from "./dto/update-user-settings.dto";
-import type { UpdateUserDto } from "./dto/update-userinfo.dto";
+import { UniqueFieldCheckDto } from "./dto/unique-field-check.dto";
+import { UpdateUserSettingsDto } from "./dto/update-user-settings.dto";
+import { UpdateUserDto } from "./dto/update-userinfo.dto";
 import { ProfileService } from "./profile.service";
 
+@ApiTags("Profile")
 @SkipThrottle({ auth: true })
 @Controller(EnumApiRoute.PROFILE)
 export class ProfileController {
 	constructor(private readonly profileService: ProfileService) {}
 
+	@ApiOperation({ summary: "Check filed on unique value" })
+	@ApiBody({ type: UniqueFieldCheckDto })
+	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Post(`${EnumApiRoute.CHECK_UNIQUE}/:field`)
@@ -29,6 +34,8 @@ export class ProfileController {
 		return this.profileService.checkUnique(dto.fieldValue, field);
 	}
 
+	@ApiOperation({ summary: "" })
+	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
@@ -38,6 +45,8 @@ export class ProfileController {
 		return this.profileService.updateAvatar(userId, file);
 	}
 
+	@ApiOperation({ summary: "" })
+	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
@@ -46,6 +55,9 @@ export class ProfileController {
 		return this.profileService.deleteAvatar(userId);
 	}
 
+	@ApiOperation({ summary: "" })
+	@ApiBody({ type: UpdateUserDto })
+	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Put(EnumApiRoute.UPDATE_PROFILE)
@@ -53,6 +65,9 @@ export class ProfileController {
 		return this.profileService.updateProfile(userId, dto);
 	}
 
+	@ApiOperation({ summary: "" })
+	@ApiBody({ type: UpdateUserSettingsDto })
+	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Put(EnumApiRoute.UPDATE_SETTINGS)

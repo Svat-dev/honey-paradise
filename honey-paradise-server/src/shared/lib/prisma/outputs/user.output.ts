@@ -39,10 +39,10 @@ export const userFullOutput: Prisma.UserSelect = {
 
 	settings: { select: userSettingsOutput },
 	notificationSettings: { select: notificationSettingsUserOutput },
-	cart: true,
 
 	isTFAEnabled: true,
 	isVerified: true,
 
 	createdAt: true,
+	updatedAt: true,
 };

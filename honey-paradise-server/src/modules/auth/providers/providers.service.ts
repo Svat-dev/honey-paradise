@@ -12,7 +12,7 @@ import { NotificationsService } from "src/modules/notifications/notifications.se
 import { capitalize } from "src/shared/lib/common/utils/capitalize.util";
 import { getSessionMetadata } from "src/shared/lib/common/utils/session-metadat.util";
 import { saveSession } from "src/shared/lib/common/utils/session.util";
-import { providerDefaultOutput } from "src/shared/lib/prisma/outputs/providers.outpur";
+import { providerDefaultOutput } from "src/shared/lib/prisma/outputs/providers.output";
 import { EnumClientRoutes } from "src/shared/types/client/enums.type";
 import type { IException } from "src/shared/types/exception.type";
 import type { IProviderUser } from "src/shared/types/providers.type";
@@ -87,7 +87,7 @@ export class ProvidersService {
 		return providers;
 	}
 
-	async deleteUserProvider(userId: string, id: string) {
+	async deleteUserProvider(userId: string, id: string): Promise<boolean> {
 		const provider = await this.prisma.provider.findUnique({ where: { id, userId } });
 		if (!provider) throw new NotFoundException(this.i18n.t("d.errors.provider.not_found"));
 
@@ -144,7 +144,7 @@ export class ProvidersService {
 		return res.redirect(this.config.getOrThrow<string>("CLIENT_URL") + EnumClientRoutes.CONNECTIONS + "?connect=true");
 	}
 
-	private async getProviderById(id: string) {
+	private async getProviderById(id: string): Promise<Provider> {
 		const provider = await this.prisma.provider.findUnique({ where: { providerId: id }, select: providerDefaultOutput });
 
 		return provider;
@@ -168,6 +168,6 @@ export class ProvidersService {
 		const url =
 			this.config.getOrThrow<string>("CLIENT_URL") + (type === "connect" ? EnumClientRoutes.CONNECTIONS : EnumClientRoutes.SIGN_IN);
 
-		res.redirect(url + `?${searchParams.toString()}`);
+		return res.redirect(url + `?${searchParams.toString()}`);
 	}
 }

@@ -19,3 +19,10 @@ export interface SessionMetadata {
 	method: EnumProviderTypes;
 	ip: string;
 }
+
+export interface ISession {
+	id: string;
+	userId: string;
+	createdAt: string;
+	metadata: SessionMetadata;
+}

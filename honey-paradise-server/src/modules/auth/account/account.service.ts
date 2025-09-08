@@ -22,6 +22,7 @@ import { SessionsService } from "../sessions/sessions.service";
 import { VerificationService } from "../verification/verification.service";
 import type { CreateUserDto } from "./dto/create-user.dto";
 import type { UpdatePasswordDto } from "./dto/password-recover.dto";
+import type { IGetTelegramInfoResponse } from "./type";
 
 @Injectable()
 export class AccountService {
@@ -42,7 +43,7 @@ export class AccountService {
 		return user;
 	}
 
-	async getTelegramInfo(userId: string) {
+	async getTelegramInfo(userId: string): Promise<IGetTelegramInfoResponse> {
 		const user = await this.profileService.getProfile(userId, "id");
 
 		if (!user.telegramId) throw new BadRequestException(this.i18n.t("d.errors.account.telegram_not_connected"));
@@ -56,7 +57,7 @@ export class AccountService {
 		};
 	}
 
-	async disconnectTelegram(userId: string) {
+	async disconnectTelegram(userId: string): Promise<boolean> {
 		const user = await this.profileService.getProfile(userId, "id");
 
 		if (!user.telegramId) throw new ConflictException(this.i18n.t("d.errors.account.telegram_not_connected"));
@@ -70,7 +71,7 @@ export class AccountService {
 		return true;
 	}
 
-	async create(dto: CreateUserDto, req: Request, res: Response, userAgent: string) {
+	async create(dto: CreateUserDto, req: Request, res: Response, userAgent: string): Promise<boolean> {
 		const { email } = dto;
 
 		const isEmailExist = await this.profileService.getProfile(email, "email");
@@ -85,10 +86,12 @@ export class AccountService {
 			path: EnumClientRoutes.INDEX,
 		});
 
-		return this.verificationService.sendVerificationEmail(req, userAgent, user);
+		await this.verificationService.sendVerificationEmail(req, userAgent, user);
+
+		return true;
 	}
 
-	async createNew(dto: Partial<User & Provider>, isRegister: boolean = false) {
+	async createNew(dto: Partial<User & Provider>, isRegister: boolean = false): Promise<User> {
 		const { email, password, birthdate, gender, username, avatarPath, providerId, type, isVerified } = dto;
 
 		const isUsernameExist = username ? await this.profileService.getProfile(username, "username") : false;
@@ -123,7 +126,7 @@ export class AccountService {
 		return user;
 	}
 
-	async sendEmailVerificationCode(req: Request, userAgent: string, _email?: string) {
+	async sendEmailVerificationCode(req: Request, userAgent: string, _email?: string): Promise<boolean> {
 		const email = _email || (await req.cookies[EnumStorageKeys.CURRENT_EMAIL]);
 		const user = await this.prisma.user.findUnique({
 			where: { email },
@@ -144,7 +147,7 @@ export class AccountService {
 		return true;
 	}
 
-	async changeEmail(id: string, email: string) {
+	async changeEmail(id: string, email: string): Promise<boolean> {
 		const existingUser = await this.profileService.getProfile(email, "email");
 
 		if (existingUser) throw new BadRequestException(this.i18n.t("d.errors.email.is_exist"));
@@ -177,7 +180,7 @@ export class AccountService {
 		} else return true;
 	}
 
-	async recoverPassword(dto: UpdatePasswordDto) {
+	async recoverPassword(dto: UpdatePasswordDto): Promise<boolean> {
 		const { id } = await this.verificationService.recoverPassword(dto);
 
 		await this.notificationsService.send(id, "На вашем аккаунте был только что изменен пароль", EnumNotificationType.ACCOUNT_STATUS);
@@ -185,8 +188,8 @@ export class AccountService {
 		return true;
 	}
 
-	private async getUsernameFromEmail(email: string) {
-		let res: any;
+	private async getUsernameFromEmail(email: string): Promise<string> {
+		let res: string;
 
 		const emailUsername = getEmailUsername(email);
 

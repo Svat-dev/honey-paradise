@@ -1,4 +1,6 @@
 export enum EnumApiRoute {
+	DOCS = "/docs",
+
 	STATIC = "/static",
 	ASSETS = `${STATIC}/assets`,
 	AVATARS = `${STATIC}/avatars`,
@@ -7,9 +9,9 @@ export enum EnumApiRoute {
 	SIGN_IN = "/sign-in",
 	LOGOUT = "/logout",
 
-	OAUTH = "/oauth",
-	OAUTH_CALLBACK = `${OAUTH}/callback`,
-	OAUTH_CONNECT = `${OAUTH}/connect`,
+	OAUTH = `${AUTH}/oauth`,
+	OAUTH_CALLBACK = "/callback",
+	OAUTH_CONNECT = "/connect",
 
 	TFA = "/tfa",
 	VERIFY_TFA = `${TFA}/verify`,
@@ -40,9 +42,9 @@ export enum EnumApiRoute {
 	UPDATE_PROFILE = "/update",
 	CHECK_UNIQUE = "/check-unique",
 
-	CONNECTIONS = "/connections",
-	DISCONNECT = `${CONNECTIONS}/disconnect`,
-	ALL_CONNECTIONS = `${CONNECTIONS}/all`,
+	CONNECTIONS = `${AUTH}/connections`,
+	DISCONNECT = "/disconnect",
+	ALL_CONNECTIONS = "/all",
 
 	SETTINGS = "/settings",
 	UPDATE_SETTINGS = `${SETTINGS}/update`,

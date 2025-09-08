@@ -13,6 +13,7 @@ import { ProfileService } from "../auth/profile/profile.service";
 import { EnumNotificationsSort, type GetAllQueryDto } from "./dto/get-all.dto";
 import type { NotificationsIdsDto } from "./dto/mark-as.dto";
 import type { UpdateNotificationsSettingsDto } from "./dto/update-notifications-settings.dto";
+import type { GetAllNotificationsResponse } from "./response/get-all-notifications.res";
 
 @Injectable()
 export class NotificationsService {
@@ -24,7 +25,7 @@ export class NotificationsService {
 		private readonly i18n: I18nService
 	) {}
 
-	async getAllByUser(userId: string, query: GetAllQueryDto) {
+	async getAllByUser(userId: string, query: GetAllQueryDto): Promise<GetAllNotificationsResponse> {
 		const user = await this.profileService.getProfile(userId, "id");
 
 		if (!user) throw new NotFoundException(this.i18n.t("d.errors.profile.not_found"));
@@ -46,7 +47,7 @@ export class NotificationsService {
 		return { notifications, length, unReadLength };
 	}
 
-	async send(userId: string, msg: string, type: EnumNotificationType) {
+	async send(userId: string, msg: string, type: EnumNotificationType): Promise<boolean> {
 		const user = await this.prisma.user.findUnique({
 			where: { id: userId },
 			select: { notificationSettings: true, id: true, telegramId: true },
@@ -72,7 +73,7 @@ export class NotificationsService {
 		return true;
 	}
 
-	async markAsRead(dto: NotificationsIdsDto) {
+	async markAsRead(dto: NotificationsIdsDto): Promise<boolean> {
 		const { ids, single } = dto;
 		const notifications = await this.getAllNotificationsByIds(ids);
 
@@ -85,7 +86,7 @@ export class NotificationsService {
 		return true;
 	}
 
-	async markAsReadAll(userId: string) {
+	async markAsReadAll(userId: string): Promise<boolean> {
 		const notifications = await this.prisma.notification.findMany({ where: { userId } });
 
 		for (const { id, isRead } of notifications) {
@@ -95,7 +96,7 @@ export class NotificationsService {
 		return true;
 	}
 
-	async markAsArchived(dto: NotificationsIdsDto) {
+	async markAsArchived(dto: NotificationsIdsDto): Promise<boolean> {
 		const { ids, single } = dto;
 		const notifications = await this.getAllNotificationsByIds(ids);
 
@@ -113,7 +114,7 @@ export class NotificationsService {
 		return true;
 	}
 
-	async delete(dto: NotificationsIdsDto) {
+	async delete(dto: NotificationsIdsDto): Promise<boolean> {
 		const { ids } = dto;
 		const notifications = await this.getAllNotificationsByIds(ids);
 
@@ -124,7 +125,7 @@ export class NotificationsService {
 		return true;
 	}
 
-	async updateSettings(userId: string, dto: UpdateNotificationsSettingsDto) {
+	async updateSettings(userId: string, dto: UpdateNotificationsSettingsDto): Promise<boolean> {
 		const user = await this.profileService.getProfile(userId, "id");
 
 		if (!user) throw new NotFoundException(this.i18n.t("d.errors.profile.not_found"));

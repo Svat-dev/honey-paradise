@@ -1,25 +1,17 @@
-import type { EnumGenders, EnumUserRoles } from "./enums.type";
+import type { EnumCurrencies, EnumGenders, EnumThemes, EnumUserRoles } from "./enums.type";
+
+import type { EnumLanguages } from "@/shared/lib/i18n";
 import type { INotificationSettings } from "./notifications.type";
 
-import type { ISettingsUser } from "./settings.type";
-
-export interface IUser {
+interface ISettingsUser {
 	id: string;
-	role: EnumUserRoles;
 
-	email: string;
-	password: string;
+	defaultLanguage?: EnumLanguages;
+	defaultTheme?: EnumThemes;
+	defaultCurrency: EnumCurrencies;
 
-	isVerified: boolean;
-	isTFAEnabled: boolean;
-
-	telegramId: string | null;
-	phoneNumber: string | null;
-	username: string;
-
-	gender: EnumGenders;
-	avatarPath?: string;
-	birthdate?: Date;
+	useFullLogout: boolean;
+	useTgTfaLogin: boolean;
 
 	createdAt: Date;
 	updatedAt: Date;
@@ -45,4 +37,5 @@ export interface IUserFull {
 	notificationSettings: INotificationSettings;
 
 	createdAt: Date;
+	updatedAt: Date;
 }

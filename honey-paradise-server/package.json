@@ -1,6 +1,6 @@
 {
 	"name": "honey-paradise-server",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Honey Paradise Backend",
 	"author": "_swuttik_",
 	"private": true,
@@ -23,6 +23,7 @@
 		"@nestjs/platform-socket.io": "^11.1.6",
 		"@nestjs/schedule": "^6.0.0",
 		"@nestjs/serve-static": "^5.0.3",
+		"@nestjs/swagger": "^11.2.0",
 		"@nestjs/throttler": "^6.4.0",
 		"@nestjs/websockets": "^11.1.6",
 		"@nestlab/google-recaptcha": "^3.10.0",

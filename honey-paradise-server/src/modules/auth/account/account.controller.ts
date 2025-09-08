@@ -3,10 +3,10 @@ import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
 import { Get, Patch, Post } from "@nestjs/common/decorators/http/request-mapping.decorator";
 import { Body, Req, Res } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
+import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { SkipThrottle, Throttle } from "@nestjs/throttler/dist/throttler.decorator";
 import { Recaptcha } from "@nestlab/google-recaptcha/decorators/recaptcha";
 import type { Request, Response } from "express";
-import { TelegramService } from "src/core/telegram/telegram.service";
 import { Authorization } from "src/shared/decorators/auth.decorator";
 import { Authorized } from "src/shared/decorators/authorized.decorator";
 import { UserAgent } from "src/shared/decorators/user-agent.decorator";
@@ -14,18 +14,22 @@ import { EnumApiRoute } from "src/shared/lib/common/constants";
 import { ms } from "src/shared/lib/common/utils";
 import { VerificationService } from "../verification/verification.service";
 import { AccountService } from "./account.service";
-import type { CreateUserDto } from "./dto/create-user.dto";
-import type { EmailVerifyDto, UpdateEmailDto } from "./dto/email-verification.dto";
-import type { UpdatePasswordAuthDto, UpdatePasswordDto } from "./dto/password-recover.dto";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { EmailVerifyDto, UpdateEmailDto } from "./dto/email-verification.dto";
+import { UpdatePasswordAuthDto, UpdatePasswordDto } from "./dto/password-recover.dto";
+import { GetMeResponse } from "./response/get-my-account.res";
+import { ConnectTelegramResponse, GetTgInfoResponse } from "./response/get-tg-info.res";
 
+@ApiTags("Account")
 @Controller(EnumApiRoute.ACCOUNT)
 export class AccountController {
 	constructor(
 		private readonly accountService: AccountService,
-		private readonly verificationService: VerificationService,
-		private readonly telegramService: TelegramService
+		private readonly verificationService: VerificationService
 	) {}
 
+	@ApiOperation({ summary: "Get current user account" })
+	@ApiOkResponse({ type: GetMeResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@SkipThrottle({ auth: true })
@@ -34,6 +38,8 @@ export class AccountController {
 		return this.accountService.me(id);
 	}
 
+	@ApiOperation({ summary: "Get telegram info about current user" })
+	@ApiOkResponse({ type: GetTgInfoResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@SkipThrottle({ auth: true })
@@ -42,6 +48,8 @@ export class AccountController {
 		return this.accountService.getTelegramInfo(id);
 	}
 
+	@ApiOperation({ summary: "" })
+	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Post(EnumApiRoute.DISCONNECT_TG)
@@ -49,6 +57,9 @@ export class AccountController {
 		return this.accountService.disconnectTelegram(id);
 	}
 
+	@ApiOperation({ summary: "" })
+	@ApiBody({ type: CreateUserDto })
+	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Recaptcha()
 	@Post(EnumApiRoute.CREATE)
@@ -61,6 +72,9 @@ export class AccountController {
 		return this.accountService.create(dto, req, res, userAgent);
 	}
 
+	@ApiOperation({ summary: "" })
+	@ApiBody({ type: UpdateEmailDto })
+	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Patch(EnumApiRoute.UPDATE_EMAIL)
@@ -70,6 +84,8 @@ export class AccountController {
 		return this.accountService.changeEmail(id, email);
 	}
 
+	@ApiOperation({ summary: "" })
+	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
 	@SkipThrottle({ auth: true })
@@ -78,6 +94,9 @@ export class AccountController {
 		return this.accountService.sendEmailVerificationCode(req, userAgent);
 	}
 
+	@ApiOperation({ summary: "" })
+	@ApiBody({ type: EmailVerifyDto })
+	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@SkipThrottle({ auth: true })
 	@Post(EnumApiRoute.VERIFY_EMAIL)
@@ -85,6 +104,8 @@ export class AccountController {
 		return this.verificationService.verifyEmail(req, res, dto, userAgent);
 	}
 
+	@ApiOperation({ summary: "" })
+	@ApiOkResponse({ type: ConnectTelegramResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Post(EnumApiRoute.CONNECT_TG)
@@ -92,6 +113,8 @@ export class AccountController {
 		return this.verificationService.connectTelegram(id);
 	}
 
+	@ApiOperation({ summary: "" })
+	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
 	@SkipThrottle({ auth: true })
@@ -100,6 +123,11 @@ export class AccountController {
 		return this.verificationService.sendRecoverPasswordEmail(req, res, userAgent);
 	}
 
+	@ApiOperation({ summary: "" })
+	@ApiBody({ type: UpdatePasswordAuthDto })
+	@ApiOkResponse({
+		examples: { 1: { summary: "without tfa enabled", value: true }, 2: { summary: "with tfa enabled", value: "redirect/logout" } },
+	})
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Patch(EnumApiRoute.UPDATE_PASSWORD)
@@ -109,6 +137,9 @@ export class AccountController {
 		return this.accountService.updatePassword(id, password, req);
 	}
 
+	@ApiOperation({ summary: "" })
+	@ApiBody({ type: UpdatePasswordDto })
+	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Patch(EnumApiRoute.RECOVER_PASSWORD)
 	recoverPassword(@Body() dto: UpdatePasswordDto) {

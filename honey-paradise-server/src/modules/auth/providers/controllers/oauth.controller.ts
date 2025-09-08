@@ -1,59 +1,48 @@
 import { Controller } from "@nestjs/common/decorators/core/controller.decorator";
 import { UseGuards } from "@nestjs/common/decorators/core/use-guards.decorator";
 import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
-import { Get, Patch } from "@nestjs/common/decorators/http/request-mapping.decorator";
-import { Body, Req, Res } from "@nestjs/common/decorators/http/route-params.decorator";
+import { Get } from "@nestjs/common/decorators/http/request-mapping.decorator";
+import { Req, Res } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
 import { AuthGuard } from "@nestjs/passport/dist/auth.guard";
-import { SkipThrottle } from "@nestjs/throttler/dist/throttler.decorator";
+import { ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { EnumProviderTypes } from "@prisma/client";
 import type { Request, Response } from "express";
-import { Authorization } from "src/shared/decorators/auth.decorator";
-import { Authorized } from "src/shared/decorators/authorized.decorator";
 import { UserAgent } from "src/shared/decorators/user-agent.decorator";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
-import type { DeleteProviderDto } from "./dto/delete-provider.dto";
-import { ProvidersService } from "./providers.service";
+import { ProvidersService } from "../providers.service";
 
-@Controller(EnumApiRoute.AUTH)
-export class ProvidersController {
+@ApiTags("Connect Providers")
+@Controller(EnumApiRoute.OAUTH)
+export class OAuthController {
 	constructor(private readonly providersService: ProvidersService) {}
 
-	@HttpCode(HttpStatus.OK)
-	@Authorization()
-	@SkipThrottle({ auth: true })
-	@Get(EnumApiRoute.ALL_CONNECTIONS)
-	getAllConnections(@Authorized("id") userId: string) {
-		return this.providersService.getProvidersByUser(userId);
-	}
-
-	@HttpCode(HttpStatus.OK)
-	@Authorization()
-	@Patch(EnumApiRoute.DISCONNECT)
-	disconnect(@Authorized("id") userId: string, @Body() dto: DeleteProviderDto) {
-		return this.providersService.deleteUserProvider(userId, dto.pid);
-	}
-
+	@ApiOperation({ summary: "" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.GOOGLE))
 	@Get(`${EnumApiRoute.OAUTH_CONNECT}/google`)
 	connectGoogleProvider() {}
 
+	@ApiOperation({ summary: "" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.GITHUB))
 	@Get(`${EnumApiRoute.OAUTH_CONNECT}/github`)
 	connectGithubProvider() {}
 
+	@ApiOperation({ summary: "" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.YANDEX))
 	@Get(`${EnumApiRoute.OAUTH_CONNECT}/yandex`)
 	connectYandexProvider() {}
 
+	@ApiOperation({ summary: "" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.VK))
 	@Get(`${EnumApiRoute.OAUTH_CONNECT}/vk`)
 	connectVkProvider() {}
 
+	@ApiOperation({ summary: "" })
+	@ApiOkResponse({ example: "Void function" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.GOOGLE))
 	@Get(`${EnumApiRoute.OAUTH_CALLBACK}/google`)
@@ -61,6 +50,8 @@ export class ProvidersController {
 		return this.providersService.oAuth_first(req, res, userAgent);
 	}
 
+	@ApiOperation({ summary: "" })
+	@ApiOkResponse({ example: "Void function" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.GITHUB))
 	@Get(`${EnumApiRoute.OAUTH_CALLBACK}/github`)
@@ -68,6 +59,8 @@ export class ProvidersController {
 		return this.providersService.oAuth_first(req, res, userAgent);
 	}
 
+	@ApiOperation({ summary: "" })
+	@ApiOkResponse({ example: "Void function" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.YANDEX))
 	@Get(`${EnumApiRoute.OAUTH_CALLBACK}/yandex`)
@@ -75,6 +68,8 @@ export class ProvidersController {
 		return this.providersService.oAuth_first(req, res, userAgent);
 	}
 
+	@ApiOperation({ summary: "" })
+	@ApiOkResponse({ example: "Void function" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.VK))
 	@Get(`${EnumApiRoute.OAUTH_CALLBACK}/vk`)

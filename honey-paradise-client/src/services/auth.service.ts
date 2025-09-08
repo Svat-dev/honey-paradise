@@ -16,7 +16,7 @@ export const authService = {
 
 		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(EnumApiRoute.CREATE_ACCOUNT, data, { headers });
 
-		return res.data;
+		return res;
 	},
 
 	signIn: async (dto: ISignInDto, recaptcha?: string) => {
@@ -40,7 +40,7 @@ export const authService = {
 	},
 
 	sendTFACode: async () => {
-		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(EnumApiRoute.SEND_TFA_CODE, {});
+		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(EnumApiRoute.SEND_TFA_CODE);
 
 		return res;
 	},
@@ -52,7 +52,7 @@ export const authService = {
 	},
 
 	logout: async () => {
-		const res = await instance.post<any, AxiosResponse<boolean>>(EnumApiRoute.LOGOUT, {});
+		const res = await instance.post<any, AxiosResponse<boolean>>(EnumApiRoute.LOGOUT);
 
 		return res;
 	},

@@ -1,9 +1,9 @@
-import type { EnumNotificationType, INotificationUser } from "@/shared/types/models";
+import type { EnumNotificationType, INotificationResponse } from "@/shared/types/models";
 
 import type { EnumNotificationsSortType } from "@/shared/store/types/notifications-filter-store.type";
 
 export interface IGetAllNotificationsResponse {
-	notifications: INotificationUser[];
+	notifications: INotificationResponse[];
 	length: number;
 	unReadLength: number;
 }

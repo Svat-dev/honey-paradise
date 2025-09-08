@@ -5,11 +5,12 @@ import * as sharp from "sharp";
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
-import { type Prisma } from "@prisma/client";
+import { User, type Prisma } from "@prisma/client";
 import { hash } from "argon2";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { DEFAULT_AVATAR_PATH } from "src/shared/lib/common/constants";
+import { userDefaultOutput } from "src/shared/lib/prisma/outputs/user.output";
 import type { UpdateUserSettingsDto } from "./dto/update-user-settings.dto";
 
 @Injectable()
@@ -19,7 +20,7 @@ export class ProfileService {
 		private readonly i18n: I18nService
 	) {}
 
-	async deleteAvatar(userId: string, exact: boolean = false) {
+	async deleteAvatar(userId: string, exact: boolean = false): Promise<boolean> {
 		const user = await this.getProfile(userId, "id");
 		const avatarPath = user.avatarPath;
 
@@ -49,7 +50,7 @@ export class ProfileService {
 		}
 	}
 
-	async updateAvatar(userId: string, file: Express.Multer.File) {
+	async updateAvatar(userId: string, file: Express.Multer.File): Promise<boolean> {
 		const uploadDir = path.join(__dirname, "../../../..", "public", "avatars", "uploads");
 
 		let randomNumber: string = "";
@@ -80,31 +81,31 @@ export class ProfileService {
 		return true;
 	}
 
-	async getProfile(id: string, type: "email" | "username" | "id" | "phone" | "tg-id") {
+	async getProfile(id: string, type: "email" | "username" | "id" | "phone" | "tg-id"): Promise<User> {
 		if (type === "id") {
-			const profile = await this.prisma.user.findUnique({ where: { id } });
+			const profile = await this.prisma.user.findUnique({ where: { id }, select: { ...userDefaultOutput } });
 
 			return profile;
 		} else if (type === "email") {
-			const profile = await this.prisma.user.findUnique({ where: { email: id } });
+			const profile = await this.prisma.user.findUnique({ where: { email: id }, select: { ...userDefaultOutput } });
 
 			return profile;
 		} else if (type === "username") {
-			const profile = await this.prisma.user.findUnique({ where: { username: id } });
+			const profile = await this.prisma.user.findUnique({ where: { username: id }, select: { ...userDefaultOutput } });
 
 			return profile;
 		} else if (type === "phone") {
-			const profile = await this.prisma.user.findUnique({ where: { phoneNumber: id } });
+			const profile = await this.prisma.user.findUnique({ where: { phoneNumber: id }, select: { ...userDefaultOutput } });
 
 			return profile;
 		} else {
-			const profile = await this.prisma.user.findUnique({ where: { telegramId: id } });
+			const profile = await this.prisma.user.findUnique({ where: { telegramId: id }, select: { ...userDefaultOutput } });
 
 			return profile;
 		}
 	}
 
-	async checkUnique(id: string, type: "email" | "username" | "phone") {
+	async checkUnique(id: string, type: "email" | "username" | "phone"): Promise<boolean> {
 		const existingUser = await this.prisma.user.findFirst({
 			where: {
 				OR: [
@@ -120,7 +121,7 @@ export class ProfileService {
 		return true;
 	}
 
-	async updateProfile(id: string, dto: Prisma.UserUpdateInput) {
+	async updateProfile(id: string, dto: Prisma.UserUpdateInput): Promise<boolean> {
 		if (dto.username) {
 			const isExists = await this.getProfile(dto.username as string, "username");
 			if (isExists) throw new BadRequestException(this.i18n.t("d.errors.username.is_exist"));
@@ -141,7 +142,7 @@ export class ProfileService {
 		return true;
 	}
 
-	async updateSettings(userId: string, dto: UpdateUserSettingsDto) {
+	async updateSettings(userId: string, dto: UpdateUserSettingsDto): Promise<boolean> {
 		const settings = await this.prisma.userSettings.findUnique({ where: { userId } });
 
 		if (!settings) throw new NotFoundException(this.i18n.t("d.errors.profile.settings_not_found"));
@@ -165,7 +166,7 @@ export class ProfileService {
 		return true;
 	}
 
-	async updatePassword(userId: string, password: string) {
+	async updatePassword(userId: string, password: string): Promise<User> {
 		const user = await this.getProfile(userId, "id");
 
 		if (!user) throw new NotFoundException(this.i18n.t("d.errors.profile.not_found"));
@@ -175,7 +176,7 @@ export class ProfileService {
 		return user;
 	}
 
-	async updateProfileVerified(id: string) {
+	async updateProfileVerified(id: string): Promise<boolean> {
 		await this.prisma.user.update({
 			where: { id },
 			data: { isVerified: true },

@@ -1,15 +1,17 @@
+import { defaultInstance, instance } from "@/api/instance";
 import type {
 	IEmailVerifyDto,
 	IPasswordRecoverDto,
 	IRecoverPasswordDto,
 	ITelegramInfoResponse,
 	IUpdatePasswordDto,
+	TConnectTelegramResponse,
+	TUpdatePasswordResponse,
 } from "./types/account-service.type";
-import { defaultInstance, instance } from "@/api/instance";
 
-import type { AxiosResponse } from "axios";
-import { EnumApiRoute } from "@constants/routes";
 import type { IUserFull } from "@/shared/types/models";
+import { EnumApiRoute } from "@constants/routes";
+import type { AxiosResponse } from "axios";
 
 export const accountService = {
 	getMyAccount: async () => {
@@ -31,7 +33,7 @@ export const accountService = {
 	},
 
 	connectTelegram: async () => {
-		const res = await instance.post<any, AxiosResponse<{ url: string }>>(EnumApiRoute.CONNECT_TG);
+		const res = await instance.post<any, AxiosResponse<TConnectTelegramResponse>>(EnumApiRoute.CONNECT_TG);
 
 		return res.data;
 	},
@@ -43,7 +45,7 @@ export const accountService = {
 	},
 
 	updatePassword: async (dto: IUpdatePasswordDto) => {
-		const res = await instance.patch<any, AxiosResponse<boolean | { res: string }>>(EnumApiRoute.UPDATE_PASSWORD, dto);
+		const res = await instance.patch<any, AxiosResponse<TUpdatePasswordResponse>>(EnumApiRoute.UPDATE_PASSWORD, dto);
 
 		return res;
 	},
