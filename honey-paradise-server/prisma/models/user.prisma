@@ -11,10 +11,17 @@ model User {
   notifications        Notification[]
   notificationSettings NotificationSettings?
 
-  settings  UserSettings?
-  cart      Cart?
+  settings UserSettings?
+  cart     Cart?
+
   token     Token[]
   providers Provider[]
+  comments  Comment[]
+
+  orders       Order[]
+  transactions Transaction[]
+
+  likedProductIds Json? @default("[]") @map("liked_products")
 
   username    String  @unique
   telegramId  String? @unique @map("telegram_id")
@@ -33,8 +40,9 @@ model User {
 model UserSettings {
   id String @id @default(uuid()) @db.Uuid
 
-  defaultLanguage EnumLanguages? @map("default_language")
-  defaultTheme    EnumThemes?    @map("default_theme")
+  defaultLanguage EnumLanguages?  @map("default_language")
+  defaultTheme    EnumThemes?     @map("default_theme")
+  defaultCurrency EnumCurrencies? @default(RUBLE) @map("default_currency")
 
   useFullLogout Boolean? @default(false) @map("use_full_logout")
   useTgTfaLogin Boolean? @default(false) @map("use_tg_tfa_login")

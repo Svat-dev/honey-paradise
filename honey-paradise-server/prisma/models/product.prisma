@@ -1,0 +1,19 @@
+model Product {
+  id String @id @default(uuid()) @db.Uuid
+
+  title       String
+  description String?
+
+  priceInUsd Float @map("price_in_usd")
+  rating     Float @default(0)
+
+  comments Comment[]
+
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String   @map("category_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("products")
+}

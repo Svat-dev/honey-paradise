@@ -1,0 +1,18 @@
+model Order {
+  id String @id @default(uuid()) @db.Uuid
+
+  totalAmount Float           @default(0) @map("total_amount_in_usd")
+  status      EnumOrderStatus @default(PENDING)
+
+  items Json @default("[]")
+
+  transaction Transaction?
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique @map("user_id") @db.Uuid
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("orders")
+}

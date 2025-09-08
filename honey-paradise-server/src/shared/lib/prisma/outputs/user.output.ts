@@ -22,6 +22,7 @@ export const userSettingsOutput: Prisma.UserSettingsSelect = {
 
 	defaultLanguage: true,
 	defaultTheme: true,
+	defaultCurrency: true,
 
 	useFullLogout: true,
 	useTgTfaLogin: true,

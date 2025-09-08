@@ -1,0 +1,19 @@
+model Transaction {
+  id String @id @default(uuid()) @db.Uuid
+
+  externalId String?
+
+  amount Float                 @default(0) @map("amount_in_usd")
+  status EnumTransactionStatus @default(PENDING)
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: NoAction)
+  userId String @map("user_id") @db.Uuid
+
+  order   Order?  @relation(fields: [orderId], references: [id], onDelete: NoAction)
+  orderId String? @unique @map("order_id") @db.Uuid
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("transactions")
+}

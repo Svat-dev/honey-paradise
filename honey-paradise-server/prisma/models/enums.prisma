@@ -43,6 +43,19 @@ enum EnumCurrencies {
   EURO
 }
 
+enum EnumOrderStatus {
+  CANCELED
+  PENDING
+  IN_ROAD
+  DELIVERED
+}
+
+enum EnumTransactionStatus {
+  CANCELED
+  PENDING
+  SUCCEEDED
+}
+
 enum EnumProviderTypes {
   CREDENTIALS
   GOOGLE

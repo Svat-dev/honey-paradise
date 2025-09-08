@@ -2,10 +2,10 @@ import { BellIcon, ClipboardListIcon, LinkIcon, SettingsIcon, ShoppingCartIcon }
 import { useLayoutEffect, useMemo, useState } from "react";
 
 import { EnumAppRoute } from "@constants/routes";
-import type { IAccountNavigation } from "../types/data.type";
 import { useLanguage } from "@i18n/hooks";
-import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
+import type { IAccountNavigation } from "../types/data.type";
 
 export const useAccountSidebar = () => {
 	const t = useTranslations("layout.account-sidebar.links");
@@ -27,6 +27,12 @@ export const useAccountSidebar = () => {
 				isCurrent: pathname === EnumAppRoute.SETTINGS,
 			},
 			{
+				title: t("connections"),
+				icon: LinkIcon,
+				route: EnumAppRoute.CONNECTIONS,
+				isCurrent: pathname === EnumAppRoute.CONNECTIONS,
+			},
+			{
 				title: t("notifications"),
 				icon: BellIcon,
 				route: EnumAppRoute.NOTIFICATIONS,
@@ -37,12 +43,6 @@ export const useAccountSidebar = () => {
 				icon: ShoppingCartIcon,
 				route: EnumAppRoute.MY_CART,
 				isCurrent: pathname === EnumAppRoute.MY_CART,
-			},
-			{
-				title: t("connections"),
-				icon: LinkIcon,
-				route: EnumAppRoute.CONNECTIONS,
-				isCurrent: pathname === EnumAppRoute.CONNECTIONS,
 			},
 			{
 				title: t("orders"),

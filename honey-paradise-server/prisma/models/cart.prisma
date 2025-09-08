@@ -1,7 +1,7 @@
 model Cart {
   id String @id @default(uuid()) @db.Uuid
 
-  totalPrice Float?          @default(0) @map("total_price")
+  totalPrice Float           @default(0) @map("total_price")
   currency   EnumCurrencies? @default(RUBLE)
 
   cartItems CartItem[]

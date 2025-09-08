@@ -1,5 +1,6 @@
+import type { EnumCurrencies, EnumThemes } from "./enums.type";
+
 import type { EnumLanguages } from "@/shared/lib/i18n";
-import type { EnumThemes } from "./enums.type";
 
 export interface ISettings {
 	id: string;
@@ -19,6 +20,7 @@ export interface ISettingsUser {
 
 	defaultLanguage?: EnumLanguages;
 	defaultTheme?: EnumThemes;
+	defaultCurrency: EnumCurrencies;
 
 	useFullLogout: boolean;
 	useTgTfaLogin: boolean;
