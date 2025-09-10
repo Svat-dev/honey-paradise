@@ -1,6 +1,6 @@
+import createNextMdxPlugin from "@next/mdx";
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
-import createNextMdxPlugin from "@next/mdx";
 
 const withNextIntl = createNextIntlPlugin("./src/shared/lib/i18n/request.ts");
 const withMdx = createNextMdxPlugin({});
@@ -22,8 +22,6 @@ const nextConfig: NextConfig = {
 		],
 	},
 	env: {
-		CLIENT_URL: process.env.CLIENT_URL,
-		SERVER_URL: process.env.SERVER_URL,
 		TELEGRAM_BOT_URL: process.env.TELEGRAM_BOT_URL,
 		GOOGLE_RECAPTCHA_SITE_KEY: process.env.GOOGLE_RECAPTCHA_SITE_KEY,
 	},
