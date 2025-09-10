@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/common";
-import { useSessions } from "@hooks/auth";
 import { RefreshCcwIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import styles from "../../../styles/devices.module.scss";
 import { SessionItem } from "./SessionItem";
 import { SessionsLoading } from "./SessionsLoading";
+import styles from "../../../styles/devices.module.scss";
+import { useSessions } from "@hooks/auth";
+import { useTranslations } from "next-intl";
 
 const DevicesSettings = () => {
 	const t = useTranslations("global.settings.content.devices");

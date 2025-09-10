@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import type { NotificationsIdsDto } from "@/shared/types/server";
 import { notificationsService } from "@/services/notifications.service";
-import type { INotificationsIdsDto } from "@/services/types/notifications-service.type";
 import { queryKeys } from "@constants/routes";
 
 export const useMarkAsReadS = () => {
@@ -11,7 +11,7 @@ export const useMarkAsReadS = () => {
 
 	const { mutateAsync, isPending } = useMutation({
 		mutationKey: [queryKeys.markNotificationAsRead],
-		mutationFn: (dto: INotificationsIdsDto) => notificationsService.markAsRead(dto),
+		mutationFn: (dto: NotificationsIdsDto) => notificationsService.markAsRead(dto),
 		onSuccess,
 	});
 
@@ -45,7 +45,7 @@ export const useMarkAsArchivedS = () => {
 
 	const { mutateAsync, isPending } = useMutation({
 		mutationKey: [queryKeys.markNotificationAsArchived],
-		mutationFn: (dto: INotificationsIdsDto) => notificationsService.markAsArchived(dto),
+		mutationFn: (dto: NotificationsIdsDto) => notificationsService.markAsArchived(dto),
 		onSuccess,
 	});
 

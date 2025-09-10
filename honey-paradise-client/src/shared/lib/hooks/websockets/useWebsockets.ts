@@ -23,7 +23,7 @@ export const useNotificationWebsockets = (isAuthenticated: boolean | undefined) 
 
 	useEffect(() => {
 		if (isAuthenticated && !socket && isAccSuccess && isSessionSuccess) {
-			const notifications_socket = io(process.env.SERVER_URL, {
+			const notifications_socket = io(process.env.NEXT_PUBLIC_SERVER_URL, {
 				withCredentials: true,
 				path: EnumWSPaths.NOTIFICATIONS,
 				auth: { userId: user?.id, sid: currentSession?.id },

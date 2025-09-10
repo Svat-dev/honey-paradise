@@ -1,14 +1,15 @@
 import { defaultInstance, instance } from "@/api/instance";
-import type { IAuthTfaDto, ICreateAccountDto, ISignInDto, ISignInResponse } from "./types/auth-service.type";
+import type { AuthLoginDto, AuthTfaDto, CreateUserDto } from "@/shared/types/server";
 
 import { EnumApiRoute } from "@constants/routes";
 import type { AxiosResponse } from "axios";
+import type { ISignInResponse } from "./types/auth-service.type";
 
 export const authService = {
-	createAccount: async (dto: ICreateAccountDto, recaptcha?: string) => {
+	createAccount: async (dto: CreateUserDto, recaptcha?: string) => {
 		const headers = recaptcha ? { recaptcha } : undefined;
 
-		const data: ICreateAccountDto = {
+		const data: CreateUserDto = {
 			...dto,
 			username: dto.username || undefined,
 			birthdate: dto.birthdate || undefined,
@@ -19,7 +20,7 @@ export const authService = {
 		return res;
 	},
 
-	signIn: async (dto: ISignInDto, recaptcha?: string) => {
+	signIn: async (dto: AuthLoginDto, recaptcha?: string) => {
 		const headers = recaptcha ? { recaptcha } : undefined;
 
 		const res = await defaultInstance.post<any, AxiosResponse<ISignInResponse>>(EnumApiRoute.SIGN_IN, dto, { headers });
@@ -27,7 +28,7 @@ export const authService = {
 		return res.data;
 	},
 
-	telegramSignIn: async (dto: IAuthTfaDto) => {
+	telegramSignIn: async (dto: AuthTfaDto) => {
 		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(EnumApiRoute.TG_TFA_LOGIN, dto);
 
 		return res;
@@ -45,7 +46,7 @@ export const authService = {
 		return res;
 	},
 
-	verifyTFACode: async (dto: IAuthTfaDto) => {
+	verifyTFACode: async (dto: AuthTfaDto) => {
 		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(EnumApiRoute.VERIFY_TFA, dto);
 
 		return res;

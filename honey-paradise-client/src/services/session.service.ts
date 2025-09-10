@@ -1,8 +1,8 @@
 import { defaultInstance, instance } from "@/api/instance";
 
-import type { ISession } from "@/shared/types/models/session.type";
-import { EnumApiRoute } from "@constants/routes";
 import type { AxiosResponse } from "axios";
+import { EnumApiRoute } from "@constants/routes";
+import type { ISession } from "@/shared/types/models/session.type";
 
 export const sessionService = {
 	clearSession: async () => {
@@ -12,13 +12,13 @@ export const sessionService = {
 	},
 
 	getByUser: async () => {
-		const res = await instance.get<AxiosResponse<any, ISession[]>>(EnumApiRoute.GET_SESSION_BY_USER);
+		const res = await instance.get<ISession[]>(EnumApiRoute.GET_SESSION_BY_USER);
 
 		return res;
 	},
 
 	getCurrent: async () => {
-		const res = await instance.get<AxiosResponse<any, ISession>>(EnumApiRoute.CURRENT_SESSION);
+		const res = await instance.get<ISession>(EnumApiRoute.CURRENT_SESSION);
 
 		return res;
 	},

@@ -1,15 +1,15 @@
+import { useEffect, useMemo } from "react";
 import { useGetAllS, useRemoveProviderS } from "@/services/hooks/providers";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo } from "react";
 
+import { API_URL } from "@constants/base";
+import type { AxiosError } from "axios";
+import { EnumApiRoute } from "@constants/routes";
+import { GetAllConnectionsResponseType } from "@/shared/types/server";
+import type { IConnectionsData } from "../types/connections.type";
 import { errorCatch } from "@/api/api-helper";
 import { getProviderName } from "@/shared/lib/utils/session/get-provider-name";
-import { EnumProviderTypes } from "@/shared/types/models";
-import { API_URL } from "@constants/base";
-import { EnumApiRoute } from "@constants/routes";
-import type { AxiosError } from "axios";
 import toast from "react-hot-toast";
-import type { IConnectionsData } from "../types/connections.type";
 
 export const useConnectionsContent = (oauth: string, connect: string) => {
 	const { connections, isConnectionsLoading } = useGetAllS();
@@ -23,29 +23,29 @@ export const useConnectionsContent = (oauth: string, connect: string) => {
 		() => [
 			{
 				name: getProviderName("YANDEX"),
-				type: EnumProviderTypes.YANDEX,
+				type: GetAllConnectionsResponseType.YANDEX,
 				src: "/icons/providers/yandex.svg",
 			},
 			{
 				name: getProviderName("GITHUB"),
-				type: EnumProviderTypes.GITHUB,
+				type: GetAllConnectionsResponseType.GITHUB,
 				src: "/icons/providers/github.svg",
 			},
 			{
 				name: getProviderName("GOOGLE"),
-				type: EnumProviderTypes.GOOGLE,
+				type: GetAllConnectionsResponseType.GOOGLE,
 				src: "/icons/providers/google.svg",
 			},
 			{
 				name: getProviderName("VK"),
-				type: EnumProviderTypes.VK,
+				type: GetAllConnectionsResponseType.VK,
 				src: "/icons/providers/vk.svg",
 			},
 		],
 		[]
 	);
 
-	const handleClick = async (pid: string | undefined, type: EnumProviderTypes) => {
+	const handleClick = async (pid: string | undefined, type: GetAllConnectionsResponseType) => {
 		if (typeof pid === "string") {
 			try {
 				await removeProviderAsync(pid);

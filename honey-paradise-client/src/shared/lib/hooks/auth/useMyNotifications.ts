@@ -3,7 +3,8 @@ import { type RefetchOptions, useQuery, useQueryClient } from "@tanstack/react-q
 import { errorCatch } from "@/api/api-helper";
 import { useMarkAsArchivedS, useMarkAsReadS, useNotificationsDeleteS } from "@/services/hooks/notifications";
 import { notificationsService } from "@/services/notifications.service";
-import type { INotificationsIdsDto, INotificationsQueryParams } from "@/services/types/notifications-service.type";
+import type { INotificationsQueryParams } from "@/services/types/notifications-service.type";
+import { NotificationsIdsDto } from "@/shared/types/server";
 import type { AxiosError } from "axios";
 import { useMemo } from "react";
 import toast from "react-hot-toast";
@@ -44,7 +45,7 @@ export const useManageNotifications = () => {
 	const { markAsArchivedAsync, isMarkingAsArchived } = useMarkAsArchivedS();
 	const { deleteNotificationsAsync, isDeleting } = useNotificationsDeleteS();
 
-	const markAsRead = async (dto: INotificationsIdsDto, not_toast?: boolean) => {
+	const markAsRead = async (dto: NotificationsIdsDto, not_toast?: boolean) => {
 		try {
 			await markAsReadAsync(dto);
 
@@ -55,7 +56,7 @@ export const useManageNotifications = () => {
 		}
 	};
 
-	const markAsArchived = async (dto: INotificationsIdsDto) => {
+	const markAsArchived = async (dto: NotificationsIdsDto) => {
 		try {
 			await markAsArchivedAsync(dto);
 

@@ -12,9 +12,9 @@ const ProfileSettings = () => {
 			<AvatarSection avatarPath={user?.avatarPath} username={user?.username} isAccLoading={isAccLoading} />
 
 			<InfoSection
-				birthdate={user?.birthdate}
+				birthdate={user?.birthdate || undefined}
 				gender={user?.gender}
-				phone={user?.phoneNumber}
+				phone={user?.phoneNumber || undefined}
 				username={user?.username}
 				isLoading={isAccLoading}
 			/>

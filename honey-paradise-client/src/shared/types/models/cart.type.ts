@@ -1,10 +1,10 @@
-import type { EnumCurrencies } from "./enums.type";
+import { GetMySettingsResponseDefaultCurrency } from "../server";
 
 export interface ICart {
 	id: string;
 
 	totalPrice: number;
-	currency: EnumCurrencies;
+	currency: GetMySettingsResponseDefaultCurrency;
 
 	createdAt: Date;
 }

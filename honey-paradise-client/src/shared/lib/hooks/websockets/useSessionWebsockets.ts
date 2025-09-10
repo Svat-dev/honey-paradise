@@ -12,7 +12,7 @@ export const useSessionWebsockets = (onError: (msg: string) => void) => {
 	const jwt_token = Cookies.get(EnumStorageKeys.SOCKET_SESSION_TOKEN);
 
 	const connectSocket = useCallback(() => {
-		const session_socket = io(process.env.SERVER_URL, {
+		const session_socket = io(process.env.NEXT_PUBLIC_SERVER_URL, {
 			withCredentials: true,
 			path: EnumWSPaths.SESSIONS,
 			auth: { token: jwt_token },

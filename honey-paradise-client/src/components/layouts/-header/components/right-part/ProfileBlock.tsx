@@ -2,13 +2,13 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common";
 
-import { EnumUserRoles } from "@/shared/types/models";
-import { useMyAccount } from "@hooks/auth";
+import type { FC } from "react";
+import { GetMeResponseRole } from "@/shared/types/server";
+import { ProfileLoading } from "./ProfileLoading";
 import { cn } from "@utils/base";
 import { getAvatarPath } from "@utils/get-avatar-path";
-import type { FC } from "react";
 import styles from "../../styles/right-part.module.scss";
-import { ProfileLoading } from "./ProfileLoading";
+import { useMyAccount } from "@hooks/auth";
 
 interface IProfileBlock {
 	t: any;
@@ -22,7 +22,7 @@ const ProfileBlock: FC<IProfileBlock> = ({ t, picturePosition }) => {
 
 	const isReversed = picturePosition ? picturePosition === "left" : false;
 
-	const role = user?.role.toLowerCase() || EnumUserRoles.REGULAR.toLowerCase();
+	const role = user?.role.toLowerCase() || GetMeResponseRole.REGULAR.toLowerCase();
 
 	return (
 		<div className={cn(styles["profile-block-wrapper"], { "tw-flex-row-reverse": isReversed })}>

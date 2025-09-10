@@ -1,3 +1,4 @@
+import { GetMySettingsResponseDefaultLanguage } from "@/shared/types/server";
 import Cookies from "js-cookie";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/dist/client/components/navigation";
@@ -16,7 +17,7 @@ export const useLanguage = () => {
 	const { isAuthenticated } = useAuth();
 	const { user } = useMyAccount();
 
-	const change = (lang: EnumLanguages, userDefault: boolean = false) => {
+	const change = (lang: GetMySettingsResponseDefaultLanguage, userDefault: boolean = false) => {
 		if (!lang || locale === lang) return;
 
 		try {

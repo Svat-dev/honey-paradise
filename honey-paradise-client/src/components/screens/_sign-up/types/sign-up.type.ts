@@ -1,4 +1,4 @@
-import type { EnumGenders } from "@/shared/types/models";
+import type { GetMeResponseGender } from "@/shared/types/server";
 
 export interface IIsActive {
 	main: boolean;
@@ -7,7 +7,7 @@ export interface IIsActive {
 
 export interface IGenderRadioGroupData {
 	id: string;
-	value: EnumGenders;
+	value: GetMeResponseGender;
 	label: string;
 }
 

@@ -1,17 +1,17 @@
-import { EnumNotificationType } from "@/shared/types/models";
+import { GetMyNotificationResponseType } from "@/shared/types/server";
 import { useTranslations } from "next-intl";
 
-export function getNotificationHeadingByType(type: EnumNotificationType, dt?: any): string {
+export function getNotificationHeadingByType(type: GetMyNotificationResponseType, dt?: any): string {
 	const t = dt || useTranslations("global.notifications.content");
 
 	switch (type) {
-		case EnumNotificationType.ACCOUNT_STATUS:
+		case GetMyNotificationResponseType.ACCOUNT_STATUS:
 			return t("notification.type.accountStatus");
-		case EnumNotificationType.ORDER_STATUS:
+		case GetMyNotificationResponseType.ORDER_STATUS:
 			return t("notification.type.orderStatus");
-		case EnumNotificationType.SPECIAL_OFFERS:
+		case GetMyNotificationResponseType.SPECIAL_OFFERS:
 			return t("notification.type.specialOffers");
-		case EnumNotificationType.TELEGRAM:
+		case GetMyNotificationResponseType.TELEGRAM:
 			return t("notification.type.telegram");
 
 		default:

@@ -1,5 +1,5 @@
 import type { EnumNotificationsSortType } from "@/shared/store/types/notifications-filter-store.type";
-import type { EnumNotificationType } from "@/shared/types/models";
+import { GetMyNotificationResponseType } from "@/shared/types/server";
 import type { LucideIcon } from "lucide-react";
 
 export interface INotificationFilters {
@@ -14,5 +14,5 @@ interface ISortType {
 }
 
 interface INotificationsType {
-	type: EnumNotificationType;
+	type: GetMyNotificationResponseType;
 }

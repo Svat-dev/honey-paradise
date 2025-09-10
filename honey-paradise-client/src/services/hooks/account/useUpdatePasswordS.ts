@@ -1,8 +1,8 @@
 import { EnumAppRoute, queryKeys } from "@constants/routes";
 
-import { accountService } from "@/services/account.service";
-import type { IUpdatePasswordDto } from "@/services/types/account-service.type";
 import { EnumSessionStorageKeys } from "@constants/base";
+import { UpdatePasswordAuthDto } from "@/shared/types/server";
+import { accountService } from "@/services/account.service";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
@@ -11,7 +11,7 @@ export const useUpdatePasswordS = () => {
 
 	const { mutateAsync, mutate, isPending } = useMutation({
 		mutationKey: [queryKeys.updatePassword],
-		mutationFn: (dto: IUpdatePasswordDto) => accountService.updatePassword(dto),
+		mutationFn: (dto: UpdatePasswordAuthDto) => accountService.updatePassword(dto),
 		onSuccess: data => {
 			if (typeof data.data !== "boolean") {
 				if (data.data.res === "redirect/logout") {

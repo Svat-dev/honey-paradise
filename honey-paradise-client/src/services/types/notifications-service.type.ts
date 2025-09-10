@@ -1,30 +1,10 @@
-import type { EnumNotificationType, INotificationResponse } from "@/shared/types/models";
-
 import type { EnumNotificationsSortType } from "@/shared/store/types/notifications-filter-store.type";
-
-export interface IGetAllNotificationsResponse {
-	notifications: INotificationResponse[];
-	length: number;
-	unReadLength: number;
-}
-
-export interface INotificationsIdsDto {
-	ids: string[];
-	single?: boolean;
-}
+import type { GetMyNotificationResponseType } from "@/shared/types/server";
 
 export interface INotificationsQueryParams {
 	sort?: EnumNotificationsSortType;
 	is_read?: string | boolean | null;
-	types?: EnumNotificationType[];
+	types?: GetMyNotificationResponseType[];
 	page?: string | number;
 	per_page: string | number;
-}
-
-export interface IUpdateNotificationsSettingsDto {
-	enabled?: boolean;
-	withSound?: boolean;
-
-	siteNotificationsType?: boolean;
-	telegramNotificationsType?: boolean;
 }

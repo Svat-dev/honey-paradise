@@ -1,4 +1,4 @@
-import { EnumGenders } from "@/shared/types/models";
+import { GetMeResponseGender } from "@/shared/types/server";
 import { VALUES } from "@constants/base";
 import { validateUsername } from "@utils/auth";
 import { z } from "zod";
@@ -18,12 +18,12 @@ export const createUpdateUserinfoSchema = (t: any) =>
 			.optional()
 			.refine(data => (data ? data.length >= VALUES.MIN_PHONE_LENGTH : true), { message: t("errors.phone.invalid") }),
 		birthdate: z.date({ message: "" }).optional(),
-		gender: z.nativeEnum(EnumGenders, { message: "" }).optional(),
+		gender: z.nativeEnum(GetMeResponseGender, { message: "" }).optional(),
 	});
 
 export type TUpdateUserinfoFields = {
 	username?: string;
 	phone?: string;
 	birthdate?: Date;
-	gender?: EnumGenders;
+	gender?: GetMeResponseGender;
 };

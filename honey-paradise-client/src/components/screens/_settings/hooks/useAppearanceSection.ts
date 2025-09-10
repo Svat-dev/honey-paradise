@@ -1,11 +1,11 @@
 import { createUpdateAppearanceSchema, type TUpdateAppearanceFields } from "@/shared/lib/schemas/update-appearance.schema";
-import { EnumThemes, ISettingsUser } from "@/shared/types/models";
 import { useEffect, useMemo, useState } from "react";
 
 import { errorCatch } from "@/api/api-helper";
 import type { IDropdownData } from "@/components/ui/components/form-input/types/form-input.type";
 import { useUpdateSettingsS } from "@/services/hooks/profile";
 import { EnumLanguages } from "@/shared/lib/i18n";
+import { GetMySettingsResponseDefaultTheme, type GetMySettingsResponse } from "@/shared/types/server";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLanguage } from "@i18n/hooks";
 import type { AxiosError } from "axios";
@@ -13,7 +13,7 @@ import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
-export const useAppearanceSection = (settings: ISettingsUser | undefined) => {
+export const useAppearanceSection = (settings: GetMySettingsResponse | undefined) => {
 	const t = useTranslations("global.settings.content.profile");
 	const { locale } = useLanguage();
 
@@ -70,8 +70,8 @@ export const useAppearanceSection = (settings: ISettingsUser | undefined) => {
 
 	const theme_data: IDropdownData[] = useMemo(
 		() => [
-			{ id: EnumThemes.DARK, value: EnumThemes.DARK, label: t("appearance.theme.dark") },
-			{ id: EnumThemes.LIGHT, value: EnumThemes.LIGHT, label: t("appearance.theme.light") },
+			{ id: GetMySettingsResponseDefaultTheme.DARK, value: GetMySettingsResponseDefaultTheme.DARK, label: t("appearance.theme.dark") },
+			{ id: GetMySettingsResponseDefaultTheme.LIGHT, value: GetMySettingsResponseDefaultTheme.LIGHT, label: t("appearance.theme.light") },
 		],
 		[locale]
 	);

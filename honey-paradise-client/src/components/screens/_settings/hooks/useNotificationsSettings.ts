@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { errorCatch } from "@/api/api-helper";
-import { useUpdateSettingsS } from "@/services/hooks/notifications";
-import type { IUpdateNotificationsSettingsDto } from "@/services/types/notifications-service.type";
-import { EnumAppRoute } from "@constants/routes";
-import { useLanguage } from "@i18n/hooks";
 import type { AxiosError } from "axios";
-import { useTranslations } from "next-intl";
-import toast from "react-hot-toast";
+import { EnumAppRoute } from "@constants/routes";
+import { UpdateNotificationsSettingsDto } from "@/shared/types/server";
+import { errorCatch } from "@/api/api-helper";
 import slugify from "slugify";
+import toast from "react-hot-toast";
+import { useLanguage } from "@i18n/hooks";
+import { useTranslations } from "next-intl";
+import { useUpdateSettingsS } from "@/services/hooks/notifications";
 
 export const useNotificationsSettings = () => {
 	const t = useTranslations("global.settings.content.notifications.content");
@@ -17,7 +17,7 @@ export const useNotificationsSettings = () => {
 	const { locale } = useLanguage();
 	const { isSettingsUpdating, updateSettingsAsync } = useUpdateSettingsS();
 
-	const onSwitchChange = async (value: boolean, field: keyof IUpdateNotificationsSettingsDto) => {
+	const onSwitchChange = async (value: boolean, field: keyof UpdateNotificationsSettingsDto) => {
 		try {
 			await updateSettingsAsync({ [field]: value });
 

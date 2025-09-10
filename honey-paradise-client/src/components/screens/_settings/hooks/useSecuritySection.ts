@@ -3,7 +3,7 @@ import { type TPasswordChangeTwoFields, createChangeTwoPasswordSchema } from "@s
 import { errorCatch } from "@/api/api-helper";
 import { useUpdatePasswordS } from "@/services/hooks/account";
 import { useUpdateSettingsS } from "@/services/hooks/profile";
-import type { IUpdateUserSettingsDto } from "@/services/types/profile-service.type";
+import { UpdateUserSettingsDto } from "@/shared/types/server";
 import { EnumSessionStorageKeys } from "@constants/base";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDebounce } from "@hooks/base";
@@ -18,7 +18,7 @@ export const useSecuritySection = () => {
 
 	const { isSettingsUpdating, updateSettingsAsync } = useUpdateSettingsS();
 
-	const onSwitchChange = async (value: boolean, field: keyof IUpdateUserSettingsDto) => {
+	const onSwitchChange = async (value: boolean, field: keyof UpdateUserSettingsDto) => {
 		try {
 			await updateSettingsAsync({ [field]: value });
 

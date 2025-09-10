@@ -1,10 +1,10 @@
 import type { IDropdownData, TFieldNames } from "../types/form-input.type";
 
-import { EnumGenders } from "@/shared/types/models";
-import { useTheme } from "@hooks/useTheme";
+import { GetMeResponseGender } from "@/shared/types/server";
+import { useFormInput } from "./useFormInput";
 import { useLanguage } from "@i18n/hooks";
 import { useState } from "react";
-import { useFormInput } from "./useFormInput";
+import { useTheme } from "@hooks/useTheme";
 
 export const useDropdownInput = (name: TFieldNames) => {
 	const { localeTheme } = useTheme();
@@ -17,7 +17,7 @@ export const useDropdownInput = (name: TFieldNames) => {
 
 	const label = (current: IDropdownData | undefined): string | undefined => {
 		if (name === "gender") {
-			if (getValues(name) === EnumGenders.OTHER) return t("notSpecified.gender");
+			if (getValues(name) === GetMeResponseGender.OTHER) return t("notSpecified.gender");
 			else return current?.label || getValues(name);
 		} else {
 			const values = name === "language" ? localeLang("short") : name === "theme" ? localeTheme("short") : undefined;

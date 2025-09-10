@@ -1,9 +1,10 @@
-import type { IUpdateProfileDto, IUpdateUserSettingsDto } from "./types/profile-service.type";
+import { UpdateUserDto, UpdateUserSettingsDto } from "@/shared/types/server";
 
+import type { AxiosResponse } from "axios";
+import { EnumApiRoute } from "@constants/routes";
+import type { Nullable } from "@/shared/types";
 import { getContentType } from "@/api/api-helper";
 import { instance } from "@/api/instance";
-import { EnumApiRoute } from "@constants/routes";
-import type { AxiosResponse } from "axios";
 
 export const profileService = {
 	uniqueFieldCheck: async (fieldValue: string | undefined, field: "email" | "username" | "phone") => {
@@ -12,13 +13,13 @@ export const profileService = {
 		return res;
 	},
 
-	updateProfile: async (dto: IUpdateProfileDto) => {
+	updateProfile: async (dto: Nullable<UpdateUserDto>) => {
 		const res = await instance.put<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_PROFILE, dto);
 
 		return res;
 	},
 
-	updateSettings: async (dto: IUpdateUserSettingsDto) => {
+	updateSettings: async (dto: Nullable<UpdateUserSettingsDto>) => {
 		const res = await instance.put<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_PROFILE_SETTINGS, dto);
 
 		return res;

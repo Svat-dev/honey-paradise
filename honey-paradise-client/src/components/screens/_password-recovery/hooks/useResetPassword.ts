@@ -61,7 +61,7 @@ export const useResetPassword = () => {
 				path: EnumAppRoute.INDEX,
 			});
 
-			await sendPasswordRecoverCodeAsync(data.email);
+			await sendPasswordRecoverCodeAsync();
 
 			setDataStatus("good");
 			toast.success(t("toasters.success"), { duration: successDelay });

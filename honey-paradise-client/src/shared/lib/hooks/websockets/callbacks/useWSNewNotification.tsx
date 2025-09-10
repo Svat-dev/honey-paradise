@@ -1,6 +1,6 @@
 import { APP_NAME_EN, APP_NAME_RU } from "@constants/base";
 
-import type { INotificationSettings } from "@/shared/types/models";
+import { GetMyNotificationsSettingsResponse } from "@/shared/types/server";
 import { NotificationsToaster } from "@/components/ui/components/NotificationsToaster";
 import type { Socket } from "socket.io-client";
 import { queryKeys } from "@constants/routes";
@@ -21,7 +21,7 @@ export const useWSNewNotification = () => {
 
 	const toastId = crypto.randomUUID();
 
-	const callback = async (server_msg: any, socket: Socket | undefined, settings: INotificationSettings | undefined) => {
+	const callback = async (server_msg: any, socket: Socket | undefined, settings: GetMyNotificationsSettingsResponse | undefined) => {
 		if (!socket) return;
 		if (!settings?.enabled) return socket.disconnect();
 

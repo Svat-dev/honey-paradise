@@ -1,21 +1,21 @@
 import { SortAscIcon, SortDescIcon } from "lucide-react";
 
-import { errorCatch } from "@/api/api-helper";
-import { useMarkAsReadAllS } from "@/services/hooks/notifications";
-import { queryKeys } from "@/shared/lib/constants/routes";
-import { getNotificationHeadingByType } from "@/shared/lib/utils/get-notification-heading";
-import { EnumNotificationsSortType } from "@/shared/store/types/notifications-filter-store.type";
-import { EnumNotificationType } from "@/shared/types/models";
-import { useManageNotifications } from "@hooks/auth";
-import { useNotificationsContext } from "@hooks/context";
-import { useLanguage } from "@i18n/hooks";
-import { useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
-import { useTranslations } from "next-intl";
-import { useMemo } from "react";
-import toast from "react-hot-toast";
+import { EnumNotificationsSortType } from "@/shared/store/types/notifications-filter-store.type";
+import { GetMyNotificationResponseType } from "@/shared/types/server";
 import type { INotificationFilters } from "../types/notifications-filters.type";
+import { errorCatch } from "@/api/api-helper";
+import { getNotificationHeadingByType } from "@/shared/lib/utils/get-notification-heading";
+import { queryKeys } from "@/shared/lib/constants/routes";
+import toast from "react-hot-toast";
+import { useLanguage } from "@i18n/hooks";
+import { useManageNotifications } from "@hooks/auth";
+import { useMarkAsReadAllS } from "@/services/hooks/notifications";
+import { useMemo } from "react";
+import { useNotificationsContext } from "@hooks/context";
 import { useNotificationsQueryParams } from "./useNotificationsQueryParams";
+import { useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 
 export const useNotificationsFiltersWrapper = () => {
 	const { markAsReadAllAsync, isAllMarkingAsRead } = useMarkAsReadAllS();
@@ -57,7 +57,7 @@ export const useNotificationsFilters = () => {
 					label: t("filters.sortTypes.oldest"),
 				},
 			],
-			notificationType: Object.values(EnumNotificationType).map(type => ({ type })),
+			notificationType: Object.values(GetMyNotificationResponseType).map(type => ({ type })),
 		}),
 		[locale]
 	);
@@ -66,7 +66,7 @@ export const useNotificationsFilters = () => {
 
 	const onChangeIsRead = (isRead: boolean) => updateQueryParams("is_read", String(isRead));
 
-	const onChangeNotificationsType = (checked: boolean, type: EnumNotificationType) => {
+	const onChangeNotificationsType = (checked: boolean, type: GetMyNotificationResponseType) => {
 		const types = queryParams.types!;
 
 		if (checked) types.push(type);
@@ -80,7 +80,7 @@ export const useNotificationsFilters = () => {
 
 	const SortIcon = notificationsFilters.sortType.find(item => item.type === queryParams.sort)?.icon || SortDescIcon;
 
-	const heading = (type: EnumNotificationType) => getNotificationHeadingByType(type, t);
+	const heading = (type: GetMyNotificationResponseType) => getNotificationHeadingByType(type, t);
 
 	return {
 		onChangeSortType,

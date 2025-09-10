@@ -1,30 +1,26 @@
-import type {
-	IGetAllNotificationsResponse,
-	INotificationsIdsDto,
-	INotificationsQueryParams,
-	IUpdateNotificationsSettingsDto,
-} from "./types/notifications-service.type";
+import type { GetAllNotificationsResponse, NotificationsIdsDto, UpdateNotificationsSettingsDto } from "@/shared/types/server";
 
 import { instance } from "@/api/instance";
 import { EnumApiRoute } from "@constants/routes";
 import type { AxiosResponse } from "axios";
+import type { INotificationsQueryParams } from "./types/notifications-service.type";
 
 export const notificationsService = {
 	getAll: async (queryData = {} as INotificationsQueryParams) => {
-		const res = await instance.get<any, AxiosResponse<IGetAllNotificationsResponse>>(EnumApiRoute.NOTIFICATIONS_GET_ALL, {
+		const res = await instance.get<any, AxiosResponse<GetAllNotificationsResponse>>(EnumApiRoute.NOTIFICATIONS_GET_ALL, {
 			params: { ...queryData, types: queryData.types?.join(",") },
 		});
 
 		return res;
 	},
 
-	updateSettings: async (dto: IUpdateNotificationsSettingsDto) => {
+	updateSettings: async (dto: UpdateNotificationsSettingsDto) => {
 		const res = await instance.put<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_NOTIFICATIONS_SETTINGS, dto);
 
 		return res;
 	},
 
-	markAsRead: async (dto: INotificationsIdsDto) => {
+	markAsRead: async (dto: NotificationsIdsDto) => {
 		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.MARK_AS_READ, dto);
 
 		return res;
@@ -36,7 +32,7 @@ export const notificationsService = {
 		return res;
 	},
 
-	markAsArchived: async (dto: INotificationsIdsDto) => {
+	markAsArchived: async (dto: NotificationsIdsDto) => {
 		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.MARK_AS_ARCHIVED, dto);
 
 		return res;

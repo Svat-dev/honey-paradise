@@ -1,22 +1,22 @@
-import { EnumProviderTypes } from "@/shared/types/models";
+import { GetAllConnectionsResponseType } from "@/shared/types/server";
 import { KeyRoundIcon, type LucideIcon } from "lucide-react";
 
-export function getProviderIcon(provider: EnumProviderTypes): LucideIcon | string {
+export function getProviderIcon(provider: GetAllConnectionsResponseType): LucideIcon | string {
 	switch (provider) {
-		case EnumProviderTypes.CREDENTIALS:
+		case "CREDENTIALS":
 			return KeyRoundIcon;
 
-		case EnumProviderTypes.GITHUB:
-			return EnumProviderTypes.GITHUB.toLowerCase();
+		case "GITHUB":
+			return GetAllConnectionsResponseType.GITHUB.toLowerCase();
 
-		case EnumProviderTypes.GOOGLE:
-			return EnumProviderTypes.GOOGLE.toLowerCase();
+		case "GOOGLE":
+			return GetAllConnectionsResponseType.GOOGLE.toLowerCase();
 
-		case EnumProviderTypes.VK:
-			return EnumProviderTypes.VK.toLowerCase();
+		case "VK":
+			return GetAllConnectionsResponseType.VK.toLowerCase();
 
-		case EnumProviderTypes.YANDEX:
-			return EnumProviderTypes.YANDEX.toLowerCase();
+		case "YANDEX":
+			return GetAllConnectionsResponseType.YANDEX.toLowerCase();
 
 		default:
 			return KeyRoundIcon;

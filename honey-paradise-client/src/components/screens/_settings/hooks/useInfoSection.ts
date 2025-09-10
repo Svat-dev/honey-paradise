@@ -1,9 +1,9 @@
 import { errorCatch } from "@/api/api-helper";
 import type { IDropdownData } from "@/components/ui/components/form-input/types/form-input.type";
 import { useUniqueFieldCheckS, useUpdateProfileS } from "@/services/hooks/profile";
-import type { IUpdateProfileDto } from "@/services/types/profile-service.type";
 import { getMaskedPhone } from "@/shared/lib/utils/get-masked-phone";
-import { EnumGenders } from "@/shared/types/models";
+import { Nullable } from "@/shared/types";
+import { GetMeResponseGender, UpdateUserDto } from "@/shared/types/server";
 import { PHONE_MASK_PATTERN } from "@constants/base";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDebounce } from "@hooks/base";
@@ -20,7 +20,7 @@ import { toast } from "react-hot-toast";
 import type { IUniqueFieldsState } from "../types/info-section.type";
 
 export const useInfoSection = (
-	gender: EnumGenders | undefined,
+	gender: GetMeResponseGender | undefined,
 	birthdate: string | undefined,
 	username: string | undefined,
 	phone: string | undefined
@@ -74,8 +74,8 @@ export const useInfoSection = (
 
 	const onSubmit = async (data: TUpdateUserinfoFields) => {
 		try {
-			const dto: IUpdateProfileDto = {
-				birthdate: data.birthdate || null,
+			const dto: Nullable<UpdateUserDto> = {
+				birthdate: data.birthdate?.toISOString() || null,
 				gender: data.gender === gender ? undefined : data.gender,
 				username: data.username === username ? undefined : data.username,
 				phoneNumber: getMaskedPhone(phone, PHONE_MASK_PATTERN) === data.phone ? undefined : mask!.unmaskedValue || null,
@@ -101,9 +101,9 @@ export const useInfoSection = (
 
 	const data: IDropdownData[] = useMemo(
 		() => [
-			{ id: EnumGenders.MALE, label: t("gender.data.male"), value: EnumGenders.MALE },
-			{ id: EnumGenders.FEMALE, label: t("gender.data.female"), value: EnumGenders.FEMALE },
-			{ id: EnumGenders.OTHER, label: t("gender.data.other"), value: EnumGenders.OTHER },
+			{ id: GetMeResponseGender.MALE, label: t("gender.data.male"), value: GetMeResponseGender.MALE },
+			{ id: GetMeResponseGender.FEMALE, label: t("gender.data.female"), value: GetMeResponseGender.FEMALE },
+			{ id: GetMeResponseGender.OTHER, label: t("gender.data.other"), value: GetMeResponseGender.OTHER },
 		],
 		[locale]
 	);

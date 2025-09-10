@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 export const useSendPasswordRecoverCodeS = () => {
 	const { mutateAsync, mutate, isPending } = useMutation({
 		mutationKey: [queryKeys.sendRecoverPasswordCode],
-		mutationFn: (email: string) => accountService.sendPasswordRecoverCode({ email }),
+		mutationFn: () => accountService.sendPasswordRecoverCode(),
 	});
 
 	return {

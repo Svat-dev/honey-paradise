@@ -1,6 +1,6 @@
 import { validatePassword, validateUsername } from "@utils/auth";
 
-import { EnumGenders } from "@/shared/types/models";
+import { GetMeResponseGender } from "@/shared/types/server";
 import { VALUES } from "@constants/base";
 import { z } from "zod";
 
@@ -28,7 +28,7 @@ export const createSignUpSchema = (t: any) =>
 			password: passwordSchema(t),
 			confirmPassword: passwordSchema(t),
 			username: usernameSchema(t),
-			gender: z.nativeEnum(EnumGenders, { message: "" }).optional(),
+			gender: z.nativeEnum(GetMeResponseGender, { message: "" }).optional(),
 			birthdate: z.date({ message: "" }).optional(),
 		})
 		.refine(data => data.password === data.confirmPassword, {
@@ -41,6 +41,6 @@ export type TSignUpFields = {
 	password: string;
 	confirmPassword: string;
 	username?: string;
-	gender?: EnumGenders;
+	gender?: GetMeResponseGender;
 	birthdate?: Date;
 };

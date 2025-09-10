@@ -1,5 +1,5 @@
+import { AuthTfaDto } from "@/shared/types/server";
 import { authService } from "@/services/auth.service";
-import type { IAuthTfaDto } from "@/services/types/auth-service.type";
 import { queryKeys } from "@/shared/lib/constants/routes";
 import { useMutation } from "@tanstack/react-query";
 
@@ -18,7 +18,7 @@ export const useSendTFACodeS = () => {
 export const useVerifyTFACodeS = () => {
 	const { mutateAsync, isPending } = useMutation({
 		mutationKey: [queryKeys.verifyTfaCode],
-		mutationFn: (dto: IAuthTfaDto) => authService.verifyTFACode(dto),
+		mutationFn: (dto: AuthTfaDto) => authService.verifyTFACode(dto),
 	});
 
 	return {

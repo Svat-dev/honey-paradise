@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { EnumNotificationType } from "../types/models";
+import { GetMyNotificationResponseType } from "../types/server";
 import { EnumNotificationsSortType, type INotificationsFilterStore } from "./types/notifications-filter-store.type";
 
 const initialQS: Pick<INotificationsFilterStore, "queryParams"> = {
@@ -8,7 +8,7 @@ const initialQS: Pick<INotificationsFilterStore, "queryParams"> = {
 		page: 1,
 		is_read: null,
 		sort: EnumNotificationsSortType.NEWEST,
-		types: Object.values(EnumNotificationType).filter(item => item !== EnumNotificationType.TELEGRAM),
+		types: Object.values(GetMyNotificationResponseType).filter(item => item !== GetMyNotificationResponseType.TELEGRAM),
 	},
 };
 
@@ -26,7 +26,7 @@ export const notificationsFilterStore = create<INotificationsFilterStore>(set =>
 		set(() => ({
 			queryParams: {
 				...initialQS.queryParams,
-				types: Object.values(EnumNotificationType).filter(item => item !== EnumNotificationType.TELEGRAM),
+				types: Object.values(GetMyNotificationResponseType).filter(item => item !== GetMyNotificationResponseType.TELEGRAM),
 			},
 			isFilterUpdated: true,
 		})),

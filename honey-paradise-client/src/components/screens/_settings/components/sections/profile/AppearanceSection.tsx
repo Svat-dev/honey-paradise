@@ -1,16 +1,16 @@
 import { Button, Separator } from "@/components/ui/common";
 
-import { FormInput } from "@/components/ui/components/form-input";
-import type { ISettingsUser } from "@/shared/types/models";
-import { XIcon } from "lucide-react";
 import type { FC } from "react";
+import { FormInput } from "@/components/ui/components/form-input";
 import { FormProvider } from "react-hook-form";
-import { useAppearanceSection } from "../../../hooks/useAppearanceSection";
-import styles from "../../../styles/profile.module.scss";
+import { GetMySettingsResponse } from "@/shared/types/server";
 import { ProfileSettingSection } from "./ProfileSettingSection";
+import { XIcon } from "lucide-react";
+import styles from "../../../styles/profile.module.scss";
+import { useAppearanceSection } from "../../../hooks/useAppearanceSection";
 
 interface IProps {
-	settings: ISettingsUser | undefined;
+	settings: GetMySettingsResponse | undefined;
 	isAccLoading: boolean;
 }
 

@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import { Nullable } from "@/shared/types";
+import type { UpdateUserSettingsDto } from "@/shared/types/server";
 import { profileService } from "@/services/profile.service";
-import type { IUpdateUserSettingsDto } from "@/services/types/profile-service.type";
 import { queryKeys } from "@/shared/lib/constants/routes";
 
 export const useUpdateSettingsS = () => {
@@ -11,7 +12,7 @@ export const useUpdateSettingsS = () => {
 
 	const { mutateAsync, mutate, isPending } = useMutation({
 		mutationKey: [queryKeys.updateProfileSettings],
-		mutationFn: (dto: IUpdateUserSettingsDto) => profileService.updateSettings(dto),
+		mutationFn: (dto: Nullable<UpdateUserSettingsDto>) => profileService.updateSettings(dto),
 		onSuccess,
 	});
 

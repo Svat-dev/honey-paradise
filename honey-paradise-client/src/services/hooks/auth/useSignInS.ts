@@ -1,6 +1,6 @@
-import { authService } from "@/services/auth.service";
-import { IAuthTfaDto } from "@/services/types/auth-service.type";
+import type { AuthTfaDto } from "@/shared/types/server";
 import type { ISignInMutateData } from "@/services/types/hooks/auth-hooks.type";
+import { authService } from "@/services/auth.service";
 import { queryKeys } from "@/shared/lib/constants/routes";
 import { useMutation } from "@tanstack/react-query";
 
@@ -20,7 +20,7 @@ export const useSignInS = () => {
 export const useTelegramSignInS = () => {
 	const { mutateAsync, isPending } = useMutation({
 		mutationKey: [queryKeys.telegramSignIn],
-		mutationFn: (dto: IAuthTfaDto) => authService.telegramSignIn(dto),
+		mutationFn: (dto: AuthTfaDto) => authService.telegramSignIn(dto),
 	});
 
 	return {

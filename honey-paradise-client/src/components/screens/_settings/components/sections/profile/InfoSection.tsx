@@ -1,19 +1,19 @@
 import { Button, Separator } from "@/components/ui/common";
-import { LoaderIcon, XIcon } from "lucide-react";
 import { CheckmarkIcon, ErrorIcon } from "react-hot-toast";
+import { LoaderIcon, XIcon } from "lucide-react";
 
-import { FormInput } from "@/components/ui/components/form-input";
-import type { EnumGenders } from "@/shared/types/models";
-import { VALUES } from "@constants/base";
 import type { FC } from "react";
+import { FormInput } from "@/components/ui/components/form-input";
 import { FormProvider } from "react-hook-form";
-import { useInfoSection } from "../../../hooks/useInfoSection";
-import styles from "../../../styles/profile.module.scss";
-import _styles from "../../../styles/settings.module.scss";
+import { GetMeResponseGender } from "@/shared/types/server";
 import { ProfileSettingSection } from "./ProfileSettingSection";
+import { VALUES } from "@constants/base";
+import _styles from "../../../styles/settings.module.scss";
+import styles from "../../../styles/profile.module.scss";
+import { useInfoSection } from "../../../hooks/useInfoSection";
 
 interface IProps {
-	gender: EnumGenders | undefined;
+	gender: GetMeResponseGender | undefined;
 	birthdate: string | undefined;
 	username: string | undefined;
 	phone: string | undefined;

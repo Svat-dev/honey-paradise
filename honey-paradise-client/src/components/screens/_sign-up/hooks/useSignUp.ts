@@ -1,11 +1,10 @@
-import { type TSignUpFields, createSignUpSchema } from "@schemas/sign-up.schema";
+import { createSignUpSchema, type TSignUpFields } from "@schemas/sign-up.schema";
 
 import { errorCatch } from "@/api/api-helper";
 import { useCreateAccountS } from "@/services/hooks/auth";
-import type { ICreateAccountDto } from "@/services/types/auth-service.type";
 import { EnumAppRoute } from "@/shared/lib/constants/routes";
 import type { TSearchParams } from "@/shared/types/base.type";
-import { EnumGenders } from "@/shared/types/models";
+import { GetMeResponseGender, type CreateUserDto } from "@/shared/types/server";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
@@ -49,7 +48,7 @@ export const useSignUp = (searchParams: TSearchParams) => {
 			password: "",
 			email: "",
 			birthdate: undefined,
-			gender: EnumGenders.OTHER,
+			gender: GetMeResponseGender.OTHER,
 			username: undefined,
 		},
 	});
@@ -104,7 +103,7 @@ export const useSignUp = (searchParams: TSearchParams) => {
 
 		try {
 			const { confirmPassword, ..._data } = formData;
-			const data: ICreateAccountDto = { ..._data, birthdate: _data.birthdate?.toISOString() };
+			const data: CreateUserDto = { ..._data, birthdate: _data.birthdate?.toISOString() };
 
 			await createAcc({ recaptcha: recaptchaValue, dto: data });
 

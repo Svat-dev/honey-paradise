@@ -1,6 +1,6 @@
 import { getNotificationHeadingByType } from "@/shared/lib/utils/get-notification-heading";
 import { getTimeAsWordString } from "@/shared/lib/utils/time/get-time-as-word";
-import type { EnumNotificationType } from "@/shared/types/models";
+import { GetMyNotificationResponseType } from "@/shared/types/server";
 import { useManageNotifications } from "@hooks/auth";
 import { useNotificationsContext } from "@hooks/context";
 import { useLanguage } from "@i18n/hooks";
@@ -9,7 +9,7 @@ import { type MouseEventHandler, useEffect, useMemo, useState } from "react";
 
 export const useNotificationItem = (
 	id: string | undefined,
-	type: EnumNotificationType | undefined,
+	type: GetMyNotificationResponseType | undefined,
 	isRead: boolean,
 	createdAt: string | undefined
 ) => {

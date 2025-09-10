@@ -1,7 +1,7 @@
 import { type RefetchOptions, useMutation, useQuery } from "@tanstack/react-query";
 
 import { accountService } from "@/services/account.service";
-import type { ITelegramInfoResponse } from "@/services/types/account-service.type";
+import type { GetTgInfoResponse } from "@/shared/types/server";
 import { queryKeys } from "@constants/routes";
 import { useAuth } from "@hooks/auth";
 import type { AxiosError } from "axios";
@@ -28,7 +28,7 @@ export const useDisconnectTgS = () => {
 export const useGetTelegramInfoS = () => {
 	const { isAuthenticated } = useAuth();
 
-	const [telegramInfo, setTelegramInfo] = useState<Partial<ITelegramInfoResponse> | null>(null);
+	const [telegramInfo, setTelegramInfo] = useState<Partial<GetTgInfoResponse> | null>(null);
 
 	const { data, refetch, isPending, isLoading, error } = useQuery({
 		queryKey: [queryKeys.getTelegramInfo],

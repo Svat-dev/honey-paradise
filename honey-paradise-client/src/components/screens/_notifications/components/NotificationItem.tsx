@@ -1,15 +1,15 @@
-import { Title } from "@/components/ui/common";
-import type { INotificationUser } from "@/shared/types/models";
-import { cn } from "@utils/base";
 import { DotIcon } from "lucide-react";
-import dynamic from "next/dynamic";
 import type { FC } from "react";
-import { useNotificationItem } from "../hooks/useNotificationItem";
+import type { GetMyNotificationResponse } from "@/shared/types/server";
+import { Title } from "@/components/ui/common";
+import { cn } from "@utils/base";
+import dynamic from "next/dynamic";
 import styles from "../styles/notifications.module.scss";
+import { useNotificationItem } from "../hooks/useNotificationItem";
 
 const DynamicNotificationsItemDM = dynamic(() => import("./dropdown/NotificationsDM").then(mod => mod.NotificationsItemDM));
 
-interface INotificationItem extends Partial<INotificationUser> {}
+interface INotificationItem extends Partial<GetMyNotificationResponse> {}
 
 const NotificationItem: FC<INotificationItem> = ({ id, isRead, message, type, createdAt }) => {
 	const { onContextMenu, title, time, isOpen, setIsOpen, isSelected, isSelectMode, onClick, onMouseEnter, onMouseLeave, t } =
