@@ -1,7 +1,7 @@
 import type { TFieldNames, TInputType } from "../types/form-input.type";
 
-import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
+import { useTranslations } from "next-intl";
 
 export const useFormInput = (name: TFieldNames, isDecorated?: boolean, genderType?: "radio-group" | "dropdown") => {
 	const { register, formState, watch, setValue, control, clearErrors, getValues } = useFormContext();
@@ -30,6 +30,8 @@ export const useFormInput = (name: TFieldNames, isDecorated?: boolean, genderTyp
 			case "language":
 				return "dropdown";
 			case "theme":
+				return "dropdown";
+			case "currency":
 				return "dropdown";
 			case "birthdate":
 				return "date";

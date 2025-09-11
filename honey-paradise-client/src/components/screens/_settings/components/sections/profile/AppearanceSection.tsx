@@ -15,7 +15,8 @@ interface IProps {
 }
 
 const AppearanceSection: FC<IProps> = ({ settings, isAccLoading }) => {
-	const { clearValues, form, isDisabled, language_data, theme_data, onSubmit, isSettingsUpdating, t } = useAppearanceSection(settings);
+	const { clearValues, form, isDisabled, language_data, theme_data, currency_data, onSubmit, isSettingsUpdating, t } =
+		useAppearanceSection(settings);
 
 	const isLoading = isAccLoading || isSettingsUpdating;
 
@@ -48,6 +49,21 @@ const AppearanceSection: FC<IProps> = ({ settings, isAccLoading }) => {
 							title={t("labels.theme.clear")}
 							onClick={() => clearValues("theme")}
 							disabled={isLoading || !form.getValues("theme")}
+						>
+							<XIcon size={20} />
+						</Button>
+					</div>
+
+					<div>
+						<p>{t("appearance.currency.title")}</p>
+
+						<FormInput name="currency" title={t("labels.currency.choose")} align="end" data={currency_data} isLoading={isLoading} />
+
+						<Button
+							variant="secondary"
+							title={t("labels.currency.clear")}
+							onClick={() => clearValues("currency")}
+							disabled={isLoading || !form.getValues("currency")}
 						>
 							<XIcon size={20} />
 						</Button>

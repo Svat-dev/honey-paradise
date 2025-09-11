@@ -15,10 +15,12 @@ export enum EnumAppRoute {
 
 	ACCOUNT = "/account",
 	SETTINGS = `${ACCOUNT}/settings`,
+	CONNECTIONS = `${ACCOUNT}/connections`,
+	MY_PAYMENTS = `${ACCOUNT}/transactions`,
+	DEFERRED = `${ACCOUNT}/deferred`,
 	NOTIFICATIONS = `${ACCOUNT}/notifications`,
 	MY_CART = `${ACCOUNT}/cart`,
 	MY_ORDERS = `${ACCOUNT}/orders`,
-	CONNECTIONS = `${ACCOUNT}/connections`,
 
 	PASSWORD_RECOVERY = `${AUTH}/password-recovery`,
 	RESET_PASSWORD = `${PASSWORD_RECOVERY}?type=${EnumPasswordRecoverTabs.RESET}`,

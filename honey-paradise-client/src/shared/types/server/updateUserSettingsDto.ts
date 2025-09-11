@@ -7,10 +7,12 @@
  */
 import type { UpdateUserSettingsDtoDefaultLanguage } from './updateUserSettingsDtoDefaultLanguage';
 import type { UpdateUserSettingsDtoDefaultTheme } from './updateUserSettingsDtoDefaultTheme';
+import type { UpdateUserSettingsDtoDefaultCurrency } from './updateUserSettingsDtoDefaultCurrency';
 
 export interface UpdateUserSettingsDto {
   defaultLanguage?: UpdateUserSettingsDtoDefaultLanguage;
   defaultTheme?: UpdateUserSettingsDtoDefaultTheme;
+  defaultCurrency?: UpdateUserSettingsDtoDefaultCurrency;
   useFullLogout?: boolean;
   isTFAEnabled?: boolean;
   useTgTfaLogin?: boolean;

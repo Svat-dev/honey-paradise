@@ -501,6 +501,12 @@
 							"light": "Light",
 							"dark": "Dark"
 						},
+						"currency": {
+							"title": "Basic account currency",
+							"ruble": "₽ Ruble",
+							"dollar": "$ USA Dollar",
+							"euro": "€ Euro"
+						},
 						"submitBtn": "Save changes",
 						"toasters": {
 							"success": "You have successfully updated the design settings",
@@ -550,6 +556,10 @@
 						"theme": {
 							"choose": "Select a theme",
 							"clear": "Delete the base theme"
+						},
+						"currency": {
+							"choose": "Select a currency",
+							"clear": "Delete the base currency"
 						}
 					}
 				},
@@ -825,9 +835,11 @@
 		"account-sidebar": {
 			"links": {
 				"settings": "Settings",
-				"notifications": "Notifications",
-				"cart": "My cart",
 				"connections": "Linked accounts",
+				"notifications": "Notifications",
+				"transactions": "My payments",
+				"deferred": "Liked products",
+				"cart": "My cart",
 				"orders": "My orders"
 			}
 		},
@@ -872,7 +884,8 @@
 			"notSpecified": {
 				"gender": "Not specified",
 				"language": "Not specified. Current - {current}",
-				"theme": "Not specified. Current - {current}"
+				"theme": "Not specified. Current - {current}",
+				"currency": "Not specified. Default - Dollar USA"
 			},
 			"methods": {
 				"google": "Google",

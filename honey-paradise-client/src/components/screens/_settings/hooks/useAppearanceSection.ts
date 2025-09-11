@@ -5,7 +5,7 @@ import { errorCatch } from "@/api/api-helper";
 import type { IDropdownData } from "@/components/ui/components/form-input/types/form-input.type";
 import { useUpdateSettingsS } from "@/services/hooks/profile";
 import { EnumLanguages } from "@/shared/lib/i18n";
-import { GetMySettingsResponseDefaultTheme, type GetMySettingsResponse } from "@/shared/types/server";
+import { GetMySettingsResponseDefaultCurrency, GetMySettingsResponseDefaultTheme, type GetMySettingsResponse } from "@/shared/types/server";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLanguage } from "@i18n/hooks";
 import type { AxiosError } from "axios";
@@ -28,18 +28,20 @@ export const useAppearanceSection = (settings: GetMySettingsResponse | undefined
 		values: {
 			theme: settings?.defaultTheme,
 			language: settings?.defaultLanguage,
+			currency: settings?.defaultCurrency,
 		},
 		defaultValues: {
 			theme: settings?.defaultTheme,
 			language: settings?.defaultLanguage,
+			currency: settings?.defaultCurrency,
 		},
 	});
 
 	const onSubmit = async (data: TUpdateAppearanceFields) => {
 		try {
-			const { language, theme } = data;
+			const { language, theme, currency } = data;
 
-			await updateSettingsAsync({ defaultLanguage: language, defaultTheme: theme });
+			await updateSettingsAsync({ defaultLanguage: language, defaultTheme: theme, defaultCurrency: currency });
 
 			toast.success(t("appearance.toasters.success"));
 		} catch (e) {
@@ -51,12 +53,21 @@ export const useAppearanceSection = (settings: GetMySettingsResponse | undefined
 	};
 
 	const clearValues = (field: keyof TUpdateAppearanceFields) => {
-		if (field === "language") {
-			if (settings?.defaultLanguage) form.setValue(field, null);
-			else form.setValue(field, undefined);
-		} else {
-			if (settings?.defaultTheme) form.setValue(field, null);
-			else form.setValue(field, undefined);
+		switch (field) {
+			case "language":
+				if (settings?.defaultLanguage) form.setValue(field, null);
+				else form.setValue(field, undefined);
+				break;
+			case "currency":
+				if (settings?.defaultCurrency) form.setValue(field, null);
+				else form.setValue(field, undefined);
+				break;
+			case "theme":
+				if (settings?.defaultTheme) form.setValue(field, null);
+				else form.setValue(field, undefined);
+				break;
+			default:
+				break;
 		}
 	};
 
@@ -76,6 +87,27 @@ export const useAppearanceSection = (settings: GetMySettingsResponse | undefined
 		[locale]
 	);
 
+	const currency_data: IDropdownData[] = useMemo(
+		() => [
+			{
+				id: GetMySettingsResponseDefaultCurrency.DOLLAR,
+				value: GetMySettingsResponseDefaultCurrency.DOLLAR,
+				label: t("appearance.currency.dollar"),
+			},
+			{
+				id: GetMySettingsResponseDefaultCurrency.EURO,
+				value: GetMySettingsResponseDefaultCurrency.EURO,
+				label: t("appearance.currency.euro"),
+			},
+			{
+				id: GetMySettingsResponseDefaultCurrency.RUBLE,
+				value: GetMySettingsResponseDefaultCurrency.RUBLE,
+				label: t("appearance.currency.ruble"),
+			},
+		],
+		[locale]
+	);
+
 	useEffect(() => {
 		const json_default = JSON.stringify(form.formState.defaultValues);
 		const json_values = JSON.stringify(form.getValues());
@@ -90,6 +122,7 @@ export const useAppearanceSection = (settings: GetMySettingsResponse | undefined
 		clearValues,
 		language_data,
 		theme_data,
+		currency_data,
 		isDisabled,
 		isSettingsUpdating,
 		t,

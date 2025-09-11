@@ -36,5 +36,6 @@ export * from './updatePasswordDto';
 export * from './updateUserDto';
 export * from './updateUserDtoGender';
 export * from './updateUserSettingsDto';
+export * from './updateUserSettingsDtoDefaultCurrency';
 export * from './updateUserSettingsDtoDefaultLanguage';
 export * from './updateUserSettingsDtoDefaultTheme';

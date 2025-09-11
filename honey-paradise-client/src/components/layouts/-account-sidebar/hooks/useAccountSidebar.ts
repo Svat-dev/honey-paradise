@@ -1,11 +1,11 @@
-import { BellIcon, ClipboardListIcon, LinkIcon, SettingsIcon, ShoppingCartIcon } from "lucide-react";
+import { BellIcon, ClipboardListIcon, CoinsIcon, HeartIcon, LinkIcon, SettingsIcon, ShoppingCartIcon } from "lucide-react";
 import { useLayoutEffect, useMemo, useState } from "react";
 
 import { EnumAppRoute } from "@constants/routes";
-import { useLanguage } from "@i18n/hooks";
-import { useTranslations } from "next-intl";
-import { usePathname } from "next/navigation";
 import type { IAccountNavigation } from "../types/data.type";
+import { useLanguage } from "@i18n/hooks";
+import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export const useAccountSidebar = () => {
 	const t = useTranslations("layout.account-sidebar.links");
@@ -37,6 +37,18 @@ export const useAccountSidebar = () => {
 				icon: BellIcon,
 				route: EnumAppRoute.NOTIFICATIONS,
 				isCurrent: pathname === EnumAppRoute.NOTIFICATIONS,
+			},
+			{
+				title: t("transactions"),
+				icon: CoinsIcon,
+				route: EnumAppRoute.MY_PAYMENTS,
+				isCurrent: pathname === EnumAppRoute.MY_PAYMENTS,
+			},
+			{
+				title: t("deferred"),
+				icon: HeartIcon,
+				route: EnumAppRoute.DEFERRED,
+				isCurrent: pathname === EnumAppRoute.DEFERRED,
 			},
 			{
 				title: t("cart"),

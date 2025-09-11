@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
 	env: {
 		TELEGRAM_BOT_URL: process.env.TELEGRAM_BOT_URL,
 		GOOGLE_RECAPTCHA_SITE_KEY: process.env.GOOGLE_RECAPTCHA_SITE_KEY,
+		OPEN_EXCHANGE_RATES_APP_ID: process.env.OPEN_EXCHANGE_RATES_APP_ID,
 	},
 };
 

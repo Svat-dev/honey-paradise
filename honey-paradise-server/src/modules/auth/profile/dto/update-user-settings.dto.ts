@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { EnumLanguages, EnumThemes, type User, type UserSettings } from "@prisma/client";
+import { EnumCurrencies, EnumLanguages, EnumThemes, type User, type UserSettings } from "@prisma/client";
 import { IsBoolean, IsEnum, IsOptional } from "class-validator";
 
 export class UpdateUserSettingsDto implements Partial<UserSettings & User> {
@@ -12,6 +12,11 @@ export class UpdateUserSettingsDto implements Partial<UserSettings & User> {
 	@IsEnum(EnumThemes, { message: "" })
 	@IsOptional({ message: "" })
 	defaultTheme?: EnumThemes;
+
+	@ApiProperty({ enum: EnumCurrencies, description: "", example: EnumCurrencies.DOLLAR, required: false })
+	@IsEnum(EnumCurrencies, { message: "" })
+	@IsOptional({ message: "" })
+	defaultCurrency?: EnumCurrencies;
 
 	@ApiProperty({ type: "boolean", description: "", example: true, required: false })
 	@IsBoolean({ message: "" })
