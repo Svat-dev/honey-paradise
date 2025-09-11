@@ -28,8 +28,8 @@ export const authService = {
 		return res.data;
 	},
 
-	telegramSignIn: async (dto: AuthTfaDto) => {
-		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(EnumApiRoute.TG_TFA_LOGIN, dto);
+	telegramSignIn: async () => {
+		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(EnumApiRoute.TG_TFA_LOGIN);
 
 		return res;
 	},

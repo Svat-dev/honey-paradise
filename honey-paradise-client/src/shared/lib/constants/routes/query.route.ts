@@ -6,6 +6,7 @@ export const queryKeys = {
 	getUserSessions: "get all user sessions",
 	getCurrentSession: "get current user session",
 	getTelegramInfo: "get user telegram info",
+	getMyCart: "get current user cart",
 
 	recoverPassword: "account recover password",
 	createAccount: "account create",

@@ -1,7 +1,8 @@
 export enum EnumStorageKeys {
-	LOCALE_LANGUAGE = "HONEY_PARADISE_LOCALE_LANGUAGE",
-	CURRENT_EMAIL = "HONEY_PARADISE_CURRENT_EMAIL",
-	SOCKET_SESSION_TOKEN = "HONEY_PARADISE_SOCKET_SESSION_TOKEN",
+	IS_AGREE_WITH_COOKIES = "is_agree_with_cookies",
+	LOCALE_LANGUAGE = "locale_lang",
+	CURRENT_EMAIL = "current_email",
+	SOCKET_SESSION_TOKEN = "socket_session_token",
 }
 
 export enum EnumErrorCauses {

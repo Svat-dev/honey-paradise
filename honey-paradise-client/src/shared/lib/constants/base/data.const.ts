@@ -1,12 +1,13 @@
 export enum EnumStorageKeys {
-	IS_AGREE_WITH_COOKIES = "HONEY_PARADISE_IS_AGREE_WITH_COOKIES",
-	THEME_MODE = "HONEY_PARADISE_THEME_MODE",
-	LANGUAGE = "HONEY_PARADISE_LOCALE_LANGUAGE",
-	CURRENT_EMAIL = "HONEY_PARADISE_CURRENT_EMAIL",
-	SOCKET_SESSION_TOKEN = "HONEY_PARADISE_SOCKET_SESSION_TOKEN",
+	IS_AGREE_WITH_COOKIES = "is_agree_with_cookies",
+	THEME_MODE = "theme",
+	LANGUAGE = "locale_lang",
+	CURRENT_EMAIL = "current_email",
+	SOCKET_SESSION_TOKEN = "socket_session_token",
+	CURRENCY_DATA = "currency_data",
 	SESSION = "session",
 }
 
 export enum EnumSessionStorageKeys {
-	CHANGE_PASSWORD_MODAL = "CHANGE_PASSWORD_MODAL",
+	CHANGE_PASSWORD_MODAL = "change_password_modal_q",
 }

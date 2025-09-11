@@ -9,8 +9,6 @@ export const cartDefaultOutput = {
 	id: true,
 
 	cartItems: { select: cartItemDefaultOutput },
-
-	currency: true,
 	totalPrice: true,
 
 	createdAt: true,

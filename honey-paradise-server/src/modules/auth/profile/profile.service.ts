@@ -83,23 +83,23 @@ export class ProfileService {
 
 	async getProfile(id: string, type: "email" | "username" | "id" | "phone" | "tg-id"): Promise<User> {
 		if (type === "id") {
-			const profile = await this.prisma.user.findUnique({ where: { id }, select: { ...userDefaultOutput } });
+			const profile = await this.prisma.user.findUnique({ where: { id }, select: userDefaultOutput });
 
 			return profile;
 		} else if (type === "email") {
-			const profile = await this.prisma.user.findUnique({ where: { email: id }, select: { ...userDefaultOutput } });
+			const profile = await this.prisma.user.findUnique({ where: { email: id }, select: userDefaultOutput });
 
 			return profile;
 		} else if (type === "username") {
-			const profile = await this.prisma.user.findUnique({ where: { username: id }, select: { ...userDefaultOutput } });
+			const profile = await this.prisma.user.findUnique({ where: { username: id }, select: userDefaultOutput });
 
 			return profile;
 		} else if (type === "phone") {
-			const profile = await this.prisma.user.findUnique({ where: { phoneNumber: id }, select: { ...userDefaultOutput } });
+			const profile = await this.prisma.user.findUnique({ where: { phoneNumber: id }, select: userDefaultOutput });
 
 			return profile;
 		} else {
-			const profile = await this.prisma.user.findUnique({ where: { telegramId: id }, select: { ...userDefaultOutput } });
+			const profile = await this.prisma.user.findUnique({ where: { telegramId: id }, select: userDefaultOutput });
 
 			return profile;
 		}

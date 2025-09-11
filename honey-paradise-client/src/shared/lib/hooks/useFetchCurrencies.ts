@@ -1,14 +1,14 @@
-import { useEffect } from "react";
-
 import { currencyService } from "@/services/currency.service";
 import { currenciesFetchStore } from "@/shared/store/currencies-fetch.store";
 import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
+import { useEffect } from "react";
+import { EnumStorageKeys } from "../constants/base";
 
 export const useFetchCurrencies = () => {
 	const setStateData = currenciesFetchStore(state => state.setData);
 
-	const cookie = Cookies.get("currency_info");
+	const cookie = Cookies.get(EnumStorageKeys.CURRENCY_DATA);
 
 	const { data } = useQuery({
 		queryKey: ["currencies"],
@@ -22,7 +22,7 @@ export const useFetchCurrencies = () => {
 			const month = new Date().getMonth();
 
 			setStateData(data.data);
-			Cookies.set("currency_info", JSON.stringify(data.data), { expires: new Date(year, month + 1, 1) });
+			Cookies.set(EnumStorageKeys.CURRENCY_DATA, JSON.stringify(data.data), { expires: new Date(year, month + 1, 1) });
 
 			return;
 		} else {

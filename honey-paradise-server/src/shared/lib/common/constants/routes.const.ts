@@ -68,4 +68,7 @@ export enum EnumApiRoute {
 	MARK_AS_READ_ALL = `${MARK_AS_READ}/all`,
 	MARK_AS_ARCHIVED = `${NOTIFICATIONS_MARK_AS}/as-archived`,
 	DELETE_NOTIFICATIONS = "/delete",
+
+	CARTS = "/carts",
+	GET_MY_CART = "/my",
 }

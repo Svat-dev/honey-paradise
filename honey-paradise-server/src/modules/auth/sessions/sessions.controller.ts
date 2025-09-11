@@ -56,13 +56,12 @@ export class SessionsController {
 	}
 
 	@ApiOperation({ summary: "" })
-	@ApiBody({ type: AuthTfaDto })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Throttle({ default: { limit: 10, ttl: ms("10min") } })
 	@Post(EnumApiRoute.TG_TFA_LOGIN)
-	tfaTgLogin(@Req() req: Request, @UserAgent() userAgent: string, @Body() dto: AuthTfaDto) {
-		return this.sessionsService.verifyTelegramTFAToken(dto, req, userAgent);
+	tfaTgLogin(@Req() req: Request, @UserAgent() userAgent: string) {
+		return this.sessionsService.verifyTelegramTFAToken(req, userAgent);
 	}
 
 	@ApiOperation({ summary: "" })

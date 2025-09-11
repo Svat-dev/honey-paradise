@@ -190,8 +190,11 @@ export class SessionsService {
 		return true;
 	}
 
-	async verifyTelegramTFAToken(dto: AuthTfaDto, req: Request, userAgent: string): Promise<boolean> {
-		const user = await this.verificationService.verifyTelegramAuthToken(dto);
+	async verifyTelegramTFAToken(req: Request, userAgent: string): Promise<boolean> {
+		const cookie = req.cookies[EnumStorageKeys.SOCKET_SESSION_TOKEN];
+		const token = this.jwtService.verify<{ token: string; roomId: string }>(cookie);
+
+		const user = await this.verificationService.verifyTelegramAuthToken(token);
 
 		const metadata = getSessionMetadata(req, userAgent);
 
