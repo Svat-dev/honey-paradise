@@ -3,6 +3,8 @@ export interface ICurrencyResponseRates {
 	RUB: number;
 }
 
+export type TCurrenciesCodes = "USD" | "EUR" | "RUB";
+
 export interface ICurrencyResponse {
 	disclaimer: string;
 	license: string;

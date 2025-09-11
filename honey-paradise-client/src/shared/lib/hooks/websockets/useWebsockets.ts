@@ -52,4 +52,6 @@ export const useNotificationWebsockets = (isAuthenticated: boolean | undefined) 
 			};
 		} else return;
 	}, [user?.notificationSettings.enabled, user?.notificationSettings.withSound, socket]);
+
+	return true;
 };

@@ -1,5 +1,6 @@
 "use client";
 
+import { useFetchCurrencies } from "@/shared/lib/hooks/useFetchCurrencies";
 import { useNotificationWebsockets } from "@/shared/lib/hooks/websockets/useWebsockets";
 import { useAuth } from "@hooks/auth";
 import styles from "@styles/modules/toaster.module.scss";
@@ -24,6 +25,7 @@ export function ClientMainProvider({ children, cookie, session }: IProps) {
 	const id = useId();
 
 	useNotificationWebsockets(isAuthenticated);
+	useFetchCurrencies();
 
 	return (
 		<>
