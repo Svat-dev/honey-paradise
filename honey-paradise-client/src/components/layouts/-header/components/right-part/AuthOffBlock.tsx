@@ -1,11 +1,10 @@
 "use client";
 
-import { Button, Separator } from "@/components/ui/common";
+import { Button, Link, Separator } from "@/components/ui/common";
 
 import { EnumAppRoute } from "@constants/routes";
 import { LanguagesIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import Link from "next/dist/client/link";
 import { usePathname } from "next/navigation";
 import { SelectLanguageDM } from "../SelectLanguageDM";
 import styles from "./../../styles/right-part.module.scss";

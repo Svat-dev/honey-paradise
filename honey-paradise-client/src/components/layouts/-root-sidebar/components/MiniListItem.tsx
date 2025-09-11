@@ -1,5 +1,5 @@
-import Link from "next/dist/client/link";
-import { type FC } from "react";
+import { Link } from "@/components/ui/common";
+import type { FC } from "react";
 import type { IListItemContent } from "../types/data.type";
 
 interface IListItem extends IListItemContent {}

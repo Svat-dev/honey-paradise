@@ -1,10 +1,9 @@
-import { Button } from "@/components/ui/common";
+import { Button, Link } from "@/components/ui/common";
 import { FormInput } from "@/components/ui/components/form-input";
 import { FormBlock } from "@/components/ui/layouts";
 import { VALUES } from "@constants/base";
 import { EnumAppRoute } from "@constants/routes";
 import _styles from "@styles/modules/auth-form-wrapper.module.scss";
-import Link from "next/dist/client/link";
 import type { FC } from "react";
 import styles from "../styles/main-part.module.scss";
 

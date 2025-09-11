@@ -1,9 +1,8 @@
-import { Button, Separator, Switch, Title } from "@/components/ui/common";
+import { Button, Link, Separator, Switch, Title } from "@/components/ui/common";
 
 import { TelegramIcon } from "@/components/ui/common/icons";
 import { cn } from "@utils/base";
 import { GlobeIcon } from "lucide-react";
-import Link from "next/link";
 import type { FC } from "react";
 import slugify from "slugify";
 import { useNotificationsSettings } from "../../../hooks/useNotificationsSettings";

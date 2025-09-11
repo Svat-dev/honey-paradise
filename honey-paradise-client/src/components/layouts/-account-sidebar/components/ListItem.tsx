@@ -1,4 +1,4 @@
-import Link from "next/dist/client/link";
+import { Link } from "@/components/ui/common";
 import type { FC } from "react";
 import styles from "../styles/list-item.module.scss";
 import type { IAccountNavigation } from "../types/data.type";

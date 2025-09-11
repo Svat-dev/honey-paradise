@@ -2,6 +2,7 @@
 
 import { Alert, AlertDescription, AlertTitle, Button } from "@/components/ui/common";
 
+import { Link } from "@/components/ui/common";
 import { FormInput } from "@/components/ui/components/form-input";
 import { FormBlock } from "@/components/ui/layouts";
 import { VALUES } from "@constants/base";
@@ -9,7 +10,6 @@ import { EnumAppRoute } from "@constants/routes";
 import _styles from "@styles/modules/auth-form-wrapper.module.scss";
 import { cn } from "@utils/base";
 import { ShieldCheckIcon } from "lucide-react";
-import Link from "next/dist/client/link";
 import ReCAPTCHA from "react-google-recaptcha";
 import { FormProvider } from "react-hook-form";
 import { Footer } from "./components/Footer";

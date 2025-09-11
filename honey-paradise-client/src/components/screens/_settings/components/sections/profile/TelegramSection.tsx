@@ -1,12 +1,21 @@
-import { Button, Dialog, DialogDescription, DialogFooter, DialogHeader, DialogTitle, Separator, Skeleton } from "@/components/ui/common";
+import {
+	Button,
+	Dialog,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	Link,
+	Separator,
+	Skeleton,
+} from "@/components/ui/common";
 
 import { ConfirmModal } from "@/components/ui/components/ConfirmModal";
-import Link from "next/link";
-import { ProfileSettingSection } from "./ProfileSettingSection";
 import { RefreshCwIcon } from "lucide-react";
 import dynamic from "next/dynamic";
-import styles from "../../../styles/profile.module.scss";
 import { useTelegramSection } from "../../../hooks/useTelegramSection";
+import styles from "../../../styles/profile.module.scss";
+import { ProfileSettingSection } from "./ProfileSettingSection";
 
 const DynamicDialogContent = dynamic(() => import("@/components/ui/common").then(mod => mod.DialogContent));
 
@@ -55,7 +64,7 @@ const TelegramSection = () => {
 										{t.rich("tgUse", {
 											username: String(telegramInfo?.tgUsername),
 											link: chunks => (
-												<Link href={tgUserLink} target="_blank">
+												<Link href={tgUserLink} target="_blank" isOutside>
 													{chunks}
 												</Link>
 											),
@@ -101,7 +110,7 @@ const TelegramSection = () => {
 							</Button>
 						) : (
 							<>
-								<Link href={tgBotLink || ""} target="_blank">
+								<Link href={tgBotLink || ""} target="_blank" isOutside>
 									{t("actions.telegramBot")}
 								</Link>
 								<ConfirmModal

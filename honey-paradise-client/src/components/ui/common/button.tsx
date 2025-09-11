@@ -5,6 +5,7 @@ import { cn } from "@utils/base";
 import { Loader2Icon } from "lucide-react";
 import { type ButtonHTMLAttributes, forwardRef } from "react";
 
+import { Link } from "./link";
 import styles from "./styles/button.module.scss";
 
 const buttonVariants = cva(styles["button-ui"], {
@@ -26,25 +27,28 @@ const buttonVariants = cva(styles["button-ui"], {
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
 	asChild?: boolean;
+	href?: string;
 	isLoading?: boolean;
 }
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ className, variant, asChild = false, isLoading, children, ...props }, ref) => {
-	const Comp = asChild ? Slot : "button";
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+	({ className, variant, asChild = false, isLoading, children, href, ...props }, ref) => {
+		const Comp = asChild ? Slot : "button";
 
-	return (
-		<Comp
-			className={cn(buttonVariants({ variant, className }))}
-			type="button"
-			ref={ref}
-			disabled={isLoading || props.disabled}
-			{...props}
-			data-loading={isLoading}
-		>
-			{!isLoading ? children : <Loader2Icon className={styles["button-ui-loader"]} />}
-		</Comp>
-	);
-});
+		return (
+			<Comp
+				className={cn(buttonVariants({ variant, className }))}
+				type="button"
+				ref={ref}
+				disabled={isLoading || props.disabled}
+				{...props}
+				data-loading={isLoading}
+			>
+				{!isLoading ? href ? <Link href={href}>{children}</Link> : children : <Loader2Icon className={styles["button-ui-loader"]} />}
+			</Comp>
+		);
+	}
+);
 Button.displayName = "Button";
 
 export { Button, buttonVariants };

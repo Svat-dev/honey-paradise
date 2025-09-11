@@ -1,7 +1,7 @@
 "use client";
 
+import { Link } from "@/components/ui/common";
 import { Loader2Icon } from "lucide-react";
-import Link from "next/dist/client/link";
 import { useMenuSheetMain } from "../../hooks/useMenuSheetMain";
 
 const MenuSheetMain = () => {

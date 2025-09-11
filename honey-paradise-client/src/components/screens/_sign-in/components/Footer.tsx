@@ -1,9 +1,7 @@
-import { EnumApiRoute } from "@constants/routes";
-
 import type { TDataStatus } from "@/components/screens/_sign-up/types/sign-up.type";
-import { Button } from "@/components/ui/common";
+import { Button, Link } from "@/components/ui/common";
 import { API_URL } from "@constants/base";
-import Link from "next/dist/client/link";
+import { EnumApiRoute } from "@constants/routes";
 import Image from "next/image";
 import type { FC } from "react";
 import styles from "../styles/sign-in.module.scss";

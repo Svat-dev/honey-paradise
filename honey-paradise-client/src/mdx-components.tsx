@@ -1,6 +1,6 @@
-import Link from "next/dist/client/link";
+import { Link, Title } from "@/components/ui/common";
+
 import type { MDXComponents } from "mdx/types";
-import { Title } from "@/components/ui/common";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
 	return {
@@ -28,7 +28,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
 		li: ({ children }) => <li className="tw-mb-1">{children}</li>,
 		p: ({ children }) => <p className="tw-px-4">{children}</p>,
 		a: ({ children, href, ...props }) => (
-			<Link href={href} target="_blank" style={{ fontWeight: 500 }} {...props}>
+			<Link href={href} target="_blank" style={{ fontWeight: 500 }} {...props} isOutside>
 				{children}
 			</Link>
 		),
