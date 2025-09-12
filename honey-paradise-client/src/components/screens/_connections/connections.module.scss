@@ -19,9 +19,5 @@
 
 	> button {
 		@apply tw-flex tw-items-center tw-gap-2 tw-py-1.5 tw-px-2;
-
-		> svg {
-			@apply tw-opacity-0 tw-animate-show-effect;
-		}
 	}
 }

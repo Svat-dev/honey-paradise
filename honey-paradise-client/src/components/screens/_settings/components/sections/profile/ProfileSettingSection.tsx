@@ -1,17 +1,24 @@
-import type { FC, HTMLAttributes, PropsWithChildren } from "react";
+import type { FC, PropsWithChildren } from "react";
 
 import { Title } from "@/components/ui/common";
-import { cn } from "@utils/base";
+import { m } from "motion/react";
 import slugify from "slugify";
 
-interface IProfileSettingSection extends HTMLAttributes<HTMLDivElement> {
+interface IProfileSettingSection {
 	title: string;
 	description?: string;
+	animate?: boolean;
 }
 
-const ProfileSettingSection: FC<PropsWithChildren<IProfileSettingSection>> = ({ title, description, children, ...props }) => {
+const ProfileSettingSection: FC<PropsWithChildren<IProfileSettingSection>> = ({ title, description, animate, children }) => {
 	return (
-		<section className={cn("tw-relative tw-w-full tw-bg-primary tw-rounded-lg tw-p-3 tw-mb-5", props.className)} {...props}>
+		<m.section
+			className={"tw-relative tw-w-full tw-bg-primary tw-rounded-lg tw-p-3 tw-mb-5"}
+			initial={animate ? { opacity: 0.2, y: 10 } : false}
+			whileInView={{ opacity: 1, y: 0 }}
+			transition={{ type: "tween", delay: 0.1 }}
+			viewport={{ once: true, amount: "some" }}
+		>
 			<Title size="sm" className="tw-font-medium">
 				{title}
 				<a className="tw-opacity-0 tw-size-0" id={slugify(title, { locale: "en", lower: true })} />
@@ -20,7 +27,7 @@ const ProfileSettingSection: FC<PropsWithChildren<IProfileSettingSection>> = ({ 
 			{description && <p className="tw-font-normal tw-text-muted -tw-mt-0.5 tw-ml-2">{description}</p>}
 
 			{children}
-		</section>
+		</m.section>
 	);
 };
 

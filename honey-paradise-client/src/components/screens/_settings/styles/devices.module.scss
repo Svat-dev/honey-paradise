@@ -27,7 +27,7 @@
 }
 
 .session-item {
-	@apply tw-flex tw-items-center tw-justify-between tw-bg-secondary tw-px-4 tw-py-3 tw-rounded-md tw-border tw-border-muted tw-opacity-0 tw-animate-show-effect;
+	@apply tw-flex tw-items-center tw-justify-between tw-bg-secondary tw-px-4 tw-py-3 tw-rounded-md tw-border tw-border-muted;
 
 	> div {
 		@apply tw-flex tw-items-center;

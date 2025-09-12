@@ -1,6 +1,7 @@
 import { Button, Title } from "@/components/ui/common";
 import { LinkIcon, UnlinkIcon } from "lucide-react";
 
+import { m } from "motion/react";
 import Image from "next/image";
 import type { FC } from "react";
 import styles from "../connections.module.scss";
@@ -17,21 +18,25 @@ const ConnectionsItem: FC<IConnectionsItem> = ({ connectionData, providerId, onC
 	const { name, src } = connectionData;
 
 	return (
-		<div className={styles["connections-item"]}>
+		<m.div animate={{ height: providerId ? "84px" : "72px" }} className={styles["connections-item"]}>
 			<Image src={src} alt={name} width={32} height={32} />
 
 			<div>
 				<Title size="sm" className="tw-text-base">
 					{name}
 				</Title>
-				{providerId && <p className="tw-opacity-0 tw-animate-show-effect">(ID: {providerId})</p>}
+				{providerId && (
+					<m.p initial={{ scaleX: 0, opacity: 0 }} animate={{ scaleX: 1, opacity: 1 }} transition={{ type: "tween" }} className="tw-w-fit">
+						(ID: {providerId})
+					</m.p>
+				)}
 			</div>
 
 			<Button variant={providerId ? "destructive" : "secondary"} isLoading={isLoading} onClick={onClick}>
 				{providerId ? "Отвязать" : "Привязать"}
 				{providerId ? <UnlinkIcon size={18} /> : <LinkIcon size={18} />}
 			</Button>
-		</div>
+		</m.div>
 	);
 };
 

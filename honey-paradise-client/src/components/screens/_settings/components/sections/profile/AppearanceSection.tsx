@@ -1,13 +1,13 @@
 import { Button, Separator } from "@/components/ui/common";
 
-import type { FC } from "react";
 import { FormInput } from "@/components/ui/components/form-input";
-import { FormProvider } from "react-hook-form";
 import { GetMySettingsResponse } from "@/shared/types/server";
-import { ProfileSettingSection } from "./ProfileSettingSection";
 import { XIcon } from "lucide-react";
-import styles from "../../../styles/profile.module.scss";
+import type { FC } from "react";
+import { FormProvider } from "react-hook-form";
 import { useAppearanceSection } from "../../../hooks/useAppearanceSection";
+import styles from "../../../styles/profile.module.scss";
+import { ProfileSettingSection } from "./ProfileSettingSection";
 
 interface IProps {
 	settings: GetMySettingsResponse | undefined;
@@ -21,7 +21,7 @@ const AppearanceSection: FC<IProps> = ({ settings, isAccLoading }) => {
 	const isLoading = isAccLoading || isSettingsUpdating;
 
 	return (
-		<ProfileSettingSection title={t("appearance.title")}>
+		<ProfileSettingSection title={t("appearance.title")} animate>
 			<FormProvider {...form}>
 				<form className={styles["appearance-form-wrapper"]} onSubmit={onSubmit}>
 					<div>

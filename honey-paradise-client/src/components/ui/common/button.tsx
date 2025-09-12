@@ -1,4 +1,3 @@
-import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@utils/base";
@@ -31,24 +30,20 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, Va
 	isLoading?: boolean;
 }
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-	({ className, variant, asChild = false, isLoading, children, href, ...props }, ref) => {
-		const Comp = asChild ? Slot : "button";
-
-		return (
-			<Comp
-				className={cn(buttonVariants({ variant, className }))}
-				type="button"
-				ref={ref}
-				disabled={isLoading || props.disabled}
-				{...props}
-				data-loading={isLoading}
-			>
-				{!isLoading ? href ? <Link href={href}>{children}</Link> : children : <Loader2Icon className={styles["button-ui-loader"]} />}
-			</Comp>
-		);
-	}
-);
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ className, variant, isLoading, children, href, ...props }, ref) => {
+	return (
+		<button
+			className={cn(buttonVariants({ variant, className }))}
+			type="button"
+			ref={ref}
+			disabled={isLoading || props.disabled}
+			{...props}
+			data-loading={isLoading}
+		>
+			{!isLoading ? href ? <Link href={href}>{children}</Link> : children : <Loader2Icon className={styles["button-ui-loader"]} />}
+		</button>
+	);
+});
 Button.displayName = "Button";
 
 export { Button, buttonVariants };

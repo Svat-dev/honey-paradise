@@ -4,6 +4,7 @@ import { useFetchCurrencies } from "@/shared/lib/hooks/useFetchCurrencies";
 import { useNotificationWebsockets } from "@/shared/lib/hooks/websockets/useWebsockets";
 import { useAuth } from "@hooks/auth";
 import styles from "@styles/modules/toaster.module.scss";
+import { domAnimation, LazyMotion } from "motion/react";
 import { useId, type PropsWithChildren } from "react";
 import { Toaster, type DefaultToastOptions } from "react-hot-toast";
 import { Cookie } from "../layouts/-cookies/Cookie";
@@ -33,7 +34,9 @@ export function ClientMainProvider({ children, cookie, session }: IProps) {
 
 			{cookie !== "true" && <Cookie />}
 
-			{children}
+			<LazyMotion features={domAnimation} strict>
+				{children}
+			</LazyMotion>
 		</>
 	);
 }

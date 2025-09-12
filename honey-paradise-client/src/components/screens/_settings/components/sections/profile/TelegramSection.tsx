@@ -39,7 +39,7 @@ const TelegramSection = () => {
 	} = useTelegramSection();
 
 	return (
-		<ProfileSettingSection title={t("title")} description={t("description")}>
+		<ProfileSettingSection title={t("title")} description={t("description")} animate>
 			<div className={styles["telegram-connect-wrapper"]}>
 				<div>
 					{isTelegramInfoLoading ? (

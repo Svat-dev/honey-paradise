@@ -150,9 +150,7 @@ export class SessionsService {
 			EnumNotificationType.ACCOUNT_STATUS
 		);
 
-		await saveSession(req, _user, metadata, this.i18n);
-
-		return true;
+		return saveSession(req, _user, metadata, this.i18n);
 	}
 
 	async cancelTgTfaLogin(req: Request, res: Response): Promise<boolean> {

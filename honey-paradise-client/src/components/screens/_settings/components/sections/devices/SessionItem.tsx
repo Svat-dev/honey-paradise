@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/common";
 import type { ISessionMetadata } from "@/shared/types/models/session.type";
 import { capitalize } from "@utils/base";
 import { DotIcon } from "lucide-react";
+import { m } from "motion/react";
 import dynamic from "next/dynamic";
 import type { FC } from "react";
 import { useSessionItem } from "../../../hooks/useSessionItem";
@@ -24,7 +25,7 @@ const SessionItem: FC<IProps> = ({ createdAt, metadata, remove, isCurrent, sid }
 	const { Icon, browser, city, country, handleRemove, os, t, time } = useSessionItem(metadata, removeFunc, isCurrent, createdAt);
 
 	return (
-		<article className={styles["session-item"]}>
+		<m.article className={styles["session-item"]} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
 			<div>
 				<div>
 					<Icon size={24} />
@@ -80,7 +81,7 @@ const SessionItem: FC<IProps> = ({ createdAt, metadata, remove, isCurrent, sid }
 					</DynamicConfirmModal>
 				)}
 			</div>
-		</article>
+		</m.article>
 	);
 };
 

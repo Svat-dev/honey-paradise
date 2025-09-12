@@ -15,11 +15,11 @@
 }
 
 .profile-avatar-wrapper {
-	@apply tw-mr-4 tw-animate-show-effect tw-opacity-0;
+	@apply tw-mr-4 tw-opacity-0 tw-animate-show-effect;
 }
 
 .profile-block-nickname {
-	@apply tw-flex tw-flex-col tw-leading-4 tw-mr-1 tw-animate-show-effect tw-opacity-0;
+	@apply tw-flex tw-flex-col tw-leading-4 tw-mr-1;
 }
 
 .profile-role {
