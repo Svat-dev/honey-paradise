@@ -17,31 +17,31 @@ import { ProvidersService } from "../providers.service";
 export class OAuthController {
 	constructor(private readonly providersService: ProvidersService) {}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "OAuth with google provider" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.GOOGLE))
 	@Get(`${EnumApiRoute.OAUTH_CONNECT}/google`)
 	connectGoogleProvider() {}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "OAuth with github provider" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.GITHUB))
 	@Get(`${EnumApiRoute.OAUTH_CONNECT}/github`)
 	connectGithubProvider() {}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "OAuth with yandex provider" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.YANDEX))
 	@Get(`${EnumApiRoute.OAUTH_CONNECT}/yandex`)
 	connectYandexProvider() {}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "OAuth with vk provider" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.VK))
 	@Get(`${EnumApiRoute.OAUTH_CONNECT}/vk`)
 	connectVkProvider() {}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "OAuth with google callback catcher" })
 	@ApiOkResponse({ example: "Void function" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.GOOGLE))
@@ -50,7 +50,7 @@ export class OAuthController {
 		return this.providersService.oAuth_first(req, res, userAgent);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "OAuth with github callback catcher" })
 	@ApiOkResponse({ example: "Void function" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.GITHUB))
@@ -59,7 +59,7 @@ export class OAuthController {
 		return this.providersService.oAuth_first(req, res, userAgent);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "OAuth with yandex callback catcher" })
 	@ApiOkResponse({ example: "Void function" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.YANDEX))
@@ -68,7 +68,7 @@ export class OAuthController {
 		return this.providersService.oAuth_first(req, res, userAgent);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "OAuth with vk callback catcher" })
 	@ApiOkResponse({ example: "Void function" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.VK))

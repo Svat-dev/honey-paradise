@@ -12,7 +12,7 @@ export class GithubStrategy extends PassportStrategy(Strategy, EnumProviderTypes
 		super({
 			clientID: config.getOrThrow<string>("GITHUB_CLIENT_ID"),
 			clientSecret: config.getOrThrow<string>("GITHUB_CLIENT_SECRET"),
-			callbackURL: `${config.getOrThrow<string>("SERVER_URL")}/api${EnumApiRoute.AUTH}${EnumApiRoute.OAUTH_CALLBACK}/github`,
+			callbackURL: `${config.getOrThrow<string>("SERVER_URL")}/api${EnumApiRoute.OAUTH}${EnumApiRoute.OAUTH_CALLBACK}/github`,
 			scope: ["email", "profile"],
 		});
 	}

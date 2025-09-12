@@ -24,7 +24,7 @@ import { ProfileService } from "./profile.service";
 export class ProfileController {
 	constructor(private readonly profileService: ProfileService) {}
 
-	@ApiOperation({ summary: "Check filed on unique value" })
+	@ApiOperation({ summary: "Check filed on unique value. email or username or phone" })
 	@ApiBody({ type: UniqueFieldCheckDto })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
@@ -34,7 +34,7 @@ export class ProfileController {
 		return this.profileService.checkUnique(dto.fieldValue, field);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Update user's profile photo. Authorized only" })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
@@ -45,7 +45,7 @@ export class ProfileController {
 		return this.profileService.updateAvatar(userId, file);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Delete user's profile photo. Authorized only" })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
@@ -55,7 +55,7 @@ export class ProfileController {
 		return this.profileService.deleteAvatar(userId);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Update basic profile information. Authorized only" })
 	@ApiBody({ type: UpdateUserDto })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
@@ -65,7 +65,7 @@ export class ProfileController {
 		return this.profileService.updateProfile(userId, dto);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Update user's settings. Authorized only" })
 	@ApiBody({ type: UpdateUserSettingsDto })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)

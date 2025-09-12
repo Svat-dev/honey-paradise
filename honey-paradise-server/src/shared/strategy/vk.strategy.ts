@@ -12,7 +12,7 @@ export class VkStrategy extends PassportStrategy(Strategy, EnumProviderTypes.VK)
 		super({
 			clientID: config.get<string>("VK_CLIENT_ID"),
 			clientSecret: config.get<string>("VK_CLIENT_SECRET"),
-			callbackURL: `${config.getOrThrow<string>("SERVER_URL")}/api${EnumApiRoute.AUTH}${EnumApiRoute.OAUTH_CALLBACK}/vk`,
+			callbackURL: `${config.getOrThrow<string>("SERVER_URL")}/api${EnumApiRoute.OAUTH}${EnumApiRoute.OAUTH_CALLBACK}/vk`,
 		});
 	}
 

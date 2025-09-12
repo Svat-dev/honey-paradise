@@ -12,7 +12,7 @@ export class YandexStrategy extends PassportStrategy(Strategy, EnumProviderTypes
 		super({
 			clientID: config.getOrThrow<string>("YANDEX_CLIENT_ID"),
 			clientSecret: config.getOrThrow<string>("YANDEX_CLIENT_SECRET"),
-			callbackURL: `${config.getOrThrow<string>("SERVER_URL")}/api${EnumApiRoute.AUTH}${EnumApiRoute.OAUTH_CALLBACK}/yandex`,
+			callbackURL: `${config.getOrThrow<string>("SERVER_URL")}/api${EnumApiRoute.OAUTH}${EnumApiRoute.OAUTH_CALLBACK}/yandex`,
 		});
 	}
 

@@ -21,7 +21,7 @@ import { GetAllNotificationsResponse } from "./response/get-all-notifications.re
 export class NotificationsController {
 	constructor(private readonly notificationsService: NotificationsService) {}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Get all notifications by current user. Authorized only" })
 	@ApiResponse({ type: GetAllNotificationsResponse, isArray: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
@@ -30,7 +30,7 @@ export class NotificationsController {
 		return this.notificationsService.getAllByUser(userId, query);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Update user's notifications settings. Authorized only" })
 	@ApiBody({ type: UpdateNotificationsSettingsDto })
 	@ApiResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
@@ -40,7 +40,7 @@ export class NotificationsController {
 		return this.notificationsService.updateSettings(userId, { ...dto });
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Mark as read a list of notifications. Authorized only" })
 	@ApiBody({ type: NotificationsIdsDto })
 	@ApiResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
@@ -50,7 +50,7 @@ export class NotificationsController {
 		return this.notificationsService.markAsRead(dto);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Mark as read all user's notifications. Authorized only" })
 	@ApiResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
@@ -59,7 +59,7 @@ export class NotificationsController {
 		return this.notificationsService.markAsReadAll(userId);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Mark as archived a list of notifications. Authorized only" })
 	@ApiBody({ type: NotificationsIdsDto })
 	@ApiResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
@@ -69,7 +69,7 @@ export class NotificationsController {
 		return this.notificationsService.markAsArchived(dto);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Delete a list of notifications. Authorized only" })
 	@ApiBody({ type: NotificationsIdsDto })
 	@ApiResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
@@ -79,7 +79,6 @@ export class NotificationsController {
 		return this.notificationsService.delete(dto);
 	}
 
-	@ApiOperation({ security: [] })
 	@HttpCode(HttpStatus.OK)
 	@Authorization("ADMIN")
 	@Post("/send")

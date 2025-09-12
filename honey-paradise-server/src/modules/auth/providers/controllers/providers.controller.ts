@@ -17,7 +17,7 @@ import { GetAllConnectionsResponse } from "../response/get-all-connections.res";
 export class ProvidersController {
 	constructor(private readonly providersService: ProvidersService) {}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Get all connections (providers) connected to current user. Authorized only" })
 	@ApiOkResponse({ type: GetAllConnectionsResponse, isArray: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
@@ -27,7 +27,7 @@ export class ProvidersController {
 		return this.providersService.getProvidersByUser(userId);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Disconnect connection (provider) from user account. Authorized only" })
 	@ApiBody({ type: DeleteProviderDto })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)

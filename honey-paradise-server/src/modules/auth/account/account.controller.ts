@@ -48,7 +48,7 @@ export class AccountController {
 		return this.accountService.getTelegramInfo(id);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Disconnect telegram from an account. Authorized only" })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
@@ -57,7 +57,7 @@ export class AccountController {
 		return this.accountService.disconnectTelegram(id);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Creates a new account. (Registration)" })
 	@ApiBody({ type: CreateUserDto })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
@@ -72,7 +72,7 @@ export class AccountController {
 		return this.accountService.create(dto, req, res, userAgent);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Updates account's email. Authorized only" })
 	@ApiBody({ type: UpdateEmailDto })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
@@ -84,7 +84,7 @@ export class AccountController {
 		return this.accountService.changeEmail(id, email);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Send a mail to user's email to confirm it" })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
@@ -94,7 +94,7 @@ export class AccountController {
 		return this.accountService.sendEmailVerificationCode(req, userAgent);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Verify user's entered code to be valid" })
 	@ApiBody({ type: EmailVerifyDto })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
@@ -104,7 +104,7 @@ export class AccountController {
 		return this.verificationService.verifyEmail(req, res, dto, userAgent);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Connect telegram to user's account. Authorized only" })
 	@ApiOkResponse({ type: ConnectTelegramResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
@@ -113,7 +113,7 @@ export class AccountController {
 		return this.verificationService.connectTelegram(id);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Send a mail with reset password link to user's email" })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
@@ -123,7 +123,7 @@ export class AccountController {
 		return this.verificationService.sendRecoverPasswordEmail(req, res, userAgent);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Update user's password. Authorized only" })
 	@ApiBody({ type: UpdatePasswordAuthDto })
 	@ApiOkResponse({
 		examples: { 1: { summary: "without tfa enabled", value: true }, 2: { summary: "with tfa enabled", value: "redirect/logout" } },
@@ -137,7 +137,7 @@ export class AccountController {
 		return this.accountService.updatePassword(id, password, req);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Update user's password. Token needed" })
 	@ApiBody({ type: UpdatePasswordDto })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)

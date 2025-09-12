@@ -21,7 +21,7 @@ import { SessionsService } from "./sessions.service";
 export class SessionsController {
 	constructor(private readonly sessionsService: SessionsService) {}
 
-	@ApiOperation({ summary: "Get all active sessions by user" })
+	@ApiOperation({ summary: "Get all active sessions by user. Authorized only" })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Get(EnumApiRoute.SESSION_BY_USER)
@@ -29,7 +29,7 @@ export class SessionsController {
 		return this.sessionsService.findByUser(req);
 	}
 
-	@ApiOperation({ summary: "Get current active session by user" })
+	@ApiOperation({ summary: "Get current active session by user. Authorized only" })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Get(EnumApiRoute.CURRENT_SESSION)
@@ -37,7 +37,7 @@ export class SessionsController {
 		return this.sessionsService.findCurrent(req);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Clear current session cookie" })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Post(EnumApiRoute.CLEAR_SESSION)
@@ -45,7 +45,7 @@ export class SessionsController {
 		return this.sessionsService.clearSession(req);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Login to user account. (Authorization)" })
 	@ApiBody({ type: AuthLoginDto })
 	@HttpCode(HttpStatus.OK)
 	@Recaptcha()
@@ -55,7 +55,7 @@ export class SessionsController {
 		return this.sessionsService.login(dto, req, res, userAgent);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Method to login via telegram bot" })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Throttle({ default: { limit: 10, ttl: ms("10min") } })
@@ -64,7 +64,7 @@ export class SessionsController {
 		return this.sessionsService.verifyTelegramTFAToken(req, userAgent);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Cancel auth via telegram bot" })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Throttle({ default: { limit: 10, ttl: ms("10min") } })
@@ -73,7 +73,7 @@ export class SessionsController {
 		return this.sessionsService.cancelTgTfaLogin(req, res);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Send a mail with confirm login code (xxxx)" })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Post(EnumApiRoute.SEND_TFA_CODE)
@@ -81,7 +81,7 @@ export class SessionsController {
 		return this.sessionsService.sendTFACode(req, userAgent);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Check entered user's code to valid" })
 	@ApiBody({ type: AuthTfaDto })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
@@ -90,7 +90,7 @@ export class SessionsController {
 		return this.sessionsService.verifyTFAToken(dto, req, res, userAgent);
 	}
 
-	@ApiOperation({ summary: "Logout from current account" })
+	@ApiOperation({ summary: "Logout from current account. Authorized only" })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
@@ -99,7 +99,7 @@ export class SessionsController {
 		return this.sessionsService.logout(req);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Remove session by its id. Authorized only" })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
@@ -108,7 +108,7 @@ export class SessionsController {
 		return this.sessionsService.remove(req, sid);
 	}
 
-	@ApiOperation({ summary: "" })
+	@ApiOperation({ summary: "Remove all user's sessions. Authorized only" })
 	@ApiOkResponse({ example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
