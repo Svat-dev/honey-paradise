@@ -6,6 +6,7 @@
  * OpenAPI spec version: 0.0.2
  */
 
+export * from './_getAllProductsResponseCount';
 export * from './authLoginDto';
 export * from './authTfaDto';
 export * from './connectTelegramResponse';
@@ -16,6 +17,8 @@ export * from './emailVerifyDto';
 export * from './getAllConnectionsResponse';
 export * from './getAllConnectionsResponseType';
 export * from './getAllNotificationsResponse';
+export * from './getAllProductsResponse';
+export * from './getCatsWithProductsResponse';
 export * from './getMeResponse';
 export * from './getMeResponseGender';
 export * from './getMeResponseRole';
