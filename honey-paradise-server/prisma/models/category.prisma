@@ -1,7 +1,7 @@
 model Category {
   id String @id @default(nanoid())
 
-  title String
+  title Json
   slug  String @unique
 
   products Product[]

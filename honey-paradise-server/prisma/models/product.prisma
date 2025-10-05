@@ -1,8 +1,8 @@
 model Product {
   id String @id @default(uuid()) @db.Uuid
 
-  title       String
-  description String?
+  title       Json
+  description Json?
 
   priceInUsd Float @map("price_in_usd")
   rating     Float @default(0)
