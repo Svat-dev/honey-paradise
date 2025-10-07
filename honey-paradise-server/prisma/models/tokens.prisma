@@ -1,5 +1,5 @@
 model Token {
-  id Int @unique @default(autoincrement())
+  id String @unique @default(nanoid())
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id") @db.Uuid

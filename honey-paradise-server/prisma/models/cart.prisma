@@ -15,7 +15,11 @@ model Cart {
 }
 
 model CartItem {
-  id Int @id @default(autoincrement())
+  id String @id @default(nanoid())
+
+  productId  String @map("product_id")
+  quantity   Int    @default(1)
+  priceInUSD Float  @map("price_usd")
 
   cart   Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
   cartId String @unique @map("cart_id") @db.Uuid

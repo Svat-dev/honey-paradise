@@ -1,6 +1,9 @@
 export const cartItemDefaultOutput = {
 	id: true,
 
+	priceInUSD: true,
+	quantity: true,
+
 	createdAt: true,
 	updatedAt: true,
 }; // Prisma.CartItemSelect

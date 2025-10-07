@@ -4,7 +4,7 @@ model Product {
   title       Json
   description Json?
 
-  priceInUsd Float @map("price_in_usd")
+  priceInUsd Float @map("price_usd")
   rating     Float @default(0)
 
   comments Comment[]
