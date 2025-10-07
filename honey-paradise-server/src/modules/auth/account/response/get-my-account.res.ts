@@ -38,8 +38,8 @@ export class GetMySettingsResponse implements Partial<UserSettings> {
 }
 
 export class GetMyNotificationsSettingsResponse implements Partial<NotificationSettings> {
-	@ApiProperty({ type: "number", description: "", example: "152" })
-	id: number;
+	@ApiProperty({ type: "number", description: "", example: "nanoid" })
+	id: string;
 
 	@ApiProperty({ type: "boolean", description: "", example: true })
 	enabled: boolean;

@@ -18,6 +18,7 @@ import { VerificationModule } from "src/modules/auth/verification/verification.m
 import { CartModule } from "src/modules/cart/cart.module";
 import { CronModule } from "src/modules/cron/cron.module";
 import { NotificationsModule } from "src/modules/notifications/notifications.module";
+import { ProductsModule } from "src/modules/products/products.module";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
 import { IS_DEV_ENV } from "src/shared/lib/common/utils/is-dev.util";
 import { EnumStorageKeys } from "src/shared/types/client/enums.type";
@@ -77,6 +78,7 @@ import { TelegramModule } from "./telegram/telegram.module";
 		VerificationModule,
 		NotificationsModule,
 		CartModule,
+		ProductsModule,
 	],
 	providers: [
 		{

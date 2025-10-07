@@ -49,7 +49,7 @@ export class AccountController {
 	}
 
 	@ApiOperation({ summary: "Disconnect telegram from an account. Authorized only" })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Post(EnumApiRoute.DISCONNECT_TG)
@@ -59,7 +59,7 @@ export class AccountController {
 
 	@ApiOperation({ summary: "Creates a new account. (Registration)" })
 	@ApiBody({ type: CreateUserDto })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Recaptcha()
 	@Post(EnumApiRoute.CREATE)
@@ -74,7 +74,7 @@ export class AccountController {
 
 	@ApiOperation({ summary: "Updates account's email. Authorized only" })
 	@ApiBody({ type: UpdateEmailDto })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Patch(EnumApiRoute.UPDATE_EMAIL)
@@ -85,7 +85,7 @@ export class AccountController {
 	}
 
 	@ApiOperation({ summary: "Send a mail to user's email to confirm it" })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
 	@SkipThrottle({ auth: true })
@@ -96,7 +96,7 @@ export class AccountController {
 
 	@ApiOperation({ summary: "Verify user's entered code to be valid" })
 	@ApiBody({ type: EmailVerifyDto })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@SkipThrottle({ auth: true })
 	@Post(EnumApiRoute.VERIFY_EMAIL)
@@ -114,7 +114,7 @@ export class AccountController {
 	}
 
 	@ApiOperation({ summary: "Send a mail with reset password link to user's email" })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
 	@SkipThrottle({ auth: true })
@@ -139,7 +139,7 @@ export class AccountController {
 
 	@ApiOperation({ summary: "Update user's password. Token needed" })
 	@ApiBody({ type: UpdatePasswordDto })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Patch(EnumApiRoute.RECOVER_PASSWORD)
 	recoverPassword(@Body() dto: UpdatePasswordDto) {

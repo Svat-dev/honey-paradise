@@ -38,7 +38,7 @@ export class SessionsController {
 	}
 
 	@ApiOperation({ summary: "Clear current session cookie" })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Post(EnumApiRoute.CLEAR_SESSION)
 	clearSession(@Req() req: Request) {
@@ -56,7 +56,7 @@ export class SessionsController {
 	}
 
 	@ApiOperation({ summary: "Method to login via telegram bot" })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Throttle({ default: { limit: 10, ttl: ms("10min") } })
 	@Post(EnumApiRoute.TG_TFA_LOGIN)
@@ -65,7 +65,7 @@ export class SessionsController {
 	}
 
 	@ApiOperation({ summary: "Cancel auth via telegram bot" })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Throttle({ default: { limit: 10, ttl: ms("10min") } })
 	@Post(EnumApiRoute.CANCEL_TG_TFA_LOGIN)
@@ -74,7 +74,7 @@ export class SessionsController {
 	}
 
 	@ApiOperation({ summary: "Send a mail with confirm login code (xxxx)" })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Post(EnumApiRoute.SEND_TFA_CODE)
 	sendTfaCode(@Req() req: Request, @UserAgent() userAgent: string) {
@@ -83,7 +83,7 @@ export class SessionsController {
 
 	@ApiOperation({ summary: "Check entered user's code to valid" })
 	@ApiBody({ type: AuthTfaDto })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Post(EnumApiRoute.VERIFY_TFA)
 	verifyTfa(@Body() dto: AuthTfaDto, @Req() req: Request, @Res({ passthrough: true }) res: Response, @UserAgent() userAgent: string) {
@@ -91,7 +91,7 @@ export class SessionsController {
 	}
 
 	@ApiOperation({ summary: "Logout from current account. Authorized only" })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Post(EnumApiRoute.LOGOUT)
@@ -100,7 +100,7 @@ export class SessionsController {
 	}
 
 	@ApiOperation({ summary: "Remove session by its id. Authorized only" })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Delete(`${EnumApiRoute.REMOVE_SESSION}/:sid`)
@@ -109,7 +109,7 @@ export class SessionsController {
 	}
 
 	@ApiOperation({ summary: "Remove all user's sessions. Authorized only" })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Delete(EnumApiRoute.REMOVE_ALL_SESSIONS)

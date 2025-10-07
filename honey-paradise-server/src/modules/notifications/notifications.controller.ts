@@ -3,7 +3,7 @@ import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
 import { Delete, Get, Patch, Post, Put } from "@nestjs/common/decorators/http/request-mapping.decorator";
 import { Body, Query } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { SkipThrottle } from "@nestjs/throttler/dist/throttler.decorator";
 import { EnumNotificationType } from "@prisma/client";
 import { Authorization } from "src/shared/decorators/auth.decorator";
@@ -32,7 +32,7 @@ export class NotificationsController {
 
 	@ApiOperation({ summary: "Update user's notifications settings. Authorized only" })
 	@ApiBody({ type: UpdateNotificationsSettingsDto })
-	@ApiResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Put(EnumApiRoute.UPDATE_SETTINGS)
@@ -42,7 +42,7 @@ export class NotificationsController {
 
 	@ApiOperation({ summary: "Mark as read a list of notifications. Authorized only" })
 	@ApiBody({ type: NotificationsIdsDto })
-	@ApiResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Patch(EnumApiRoute.MARK_AS_READ)
@@ -51,7 +51,7 @@ export class NotificationsController {
 	}
 
 	@ApiOperation({ summary: "Mark as read all user's notifications. Authorized only" })
-	@ApiResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Patch(EnumApiRoute.MARK_AS_READ_ALL)
@@ -61,7 +61,7 @@ export class NotificationsController {
 
 	@ApiOperation({ summary: "Mark as archived a list of notifications. Authorized only" })
 	@ApiBody({ type: NotificationsIdsDto })
-	@ApiResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Patch(EnumApiRoute.MARK_AS_ARCHIVED)
@@ -71,7 +71,7 @@ export class NotificationsController {
 
 	@ApiOperation({ summary: "Delete a list of notifications. Authorized only" })
 	@ApiBody({ type: NotificationsIdsDto })
-	@ApiResponse({ example: true })
+	@ApiResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Delete(EnumApiRoute.DELETE_NOTIFICATIONS)

@@ -29,7 +29,7 @@ export class ProvidersController {
 
 	@ApiOperation({ summary: "Disconnect connection (provider) from user account. Authorized only" })
 	@ApiBody({ type: DeleteProviderDto })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Patch(EnumApiRoute.DISCONNECT)

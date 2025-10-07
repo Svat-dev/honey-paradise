@@ -26,7 +26,7 @@ export class ProfileController {
 
 	@ApiOperation({ summary: "Check filed on unique value. email or username or phone" })
 	@ApiBody({ type: UniqueFieldCheckDto })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Post(`${EnumApiRoute.CHECK_UNIQUE}/:field`)
@@ -35,7 +35,7 @@ export class ProfileController {
 	}
 
 	@ApiOperation({ summary: "Update user's profile photo. Authorized only" })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
@@ -46,7 +46,7 @@ export class ProfileController {
 	}
 
 	@ApiOperation({ summary: "Delete user's profile photo. Authorized only" })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
@@ -57,7 +57,7 @@ export class ProfileController {
 
 	@ApiOperation({ summary: "Update basic profile information. Authorized only" })
 	@ApiBody({ type: UpdateUserDto })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Put(EnumApiRoute.UPDATE_PROFILE)
@@ -67,7 +67,7 @@ export class ProfileController {
 
 	@ApiOperation({ summary: "Update user's settings. Authorized only" })
 	@ApiBody({ type: UpdateUserSettingsDto })
-	@ApiOkResponse({ example: true })
+	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Put(EnumApiRoute.UPDATE_SETTINGS)
