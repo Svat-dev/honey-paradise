@@ -1,39 +1,43 @@
 import { PrismaClient } from "@prisma/client";
-import { categoriesData } from "./data/category";
-import { productsData } from "./data/product";
+import { categoriesAndProductsData } from "./data/cats&products";
 
 const prisma = new PrismaClient();
 
-async function categories() {
-	const res = await prisma.category.createMany({ data: categoriesData, skipDuplicates: true });
+function log(message: any, type: "error" | "success" | "loading", ...optionalParams: any[]) {
+	const date = new Date().toISOString();
 
-	console.log(`Added ${res.count} categories to database`);
-
-	return true;
+	console.log(`[${date}]`, `[${type.toUpperCase()}]`, message, ...optionalParams);
 }
 
-async function products() {
-	const res = await prisma.product.createMany({ data: productsData, skipDuplicates: true });
+async function categoriesAndProducts() {
+	let i: number = 0;
 
-	console.log(`Added ${res.count} products to database`);
+	for (const data of categoriesAndProductsData) {
+		i++;
+
+		log("Creating category", "loading", i, data.slug);
+
+		const { _count } = await prisma.category.create({ data, select: { _count: { select: { products: true } } } });
+
+		log("Category created", "success", i, data.slug, "with", _count.products, "products");
+	}
 
 	return true;
 }
 
 async function main() {
-	console.log("Starting data upload to database...");
+	log("Starting data upload to database...", "loading");
 
 	try {
-		// await categories();
-		await products();
+		await categoriesAndProducts();
 	} catch (error) {
-		console.error("Error during data upload:", error);
+		log("Error during data upload:", "error", error);
 		process.exit(1);
 	} finally {
 		await prisma.$disconnect();
 
-		console.log("Successfully seeded the database!");
-		console.log("Disconnected from database.");
+		log("Successfully seeded the database!", "success");
+		log("Disconnected from database.", "success");
 	}
 }
 
