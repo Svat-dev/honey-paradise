@@ -7,7 +7,11 @@
  */
 
 export interface GetMyCartItemsResponse {
-  id: number;
+  id: string;
+  /** Quantity of the products */
+  priceInUSD: number;
+  /** Price of the product */
+  quantity: number;
   createdAt: string;
   updatedAt: string;
 }

@@ -4,6 +4,7 @@ import { type PropsWithChildren } from "react";
 type TypeTitleSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 
 export type TypeProps = {
+	id?: string;
 	size?: TypeTitleSize;
 	className?: string;
 } & PropsWithChildren &

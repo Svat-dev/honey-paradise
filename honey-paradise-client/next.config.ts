@@ -1,6 +1,6 @@
-import createNextMdxPlugin from "@next/mdx";
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
+import createNextMdxPlugin from "@next/mdx";
 
 const withNextIntl = createNextIntlPlugin("./src/shared/lib/i18n/request.ts");
 const withMdx = createNextMdxPlugin({});
@@ -18,6 +18,11 @@ const nextConfig: NextConfig = {
 				protocol: "http",
 				hostname: "localhost",
 				port: "4000",
+			},
+			{
+				protocol: "http",
+				hostname: "localhost",
+				port: "5000",
 			},
 		],
 	},

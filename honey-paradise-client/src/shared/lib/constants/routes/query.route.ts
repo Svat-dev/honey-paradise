@@ -7,6 +7,7 @@ export const queryKeys = {
 	getCurrentSession: "get current user session",
 	getTelegramInfo: "get user telegram info",
 	getMyCart: "get current user cart",
+	getAllCatsWithProducts: "get all categories with products",
 
 	recoverPassword: "account recover password",
 	createAccount: "account create",
@@ -35,9 +36,13 @@ export const queryKeys = {
 	deleteNotifications: "delete selected notifications",
 	deleteProfileAvatar: "delete profile avatar",
 	deleteProvider: "delete user provider",
-	clearSession: "clear current cookie session",
 	deleteSession: "delete user session",
 	deleteAllSessions: "delete all user sessions",
+	deleteCartItem: "delete cart item",
+	clearSession: "clear current cookie session",
+	clearAllCart: "clear all cart items",
+
+	addCartItem: "add item to cart",
 
 	markNotificationAsRead: "mark notification as read",
 	markNotificationAsArchived: "mark all notifications as read",

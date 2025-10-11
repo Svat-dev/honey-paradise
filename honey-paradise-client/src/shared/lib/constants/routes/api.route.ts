@@ -64,4 +64,11 @@ export enum EnumApiRoute {
 
 	CARTS = "/carts",
 	GET_MY_CART = `${CARTS}/my`,
+	ADD_CART_ITEM = `${CARTS}/add-item`,
+	DELETE_CART_ITEM = `${CARTS}/remove-item`,
+	CLEAR_CART = `${CARTS}/clear`,
+
+	PRODUCTS = "/products",
+	GET_ALL_PRODUCTS = `${PRODUCTS}/all`,
+	CREATE_NEW_PRODUCT = `${PRODUCTS}/new`,
 }

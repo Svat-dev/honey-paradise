@@ -7,9 +7,12 @@
  */
 
 export * from './_getAllProductsResponseCount';
+export * from './addCartItemDto';
+export * from './apiJsonValue';
 export * from './authLoginDto';
 export * from './authTfaDto';
 export * from './connectTelegramResponse';
+export * from './createProductDto';
 export * from './createUserDto';
 export * from './createUserDtoGender';
 export * from './deleteProviderDto';
