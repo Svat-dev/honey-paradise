@@ -3,15 +3,29 @@ import type { Category, Product } from "@prisma/client";
 import { ApiProperty } from "@nestjs/swagger";
 import type { JsonValue } from "@prisma/client/runtime/library";
 
+class ApiJsonValue {
+	@ApiProperty({ type: "string", description: "", example: "Some text" })
+	en: string;
+
+	@ApiProperty({ type: "string", description: "", example: "Текст" })
+	ru: string;
+}
+
 export class GetAllProductsResponse implements Partial<Product> {
 	@ApiProperty({ type: "string", description: "", example: "uuid" })
 	id: string;
 
-	@ApiProperty({ type: "string", description: "", example: '{"en": "Title", "ru": "Название"}' })
+	@ApiProperty({ type: ApiJsonValue, description: "" })
 	title: JsonValue;
 
-	@ApiProperty({ type: "string", description: "", example: '{"en": "Description", "ru": "Описание"}' })
+	@ApiProperty({ type: ApiJsonValue, description: "" })
 	description: JsonValue;
+
+	@ApiProperty({ type: "string", description: "", example: "slugged-value" })
+	slug: string;
+
+	@ApiProperty({ type: "string", description: "", example: ["image1", "image2"], isArray: true })
+	images: string[];
 
 	@ApiProperty({ type: "number", description: "", example: 10 })
 	priceInUsd: number;
@@ -34,10 +48,10 @@ export class GetCatsWithProductsResponse implements Partial<Category> {
 	@ApiProperty({ type: "string", description: "", example: "nanoid" })
 	id: string;
 
-	@ApiProperty({ type: "string", description: "", example: '{"en": "Title", "ru": "Название"}' })
+	@ApiProperty({ type: ApiJsonValue, description: "" })
 	title: JsonValue;
 
-	@ApiProperty({ type: "string", description: "", example: "slug" })
+	@ApiProperty({ type: "string", description: "", example: "slugged-value" })
 	slug: string;
 
 	@ApiProperty({ type: GetAllProductsResponse, description: "", isArray: true })

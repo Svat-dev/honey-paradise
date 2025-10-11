@@ -14,6 +14,10 @@ export class CreateProductDto implements Partial<Product> {
 	@IsJSON({ message: "" })
 	title: JsonValue;
 
+	@ApiProperty({ type: "string", description: "", example: "slugged-value", required: false })
+	@IsString({ message: "" })
+	slug: string;
+
 	@ApiProperty({ type: "string", description: "", example: '{"en": "Description", "ru": "Описание"}', required: false })
 	@IsJSON({ message: "" })
 	@IsOptional()

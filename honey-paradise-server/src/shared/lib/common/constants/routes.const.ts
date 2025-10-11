@@ -2,8 +2,10 @@ export enum EnumApiRoute {
 	DOCS = "/docs",
 
 	STATIC = "/static",
-	ASSETS = `${STATIC}/assets`,
-	AVATARS = `${STATIC}/avatars`,
+	ASSETS = "/assets",
+	STATIC_PRODUCTS = `${ASSETS}/products`,
+	AVATARS = "/avatars",
+	UPLOAD_AVATARS = `${AVATARS}/uploads`,
 
 	AUTH = "/auth",
 	SIGN_IN = "/sign-in",

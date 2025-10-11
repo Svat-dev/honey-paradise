@@ -1,4 +1,5 @@
 import { MAX } from "uuid";
+import { EnumApiRoute } from "./routes.const";
 
 export const VALUES = {
 	MAX_PASSWORD_LENGTH: 24,
@@ -15,4 +16,4 @@ export const TOKENS_LENGTH = {
 
 export const USERNAME_REGEX = /^[a-zA-Zа-яА-Я0-9_]+$/;
 
-export const DEFAULT_AVATAR_PATH = "/avatars/default.webp";
+export const DEFAULT_AVATAR_PATH = `${EnumApiRoute.AVATARS}/default.webp`;

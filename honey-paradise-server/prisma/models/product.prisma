@@ -2,7 +2,9 @@ model Product {
   id String @id @default(uuid()) @db.Uuid
 
   title       Json
+  slug        String   @unique
   description Json?
+  images      String[] @map("image_urls")
 
   priceInUsd Float @map("price_usd")
   rating     Float @default(0)
