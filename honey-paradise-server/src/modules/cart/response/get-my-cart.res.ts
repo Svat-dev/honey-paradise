@@ -5,6 +5,9 @@ export class GetMyCartItemsResponse implements Partial<CartItem> {
 	@ApiProperty({ type: "string", description: "", example: "nanoid" })
 	id: string;
 
+	@ApiProperty({ type: "string", description: "", example: "uuid" })
+	productId: string;
+
 	@ApiProperty({ type: "number", description: "Quantity of the products", example: 1 })
 	priceInUSD: number;
 

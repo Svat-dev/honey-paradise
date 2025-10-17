@@ -1,23 +1,30 @@
-import type { Prisma } from "@prisma/client";
 import { notificationSettingsUserOutput } from "./notifications.output";
 
-export const userDefaultOutput: Prisma.UserSelect = {
+//Prisma.UserSelect
+export const userDefaultOutput = {
 	id: true,
 	role: true,
 
 	username: true,
 	email: true,
 	telegramId: true,
+	phoneNumber: true,
+
+	avatarPath: true,
+	likedProductIds: true,
+
+	isTFAEnabled: true,
 };
 
-export const userServerOutput: Prisma.UserSelect = {
+//Prisma.UserSelect
+export const userServerOutput = {
 	...userDefaultOutput,
 	password: true,
-	isTFAEnabled: true,
 	isVerified: true,
 };
 
-export const userSettingsOutput: Prisma.UserSettingsSelect = {
+//Prisma.UserSettingsSelect
+export const userSettingsOutput = {
 	id: true,
 
 	defaultLanguage: true,
@@ -30,12 +37,11 @@ export const userSettingsOutput: Prisma.UserSettingsSelect = {
 	updatedAt: true,
 };
 
-export const userFullOutput: Prisma.UserSelect = {
+//Prisma.UserSelect
+export const userFullOutput = {
 	...userDefaultOutput,
-	avatarPath: true,
 	birthdate: true,
 	gender: true,
-	phoneNumber: true,
 
 	settings: { select: userSettingsOutput },
 	notificationSettings: { select: notificationSettingsUserOutput },

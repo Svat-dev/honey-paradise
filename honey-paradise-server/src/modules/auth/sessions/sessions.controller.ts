@@ -3,7 +3,7 @@ import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
 import { Delete, Get, Post } from "@nestjs/common/decorators/http/request-mapping.decorator";
 import { Body, Param, Req, Res } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
-import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 import { SkipThrottle, Throttle } from "@nestjs/throttler/dist/throttler.decorator";
 import { Recaptcha } from "@nestlab/google-recaptcha/decorators/recaptcha";
 import type { Request, Response } from "express";
@@ -100,6 +100,7 @@ export class SessionsController {
 	}
 
 	@ApiOperation({ summary: "Remove session by its id. Authorized only" })
+	@ApiParam({ name: "sid", type: String })
 	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()

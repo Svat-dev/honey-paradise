@@ -1,15 +1,8 @@
 import type { Category, Product } from "@prisma/client";
 
+import { ApiJsonValue } from "src/shared/types/swagger.type";
 import { ApiProperty } from "@nestjs/swagger";
 import type { JsonValue } from "@prisma/client/runtime/library";
-
-class ApiJsonValue {
-	@ApiProperty({ type: "string", description: "", example: "Some text" })
-	en: string;
-
-	@ApiProperty({ type: "string", description: "", example: "Текст" })
-	ru: string;
-}
 
 export class GetAllProductsResponse implements Partial<Product> {
 	@ApiProperty({ type: "string", description: "", example: "uuid" })
@@ -56,4 +49,7 @@ export class GetCatsWithProductsResponse implements Partial<Category> {
 
 	@ApiProperty({ type: GetAllProductsResponse, description: "", isArray: true })
 	products: GetAllProductsResponse[];
+
+	@ApiProperty({ type: "number", description: "", example: 10 })
+	productsLength: number;
 }

@@ -1,5 +1,6 @@
 import { ApiBody, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 
+import { ParseUUIDPipe } from "@nestjs/common";
 import { Controller } from "@nestjs/common/decorators/core/controller.decorator";
 import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
 import { Delete, Get, Post } from "@nestjs/common/decorators/http/request-mapping.decorator";
@@ -39,12 +40,12 @@ export class CartController {
 	}
 
 	@ApiOperation({ summary: "Remove item from cart", description: "" })
-	@ApiParam({ name: "uuid", type: String })
+	@ApiParam({ name: "uuid", type: String, example: "uuid" })
 	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Delete(`${EnumApiRoute.REMOVE_CART_ITEM}/:uuid`)
-	removeCartItem(@Param("uuid") itemId: string) {
+	removeCartItem(@Param("uuid", new ParseUUIDPipe({ version: "4" })) itemId: string) {
 		return this.cartService.removeCartItem(itemId);
 	}
 

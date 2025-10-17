@@ -5,11 +5,11 @@ import * as sharp from "sharp";
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
-import { User, type Prisma } from "@prisma/client";
+import { type Prisma } from "@prisma/client";
 import { hash } from "argon2";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
-import { DEFAULT_AVATAR_PATH } from "src/shared/lib/common/constants";
+import { DEFAULT_AVATAR_PATH, EnumApiRoute } from "src/shared/lib/common/constants";
 import { userDefaultOutput } from "src/shared/lib/prisma/outputs/user.output";
 import type { UpdateUserSettingsDto } from "./dto/update-user-settings.dto";
 
@@ -76,12 +76,12 @@ export class ProfileService {
 			fs.writeFileSync(filePath, processedBuffer);
 		}
 
-		await this.prisma.user.update({ where: { id: userId }, data: { avatarPath: `/avatars/uploads/${filename}` } });
+		await this.prisma.user.update({ where: { id: userId }, data: { avatarPath: `${EnumApiRoute.UPLOAD_AVATARS}/${filename}` } });
 
 		return true;
 	}
 
-	async getProfile(id: string, type: "email" | "username" | "id" | "phone" | "tg-id"): Promise<User> {
+	async getProfile(id: string, type: "email" | "username" | "id" | "phone" | "tg-id") {
 		if (type === "id") {
 			const profile = await this.prisma.user.findUnique({ where: { id }, select: userDefaultOutput });
 
@@ -166,7 +166,7 @@ export class ProfileService {
 		return true;
 	}
 
-	async updatePassword(userId: string, password: string): Promise<User> {
+	async updatePassword(userId: string, password: string) {
 		const user = await this.getProfile(userId, "id");
 
 		if (!user) throw new NotFoundException(this.i18n.t("d.errors.profile.not_found"));

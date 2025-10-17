@@ -91,7 +91,7 @@ export class AccountService {
 		return true;
 	}
 
-	async createNew(dto: Partial<User & Provider>, isRegister: boolean = false): Promise<User> {
+	async createNew(dto: Partial<User & Provider>, isRegister: boolean = false) {
 		const { email, password, birthdate, gender, username, avatarPath, providerId, type, isVerified } = dto;
 
 		const isUsernameExist = username ? await this.profileService.getProfile(username, "username") : false;

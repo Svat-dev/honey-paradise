@@ -3,6 +3,7 @@ export const cartItemDefaultOutput = {
 
 	priceInUSD: true,
 	quantity: true,
+	productId: true,
 
 	createdAt: true,
 	updatedAt: true,

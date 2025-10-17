@@ -88,11 +88,14 @@ export class GetMeResponse implements Partial<User> {
 	@ApiProperty({ enum: EnumGenders, description: "", example: EnumGenders.OTHER })
 	gender: EnumGenders;
 
-	@ApiProperty({ type: "string", description: "", example: "https://example.com/avatar.png" })
+	@ApiProperty({ type: "string", description: "", example: "https://example.com/avatar.webp" })
 	avatarPath: string;
 
-	@ApiProperty({ description: "", example: new Date(), nullable: true })
+	@ApiProperty({ type: Date, description: "", example: new Date(), nullable: true })
 	birthdate?: Date | undefined;
+
+	@ApiProperty({ type: "string", description: "", example: ["uuid-1", "uuid-2"], isArray: true })
+	likedProductIds: string[];
 
 	@ApiProperty({ type: GetMySettingsResponse })
 	settings: GetMySettingsResponse;

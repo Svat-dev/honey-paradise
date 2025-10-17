@@ -21,7 +21,7 @@ model User {
   orders       Order[]
   transactions Transaction[]
 
-  likedProductIds Json? @default("[]") @map("liked_products")
+  likedProductIds String[] @default([]) @map("liked_products")
 
   username    String  @unique
   telegramId  String? @unique @map("telegram_id")

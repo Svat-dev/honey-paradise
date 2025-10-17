@@ -5,7 +5,7 @@ import { Delete, Patch, Post, Put } from "@nestjs/common/decorators/http/request
 import { Body, Param, UploadedFile } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
 import { FileInterceptor } from "@nestjs/platform-express/multer/interceptors/file.interceptor";
-import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 import { SkipThrottle, Throttle } from "@nestjs/throttler/dist/throttler.decorator";
 import { Authorization } from "src/shared/decorators/auth.decorator";
 import { Authorized } from "src/shared/decorators/authorized.decorator";
@@ -25,6 +25,7 @@ export class ProfileController {
 	constructor(private readonly profileService: ProfileService) {}
 
 	@ApiOperation({ summary: "Check filed on unique value. email or username or phone" })
+	@ApiParam({ name: "field", enum: ["email", "username", "phone"], example: "email" })
 	@ApiBody({ type: UniqueFieldCheckDto })
 	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
