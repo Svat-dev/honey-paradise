@@ -794,9 +794,8 @@
 				"signUp": "Sign up"
 			},
 			"labels": {
-				"search": "Search",
-				"close": "Close",
-				"found": "Find",
+				"searchBtn": "{isOpen, select, true {Search} false {Close} other {}}",
+				"findBtn": "Find in catalog",
 				"menu": "Menu",
 				"clear": "Clear",
 				"watchCart": "View the cart",

@@ -70,7 +70,9 @@ export enum EnumApiRoute {
 	CLEAR_CART = `${CARTS}/clear`,
 
 	PRODUCTS = "/products",
+	GET_PRESEARCH_DATA = `${PRODUCTS}/presearch`,
 	GET_ALL_PRODUCTS = `${PRODUCTS}/all`,
+
 	CREATE_NEW_PRODUCT = `${PRODUCTS}/new`,
 	FAVORITES_PRODUCTS = `${PRODUCTS}/favorites`,
 	SWITCH_FAVORITES_PRODUCTS = `${FAVORITES_PRODUCTS}/switch`,

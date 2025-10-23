@@ -90,30 +90,32 @@ export class ProductsService {
 		};
 	}
 
-	async getBySearchTerm(term: string): Promise<any> {
+	async getBySearchTerm(term: string, lang: "en" | "ru"): Promise<any> {
 		const products: any[] = await this.prisma.$queryRaw`
-			SELECT "id", "title", "image_urls" AS "images", "price_usd" AS "priceInUsd" 
+			SELECT "id", "title", "slug", "image_urls" AS "images", "price_usd" AS "priceInUsd" 
 			FROM "products" 
 			WHERE 
 				("title"->'en')::text ILIKE ${`%${term}%`} OR 
 				("title"->'ru')::text ILIKE ${`%${term}%`} OR 
-				"slug" ILIKE ${`%${term}%`} OR
+				"slug" ILIKE ${`%${term}%`} OR 
 				"category_id" IN (
 					SELECT "id" FROM "categories" 
 					WHERE 
 						("title"->'en')::text ILIKE ${`%${term}%`} OR 
-						("title"->'ru')::text ILIKE ${`%${term}%`}
+						("title"->'ru')::text ILIKE ${`%${term}%`} OR
+						"slug" ILIKE ${`%${term}%`}
 				) 
-			ORDER BY "slug" ASC 
-			LIMIT 5
+			ORDER BY "title"->${`${lang}`} ASC, "slug" ASC 
+			LIMIT 6
 		`;
 
 		const categories: any[] = await this.prisma.$queryRaw`
-			SELECT "id", "title" FROM "categories" 
+			SELECT "id", "title", "slug", "image_url" AS "image" FROM "categories" 
 			WHERE 
 				("title"->'en')::text ILIKE ${`%${term}%`} OR 
-				("title"->'ru')::text ILIKE ${`%${term}%`}
-			ORDER BY "title" ASC 
+				("title"->'ru')::text ILIKE ${`%${term}%`} OR 
+				"slug" ILIKE ${`%${term}%`} 
+			ORDER BY "title"->${`${lang}`} ASC, "slug" ASC  
 			LIMIT 3
 		`;
 

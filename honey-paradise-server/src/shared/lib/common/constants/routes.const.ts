@@ -83,7 +83,7 @@ export enum EnumApiRoute {
 	PRODUCTS_CATEGORY = "/cat",
 
 	GET_ALL_PRODUCTS = "/all",
-	GET_PRODUCTS_BY_SEARCH = "/search",
+	GET_PRESEARCH_DATA = "/presearch",
 	GET_POPULAR_PRODUCTS = "/popular",
 	GET_BY_CATEGORY_SLUG = `${PRODUCTS_CATEGORY}/:slug`,
 

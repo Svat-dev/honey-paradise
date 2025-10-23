@@ -794,9 +794,8 @@
 				"signUp": "Регистрация"
 			},
 			"labels": {
-				"search": "Поиск",
-				"close": "Закрыть",
-				"found": "Найти",
+				"searchBtn": "{isOpen, select, true {Поиск} false {Закрыть} other {}}",
+				"findBtn": "Найти в каталоге",
 				"menu": "Меню",
 				"clear": "Очистить",
 				"watchCart": "Посмотреть корзину",

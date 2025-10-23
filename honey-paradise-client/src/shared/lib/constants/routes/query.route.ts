@@ -8,6 +8,7 @@ export const queryKeys = {
 	getTelegramInfo: "get user telegram info",
 	getMyCart: "get current user cart",
 	getAllCatsWithProducts: "get all categories with products",
+	getProductsBySearch: "get products by searching",
 
 	recoverPassword: "account recover password",
 	createAccount: "account create",
