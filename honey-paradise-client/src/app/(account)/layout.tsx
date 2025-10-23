@@ -11,7 +11,7 @@ export default function AccountLayout({ children }: Readonly<{ children: ReactNo
 	return (
 		<>
 			<Header route={EnumAppRoute.ACCOUNT} />
-			<main className="tw-flex tw-relative">
+			<main className="flex relative">
 				<AccountSidebar />
 				{children}
 			</main>

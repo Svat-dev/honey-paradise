@@ -1,73 +1,73 @@
 .wrapper {
-	@apply tw-flex tw-items-center tw-justify-between tw-bg-primary tw-rounded-md tw-w-full tw-px-3 tw-py-4 tw-mb-8;
+	@apply flex items-center justify-between bg-primary rounded-md w-full px-3 py-4 mb-8;
 }
 
 .filters-wrapper {
-	@apply tw-flex tw-flex-wrap tw-items-center tw-gap-5;
+	@apply flex flex-wrap items-center gap-5;
 }
 
 .actions-wrapper {
-	@apply tw-flex tw-items-center tw-gap-5;
+	@apply flex items-center gap-5;
 
 	> button {
-		@apply tw-px-2 tw-py-1.5;
+		@apply px-2 py-1.5;
 	}
 
 	> div {
-		@apply tw-flex tw-items-center tw-gap-2;
+		@apply flex items-center gap-2;
 
 		> button {
-			@apply tw-p-2;
+			@apply p-2;
 
 			> svg {
-				@apply tw-transition-colors tw-will-change-auto;
+				@apply transition-colors will-change-auto;
 			}
 
 			&:hover > svg {
-				@apply tw-text-muted;
+				@apply text-muted;
 			}
 		}
 	}
 }
 
 .checkbox {
-	@apply tw-size-6 !important;
+	@apply size-6 !important;
 }
 
 .reset {
 	> svg {
-		@apply tw-transition-all tw-will-change-auto tw-duration-500;
+		@apply transition-all will-change-auto duration-500;
 	}
 
 	&:hover > svg {
-		@apply tw-rotate-[360deg] tw-text-muted;
+		@apply rotate-[360deg] text-muted;
 	}
 }
 
 .dm-trigger {
-	@apply tw-px-3 tw-py-2 tw-text-sm tw-font-medium;
+	@apply px-3 py-2 text-sm font-medium;
 
 	> svg {
-		@apply tw-mr-2;
+		@apply mr-2;
 	}
 }
 
 .dm-content {
-	@apply tw-flex tw-flex-col;
+	@apply flex flex-col;
 }
 
 .dm-item {
-	@apply tw-flex tw-items-center tw-justify-between tw-gap-3 tw-cursor-pointer tw-transition-colors tw-will-change-auto;
+	@apply flex items-center justify-between gap-3 cursor-pointer transition-colors will-change-auto;
 
 	> div {
-		@apply tw-flex tw-items-center tw-gap-2;
+		@apply flex items-center gap-2;
 	}
 
 	&:hover {
-		@apply tw-text-muted;
+		@apply text-muted;
 	}
 }
 
 .dm-checkbox-item {
-	@apply tw-my-1.5 tw-px-2;
+	@apply my-1.5 px-2;
 }

@@ -10,14 +10,14 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 const Pagination: FC<PropsWithChildren<IPaginationProps>> = ({ children, className, ...props }) => {
 	return (
-		<div className={cn("tw-flex tw-items-center tw-gap-3", className)} role="navigation" aria-label="pagination" {...props}>
+		<div className={cn("flex items-center gap-3", className)} role="navigation" aria-label="pagination" {...props}>
 			{children}
 		</div>
 	);
 };
 
 const PaginationItem: FC<PropsWithChildren<IPaginationItemProps>> = ({ children, isActive, isArrow, className, ...props }) => (
-	<Button variant={isActive ? "secondary" : "default"} className={cn(isArrow ? "tw-p-1" : "tw-py-2 tw-px-3.5", className)} {...props}>
+	<Button variant={isActive ? "secondary" : "default"} className={cn(isArrow ? "p-1" : "py-2 px-3.5", className)} {...props}>
 		{children}
 	</Button>
 );
@@ -69,20 +69,20 @@ const PaginationContent: FC<IPaginationContentProps> = ({
 					<PaginationItem onClick={() => setCurrentPage(page - 1)} disabled={disabledArrows.prev} isArrow>
 						<ChevronLeftIcon size={24} />
 					</PaginationItem>
-					<Separator orientation="vertical" className="tw-bg-muted !tw-h-6 tw-mx-1" />
+					<Separator orientation="vertical" className="bg-muted !h-6 mx-1" />
 				</>
 			)}
 
 			{isLoading ? (
 				<>
-					<Skeleton className="tw-w-9 tw-h-9" />
-					<Skeleton className="tw-w-9 tw-h-9" />
-					<Skeleton className="tw-w-9 tw-h-9" />
+					<Skeleton className="w-9 h-9" />
+					<Skeleton className="w-9 h-9" />
+					<Skeleton className="w-9 h-9" />
 				</>
 			) : (
 				schema.map((item, i) =>
 					item === "..." ? (
-						<PaginationItem key={i} className="!tw-bg-primary/30 tw-shadow-xl tw-pointer-events-none" role="separator">
+						<PaginationItem key={i} className="!bg-primary/30 shadow-xl pointer-events-none" role="separator">
 							{item}
 						</PaginationItem>
 					) : (
@@ -95,7 +95,7 @@ const PaginationContent: FC<IPaginationContentProps> = ({
 
 			{activeArrows.next && (
 				<>
-					<Separator orientation="vertical" className="tw-bg-muted !tw-h-6 tw-mx-1" />
+					<Separator orientation="vertical" className="bg-muted !h-6 mx-1" />
 					<PaginationItem onClick={() => setCurrentPage(page + 1)} disabled={disabledArrows.next} isArrow>
 						<ChevronRightIcon size={24} />
 					</PaginationItem>

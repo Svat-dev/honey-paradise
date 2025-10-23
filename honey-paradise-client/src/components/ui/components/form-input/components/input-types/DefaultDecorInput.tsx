@@ -13,7 +13,7 @@ const DefaultDecorInput: FC<IFormDefaultInputProps> = ({ name, setMask, clearBtn
 	return (
 		<div className={def_styles["input-wrapper"]}>
 			<input
-				className={cn(className, styles["input"], { "tw-tracking-widest": isPassword })}
+				className={cn(className, styles["input"], { "tracking-widest": isPassword })}
 				onInput={onInput}
 				{...props}
 				placeholder={props.placeholder ? props.placeholder : name}
@@ -25,7 +25,7 @@ const DefaultDecorInput: FC<IFormDefaultInputProps> = ({ name, setMask, clearBtn
 			{label && (
 				<p className={styles["label"]}>
 					{label}
-					{props.required && <span className="tw-text-red-500">*</span>}
+					{props.required && <span className="text-red-500">*</span>}
 				</p>
 			)}
 

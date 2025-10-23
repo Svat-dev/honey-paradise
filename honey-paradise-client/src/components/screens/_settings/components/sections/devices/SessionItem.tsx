@@ -46,21 +46,21 @@ const SessionItem: FC<IProps> = ({ createdAt, metadata, remove, isCurrent, sid }
 								{t("content.current")}
 							</p>
 
-							<DotIcon size={20} className="tw-text-muted" />
+							<DotIcon size={20} className="text-muted" />
 
-							<p className="tw-text-muted">
+							<p className="text-muted">
 								{city}, {country}
 							</p>
 						</div>
 					) : (
 						<div>
-							<p className="tw-text-muted">
+							<p className="text-muted">
 								{city}, {country}
 							</p>
 
-							<DotIcon size={20} className="tw-text-muted" />
+							<DotIcon size={20} className="text-muted" />
 
-							<p className="tw-text-muted">{time}</p>
+							<p className="text-muted">{time}</p>
 						</div>
 					)}
 				</div>

@@ -1,31 +1,31 @@
 .checkbox-main-wrapper {
-	@apply tw-relative;
+	@apply relative;
 }
 
 .checkbox-wrapper {
-	@apply tw-flex tw-items-center tw-gap-2;
+	@apply flex items-center gap-2;
 }
 
 .checkbox-input {
-	@apply tw-sr-only;
+	@apply sr-only;
 
 	&:checked + .checkbox-wrapper > .checkbox-decor-input > svg {
-		@apply tw-opacity-100 tw-scale-100;
+		@apply opacity-100 scale-100;
 	}
 }
 
 .checkbox-decor-input {
-	@apply tw-relative tw-h-7 tw-w-7 tw-bg-secondary tw-rounded-lg tw-cursor-pointer tw-transition-opacity tw-will-change-auto;
+	@apply relative h-7 w-7 bg-secondary rounded-lg cursor-pointer transition-opacity will-change-auto;
 
 	&[data-disabled="true"] {
-		@apply tw-opacity-60 tw-cursor-not-allowed;
+		@apply opacity-60 cursor-not-allowed;
 	}
 
 	> svg {
-		@apply tw-absolute tw-top-1/2 tw-left-1/2 -tw-translate-x-1/2 -tw-translate-y-1/2 tw-opacity-0 tw-scale-95 tw-transition-all tw-will-change-auto;
+		@apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 scale-95 transition-all will-change-auto;
 	}
 }
 
 .checkbox-label {
-	@apply tw-text-sm tw-text-black tw-cursor-pointer tw-select-none;
+	@apply text-sm text-black cursor-pointer select-none;
 }

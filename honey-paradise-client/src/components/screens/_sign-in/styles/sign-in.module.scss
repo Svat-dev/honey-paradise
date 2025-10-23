@@ -2,93 +2,93 @@
 .wrapper::before,
 .border-line::after,
 .border-line::before {
-	@apply tw-w-[28.125rem] tw-h-[37rem];
+	@apply w-[28.125rem] h-[37rem];
 }
 
 .wrapper {
-	@apply tw-w-[28.125rem] tw-h-[37rem];
+	@apply w-[28.125rem] h-[37rem];
 }
 
 .help-wrapper {
-	@apply tw-flex tw-w-full tw-items-center tw-justify-between tw-mb-5 tw-px-2;
+	@apply flex w-full items-center justify-between mb-5 px-2;
 
 	> a:first-of-type {
-		@apply tw-text-muted tw-transition-colors tw-will-change-auto;
+		@apply text-muted transition-colors will-change-auto;
 
 		&:hover {
-			@apply tw-text-black;
+			@apply text-black;
 		}
 	}
 }
 
 .recaptcha {
-	@apply tw-mb-6;
+	@apply mb-6;
 }
 
 .footer-actions {
-	@apply tw-flex tw-items-center tw-gap-4 tw-mb-6;
+	@apply flex items-center gap-4 mb-6;
 
 	> button {
-		@apply tw-py-1.5 tw-px-2 tw-border-2 tw-border-muted;
+		@apply py-1.5 px-2 border-2 border-muted;
 	}
 
 	> p {
-		@apply tw-text-red-500 tw-leading-5;
+		@apply text-red-500 leading-5;
 	}
 }
 
 .footer-socials {
-	@apply tw-flex tw-items-center tw-flex-col;
+	@apply flex items-center flex-col;
 
 	> p {
-		@apply tw-relative tw-block tw-w-full tw-text-center tw-text-muted tw-mb-3;
+		@apply relative block w-full text-center text-muted mb-3;
 
 		&::before,
 		&::after {
-			@apply tw-content-[""] tw-absolute tw-block tw-top-1/2 tw-w-1/5 tw-h-px tw-bg-muted;
+			@apply content-[""] absolute block top-1/2 w-1/5 h-px bg-muted;
 		}
 
 		&[lang="ru"] {
 			&::before,
 			&::after {
-				@apply tw-w-1/12 !important;
+				@apply w-1/12 !important;
 			}
 		}
 
 		&::before {
-			@apply tw-right-0;
+			@apply right-0;
 		}
 
 		&::after {
-			@apply tw-left-0;
+			@apply left-0;
 		}
 	}
 }
 
 .socials-wrapper {
-	@apply tw-flex tw-items-center tw-gap-6;
+	@apply flex items-center gap-6;
 
 	> a {
-		@apply tw-relative tw-rounded-full tw-bg-white/80 tw-w-11 tw-h-11 tw-flex tw-overflow-hidden;
+		@apply relative rounded-full bg-white/80 w-11 h-11 flex overflow-hidden;
 
 		> img {
-			@apply tw-absolute tw-top-1/2 tw-left-1/2 -tw-translate-x-1/2 -tw-translate-y-1/2;
+			@apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
 		}
 	}
 }
 
 .socials-vk {
-	@apply tw-relative;
+	@apply relative;
 }
 
 .socials-yandex {
-	@apply tw-relative;
+	@apply relative;
 }
 
 .socials-github {
-	@apply tw-relative;
+	@apply relative;
 }
 
 .socials-google {
-	@apply tw-relative;
+	@apply relative;
 }

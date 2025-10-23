@@ -1,77 +1,77 @@
 .switches-content-wrapper {
-	@apply tw-relative tw-flex tw-flex-col tw-w-full tw-bg-primary tw-rounded-lg tw-px-4 tw-pt-3 tw-pb-4 tw-mb-5;
+	@apply relative flex flex-col w-full bg-primary rounded-lg px-4 pt-3 pb-4 mb-5;
 
 	> h4 {
-		@apply tw-font-medium tw-mb-2;
+		@apply font-medium mb-2;
 	}
 
 	> div:nth-of-type(2n) {
-		@apply tw-my-4;
+		@apply my-4;
 	}
 }
 
 .permissions-wrapper {
 	> div:last-of-type {
 		div > span {
-			@apply tw-ring-1 tw-ring-inset tw-rounded-full tw-px-1.5 tw-py-0.5 tw-text-sm tw-ml-2;
+			@apply ring-1 ring-inset rounded-full px-1.5 py-0.5 text-sm ml-2;
 
 			&[data-permission="granted"] {
-				@apply tw-ring-green-700 tw-bg-green-400 tw-text-green-950;
+				@apply ring-green-700 bg-green-400 text-green-950;
 			}
 
 			&[data-permission="default"] {
-				@apply tw-text-black tw-bg-secondary tw-ring-secondary;
+				@apply text-black bg-secondary ring-secondary;
 			}
 
 			&[data-permission="denied"] {
-				@apply tw-ring-red-800 tw-bg-red-400 tw-text-red-950;
+				@apply ring-red-800 bg-red-400 text-red-950;
 			}
 		}
 
 		> button {
-			@apply tw-py-1.5 tw-px-2;
+			@apply py-1.5 px-2;
 		}
 	}
 }
 
 .switch-wrapper {
-	@apply tw-grid tw-items-center tw-gap-4 tw-px-2 tw-py-1;
+	@apply grid items-center gap-4 px-2 py-1;
 	grid-template-columns: auto 1fr min-content;
 
 	> div {
 		&:first-of-type {
-			@apply tw-flex tw-items-center tw-justify-center tw-bg-secondary tw-p-2 tw-rounded-full;
+			@apply flex items-center justify-center bg-secondary p-2 rounded-full;
 		}
 
 		> p:first-of-type {
-			@apply tw-font-medium;
+			@apply font-medium;
 		}
 
 		> p:last-of-type {
-			@apply tw-text-muted tw-text-sm tw-ml-0.5;
+			@apply text-muted text-sm ml-0.5;
 		}
 	}
 
 	> :last-child {
-		@apply tw-justify-self-end;
+		@apply justify-self-end;
 	}
 }
 
 .destination-types-wrapper {
 	> div:last-of-type {
 		div > span {
-			@apply tw-ring-1 tw-ring-inset tw-rounded-full tw-px-1.5 tw-py-0.5 tw-text-sm tw-ml-2 tw-inline;
+			@apply ring-1 ring-inset rounded-full px-1.5 py-0.5 text-sm ml-2 inline;
 
 			&[data-linked="true"] {
-				@apply tw-ring-green-700 tw-bg-green-400 tw-text-green-950;
+				@apply ring-green-700 bg-green-400 text-green-950;
 			}
 
 			&[data-linked="loading"] {
-				@apply tw-text-black tw-bg-secondary tw-ring-secondary;
+				@apply text-black bg-secondary ring-secondary;
 			}
 
 			&[data-linked="false"] {
-				@apply tw-ring-red-800 tw-bg-red-400 tw-text-red-950;
+				@apply ring-red-800 bg-red-400 text-red-950;
 			}
 		}
 	}

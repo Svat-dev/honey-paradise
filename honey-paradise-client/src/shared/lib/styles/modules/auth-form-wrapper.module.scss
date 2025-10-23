@@ -2,7 +2,7 @@
 .wrapper::before,
 .border-line::after,
 .border-line::before {
-	@apply tw-content-[""] tw-absolute tw-block -tw-top-1/2 -tw-left-1/2 tw-z-10 tw-origin-bottom-right tw-transition-all;
+	@apply content-[""] absolute block -top-1/2 -left-1/2 z-10 origin-bottom-right transition-all;
 
 	background: linear-gradient(0deg, transparent, transparent, #4d4d4daf, #4d4d4daf, #4d4d4daf, #4d4d4daf);
 	box-shadow: 0 0 2px 2px #1c1c1c;
@@ -15,7 +15,7 @@
 .border-line[data-status="good"]::after,
 .border-line[data-status="good"]::before {
 	background: none;
-	@apply tw-bg-green-500 tw-shadow-none;
+	@apply bg-green-500 shadow-none;
 }
 
 .wrapper[data-status="error"],
@@ -24,11 +24,11 @@
 .border-line[data-status="error"]::after,
 .border-line[data-status="error"]::before {
 	background: none;
-	@apply tw-bg-red-500 tw-shadow-none;
+	@apply bg-red-500 shadow-none;
 }
 
 .wrapper {
-	@apply tw-overflow-hidden tw-absolute tw-rounded-md tw-bg-white tw-left-1/2 tw-top-1/2 -tw-translate-x-1/2 -tw-translate-y-1/2 tw-transition-all;
+	@apply overflow-hidden absolute rounded-md bg-white left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all;
 
 	&::after {
 		animation-delay: -3000ms;
@@ -36,7 +36,7 @@
 }
 
 .border-line {
-	@apply tw-absolute tw-top-0 tw-inset-0;
+	@apply absolute top-0 inset-0;
 
 	&::before {
 		animation-delay: -1500ms;
@@ -47,11 +47,11 @@
 }
 
 .form {
-	@apply tw-absolute tw-inset-1 tw-bg-primary tw-px-7 tw-py-6 tw-rounded-md tw-flex tw-flex-col tw-z-20;
+	@apply absolute inset-1 bg-primary px-7 py-6 rounded-md flex flex-col z-20;
 }
 
 .title {
-	@apply tw-w-full tw-text-center tw-mb-8;
+	@apply w-full text-center mb-8;
 }
 
 @keyframes spin {

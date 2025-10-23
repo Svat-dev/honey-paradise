@@ -22,7 +22,7 @@ const LogoutButtonDMI: FC<ILogoutMenuDMI> = ({ description, title, descClassName
 
 			<div
 				className={cn(descClassName, {
-					"!tw-opacity-100": isShowed,
+					"!opacity-100": isShowed,
 				})}
 			>
 				{description}

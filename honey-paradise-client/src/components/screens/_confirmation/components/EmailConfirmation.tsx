@@ -23,11 +23,11 @@ const EmailConfirmation: FC<IEmailConfirmation> = ({ utm_source }) => {
 	return (
 		<section
 			data-status={dataStatus}
-			className={cn(_styles["wrapper"], styles["wrapper"], { "!tw-h-[21rem] before:!tw-h-[21rem] after:!tw-h-[21rem]": !!utm_source })}
+			className={cn(_styles["wrapper"], styles["wrapper"], { "!h-[21rem] before:!h-[21rem] after:!h-[21rem]": !!utm_source })}
 		>
 			<span
 				data-status={dataStatus}
-				className={cn(_styles["border-line"], styles["border-line"], { "before:!tw-h-[21rem] after:!tw-h-[21rem]": !!utm_source })}
+				className={cn(_styles["border-line"], styles["border-line"], { "before:!h-[21rem] after:!h-[21rem]": !!utm_source })}
 			/>
 
 			<FormProvider {...form}>
@@ -52,7 +52,7 @@ const EmailConfirmation: FC<IEmailConfirmation> = ({ utm_source }) => {
 						otpSlotsLimit={limit}
 						containerClassName={styles["form-input-wrapper"]}
 						errorClassName={styles["form-input-error"]}
-						caretClassName="tw-h-7"
+						caretClassName="h-7"
 						className={styles["form-input-slot"]}
 					/>
 

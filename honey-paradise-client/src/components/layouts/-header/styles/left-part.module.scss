@@ -1,25 +1,25 @@
 .list {
-	@apply tw-inline-flex tw-items-center tw-gap-5 tw-w-full tw-list-none tw-ml-5;
+	@apply inline-flex items-center gap-5 w-full list-none ml-5;
 }
 
 .list-item {
-	@apply tw-relative tw-whitespace-nowrap;
+	@apply relative whitespace-nowrap;
 
 	> a {
-		@apply tw-transition-colors;
+		@apply transition-colors;
 	}
 
 	&:hover {
 		> a {
-			@apply tw-text-muted;
+			@apply text-muted;
 		}
 
 		&::before {
-			@apply tw-w-full;
+			@apply w-full;
 		}
 	}
 
 	&::before {
-		@apply tw-content-[""] tw-h-0.5 tw-w-0 tw-bg-muted tw-absolute tw-bottom-0.5 tw-transition-[width];
+		@apply content-[""] h-0.5 w-0 bg-muted absolute bottom-0.5 transition-[width];
 	}
 }

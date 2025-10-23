@@ -22,22 +22,22 @@ const DateInput: FC<IProps> = ({ name, isLoading, config }) => {
 			<DropdownMenuTrigger asChild>
 				<Button
 					variant="secondary"
-					className={cn("tw-items-center tw-gap-2 tw-ml-3 tw-px-2 tw-py-1", { "tw-text-muted": !date })}
+					className={cn("items-center gap-2 ml-3 px-2 py-1", { "text-muted": !date })}
 					title={t("labels.birthdate")}
 					disabled={isLoading}
 				>
 					<CalendarIcon size={26} />
 					{isLoading ? (
-						<LoaderCircleIcon size={20} className="tw-animate-spin" />
+						<LoaderCircleIcon size={20} className="animate-spin" />
 					) : (
-						<span className="tw-opacity-0 tw-animate-show-effect">
+						<span className="opacity-0 animate-show-effect">
 							{date ? format(date, "PPP", { locale: fnsLocale }) : t("optional_part.form.birthdate.label")}
 						</span>
 					)}
 				</Button>
 			</DropdownMenuTrigger>
 
-			<DropdownMenuContent side="top" className="!tw-bg-secondary">
+			<DropdownMenuContent side="top" className="!bg-secondary">
 				<Calendar
 					config={{
 						locale: calendarLocale,

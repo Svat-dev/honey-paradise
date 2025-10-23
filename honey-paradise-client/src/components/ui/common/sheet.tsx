@@ -22,7 +22,7 @@ const SheetOverlay = forwardRef<ComponentRef<typeof SheetPrimitive.Overlay>, Com
 		<SheetPrimitive.Overlay
 			className={cn(
 				styles["sheet-overlay-ui"],
-				"data-[state=open]:tw-animate-in data-[state=closed]:tw-animate-out data-[state=closed]:tw-fade-out-0 data-[state=open]:tw-fade-in-0",
+				"data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
 				className
 			)}
 			{...props}
@@ -35,7 +35,7 @@ SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 const sheetVariants = cva(
 	cn(
 		styles["sheet-content-ui"],
-		"data-[state=closed]:tw-duration-300 data-[state=open]:tw-duration-500 data-[state=open]:tw-animate-in data-[state=closed]:tw-animate-out"
+		"data-[state=closed]:duration-300 data-[state=open]:duration-500 data-[state=open]:animate-in data-[state=closed]:animate-out"
 	),
 	{
 		variants: {
@@ -58,10 +58,10 @@ const SheetContent = forwardRef<ComponentRef<typeof SheetPrimitive.Content>, She
 	({ side = "right", className, children, ...props }, ref) => (
 		<SheetPortal>
 			<SheetOverlay />
-			<SheetPrimitive.Content ref={ref} className={cn("tw-bg-primary tw-border-none", sheetVariants({ side }), className)} {...props}>
+			<SheetPrimitive.Content ref={ref} className={cn("bg-primary border-none", sheetVariants({ side }), className)} {...props}>
 				<SheetPrimitive.Close className={styles["sheet-close-btn-ui"]}>
 					<XIcon size={24} />
-					<span className="tw-sr-only">Закрыть</span>
+					<span className="sr-only">Закрыть</span>
 				</SheetPrimitive.Close>
 				{children}
 			</SheetPrimitive.Content>
@@ -70,11 +70,11 @@ const SheetContent = forwardRef<ComponentRef<typeof SheetPrimitive.Content>, She
 );
 SheetContent.displayName = SheetPrimitive.Content.displayName;
 
-const SheetHeader = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => <div className={cn("tw-flex", className)} {...props} />;
+const SheetHeader = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => <div className={cn("flex", className)} {...props} />;
 SheetHeader.displayName = "SheetHeader";
 
 const SheetFooter = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
-	<div className={cn("tw-flex tw-flex-col", className)} {...props} />
+	<div className={cn("flex flex-col", className)} {...props} />
 );
 SheetFooter.displayName = "SheetFooter";
 
@@ -87,7 +87,7 @@ const SheetDescription = forwardRef<
 	ComponentRef<typeof SheetPrimitive.Description>,
 	ComponentPropsWithoutRef<typeof SheetPrimitive.Description>
 >(({ className, ...props }, ref) => (
-	<SheetPrimitive.Description ref={ref} className={cn("tw-text-sm tw-text-muted-foreground", className)} {...props} />
+	<SheetPrimitive.Description ref={ref} className={cn("text-sm text-muted-foreground", className)} {...props} />
 ));
 SheetDescription.displayName = SheetPrimitive.Description.displayName;
 

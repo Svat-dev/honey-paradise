@@ -38,7 +38,7 @@ const NotificationsContent = () => {
 				)}
 
 				<div className={styles["pagination-wrapper"]}>
-					<Pagination className={[0, 1].includes(pages) && !isNotificationsLoading ? "tw-hidden" : ""}>
+					<Pagination className={[0, 1].includes(pages) && !isNotificationsLoading ? "hidden" : ""}>
 						<PaginationContent
 							pages={pages}
 							currentPage={queryParams.page ? +queryParams.page : undefined}

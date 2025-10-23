@@ -22,7 +22,7 @@ const DialogOverlay = forwardRef<ComponentRef<typeof DialogPrimitive.Overlay>, C
 			ref={ref}
 			className={cn(
 				styles["dialog-overlay-ui"],
-				"data-[state=open]:tw-animate-in data-[state=open]:tw-fade-in-0 data-[state=closed]:tw-animate-out data-[state=closed]:tw-fade-out-0",
+				"data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
 				className
 			)}
 			{...props}
@@ -39,15 +39,15 @@ const DialogContent = forwardRef<ComponentRef<typeof DialogPrimitive.Content>, C
 				ref={ref}
 				className={cn(
 					styles["dialog-content-ui"],
-					"data-[state=open]:tw-animate-in data-[state=open]:tw-fade-in-0 data-[state=open]:tw-zoom-in-95 data-[state=open]:tw-slide-in-from-left-1/2 data-[state=open]:tw-slide-in-from-top-[48%] data-[state=closed]:tw-animate-out data-[state=closed]:tw-fade-out-0 data-[state=closed]:tw-zoom-out-95 data-[state=closed]:tw-slide-out-to-left-1/2 data-[state=closed]:tw-slide-out-to-top-[48%]",
+					"data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%]",
 					className
 				)}
 				{...props}
 			>
 				{children}
 				<DialogPrimitive.Close className={styles["dialog-close-btn-ui"]}>
-					<XIcon className="tw-h-4 tw-w-4" />
-					<span className="tw-sr-only">Close</span>
+					<XIcon className="h-4 w-4" />
+					<span className="sr-only">Close</span>
 				</DialogPrimitive.Close>
 			</DialogPrimitive.Content>
 		</DialogPortal>

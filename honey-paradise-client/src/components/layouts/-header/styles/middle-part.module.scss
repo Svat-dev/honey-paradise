@@ -1,47 +1,39 @@
 .block {
-	@apply tw-flex tw-flex-row-reverse tw-items-center tw-w-full tw-relative;
+	@apply flex flex-row-reverse items-center w-full relative;
 }
 
 .search-button {
-	@apply tw-px-3 tw-gap-1.5 tw-h-fit tw-py-0.5 tw-rounded-lg;
+	@apply px-3 gap-1.5 h-fit py-0.5 rounded-lg;
 
 	> kbd {
-		@apply tw-text-sm tw-transition-all;
+		@apply text-sm transition-all;
 	}
 
 	> svg {
-		@apply tw-transition-transform;
+		@apply transition-transform;
 	}
 
 	&:hover {
-		@apply tw-bg-secondary;
+		@apply bg-secondary;
 
 		> kbd {
-			@apply tw-opacity-0;
+			@apply opacity-0;
 		}
 
 		> svg {
-			@apply tw-rotate-[360deg] tw-translate-x-6;
+			@apply rotate-[360deg] translate-x-6;
 		}
 	}
 }
 
 .search-input {
-	@apply tw-overflow-hidden tw-bg-background/85 tw-w-0 tw-h-9 tw-absolute tw-transition-all tw-pointer-events-none tw-rounded-xl tw-flex tw-items-center tw-px-0;
+	@apply overflow-hidden bg-background/85 w-0 h-9 absolute transition-all pointer-events-none rounded-xl flex items-center px-0;
 
 	> input {
-		@apply tw-ml-4 tw-bg-transparent tw-h-fit tw-p-0;
-	}
-}
-
-.delete-btn {
-	@apply tw-transition-all tw-opacity-0 tw-pointer-events-none;
-
-	&:hover {
-		@apply tw-rotate-180;
+		@apply ml-4 bg-transparent h-fit p-0;
 	}
 }
 
 .close-btn {
-	@apply tw-text-sm tw-ml-1 tw-py-0.5 tw-px-2;
+	@apply text-sm ml-1 py-0.5 px-2;
 }

@@ -1,56 +1,56 @@
 .items-wrapper {
-	@apply tw-flex tw-flex-col tw-gap-4 tw-mb-16 tw-pr-3 tw-max-h-[29rem] tw-overflow-y-scroll;
+	@apply flex flex-col gap-4 mb-16 pr-3 max-h-[29rem] overflow-y-scroll;
 }
 
 .not-found {
-	@apply tw-flex tw-items-center tw-gap-5 tw-rounded-md tw-w-fit tw-mt-5 tw-opacity-0 tw-animate-show-effect tw-self-center;
+	@apply flex items-center gap-5 rounded-md w-fit mt-5 opacity-0 animate-show-effect self-center;
 
 	> p {
-		@apply tw-leading-7;
+		@apply leading-7;
 	}
 }
 
 .pagination-wrapper {
-	@apply tw-absolute -tw-bottom-6 tw-pb-7 tw-w-full tw-bg-background tw-flex tw-justify-center tw-opacity-0 tw-animate-show-effect;
+	@apply absolute -bottom-6 pb-7 w-full bg-background flex justify-center opacity-0 animate-show-effect;
 }
 
 .item {
-	@apply tw-relative tw-overflow-hidden tw-flex tw-items-center tw-justify-between tw-bg-primary tw-rounded-md tw-px-3 tw-py-2 tw-opacity-0 tw-animate-show-effect tw-will-change-auto tw-transition-all;
+	@apply relative overflow-hidden flex items-center justify-between bg-primary rounded-md px-3 py-2 opacity-0 animate-show-effect will-change-auto transition-all;
 
 	&[data-selected="true"] {
-		@apply tw-ring-1 tw-ring-black tw-ring-inset;
+		@apply ring-1 ring-black ring-inset;
 
 		> div[role="none"] {
-			@apply tw-opacity-100;
+			@apply opacity-100;
 		}
 	}
 
 	&[data-select-mode="true"] {
-		@apply tw-cursor-pointer !important;
+		@apply cursor-pointer !important;
 	}
 }
 
 .item-content-wrapper {
 	> div {
-		@apply tw-flex tw-items-center tw-gap-1;
+		@apply flex items-center gap-1;
 
 		> p {
-			@apply tw-text-muted tw-text-sm;
+			@apply text-muted text-sm;
 		}
 		> span {
-			@apply tw-flex tw-items-center tw-text-sm tw-gap-1;
+			@apply flex items-center text-sm gap-1;
 		}
 	}
 
 	> p {
-		@apply tw-text-muted tw-ml-1;
+		@apply text-muted ml-1;
 	}
 }
 
 .item-overlay {
-	@apply tw-absolute tw-left-0 tw-w-full tw-h-full tw-bg-muted/30 tw-pointer-events-none tw-opacity-0 tw-transition-opacity tw-will-change-auto;
+	@apply absolute left-0 w-full h-full bg-muted/30 pointer-events-none opacity-0 transition-opacity will-change-auto;
 }
 
 .loader {
-	@apply tw-w-full tw-h-28 tw-rounded-md;
+	@apply w-full h-28 rounded-md;
 }

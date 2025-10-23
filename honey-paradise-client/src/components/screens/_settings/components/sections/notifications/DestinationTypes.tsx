@@ -24,7 +24,7 @@ const DestinationTypes: FC<IProps> = ({ isAccLoading, isSiteNotification, isTgNo
 		<section className={cn(styles["switches-content-wrapper"], styles["destination-types-wrapper"])}>
 			<Title size="sm">
 				{t("destination.title")}
-				<a className="tw-opacity-0 tw-size-0" id={slugify(t("destination.title"), { locale: "en", lower: true })} />
+				<a className="opacity-0 size-0" id={slugify(t("destination.title"), { locale: "en", lower: true })} />
 			</Title>
 
 			<div className={styles["switch-wrapper"]}>
@@ -54,17 +54,17 @@ const DestinationTypes: FC<IProps> = ({ isAccLoading, isSiteNotification, isTgNo
 				</div>
 
 				<div>
-					<p className="tw-inline">{t("destination.tg.title")}</p>
+					<p className="inline">{t("destination.tg.title")}</p>
 					<span data-linked={isAccLoading ? "loading" : isTgLinked}>
 						{isAccLoading ? t("destination.tg.loading") : t("destination.tg.linked", { isLinked: String(isTgLinked) })}
 					</span>
 					<p>{t("destination.tg.description")}</p>
 				</div>
 
-				<div className="tw-flex tw-items-center tw-gap-6">
+				<div className="flex items-center gap-6">
 					{!isTgLinked && (
 						<Button variant="secondary" title={t("labels.linkBtn")}>
-							<Link href={tgLinkRoute} className="tw-px-2 tw-py-1.5">
+							<Link href={tgLinkRoute} className="px-2 py-1.5">
 								{t("destination.tg.linkBtn")}
 							</Link>
 						</Button>

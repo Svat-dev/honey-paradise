@@ -1,4 +1,5 @@
 import { Button, Link } from "@/components/ui/common";
+
 import { FormInput } from "@/components/ui/components/form-input";
 import { FormBlock } from "@/components/ui/layouts";
 import { VALUES } from "@constants/base";
@@ -23,7 +24,7 @@ const MainPart: FC<IProps> = ({ onClickToNext, isActive, disabled, t, isPending 
 				type="email"
 				label={t("main_part.form.email.label")}
 				placeholder={t("main_part.form.email.placeholder")}
-				containerClassName="tw-mb-12"
+				containerClassName="mb-12"
 				tabIndex={0}
 				spellCheck={false}
 				isDecorated
@@ -35,7 +36,7 @@ const MainPart: FC<IProps> = ({ onClickToNext, isActive, disabled, t, isPending 
 				type="password"
 				label={t("main_part.form.password.label")}
 				placeholder={t("main_part.form.password.placeholder")}
-				containerClassName="tw-mb-12"
+				containerClassName="mb-12"
 				maxLength={VALUES.MAX_PASSWORD_LENGTH}
 				tabIndex={1}
 				spellCheck={false}
@@ -48,7 +49,7 @@ const MainPart: FC<IProps> = ({ onClickToNext, isActive, disabled, t, isPending 
 				type="password"
 				label={t("main_part.form.confirmPassword.label")}
 				placeholder={t("main_part.form.confirmPassword.placeholder")}
-				containerClassName="tw-mb-12"
+				containerClassName="mb-12"
 				maxLength={VALUES.MAX_PASSWORD_LENGTH}
 				tabIndex={2}
 				spellCheck={false}

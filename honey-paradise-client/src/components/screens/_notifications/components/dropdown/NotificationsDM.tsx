@@ -27,23 +27,23 @@ const NotificationsItemDM: FC<IProps> = ({ nid, isRead, isOpen, setIsOpen }) => 
 	return (
 		<DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
 			<DropdownMenuTrigger asChild>
-				<Button variant="ghost" title={t("title")} className="[&_>_svg]:hover:tw-text-muted">
-					<MoreVerticalIcon size={24} className="tw-transition-colors" />
+				<Button variant="ghost" title={t("title")} className="[&_>_svg]:hover:text-muted">
+					<MoreVerticalIcon size={24} className="transition-colors" />
 				</Button>
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent side="left">
-				<DropdownMenuLabel className="tw-sr-only">{t("title")}</DropdownMenuLabel>
+				<DropdownMenuLabel className="sr-only">{t("title")}</DropdownMenuLabel>
 
 				<DropdownMenuGroup>{data.map(item => !item.delete && <NotificationsDMItem key={item.text} {...item} />)}</DropdownMenuGroup>
 
-				<Separator orientation="horizontal" className="tw-w-full !tw-bg-muted/30" />
+				<Separator orientation="horizontal" className="w-full !bg-muted/30" />
 
 				<DropdownMenuGroup>
 					{data
 						.filter(item => item.delete)
 						.map(item => (
-							<NotificationsDMItem key={item.text} className="tw-text-red-500" {...item} />
+							<NotificationsDMItem key={item.text} className="text-red-500" {...item} />
 						))}
 				</DropdownMenuGroup>
 			</DropdownMenuContent>

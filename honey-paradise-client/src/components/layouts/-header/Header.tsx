@@ -4,8 +4,8 @@ import { EnumAppRoute } from "@constants/routes";
 import { cookies } from "next/dist/server/request/cookies";
 import { memo, type FC } from "react";
 import { LeftPart } from "./components/LeftPart";
-import { MiddlePart } from "./components/MiddlePart";
 import { RightPart } from "./components/right-part/RightPart";
+import { MiddlePart } from "./components/search-input/MiddlePart";
 
 interface IHeader {
 	route?: EnumAppRoute;
@@ -16,17 +16,17 @@ const Header: FC<IHeader> = memo(async ({ route }) => {
 	const sessionCookie = (await cookies()).get(EnumStorageKeys.SESSION)?.value || false;
 
 	return (
-		<header className="tw-w-full tw-bg-primary tw-border-b tw-border-muted tw-h-15 tw-sticky tw-top-0 tw-z-50">
-			<div className="tw-px-5 tw-h-full tw-flex tw-items-center tw-justify-between">
+		<header className="w-full bg-primary border-b border-muted h-15 sticky top-0 z-20">
+			<div className="px-5 h-full flex items-center justify-between">
 				<LeftPart />
 
 				{isNeedSearchInput && (
 					<>
-						<Separator orientation="vertical" className="tw-mx-9 !tw-h-10" />
+						<Separator orientation="vertical" className="mx-9 !h-10" />
 
 						<MiddlePart />
 
-						<Separator orientation="vertical" className="tw-mx-9 !tw-h-10" />
+						<Separator orientation="vertical" className="mx-9 !h-10" />
 					</>
 				)}
 

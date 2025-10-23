@@ -29,8 +29,8 @@ const LogoutButton: FC<ILogoutButton> = ({ reversed, oneClick }) => {
 					type="button"
 					title={t("labels.logout")}
 					className={cn(styles["logout-btn-dmt"], {
-						"tw-flex-row-reverse hover:-tw-translate-x-2 tw-w-fit": reversed,
-						"hover:tw-translate-x-2": !reversed,
+						"flex-row-reverse hover:-translate-x-2 w-fit": reversed,
+						"hover:translate-x-2": !reversed,
 					})}
 				>
 					<LogOutIcon size={20} strokeWidth={3} />
@@ -39,19 +39,19 @@ const LogoutButton: FC<ILogoutButton> = ({ reversed, oneClick }) => {
 			</DropdownMenuTrigger>
 
 			<DynamicDropdownMenuContent className={styles["logout-btn-dmc"]}>
-				<DropdownMenuLabel className="tw-sr-only">{}</DropdownMenuLabel>
+				<DropdownMenuLabel className="sr-only">{}</DropdownMenuLabel>
 
 				<LogoutButtonDMI
 					title={t("options.short.title")}
 					description={t("options.short.description")}
-					descClassName="-tw-top-14"
+					descClassName="-top-14"
 					onClick={() => onClick("partial")}
 				/>
 
 				<LogoutButtonDMI
 					title={t("options.full.title")}
 					description={t("options.full.description")}
-					descClassName="-tw-top-6"
+					descClassName="-top-6"
 					onClick={() => onClick("full")}
 				/>
 			</DynamicDropdownMenuContent>

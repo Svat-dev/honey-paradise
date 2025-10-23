@@ -34,13 +34,7 @@ const AvatarSection: FC<IProps> = ({ avatarPath, username, isAccLoading }) => {
 					</Avatar>
 				)}
 
-				<input
-					type="file"
-					accept={ALLOWED_AVATAR_FILE_TYPES.join(",")}
-					className="tw-sr-only"
-					onChange={handleImageChange}
-					ref={inputRef}
-				/>
+				<input type="file" accept={ALLOWED_AVATAR_FILE_TYPES.join(",")} className="sr-only" onChange={handleImageChange} ref={inputRef} />
 
 				<div className={styles["avatar-actions"]}>
 					<div>
@@ -54,7 +48,7 @@ const AvatarSection: FC<IProps> = ({ avatarPath, username, isAccLoading }) => {
 							onConfirm={handleOnDelete}
 						>
 							<Button variant="link" title={t("labels.deleteAvatar")} disabled={isLoading || !isCanDelete(avatarPath)}>
-								<TrashIcon className="tw-text-muted" size={24} />
+								<TrashIcon className="text-muted" size={24} />
 							</Button>
 						</DynamicConfirmModal>
 					</div>

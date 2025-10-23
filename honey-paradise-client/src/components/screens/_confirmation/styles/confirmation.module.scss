@@ -2,45 +2,45 @@
 .wrapper::before,
 .border-line::after,
 .border-line::before {
-	@apply tw-w-[38rem] tw-h-[24rem];
+	@apply w-[38rem] h-[24rem];
 }
 
 .wrapper {
-	@apply tw-w-[38rem] tw-h-[24rem];
+	@apply w-[38rem] h-[24rem];
 }
 
 .title-wrapper {
-	@apply tw-flex tw-items-center tw-justify-between tw-mb-4;
+	@apply flex items-center justify-between mb-4;
 
 	> div > p {
-		@apply tw-mb-8 tw-ml-1 tw-text-muted tw-text-sm tw-leading-5;
+		@apply mb-8 ml-1 text-muted text-sm leading-5;
 	}
 }
 
 .form-input-wrapper {
-	@apply tw-flex tw-justify-center tw-mb-5 !important;
+	@apply flex justify-center mb-5 !important;
 }
 
 .form-input-error {
-	@apply -tw-bottom-1;
+	@apply -bottom-1;
 }
 
 .form-input-slot {
-	@apply tw-h-14 tw-w-12 !tw-text-lg !important;
+	@apply h-14 w-12 !text-lg !important;
 }
 
 .checkbox-wrapper {
-	@apply tw-mb-6 tw-ml-2;
+	@apply mb-6 ml-2;
 }
 
 .actions-wrapper {
-	@apply tw-flex tw-justify-between tw-items-center;
+	@apply flex justify-between items-center;
 
 	> button {
-		@apply tw-py-1.5 tw-px-2;
+		@apply py-1.5 px-2;
 
 		&:last-of-type {
-			@apply tw-border-2 tw-border-muted;
+			@apply border-2 border-muted;
 		}
 	}
 }

@@ -7,36 +7,36 @@
 }
 
 .footer {
-	@apply tw-flex tw-w-full tw-justify-between tw-items-center tw-px-4;
+	@apply flex w-full justify-between items-center px-4;
 }
 
 .recaptcha {
-	@apply tw-relative tw-mb-10 tw-ml-4;
+	@apply relative mb-10 ml-4;
 
 	> p {
-		@apply tw-absolute tw-left-1 tw-text-sm tw-text-red-500;
+		@apply absolute left-1 text-sm text-red-500;
 	}
 }
 
 .submit-btn {
-	@apply tw-py-1.5 tw-px-2 tw-border-2 tw-border-muted tw-min-w-28;
+	@apply py-1.5 px-2 border-2 border-muted min-w-28;
 }
 
 .return-btn {
-	@apply tw-py-1.5 tw-px-2;
+	@apply py-1.5 px-2;
 }
 
 @keyframes animate-show-in {
 	from {
-		@apply tw-translate-x-[150%];
+		@apply translate-x-[150%];
 	}
 	to {
-		@apply tw-translate-x-0;
+		@apply translate-x-0;
 	}
 }
 
 @keyframes animate-show-out {
 	to {
-		@apply tw-translate-x-[150%];
+		@apply translate-x-[150%];
 	}
 }

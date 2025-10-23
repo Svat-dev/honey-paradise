@@ -22,13 +22,13 @@ const SignInConfirmation = () => {
 				<form className={_styles["form"]} onSubmit={onSubmit}>
 					<div className={styles["title-wrapper"]}>
 						<div>
-							<Title size="lg" className="tw-whitespace-nowrap">
+							<Title size="lg" className="whitespace-nowrap">
 								{t("2fa.title")}
 							</Title>
 							<p>{t("2fa.description.default")}</p>
 						</div>
 
-						<Image src="/assets/2fa-icon.webp" alt={""} width={90} height={90} className="tw-mb-6" priority />
+						<Image src="/assets/2fa-icon.webp" alt={""} width={90} height={90} className="mb-6" priority />
 					</div>
 
 					<FormInput
@@ -36,7 +36,7 @@ const SignInConfirmation = () => {
 						otpSlotsLimit={limit}
 						containerClassName={styles["form-input-wrapper"]}
 						errorClassName={styles["form-input-error"]}
-						caretClassName="tw-h-7"
+						caretClassName="h-7"
 						className={styles["form-input-slot"]}
 					/>
 

@@ -12,7 +12,7 @@ interface IProps {
 const RightPart: FC<IProps> = ({ isAuth }) => {
 	const { isAuthenticated } = useAuth(isAuth);
 
-	return <div className="tw-flex tw-items-center">{isAuthenticated ? <AuthOnBlock /> : <AuthOffBlock />}</div>;
+	return <div className="flex items-center">{isAuthenticated ? <AuthOnBlock /> : <AuthOffBlock />}</div>;
 };
 
 export { RightPart };

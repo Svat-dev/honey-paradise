@@ -50,7 +50,7 @@ const FiltersWrapper: FC<IFiltersWrapperProps> = ({ isAllMarkingAsRead }) => {
 			<DropdownMenu>
 				<DropdownMenuTrigger disabled={isAllMarkingAsRead} asChild>
 					<Button variant="secondary" title={t("labels.sortTypeBtn")} className={styles["dm-trigger"]}>
-						<SortIcon className="tw-opacity-0 tw-animate-show-effect" />
+						<SortIcon className="opacity-0 animate-show-effect" />
 						{t("filters.sortTypeBtn")}
 					</Button>
 				</DropdownMenuTrigger>

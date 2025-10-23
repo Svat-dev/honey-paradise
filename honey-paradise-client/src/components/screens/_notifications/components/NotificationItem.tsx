@@ -1,11 +1,11 @@
-import { DotIcon } from "lucide-react";
-import type { FC } from "react";
-import type { GetMyNotificationResponse } from "@/shared/types/server";
 import { Title } from "@/components/ui/common";
+import type { GetMyNotificationResponse } from "@/shared/types/server";
 import { cn } from "@utils/base";
+import { DotIcon } from "lucide-react";
 import dynamic from "next/dynamic";
-import styles from "../styles/notifications.module.scss";
+import type { FC } from "react";
 import { useNotificationItem } from "../hooks/useNotificationItem";
+import styles from "../styles/notifications.module.scss";
 
 const DynamicNotificationsItemDM = dynamic(() => import("./dropdown/NotificationsDM").then(mod => mod.NotificationsItemDM));
 
@@ -28,7 +28,7 @@ const NotificationItem: FC<INotificationItem> = ({ id, isRead, message, type, cr
 			<div className={styles["item-overlay"]} role="none" />
 
 			<div className={styles["item-content-wrapper"]}>
-				<div className={cn({ "tw-italic": !isRead })}>
+				<div className={cn({ italic: !isRead })}>
 					<Title size="sm">{title}</Title>
 
 					<DotIcon size={24} />

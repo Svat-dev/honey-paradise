@@ -35,17 +35,17 @@ const SignIn = () => {
 	} = useSignIn();
 
 	return (
-		<div data-status={dataStatus} className={cn(_styles["wrapper"], styles["wrapper"], { "!tw-h-[12rem] !tw-w-[35rem]": isSuccess })}>
+		<div data-status={dataStatus} className={cn(_styles["wrapper"], styles["wrapper"], { "!h-[12rem] !w-[35rem]": isSuccess })}>
 			<span
 				data-status={dataStatus}
-				className={cn(_styles["border-line"], styles["border-line"], { "!tw-h-[12rem] !tw-w-[35rem]": isSuccess })}
+				className={cn(_styles["border-line"], styles["border-line"], { "!h-[12rem] !w-[35rem]": isSuccess })}
 			></span>
 
 			<FormProvider {...form}>
 				<form className={_styles["form"]} onSubmit={form.handleSubmit(onSubmit)}>
 					{isSuccess ? (
 						<>
-							<Alert className={cn("tw-mb-4 tw-transition-opacity tw-will-change-auto", { "tw-opacity-80": isTgSignInLoading })}>
+							<Alert className={cn("mb-4 transition-opacity will-change-auto", { "opacity-80": isTgSignInLoading })}>
 								<ShieldCheckIcon size={28} />
 
 								<AlertTitle>{t("alert.title")}</AlertTitle>
@@ -53,7 +53,7 @@ const SignIn = () => {
 								<AlertDescription>{t("alert.description")}</AlertDescription>
 							</Alert>
 							<Button
-								className="tw-w-fit tw-py-1.5 tw-px-2 tw-self-end"
+								className="w-fit py-1.5 px-2 self-end"
 								variant="destructive"
 								disabled={isSignInLoading || isTgSignInLoading || isCancelTgSignInLoading}
 								isLoading={isCancelTgSignInLoading}
@@ -70,7 +70,7 @@ const SignIn = () => {
 								type="text"
 								name="id"
 								label={t("form.id.label")}
-								containerClassName="tw-mb-12"
+								containerClassName="mb-12"
 								tabIndex={1}
 								isDecorated={true}
 								required
@@ -80,7 +80,7 @@ const SignIn = () => {
 								type="password"
 								name="password"
 								label={t("form.password.label")}
-								containerClassName="tw-mb-8"
+								containerClassName="mb-8"
 								maxLength={VALUES.MAX_PASSWORD_LENGTH}
 								tabIndex={2}
 								isDecorated={true}

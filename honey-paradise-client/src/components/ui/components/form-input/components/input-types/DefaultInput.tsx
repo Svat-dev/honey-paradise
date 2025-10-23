@@ -23,7 +23,7 @@ const DefaultInput: FC<PropsWithChildren<IFormDefaultInputProps>> = ({
 	return (
 		<div className={styles["input-wrapper"]}>
 			<Input
-				className={cn(className, { "tw-tracking-widest": isPassword })}
+				className={cn(className, { "tracking-widest": isPassword })}
 				onInput={onInput}
 				{...props}
 				placeholder={!isLoading ? (props.placeholder ? props.placeholder : name) : undefined}
@@ -47,8 +47,8 @@ const DefaultInput: FC<PropsWithChildren<IFormDefaultInputProps>> = ({
 
 			{children}
 
-			{isPassword && <PasswordEye value={isShowPassword} onClick={showPassword} className="!-tw-translate-y-[45%]" t={t} />}
-			<ClearButton onClick={clear} value={value} className={cn(clearBtnClassName, "!-tw-translate-y-[45%]")} t={t} />
+			{isPassword && <PasswordEye value={isShowPassword} onClick={showPassword} className="!-translate-y-[45%]" t={t} />}
+			<ClearButton onClick={clear} value={value} className={cn(clearBtnClassName, "!-translate-y-[45%]")} t={t} />
 		</div>
 	);
 };

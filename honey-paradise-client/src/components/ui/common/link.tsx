@@ -1,5 +1,3 @@
-"use client";
-
 import { cn } from "@utils/base";
 import { ArrowUpRightIcon } from "lucide-react";
 import Link from "next/dist/client/link";
@@ -9,10 +7,10 @@ const LinkUI: TLinkType = ({ href, children, className, asAnchor, asChild, isOut
 	const newHref = asAnchor ? `#${href}` : href;
 
 	return (
-		<Link href={newHref} className={cn("tw-inline-flex", className)} {...props}>
+		<Link href={newHref} className={cn("inline-flex", className)} {...props}>
 			{children}
 			{isOutside && (
-				<span className="tw-inline-flex">
+				<span className="inline-flex">
 					<ArrowUpRightIcon size={14} className="" />
 				</span>
 			)}

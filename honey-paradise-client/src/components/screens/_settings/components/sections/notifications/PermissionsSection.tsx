@@ -23,7 +23,7 @@ const PermissionsSection: FC<IProps> = ({ isAccLoading, isEnabled, isWithSound }
 		<section className={cn(styles["switches-content-wrapper"], styles["permissions-wrapper"])}>
 			<Title size="sm">
 				{t("permissions.title")}
-				<a className="tw-opacity-0 tw-size-0" id={slugify(t("permissions.title"), { locale: "en", lower: true })} />
+				<a className="opacity-0 size-0" id={slugify(t("permissions.title"), { locale: "en", lower: true })} />
 			</Title>
 
 			<div className={styles["switch-wrapper"]}>
@@ -73,7 +73,7 @@ const PermissionsSection: FC<IProps> = ({ isAccLoading, isEnabled, isWithSound }
 				</div>
 
 				<div>
-					<p className="tw-inline">{t("permissions.push.title")}</p>
+					<p className="inline">{t("permissions.push.title")}</p>
 					<span data-permission={permission}>{t("permissions.push.permitted", { permission })}</span>
 					<p>{t("permissions.push.description")}</p>
 				</div>

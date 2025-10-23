@@ -24,7 +24,7 @@ const DropdownMenuContent = forwardRef<
 			sideOffset={sideOffset}
 			className={cn(
 				styles["dropdown-menu-content-ui"],
-				"data-[state=open]:tw-animate-in data-[state=closed]:tw-animate-out data-[state=closed]:tw-fade-out-0 data-[state=open]:tw-fade-in-0 data-[state=closed]:tw-zoom-out-95 data-[state=open]:tw-zoom-in-95",
+				"data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
 				className
 			)}
 			{...props}
@@ -39,7 +39,7 @@ const DropdownMenuItem = forwardRef<
 		inset?: boolean;
 	}
 >(({ className, inset, ...props }, ref) => (
-	<DropdownMenuPrimitive.Item ref={ref} className={cn(styles["dropdown-menu-item-ui"], inset && "tw-pl-8", className)} {...props} />
+	<DropdownMenuPrimitive.Item ref={ref} className={cn(styles["dropdown-menu-item-ui"], inset && "pl-8", className)} {...props} />
 ));
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
 
@@ -54,7 +54,7 @@ const DropdownMenuLabel = forwardRef<
 		inset?: boolean;
 	}
 >(({ className, inset, ...props }, ref) => (
-	<DropdownMenuPrimitive.Label ref={ref} className={cn(styles["dropdown-menu-label-ui"], inset && "tw-pl-8", className)} {...props} />
+	<DropdownMenuPrimitive.Label ref={ref} className={cn(styles["dropdown-menu-label-ui"], inset && "pl-8", className)} {...props} />
 ));
 DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
 

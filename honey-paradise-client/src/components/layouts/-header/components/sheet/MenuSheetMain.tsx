@@ -8,20 +8,20 @@ const MenuSheetMain = () => {
 	const { data, unReadLength, isNotificationsLoading } = useMenuSheetMain();
 
 	return (
-		<ul className="tw-list-none tw-flex tw-flex-col tw-items-end tw-mt-5">
+		<ul className="list-none flex flex-col items-end mt-5">
 			{data.map(item => (
-				<li className="tw-mt-3 tw-relative tw-transition-all hover:-tw-translate-x-2 hover:tw-text-muted" key={item.title}>
-					<Link href={item.link} className="tw-flex tw-items-center tw-gap-1.5">
+				<li className="mt-3 relative transition-all hover:-translate-x-2 hover:text-muted" key={item.title}>
+					<Link href={item.link} className="flex items-center gap-1.5">
 						<p>{item.title}</p>
 						<item.icon />
 					</Link>
 
 					{item.isNotifications && (
-						<div className="tw-absolute -tw-top-1 -tw-right-1 tw-w-4 tw-h-4 tw-flex tw-items-center tw-justify-center tw-bg-secondary tw-p-0.5 tw-rounded-full tw-text-xs">
+						<div className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center bg-secondary p-0.5 rounded-full text-xs">
 							{isNotificationsLoading ? (
-								<Loader2Icon className="tw-animate-spin" size={16} />
+								<Loader2Icon className="animate-spin" size={16} />
 							) : (
-								<span className="!tw-text-black">{unReadLength! > 9 ? "9+" : unReadLength}</span>
+								<span className="!text-black">{unReadLength! > 9 ? "9+" : unReadLength}</span>
 							)}
 						</div>
 					)}

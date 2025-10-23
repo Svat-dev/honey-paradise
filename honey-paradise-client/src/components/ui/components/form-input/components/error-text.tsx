@@ -7,6 +7,6 @@ interface IProps extends ICNProps {
 }
 
 const ErrorText: FC<IProps> = ({ error, className }) => {
-	return <p className={cn("tw-text-red-500 tw-text-sm", className)}>{error}</p>;
+	return <p className={cn("text-red-500 text-sm", className)}>{error}</p>;
 };
 export { ErrorText };

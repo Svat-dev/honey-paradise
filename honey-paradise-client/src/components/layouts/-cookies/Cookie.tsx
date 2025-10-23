@@ -17,10 +17,10 @@ const Cookie = memo(() => {
 	return (
 		<div
 			className={cn(styles["main-wrapper"], {
-				"tw-opacity-0 tw-pointer-events-none": !isVisible,
+				"opacity-0 pointer-events-none": !isVisible,
 			})}
 		>
-			<h3 className="tw-sr-only">{t("title")}</h3>
+			<h3 className="sr-only">{t("title")}</h3>
 
 			<div className={styles["content-wrapper"]}>
 				<Image src="/assets/cookies.webp" alt={t("labels.photo")} width={60} height={60} loading="lazy" />

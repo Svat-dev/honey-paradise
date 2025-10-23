@@ -1,25 +1,25 @@
 .input {
-	@apply tw-relative tw-w-full tw-pt-5 tw-px-3 tw-pb-2 tw-bg-transparent tw-text-input tw-z-10 tw-transition-all tw-duration-500 tw-will-change-auto;
+	@apply relative w-full pt-5 px-3 pb-2 bg-transparent text-input z-10 transition-all duration-500 will-change-auto;
 
 	&::placeholder {
-		@apply tw-opacity-0 tw-sr-only;
+		@apply opacity-0 sr-only;
 	}
 
 	&:focus,
 	&:not(:placeholder-shown) {
 		& ~ .label {
-			@apply tw-text-black -tw-translate-y-7 tw-text-sm tw-px-1.5;
+			@apply text-black -translate-y-7 text-sm px-1.5;
 		}
 		& ~ .decor-input {
-			@apply tw-h-9;
+			@apply h-9;
 		}
 	}
 }
 
 .decor-input {
-	@apply tw-absolute tw-left-0 tw-bottom-1 tw-w-full tw-h-0.5 tw-bg-white tw-rounded-md tw-overflow-hidden tw-transition-all tw-duration-500 tw-pointer-events-none tw-will-change-auto;
+	@apply absolute left-0 bottom-1 w-full h-0.5 bg-white rounded-md overflow-hidden transition-all duration-500 pointer-events-none will-change-auto;
 }
 
 .label {
-	@apply tw-absolute tw-top-0 tw-left-0 tw-pt-5 tw-px-3 tw-pb-2 tw-text-muted tw-transition-all tw-duration-500 tw-select-none tw-pointer-events-none tw-will-change-auto;
+	@apply absolute top-0 left-0 pt-5 px-3 pb-2 text-muted transition-all duration-500 select-none pointer-events-none will-change-auto;
 }

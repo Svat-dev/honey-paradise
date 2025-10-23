@@ -1,27 +1,27 @@
 .auth-btn {
-	@apply tw-p-1;
+	@apply p-1;
 }
 
 .change-lang-btn {
-	@apply tw-p-1 tw-bg-secondary tw-mr-5 hover:tw-bg-primary;
+	@apply p-1 bg-secondary mr-5 hover:bg-primary;
 }
 
 .separator {
-	@apply tw-bg-black tw-h-7 tw-mx-4 tw-rotate-45;
+	@apply bg-black h-7 mx-4 rotate-45;
 }
 
 .profile-block-wrapper {
-	@apply tw-flex tw-items-center tw-gap-3;
+	@apply flex items-center gap-3;
 }
 
 .profile-avatar-wrapper {
-	@apply tw-mr-4 tw-opacity-0 tw-animate-show-effect;
+	@apply mr-4 opacity-0 animate-show-effect;
 }
 
 .profile-block-nickname {
-	@apply tw-flex tw-flex-col tw-leading-4 tw-mr-1;
+	@apply flex flex-col leading-4 mr-1;
 }
 
 .profile-role {
-	@apply tw-text-sm tw-text-muted;
+	@apply text-sm text-muted;
 }

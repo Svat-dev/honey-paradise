@@ -37,7 +37,7 @@ export default async function MainLayout({ children }: Readonly<IMainLayout>) {
 	return (
 		<html lang={locale}>
 			<MainProvider>
-				<body className={`${RubikText.variable} tw-antialiased`}>
+				<body className={`${RubikText.variable} antialiased`}>
 					<NextIntlClientProvider messages={langs}>
 						<ClientMainProvider cookie={isAgreedWithCookie} session={session}>
 							{children}

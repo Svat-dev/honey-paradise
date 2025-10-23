@@ -13,7 +13,7 @@ const ConnectionsContent: FC<IConnectionsContent> = ({ oauth, connect }) => {
 	const { connections, data, handleClick, isConnectionsLoading, isRemoving } = useConnectionsContent(oauth, connect);
 
 	return (
-		<section className="tw-flex tw-flex-col tw-gap-6">
+		<section className="flex flex-col gap-6">
 			{data.map(item => {
 				const connection = connections?.find(cn => cn.type === item.type);
 

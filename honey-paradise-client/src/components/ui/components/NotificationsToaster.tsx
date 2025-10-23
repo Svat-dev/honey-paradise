@@ -38,14 +38,14 @@ const NotificationsToaster: FC<IProps> = ({ id, nid }) => {
 	};
 
 	return (
-		<div className="tw-flex tw-flex-col tw-gap-2">
-			<span className="tw-whitespace-nowrap">{t("text")}</span>
-			<div className="tw-flex tw-items-center tw-justify-between">
-				<Button className="tw-py-1.5 tw-px-2" title={t("read")} onClick={onMarkAsRead} isLoading={isMarkingAsRead}>
+		<div className="flex flex-col gap-2">
+			<span className="whitespace-nowrap">{t("text")}</span>
+			<div className="flex items-center justify-between">
+				<Button className="py-1.5 px-2" title={t("read")} onClick={onMarkAsRead} isLoading={isMarkingAsRead}>
 					{t("read")}
 				</Button>
 
-				<Button className="tw-py-1.5 tw-px-2" title={t("check")} onClick={onView} disabled={isMarkingAsRead}>
+				<Button className="py-1.5 px-2" title={t("check")} onClick={onView} disabled={isMarkingAsRead}>
 					{t("check")}
 				</Button>
 			</div>

@@ -38,7 +38,7 @@ const ResetPassword = () => {
 								<AlertDescription>{t("alert.description")}</AlertDescription>
 							</Alert>
 
-							<Button variant="link" className="tw-self-start tw-ml-1" onClick={resendCode}>
+							<Button variant="link" className="self-start ml-1" onClick={resendCode}>
 								{t("alert.resendBtn")}
 							</Button>
 						</>

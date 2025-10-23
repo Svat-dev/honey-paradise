@@ -15,10 +15,10 @@ interface INotificationsDMItem extends ICNProps {
 
 const NotificationsDMItem: FC<INotificationsDMItem> = ({ Icon, text, shortcut, onClick, disabled, className }) => {
 	return (
-		<DropdownMenuItem className={cn("hover:tw-text-muted tw-transition-colors", className)} onClick={() => onClick?.()} disabled={disabled}>
+		<DropdownMenuItem className={cn("hover:text-muted transition-colors", className)} onClick={() => onClick?.()} disabled={disabled}>
 			<Icon size={24} />
 			{text}
-			{shortcut && <DropdownMenuShortcut className="tw-pl-2">{shortcut}</DropdownMenuShortcut>}
+			{shortcut && <DropdownMenuShortcut className="pl-2">{shortcut}</DropdownMenuShortcut>}
 		</DropdownMenuItem>
 	);
 };

@@ -30,7 +30,7 @@ const EmailSection: FC<IProps> = ({ email, isVerified, isAccLoading }) => {
 						<div>
 							<Title size="sm">
 								{t("email.title")}
-								<a className="tw-opacity-0 tw-size-0" id={slugify(t("email.title"), { locale: "en", lower: true })} />
+								<a className="opacity-0 size-0" id={slugify(t("email.title"), { locale: "en", lower: true })} />
 							</Title>
 
 							{isLoading ? <Skeleton /> : <span data-verified={isVerified}>{t("email.verified", { isVerified: String(isVerified) })}</span>}
@@ -46,8 +46,8 @@ const EmailSection: FC<IProps> = ({ email, isVerified, isAccLoading }) => {
 						type="email"
 						placeholder={t("email.placeholder")}
 						isLoading={isAccLoading}
-						errorClassName="!-tw-bottom-4"
-						containerClassName="tw-mb-8 tw-mt-3"
+						errorClassName="!-bottom-4"
+						containerClassName="mb-8 mt-3"
 					>
 						{emailUnique === true ? (
 							<CheckmarkIcon className={_styles["unique-status-icon"]} />

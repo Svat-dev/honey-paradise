@@ -22,7 +22,7 @@ const CookiePolicyPage: NextPage<IProps> = async () => {
 	const t = await getTranslations("global.cookies-policy.content");
 
 	return (
-		<Container className="tw-mb-4">
+		<Container className="mb-4">
 			<CookiesPolicy t={t} />
 		</Container>
 	);

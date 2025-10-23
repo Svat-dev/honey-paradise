@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { getProviderIcon } from "@/shared/lib/utils/session/get-provider-icon";
-import { getTimeAsWordString } from "@/shared/lib/utils/time/get-time-as-word";
-import type { ISessionMetadata } from "@/shared/types/models/session.type";
-import { useLanguage } from "@i18n/hooks";
-import { format } from "date-fns";
-import { useTranslations } from "next-intl";
 import type { ISessionInfo } from "../types/session-modal.type";
+import type { ISessionMetadata } from "@/shared/types/models/session.type";
+import { format } from "date-fns";
+import { getProviderIcon } from "@/shared/lib/utils/session/get-provider-icon";
+import { getTimeAsWordString } from "@/shared/lib/utils/time";
+import { useLanguage } from "@i18n/hooks";
+import { useTranslations } from "next-intl";
 
 export const useSessionModal = (metadata: ISessionMetadata, createdAt: string) => {
 	const { locale } = useLanguage();

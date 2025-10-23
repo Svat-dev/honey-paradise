@@ -15,7 +15,7 @@ const ChangeThemeButton = () => {
 
 	return (
 		<button type="button" title={t("changeTheme")} className={styles["button"]} onClick={toggleTheme}>
-			<div className={cn(styles["indicator"], { "tw-translate-x-[115%]": theme === "dark" })} />
+			<div className={cn(styles["indicator"], { "translate-x-[115%]": theme === "dark" })} />
 
 			<SunIcon />
 

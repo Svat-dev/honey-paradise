@@ -22,11 +22,11 @@ const ConnectionsItem: FC<IConnectionsItem> = ({ connectionData, providerId, onC
 			<Image src={src} alt={name} width={32} height={32} />
 
 			<div>
-				<Title size="sm" className="tw-text-base">
+				<Title size="sm" className="text-base">
 					{name}
 				</Title>
 				{providerId && (
-					<m.p initial={{ scaleX: 0, opacity: 0 }} animate={{ scaleX: 1, opacity: 1 }} transition={{ type: "tween" }} className="tw-w-fit">
+					<m.p initial={{ scaleX: 0, opacity: 0 }} animate={{ scaleX: 1, opacity: 1 }} transition={{ type: "tween" }} className="w-fit">
 						(ID: {providerId})
 					</m.p>
 				)}

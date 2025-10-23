@@ -26,15 +26,15 @@ const SessionModal: FC<ISessionModalProps> = ({ children, createdAt, metadata })
 
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle className="!tw-text-xl">{t("modals.more.title")}</DialogTitle>
+					<DialogTitle className="!text-xl">{t("modals.more.title")}</DialogTitle>
 
-					<DialogDescription className="!tw-leading-5 tw-ml-1">{t("modals.more.description")}</DialogDescription>
+					<DialogDescription className="!leading-5 ml-1">{t("modals.more.description")}</DialogDescription>
 				</DialogHeader>
 
 				{data.map(item => (
-					<div className="tw-flex tw-items-center" key={item.value}>
-						<span className="tw-font-medium">{item.text}</span>
-						<span className="tw-inline-flex tw-items-center tw-gap-1 tw-ml-2 tw-text-muted">
+					<div className="flex items-center" key={item.value}>
+						<span className="font-medium">{item.text}</span>
+						<span className="inline-flex items-center gap-1 ml-2 text-muted">
 							{item.icon &&
 								(typeof item.icon === "string" ? (
 									<Image src={`/icons/providers/${item.icon}.svg`} alt={item.value} width={20} height={20} />
@@ -54,8 +54,8 @@ const SessionModal: FC<ISessionModalProps> = ({ children, createdAt, metadata })
 					</div>
 				</YMaps>
 
-				<DialogFooter className="!tw-justify-center">
-					<Button variant="secondary" title={t("labels.closeBtn")} className="tw-py-2 tw-px-3 tw-border tw-border-muted" onClick={close}>
+				<DialogFooter className="!justify-center">
+					<Button variant="secondary" title={t("labels.closeBtn")} className="py-2 px-3 border border-muted" onClick={close}>
 						{t("modals.more.closeBtn")}
 					</Button>
 				</DialogFooter>

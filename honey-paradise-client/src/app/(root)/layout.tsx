@@ -11,7 +11,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
 	return (
 		<>
 			<Header route={EnumAppRoute.INDEX} />
-			<main className="tw-flex tw-relative tw-h-full">
+			<main className="flex relative h-full">
 				<RootSidebar />
 				{children}
 			</main>

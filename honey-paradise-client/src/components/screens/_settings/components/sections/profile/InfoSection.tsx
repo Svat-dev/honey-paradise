@@ -1,16 +1,16 @@
 import { Button, Separator } from "@/components/ui/common";
-import { CheckmarkIcon, ErrorIcon } from "react-hot-toast";
 import { LoaderIcon, XIcon } from "lucide-react";
+import { CheckmarkIcon, ErrorIcon } from "react-hot-toast";
 
-import type { FC } from "react";
 import { FormInput } from "@/components/ui/components/form-input";
-import { FormProvider } from "react-hook-form";
 import { GetMeResponseGender } from "@/shared/types/server";
-import { ProfileSettingSection } from "./ProfileSettingSection";
 import { VALUES } from "@constants/base";
-import _styles from "../../../styles/settings.module.scss";
-import styles from "../../../styles/profile.module.scss";
+import type { FC } from "react";
+import { FormProvider } from "react-hook-form";
 import { useInfoSection } from "../../../hooks/useInfoSection";
+import styles from "../../../styles/profile.module.scss";
+import _styles from "../../../styles/settings.module.scss";
+import { ProfileSettingSection } from "./ProfileSettingSection";
 
 interface IProps {
 	gender: GetMeResponseGender | undefined;
@@ -35,7 +35,7 @@ const InfoSection: FC<IProps> = ({ birthdate, gender, phone, username, isLoading
 						<FormInput
 							name="username"
 							placeholder={t("username.placeholder")}
-							errorClassName="!-tw-bottom-4"
+							errorClassName="!-bottom-4"
 							tabIndex={1}
 							isLoading={_isLoading}
 							maxLength={VALUES.MAX_ID_LENGTH}
@@ -58,7 +58,7 @@ const InfoSection: FC<IProps> = ({ birthdate, gender, phone, username, isLoading
 							setMask={setMask}
 							tabIndex={2}
 							isLoading={_isLoading}
-							errorClassName="!-tw-bottom-4"
+							errorClassName="!-bottom-4"
 						>
 							{uniqueFields.phone === true ? (
 								<CheckmarkIcon className={_styles["unique-status-icon"]} />
@@ -74,7 +74,7 @@ const InfoSection: FC<IProps> = ({ birthdate, gender, phone, username, isLoading
 						<p>{t("birthdate.title")}</p>
 						<FormInput
 							name="birthdate"
-							containerClassName="tw-mr-2"
+							containerClassName="mr-2"
 							dateConfig={{ dateMax: new Date().getTime() - 14 * 365 * 24 * 60 * 60 * 1000 }}
 							isLoading={_isLoading}
 						/>

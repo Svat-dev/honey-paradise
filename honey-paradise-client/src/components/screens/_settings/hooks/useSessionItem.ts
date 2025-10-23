@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
-import { errorCatch } from "@/api/api-helper";
-import { getBrowserIcon } from "@/shared/lib/utils/session/get-browser-icon";
-import { getTimeAsWordString } from "@/shared/lib/utils/time/get-time-as-word";
-import type { ISessionMetadata } from "@/shared/types/models/session.type";
 import type { AxiosError } from "axios";
 import { HelpCircleIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
+import type { ISessionMetadata } from "@/shared/types/models/session.type";
+import { errorCatch } from "@/api/api-helper";
+import { getBrowserIcon } from "@/shared/lib/utils/session/get-browser-icon";
+import { getTimeAsWordString } from "@/shared/lib/utils/time";
 import { toast } from "react-hot-toast";
+import { useTranslations } from "next-intl";
 
 export const useSessionItem = (metadata: ISessionMetadata, remove: () => Promise<void>, isCurrent: boolean, createdAt: string) => {
 	const t = useTranslations("global.settings.content.devices");

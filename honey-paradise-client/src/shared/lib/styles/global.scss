@@ -1,5 +1,5 @@
 * {
-	@apply tw-m-0 tw-p-0 tw-box-border;
+	@apply m-0 p-0 box-border;
 
 	scrollbar-width: thin;
 	scrollbar-color: rgb(var(--primary)) transparent;
@@ -13,11 +13,11 @@ html {
 }
 
 body#none-scrollable {
-	@apply tw-pr-[18px] tw-overflow-hidden;
+	@apply pr-[18px] overflow-hidden;
 }
 
 body#none-scrollable-2 {
-	@apply tw-overflow-y-hidden;
+	@apply overflow-y-hidden;
 }
 
 @media screen and (prefers-reduced-motion: reduce) {
@@ -28,7 +28,7 @@ body#none-scrollable-2 {
 
 @layer base {
 	* {
-		// @apply tw-border-red;
+		// @apply border-red;
 	}
 
 	::-webkit-scrollbar {
@@ -45,7 +45,7 @@ body#none-scrollable-2 {
 	}
 
 	body {
-		@apply tw-bg-background tw-text-black tw-font-rubik tw-min-h-screen tw-relative tw-overflow-x-hidden tw-overflow-y-auto;
+		@apply bg-background text-black font-rubik min-h-screen relative overflow-x-hidden overflow-y-auto;
 	}
 }
 

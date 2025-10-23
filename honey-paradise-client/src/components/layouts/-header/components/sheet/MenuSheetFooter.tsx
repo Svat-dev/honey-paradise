@@ -8,7 +8,7 @@ const MenuSheetFooter = () => {
 	const { user } = useMyAccount();
 
 	return (
-		<SheetFooter className="tw-mt-8 tw-items-end tw-gap-1">
+		<SheetFooter className="mt-8 items-end gap-1">
 			{!user?.settings.defaultLanguage && <SelectLanguageDM />}
 			<OrderButton />
 			<LogoutButton reversed oneClick />

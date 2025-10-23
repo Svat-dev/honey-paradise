@@ -46,14 +46,14 @@ const TelegramSection = () => {
 						<>
 							{...Array(limit)
 								.fill(0)
-								.map((_, i) => <Skeleton key={i} className="tw-w-52 tw-h-6" />)}
+								.map((_, i) => <Skeleton key={i} className="w-52 h-6" />)}
 						</>
 					) : (
 						<>
 							<p>
 								{t.rich("status", {
 									sts: String(!!telegramInfo?.connected),
-									text: chunks => <span className={!telegramInfo?.tgId ? "tw-text-red-500" : "tw-text-green-500"}>{chunks}</span>,
+									text: chunks => <span className={!telegramInfo?.tgId ? "text-red-500" : "text-green-500"}>{chunks}</span>,
 								})}
 							</p>
 
@@ -78,17 +78,17 @@ const TelegramSection = () => {
 
 				<Dialog open={isOpen}>
 					<DynamicDialogContent>
-						<DialogHeader className="tw-mb-3">
+						<DialogHeader className="mb-3">
 							<DialogTitle>{dt("telegramConnect.heading")}</DialogTitle>
 							<DialogDescription>{dt("telegramConnect.description")}</DialogDescription>
 						</DialogHeader>
 
 						<DialogFooter>
-							<Button variant="secondary" className="tw-py-1.5 tw-px-2" onClick={onComplete}>
+							<Button variant="secondary" className="py-1.5 px-2" onClick={onComplete}>
 								{dt("telegramConnect.submitBtn")}
 							</Button>
 
-							<Button variant="destructive" className="tw-py-1.5 tw-px-2" onClick={onCancel}>
+							<Button variant="destructive" className="py-1.5 px-2" onClick={onCancel}>
 								{dt("telegramConnect.cancelBtn")}
 							</Button>
 						</DialogFooter>
@@ -129,9 +129,9 @@ const TelegramSection = () => {
 							variant="ghost"
 							onClick={() => telegramRefetch()}
 							disabled={isTelegramInfoLoading || isTgDisconnecting || isTgConnecting}
-							className="[&_>_svg]:hover:tw-rotate-180"
+							className="[&_>_svg]:hover:rotate-180"
 						>
-							<RefreshCwIcon size={24} className="tw-transition-transform" />
+							<RefreshCwIcon size={24} className="transition-transform" />
 						</Button>
 					</div>
 				</div>

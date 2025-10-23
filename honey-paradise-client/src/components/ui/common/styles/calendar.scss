@@ -1,69 +1,69 @@
 .vc {
-	@apply tw-bg-secondary !important;
+	@apply bg-secondary !important;
 }
 
 .vc-month,
 .vc-year {
-	@apply tw-text-black tw-transition-colors tw-will-change-auto !important;
+	@apply text-black transition-colors will-change-auto !important;
 
 	&:hover {
-		@apply tw-text-muted !important;
+		@apply text-muted !important;
 	}
 }
 
 .vc-arrow {
-	@apply tw-bg-muted-darker tw-rounded-md !important;
+	@apply bg-muted-darker rounded-md !important;
 }
 
 .vc-months__month,
 .vc-years__year {
-	@apply tw-bg-primary tw-text-black tw-border-2 tw-border-muted tw-transition-all tw-will-change-auto !important;
+	@apply bg-primary text-black border-2 border-muted transition-all will-change-auto !important;
 
 	&:hover {
-		@apply tw-border-transparent !important;
+		@apply border-transparent !important;
 	}
 
 	&:disabled {
-		@apply tw-opacity-60 !important;
+		@apply opacity-60 !important;
 	}
 }
 
 .vc-date {
 	&[data-vc-date-weekend=""] {
 		.vc-date__btn {
-			@apply tw-text-red-500 tw-font-medium !important;
+			@apply text-red-500 font-medium !important;
 		}
 	}
 
 	&[data-vc-date-disabled=""] {
-		@apply tw-opacity-60 !important;
+		@apply opacity-60 !important;
 	}
 
 	&[data-vc-date-today=""] {
 		.vc-date__btn {
-			@apply tw-bg-primary/60 tw-font-semibold !important;
+			@apply bg-primary/60 font-semibold !important;
 		}
 	}
 
 	&[data-vc-date-selected=""] {
 		.vc-date__btn {
-			@apply tw-bg-white/70 !important;
+			@apply bg-white/70 !important;
 		}
 	}
 
 	.vc-date__btn {
-		@apply tw-bg-secondary tw-text-black tw-transition-all tw-will-change-auto !important;
+		@apply bg-secondary text-black transition-all will-change-auto !important;
 
 		&:hover {
-			@apply tw-bg-black/10 !important;
+			@apply bg-black/10 !important;
 		}
 	}
 }
 
 .vc-week__day {
-	@apply tw-text-black tw-cursor-default !important;
+	@apply text-black cursor-default !important;
 
 	&[data-vc-week-day-off=""] {
-		@apply tw-text-red-500 !important;
+		@apply text-red-500 !important;
 	}
 }

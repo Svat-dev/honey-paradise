@@ -25,7 +25,7 @@ const AuthOffBlock = () => {
 				</Button>
 			</SelectLanguageDM>
 
-			<div className="tw-flex tw-items-center">
+			<div className="flex items-center">
 				{!isSignInPage && (
 					<Link href={EnumAppRoute.SIGN_IN}>
 						<Button variant="secondary" className={styles["auth-btn"]}>

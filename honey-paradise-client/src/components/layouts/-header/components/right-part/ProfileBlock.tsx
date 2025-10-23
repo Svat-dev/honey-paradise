@@ -26,7 +26,7 @@ const ProfileBlock: FC<IProfileBlock> = ({ t, picturePosition }) => {
 	const role = user?.role.toLowerCase() || GetMeResponseRole.REGULAR.toLowerCase();
 
 	return (
-		<div className={cn(styles["profile-block-wrapper"], { "tw-flex-row-reverse": isReversed })}>
+		<div className={cn(styles["profile-block-wrapper"], { "flex-row-reverse": isReversed })}>
 			{isAccLoading ? (
 				<ProfileLoading />
 			) : (

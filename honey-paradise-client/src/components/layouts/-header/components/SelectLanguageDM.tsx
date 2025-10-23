@@ -26,24 +26,24 @@ const SelectLanguageDM: FC<PropsWithChildren> = ({ children }) => {
 				{children ? (
 					children
 				) : (
-					<Button variant="secondary" className="tw-px-1 tw-py-0.5 tw-mb-1">
+					<Button variant="secondary" className="px-1 py-0.5 mb-1">
 						<p>{currentLangText}</p>
-						<ChevronDownIcon className={cn("tw-transition-transform", { "tw-rotate-180": isOpen })} />
+						<ChevronDownIcon className={cn("transition-transform", { "rotate-180": isOpen })} />
 					</Button>
 				)}
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent>
-				<DropdownMenuLabel className="tw-sr-only">{t("title")}</DropdownMenuLabel>
+				<DropdownMenuLabel className="sr-only">{t("title")}</DropdownMenuLabel>
 
 				{data?.map(item => (
 					<DropdownMenuItem
-						className="tw-py-2 tw-transition-colors hover:tw-text-muted"
+						className="py-2 transition-colors hover:text-muted"
 						title={item.isCurrent ? t("labels.currentLang") : ""}
 						onClick={() => change(item.value)}
 						key={String(item.value)}
 					>
-						{item.language}&nbsp;({item.value.toUpperCase()}){item.isCurrent && <CheckIcon className="tw-absolute tw-right-1" size={20} />}
+						{item.language}&nbsp;({item.value.toUpperCase()}){item.isCurrent && <CheckIcon className="absolute right-1" size={20} />}
 					</DropdownMenuItem>
 				))}
 			</DropdownMenuContent>

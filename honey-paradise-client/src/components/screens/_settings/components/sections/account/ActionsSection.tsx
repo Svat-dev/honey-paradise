@@ -13,7 +13,7 @@ const ActionsSection = () => {
 		<section className={styles["actions-wrapper"]}>
 			<Title size="sm">
 				{t("title")}
-				<a className="tw-opacity-0 tw-size-0" id={slugify(t("title"), { locale: "en", lower: true })} />
+				<a className="opacity-0 size-0" id={slugify(t("title"), { locale: "en", lower: true })} />
 			</Title>
 
 			<div>

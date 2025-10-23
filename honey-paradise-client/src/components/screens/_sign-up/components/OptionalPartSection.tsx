@@ -10,8 +10,8 @@ interface IProps extends PropsWithChildren {
 
 const OptionalPartSection: FC<IProps> = ({ className, title, children }) => {
 	return (
-		<div className={cn("tw-mb-5 tw-px-6", className)}>
-			<Title size="md" className="tw-text-[20px]">
+		<div className={cn("mb-5 px-6", className)}>
+			<Title size="md" className="text-[20px]">
 				{title}
 			</Title>
 			{children}

@@ -21,7 +21,7 @@ const ActionsWrapper: FC<IActionsProps> = ({ markAsReadAll, isAllMarkingAsRead, 
 				<div>
 					<p>{t("filters.actions.selectedTxt", { length: selectedLength })}</p>
 
-					<Separator orientation="vertical" className="!tw-h-7 tw-bg-muted tw-mx-3" />
+					<Separator orientation="vertical" className="!h-7 bg-muted mx-3" />
 
 					<Button variant="ghost" title={t("labels.readSelectedBtn")} disabled={unReadLength === 0} onClick={readSelected}>
 						<CheckSquareIcon size={20} />
@@ -31,11 +31,11 @@ const ActionsWrapper: FC<IActionsProps> = ({ markAsReadAll, isAllMarkingAsRead, 
 						<FolderDownIcon size={20} />
 					</Button>
 
-					<Button variant="ghost" title={t("labels.deleteSelectedBtn")} className="tw-text-red-500" onClick={deleteSelected}>
+					<Button variant="ghost" title={t("labels.deleteSelectedBtn")} className="text-red-500" onClick={deleteSelected}>
 						<Trash2Icon size={20} />
 					</Button>
 
-					<Separator orientation="vertical" className="!tw-h-7 tw-bg-muted tw-mx-3" />
+					<Separator orientation="vertical" className="!h-7 bg-muted mx-3" />
 
 					<Button variant="destructive" title={t("labels.cancelBtn")} onClick={cancelSelectMode}>
 						{t("filters.actions.cancelBtn")}

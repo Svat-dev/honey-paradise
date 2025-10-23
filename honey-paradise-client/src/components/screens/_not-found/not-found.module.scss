@@ -1,84 +1,84 @@
 .main {
-	@apply tw-absolute tw-top-1/2 tw-left-1/2 -tw-translate-x-1/2 -tw-translate-y-1/2 tw-flex tw-items-center tw-gap-4;
+	@apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-4;
 }
 
 .content-wrapper {
 	> h2 {
-		@apply tw-text-3xl;
+		@apply text-3xl;
 	}
 
 	> p {
-		@apply tw-text-gray-500 tw-ml-1 tw-mb-6;
+		@apply text-gray-500 ml-1 mb-6;
 	}
 }
 
 .actions-wrapper {
-	@apply tw-flex tw-items-center tw-gap-5;
+	@apply flex items-center gap-5;
 
 	> button:last-of-type {
-		@apply tw-border-gray-500 tw-text-gray-500;
+		@apply border-gray-500 text-gray-500;
 
 		&:hover {
-			@apply tw-border-black tw-text-black;
+			@apply border-black text-black;
 		}
 	}
 }
 
 .image-wrapper {
-	@apply tw-relative;
+	@apply relative;
 }
 
 .bee {
-	@apply tw-absolute tw-origin-bottom-right;
+	@apply absolute origin-bottom-right;
 }
 
 .bee-0 {
-	@apply tw-left-16 tw-top-14;
+	@apply left-16 top-14;
 	animation: bee-flying-1 1.5s linear infinite;
 }
 .bee-1 {
-	@apply tw-right-12 -tw-top-10 -tw-rotate-90;
+	@apply right-12 -top-10 -rotate-90;
 	animation: bee-flying-1 1.5s linear infinite;
 }
 .bee-2 {
-	@apply tw-left-12 -tw-top-10 -tw-rotate-[290deg];
+	@apply left-12 -top-10 -rotate-[290deg];
 	animation: bee-flying-2 1.5s linear infinite;
 }
 .bee-3 {
-	@apply tw-left-12 tw-bottom-20 tw-rotate-180;
+	@apply left-12 bottom-20 rotate-180;
 	animation: bee-flying-2 1.5s linear infinite;
 }
 .bee-4 {
-	@apply -tw-left-16 tw-bottom-20 -tw-rotate-45;
+	@apply -left-16 bottom-20 -rotate-45;
 	animation: bee-flying-1 1.5s linear infinite;
 }
 .bee-5 {
-	@apply -tw-left-12 tw-top-20 tw-rotate-180;
+	@apply -left-12 top-20 rotate-180;
 	animation: bee-flying-2 1.5s linear infinite;
 }
 .bee-6 {
-	@apply tw-right-4 tw-bottom-28 -tw-rotate-[270deg];
+	@apply right-4 bottom-28 -rotate-[270deg];
 	animation: bee-flying-2 1.5s linear infinite;
 }
 .bee-7 {
-	@apply tw-right-32 tw-bottom-0;
+	@apply right-32 bottom-0;
 	animation: bee-flying-1 1.5s linear infinite;
 }
 
 @keyframes bee-flying-1 {
 	from {
-		@apply tw-rotate-0;
+		@apply rotate-0;
 	}
 	to {
-		@apply tw-rotate-[360deg];
+		@apply rotate-[360deg];
 	}
 }
 
 @keyframes bee-flying-2 {
 	from {
-		@apply tw-rotate-0;
+		@apply rotate-0;
 	}
 	to {
-		@apply -tw-rotate-[360deg];
+		@apply -rotate-[360deg];
 	}
 }

@@ -10,12 +10,12 @@ interface ISettingsSection extends HTMLAttributes<HTMLDivElement> {
 
 const SettingsSection: FC<PropsWithChildren<ISettingsSection>> = ({ title, description, children, ...props }) => {
 	return (
-		<div className={cn("tw-mt-4", props.className)} {...props}>
-			<Title size="md" className="tw-font-semibold">
+		<div className={cn("mt-4", props.className)} {...props}>
+			<Title size="md" className="font-semibold">
 				{title}
 			</Title>
 
-			<p className="tw-text-muted tw-ml-1 tw-mb-3">{description}</p>
+			<p className="text-muted ml-1 mb-3">{description}</p>
 
 			{children}
 		</div>

@@ -22,7 +22,7 @@ const PrivacyPolicyPage: NextPage<IProps> = async () => {
 	const t = await getTranslations("global.privacy-policy.content");
 
 	return (
-		<Container className="tw-mb-4">
+		<Container className="mb-4">
 			<PrivacyPolicy t={t} />
 		</Container>
 	);

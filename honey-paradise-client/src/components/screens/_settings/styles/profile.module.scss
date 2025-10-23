@@ -1,147 +1,147 @@
 .avatar-wrapper {
-	@apply tw-flex tw-items-center tw-gap-4 tw-mt-4 tw-ml-1;
+	@apply flex items-center gap-4 mt-4 ml-1;
 }
 
 .avatar-loading {
-	@apply tw-w-24 tw-h-24 tw-rounded-full !important;
+	@apply w-24 h-24 rounded-full !important;
 }
 
 .avatar-image {
-	@apply tw-w-24 tw-h-24;
+	@apply w-24 h-24;
 
 	> img {
-		@apply tw-animate-show-effect tw-opacity-0;
+		@apply animate-show-effect opacity-0;
 	}
 }
 
 .avatar-actions {
 	> div {
-		@apply tw-flex tw-items-center tw-gap-3 tw-mb-2;
+		@apply flex items-center gap-3 mb-2;
 
 		> button:first-of-type {
-			@apply tw-py-2 tw-px-2.5 tw-rounded-2xl !important;
+			@apply py-2 px-2.5 rounded-2xl !important;
 		}
 	}
 
 	> p {
-		@apply tw-text-muted tw-text-sm tw-font-normal tw-ml-1;
+		@apply text-muted text-sm font-normal ml-1;
 	}
 }
 
 .info-form-wrapper {
-	@apply tw-flex tw-flex-col tw-gap-6 tw-px-1 tw-mt-2 tw-mb-4;
+	@apply flex flex-col gap-6 px-1 mt-2 mb-4;
 
 	> div:nth-of-type(2) {
-		@apply tw-mb-1;
+		@apply mb-1;
 	}
 
 	> div:nth-of-type(3) {
-		@apply tw-flex tw-items-center;
+		@apply flex items-center;
 
 		> button {
-			@apply tw-p-1;
+			@apply p-1;
 
 			> svg {
-				@apply tw-will-change-auto tw-transition-transform;
+				@apply will-change-auto transition-transform;
 			}
 
 			&:hover > svg {
-				@apply tw-rotate-180;
+				@apply rotate-180;
 			}
 		}
 	}
 
 	> div:nth-of-type(4) {
-		@apply tw-flex tw-items-center tw-gap-3;
+		@apply flex items-center gap-3;
 	}
 
 	> div:nth-of-type(5) {
-		@apply tw-flex tw-flex-col tw-items-end;
+		@apply flex flex-col items-end;
 
 		> button {
-			@apply tw-py-1.5 tw-px-2 tw-border tw-border-muted tw-mr-6 tw-mt-4;
+			@apply py-1.5 px-2 border border-muted mr-6 mt-4;
 		}
 
 		> div {
-			@apply tw-absolute tw-left-0;
+			@apply absolute left-0;
 		}
 	}
 }
 
 .appearance-form-wrapper {
-	@apply tw-flex tw-flex-col tw-gap-6 tw-px-1 tw-mt-2 tw-mb-4;
+	@apply flex flex-col gap-6 px-1 mt-2 mb-4;
 
 	> div:nth-of-type(1),
 	> div:nth-of-type(2),
 	> div:nth-of-type(3) {
-		@apply tw-flex tw-items-center tw-gap-3;
+		@apply flex items-center gap-3;
 
 		> button {
-			@apply tw-p-1;
+			@apply p-1;
 
 			> svg {
-				@apply tw-will-change-auto tw-transition-transform;
+				@apply will-change-auto transition-transform;
 			}
 
 			&:hover > svg {
-				@apply tw-rotate-180;
+				@apply rotate-180;
 			}
 		}
 	}
 
 	> div:nth-of-type(4) {
-		@apply tw-flex tw-flex-col tw-items-end;
+		@apply flex flex-col items-end;
 
 		> button {
-			@apply tw-py-1.5 tw-px-2 tw-border tw-border-muted tw-mr-6 tw-mt-4;
+			@apply py-1.5 px-2 border border-muted mr-6 mt-4;
 		}
 
 		> div {
-			@apply tw-absolute tw-left-0;
+			@apply absolute left-0;
 		}
 	}
 }
 
 .telegram-connect-wrapper {
-	@apply tw-flex tw-flex-col tw-px-1 tw-mt-2 tw-mb-4 tw-gap-5;
+	@apply flex flex-col px-1 mt-2 mb-4 gap-5;
 
 	> div:nth-of-type(1) {
-		@apply tw-flex tw-flex-col tw-gap-2;
+		@apply flex flex-col gap-2;
 
 		> p {
-			@apply tw-opacity-0 tw-animate-show-effect;
+			@apply opacity-0 animate-show-effect;
 
 			> a,
 			> span {
-				@apply tw-underline tw-font-medium tw-select-none;
+				@apply underline font-medium select-none;
 			}
 
 			&:first-of-type > span {
-				@apply tw-no-underline;
+				@apply no-underline;
 			}
 		}
 	}
 
 	> div:nth-of-type(2) {
-		@apply tw-flex tw-flex-col tw-items-end;
+		@apply flex flex-col items-end;
 
 		> div:first-of-type {
-			@apply tw-absolute tw-left-0;
+			@apply absolute left-0;
 		}
 
 		> div:last-of-type {
-			@apply tw-flex tw-items-center tw-gap-4 tw-mt-4 tw-mr-6;
+			@apply flex items-center gap-4 mt-4 mr-6;
 
 			> a {
-				@apply tw-text-black tw-transition-colors;
+				@apply text-black transition-colors;
 
 				&:hover {
-					@apply tw-text-muted;
+					@apply text-muted;
 				}
 			}
 
 			> button {
-				@apply tw-py-1.5 tw-px-2;
+				@apply py-1.5 px-2;
 			}
 		}
 	}

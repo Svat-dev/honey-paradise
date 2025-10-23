@@ -14,7 +14,7 @@ const Settings: FC<IProps> = async ({ searchParams }) => {
 
 	return (
 		<article className={styles["content-wrapper"]}>
-			<Title size="lg" className="tw-font-bold">
+			<Title size="lg" className="font-bold">
 				{t("title")}
 			</Title>
 

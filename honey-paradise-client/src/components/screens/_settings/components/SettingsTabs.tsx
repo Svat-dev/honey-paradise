@@ -22,9 +22,9 @@ const SettingsTabs: FC<IProps> = ({ setActiveTab, activeTab }) => {
 
 			<div
 				className={cn({
-					"!tw-left-1/4": activeTab === "account",
-					"!tw-left-2/4 !tw-ml-1.5": activeTab === "notifications",
-					"!tw-left-3/4 !tw-ml-1.5": activeTab === "devices",
+					"!left-1/4": activeTab === "account",
+					"!left-2/4 !ml-1.5": activeTab === "notifications",
+					"!left-3/4 !ml-1.5": activeTab === "devices",
 				})}
 			/>
 		</div>

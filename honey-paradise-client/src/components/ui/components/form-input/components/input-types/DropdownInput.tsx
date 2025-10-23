@@ -16,20 +16,20 @@ const DropdownInput: FC<IDropdownInputProps> = ({ name, data, align, isLoading, 
 	return (
 		<DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
 			<DropdownMenuTrigger asChild>
-				<Button variant="secondary" className="tw-gap-1 tw-px-2 tw-py-1 tw-mb-1" title={props.title} disabled={isLoading}>
+				<Button variant="secondary" className="gap-1 px-2 py-1 mb-1" title={props.title} disabled={isLoading}>
 					{isLoading ? (
-						<LoaderCircleIcon size={20} className="tw-animate-spin" />
+						<LoaderCircleIcon size={20} className="animate-spin" />
 					) : (
-						<p className="tw-opacity-0 tw-animate-show-effect">{label(current) || value}</p>
+						<p className="opacity-0 animate-show-effect">{label(current) || value}</p>
 					)}
-					<ChevronDownIcon size={22} className={cn("tw-transition-transform", { "tw-rotate-180": isOpen })} />
+					<ChevronDownIcon size={22} className={cn("transition-transform", { "rotate-180": isOpen })} />
 				</Button>
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent align={align}>
 				{data.map(item => (
 					<DropdownMenuItem
-						className="tw-w-full tw-justify-between tw-py-2 tw-transition-colors hover:tw-text-muted"
+						className="w-full justify-between py-2 transition-colors hover:text-muted"
 						onClick={() => onChange(item.value)}
 						key={item.id}
 					>

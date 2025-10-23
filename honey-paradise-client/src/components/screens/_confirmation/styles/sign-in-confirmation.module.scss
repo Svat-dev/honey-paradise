@@ -2,9 +2,9 @@
 .wrapper::before,
 .border-line::after,
 .border-line::before {
-	@apply tw-w-[35rem] tw-h-[20rem];
+	@apply w-[35rem] h-[20rem];
 }
 
 .wrapper {
-	@apply tw-w-[35rem] tw-h-[20rem];
+	@apply w-[35rem] h-[20rem];
 }

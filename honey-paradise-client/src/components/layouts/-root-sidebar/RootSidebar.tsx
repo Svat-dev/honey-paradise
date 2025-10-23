@@ -12,12 +12,12 @@ const RootSidebar: FC<IRootSidebarSidebar> = async ({}) => {
 	const data = await getNavListData();
 
 	return (
-		<aside className="tw-w-[270px] tw-h-full tw-bg-primary tw-sticky tw-bottom-0">
-			<div className="tw-px-4 tw-py-4">
-				<nav className="tw-mb-7">
-					<h3 className="tw-text-lg tw-font-medium">{t("list.title")}:</h3>
+		<aside className="w-[270px] h-full bg-primary sticky bottom-0">
+			<div className="px-4 py-4">
+				<nav className="mb-7">
+					<h3 className="text-lg font-medium">{t("list.title")}:</h3>
 
-					<ul className="tw-list-none tw-ml-3 tw-mt-3">
+					<ul className="list-none ml-3 mt-3">
 						{data.map(item => (
 							<ListItem key={item.topic} content={item.content} topic={item.topic} />
 						))}

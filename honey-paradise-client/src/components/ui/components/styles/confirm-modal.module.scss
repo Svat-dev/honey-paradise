@@ -1,21 +1,21 @@
 .title {
-	@apply tw-text-xl !important;
+	@apply text-xl !important;
 }
 
 .description {
-	@apply tw-leading-5 !important;
-	@apply tw-ml-1;
+	@apply leading-5 !important;
+	@apply ml-1;
 }
 
 .footer {
-	@apply tw-justify-between !important;
-	@apply tw-items-center tw-px-1;
+	@apply justify-between !important;
+	@apply items-center px-1;
 
 	> button {
-		@apply tw-py-2 tw-px-3;
+		@apply py-2 px-3;
 
 		&:last-of-type {
-			@apply tw-border tw-border-muted;
+			@apply border border-muted;
 		}
 	}
 }
