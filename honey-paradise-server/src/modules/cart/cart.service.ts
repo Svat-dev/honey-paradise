@@ -1,11 +1,11 @@
+import type { AddCartItemDto } from "./dto/add-cart-item.dto";
+import { EnumCurrencies } from "@prisma/client";
+import type { GetMyCartResponse } from "./response/get-my-cart.res";
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
-import { EnumCurrencies } from "@prisma/client";
 import { PrismaService } from "src/core/prisma/prisma.service";
-import { cartDefaultOutput } from "src/shared/lib/prisma/outputs/cart.output";
 import { ProductsService } from "../products/products.service";
-import type { AddCartItemDto } from "./dto/add-cart-item.dto";
-import type { GetMyCartResponse } from "./response/get-my-cart.res";
+import { cartDefaultOutput } from "src/shared/lib/prisma/outputs/cart.output";
 
 @Injectable()
 export class CartService {
@@ -37,7 +37,7 @@ export class CartService {
 
 		await this.prisma.cartItem.create({
 			data: {
-				productId,
+				product: { connect: { id: productId } },
 				quantity: dto.quantity,
 				priceInUSD: dto.priceInUSD,
 				cart: { connect: { id: cartId } },
@@ -73,13 +73,13 @@ export class CartService {
 	private async countTotalPrice(cartId: string): Promise<boolean> {
 		const totalPrice = await this.prisma.cartItem.aggregate({
 			where: { cartId },
-			_sum: { quantity: true },
+			_sum: { priceInUSD: true },
 		});
 
 		if (totalPrice) {
 			await this.prisma.cart.update({
 				where: { id: cartId },
-				data: { totalPrice: totalPrice._sum.quantity },
+				data: { totalPrice: totalPrice._sum.priceInUSD },
 			});
 		} else return false;
 

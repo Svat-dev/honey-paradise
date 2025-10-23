@@ -77,4 +77,8 @@ export enum EnumApiRoute {
 	FAVORITES_PRODUCTS = `${PRODUCTS}/favorites`,
 	SWITCH_FAVORITES_PRODUCTS = `${FAVORITES_PRODUCTS}/switch`,
 	CLEAR_FAVORITES_PRODUCTS = `${FAVORITES_PRODUCTS}/clear`,
+
+	ORDERS = "/orders",
+	CREATE_ORDER = `${ORDERS}/create`,
+	GET_USER_ORDERS = `${ORDERS}/all`,
 }

@@ -3,10 +3,16 @@ export const cartItemDefaultOutput = {
 
 	priceInUSD: true,
 	quantity: true,
-	productId: true,
+	product: {
+		select: {
+			id: true,
+			title: true,
+			slug: true,
+			images: true,
+		},
+	},
 
 	createdAt: true,
-	updatedAt: true,
 }; // Prisma.CartItemSelect
 
 export const cartDefaultOutput = {
@@ -16,5 +22,4 @@ export const cartDefaultOutput = {
 	totalPrice: true,
 
 	createdAt: true,
-	updatedAt: true,
 }; // Prisma.CartSelect

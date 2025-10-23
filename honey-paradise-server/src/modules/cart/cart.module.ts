@@ -8,5 +8,6 @@ import { ProfileModule } from "../auth/profile/profile.module";
 	controllers: [CartController],
 	providers: [CartService],
 	imports: [ProductsModule, ProfileModule],
+	exports: [CartService],
 })
 export class CartModule {}

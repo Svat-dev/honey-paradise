@@ -1,12 +1,28 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { type Cart, type CartItem, EnumCurrencies } from "@prisma/client";
+import type { JsonValue } from "@prisma/client/runtime/library";
+import { ApiJsonValue } from "src/shared/types/swagger.type";
+
+export class GetMyCartProductResponse {
+	@ApiProperty({ type: "string", description: "", example: "uuid" })
+	id: string;
+
+	@ApiProperty({ type: ApiJsonValue, description: "" })
+	title: JsonValue;
+
+	@ApiProperty({ type: "string", description: "", example: "slugged-value" })
+	slug: string;
+
+	@ApiProperty({ type: "string", description: "", example: ["image1", "image2"], isArray: true })
+	images: string[];
+}
 
 export class GetMyCartItemsResponse implements Partial<CartItem> {
 	@ApiProperty({ type: "string", description: "", example: "nanoid" })
 	id: string;
 
-	@ApiProperty({ type: "string", description: "", example: "uuid" })
-	productId: string;
+	@ApiProperty({ type: GetMyCartProductResponse, description: "" })
+	product: GetMyCartProductResponse;
 
 	@ApiProperty({ type: "number", description: "Quantity of the products", example: 1 })
 	priceInUSD: number;
@@ -16,9 +32,6 @@ export class GetMyCartItemsResponse implements Partial<CartItem> {
 
 	@ApiProperty({ type: Date, description: "", example: new Date() })
 	createdAt: Date;
-
-	@ApiProperty({ type: Date, description: "", example: new Date() })
-	updatedAt: Date;
 }
 
 export class GetMyCartResponse implements Partial<Cart> {
@@ -39,7 +52,4 @@ export class GetMyCartResponse implements Partial<Cart> {
 
 	@ApiProperty({ type: Date, description: "", example: new Date() })
 	createdAt: Date;
-
-	@ApiProperty({ type: Date, description: "", example: new Date() })
-	updatedAt: Date;
 }
