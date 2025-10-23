@@ -3,18 +3,19 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "next dev --turbopack",
+		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
 		"generate:types": "orval --config ./orval.config.ts",
 		"opt:params": "npx @next/codemod@canary next-async-request-api .",
+		"opt:upgrade": "npx @next/codemod@canary upgrade latest",
 		"lint": "next lint"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^5.0.1",
 		"@mdx-js/loader": "^3.1.0",
 		"@mdx-js/react": "^3.1.0",
-		"@next/mdx": "^15.3.3",
+		"@next/mdx": "16.0.0",
 		"@pbe/react-yandex-maps": "^1.2.5",
 		"@radix-ui/react-avatar": "^1.1.10",
 		"@radix-ui/react-dialog": "^1.1.14",
@@ -33,10 +34,10 @@
 		"js-cookie": "^3.0.5",
 		"lucide-react": "^0.474.0",
 		"motion": "^12.23.12",
-		"next": "^15.3.3",
+		"next": "16.0.0",
 		"next-intl": "^4.1.0",
-		"react": "^19.0.0",
-		"react-dom": "^19.0.0",
+		"react": "19.2.0",
+		"react-dom": "19.2.0",
 		"react-hook-form": "^7.54.2",
 		"react-hot-toast": "^2.5.2",
 		"sass": "^1.92.1",
@@ -52,8 +53,8 @@
 		"@types/js-cookie": "^3.0.6",
 		"@types/mdx": "^2.0.13",
 		"@types/node": "^20",
-		"@types/react": "^19",
-		"@types/react-dom": "^19",
+		"@types/react": "19.2.2",
+		"@types/react-dom": "19.2.2",
 		"@types/react-google-recaptcha": "^2.1.9",
 		"@welldone-software/why-did-you-render": "^10.0.1",
 		"orval": "7.4.1",
@@ -61,5 +62,9 @@
 		"react-google-recaptcha": "^3.1.0",
 		"tailwindcss": "^3.4.1",
 		"typescript": "^5"
+	},
+	"overrides": {
+		"@types/react": "19.2.2",
+		"@types/react-dom": "19.2.2"
 	}
 }

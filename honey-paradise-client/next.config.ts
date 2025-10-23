@@ -6,25 +6,18 @@ const withNextIntl = createNextIntlPlugin("./src/shared/lib/i18n/request.ts");
 const withMdx = createNextMdxPlugin({});
 
 const nextConfig: NextConfig = {
-	pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
+	pageExtensions: ["js", "jsx", "ts", "tsx", "mdx"],
 	reactStrictMode: true,
 	images: {
 		remotePatterns: [
 			{
-				protocol: "https",
-				hostname: "fonts.gstatic.com",
-			},
-			{
-				protocol: "http",
-				hostname: "localhost",
-				port: "4000",
-			},
-			{
 				protocol: "http",
 				hostname: "localhost",
 				port: "5000",
+				pathname: "/static/**",
 			},
 		],
+		unoptimized: true, // Disable image optimization only for dev
 	},
 	env: {
 		TELEGRAM_BOT_URL: process.env.TELEGRAM_BOT_URL,

@@ -2,9 +2,10 @@ import { EnumAppRoute, EnumConfirmationTypes } from "./shared/lib/constants/rout
 
 import { NextRequest } from "next/dist/server/web/spec-extension/request";
 import { NextResponse } from "next/dist/server/web/spec-extension/response";
+import type { ProxyConfig } from "next/server";
 import { EnumPasswordRecoverTabs } from "./components/screens/_password-recovery/types/type";
 
-export async function middleware(request: NextRequest, response: NextResponse) {
+export async function proxy(request: NextRequest, response: NextResponse) {
 	const { url, cookies, nextUrl } = request;
 
 	const session = cookies.get("session")?.value;
@@ -16,6 +17,8 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 	const isPasswordRecoveryRoute = nextUrl.pathname.startsWith(EnumAppRoute.PASSWORD_RECOVERY);
 
 	const searchParams = nextUrl.searchParams;
+
+	if (nextUrl.pathname === EnumAppRoute.PRODUCT) return NextResponse.redirect(new URL(EnumAppRoute.CATALOG, url));
 
 	if (isConfirmationRoute) {
 		if (!searchParams.get("type")) return NextResponse.redirect(new URL(EnumAppRoute.INDEX, url));
@@ -36,6 +39,6 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 	return NextResponse.next();
 }
 
-export const config = {
-	matcher: ["/auth/:path*", "/account/:path*"],
+export const config: ProxyConfig = {
+	matcher: ["/auth/:path*", "/account/:path*", "/product"],
 };
