@@ -37,6 +37,14 @@ export const userSettingsOutput = {
 	updatedAt: true,
 };
 
+export const userDownloadSettingsOutput = {
+	defaultCurrency: true,
+	defaultLanguage: true,
+	defaultTheme: true,
+	useFullLogout: true,
+	user: { select: { isTFAEnabled: true } },
+};
+
 //Prisma.UserSelect
 export const userFullOutput = {
 	...userDefaultOutput,

@@ -1,7 +1,27 @@
 {
 	"global": {
 		"logo": "Медовый рай",
-		"home": { "title": "Главная", "description": "Главная страница интернет-магазина {title}", "content": {} },
+		"home": {
+			"title": "Главная",
+			"description": "Главная страница интернет-магазина {title}",
+			"content": {
+				"products": {
+					"comments": "{count, plural, =0 {Нет отзывов} one {# отзыв} few {# отзыва} other {# отзывов}}",
+					"addToCart": "Добавить в корзину",
+					"labels": {
+						"addToCart": "Добавить товар в корзину",
+						"like": "{isLiked, select, true {Удалить из избранного} false {В избранное} other {}}"
+					},
+					"toasters": {
+						"success": "Товар добавлен в корзину!",
+						"error": {
+							"addToCart": "Ошибка при добавлении товара в корзину. {e}",
+							"like": "Ошибка при добавлении товара в избранное. {e}"
+						}
+					}
+				}
+			}
+		},
 		"notFound": {
 			"title": "Страница не найдена",
 			"content": {

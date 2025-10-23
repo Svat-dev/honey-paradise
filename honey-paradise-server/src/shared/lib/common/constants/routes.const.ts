@@ -4,6 +4,7 @@ export enum EnumApiRoute {
 	STATIC = "/static",
 	ASSETS = "/assets",
 	STATIC_PRODUCTS = `${ASSETS}/products`,
+	STATIC_CATEGORIES = `${ASSETS}/categories`,
 	AVATARS = "/avatars",
 	UPLOAD_AVATARS = `${AVATARS}/uploads`,
 
@@ -79,9 +80,15 @@ export enum EnumApiRoute {
 	CLEAR_CART = "/clear",
 
 	PRODUCTS = "/products",
+	PRODUCTS_CATEGORY = "/cat",
+
 	GET_ALL_PRODUCTS = "/all",
 	GET_PRODUCTS_BY_SEARCH = "/search",
+	GET_POPULAR_PRODUCTS = "/popular",
+	GET_BY_CATEGORY_SLUG = `${PRODUCTS_CATEGORY}/:slug`,
+
 	CREATE_NEW_PRODUCT = "/new",
+
 	FAVORITES_PRODUCTS = "/favorites",
 	SWITCH_FAVORITES_PRODUCTS = `${FAVORITES_PRODUCTS}/switch`,
 	CLEAR_FAVORITES_PRODUCTS = `${FAVORITES_PRODUCTS}/clear`,

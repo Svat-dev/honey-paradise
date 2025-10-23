@@ -41,10 +41,13 @@ export const queryKeys = {
 	deleteCartItem: "delete cart item",
 	clearSession: "clear current cookie session",
 	clearAllCart: "clear all cart items",
+	clearAllFavoritesProducts: "clear all user favorites products",
 
 	addCartItem: "add item to cart",
 
 	markNotificationAsRead: "mark notification as read",
 	markNotificationAsArchived: "mark all notifications as read",
 	markAllNotificationAsRead: "mark notification as archived",
+
+	switchFavoritesProducts: "switch user favorites products",
 } as const;

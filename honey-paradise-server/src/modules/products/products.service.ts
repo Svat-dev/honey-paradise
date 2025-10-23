@@ -1,9 +1,11 @@
+import type { GetAllCatsResponse, GetAllProductsResponse, GetCatsWithProductsResponse } from "./response/get-all-products.res";
+
 import type { CreateProductDto } from "./dto/create-product.dto";
-import type { GetCatsWithProductsResponse } from "./response/get-all-products.res";
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { ProfileService } from "../auth/profile/profile.service";
+import { productOutput } from "src/shared/lib/prisma/outputs/product.output";
 
 @Injectable()
 export class ProductsService {
@@ -12,10 +14,10 @@ export class ProductsService {
 		private readonly profileService: ProfileService
 	) {}
 
-	async getAllCatsWithProducts(searchTerm: string, lang: "en" | "ru"): Promise<GetCatsWithProductsResponse[]> {
+	async getAllCatsWithProducts(searchTerm: string, lang: "en" | "ru"): Promise<GetCatsWithProductsResponse> {
 		const term = searchTerm || "";
 
-		const categories: GetCatsWithProductsResponse[] = await this.prisma.$queryRaw`
+		const categories: GetAllCatsResponse[] = await this.prisma.$queryRaw`
 			WITH "product_comments" AS (
 				SELECT "product_id", COUNT(*) AS comments_count 
 				FROM "commentaries" 
@@ -43,6 +45,7 @@ export class ProductsService {
 				c."id",
 				c."title",
 				c."slug",
+				c."image_url" AS "image",
 				COALESCE(json_agg(sp) FILTER (WHERE sp."id" IS NOT NULL), '[]') AS products,
 				COUNT(sp."id") AS "productsLength" 
 			FROM "categories" c 
@@ -51,7 +54,8 @@ export class ProductsService {
 			ORDER BY COUNT(sp."id") DESC, c."title"->${`${lang}`} ASC
 		`;
 
-		const jsonCategories = [];
+		const jsonCategories: GetAllCatsResponse[] = [];
+		let allProductsLength = 0;
 
 		for (const cat of categories) {
 			const { productsLength, products, ...other } = cat;
@@ -70,14 +74,20 @@ export class ProductsService {
 				};
 			});
 
+			allProductsLength += parseInt(String(cat.productsLength));
+
 			jsonCategories.push({
 				...other,
 				productsLength: length,
 				products: newProducts,
 			});
 		}
-
-		return jsonCategories;
+		// TODO infinite scroll
+		return {
+			categories: jsonCategories,
+			categoriesLength: jsonCategories.length,
+			allProductsLength,
+		};
 	}
 
 	async getBySearchTerm(term: string): Promise<any> {
@@ -108,6 +118,33 @@ export class ProductsService {
 		`;
 
 		return { products, categories };
+	}
+
+	async getPopularProducts(): Promise<GetAllProductsResponse[]> {
+		const products = await this.prisma.product.findMany({
+			...productOutput,
+			where: {
+				AND: [{ rating: { gte: 4.5 } }, { rating: { lte: 5 } }],
+			},
+			orderBy: { rating: "desc" },
+			take: 6,
+		});
+
+		return products;
+	}
+
+	async getProductsByCategorySlug(slug: string): Promise<GetAllProductsResponse[]> {
+		const category = await this.getCategoryBySlug(slug);
+
+		if (!category) throw new NotFoundException("Category not found"); // TODO: add error message
+
+		const products = await this.prisma.product.findMany({
+			...productOutput,
+			where: { categoryId: category.id },
+			orderBy: { title: "asc" },
+		}); //TODO infinite scroll
+
+		return products;
 	}
 
 	async getProductById(id: string): Promise<{ id: string }> {
@@ -172,5 +209,14 @@ export class ProductsService {
 		});
 
 		return true;
+	}
+
+	private async getCategoryBySlug(slug: string) {
+		const category = await this.prisma.category.findUnique({
+			where: { slug },
+			select: { id: true, slug: true },
+		});
+
+		return category;
 	}
 }

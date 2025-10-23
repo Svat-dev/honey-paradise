@@ -9,7 +9,8 @@ model Product {
   priceInUsd Float @map("price_usd")
   rating     Float @default(0)
 
-  comments Comment[]
+  comments  Comment[]
+  cartItems CartItem[]
 
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String   @map("category_id")

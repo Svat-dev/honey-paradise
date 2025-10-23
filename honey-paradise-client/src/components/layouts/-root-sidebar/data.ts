@@ -55,7 +55,7 @@ export async function getNavListData(): Promise<INavList[]> {
 				},
 				{
 					icon: Layers3Icon,
-					link: "/",
+					link: EnumAppRoute.CATALOG,
 					title: links("allProducts"),
 				},
 			],

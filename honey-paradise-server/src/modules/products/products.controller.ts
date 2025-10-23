@@ -18,7 +18,7 @@ import { EnumStorageKeys } from "src/shared/types/client/enums.type";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { GetPresearchDataQueryDto, GetProductsQueryDto } from "./dto/search-products-query.dto";
 import { ProductsService } from "./products.service";
-import { GetCatsWithProductsResponse } from "./response/get-all-products.res";
+import { GetAllProductsResponse, GetCatsWithProductsResponse } from "./response/get-all-products.res";
 import { GetPresearchDataResponse } from "./response/get-products-by-term.res";
 
 @ApiTags("Products & Categories")
@@ -28,8 +28,9 @@ export class ProductsController {
 	constructor(private readonly productsService: ProductsService) {}
 
 	@ApiOperation({ summary: "Get all categories with products", description: "" })
-	@ApiOkResponse({ type: GetCatsWithProductsResponse, isArray: true })
+	@ApiOkResponse({ type: GetCatsWithProductsResponse })
 	@ApiParam({ name: "q", description: "Search query parameter", required: false })
+	@Throttle({ default: { limit: 150, ttl: ms("1min") } })
 	@HttpCode(HttpStatus.OK)
 	@Get(EnumApiRoute.GET_ALL_PRODUCTS)
 	getAllCatsWithProducts(@Query() query: GetProductsQueryDto, @Req() req: Request) {
@@ -41,10 +42,29 @@ export class ProductsController {
 	@ApiOperation({ summary: "Get products by searching query", description: "" })
 	@ApiOkResponse({ type: GetPresearchDataResponse })
 	@ApiParam({ name: "q", type: String, description: "Search query parameter", required: true })
+	@Throttle({ default: { limit: 150, ttl: ms("1min") } })
 	@HttpCode(HttpStatus.OK)
-	@Get(EnumApiRoute.GET_PRODUCTS_BY_SEARCH)
-	getPresearchData(@Query() query: GetPresearchDataQueryDto) {
-		return this.productsService.getBySearchTerm(query.q);
+	@Get(EnumApiRoute.GET_PRESEARCH_DATA)
+	getPresearchData(@Query() query: GetPresearchDataQueryDto, @Req() req: Request) {
+		const lang = req.cookies[EnumStorageKeys.LOCALE_LANGUAGE] || "en";
+
+		return this.productsService.getBySearchTerm(query.q, lang);
+	}
+
+	@ApiOperation({ summary: "Get popular products", description: "Rating more or equal than (>=) 4.5" })
+	@ApiOkResponse({ type: GetAllProductsResponse })
+	@HttpCode(HttpStatus.OK)
+	@Get(EnumApiRoute.GET_POPULAR_PRODUCTS)
+	getPopular() {
+		return this.productsService.getPopularProducts();
+	}
+
+	@ApiOperation({ summary: "Get products by category slug", description: "" })
+	@ApiOkResponse({ type: GetAllProductsResponse })
+	@HttpCode(HttpStatus.OK)
+	@Get(EnumApiRoute.GET_BY_CATEGORY_SLUG)
+	getByCategorySlug(@Param("slug") slug: string) {
+		return this.productsService.getProductsByCategorySlug(slug);
 	}
 
 	@ApiOperation({ summary: "Create a new product", description: "" })

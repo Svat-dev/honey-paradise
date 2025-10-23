@@ -34,6 +34,9 @@ export enum EnumAppRoute {
 	PRIVACY_POLICY = `${DOCS}/privacy-policy`,
 	COOKIE_POLICY = `${DOCS}/cookie-policy`,
 
+	CATALOG = "/catalog",
+	PRODUCT = "/product",
+
 	NOT_FOUND = "/not-found",
 	NOT_AUTH = "/not-auth",
 }
