@@ -1,4 +1,3 @@
-import { getDaysString, getHoursString, getMinutesString, getMonthsString } from "@utils/time";
 import { addHours, toDate } from "date-fns";
 
 import { useTranslations } from "next-intl";
@@ -23,10 +22,8 @@ export function getTimeAsWordString(startTime: string, dt?: any): string {
 		if (hours === 0) {
 			const minutes = Math.floor((now - createdAt) / (1000 * 60));
 
-			if (minutes < 3) return t("now");
-
-			return getMinutesString(minutes, t);
-		} else return getHoursString(hours, t);
+			return minutes < 3 ? t("now") : t("minute", { minutes });
+		} else return t("hour", { hours });
 	} else if (days === 1) {
 		const hours = createAtISO.split("T")[1].split(".")[0].split(":")[0];
 		const minutes = createAtISO.split("T")[1].split(".")[0].split(":")[1];
@@ -37,8 +34,8 @@ export function getTimeAsWordString(startTime: string, dt?: any): string {
 			? t("yesterday.midday")
 			: t("yesterday.withDate", { time: `${hours}:${minutes}` });
 	} else {
-		if (days < 7) return getDaysString(days, t);
+		if (days < 7) return t("day", { days });
 		else if (days < 30) return t("week", { weeks: Math.floor(days / 7) });
-		else return getMonthsString(Math.floor(days / 30), t);
+		else return t("month", { months: Math.floor(days / 30) });
 	}
 }

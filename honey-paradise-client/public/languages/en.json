@@ -910,18 +910,10 @@
 		"time": {
 			"now": "just now",
 			"week": "more than {weeks, plural, =1 {# week} other {# weeks}} ago",
-			"minute": {
-				"default": "{minutes, plural, =1 {minute} other {# minutes}} ago"
-			},
-			"hour": {
-				"default": "{hours, plural, =1 {hour} other {# hours}} ago"
-			},
-			"day": {
-				"default": "{days, plural, =1 {day} other {# days}} ago"
-			},
-			"month": {
-				"default": "{months, plural, =1 {month} other {# months}} ago"
-			},
+			"minute": "{minutes, plural, =1 {minute} other {# minutes}} ago",
+			"hour": "{hours, plural, =1 {hour} other {# hours}} ago",
+			"day": "{days, plural, =1 {day} other {# days}} ago",
+			"month": "{months, plural, =1 {month} other {# months}} ago",
 			"yesterday": {
 				"midnight": "yesterday at midnight",
 				"midday": "yesterday at noon",

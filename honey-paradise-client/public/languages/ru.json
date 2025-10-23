@@ -910,30 +910,10 @@
 		"time": {
 			"now": "только что",
 			"week": "более {weeks, plural, =1 {недели} other {# недель}} назад",
-			"minute": {
-				"default": "ru",
-				"1": "{minutes, plural, =1 {} other {# }}минуту назад",
-				"2-4": "{minutes} минуты назад",
-				"other": "{minutes} минут назад"
-			},
-			"hour": {
-				"default": "ru",
-				"1": "{hours, plural, =1 {} other {# }}час назад",
-				"2-4": "{hours} часа назад",
-				"other": "{hours} часов назад"
-			},
-			"day": {
-				"default": "ru",
-				"1": "{days, plural, =1 {} other {# }}день назад",
-				"2-4": "{days} дня назад",
-				"other": "{days} дней назад"
-			},
-			"month": {
-				"default": "ru",
-				"1": "{months, plural, =1 {} other {# }}месяц назад",
-				"2-4": "{months} месяца назад",
-				"other": "{months} месяцев назад"
-			},
+			"minute": "{minutes, plural, =1 {минуту} one {# минуту} few {# минуты} other {# минут} назад",
+			"hour": "{hours, plural, =1 {час} one {# час} few {# часа} other {# часов} назад",
+			"day": "{days, plural, =1 {день} one {# день} few {# дня} other {# дней} назад",
+			"month": "{months, plural, =1 {месяц} one {# месяц} few {# месяца} other {# месяцев} назад",
 			"yesterday": {
 				"midnight": "вчера в полночь",
 				"midday": "вчера в полдень",

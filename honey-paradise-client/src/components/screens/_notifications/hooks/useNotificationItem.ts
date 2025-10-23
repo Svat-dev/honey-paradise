@@ -1,5 +1,5 @@
 import { getNotificationHeadingByType } from "@/shared/lib/utils/get-notification-heading";
-import { getTimeAsWordString } from "@/shared/lib/utils/time/get-time-as-word";
+import { getTimeAsWordString } from "@/shared/lib/utils/time";
 import { GetMyNotificationResponseType } from "@/shared/types/server";
 import { useManageNotifications } from "@hooks/auth";
 import { useNotificationsContext } from "@hooks/context";
