@@ -1,6 +1,7 @@
+import type { Metadata, NextPage } from "next";
+
 import { Index } from "@/components/screens/_index/Index";
 import { getMetadata } from "@utils/base";
-import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
 interface IProps {}
@@ -16,6 +17,8 @@ export async function generateMetadata({}: IProps): Promise<Metadata> {
 	};
 }
 
-export default async function IndexPage({}: IProps) {
+const IndexPage: NextPage<IProps> = props => {
 	return <Index />;
-}
+};
+
+export default IndexPage;

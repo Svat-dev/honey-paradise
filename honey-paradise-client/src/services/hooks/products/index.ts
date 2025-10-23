@@ -1,1 +1,2 @@
-export * from "./getAllCatsWithProdS";
+export * from "./useGetAllCatsWithProdS";
+export * from "./useManageFavoritesS";

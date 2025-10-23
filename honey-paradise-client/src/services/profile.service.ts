@@ -1,12 +1,21 @@
 import { UpdateUserDto, UpdateUserSettingsDto } from "@/shared/types/server";
 
-import type { AxiosResponse } from "axios";
-import { EnumApiRoute } from "@constants/routes";
-import type { Nullable } from "@/shared/types";
 import { getContentType } from "@/api/api-helper";
 import { instance } from "@/api/instance";
+import type { Nullable } from "@/shared/types";
+import { EnumApiRoute } from "@constants/routes";
+import type { AxiosResponse } from "axios";
 
 export const profileService = {
+	downloadSettings: async (format: "yml" | "json") => {
+		const res = await instance.get(EnumApiRoute.DOWNLOAD_PROFILE_SETTINGS, {
+			responseType: "blob",
+			params: { format },
+		});
+
+		return res;
+	},
+
 	uniqueFieldCheck: async (fieldValue: string | undefined, field: "email" | "username" | "phone") => {
 		const res = await instance.post<any, AxiosResponse<boolean>>(`${EnumApiRoute.CHECK_UNIQUE}/${field}`, { fieldValue });
 

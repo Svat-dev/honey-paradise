@@ -6,6 +6,9 @@ export enum EnumStorageKeys {
 	SOCKET_SESSION_TOKEN = "socket_session_token",
 	CURRENCY_DATA = "currency_data",
 	SESSION = "session",
+
+	// LocalStorage
+	SEARCH_HISTORY = "search_history",
 }
 
 export enum EnumSessionStorageKeys {

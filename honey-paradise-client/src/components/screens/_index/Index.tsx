@@ -1,14 +1,11 @@
-"use client";
-
-import { CategorySection } from "./components/CategorySection";
-import { useGetAllCatsWithProdS } from "@/services/hooks/products";
-
 const Index = () => {
-	const { catsWithProducts, isCatsWithProductsLoading } = useGetAllCatsWithProdS();
-
 	return (
-		<div className="tw-flex tw-flex-col tw-w-full">
-			{isCatsWithProductsLoading ? <p>Loading...</p> : catsWithProducts?.map(item => <CategorySection key={item.id} {...item} />)}
+		<div>
+			<section>Секция 1. Подборки, популярные товары {"(рейтинг >4.5)"}</section>
+
+			<section>Секция 2. Что-нибудь еще</section>
+
+			<section>Секция 3. Недавно смотрели, покупали</section>
 		</div>
 	);
 };

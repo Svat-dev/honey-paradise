@@ -4,6 +4,8 @@ model Category {
   title Json
   slug  String @unique
 
+  image String @map("image_url")
+
   products Product[]
 
   createdAt DateTime @default(now()) @map("created_at")
