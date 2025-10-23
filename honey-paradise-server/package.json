@@ -54,7 +54,8 @@
 		"rxjs": "^7.8.1",
 		"sharp": "^0.34.2",
 		"socket.io": "^4.8.1",
-		"uuid": "^11.0.4"
+		"uuid": "^11.0.4",
+		"yamljs": "^0.3.0"
 	},
 	"devDependencies": {
 		"@nestjs/cli": "^10.0.0",
@@ -69,6 +70,7 @@
 		"@types/passport-github": "^1.1.12",
 		"@types/passport-google-oauth20": "^2.0.16",
 		"@types/react": "^19.1.8",
+		"@types/yamljs": "^0.2.34",
 		"source-map-support": "^0.5.21",
 		"ts-loader": "^9.4.3",
 		"ts-node": "^10.9.1",

@@ -1,17 +1,19 @@
 import { Controller } from "@nestjs/common/decorators/core/controller.decorator";
 import { UseInterceptors } from "@nestjs/common/decorators/core/use-interceptors.decorator";
 import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
-import { Delete, Patch, Post, Put } from "@nestjs/common/decorators/http/request-mapping.decorator";
-import { Body, Param, UploadedFile } from "@nestjs/common/decorators/http/route-params.decorator";
+import { Delete, Get, Patch, Post, Put } from "@nestjs/common/decorators/http/request-mapping.decorator";
+import { Body, Param, Query, Res, UploadedFile } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
 import { FileInterceptor } from "@nestjs/platform-express/multer/interceptors/file.interceptor";
-import { ApiBody, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiOkResponse, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { SkipThrottle, Throttle } from "@nestjs/throttler/dist/throttler.decorator";
+import type { Response } from "express";
 import { Authorization } from "src/shared/decorators/auth.decorator";
 import { Authorized } from "src/shared/decorators/authorized.decorator";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
 import { ms } from "src/shared/lib/common/utils";
 import { FileValidationPipe } from "src/shared/pipes/file-validation.pipe";
+import { SettingsFileFormatPipe } from "src/shared/pipes/settings-file-format.pipe";
 import { UniqueFieldCheckPipe } from "src/shared/pipes/unique-field-check.pipe";
 import { UniqueFieldCheckDto } from "./dto/unique-field-check.dto";
 import { UpdateUserSettingsDto } from "./dto/update-user-settings.dto";
@@ -23,6 +25,21 @@ import { ProfileService } from "./profile.service";
 @Controller(EnumApiRoute.PROFILE)
 export class ProfileController {
 	constructor(private readonly profileService: ProfileService) {}
+
+	@ApiOperation({ summary: "Download user settings as json. Authorized only" })
+	@ApiResponse({ status: HttpStatus.OK, description: "File successfully sended" })
+	@ApiParam({ name: "format", enum: ["json", "yml"], example: "json" })
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Throttle({ default: { limit: 3, ttl: ms("5min") } })
+	@Get(EnumApiRoute.DOWNLOAD_SETTINGS)
+	async downloadSettings(
+		@Authorized("id") userId: string,
+		@Query("format", SettingsFileFormatPipe) format: "json" | "yml",
+		@Res() res: Response
+	) {
+		return this.profileService.downloadSettings(userId, format, res);
+	}
 
 	@ApiOperation({ summary: "Check filed on unique value. email or username or phone" })
 	@ApiParam({ name: "field", enum: ["email", "username", "phone"], example: "email" })

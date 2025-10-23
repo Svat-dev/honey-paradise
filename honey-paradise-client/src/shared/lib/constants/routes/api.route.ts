@@ -38,6 +38,7 @@ export enum EnumApiRoute {
 	VERIFY_EMAIL = `${ACCOUNT_EMAIL}/verify`,
 
 	PROFILE = "/profile",
+	DOWNLOAD_PROFILE_SETTINGS = `${PROFILE}/download-settings`,
 	UPDATE_PROFILE = `${PROFILE}/update`,
 	CHECK_UNIQUE = `${PROFILE}/check-unique`,
 

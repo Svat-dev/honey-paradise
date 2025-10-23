@@ -3,14 +3,18 @@ import * as path from "path";
 import * as sharp from "sharp";
 
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
+import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
+import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
 import { type Prisma } from "@prisma/client";
 import { hash } from "argon2";
+import type { Response } from "express";
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { DEFAULT_AVATAR_PATH, EnumApiRoute } from "src/shared/lib/common/constants";
-import { userDefaultOutput } from "src/shared/lib/prisma/outputs/user.output";
+import { userDefaultOutput, userDownloadSettingsOutput } from "src/shared/lib/prisma/outputs/user.output";
+import * as yamljs from "yamljs";
 import type { UpdateUserSettingsDto } from "./dto/update-user-settings.dto";
 
 @Injectable()
@@ -19,6 +23,33 @@ export class ProfileService {
 		private readonly prisma: PrismaService,
 		private readonly i18n: I18nService
 	) {}
+
+	async downloadSettings(userId: string, format: "yml" | "json", res: Response): Promise<void> {
+		const { user, ...settings } = await this.prisma.userSettings.findUnique({
+			where: { userId },
+			select: userDownloadSettingsOutput,
+		});
+
+		const obj = { uid: userId, ...settings, ...user };
+		const data = format === "json" ? JSON.stringify(obj) : yamljs.stringify(obj, 4, 2);
+
+		const uploadDir = path.join(__dirname, "../../../..", "public", format, "settings");
+		const filepath = path.join(uploadDir, `${userId}.${format}`);
+
+		try {
+			fs.writeFileSync(filepath, data);
+
+			res.setHeader("Content-disposition", `attachment; filename=user-settings.${format}`);
+			res.setHeader("Content-type", `application/${format}`);
+
+			const content = fs.readFileSync(filepath);
+			res.status(HttpStatus.OK).send(content);
+
+			fs.unlinkSync(filepath);
+		} catch (error) {
+			throw new InternalServerErrorException(error);
+		}
+	}
 
 	async deleteAvatar(userId: string, exact: boolean = false): Promise<boolean> {
 		const user = await this.getProfile(userId, "id");
