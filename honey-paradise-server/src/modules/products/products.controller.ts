@@ -52,7 +52,7 @@ export class ProductsController {
 	}
 
 	@ApiOperation({ summary: "Get popular products", description: "Rating more or equal than (>=) 4.5" })
-	@ApiOkResponse({ type: GetAllProductsResponse })
+	@ApiOkResponse({ type: GetAllProductsResponse, isArray: true })
 	@HttpCode(HttpStatus.OK)
 	@Get(EnumApiRoute.GET_POPULAR_PRODUCTS)
 	getPopular() {
@@ -60,11 +60,13 @@ export class ProductsController {
 	}
 
 	@ApiOperation({ summary: "Get products by category slug", description: "" })
-	@ApiOkResponse({ type: GetAllProductsResponse })
+	@ApiOkResponse({ type: GetAllProductsResponse, isArray: true })
 	@HttpCode(HttpStatus.OK)
 	@Get(EnumApiRoute.GET_BY_CATEGORY_SLUG)
-	getByCategorySlug(@Param("slug") slug: string) {
-		return this.productsService.getProductsByCategorySlug(slug);
+	getByCategorySlug(@Param("slug") slug: string, @Req() req: Request) {
+		const lang = req.cookies[EnumStorageKeys.LOCALE_LANGUAGE] || "en";
+
+		return this.productsService.getProductsByCategorySlug(slug, lang);
 	}
 
 	@ApiOperation({ summary: "Create a new product", description: "" })

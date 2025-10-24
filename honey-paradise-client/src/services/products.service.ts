@@ -1,8 +1,14 @@
+import type {
+	CreateProductDto,
+	GetAllCatsResponse,
+	GetAllProductsResponse,
+	GetCatsWithProductsResponse,
+	GetPresearchDataResponse,
+} from "@/shared/types/server";
 import { defaultInstance, instance } from "@/api/instance";
-import type { CreateProductDto, GetCatsWithProductsResponse, GetPresearchDataResponse } from "@/shared/types/server";
 
-import { EnumApiRoute } from "@constants/routes";
 import type { AxiosResponse } from "axios";
+import { EnumApiRoute } from "@constants/routes";
 
 export const productsService = {
 	getAllCatsWithProducts: async (q?: string) => {
@@ -17,6 +23,18 @@ export const productsService = {
 		const res = await defaultInstance.get<any, AxiosResponse<GetPresearchDataResponse>>(EnumApiRoute.GET_PRESEARCH_DATA, {
 			params: { q: searchTerm },
 		});
+
+		return res;
+	},
+
+	getPopular: async () => {
+		const res = await defaultInstance.get<any, AxiosResponse<GetAllProductsResponse[]>>(EnumApiRoute.GET_POPULAR_PRODUCTS);
+
+		return res;
+	},
+
+	getByCatSlug: async (slug: string) => {
+		const res = await defaultInstance.get<any, AxiosResponse<GetAllCatsResponse>>(`${EnumApiRoute.PRODUCTS_CATEGORY}/${slug}`);
 
 		return res;
 	},

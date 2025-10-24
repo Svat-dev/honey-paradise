@@ -12,7 +12,7 @@ const RootSidebar: FC<IRootSidebarSidebar> = async ({}) => {
 	const data = await getNavListData();
 
 	return (
-		<aside className="w-[270px] h-full bg-primary sticky bottom-0">
+		<aside className="w-80 h-full bg-primary sticky bottom-0">
 			<div className="px-4 py-4">
 				<nav className="mb-7">
 					<h3 className="text-lg font-medium">{t("list.title")}:</h3>

@@ -1,5 +1,7 @@
 import type { Metadata, NextPage } from "next";
 
+import { CatalogCategory } from "@/components/screens/_catalog/CatalogCategory";
+
 interface IProps {
 	params: Promise<{ slug: string }>;
 }
@@ -13,7 +15,7 @@ export async function generateMetadata(props: IProps): Promise<Metadata> {
 const CatalogCategoryPage: NextPage<IProps> = async props => {
 	const params = await props.params;
 
-	return <>Category slug: {params.slug}</>;
+	return <CatalogCategory slug={params.slug} />;
 };
 
 export default CatalogCategoryPage;

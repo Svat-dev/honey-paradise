@@ -9,6 +9,8 @@ export const queryKeys = {
 	getMyCart: "get current user cart",
 	getAllCatsWithProducts: "get all categories with products",
 	getProductsBySearch: "get products by searching",
+	getPopularProducts: "get popular products",
+	getProductsByCategory: "get products by category slug",
 
 	recoverPassword: "account recover password",
 	createAccount: "account create",

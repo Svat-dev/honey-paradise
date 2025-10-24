@@ -1,7 +1,9 @@
+import { PopularSection } from "./components/PopularSection";
+
 const Index = () => {
 	return (
 		<div>
-			<section>Секция 1. Подборки, популярные товары {"(рейтинг >4.5)"}</section>
+			<PopularSection />
 
 			<section>Секция 2. Что-нибудь еще</section>
 

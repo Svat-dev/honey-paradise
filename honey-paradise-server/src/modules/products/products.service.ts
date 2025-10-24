@@ -1,11 +1,11 @@
 import type { GetAllCatsResponse, GetAllProductsResponse, GetCatsWithProductsResponse } from "./response/get-all-products.res";
 
-import type { CreateProductDto } from "./dto/create-product.dto";
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
 import { PrismaService } from "src/core/prisma/prisma.service";
-import { ProfileService } from "../auth/profile/profile.service";
 import { productOutput } from "src/shared/lib/prisma/outputs/product.output";
+import { ProfileService } from "../auth/profile/profile.service";
+import type { CreateProductDto } from "./dto/create-product.dto";
 
 @Injectable()
 export class ProductsService {
@@ -82,7 +82,9 @@ export class ProductsService {
 				products: newProducts,
 			});
 		}
+
 		// TODO infinite scroll
+
 		return {
 			categories: jsonCategories,
 			categoriesLength: jsonCategories.length,
@@ -135,18 +137,57 @@ export class ProductsService {
 		return products;
 	}
 
-	async getProductsByCategorySlug(slug: string): Promise<GetAllProductsResponse[]> {
-		const category = await this.getCategoryBySlug(slug);
+	async getProductsByCategorySlug(slug: string, lang: "en" | "ru"): Promise<GetAllCatsResponse> {
+		try {
+			const category: GetAllCatsResponse[] = await this.prisma.$queryRaw`
+			WITH "product_comments" AS (
+				SELECT "product_id", COUNT(*) AS comments_count 
+				FROM "commentaries" 
+				GROUP BY "product_id"
+			),
+			"sorted_products" AS (
+				SELECT p."id", p."title", p."slug", p."description", p."price_usd" AS "priceInUsd", p."rating", p."image_urls" AS images, p."category_id", COALESCE(cm."comments_count", 0) AS comments 
+				FROM "products" p 
+				LEFT JOIN "product_comments" cm ON p."id" = cm."product_id" 
+				WHERE EXISTS (
+					SELECT 1 
+					FROM "categories" c 
+					WHERE c."id" = p."category_id"
+				) 
+				ORDER BY p."title"->${`${lang}`} ASC, p."slug" ASC
+			)
+			SELECT 
+				c."id",
+				c."title",
+				c."slug",
+				c."image_url" AS "image",
+				COALESCE(json_agg(sp) FILTER (WHERE sp."id" IS NOT NULL), '[]') AS products,
+				COUNT(sp."id") AS "productsLength" 
+			FROM "categories" c 
+			LEFT JOIN "sorted_products" sp ON c."id" = sp."category_id" 
+			WHERE c."slug" = ${`${slug}`} 
+			GROUP BY c."id", c."title" 
+			ORDER BY c."title"->${`${lang}`} ASC
+		`; //TODO infinite scroll
 
-		if (!category) throw new NotFoundException("Category not found"); // TODO: add error message
+			if (!category) throw new NotFoundException("Category not found"); // TODO: add error message
 
-		const products = await this.prisma.product.findMany({
-			...productOutput,
-			where: { categoryId: category.id },
-			orderBy: { title: "asc" },
-		}); //TODO infinite scroll
+			const { productsLength, products, ...other } = category[0];
 
-		return products;
+			const newProducts = category[0].products.map((product: any) => {
+				const { category_id, comments, ...other } = product;
+
+				return { ...other, _count: { comments: parseInt(comments) } };
+			});
+
+			return {
+				...other,
+				productsLength: parseInt(productsLength.toString()),
+				products: newProducts,
+			};
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	async getProductById(id: string): Promise<{ id: string }> {
