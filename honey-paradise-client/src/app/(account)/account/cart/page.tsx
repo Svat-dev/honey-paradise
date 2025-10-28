@@ -1,13 +1,15 @@
 import type { Metadata, NextPage } from "next";
 
+import { Cart } from "@/components/screens/_cart/Cart";
+
 interface IProps {}
 
 export async function generateMetadata(): Promise<Metadata> {
-	return { title: "Cart" };
+	return { title: "User cart" };
 }
 
 const CartPage: NextPage<IProps> = () => {
-	return <div></div>;
+	return <Cart />;
 };
 
 export default CartPage;

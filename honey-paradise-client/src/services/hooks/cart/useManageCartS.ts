@@ -1,15 +1,13 @@
+import type { AddCartItemDto, UpdateQuantityDto } from "@/shared/types/server";
+
 import { cartService } from "@/services/cart.service";
-import type { AddCartItemDto } from "@/shared/types/server";
 import { queryKeys } from "@constants/routes";
 import { useMutation } from "@tanstack/react-query";
 
 export const useAddCartItemS = () => {
-	const onSuccess = () => {};
-
 	const { mutateAsync, isPending } = useMutation({
 		mutationKey: [queryKeys.addCartItem],
 		mutationFn: (dto: AddCartItemDto) => cartService.addToCart(dto),
-		onSuccess,
 	});
 
 	return {
@@ -19,12 +17,9 @@ export const useAddCartItemS = () => {
 };
 
 export const useDeleteCartItemS = () => {
-	const onSuccess = () => {};
-
 	const { mutateAsync, isPending } = useMutation({
 		mutationKey: [queryKeys.deleteCartItem],
-		mutationFn: (ciid: number) => cartService.deleteFromCart(ciid),
-		onSuccess,
+		mutationFn: (id: string) => cartService.deleteFromCart(id),
 	});
 
 	return {
@@ -33,13 +28,22 @@ export const useDeleteCartItemS = () => {
 	};
 };
 
-export const useClearCartS = () => {
-	const onSuccess = () => {};
+export const useUpdateQuantityS = () => {
+	const { mutateAsync, isPending } = useMutation({
+		mutationKey: [queryKeys.updateCartItemQuantity],
+		mutationFn: (dto: UpdateQuantityDto) => cartService.updateQuantity(dto),
+	});
 
+	return {
+		updateQuantityAsync: mutateAsync,
+		isUpdatingQuantity: isPending,
+	};
+};
+
+export const useClearCartS = () => {
 	const { mutateAsync, isPending } = useMutation({
 		mutationKey: [queryKeys.clearAllCart],
 		mutationFn: () => cartService.clearAllCart(),
-		onSuccess,
 	});
 
 	return {

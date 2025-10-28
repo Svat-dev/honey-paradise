@@ -1,4 +1,4 @@
-import type { AddCartItemDto, GetMyCartResponse } from "@/shared/types/server";
+import type { AddCartItemDto, GetMyCartResponse, UpdateQuantityDto } from "@/shared/types/server";
 
 import { instance } from "@/api/instance";
 import { EnumApiRoute } from "@constants/routes";
@@ -17,8 +17,14 @@ export const cartService = {
 		return res;
 	},
 
-	deleteFromCart: async (ciid: number) => {
-		const res = await instance.delete<any, AxiosResponse<boolean>>(EnumApiRoute.DELETE_CART_ITEM + `/${ciid}`);
+	updateQuantity: async (dto: UpdateQuantityDto) => {
+		const res = await instance.put<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_CART_ITEM_QUANTITY, dto);
+
+		return res;
+	},
+
+	deleteFromCart: async (id: string) => {
+		const res = await instance.delete<any, AxiosResponse<boolean>>(EnumApiRoute.DELETE_CART_ITEM + `/${id}`);
 
 		return res;
 	},

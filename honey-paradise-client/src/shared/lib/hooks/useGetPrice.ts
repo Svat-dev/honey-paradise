@@ -16,11 +16,11 @@ export const useGetPrice = (userCurrency?: GetMyCartResponseCurrency) => {
 	const currency: TCurrenciesCodes = userCurrency ? getCurrencyFromSettings(userCurrency) : "USD";
 
 	function getPrice(priceInUsd: number): number;
-	function getPrice(priceInUsd: number, convert: true, round: boolean): string;
+	function getPrice(priceInUsd: number, convert: boolean, round: boolean): string;
 	function getPrice(priceInUsd: number, convert: boolean = false, round: boolean = false): any {
 		const price = currency === "USD" ? priceInUsd : priceInUsd * (rates?.[currency] || 1);
 
-		return convert ? convertPrice(price, currency, round) : price;
+		return convert ? convertPrice(price, currency, round) : round ? Math.round(price) : price;
 	}
 
 	return { getPrice, currency };
