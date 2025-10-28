@@ -1,6 +1,5 @@
-import { useAuth, useMyAccount } from "@/shared/lib/hooks/auth";
+import { useAuth, useMyAccount, useMyCart } from "@/shared/lib/hooks/auth";
 
-import { useAddCartItemS } from "@/services/hooks/cart";
 import { useSwitchFavoritesProducts } from "@/services/hooks/products/useManageFavoritesS";
 import { useGetPrice } from "@/shared/lib/hooks/useGetPrice";
 import { useLanguage } from "@/shared/lib/i18n/hooks";
@@ -31,19 +30,12 @@ export const useProductCardFooter = (isLikedServer: boolean) => {
 
 	const { isAuthenticated } = useAuth();
 	const { switchFavoriteProductAsync, isSwitchingFavoritesProduct } = useSwitchFavoritesProducts();
-	const { addCartItemAsync, isAddingCartItem } = useAddCartItemS();
+	const { addCartItem, loading } = useMyCart();
 
 	const [isLiked, setIsLiked] = useState<boolean>(isLikedServer);
 
-	const addToCart = async (id: string, price: number) => {
-		try {
-			await addCartItemAsync({ productId: id, quantity: 1, priceInUSD: price });
-
-			toast.success(t("products.toasters.success"));
-		} catch (error) {
-			toast.error(t("products.toasters.error.addToCart"));
-		}
-	};
+	const addToCart = async (id: string, price: number) =>
+		addCartItem({ productId: id, quantity: 1, priceInUSD: price }, () => toast.success(t("products.toasters.success")));
 
 	const switchFavorites = async (id: string) => {
 		try {
@@ -60,7 +52,7 @@ export const useProductCardFooter = (isLikedServer: boolean) => {
 		addToCart,
 		switchFavorites,
 		isAuthenticated,
-		isAddingCartItem,
+		isAddingCartItem: loading.add,
 		isSwitchingFavoritesProduct,
 		isLiked,
 		t,

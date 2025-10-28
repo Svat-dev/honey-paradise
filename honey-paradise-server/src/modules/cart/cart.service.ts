@@ -1,88 +1,178 @@
-import type { AddCartItemDto } from "./dto/add-cart-item.dto";
-import { EnumCurrencies } from "@prisma/client";
-import type { GetMyCartResponse } from "./response/get-my-cart.res";
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
+import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
+import { EnumCurrencies } from "@prisma/client";
 import { PrismaService } from "src/core/prisma/prisma.service";
+import {
+  cartDefaultOutput,
+  cartItemDefaultOutput,
+  cartItemProductOutput,
+} from "src/shared/lib/prisma/outputs/cart.output";
 import { ProductsService } from "../products/products.service";
-import { cartDefaultOutput } from "src/shared/lib/prisma/outputs/cart.output";
+import type { AddCartItemDto } from "./dto/add-cart-item.dto";
+import {
+  UpdateQuantityType,
+  type UpdateQuantityDto,
+} from "./dto/update-quantity.dto";
+import type { GetMyCartResponse } from "./response/get-my-cart.res";
 
 @Injectable()
 export class CartService {
-	constructor(
-		private readonly prisma: PrismaService,
-		private readonly productService: ProductsService
-	) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly productService: ProductsService,
+  ) {}
 
-	async getMyCart(userId: string): Promise<GetMyCartResponse> {
-		const user = await this.prisma.user.findUnique({
-			where: { id: userId },
-			select: { id: true, settings: { select: { defaultCurrency: true } } },
-		});
+  async getMyCart(userId: string): Promise<GetMyCartResponse> {
+    try {
+      const { settings, cart } = await this.prisma.user.findUnique({
+        where: { id: userId },
+        select: {
+          settings: { select: { defaultCurrency: true } },
+          cart: {
+            select: {
+              ...cartDefaultOutput,
+              cartItems: {
+                select: {
+                  ...cartItemDefaultOutput,
+                  product: { select: cartItemProductOutput },
+                },
+                orderBy: { createdAt: "desc" },
+              },
+            },
+          },
+        },
+      });
 
-		const cart = await this.prisma.cart.findUnique({ where: { userId: user.id }, select: cartDefaultOutput });
+      if (!cart) throw new NotFoundException("Cart not found"); // TODO translation
 
-		if (!cart) throw new NotFoundException("Cart not found"); // TODO
+      return {
+        ...cart,
+        length: cart._count.cartItems,
+        currency: settings.defaultCurrency || EnumCurrencies.DOLLAR,
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-		return {
-			...cart,
-			length: cart.cartItems.length,
-			currency: user.settings.defaultCurrency || EnumCurrencies.DOLLAR,
-		};
-	}
+  async addCartItem(userId: string, dto: AddCartItemDto): Promise<boolean> {
+    const { id: cartId } = await this.getCartByUId(userId);
+    const { id: productId } = await this.productService.getProductById(
+      dto.productId,
+    );
 
-	async addCartItem(userId: string, dto: AddCartItemDto): Promise<boolean> {
-		const { id: cartId } = await this.getMyCart(userId);
-		const { id: productId } = await this.productService.getProductById(dto.productId);
+    await this.prisma.cartItem.create({
+      data: {
+        product: { connect: { id: productId } },
+        quantity: dto.quantity,
+        priceInUSD: dto.priceInUSD,
+        cart: { connect: { id: cartId } },
+      },
+    });
 
-		await this.prisma.cartItem.create({
-			data: {
-				product: { connect: { id: productId } },
-				quantity: dto.quantity,
-				priceInUSD: dto.priceInUSD,
-				cart: { connect: { id: cartId } },
-			},
-		});
+    return this.countTotalPrice(cartId);
+  }
 
-		return this.countTotalPrice(cartId);
-	}
+  async addFavoritesToCart(userId: string): Promise<boolean> {
+    const favorites = await this.productService.getFavoritesProducts(userId);
 
-	async removeCartItem(id: string): Promise<boolean> {
-		const { id: itemId } = await this.prisma.cartItem.findUnique({ where: { id }, select: { id: true } });
+    if (favorites.products.length === 0)
+      throw new BadRequestException("No products in favorites"); // TODO translation
 
-		if (!itemId) throw new NotFoundException("Cart item not found"); // TODO: Add proper exception
+    for (const { id, priceInUsd } of favorites.products) {
+      await this.addCartItem(userId, {
+        productId: id,
+        priceInUSD: priceInUsd,
+        quantity: 1,
+      });
+    }
 
-		const { cartId } = await this.prisma.cartItem.delete({ where: { id: itemId }, select: { cartId: true } });
+    return true;
+  }
 
-		return this.countTotalPrice(cartId);
-	}
+  async updateCartItem(dto: UpdateQuantityDto): Promise<boolean> {
+    const { cartItemId, type } = dto;
 
-	async clearCartByUId(userId: string): Promise<boolean> {
-		const { id: cartId } = await this.getMyCart(userId);
+    const cartItem = await this.prisma.cartItem.findUnique({
+      where: { id: cartItemId },
+      select: { id: true, quantity: true, cartId: true },
+    });
 
-		await this.prisma.cartItem.deleteMany({ where: { cartId } });
+    if (!cartItem) throw new NotFoundException("Cart item not found"); // TODO Add translation
+    const { id, quantity, cartId } = cartItem;
 
-		await this.prisma.cart.update({
-			where: { id: cartId },
-			data: { totalPrice: 0 },
-		});
+    if (type === UpdateQuantityType.decrease && quantity <= 1)
+      throw new BadRequestException("Quantity can't be less than 1"); // TODO Add translation
 
-		return true;
-	}
+    await this.prisma.cartItem.update({
+      where: { id },
+      data: {
+        quantity:
+          type === UpdateQuantityType.increase
+            ? { increment: 1 }
+            : { decrement: 1 },
+      },
+    });
 
-	private async countTotalPrice(cartId: string): Promise<boolean> {
-		const totalPrice = await this.prisma.cartItem.aggregate({
-			where: { cartId },
-			_sum: { priceInUSD: true },
-		});
+    return this.countTotalPrice(cartId);
+  }
 
-		if (totalPrice) {
-			await this.prisma.cart.update({
-				where: { id: cartId },
-				data: { totalPrice: totalPrice._sum.priceInUSD },
-			});
-		} else return false;
+  async removeCartItem(id: string): Promise<boolean> {
+    const { id: itemId } = await this.prisma.cartItem.findUnique({
+      where: { id },
+      select: { id: true },
+    });
 
-		return true;
-	}
+    if (!itemId) throw new NotFoundException("Cart item not found"); // TODO: Add proper exception
+
+    const { cartId } = await this.prisma.cartItem.delete({
+      where: { id: itemId },
+      select: { cartId: true },
+    });
+
+    return this.countTotalPrice(cartId);
+  }
+
+  async clearCartByUId(userId: string): Promise<boolean> {
+    const { id: cartId } = await this.getCartByUId(userId);
+
+    await this.prisma.cartItem.deleteMany({ where: { cartId } });
+
+    await this.prisma.cart.update({
+      where: { id: cartId },
+      data: { totalPrice: 0 },
+    });
+
+    return true;
+  }
+
+  private async getCartByUId(userId: string) {
+    const cart = await this.prisma.cart.findUnique({
+      where: { userId },
+      select: { id: true },
+    });
+
+    if (!cart) throw new NotFoundException("Cart not found"); // TODO: translation
+
+    return cart;
+  }
+
+  private async countTotalPrice(cartId: string): Promise<boolean> {
+    const total: { price: number }[] = await this.prisma.$queryRaw`
+ 			SELECT COALESCE(SUM("price_usd" * "quantity"), 0) AS "price"
+			FROM "cart_items"
+			WHERE ("cart_id")::text LIKE ${cartId}
+			LIMIT 1;
+		`;
+
+    if (total.length) {
+      await this.prisma.cart.update({
+        where: { id: cartId },
+        data: { totalPrice: parseFloat(String(total[0].price)) },
+      });
+    } else return false;
+
+    return true;
+  }
 }
