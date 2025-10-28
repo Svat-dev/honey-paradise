@@ -16,6 +16,7 @@ import { ProfileService } from "src/modules/auth/profile/profile.service";
 import { VerificationService } from "src/modules/auth/verification/verification.service";
 import { isDev } from "src/shared/lib/common/utils";
 import { capitalize } from "src/shared/lib/common/utils/capitalize.util";
+import { isOffline } from "src/shared/lib/common/utils/is-offline.util";
 import { EnumClientRoutes } from "src/shared/types/client/enums.type";
 import type { SessionMetadata } from "src/shared/types/session-metadata.type";
 import { SessionsGateway } from "src/shared/websockets/sessions.gateway";
@@ -37,6 +38,8 @@ export class TelegramService implements OnModuleInit {
 		private readonly profileService: ProfileService,
 		private readonly verificationService: VerificationService
 	) {
+		if (isOffline(this.config)) throw new InternalServerErrorException("Offline mode");
+
 		this.bot = new BotApi(this.config.getOrThrow<string>("TELEGRAM_BOT_TOKEN"), { polling: true });
 		this.clientUrl = !isDev(this.config) ? "https://www.google.com" : this.config.getOrThrow<string>("CLIENT_URL");
 	}

@@ -1,8 +1,8 @@
-import { CartService } from "../cart/cart.service";
-import type { CreateOrderResponse } from "./response/create-order.res";
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { ordersDefaultOutput } from "src/shared/lib/prisma/outputs/order.output";
+import { CartService } from "../cart/cart.service";
+import type { CreateOrderResponse } from "./response/create-order.res";
 
 @Injectable()
 export class OrderService {
@@ -38,6 +38,8 @@ export class OrderService {
 			},
 			select: { id: true, totalAmount: true },
 		});
+
+		await this.cartService.clearCartByUId(userId);
 
 		return { orderId: id, totalAmount };
 	}

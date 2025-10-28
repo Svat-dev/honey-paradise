@@ -3,7 +3,7 @@
 import { MoveRightIcon, ShoppingCartIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/common";
-import { useGetMyCartS } from "@/services/hooks/cart/useGetMyCartS";
+import { useMyCart } from "@/shared/lib/hooks/auth";
 import { useGetPrice } from "@/shared/lib/hooks/useGetPrice";
 import { EnumAppRoute } from "@constants/routes";
 import { useTranslations } from "next-intl";
@@ -14,7 +14,7 @@ const OrderButton = () => {
 	const t = useTranslations("layout.header.labels");
 	const { push } = useRouter();
 
-	const { cart, isCartLoading } = useGetMyCartS();
+	const { cart } = useMyCart();
 
 	const onClick = () => push(EnumAppRoute.MY_CART);
 
