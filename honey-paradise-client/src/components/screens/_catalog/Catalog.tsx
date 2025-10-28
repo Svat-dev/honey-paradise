@@ -14,7 +14,9 @@ const Catalog = ({ q }: IProps) => {
 		<div className="flex flex-col w-full">
 			{q?.length && (
 				<p>
-					Найдено {catsWithProducts?.allProductsLength} продуктов в {catsWithProducts?.categoriesLength} категориях
+					По запросу <span className="font-medium">"{q}"</span> найдено{" "}
+					<span className="font-medium">{catsWithProducts?.allProductsLength} </span>продуктов в{" "}
+					<span className="font-medium">{catsWithProducts?.categoriesLength}</span> категориях
 				</p>
 			)}
 

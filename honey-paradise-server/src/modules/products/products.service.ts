@@ -1,4 +1,8 @@
-import type { GetAllCatsResponse, GetAllProductsResponse, GetCatsWithProductsResponse } from "./response/get-all-products.res";
+import type {
+  GetAllCatsResponse,
+  GetAllProductsResponse,
+  GetCatsWithProductsResponse,
+} from "./response/get-all-products.res";
 
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
@@ -6,260 +10,293 @@ import { PrismaService } from "src/core/prisma/prisma.service";
 import { productOutput } from "src/shared/lib/prisma/outputs/product.output";
 import { ProfileService } from "../auth/profile/profile.service";
 import type { CreateProductDto } from "./dto/create-product.dto";
+import { GetFavoriteProductsResponse } from "./response/get-favorite-products.res";
 
 @Injectable()
 export class ProductsService {
-	constructor(
-		private readonly prisma: PrismaService,
-		private readonly profileService: ProfileService
-	) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly profileService: ProfileService,
+  ) {}
 
-	async getAllCatsWithProducts(searchTerm: string, lang: "en" | "ru"): Promise<GetCatsWithProductsResponse> {
-		const term = searchTerm || "";
+  async getAllCatsWithProducts(
+    searchTerm: string,
+    lang: "en" | "ru",
+  ): Promise<GetCatsWithProductsResponse> {
+    const term = searchTerm || "";
 
-		const categories: GetAllCatsResponse[] = await this.prisma.$queryRaw`
+    const categories: GetAllCatsResponse[] = await this.prisma.$queryRaw`
 			WITH "product_comments" AS (
-				SELECT "product_id", COUNT(*) AS comments_count 
-				FROM "commentaries" 
+				SELECT "product_id", COUNT(*) AS comments_count
+				FROM "commentaries"
 				GROUP BY "product_id"
 			),
 			"sorted_products" AS (
-				SELECT p."id", p."title", p."slug", p."description", p."price_usd" AS "priceInUsd", p."rating", p."image_urls" AS images, p."category_id", COALESCE(cm."comments_count", 0) AS comments 
-				FROM "products" p 
-				LEFT JOIN "product_comments" cm ON p."id" = cm."product_id" 
+				SELECT p."id", p."title", p."slug", p."description", p."price_usd" AS "priceInUsd", p."rating", p."image_urls" AS images, p."category_id", COALESCE(cm."comments_count", 0) AS comments
+				FROM "products" p
+				LEFT JOIN "product_comments" cm ON p."id" = cm."product_id"
 				WHERE EXISTS (
-					SELECT 1 
-					FROM "categories" c 
-					WHERE c."id" = p."category_id" 
+					SELECT 1
+					FROM "categories" c
+					WHERE c."id" = p."category_id"
 						AND (
-							(p."title"->'en')::text ILIKE ${`%${term}%`} OR 
-							(p."title"->'ru')::text ILIKE ${`%${term}%`} OR 
-							(c."title"->'en')::text ILIKE ${`%${term}%`} OR 
-							(c."title"->'ru')::text ILIKE ${`%${term}%`} OR 
+							(p."title"->'en')::text ILIKE ${`%${term}%`} OR
+							(p."title"->'ru')::text ILIKE ${`%${term}%`} OR
+							(c."title"->'en')::text ILIKE ${`%${term}%`} OR
+							(c."title"->'ru')::text ILIKE ${`%${term}%`} OR
 							p."slug" ILIKE ${`%${term}%`}
 						)
-				) 
+				)
 				ORDER BY p."title"->${`${lang}`} ASC, p."slug" ASC
 			)
-			SELECT 
+			SELECT
 				c."id",
 				c."title",
 				c."slug",
 				c."image_url" AS "image",
 				COALESCE(json_agg(sp) FILTER (WHERE sp."id" IS NOT NULL), '[]') AS products,
-				COUNT(sp."id") AS "productsLength" 
-			FROM "categories" c 
-			LEFT JOIN "sorted_products" sp ON c."id" = sp."category_id" 
-			GROUP BY c."id", c."title" 
+				COUNT(sp."id") AS "productsLength"
+			FROM "categories" c
+			LEFT JOIN "sorted_products" sp ON c."id" = sp."category_id"
+			GROUP BY c."id", c."title"
 			ORDER BY COUNT(sp."id") DESC, c."title"->${`${lang}`} ASC
 		`;
 
-		const jsonCategories: GetAllCatsResponse[] = [];
-		let allProductsLength = 0;
+    const jsonCategories: GetAllCatsResponse[] = [];
+    let allProductsLength = 0;
 
-		for (const cat of categories) {
-			const { productsLength, products, ...other } = cat;
-			const length = parseInt(productsLength.toString());
+    for (const cat of categories) {
+      const { productsLength, products, ...other } = cat;
+      const length = parseInt(productsLength.toString());
 
-			if (length === 0) continue;
+      if (length === 0) continue;
 
-			const newProducts = cat.products.map((product: any) => {
-				const { category_id, comments, ...other } = product;
+      const newProducts = cat.products.map((product: any) => {
+        const { category_id, comments, ...other } = product;
 
-				return {
-					...other,
-					_count: {
-						comments: parseInt(comments),
-					},
-				};
-			});
+        return {
+          ...other,
+          _count: {
+            comments: parseInt(comments),
+          },
+        };
+      });
 
-			allProductsLength += parseInt(String(cat.productsLength));
+      allProductsLength += parseInt(String(cat.productsLength));
 
-			jsonCategories.push({
-				...other,
-				productsLength: length,
-				products: newProducts,
-			});
-		}
+      jsonCategories.push({
+        ...other,
+        productsLength: length,
+        products: newProducts,
+      });
+    }
 
-		// TODO infinite scroll
+    // TODO infinite scroll
 
-		return {
-			categories: jsonCategories,
-			categoriesLength: jsonCategories.length,
-			allProductsLength,
-		};
-	}
+    return {
+      categories: jsonCategories,
+      categoriesLength: jsonCategories.length,
+      allProductsLength,
+    };
+  }
 
-	async getBySearchTerm(term: string, lang: "en" | "ru"): Promise<any> {
-		const products: any[] = await this.prisma.$queryRaw`
-			SELECT "id", "title", "slug", "image_urls" AS "images", "price_usd" AS "priceInUsd" 
-			FROM "products" 
-			WHERE 
-				("title"->'en')::text ILIKE ${`%${term}%`} OR 
-				("title"->'ru')::text ILIKE ${`%${term}%`} OR 
-				"slug" ILIKE ${`%${term}%`} OR 
+  async getBySearchTerm(term: string, lang: "en" | "ru"): Promise<any> {
+    const products: any[] = await this.prisma.$queryRaw`
+			SELECT "id", "title", "slug", "image_urls" AS "images", "price_usd" AS "priceInUsd"
+			FROM "products"
+			WHERE
+				("title"->'en')::text ILIKE ${`%${term}%`} OR
+				("title"->'ru')::text ILIKE ${`%${term}%`} OR
+				"slug" ILIKE ${`%${term}%`} OR
 				"category_id" IN (
-					SELECT "id" FROM "categories" 
-					WHERE 
-						("title"->'en')::text ILIKE ${`%${term}%`} OR 
+					SELECT "id" FROM "categories"
+					WHERE
+						("title"->'en')::text ILIKE ${`%${term}%`} OR
 						("title"->'ru')::text ILIKE ${`%${term}%`} OR
 						"slug" ILIKE ${`%${term}%`}
-				) 
-			ORDER BY "title"->${`${lang}`} ASC, "slug" ASC 
+				)
+			ORDER BY "title"->${`${lang}`} ASC, "slug" ASC
 			LIMIT 6
 		`;
 
-		const categories: any[] = await this.prisma.$queryRaw`
-			SELECT "id", "title", "slug", "image_url" AS "image" FROM "categories" 
-			WHERE 
-				("title"->'en')::text ILIKE ${`%${term}%`} OR 
-				("title"->'ru')::text ILIKE ${`%${term}%`} OR 
-				"slug" ILIKE ${`%${term}%`} 
-			ORDER BY "title"->${`${lang}`} ASC, "slug" ASC  
+    const categories: any[] = await this.prisma.$queryRaw`
+			SELECT "id", "title", "slug", "image_url" AS "image" FROM "categories"
+			WHERE
+				("title"->'en')::text ILIKE ${`%${term}%`} OR
+				("title"->'ru')::text ILIKE ${`%${term}%`} OR
+				"slug" ILIKE ${`%${term}%`}
+			ORDER BY "title"->${`${lang}`} ASC, "slug" ASC
 			LIMIT 3
 		`;
 
-		return { products, categories };
-	}
+    return { products, categories };
+  }
 
-	async getPopularProducts(): Promise<GetAllProductsResponse[]> {
-		const products = await this.prisma.product.findMany({
-			...productOutput,
-			where: {
-				AND: [{ rating: { gte: 4.5 } }, { rating: { lte: 5 } }],
-			},
-			orderBy: { rating: "desc" },
-			take: 6,
-		});
+  async getPopularProducts(): Promise<GetAllProductsResponse[]> {
+    const products = await this.prisma.product.findMany({
+      ...productOutput,
+      where: {
+        AND: [{ rating: { gte: 4.5 } }, { rating: { lte: 5 } }],
+      },
+      orderBy: { rating: "desc" },
+      take: 6,
+    });
 
-		return products;
-	}
+    return products;
+  }
 
-	async getProductsByCategorySlug(slug: string, lang: "en" | "ru"): Promise<GetAllCatsResponse> {
-		try {
-			const category: GetAllCatsResponse[] = await this.prisma.$queryRaw`
+  async getProductsByCategorySlug(
+    slug: string,
+    lang: "en" | "ru",
+  ): Promise<GetAllCatsResponse> {
+    try {
+      const category: GetAllCatsResponse[] = await this.prisma.$queryRaw`
 			WITH "product_comments" AS (
-				SELECT "product_id", COUNT(*) AS comments_count 
-				FROM "commentaries" 
+				SELECT "product_id", COUNT(*) AS comments_count
+				FROM "commentaries"
 				GROUP BY "product_id"
 			),
 			"sorted_products" AS (
-				SELECT p."id", p."title", p."slug", p."description", p."price_usd" AS "priceInUsd", p."rating", p."image_urls" AS images, p."category_id", COALESCE(cm."comments_count", 0) AS comments 
-				FROM "products" p 
-				LEFT JOIN "product_comments" cm ON p."id" = cm."product_id" 
+				SELECT p."id", p."title", p."slug", p."description", p."price_usd" AS "priceInUsd", p."rating", p."image_urls" AS images, p."category_id", COALESCE(cm."comments_count", 0) AS comments
+				FROM "products" p
+				LEFT JOIN "product_comments" cm ON p."id" = cm."product_id"
 				WHERE EXISTS (
-					SELECT 1 
-					FROM "categories" c 
+					SELECT 1
+					FROM "categories" c
 					WHERE c."id" = p."category_id"
-				) 
+				)
 				ORDER BY p."title"->${`${lang}`} ASC, p."slug" ASC
 			)
-			SELECT 
+			SELECT
 				c."id",
 				c."title",
 				c."slug",
 				c."image_url" AS "image",
 				COALESCE(json_agg(sp) FILTER (WHERE sp."id" IS NOT NULL), '[]') AS products,
-				COUNT(sp."id") AS "productsLength" 
-			FROM "categories" c 
-			LEFT JOIN "sorted_products" sp ON c."id" = sp."category_id" 
-			WHERE c."slug" = ${`${slug}`} 
-			GROUP BY c."id", c."title" 
+				COUNT(sp."id") AS "productsLength"
+			FROM "categories" c
+			LEFT JOIN "sorted_products" sp ON c."id" = sp."category_id"
+			WHERE c."slug" = ${`${slug}`}
+			GROUP BY c."id", c."title"
 			ORDER BY c."title"->${`${lang}`} ASC
 		`; //TODO infinite scroll
 
-			if (!category) throw new NotFoundException("Category not found"); // TODO: add error message
+      if (!category) throw new NotFoundException("Category not found"); // TODO: add error message
 
-			const { productsLength, products, ...other } = category[0];
+      const { productsLength, products, ...other } = category[0];
 
-			const newProducts = category[0].products.map((product: any) => {
-				const { category_id, comments, ...other } = product;
+      const newProducts = category[0].products.map((product: any) => {
+        const { category_id, comments, ...other } = product;
 
-				return { ...other, _count: { comments: parseInt(comments) } };
-			});
+        return { ...other, _count: { comments: parseInt(comments) } };
+      });
 
-			return {
-				...other,
-				productsLength: parseInt(productsLength.toString()),
-				products: newProducts,
-			};
-		} catch (error) {
-			console.log(error);
-		}
-	}
+      return {
+        ...other,
+        productsLength: parseInt(productsLength.toString()),
+        products: newProducts,
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-	async getProductById(id: string): Promise<{ id: string }> {
-		const product = await this.prisma.product.findUnique({ where: { id }, select: { id: true } });
+  async getProductById(id: string): Promise<{ id: string }> {
+    const product = await this.prisma.product.findUnique({
+      where: { id },
+      select: { id: true },
+    });
 
-		if (!product) throw new NotFoundException("Product not found"); // TODO: add error message
+    if (!product) throw new NotFoundException("Product not found"); // TODO: add error message
 
-		return product;
-	}
+    return product;
+  }
 
-	async createProduct(dto: CreateProductDto) {
-		const { categoryId, ...other } = dto;
+  async createProduct(dto: CreateProductDto) {
+    const { categoryId, ...other } = dto;
 
-		const { id: catId } = await this.prisma.category.findUnique({
-			where: { id: categoryId },
-			select: { id: true },
-		});
+    const { id: catId } = await this.prisma.category.findUnique({
+      where: { id: categoryId },
+      select: { id: true },
+    });
 
-		if (!catId) throw new NotFoundException("Category not found"); // TODO: add error message
+    if (!catId) throw new NotFoundException("Category not found"); // TODO: add error message
 
-		await this.prisma.product.create({
-			data: {
-				...other,
-				category: { connect: { id: catId } },
-			},
-		});
+    await this.prisma.product.create({
+      data: {
+        ...other,
+        category: { connect: { id: catId } },
+      },
+    });
 
-		return true;
-	}
+    return true;
+  }
 
-	async switchFavoritesProducts(productId: string, userId: string): Promise<boolean> {
-		const user = await this.profileService.getProfile(userId, "id");
-		const product = await this.getProductById(productId);
+  async getFavoritesProducts(
+    userId: string,
+  ): Promise<GetFavoriteProductsResponse> {
+    const user = await this.profileService.getProfile(userId, "id");
 
-		if (!user.likedProductIds.includes(productId)) {
-			await this.prisma.user.update({
-				where: { id: user.id },
-				data: {
-					likedProductIds: { push: product.id },
-				},
-			});
-		} else {
-			const newArray = user.likedProductIds.filter(id => id !== productId) || [];
+    const products = await this.prisma.product.findMany({
+      where: { id: { in: user.likedProductIds } },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        priceInUsd: true,
+        images: true,
+      },
+    });
 
-			await this.prisma.user.update({
-				where: { id: user.id },
-				data: {
-					likedProductIds: { set: newArray },
-				},
-			});
-		}
+    const { _sum } = await this.prisma.product.aggregate({
+      where: { id: { in: user.likedProductIds } },
+      _sum: { priceInUsd: true },
+    });
 
-		return true;
-	}
+    return {
+      products,
+      length: products.length,
+      total: _sum.priceInUsd || 0,
+    };
+  }
 
-	async clearFavoritesProducts(userId: string): Promise<boolean> {
-		const user = await this.profileService.getProfile(userId, "id");
+  async switchFavoritesProducts(
+    productId: string,
+    userId: string,
+  ): Promise<boolean> {
+    const user = await this.profileService.getProfile(userId, "id");
+    const product = await this.getProductById(productId);
 
-		await this.prisma.user.update({
-			where: { id: user.id },
-			data: { likedProductIds: { set: [] } },
-		});
+    if (!user.likedProductIds.includes(productId)) {
+      await this.prisma.user.update({
+        where: { id: user.id },
+        data: {
+          likedProductIds: { push: product.id },
+        },
+      });
+    } else {
+      const newArray =
+        user.likedProductIds.filter((id) => id !== productId) || [];
 
-		return true;
-	}
+      await this.prisma.user.update({
+        where: { id: user.id },
+        data: {
+          likedProductIds: { set: newArray },
+        },
+      });
+    }
 
-	private async getCategoryBySlug(slug: string) {
-		const category = await this.prisma.category.findUnique({
-			where: { slug },
-			select: { id: true, slug: true },
-		});
+    return true;
+  }
 
-		return category;
-	}
+  async clearFavoritesProducts(userId: string): Promise<boolean> {
+    const user = await this.profileService.getProfile(userId, "id");
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { likedProductIds: { set: [] } },
+    });
+
+    return true;
+  }
 }

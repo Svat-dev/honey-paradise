@@ -8,7 +8,7 @@ const ListItem: FC<{ data: IAccountNavigation }> = ({ data }) => {
 
 	return (
 		<li className={styles["wrapper"]} data-status={isCurrent}>
-			<Link href={route} className={styles["link"]}>
+			<Link href={route} prefetch={true} className={styles["link"]}>
 				<data.icon />
 				<p>{title}</p>
 			</Link>
