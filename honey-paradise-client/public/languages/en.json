@@ -1,979 +1,979 @@
 {
-	"global": {
-		"logo": "Honey Paradise",
-		"home": {
-			"title": "Home",
-			"description": "The main page of the online store {title}",
-			"content": {
-				"products": {
-					"comments": "{count, plural, =0 {No commentaries} =1 {One commentary} other {# commentaries}}",
-					"addToCart": "Add to cart",
-					"labels": {
-						"addToCart": "Add product to cart",
-						"like": "{isLiked, select, true {Delete from liked} false {To liked products} other {}}"
-					},
-					"toasters": {
-						"success": "Product has successfully added to the cart!",
-						"error": {
-							"addToCart": "Error when adding product to the cart. {e}",
-							"like": "Error when adding product to the favorites list. {e}"
-						}
-					}
-				}
-			}
-		},
-		"notFound": {
-			"title": "Page not found",
-			"content": {
-				"title": "We don't have this page.",
-				"description": "Check the correctness of the entered address or try again later",
-				"actions": {
-					"toIndex": "To home",
-					"refresh": "Refresh"
-				},
-				"labels": {
-					"toIndex": "To the home page",
-					"refresh": "Refresh page",
-					"image": "Image \"not found\""
-				}
-			}
-		},
-		"notAuth": {
-			"title": "Not authorized",
-			"content": {
-				"title": "You are not authorized",
-				"description": "You must be authorized to access this page. Sign in and try again later",
-				"actions": {
-					"toIndex": "Sign in",
-					"refresh": "Refresh"
-				},
-				"labels": {
-					"toIndex": "To the account login page",
-					"refresh": "Refresh page",
-					"image": "Image \"User is not authorized\""
-				}
-			}
-		},
-		"privacy-policy": {
-			"title": "Privacy policy",
-			"description": "Privacy Policy of the {title} online store",
-			"content": {
-				"titles": {
-					"general": "Privacy Policy",
-					"h3": {
-						"1": "Collection of information",
-						"2": "Use of information",
-						"3": "Protection of information",
-						"4": "Disclosure of information",
-						"5": "Changes to the Privacy Policy",
-						"6": "Consent",
-						"7": "Contacts"
-					}
-				},
-				"paragraphs": {
-					"1": "We value your privacy and want you to be sure that your personal data is protected. This privacy policy explains how we collect, use and protect your personal data.",
-					"2": {
-						"text_1": "We collect information that you provide to us when you use our website or application.",
-						"text_2": "This may include:",
-						"list": {
-							"1": "your name",
-							"2": "email address",
-							"3": "phone number",
-							"4": "other information that you provide to us."
-						}
-					},
-					"3": "We use the information we collect to provide you with the services you have requested, as well as to improve our products and services. We may also use your information to send you promotional materials if you have agreed to do so.",
-					"4": "We take all necessary measures to protect your information from unauthorized access, use or disclosure. We use modern technology and strict security procedures to protect your information.",
-					"5": "We will not sell, exchange or transfer your information to third parties without your consent, except as required by law.",
-					"6": "We may update this privacy policy from time to time. We recommend that you check this page periodically for any changes.",
-					"7": "By using our website or application, you agree to this privacy policy and its terms. You also accept and understand the use of cookies",
-					"8": {
-						"text": "If you have any questions about the privacy policy or how we use your information, please contact us at:",
-						"link": "click"
-					}
-				}
-			}
-		},
-		"cookies-policy": {
-			"title": "Cookie Policy",
-			"description": "Cookie policy of the online store {title}",
-			"content": {
-				"titles": {
-					"general": "Cookie Policy",
-					"h3": {
-						"1": "1. What are cookies?",
-						"2": "2. Managing cookies on your device",
-						"3": "3. Disclosure of information about cookies"
-					},
-					"h4": {
-						"1": "2.1. Managing cookies through the browser",
-						"2": "3.1. Types of cookies",
-						"3": "3.2. Categories of cookies",
-						"4": "3.3. Managing analytical cookies"
-					}
-				},
-				"paragraphs": {
-					"1": "When visiting the Administration's websites and using the Platform's functionality, the User consents to the use of cookies in accordance with this policy regarding this type of file.",
-					"2": "Cookies are small text files placed on a user's computer by sites they have visited. They are widely used to make websites work at all or work more efficiently, as well as to provide the necessary information to the site owners. The use of cookies is currently a standard practice for most websites.",
-					"3": "The administration uses cookies to personalize the content and improve the user experience. The User can control cookies and manage their use through his browser (see section 2.1). Deleting or blocking cookies may affect the user interface of the site and make some of the site's components inaccessible to the User.",
-					"4": {
-						"text_1": "Most browsers allow you to view, delete, and block cookies from websites. In this case, if all cookies are deleted, all site settings will be reset for the User. Cookie management instructions for common browsers can be found at the links below:",
-						"text_2": "Information about other browsers and device types is available on {link1} and {link2}."
-					},
-					"5": "The following section describes the types, categories, and purpose of cookies. The User can disable the use of certain cookies in accordance with the functionality of the browser he uses, as described in section 2.1.",
-					"6": "The User has the option to refuse to record their anonymized browsing history in analytical cookies on the Administration's websites. The administration uses the services of the providers listed below."
-				},
-				"lists": {
-					"list_1": {
-						"1": "Google Chrome",
-						"2": "Mozilla Firefox",
-						"3": "MacOS Safari",
-						"4": "Microsoft Internet Explorer"
-					},
-					"list_2": {
-						"1": {
-							"title": "Mandatory cookies",
-							"text": "These cookies ensure the operation of the Administration's website and/or Platform, and they cannot be disabled. They are usually applied in response to actions performed, for example, to set privacy settings or fill out some forms.The user can configure his browser so that it blocks these cookies or notifies him about them, but in this case some components of the site will stop working."
-						},
-						"2": {
-							"title": "Analytical cookies",
-							"text": "These cookies help the Administration to calculate statistics on the number of visitors and investigate traffic sources so that the Administration can evaluate and improve the effectiveness and usability of the site for Users. They allow the Administration to find out which pages are the most popular or are of least interest to Users, and how visitors navigate the site.All information collected by these cookies is aggregated and, accordingly, anonymous. If the User prohibits the use of these cookies, the Administration will not be able to track website traffic and will not be able to regulate its operation."
-						},
-						"3": {
-							"title": "Additional cookies",
-							"text": "These cookies help the Administration in researching the effectiveness of marketing campaigns and improve the user-friendliness of the Administration's Internet resources, taking into account User preferences."
-						},
-						"4": {
-							"title": "Advertising cookies",
-							"text": "In order to promote its services, collect statistics and conduct research, the Administration may place advertisements on other Internet sites that will be visible to Users. Cookies are used to make offers tailored to the User and their interests. In addition, they are needed to prevent the same advertisement from appearing frequently. These advertisements are intended solely to familiarize Users with the Administration's potentially interesting proposals. The Administration does not sell User data to third parties."
-						}
-					},
-					"list_3": {
-						"1": {
-							"title": "Mandatory cookies",
-							"text": "These cookies ensure the operation of the Administration's website and/or Platform, and they cannot be disabled. They are usually applied in response to actions performed, for example, to set privacy settings or fill out some forms.The user can configure his browser so that it blocks these cookies or notifies him about them, but in this case some components of the site will stop working."
-						},
-						"2": {
-							"title": "Analytical cookies",
-							"text": "These cookies help the Administration calculate statistics on the number of visitors and investigate traffic sources so that the Administration can evaluate and improve the effectiveness and usability of the site for Users. They allow the Administration to find out which pages are the most popular or are of least interest to Users, and how visitors navigate the site.All information collected by these cookies is aggregated and, accordingly, anonymous. If the User prohibits the use of these cookies, the Administration will not be able to track website traffic and will not be able to regulate its operation."
-						},
-						"3": {
-							"title": "Additional cookies",
-							"text": "These cookies help the Administration in researching the effectiveness of marketing campaigns and improve the user-friendliness of the Administration's Internet resources, taking into account User preferences."
-						},
-						"4": {
-							"title": "Advertising cookies",
-							"text": "In order to promote its services, collect statistics and conduct research, the Administration may place advertisements on other Internet sites that will be visible to Users. Cookies are used to make offers tailored to the User and their interests. In addition, they are needed to prevent the same advertisement from appearing frequently. These advertisements are intended solely to familiarize Users with the Administration's potentially interesting proposals. The Administration does not sell User data to third parties."
-						}
-					}
-				}
-			}
-		},
-		"sign-in": {
-			"title": "Sign In",
-			"description": "{title} online store login page",
-			"content": {
-				"title": "Sign in to your account",
-				"form": {
-					"id": {
-						"label": "Email or username",
-						"placeholder": "Enter email or username",
-						"errors": {
-							"min": "The minimum length of the identifier is {min} characters",
-							"max": "The maximum length of the identifier is {max} characters",
-							"invalid": "The username can contain only letters, numbers and the special character _",
-							"union": "The field must contain the username or email"
-						}
-					},
-					"password": {
-						"label": "Password",
-						"placeholder": "Enter password",
-						"errors": {
-							"min": "The password must be at least {min} characters",
-							"max": "The maximum length of the password is {max} characters"
-						}
-					}
-				},
-				"footer": {
-					"submitBtn": "Sign in",
-					"forgotPassword": "Forgot password?",
-					"noProfile": "No profile? Create",
-					"error": "You may be a robot! Go through reCAPTCHA again",
-					"socialAuth": "Sign in using social networks"
-				},
-				"alert": {
-					"title": "Waiting for a response from the server",
-					"description": "We have sent a confirmation message in Telegram. Please check it and confirm the sign in.",
-					"cancelBtn": "Cancel sign in"
-				},
-				"toasters": {
-					"success": "You have successfully signed in to your account!",
-					"checkTg": "Check Telegram and confirm sign in",
-					"error": "Error when logging in to account!\n{e}",
-					"2fa": "You will now be redirected to the account sign in confirmation page"
-				},
-				"labels": {
-					"vk": "VKonatkte",
-					"google": "Google",
-					"yandex": "Yandex",
-					"github": "Github"
-				}
-			}
-		},
-		"sign-up": {
-			"title": "Sign Up",
-			"description": "Account creation page in the {title} online store",
-			"content": {
-				"main_part": {
-					"title": "Creating an account",
-					"form": {
-						"email": {
-							"label": "Your Email",
-							"placeholder": "Enter your email",
-							"errors": {
-								"invalid": "Enter the correct email address"
-							}
-						},
-						"password": {
-							"label": "Create a password",
-							"placeholder": "Enter the password",
-							"errors": {
-								"min": "The password must be at least {min} characters",
-								"max": "The maximum length of the password is {max} characters"
-							}
-						},
-						"confirmPassword": {
-							"label": "Repeat password",
-							"placeholder": "Enter password again",
-							"errors": {
-								"notMatch": "Passwords must match each other",
-								"invalid": "A password can contain only letters, numbers, and special characters \"%&$#!.*^_-\""
-							}
-						}
-					}
-				},
-				"optional_part": {
-					"title": "Additional information",
-					"form": {
-						"username": {
-							"title": "Create a username",
-							"label": "Username",
-							"placeholder": "Enter a username",
-							"errors": {
-								"max": "Maximum length of user name is {max} characters",
-								"min": "Minimum length of user name is {min} characters",
-								"invalid": "The username can contain only letters, numbers, and the special character \"_\""
-							}
-						},
-						"gender": {
-							"title": "Select gender",
-							"opts": {
-								"male": "Male",
-								"female": "Female",
-								"other": "Do not specify"
-							},
-							"errors": {}
-						},
-						"birthdate": {
-							"title": "Specify the birthdate",
-							"label": "Select a date",
-							"errors": {}
-						}
-					}
-				},
-				"footer": {
-					"continueBtn": "Continue 1/2",
-					"backBtn": "Return",
-					"submitBtn": "Create an account",
-					"haveProfile": "Do you have a profile? Sign in",
-					"error": "You may be a robot! Go through reCAPTCHA again"
-				},
-				"labels": {
-					"birthdate": "Click to select a date"
-				},
-				"toasters": {
-					"success": "Account successfully created! Now confirm it",
-					"error": "Failed to create an account.\n{e}"
-				}
-			}
-		},
-		"confirmation": {
-			"title": {
-				"email": "Email confirmation",
-				"2fa": "Account sign in confirmation"
-			},
-			"description": {
-				"email": "Email confirmation page in the online store {title}",
-				"2fa": "Sign in confirmation page in the online store {title}"
-			},
-			"content": {
-				"email": {
-					"title": "Email confirmation",
-					"description": {
-						"default": "Confirm your email address. We have sent you an email with a confirmation code, check an email and enter it",
-						"notVerified": "Confirm your account to sign in to your account. We have sent the code to your email.",
-						"signUp": "You have almost created your account. All that remains is to confirm your email. We have sent the code to the specified email address"
-					},
-					"signInAfter": "Sign in after verification",
-					"toasters": {
-						"success": "You successfully verified your email!"
-					}
-				},
-				"2fa": {
-					"title": "Two-factor authentication",
-					"description": {
-						"default": "You're almost signed in. We have already sent the code to your email, check it and enter the code"
-					},
-					"toasters": {
-						"success": "You have successfully signed in to your account!"
-					}
-				},
-				"actions": {
-					"resendBtn": "Request a new code",
-					"resendBtnWithCooldown": "Request a new code - {cooldown} sec.",
-					"submitBtn": "Verify"
-				},
-				"labels": {
-					"submitBtn": "Verify an email"
-				},
-				"errors": {
-					"empty": "Enter a pincode",
-					"min": "Minimum length of pincode is {min} characters"
-				}
-			}
-		},
-		"password-recovery": {
-			"title": "Password recovery",
-			"description": "{title} online store page of the password recovery page",
-			"content": {
-				"reset": {
-					"title": "Recover your password",
-					"description": "Enter the email address that you specified during sign up. We will send a password recover code to it",
-					"actions": {
-						"submitBtn": "Send code",
-						"submitBtnCooldown": "Send the code again - {cooldown} sec.",
-						"toAuthBtn": "Sign in to your account"
-					},
-					"alert": {
-						"title": "Check your email",
-						"description": "You have received an email. This email contains a password reset link. You can close this page",
-						"resendBtn": "The code did not arrive? Try sending again"
-					},
-					"labels": {
-						"image": "Password reset icon",
-						"submitBtn": "Send code to email",
-						"toAuthBtn": "Return to account sign in page",
-						"inputPlaceholder": "Your email"
-					},
-					"errors": {
-						"empty": "Enter an email",
-						"invalid": "Enter the correct email address"
-					},
-					"toasters": {
-						"success": "Code has been successfully sent!",
-						"error": "Failed to send code: {e}"
-					}
-				},
-				"change": {
-					"title": "Create a new password",
-					"description": "Enter a new password that you will use to sign in to your account",
-					"submitBtn": "Confirm changes",
-					"labels": {
-						"image": "Password Reset icon",
-						"submitBtn": "Confirm new password",
-						"inputPlaceholder": "Enter a new password"
-					},
-					"errors": {
-						"empty": "Enter password",
-						"min": "Minimum password length {min} characters",
-						"max": "Maximum password length {max} characters"
-					},
-					"toasters": {
-						"success": "You have successfully changed your password",
-						"error": "Error when updating password: {e}"
-					}
-				}
-			}
-		},
-		"notifications": {
-			"title": "Notifications",
-			"description": "Notifications page of the online store {title}",
-			"content": {
-				"title": "My notifications",
-				"description": "Here are all the notifications for the last 3 months that have come to you, including notifications about the order, account security, and others",
-				"notFound": "Your notifications have not been found or are simply not there<br></br>When the first notifications arrive, they will appear here",
-				"notification": {
-					"isRead": " {isRead, select, true {Read} false {Not read} other {}}",
-					"type": {
-						"accountStatus": "Account security",
-						"orderStatus": "Status of your orders",
-						"specialOffers": "Special offers",
-						"telegram": "Telegram notifications"
-					},
-					"dropdown": {
-						"title": "Actions",
-						"read": "Read",
-						"select": "{isSelected, select, false {Select} true {Don't select} other {}}",
-						"archive": "Archive",
-						"delete": "Delete"
-					}
-				},
-				"filters": {
-					"notificationsTypeBtn": "Selected: {length}",
-					"sortTypeBtn": "Sorting",
-					"onlyNotRead": "Unread only",
-					"sortTypes": {
-						"newest": "New on top",
-						"oldest": "Old on top"
-					},
-					"actions": {
-						"selectedTxt": "Selected items: {length}",
-						"cancelBtn": "Cancel",
-						"readAll": "Read all",
-						"refresh": "Refresh"
-					}
-				},
-				"labels": {
-					"notFoundImage": "Photo: Not found",
-					"notificationsTypeBtn": "Notification type",
-					"sortTypeBtn": "Sort type",
-					"refreshAndResetBtn": "Reset filters and update data",
-					"readSelectedBtn": "Mark as read",
-					"archiveSelectedBtn": "Archive selected",
-					"deleteSelectedBtn": "Delete selected",
-					"cancelBtn": "Cancel"
-				}
-			}
-		},
-		"settings": {
-			"title": "Settings",
-			"description": "Settings page of the online store {title}",
-			"content": {
-				"title": "Settings",
-				"description": "Here you can manage your settings",
-				"tabs": {
-					"profile": "Profile",
-					"account": "Account",
-					"notifications": "Notifications",
-					"devices": "Devices",
-					"labels": {
-						"profile": "Profile settings",
-						"account": "Account settings",
-						"notifications": "Notification settings",
-						"devices": "Device settings"
-					}
-				},
-				"profile": {
-					"title": "Profile",
-					"description": "Customize your profile as you want, change your avatar, change your personal information",
-					"avatar": {
-						"title": "Profile Picture",
-						"updateBtn": "Update image",
-						"uploadRules": "Supported formats: JPG, JPEG, PNG, WEBP or GIF. Max. size: {file_size} MB.",
-						"toasters": {
-							"update": {
-								"success": "You have successfully updated the profile picture",
-								"error": "Error when updating the image:\n{e}"
-							},
-							"delete": {
-								"success": "You have successfully deleted the profile picture",
-								"error": "Error when deleting the image:\n{e}"
-							}
-						}
-					},
-					"personal-info": {
-						"title": "Personal information",
-						"username": { "title": "Username", "placeholder": "Enter an username" },
-						"phone": { "title": "Phone number", "placeholder": "Enter a phone number" },
-						"birthdate": { "title": "Date of birth" },
-						"gender": {
-							"title": "Your gender",
-							"label": "Select gender",
-							"data": {
-								"male": "Male",
-								"female": "Female",
-								"other": "Do not specify"
-							}
-						},
-						"submitBtn": "Save changes",
-						"errors": {
-							"phone": { "invalid": "Enter the correct phone number" },
-							"username": {
-								"max": "The maximum length of the username is {max} characters",
-								"min": "The minimum length of the user name is {min} characters",
-								"invalid": "The user's name can contain only letters, numbers, and the special character \"_\""
-							}
-						},
-						"toasters": {
-							"success": "You have successfully updated your personal information",
-							"error": "Error when saving information:\n{e}"
-						}
-					},
-					"appearance": {
-						"title": "Website design",
-						"language": {
-							"title": "Basic website language",
-							"ru": "Russian",
-							"en": "English"
-						},
-						"theme": {
-							"title": "Basic website theme",
-							"light": "Light",
-							"dark": "Dark"
-						},
-						"currency": {
-							"title": "Basic account currency",
-							"ruble": "₽ Ruble",
-							"dollar": "$ USA Dollar",
-							"euro": "€ Euro"
-						},
-						"submitBtn": "Save changes",
-						"toasters": {
-							"success": "You have successfully updated the design settings",
-							"error": "Error when saving information:\n{e}"
-						}
-					},
-					"telegram-linking": {
-						"title": "Telegram profile",
-						"description": "Link your telegram account to receive notifications about security and special promotions",
-						"status": "Connected status: <text>{sts, select, true {Connected} false {Not connected} other {}}</text>",
-						"tgId": "Your telegram ID: <text>{id}</text>",
-						"tgUse": "Your telegram username: <link>@{username}</link>",
-						"actions": {
-							"connect": "Connect telegram",
-							"disconnect": "Disconnect telegram",
-							"telegramBot": "Telegram bot"
-						},
-						"labels": {
-							"connectBtn": "Connect telegram account",
-							"disconnectBtn": "Disconnect telegram account"
-						}
-					},
-					"modals": {
-						"avatarDelete": {
-							"heading": "Removing an avatar",
-							"description": "Are you sure you want to delete your avatar? Once deleted, it cannot be restored. Default avatar will be set instead deleted avatar"
-						},
-						"telegramConnect": {
-							"heading": "Confirmation of binding",
-							"description": "To apply, you need to click on the button below, it will redirect you to our telegram bot.\nPlease be aware that the link is active for 30 minutes only!",
-							"submitBtn": "Continue in Telegram",
-							"cancelBtn": "Cancel"
-						},
-						"telegramDisconnect": {
-							"heading": "Are you sure you want to unlink telegram",
-							"description": "You definitely want to unlink the telegram account from your account, you will lose the opportunity to receive notifications in our bot"
-						}
-					},
-					"labels": {
-						"avatarImage": "Profile picture",
-						"deleteAvatar": "Delete profile picture",
-						"clearDate": "Clear birthdate",
-						"language": {
-							"choose": "Select a language",
-							"clear": "Delete the base language"
-						},
-						"theme": {
-							"choose": "Select a theme",
-							"clear": "Delete the base theme"
-						},
-						"currency": {
-							"choose": "Select a currency",
-							"clear": "Delete the base currency"
-						}
-					}
-				},
-				"account": {
-					"title": "Account",
-					"description": "The account settings are shown here, you can manage these settings here",
-					"content": {
-						"email": {
-							"title": "Email address",
-							"verified": "{isVerified, select, true {Confirmed} false {Not confirmed} other {}}",
-							"placeholder": "Enter an email address",
-							"errors": {
-								"invalid": "Enter the correct email address"
-							},
-							"actions": {
-								"confirmEmail": "Confirm email",
-								"changeEmail": "Save changes"
-							}
-						},
-						"security": {
-							"title": "Account securance",
-							"password": {
-								"title": "Password",
-								"description": "The password is the key to your account. Don't tell anyone about it. If necessary, you can change it here to improve security"
-							},
-							"2fa": {
-								"title": "Use two-factor authentication",
-								"description": "Ensure the security of your account using two-factor authentication via a bundle of e-mail and a one-time code"
-							},
-							"fullLogout": {
-								"title": "Use full account logout",
-								"description": "By fully logging out of your account, you clear the cache and delete all cookies-files related to the design of the site."
-							},
-							"tg2fa": {
-								"title": "Use authorization via Telegram",
-								"description": "Enable sign in via telegram to increase the security of your account (you need to connect a Telegram bot, two-factor authentication and enable notifications in Telegram)"
-							},
-							"changePasswordModal": {
-								"title": "Password change",
-								"description": "Change your password to whatever you want, if you have two-factor auth enabled, you will need to sign in to your account again after the change",
-								"confirmBtn": "Save changes",
-								"placeholders": {
-									"new": "Enter new password",
-									"confirmNew": "Confirm new password"
-								},
-								"errors": {
-									"min": "Minimum password length {min} characters",
-									"max": "Maximum password length {max} characters",
-									"empty": "Enter a password"
-								}
-							}
-						},
-						"actions": {
-							"title": "Actions",
-							"logout": {
-								"title": "Exit | Logout",
-								"description": "End the session to log out of your account on this device",
-								"btn": "Log out from account"
-							},
-							"delete": {
-								"title": "Deleting an account",
-								"description": "Deleting an account will lead to its complete destruction without the possibility of refund",
-								"btn": "Delete account"
-							},
-							"saveFile": {
-								"title": "Save settings to a file",
-								"description": "Download the settings file in the format .json or .yml. You can share this file with your friends",
-								"opts": {
-									"json": "Json format (.json)",
-									"yaml": "Yaml format (.yml)"
-								},
-								"btn": "Save settings to a file"
-							}
-						},
-						"labels": {
-							"resetFieldBtn": "Reset input field",
-							"confirmEmailBtn": "Save an email",
-							"changeEmailBtn": "Save email changes",
-							"changePasswordBtn": "Change password",
-							"saveFileBtn": "Select an extension to load",
-							"saveFileYaml": "Download in Json format",
-							"saveFileJson": "Download in Yaml format"
-						},
-						"toasters": {
-							"email": { "success": "You have successfully changed your email address" },
-							"security": { "success": "Changed information has successfully saved" },
-							"changePasswordModal": { "success": "You have successfully changed your password" }
-						}
-					}
-				},
-				"notifications": {
-					"title": "Notifications",
-					"description": "Configure notifications so that you feel comfortable receiving them",
-					"content": {
-						"permissions": {
-							"title": "Granted permissions",
-							"enabled": {
-								"title": "Enable notifications",
-								"description": "Allow notifications to come directly to your website and make themselves felt with a pop-up window"
-							},
-							"sound": {
-								"title": "Enable notification sound",
-								"description": "Turn on the sound for notifications to know when they arrive"
-							},
-							"push": {
-								"title": "Push notifications on this device",
-								"description": "Enable push notifications to receive notifications directly to the desktop",
-								"permitted": "{permission, select, granted {Allowed} denied {Denied} other {Not requested}}",
-								"reqPermBtn": "Request access"
-							}
-						},
-						"destination": {
-							"title": "Receiving preferences",
-							"site": {
-								"title": "Enable notifications on the site",
-								"description": "Select notifications on the site so that they arrive on the site in the browser"
-							},
-							"tg": {
-								"title": "Enable notifications in Telegram",
-								"description": "Turn on Telegram alerts, they will be sent to you in telegram via our bot",
-								"linked": "{isLinked, select, true {Linked} false {Not linked} other {}}",
-								"loading": "Loading...",
-								"linkBtn": "Link Telegram"
-							}
-						},
-						"labels": {
-							"reqPermBtn": "Request access to push notifications",
-							"linkBtn": "Link telegram account"
-						},
-						"toasters": {
-							"success": "Settings successfully updated"
-						}
-					}
-				},
-				"devices": {
-					"title": "Devices",
-					"description": "The devices from which you signed into your account are displayed here. You can also manage these devices",
-					"content": {
-						"current": "Current device",
-						"moreBtn": "More",
-						"removeBtn": "Remove",
-						"removeAll": "Logout on all devices"
-					},
-					"modals": {
-						"confirm": {
-							"title": "Removing the session",
-							"description": "Are you sure you want to remove this session? This action will permanently remove the session on this device and terminate all active actions related to it.",
-							"cancelBtn": "Cancel",
-							"confirmBtn": "Ok"
-						},
-						"more": {
-							"title": "Session's information",
-							"description": "General information about the session and the sing in location is provided here",
-							"content": {
-								"device": "Device:",
-								"location": "Device location:",
-								"ip": "IP-address:",
-								"method": "Logged in using:",
-								"time": "Sign in date:"
-							},
-							"closeBtn": "Close"
-						}
-					},
-					"toasters": {
-						"serverError": "Error while removing session:\n{e}",
-						"clientError": "You can't remove the current session"
-					},
-					"labels": {
-						"moreBtn": "More information",
-						"removeBtn": "Remove session",
-						"removeAllBtn": "Logout on all devices, except this one",
-						"closeBtn": "Close the window"
-					}
-				}
-			}
-		},
-		"connections": {
-			"title": "Connections",
-			"description": "Linked accounts page online store {title}",
-			"content": {
-				"title": "Linked Accounts",
-				"description": "Linked accounts that you can use to sign in are displayed here"
-			}
-		}
-	},
-	"layout": {
-		"header": {
-			"logo": {
-				"title": "Honey Paradise",
-				"alt": "Website's logo"
-			},
-			"links": {
-				"shares": "Special offers",
-				"contacts": "Contacts",
-				"promo": "Promo code",
-				"profile": "Profile",
-				"notifications": "Notifications",
-				"orders": "Orders"
-			},
-			"search": {
-				"placeholder": "Enter a request"
-			},
-			"roles": {
-				"admin": "Admin",
-				"regular": "Customer",
-				"vip": "V.I.P.",
-				"manager": "Manager",
-				"deliverance": "Deliverance"
-			},
-			"auth": {
-				"signIn": "Sign in",
-				"signUp": "Sign up"
-			},
-			"labels": {
-				"searchBtn": "{isOpen, select, true {Search} false {Close} other {}}",
-				"findBtn": "Find in catalog",
-				"menu": "Menu",
-				"clear": "Clear",
-				"watchCart": "View the cart",
-				"changeLang": "Change language",
-				"avatar": "Profile's avatar"
-			},
-			"sidebarSheet": {
-				"title": "Profile Navigation menu",
-				"description": "Profile navigation menu with links that contain information about your profile.",
-				"aria": {
-					"description": "Navigation menu"
-				},
-				"langsDropdown": {
-					"title": "Choose language",
-					"langs": {
-						"ru": "Russian",
-						"en": "English"
-					},
-					"labels": {
-						"currentLang": "Current language"
-					}
-				}
-			}
-		},
-		"root-sidebar": {
-			"list": {
-				"title": "Contents",
-				"content": {
-					"topics": {
-						"honeyAbout": "About honey",
-						"catalog": "Catalog",
-						"information": "Information"
-					},
-					"links": {
-						"wiki": "A bit of Wiki",
-						"deference": "Variety of honey",
-						"sorts": "Honey's sorts",
-						"popular": "Popular",
-						"new": "New",
-						"allProducts": "All products",
-						"about": "About us",
-						"privacyPolicy": "Privacy policy"
-					}
-				}
-			},
-			"footer": {
-				"logout": {
-					"title": "Logout",
-					"options": {
-						"full": {
-							"title": "Full logout",
-							"description": "Full exit with the deletion of settings such as the site theme, language, and others,  without saving."
-						},
-						"short": {
-							"title": "Partial logout",
-							"description": "Simply log out of your account, and settings such as site theme, language, and others will not be deleted."
-						}
-					},
-					"labels": {
-						"logout": "Logout of your account"
-					}
-				}
-			},
-			"labels": {
-				"changeTheme": "Change theme"
-			}
-		},
-		"account-sidebar": {
-			"links": {
-				"settings": "Settings",
-				"connections": "Linked accounts",
-				"notifications": "Notifications",
-				"transactions": "My payments",
-				"deferred": "Liked products",
-				"cart": "My cart",
-				"orders": "My orders"
-			}
-		},
-		"cookies": {
-			"title": "Agreement with the Cookie policy",
-			"description": "This website uses Cookies to provide you with the best possible experience using our website.",
-			"link": "Learn more",
-			"buttons": {
-				"accept": "Ok",
-				"reject": "Reject"
-			},
-			"labels": {
-				"accept": "Accept the policy",
-				"reject": "Reject the policy",
-				"photo": "Photo of a round cookie"
-			},
-			"toasters": {
-				"error": "Failed to save an information. Error: {e}"
-			}
-		}
-	},
-	"toasters": {
-		"changeLanguage": {
-			"success": "Язык успешно изменён на {lang}",
-			"error": "Failed to change language. Error: {error}"
-		},
-		"notifications": {
-			"newNotification": {
-				"text": "You have new notifications!",
-				"read": "Read",
-				"check": "View"
-			},
-			"sessionDeleted": "Someone just kicked you out of your account. Sign in again"
-		},
-		"auth": {
-			"reqAccepted": "The entry has been approved.\nYou will now be redirected",
-			"error": "Server response could not be processed"
-		}
-	},
-	"shared": {
-		"auth": {
-			"notSpecified": {
-				"gender": "Not specified",
-				"language": "Not specified. Current - {current}",
-				"theme": "Not specified. Current - {current}",
-				"currency": "Not specified. Default - Dollar USA"
-			},
-			"methods": {
-				"google": "Google",
-				"yandex": "Yandex ID",
-				"vk": "VK ID",
-				"github": "Github",
-				"telegram": "telegram bot",
-				"credentials": "login & password"
-			},
-			"labels": {
-				"clearBtn": "Clear",
-				"showPassword": "Show password",
-				"hidePassword": "Hide Password"
-			}
-		},
-		"ui": {
-			"switch": {
-				"enable": "Enable{txt}",
-				"disable": "Disable{txt}"
-			}
-		},
-		"time": {
-			"now": "just now",
-			"week": "more than {weeks, plural, =1 {# week} other {# weeks}} ago",
-			"minute": "{minutes, plural, =1 {minute} other {# minutes}} ago",
-			"hour": "{hours, plural, =1 {hour} other {# hours}} ago",
-			"day": "{days, plural, =1 {day} other {# days}} ago",
-			"month": "{months, plural, =1 {month} other {# months}} ago",
-			"yesterday": {
-				"midnight": "yesterday at midnight",
-				"midday": "yesterday at noon",
-				"withDate": "yesterday at {time}",
-				"withoutDate": "yesterday"
-			}
-		},
-		"theme": {
-			"dark": {
-				"full": "Dark theme",
-				"short": "Dark"
-			},
-			"light": {
-				"full": "Light theme",
-				"short": "Light"
-			}
-		},
-		"confirmModal": {
-			"btns": {
-				"confirm": "Ok",
-				"cancel": "Cancel"
-			},
-			"labels": {
-				"confirm": "Confirm action",
-				"cancel": "Cancel action"
-			}
-		},
-		"notifications": {
-			"desktop": "You have received a new notification!"
-		}
-	}
+  "global": {
+    "logo": "Honey Paradise",
+    "home": {
+      "title": "Home",
+      "description": "The main page of the online store {title}",
+      "content": {
+        "products": {
+          "comments": "{count, plural, =0 {No commentaries} =1 {One commentary} other {# commentaries}}",
+          "addToCart": "Add to cart",
+          "labels": {
+            "addToCart": "Add product to cart",
+            "like": "{isLiked, select, true {Delete from liked} false {To liked products} other {}}"
+          },
+          "toasters": {
+            "success": "Product has successfully added to the cart!",
+            "error": {
+              "addToCart": "Error when adding product to the cart. {e}",
+              "like": "Error when adding product to the favorites list. {e}"
+            }
+          }
+        }
+      }
+    },
+    "notFound": {
+      "title": "Page not found",
+      "content": {
+        "title": "We don't have this page.",
+        "description": "Check the correctness of the entered address or try again later",
+        "actions": {
+          "toIndex": "To home",
+          "refresh": "Refresh"
+        },
+        "labels": {
+          "toIndex": "To the home page",
+          "refresh": "Refresh page",
+          "image": "Image \"not found\""
+        }
+      }
+    },
+    "notAuth": {
+      "title": "Not authorized",
+      "content": {
+        "title": "You are not authorized",
+        "description": "You must be authorized to access this page. Sign in and try again later",
+        "actions": {
+          "toIndex": "Sign in",
+          "refresh": "Refresh"
+        },
+        "labels": {
+          "toIndex": "To the account login page",
+          "refresh": "Refresh page",
+          "image": "Image \"User is not authorized\""
+        }
+      }
+    },
+    "privacy-policy": {
+      "title": "Privacy policy",
+      "description": "Privacy Policy of the {title} online store",
+      "content": {
+        "titles": {
+          "general": "Privacy Policy",
+          "h3": {
+            "1": "Collection of information",
+            "2": "Use of information",
+            "3": "Protection of information",
+            "4": "Disclosure of information",
+            "5": "Changes to the Privacy Policy",
+            "6": "Consent",
+            "7": "Contacts"
+          }
+        },
+        "paragraphs": {
+          "1": "We value your privacy and want you to be sure that your personal data is protected. This privacy policy explains how we collect, use and protect your personal data.",
+          "2": {
+            "text_1": "We collect information that you provide to us when you use our website or application.",
+            "text_2": "This may include:",
+            "list": {
+              "1": "your name",
+              "2": "email address",
+              "3": "phone number",
+              "4": "other information that you provide to us."
+            }
+          },
+          "3": "We use the information we collect to provide you with the services you have requested, as well as to improve our products and services. We may also use your information to send you promotional materials if you have agreed to do so.",
+          "4": "We take all necessary measures to protect your information from unauthorized access, use or disclosure. We use modern technology and strict security procedures to protect your information.",
+          "5": "We will not sell, exchange or transfer your information to third parties without your consent, except as required by law.",
+          "6": "We may update this privacy policy from time to time. We recommend that you check this page periodically for any changes.",
+          "7": "By using our website or application, you agree to this privacy policy and its terms. You also accept and understand the use of cookies",
+          "8": {
+            "text": "If you have any questions about the privacy policy or how we use your information, please contact us at:",
+            "link": "click"
+          }
+        }
+      }
+    },
+    "cookies-policy": {
+      "title": "Cookie Policy",
+      "description": "Cookie policy of the online store {title}",
+      "content": {
+        "titles": {
+          "general": "Cookie Policy",
+          "h3": {
+            "1": "1. What are cookies?",
+            "2": "2. Managing cookies on your device",
+            "3": "3. Disclosure of information about cookies"
+          },
+          "h4": {
+            "1": "2.1. Managing cookies through the browser",
+            "2": "3.1. Types of cookies",
+            "3": "3.2. Categories of cookies",
+            "4": "3.3. Managing analytical cookies"
+          }
+        },
+        "paragraphs": {
+          "1": "When visiting the Administration's websites and using the Platform's functionality, the User consents to the use of cookies in accordance with this policy regarding this type of file.",
+          "2": "Cookies are small text files placed on a user's computer by sites they have visited. They are widely used to make websites work at all or work more efficiently, as well as to provide the necessary information to the site owners. The use of cookies is currently a standard practice for most websites.",
+          "3": "The administration uses cookies to personalize the content and improve the user experience. The User can control cookies and manage their use through his browser (see section 2.1). Deleting or blocking cookies may affect the user interface of the site and make some of the site's components inaccessible to the User.",
+          "4": {
+            "text_1": "Most browsers allow you to view, delete, and block cookies from websites. In this case, if all cookies are deleted, all site settings will be reset for the User. Cookie management instructions for common browsers can be found at the links below:",
+            "text_2": "Information about other browsers and device types is available on {link1} and {link2}."
+          },
+          "5": "The following section describes the types, categories, and purpose of cookies. The User can disable the use of certain cookies in accordance with the functionality of the browser he uses, as described in section 2.1.",
+          "6": "The User has the option to refuse to record their anonymized browsing history in analytical cookies on the Administration's websites. The administration uses the services of the providers listed below."
+        },
+        "lists": {
+          "list_1": {
+            "1": "Google Chrome",
+            "2": "Mozilla Firefox",
+            "3": "MacOS Safari",
+            "4": "Microsoft Internet Explorer"
+          },
+          "list_2": {
+            "1": {
+              "title": "Mandatory cookies",
+              "text": "These cookies ensure the operation of the Administration's website and/or Platform, and they cannot be disabled. They are usually applied in response to actions performed, for example, to set privacy settings or fill out some forms.The user can configure his browser so that it blocks these cookies or notifies him about them, but in this case some components of the site will stop working."
+            },
+            "2": {
+              "title": "Analytical cookies",
+              "text": "These cookies help the Administration to calculate statistics on the number of visitors and investigate traffic sources so that the Administration can evaluate and improve the effectiveness and usability of the site for Users. They allow the Administration to find out which pages are the most popular or are of least interest to Users, and how visitors navigate the site.All information collected by these cookies is aggregated and, accordingly, anonymous. If the User prohibits the use of these cookies, the Administration will not be able to track website traffic and will not be able to regulate its operation."
+            },
+            "3": {
+              "title": "Additional cookies",
+              "text": "These cookies help the Administration in researching the effectiveness of marketing campaigns and improve the user-friendliness of the Administration's Internet resources, taking into account User preferences."
+            },
+            "4": {
+              "title": "Advertising cookies",
+              "text": "In order to promote its services, collect statistics and conduct research, the Administration may place advertisements on other Internet sites that will be visible to Users. Cookies are used to make offers tailored to the User and their interests. In addition, they are needed to prevent the same advertisement from appearing frequently. These advertisements are intended solely to familiarize Users with the Administration's potentially interesting proposals. The Administration does not sell User data to third parties."
+            }
+          },
+          "list_3": {
+            "1": {
+              "title": "Mandatory cookies",
+              "text": "These cookies ensure the operation of the Administration's website and/or Platform, and they cannot be disabled. They are usually applied in response to actions performed, for example, to set privacy settings or fill out some forms.The user can configure his browser so that it blocks these cookies or notifies him about them, but in this case some components of the site will stop working."
+            },
+            "2": {
+              "title": "Analytical cookies",
+              "text": "These cookies help the Administration calculate statistics on the number of visitors and investigate traffic sources so that the Administration can evaluate and improve the effectiveness and usability of the site for Users. They allow the Administration to find out which pages are the most popular or are of least interest to Users, and how visitors navigate the site.All information collected by these cookies is aggregated and, accordingly, anonymous. If the User prohibits the use of these cookies, the Administration will not be able to track website traffic and will not be able to regulate its operation."
+            },
+            "3": {
+              "title": "Additional cookies",
+              "text": "These cookies help the Administration in researching the effectiveness of marketing campaigns and improve the user-friendliness of the Administration's Internet resources, taking into account User preferences."
+            },
+            "4": {
+              "title": "Advertising cookies",
+              "text": "In order to promote its services, collect statistics and conduct research, the Administration may place advertisements on other Internet sites that will be visible to Users. Cookies are used to make offers tailored to the User and their interests. In addition, they are needed to prevent the same advertisement from appearing frequently. These advertisements are intended solely to familiarize Users with the Administration's potentially interesting proposals. The Administration does not sell User data to third parties."
+            }
+          }
+        }
+      }
+    },
+    "sign-in": {
+      "title": "Sign In",
+      "description": "{title} online store login page",
+      "content": {
+        "title": "Sign in to your account",
+        "form": {
+          "id": {
+            "label": "Email or username",
+            "placeholder": "Enter email or username",
+            "errors": {
+              "min": "The minimum length of the identifier is {min} characters",
+              "max": "The maximum length of the identifier is {max} characters",
+              "invalid": "The username can contain only letters, numbers and the special character _",
+              "union": "The field must contain the username or email"
+            }
+          },
+          "password": {
+            "label": "Password",
+            "placeholder": "Enter password",
+            "errors": {
+              "min": "The password must be at least {min} characters",
+              "max": "The maximum length of the password is {max} characters"
+            }
+          }
+        },
+        "footer": {
+          "submitBtn": "Sign in",
+          "forgotPassword": "Forgot password?",
+          "noProfile": "No profile? Create",
+          "error": "You may be a robot! Go through reCAPTCHA again",
+          "socialAuth": "Sign in using social networks"
+        },
+        "alert": {
+          "title": "Waiting for a response from the server",
+          "description": "We have sent a confirmation message in Telegram. Please check it and confirm the sign in.",
+          "cancelBtn": "Cancel sign in"
+        },
+        "toasters": {
+          "success": "You have successfully signed in to your account!",
+          "checkTg": "Check Telegram and confirm sign in",
+          "error": "Error when logging in to account!\n{e}",
+          "2fa": "You will now be redirected to the account sign in confirmation page"
+        },
+        "labels": {
+          "vk": "VKonatkte",
+          "google": "Google",
+          "yandex": "Yandex",
+          "github": "Github"
+        }
+      }
+    },
+    "sign-up": {
+      "title": "Sign Up",
+      "description": "Account creation page in the {title} online store",
+      "content": {
+        "main_part": {
+          "title": "Creating an account",
+          "form": {
+            "email": {
+              "label": "Your Email",
+              "placeholder": "Enter your email",
+              "errors": {
+                "invalid": "Enter the correct email address"
+              }
+            },
+            "password": {
+              "label": "Create a password",
+              "placeholder": "Enter the password",
+              "errors": {
+                "min": "The password must be at least {min} characters",
+                "max": "The maximum length of the password is {max} characters"
+              }
+            },
+            "confirmPassword": {
+              "label": "Repeat password",
+              "placeholder": "Enter password again",
+              "errors": {
+                "notMatch": "Passwords must match each other",
+                "invalid": "A password can contain only letters, numbers, and special characters \"%&$#!.*^_-\""
+              }
+            }
+          }
+        },
+        "optional_part": {
+          "title": "Additional information",
+          "form": {
+            "username": {
+              "title": "Create a username",
+              "label": "Username",
+              "placeholder": "Enter a username",
+              "errors": {
+                "max": "Maximum length of user name is {max} characters",
+                "min": "Minimum length of user name is {min} characters",
+                "invalid": "The username can contain only letters, numbers, and the special character \"_\""
+              }
+            },
+            "gender": {
+              "title": "Select gender",
+              "opts": {
+                "male": "Male",
+                "female": "Female",
+                "other": "Do not specify"
+              },
+              "errors": {}
+            },
+            "birthdate": {
+              "title": "Specify the birthdate",
+              "label": "Select a date",
+              "errors": {}
+            }
+          }
+        },
+        "footer": {
+          "continueBtn": "Continue 1/2",
+          "backBtn": "Return",
+          "submitBtn": "Create an account",
+          "haveProfile": "Do you have a profile? Sign in",
+          "error": "You may be a robot! Go through reCAPTCHA again"
+        },
+        "labels": {
+          "birthdate": "Click to select a date"
+        },
+        "toasters": {
+          "success": "Account successfully created! Now confirm it",
+          "error": "Failed to create an account.\n{e}"
+        }
+      }
+    },
+    "confirmation": {
+      "title": {
+        "email": "Email confirmation",
+        "2fa": "Account sign in confirmation"
+      },
+      "description": {
+        "email": "Email confirmation page in the online store {title}",
+        "2fa": "Sign in confirmation page in the online store {title}"
+      },
+      "content": {
+        "email": {
+          "title": "Email confirmation",
+          "description": {
+            "default": "Confirm your email address. We have sent you an email with a confirmation code, check an email and enter it",
+            "notVerified": "Confirm your account to sign in to your account. We have sent the code to your email.",
+            "signUp": "You have almost created your account. All that remains is to confirm your email. We have sent the code to the specified email address"
+          },
+          "signInAfter": "Sign in after verification",
+          "toasters": {
+            "success": "You successfully verified your email!"
+          }
+        },
+        "2fa": {
+          "title": "Two-factor authentication",
+          "description": {
+            "default": "You're almost signed in. We have already sent the code to your email, check it and enter the code"
+          },
+          "toasters": {
+            "success": "You have successfully signed in to your account!"
+          }
+        },
+        "actions": {
+          "resendBtn": "Request a new code",
+          "resendBtnWithCooldown": "Request a new code - {cooldown} sec.",
+          "submitBtn": "Verify"
+        },
+        "labels": {
+          "submitBtn": "Verify an email"
+        },
+        "errors": {
+          "empty": "Enter a pincode",
+          "min": "Minimum length of pincode is {min} characters"
+        }
+      }
+    },
+    "password-recovery": {
+      "title": "Password recovery",
+      "description": "{title} online store page of the password recovery page",
+      "content": {
+        "reset": {
+          "title": "Recover your password",
+          "description": "Enter the email address that you specified during sign up. We will send a password recover code to it",
+          "actions": {
+            "submitBtn": "Send code",
+            "submitBtnCooldown": "Send the code again - {cooldown} sec.",
+            "toAuthBtn": "Sign in to your account"
+          },
+          "alert": {
+            "title": "Check your email",
+            "description": "You have received an email. This email contains a password reset link. You can close this page",
+            "resendBtn": "The code did not arrive? Try sending again"
+          },
+          "labels": {
+            "image": "Password reset icon",
+            "submitBtn": "Send code to email",
+            "toAuthBtn": "Return to account sign in page",
+            "inputPlaceholder": "Your email"
+          },
+          "errors": {
+            "empty": "Enter an email",
+            "invalid": "Enter the correct email address"
+          },
+          "toasters": {
+            "success": "Code has been successfully sent!",
+            "error": "Failed to send code: {e}"
+          }
+        },
+        "change": {
+          "title": "Create a new password",
+          "description": "Enter a new password that you will use to sign in to your account",
+          "submitBtn": "Confirm changes",
+          "labels": {
+            "image": "Password Reset icon",
+            "submitBtn": "Confirm new password",
+            "inputPlaceholder": "Enter a new password"
+          },
+          "errors": {
+            "empty": "Enter password",
+            "min": "Minimum password length {min} characters",
+            "max": "Maximum password length {max} characters"
+          },
+          "toasters": {
+            "success": "You have successfully changed your password",
+            "error": "Error when updating password: {e}"
+          }
+        }
+      }
+    },
+    "notifications": {
+      "title": "Notifications",
+      "description": "Notifications page of the online store {title}",
+      "content": {
+        "title": "My notifications",
+        "description": "Here are all the notifications for the last 3 months that have come to you, including notifications about the order, account security, and others",
+        "notFound": "Your notifications have not been found or are simply not there<br></br>When the first notifications arrive, they will appear here",
+        "notification": {
+          "isRead": " {isRead, select, true {Read} false {Not read} other {}}",
+          "type": {
+            "accountStatus": "Account security",
+            "orderStatus": "Status of your orders",
+            "specialOffers": "Special offers",
+            "telegram": "Telegram notifications"
+          },
+          "dropdown": {
+            "title": "Actions",
+            "read": "Read",
+            "select": "{isSelected, select, false {Select} true {Don't select} other {}}",
+            "archive": "Archive",
+            "delete": "Delete"
+          }
+        },
+        "filters": {
+          "notificationsTypeBtn": "Selected: {length}",
+          "sortTypeBtn": "Sorting",
+          "onlyNotRead": "Unread only",
+          "sortTypes": {
+            "newest": "New on top",
+            "oldest": "Old on top"
+          },
+          "actions": {
+            "selectedTxt": "Selected items: {length}",
+            "cancelBtn": "Cancel",
+            "readAll": "Read all",
+            "refresh": "Refresh"
+          }
+        },
+        "labels": {
+          "notFoundImage": "Photo: Not found",
+          "notificationsTypeBtn": "Notification type",
+          "sortTypeBtn": "Sort type",
+          "refreshAndResetBtn": "Reset filters and update data",
+          "readSelectedBtn": "Mark as read",
+          "archiveSelectedBtn": "Archive selected",
+          "deleteSelectedBtn": "Delete selected",
+          "cancelBtn": "Cancel"
+        }
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "description": "Settings page of the online store {title}",
+      "content": {
+        "title": "Settings",
+        "description": "Here you can manage your settings",
+        "tabs": {
+          "profile": "Profile",
+          "account": "Account",
+          "notifications": "Notifications",
+          "devices": "Devices",
+          "labels": {
+            "profile": "Profile settings",
+            "account": "Account settings",
+            "notifications": "Notification settings",
+            "devices": "Device settings"
+          }
+        },
+        "profile": {
+          "title": "Profile",
+          "description": "Customize your profile as you want, change your avatar, change your personal information",
+          "avatar": {
+            "title": "Profile Picture",
+            "updateBtn": "Update image",
+            "uploadRules": "Supported formats: JPG, JPEG, PNG, WEBP or GIF. Max. size: {file_size} MB.",
+            "toasters": {
+              "update": {
+                "success": "You have successfully updated the profile picture",
+                "error": "Error when updating the image:\n{e}"
+              },
+              "delete": {
+                "success": "You have successfully deleted the profile picture",
+                "error": "Error when deleting the image:\n{e}"
+              }
+            }
+          },
+          "personal-info": {
+            "title": "Personal information",
+            "username": { "title": "Username", "placeholder": "Enter an username" },
+            "phone": { "title": "Phone number", "placeholder": "Enter a phone number" },
+            "birthdate": { "title": "Date of birth" },
+            "gender": {
+              "title": "Your gender",
+              "label": "Select gender",
+              "data": {
+                "male": "Male",
+                "female": "Female",
+                "other": "Do not specify"
+              }
+            },
+            "submitBtn": "Save changes",
+            "errors": {
+              "phone": { "invalid": "Enter the correct phone number" },
+              "username": {
+                "max": "The maximum length of the username is {max} characters",
+                "min": "The minimum length of the user name is {min} characters",
+                "invalid": "The user's name can contain only letters, numbers, and the special character \"_\""
+              }
+            },
+            "toasters": {
+              "success": "You have successfully updated your personal information",
+              "error": "Error when saving information:\n{e}"
+            }
+          },
+          "appearance": {
+            "title": "Website design",
+            "language": {
+              "title": "Basic website language",
+              "ru": "Russian",
+              "en": "English"
+            },
+            "theme": {
+              "title": "Basic website theme",
+              "light": "Light",
+              "dark": "Dark"
+            },
+            "currency": {
+              "title": "Basic account currency",
+              "ruble": "₽ Ruble",
+              "dollar": "$ USA Dollar",
+              "euro": "€ Euro"
+            },
+            "submitBtn": "Save changes",
+            "toasters": {
+              "success": "You have successfully updated the design settings",
+              "error": "Error when saving information:\n{e}"
+            }
+          },
+          "telegram-linking": {
+            "title": "Telegram profile",
+            "description": "Link your telegram account to receive notifications about security and special promotions",
+            "status": "Connected status: <text>{sts, select, true {Connected} false {Not connected} other {}}</text>",
+            "tgId": "Your telegram ID: <text>{id}</text>",
+            "tgUse": "Your telegram username: <link>@{username}</link>",
+            "actions": {
+              "connect": "Connect telegram",
+              "disconnect": "Disconnect telegram",
+              "telegramBot": "Telegram bot"
+            },
+            "labels": {
+              "connectBtn": "Connect telegram account",
+              "disconnectBtn": "Disconnect telegram account"
+            }
+          },
+          "modals": {
+            "avatarDelete": {
+              "heading": "Removing an avatar",
+              "description": "Are you sure you want to delete your avatar? Once deleted, it cannot be restored. Default avatar will be set instead deleted avatar"
+            },
+            "telegramConnect": {
+              "heading": "Confirmation of binding",
+              "description": "To apply, you need to click on the button below, it will redirect you to our telegram bot.\nPlease be aware that the link is active for 30 minutes only!",
+              "submitBtn": "Continue in Telegram",
+              "cancelBtn": "Cancel"
+            },
+            "telegramDisconnect": {
+              "heading": "Are you sure you want to unlink telegram",
+              "description": "You definitely want to unlink the telegram account from your account, you will lose the opportunity to receive notifications in our bot"
+            }
+          },
+          "labels": {
+            "avatarImage": "Profile picture",
+            "deleteAvatar": "Delete profile picture",
+            "clearDate": "Clear birthdate",
+            "language": {
+              "choose": "Select a language",
+              "clear": "Delete the base language"
+            },
+            "theme": {
+              "choose": "Select a theme",
+              "clear": "Delete the base theme"
+            },
+            "currency": {
+              "choose": "Select a currency",
+              "clear": "Delete the base currency"
+            }
+          }
+        },
+        "account": {
+          "title": "Account",
+          "description": "The account settings are shown here, you can manage these settings here",
+          "content": {
+            "email": {
+              "title": "Email address",
+              "verified": "{isVerified, select, true {Confirmed} false {Not confirmed} other {}}",
+              "placeholder": "Enter an email address",
+              "errors": {
+                "invalid": "Enter the correct email address"
+              },
+              "actions": {
+                "confirmEmail": "Confirm email",
+                "changeEmail": "Save changes"
+              }
+            },
+            "security": {
+              "title": "Account securance",
+              "password": {
+                "title": "Password",
+                "description": "The password is the key to your account. Don't tell anyone about it. If necessary, you can change it here to improve security"
+              },
+              "2fa": {
+                "title": "Use two-factor authentication",
+                "description": "Ensure the security of your account using two-factor authentication via a bundle of e-mail and a one-time code"
+              },
+              "fullLogout": {
+                "title": "Use full account logout",
+                "description": "By fully logging out of your account, you clear the cache and delete all cookies-files related to the design of the site."
+              },
+              "tg2fa": {
+                "title": "Use authorization via Telegram",
+                "description": "Enable sign in via telegram to increase the security of your account (you need to connect a Telegram bot, two-factor authentication and enable notifications in Telegram)"
+              },
+              "changePasswordModal": {
+                "title": "Password change",
+                "description": "Change your password to whatever you want, if you have two-factor auth enabled, you will need to sign in to your account again after the change",
+                "confirmBtn": "Save changes",
+                "placeholders": {
+                  "new": "Enter new password",
+                  "confirmNew": "Confirm new password"
+                },
+                "errors": {
+                  "min": "Minimum password length {min} characters",
+                  "max": "Maximum password length {max} characters",
+                  "empty": "Enter a password"
+                }
+              }
+            },
+            "actions": {
+              "title": "Actions",
+              "logout": {
+                "title": "Exit | Logout",
+                "description": "End the session to log out of your account on this device",
+                "btn": "Log out from account"
+              },
+              "delete": {
+                "title": "Deleting an account",
+                "description": "Deleting an account will lead to its complete destruction without the possibility of refund",
+                "btn": "Delete account"
+              },
+              "saveFile": {
+                "title": "Save settings to a file",
+                "description": "Download the settings file in the format .json or .yml. You can share this file with your friends",
+                "opts": {
+                  "json": "Json format (.json)",
+                  "yaml": "Yaml format (.yml)"
+                },
+                "btn": "Save settings to a file"
+              }
+            },
+            "labels": {
+              "resetFieldBtn": "Reset input field",
+              "confirmEmailBtn": "Save an email",
+              "changeEmailBtn": "Save email changes",
+              "changePasswordBtn": "Change password",
+              "saveFileBtn": "Select an extension to load",
+              "saveFileYaml": "Download in Json format",
+              "saveFileJson": "Download in Yaml format"
+            },
+            "toasters": {
+              "email": { "success": "You have successfully changed your email address" },
+              "security": { "success": "Changed information has successfully saved" },
+              "changePasswordModal": { "success": "You have successfully changed your password" }
+            }
+          }
+        },
+        "notifications": {
+          "title": "Notifications",
+          "description": "Configure notifications so that you feel comfortable receiving them",
+          "content": {
+            "permissions": {
+              "title": "Granted permissions",
+              "enabled": {
+                "title": "Enable notifications",
+                "description": "Allow notifications to come directly to your website and make themselves felt with a pop-up window"
+              },
+              "sound": {
+                "title": "Enable notification sound",
+                "description": "Turn on the sound for notifications to know when they arrive"
+              },
+              "push": {
+                "title": "Push notifications on this device",
+                "description": "Enable push notifications to receive notifications directly to the desktop",
+                "permitted": "{permission, select, granted {Allowed} denied {Denied} other {Not requested}}",
+                "reqPermBtn": "Request access"
+              }
+            },
+            "destination": {
+              "title": "Receiving preferences",
+              "site": {
+                "title": "Enable notifications on the site",
+                "description": "Select notifications on the site so that they arrive on the site in the browser"
+              },
+              "tg": {
+                "title": "Enable notifications in Telegram",
+                "description": "Turn on Telegram alerts, they will be sent to you in telegram via our bot",
+                "linked": "{isLinked, select, true {Linked} false {Not linked} other {}}",
+                "loading": "Loading...",
+                "linkBtn": "Link Telegram"
+              }
+            },
+            "labels": {
+              "reqPermBtn": "Request access to push notifications",
+              "linkBtn": "Link telegram account"
+            },
+            "toasters": {
+              "success": "Settings successfully updated"
+            }
+          }
+        },
+        "devices": {
+          "title": "Devices",
+          "description": "The devices from which you signed into your account are displayed here. You can also manage these devices",
+          "content": {
+            "current": "Current device",
+            "moreBtn": "More",
+            "removeBtn": "Remove",
+            "removeAll": "Logout on all devices"
+          },
+          "modals": {
+            "confirm": {
+              "title": "Removing the session",
+              "description": "Are you sure you want to remove this session? This action will permanently remove the session on this device and terminate all active actions related to it.",
+              "cancelBtn": "Cancel",
+              "confirmBtn": "Ok"
+            },
+            "more": {
+              "title": "Session's information",
+              "description": "General information about the session and the sing in location is provided here",
+              "content": {
+                "device": "Device:",
+                "location": "Device location:",
+                "ip": "IP-address:",
+                "method": "Logged in using:",
+                "time": "Sign in date:"
+              },
+              "closeBtn": "Close"
+            }
+          },
+          "toasters": {
+            "serverError": "Error while removing session:\n{e}",
+            "clientError": "You can't remove the current session"
+          },
+          "labels": {
+            "moreBtn": "More information",
+            "removeBtn": "Remove session",
+            "removeAllBtn": "Logout on all devices, except this one",
+            "closeBtn": "Close the window"
+          }
+        }
+      }
+    },
+    "connections": {
+      "title": "Connections",
+      "description": "Linked accounts page online store {title}",
+      "content": {
+        "title": "Linked Accounts",
+        "description": "Linked accounts that you can use to sign in are displayed here"
+      }
+    }
+  },
+  "layout": {
+    "header": {
+      "logo": {
+        "title": "Honey Paradise",
+        "alt": "Website's logo"
+      },
+      "links": {
+        "shares": "Special offers",
+        "contacts": "Contacts",
+        "promo": "Promo code",
+        "profile": "Profile",
+        "notifications": "Notifications",
+        "orders": "Orders"
+      },
+      "search": {
+        "placeholder": "Enter a request"
+      },
+      "roles": {
+        "admin": "Admin",
+        "regular": "Customer",
+        "vip": "V.I.P.",
+        "manager": "Manager",
+        "deliverance": "Deliverance"
+      },
+      "auth": {
+        "signIn": "Sign in",
+        "signUp": "Sign up"
+      },
+      "labels": {
+        "searchBtn": "{isOpen, select, true {Search} false {Close} other {}}",
+        "findBtn": "Find in catalog",
+        "menu": "Menu",
+        "clear": "Clear",
+        "watchCart": "View the cart",
+        "changeLang": "Change language",
+        "avatar": "Profile's avatar"
+      },
+      "sidebarSheet": {
+        "title": "Profile Navigation menu",
+        "description": "Profile navigation menu with links that contain information about your profile.",
+        "aria": {
+          "description": "Navigation menu"
+        },
+        "langsDropdown": {
+          "title": "Choose language",
+          "langs": {
+            "ru": "Russian",
+            "en": "English"
+          },
+          "labels": {
+            "currentLang": "Current language"
+          }
+        }
+      }
+    },
+    "root-sidebar": {
+      "list": {
+        "title": "Contents",
+        "content": {
+          "topics": {
+            "honeyAbout": "About honey",
+            "catalog": "Catalog",
+            "information": "Information"
+          },
+          "links": {
+            "wiki": "A bit of Wiki",
+            "deference": "Variety of honey",
+            "sorts": "Honey's sorts",
+            "popular": "Popular",
+            "new": "New",
+            "allProducts": "All products",
+            "about": "About us",
+            "privacyPolicy": "Privacy policy"
+          }
+        }
+      },
+      "footer": {
+        "logout": {
+          "title": "Logout",
+          "options": {
+            "full": {
+              "title": "Full logout",
+              "description": "Full exit with the deletion of settings such as the site theme, language, and others,  without saving."
+            },
+            "short": {
+              "title": "Partial logout",
+              "description": "Simply log out of your account, and settings such as site theme, language, and others will not be deleted."
+            }
+          },
+          "labels": {
+            "logout": "Logout of your account"
+          }
+        }
+      },
+      "labels": {
+        "changeTheme": "Change theme"
+      }
+    },
+    "account-sidebar": {
+      "links": {
+        "settings": "Settings",
+        "connections": "Linked accounts",
+        "notifications": "Notifications",
+        "transactions": "My payments",
+        "deferred": "Favorite products",
+        "cart": "My cart",
+        "orders": "My orders"
+      }
+    },
+    "cookies": {
+      "title": "Agreement with the Cookie policy",
+      "description": "This website uses Cookies to provide you with the best possible experience using our website.",
+      "link": "Learn more",
+      "buttons": {
+        "accept": "Ok",
+        "reject": "Reject"
+      },
+      "labels": {
+        "accept": "Accept the policy",
+        "reject": "Reject the policy",
+        "photo": "Photo of a round cookie"
+      },
+      "toasters": {
+        "error": "Failed to save an information. Error: {e}"
+      }
+    }
+  },
+  "toasters": {
+    "changeLanguage": {
+      "success": "Язык успешно изменён на {lang}",
+      "error": "Failed to change language. Error: {error}"
+    },
+    "notifications": {
+      "newNotification": {
+        "text": "You have new notifications!",
+        "read": "Read",
+        "check": "View"
+      },
+      "sessionDeleted": "Someone just kicked you out of your account. Sign in again"
+    },
+    "auth": {
+      "reqAccepted": "The entry has been approved.\nYou will now be redirected",
+      "error": "Server response could not be processed"
+    }
+  },
+  "shared": {
+    "auth": {
+      "notSpecified": {
+        "gender": "Not specified",
+        "language": "Not specified. Current - {current}",
+        "theme": "Not specified. Current - {current}",
+        "currency": "Not specified. Default - Dollar USA"
+      },
+      "methods": {
+        "google": "Google",
+        "yandex": "Yandex ID",
+        "vk": "VK ID",
+        "github": "Github",
+        "telegram": "telegram bot",
+        "credentials": "login & password"
+      },
+      "labels": {
+        "clearBtn": "Clear",
+        "showPassword": "Show password",
+        "hidePassword": "Hide Password"
+      }
+    },
+    "ui": {
+      "switch": {
+        "enable": "Enable{txt}",
+        "disable": "Disable{txt}"
+      }
+    },
+    "time": {
+      "now": "just now",
+      "week": "more than {weeks, plural, =1 {# week} other {# weeks}} ago",
+      "minute": "{minutes, plural, =1 {minute} other {# minutes}} ago",
+      "hour": "{hours, plural, =1 {hour} other {# hours}} ago",
+      "day": "{days, plural, =1 {day} other {# days}} ago",
+      "month": "{months, plural, =1 {month} other {# months}} ago",
+      "yesterday": {
+        "midnight": "yesterday at midnight",
+        "midday": "yesterday at noon",
+        "withDate": "yesterday at {time}",
+        "withoutDate": "yesterday"
+      }
+    },
+    "theme": {
+      "dark": {
+        "full": "Dark theme",
+        "short": "Dark"
+      },
+      "light": {
+        "full": "Light theme",
+        "short": "Light"
+      }
+    },
+    "confirmModal": {
+      "btns": {
+        "confirm": "Ok",
+        "cancel": "Cancel"
+      },
+      "labels": {
+        "confirm": "Confirm action",
+        "cancel": "Cancel action"
+      }
+    },
+    "notifications": {
+      "desktop": "You have received a new notification!"
+    }
+  }
 }
