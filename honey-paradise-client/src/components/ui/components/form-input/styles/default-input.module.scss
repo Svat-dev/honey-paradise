@@ -12,6 +12,10 @@
 	> input:focus ~ span.label {
 		@apply text-black;
 	}
+
+	> textarea:focus ~ span.label {
+		@apply text-black;
+	}
 }
 
 .required {

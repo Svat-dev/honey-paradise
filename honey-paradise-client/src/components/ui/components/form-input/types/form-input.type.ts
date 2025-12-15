@@ -1,3 +1,6 @@
+import type { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
+
+import type { TCreateReviewSchema } from "@/shared/lib/schemas/create-review.schema";
 import type { ReactStateHook } from "@/shared/types/base.type";
 import type { TConfirmationFields } from "@schemas/confirmation.schema";
 import type { TSignInFields } from "@schemas/sign-in.schema";
@@ -7,7 +10,6 @@ import type { TUpdateUserinfoFields } from "@schemas/update-userinfo.schema";
 import type { FactoryArg } from "imask";
 import type InputMask from "imask/esm/controls/input";
 import type { LucideIcon } from "lucide-react";
-import type { InputHTMLAttributes } from "react";
 import type { Options } from "vanilla-calendar-pro";
 
 type TSetMask = ReactStateHook<InputMask<FactoryArg> | undefined>;
@@ -17,9 +19,10 @@ export type TFieldNames =
 	| keyof TSignUpFields
 	| keyof TConfirmationFields
 	| keyof TUpdateUserinfoFields
-	| keyof TUpdateAppearanceFields;
+	| keyof TUpdateAppearanceFields
+	| keyof TCreateReviewSchema;
 
-export type TInputType = "default" | "default-decor" | "radio-group" | "date" | "otp" | "dropdown";
+export type TInputType = "default" | "default-decor" | "textarea" | "radio-group" | "date" | "otp" | "dropdown";
 
 export interface IFormInputProps extends InputHTMLAttributes<HTMLInputElement> {
 	name: TFieldNames;
@@ -36,6 +39,7 @@ export interface IFormInputProps extends InputHTMLAttributes<HTMLInputElement> {
 	genderType?: "radio-group" | "dropdown";
 	align?: "center" | "start" | "end";
 	dateConfig?: Options;
+	textareaProps?: TextareaHTMLAttributes<HTMLTextAreaElement> & { counter?: boolean };
 }
 
 export interface IRadioGroupData {
@@ -53,6 +57,14 @@ export interface IFormDefaultInputProps extends InputHTMLAttributes<HTMLInputEle
 	label?: string;
 	clearBtnClassName?: string;
 	setMask?: TSetMask;
+	isLoading?: boolean;
+}
+
+export interface IFormDefaultTextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+	name: TFieldNames;
+	counter?: boolean;
+	label?: string;
+	clearBtnClassName?: string;
 	isLoading?: boolean;
 }
 

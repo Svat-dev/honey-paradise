@@ -3,10 +3,12 @@
 import type { FC, PropsWithChildren } from "react";
 
 import { cn } from "@utils/base";
+import { AnimatePresence } from "motion/react";
 import { ErrorText } from "./components";
 import { DateInput } from "./components/input-types/DateInput";
 import { DefaultDecorInput } from "./components/input-types/DefaultDecorInput";
 import { DefaultInput } from "./components/input-types/DefaultInput";
+import { DefaultTextarea } from "./components/input-types/DefaultTextarea";
 import { DropdownInput } from "./components/input-types/DropdownInput";
 import { OTPInput } from "./components/input-types/OTPInput";
 import { RadioGroupInput } from "./components/input-types/RadioGroupInput";
@@ -28,6 +30,8 @@ const FormInput: FC<PropsWithChildren<IFormInputProps>> = ({
 	dateConfig,
 	align,
 	isLoading,
+	textareaProps,
+	children,
 	...props
 }) => {
 	const { error, input_type } = useFormInput(name, isDecorated, genderType);
@@ -42,6 +46,10 @@ const FormInput: FC<PropsWithChildren<IFormInputProps>> = ({
 				<DefaultInput name={name} setMask={setMask} clearBtnClassName={clearBtnClassName} isLoading={isLoading} {...props} />
 			)}
 
+			{input_type === "textarea" && (
+				<DefaultTextarea clearBtnClassName={clearBtnClassName} isLoading={isLoading} {...textareaProps} name={name} label={props.label} />
+			)}
+
 			{input_type === "radio-group" && <RadioGroupInput name={name} data={data} isLoading={isLoading} />}
 
 			{input_type === "date" && <DateInput name="birthdate" config={dateConfig} isLoading={isLoading} />}
@@ -52,7 +60,11 @@ const FormInput: FC<PropsWithChildren<IFormInputProps>> = ({
 
 			{input_type === "dropdown" && <DropdownInput name={name} data={data} align={align} isLoading={isLoading} {...props} />}
 
-			{error && <ErrorText error={error as string} className={cn(styles["error-txt"], errorClassName)} />}
+			{children && children}
+
+			<AnimatePresence>
+				{error && <ErrorText error={error as string} className={cn(styles["error-txt"], errorClassName)} />}
+			</AnimatePresence>
 		</div>
 	);
 };

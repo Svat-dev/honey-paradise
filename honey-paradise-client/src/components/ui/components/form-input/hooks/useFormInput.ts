@@ -1,7 +1,7 @@
 import type { TFieldNames, TInputType } from "../types/form-input.type";
 
-import { useFormContext } from "react-hook-form";
 import { useTranslations } from "next-intl";
+import { useFormContext } from "react-hook-form";
 
 export const useFormInput = (name: TFieldNames, isDecorated?: boolean, genderType?: "radio-group" | "dropdown") => {
 	const { register, formState, watch, setValue, control, clearErrors, getValues } = useFormContext();
@@ -9,7 +9,7 @@ export const useFormInput = (name: TFieldNames, isDecorated?: boolean, genderTyp
 
 	const value = watch(name);
 	const error = formState.errors[name]?.message || "";
-	const input = control._fields[name]?._f?.ref as HTMLInputElement;
+	const input = control._fields[name]?._f.ref as HTMLInputElement;
 
 	const inputType = (): TInputType => {
 		switch (name) {
@@ -37,6 +37,8 @@ export const useFormInput = (name: TFieldNames, isDecorated?: boolean, genderTyp
 				return "date";
 			case "pin":
 				return "otp";
+			case "comment":
+				return "textarea";
 
 			default:
 				return "default";
