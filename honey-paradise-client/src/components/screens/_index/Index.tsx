@@ -1,4 +1,5 @@
 import { PopularSection } from "./components/PopularSection";
+import { RecentSection } from "./components/RecentSection";
 
 const Index = () => {
 	return (
@@ -7,7 +8,7 @@ const Index = () => {
 
 			<section>Секция 2. Что-нибудь еще</section>
 
-			<section>Секция 3. Недавно смотрели, покупали</section>
+			<RecentSection />
 		</div>
 	);
 };
