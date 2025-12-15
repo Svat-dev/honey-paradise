@@ -1,7 +1,7 @@
-import type { ConfigService } from "@nestjs/config/dist/config.service";
-import type { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception";
+import type { ConfigService } from "@nestjs/config/dist/config.service";
 import type { Request } from "express";
+import type { I18nService } from "nestjs-i18n/dist/services/i18n.service";
 import type { SessionMetadata } from "src/shared/types/session-metadata.type";
 import type { User } from "@prisma/client";
 

@@ -1,5 +1,7 @@
-import type { TDataStatus } from "@/components/screens/_sign-up/types/sign-up.type";
 import { Button, Link } from "@/components/ui/common";
+import { AnimatePresence, m } from "motion/react";
+
+import type { TDataStatus } from "@/components/screens/_sign-up/types/sign-up.type";
 import { API_URL } from "@constants/base";
 import { EnumApiRoute } from "@constants/routes";
 import Image from "next/image";
@@ -27,7 +29,13 @@ const Footer: FC<IFooter> = ({ isError, isLoading, status, t, locale }) => {
 					{t("footer.submitBtn")}
 				</Button>
 
-				{isError && <p>{t("footer.error")}</p>}
+				<AnimatePresence>
+					{isError && (
+						<m.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+							{t("footer.error")}
+						</m.p>
+					)}
+				</AnimatePresence>
 			</div>
 
 			<div className={styles["footer-socials"]}>

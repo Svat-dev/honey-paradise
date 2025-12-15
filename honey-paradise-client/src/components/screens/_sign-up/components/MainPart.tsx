@@ -1,11 +1,11 @@
 import { Button, Link } from "@/components/ui/common";
 
-import { FormInput } from "@/components/ui/components/form-input";
-import { FormBlock } from "@/components/ui/layouts";
-import { VALUES } from "@constants/base";
 import { EnumAppRoute } from "@constants/routes";
-import _styles from "@styles/modules/auth-form-wrapper.module.scss";
 import type { FC } from "react";
+import { FormBlock } from "@/components/ui/layouts";
+import { FormInput } from "@/components/ui/components/form-input";
+import { VALUES } from "@constants/base";
+import _styles from "@styles/modules/auth-form-wrapper.module.scss";
 import styles from "../styles/main-part.module.scss";
 
 interface IProps {
@@ -25,7 +25,7 @@ const MainPart: FC<IProps> = ({ onClickToNext, isActive, disabled, t, isPending 
 				label={t("main_part.form.email.label")}
 				placeholder={t("main_part.form.email.placeholder")}
 				containerClassName="mb-12"
-				tabIndex={0}
+				tabIndex={1}
 				spellCheck={false}
 				isDecorated
 				required
@@ -38,7 +38,7 @@ const MainPart: FC<IProps> = ({ onClickToNext, isActive, disabled, t, isPending 
 				placeholder={t("main_part.form.password.placeholder")}
 				containerClassName="mb-12"
 				maxLength={VALUES.MAX_PASSWORD_LENGTH}
-				tabIndex={1}
+				tabIndex={2}
 				spellCheck={false}
 				isDecorated
 				required
@@ -51,7 +51,7 @@ const MainPart: FC<IProps> = ({ onClickToNext, isActive, disabled, t, isPending 
 				placeholder={t("main_part.form.confirmPassword.placeholder")}
 				containerClassName="mb-12"
 				maxLength={VALUES.MAX_PASSWORD_LENGTH}
-				tabIndex={2}
+				tabIndex={3}
 				spellCheck={false}
 				isDecorated
 				required
@@ -71,3 +71,4 @@ const MainPart: FC<IProps> = ({ onClickToNext, isActive, disabled, t, isPending 
 };
 
 export { MainPart };
+

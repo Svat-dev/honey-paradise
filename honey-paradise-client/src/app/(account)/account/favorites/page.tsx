@@ -1,13 +1,25 @@
 import type { Metadata, NextPage } from "next";
 
 import { Favorites } from "@/components/screens/_favorites/Favorites";
+import { NO_INDEX_PAGE } from "@/shared/lib/constants/base";
+import { getMetadata } from "@/shared/lib/utils/base";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { title: "User Favorites Products" };
+	const t = await getTranslations("global");
+
+	return {
+		...(await getMetadata({
+			title: t("favorites.title"),
+			description: t("favorites.description", { title: t("logo") }),
+			index: false,
+		})),
+		...NO_INDEX_PAGE,
+	};
 }
 
 const FavoritesPage: NextPage = () => {
-  return <Favorites />;
+	return <Favorites />;
 };
 
 export default FavoritesPage;

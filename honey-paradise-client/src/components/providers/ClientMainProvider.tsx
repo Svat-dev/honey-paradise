@@ -11,7 +11,7 @@ import { Cookie } from "../layouts/-cookies/Cookie";
 
 interface IProps extends PropsWithChildren {
 	cookie: string | undefined;
-	session: string | undefined;
+	session: boolean;
 }
 
 const mainToastOptions = (id: string): DefaultToastOptions => ({

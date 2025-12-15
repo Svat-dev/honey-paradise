@@ -32,11 +32,9 @@ export const useWSTelegramAuth = () => {
 
 			toast.success(t("reqAccepted"), { duration: 3000 });
 			prefetch(EnumAppRoute.SETTINGS);
+			auth();
 
-			setTimeout(() => {
-				auth();
-				replace(EnumAppRoute.SETTINGS);
-			}, 3000);
+			setTimeout(() => replace(EnumAppRoute.SETTINGS), 3000);
 
 			return true;
 		} catch (error) {

@@ -3,23 +3,42 @@ import { useEffect, useMemo } from "react";
 import { useMyAccountS } from "@/services/hooks/account";
 import { useLogoutS } from "@/services/hooks/auth";
 import { useClearSessionS } from "@/services/hooks/session";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import { useAuth } from "./useAuth";
 
 export const useMyAccount = () => {
 	const { isAuthenticated, exit, auth } = useAuth();
+	const { refresh } = useRouter();
 
 	const { acc, accError, accRefetch, isAccLoading, isAccSuccess } = useMyAccountS();
-	const { logout, isLogoutLoading } = useLogoutS();
+	const { logoutAsync, isLogoutLoading } = useLogoutS();
 	const { clearSession } = useClearSessionS();
+
+	const logout = async () => {
+		try {
+			await logoutAsync();
+
+			exit();
+			refresh();
+		} catch (error) {
+			toast.error("Не удалось выйти из аккаунта!");
+		}
+	};
 
 	useEffect(() => {
 		if (accError) {
-			if (isAuthenticated) clearSession();
+			if (String(accError.code) === "429") return;
+			if (String(accError.code) === "404") return clearSession();
+
 			return exit();
 		}
 
-		if (!isAuthenticated && !accError) auth();
-	}, [isAuthenticated, acc?.data, accError]);
+		if (!isAuthenticated && !accError) {
+			accRefetch();
+			if (isAccSuccess) auth();
+		}
+	}, [isAuthenticated, acc?.data, accError, isAccSuccess]);
 
 	return useMemo(
 		() => ({

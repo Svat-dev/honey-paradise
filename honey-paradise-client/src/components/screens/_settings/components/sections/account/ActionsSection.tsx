@@ -1,10 +1,11 @@
 import { Button, Separator, Title } from "@/components/ui/common";
 
-import { DownloadSettings } from "./DownloadSettings";
-import slugify from "slugify";
-import styles from "../../../styles/account.module.scss";
 import { useMyAccount } from "@/shared/lib/hooks/auth";
 import { useTranslations } from "next-intl";
+import slugify from "slugify";
+import styles from "../../../styles/account.module.scss";
+import { DownloadSettings } from "./DownloadSettings";
+import { UploadSettings } from "./UploadSettings";
 
 const ActionsSection = () => {
 	const t = useTranslations("global.settings.content.account.content.actions");
@@ -17,14 +18,11 @@ const ActionsSection = () => {
 				<a className="opacity-0 size-0" id={slugify(t("title"), { locale: "en", lower: true })} />
 			</Title>
 
-			<div>
-				<div>
-					<p>{t("saveFile.title")}</p>
-					<p>{t("saveFile.description")}</p>
-				</div>
+			<UploadSettings isLoading={isAccLoading} />
 
-				<DownloadSettings isLoading={isAccLoading} />
-			</div>
+			<Separator orientation="horizontal" />
+
+			<DownloadSettings isLoading={isAccLoading} />
 
 			<Separator orientation="horizontal" />
 

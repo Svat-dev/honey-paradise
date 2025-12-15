@@ -128,10 +128,17 @@ export const useSignUp = (searchParams: TSearchParams) => {
 			e.preventDefault();
 
 			if (currentPart === "main") return onClickToNext();
+			else if (currentPart === "optional") return onSubmitFunc(form.getValues());
 		}
 	};
 
-	useEffect(() => window.addEventListener("keydown", onKeydown), []);
+	useEffect(() => {
+		window.addEventListener("keydown", onKeydown);
+
+		return () => {
+			window.removeEventListener("keydown", () => {});
+		};
+	}, []);
 
 	return {
 		dataStatus,

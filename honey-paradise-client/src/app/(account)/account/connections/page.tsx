@@ -10,13 +10,13 @@ interface IProps {
 	searchParams: Promise<TSearchParams>;
 }
 
-export async function generateMetadata({}: IProps): Promise<Metadata> {
-	const t = await getTranslations("global.connections");
+export async function generateMetadata(): Promise<Metadata> {
+	const t = await getTranslations("global");
 
 	return {
 		...(await getMetadata({
-			title: t("title"),
-			description: "",
+			title: t("connections.title"),
+			description: t("connections.description", { title: t("logo") }),
 			index: false,
 		})),
 		...NO_INDEX_PAGE,

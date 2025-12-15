@@ -11,12 +11,12 @@ interface IProps {
 }
 
 export async function generateMetadata({}: IProps): Promise<Metadata> {
-	const t = await getTranslations("global.notifications");
+	const t = await getTranslations("global");
 
 	return {
 		...(await getMetadata({
-			title: t("title"),
-			description: "",
+			title: t("notifications.title"),
+			description: t("notifications.description", { title: t("logo") }),
 			index: false,
 		})),
 		...NO_INDEX_PAGE,

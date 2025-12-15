@@ -12,23 +12,25 @@ export const useLogoutButton = (oneClick: boolean) => {
 	const { isAuthenticated } = useAuth();
 	const { user, logout } = useMyAccount();
 
-	const onClick = (type: "full" | "partial") => {
+	const onClick = async (type: "full" | "partial") => {
 		if (oneClick) return;
 
-		if (type === "partial") return logout();
+		if (type === "partial") return await logout();
 		else {
+			await logout();
+
 			Cookies.remove(EnumStorageKeys.LANGUAGE);
 			Cookies.remove(EnumStorageKeys.THEME_MODE);
-			logout();
 		}
 	};
 
-	const onOpenChange = (state: boolean) => {
+	const onOpenChange = async (state: boolean) => {
 		if (user?.settings.useFullLogout) return onClick("full");
 
 		if (oneClick) {
 			if (!state) return setIsOpen(false);
-			logout();
+
+			return await logout();
 		} else setIsOpen(state);
 	};
 

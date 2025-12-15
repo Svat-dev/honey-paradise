@@ -31,8 +31,10 @@ export default async function MainLayout({ children }: Readonly<IMainLayout>) {
 
 	const langs = await getMessages();
 
-	const isAgreedWithCookie = (await cookies()).get(EnumStorageKeys.IS_AGREE_WITH_COOKIES)?.value;
-	const session = (await cookies()).get(EnumStorageKeys.SESSION)?.value;
+	const cookie = await cookies();
+
+	const isAgreedWithCookie = cookie.get(EnumStorageKeys.IS_AGREE_WITH_COOKIES)?.value;
+	const session = cookie.get(EnumStorageKeys.SESSION)?.value ? true : false;
 
 	return (
 		<html lang={locale}>

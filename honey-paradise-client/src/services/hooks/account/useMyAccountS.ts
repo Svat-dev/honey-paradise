@@ -2,6 +2,7 @@ import { accountService } from "@/services/account.service";
 import { queryKeys } from "@constants/routes";
 import { useAuth } from "@hooks/auth";
 import { type RefetchOptions, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
 
 export const useMyAccountS = () => {
 	const client = useQueryClient();
@@ -21,7 +22,7 @@ export const useMyAccountS = () => {
 	};
 
 	return {
-		accError: error,
+		accError: error as AxiosError,
 		isAccLoading: isLoading || isPending,
 		acc: data,
 		accRefetch,

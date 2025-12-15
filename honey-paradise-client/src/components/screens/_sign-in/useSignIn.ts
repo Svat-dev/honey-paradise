@@ -108,13 +108,11 @@ export const useSignIn = () => {
 				prefetch(EnumAppRoute.SIGN_IN_CONFIRMATION);
 				setTimeout(() => replace(EnumAppRoute.SIGN_IN_CONFIRMATION), successDelay);
 			} else {
+				auth();
 				setDataStatus("good");
 				toast.success(t("toasters.success"));
 
-				return setTimeout(() => {
-					auth();
-					replace(EnumAppRoute.INDEX);
-				}, successDelay);
+				return setTimeout(() => replace(EnumAppRoute.INDEX), successDelay);
 			}
 		} catch (err) {
 			const { errMsg, errCause } = errorCatch(err as AxiosError);
