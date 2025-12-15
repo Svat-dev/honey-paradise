@@ -13,7 +13,9 @@ export const queryKeys = {
 	getProductsByCategory: "get products by category slug",
 	getAllOrders: "get all user's orders",
 	getFavoriteProducts: "get all user's favorite products",
+	getRecentViewedProducts: "get recent viewed products",
 	getProductsRating: "get products rating",
+	getProductsReviews: "get products reviews",
 	getProductPage: "get product page data",
 
 	recoverPassword: "account recover password",
@@ -64,4 +66,5 @@ export const queryKeys = {
 	markAllNotificationAsRead: "mark notification as archived",
 
 	switchFavoritesProducts: "switch user favorites products",
+	reactToReview: "react to a review",
 } as const;

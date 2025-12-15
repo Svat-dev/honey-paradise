@@ -20,6 +20,7 @@ import { CronModule } from "src/modules/cron/cron.module";
 import { NotificationsModule } from "src/modules/notifications/notifications.module";
 import { OrderModule } from "src/modules/order/order.module";
 import { ProductsModule } from "src/modules/products/products.module";
+import { ReviewsModule } from "src/modules/reviews/reviews.module";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
 import { IS_DEV_ENV } from "src/shared/lib/common/utils/is-dev.util";
 import { EnumStorageKeys } from "src/shared/types/client/enums.type";
@@ -81,6 +82,7 @@ import { TelegramModule } from "./telegram/telegram.module";
 		CartModule,
 		ProductsModule,
 		OrderModule,
+		ReviewsModule,
 	],
 	providers: [
 		{

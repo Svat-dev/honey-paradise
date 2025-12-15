@@ -1,5 +1,12 @@
 import { notificationSettingsUserOutput } from "./notifications.output";
 
+export const userReviewsOutput = {
+	id: true,
+	username: true,
+	avatarPath: true,
+	framePath: true,
+};
+
 //Prisma.UserSelect
 export const userDefaultOutput = {
 	id: true,
