@@ -1,10 +1,12 @@
 "use client";
 
-import { CategorySection } from "./components/CategorySection";
-import type { FC } from "react";
 import { productsService } from "@/services/products.service";
 import { queryKeys } from "@/shared/lib/constants/routes";
 import { useQuery } from "@tanstack/react-query";
+import { AnimatePresence } from "motion/react";
+import type { FC } from "react";
+import { CategoryLoading } from "./components/CategoryLoading";
+import { CategorySection } from "./components/CategorySection";
 
 interface IProps {
 	slug: string;
@@ -19,7 +21,9 @@ const CatalogCategory: FC<IProps> = ({ slug }) => {
 
 	return (
 		<div className="flex flex-col w-full">
-			{isLoading ? <p>Loading...</p> : data?.data ? <CategorySection {...data.data} /> : "404 Not found"}
+			<AnimatePresence mode="wait">
+				{isLoading ? <CategoryLoading /> : data?.data ? <CategorySection {...data.data} /> : "404 Not found"}
+			</AnimatePresence>
 		</div>
 	);
 };

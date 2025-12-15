@@ -13,7 +13,7 @@ interface IHeader {
 
 const Header: FC<IHeader> = memo(async ({ route }) => {
 	const isNeedSearchInput = route === EnumAppRoute.INDEX;
-	const sessionCookie = (await cookies()).get(EnumStorageKeys.SESSION)?.value || false;
+	const sessionCookie = (await cookies()).get(EnumStorageKeys.SESSION)?.value ? true : false;
 
 	return (
 		<header className="w-full bg-primary border-b border-muted h-15 sticky top-0 z-20">
@@ -30,7 +30,7 @@ const Header: FC<IHeader> = memo(async ({ route }) => {
 					</>
 				)}
 
-				<RightPart isAuth={!!sessionCookie} />
+				<RightPart isAuth={sessionCookie} />
 			</div>
 		</header>
 	);
