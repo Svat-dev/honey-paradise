@@ -4,12 +4,12 @@ import type { TypeProps } from "./types/title.type";
 
 const Title: FC<TypeProps> = ({ id, children, size = "sm", className }) => {
 	const mapTagBySize = {
-		xs: "h5",
-		sm: "h4",
-		md: "h3",
-		lg: "h2",
-		xl: "h1",
 		"2xl": "h1",
+		xl: "h1",
+		lg: "h2",
+		md: "h3",
+		sm: "h4",
+		xs: "h5",
 	} as const;
 
 	const mapClassNameBySize = {

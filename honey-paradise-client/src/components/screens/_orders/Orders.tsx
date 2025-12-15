@@ -1,26 +1,18 @@
-"use client";
-
 import { Title } from "@/components/ui/common";
-import { useGetMyOrdersS } from "@/services/hooks/order/useGetMyOrdersS";
+import { getTranslations } from "next-intl/server";
+import { OrdersContent } from "./components/OrdersContent";
 
-const Orders = () => {
-	const { orders, isOrdersLoading } = useGetMyOrdersS();
-
+const Orders = async () => {
+	const t = await getTranslations("global.orders.content");
 	return (
-		<article>
-			{isOrdersLoading ? (
-				<p>Loading...</p>
-			) : (
-				orders?.map(item => (
-					<div key={item.id}>
-						<Title size="md">Order {item.id}</Title>
-						<p>
-							{item.items.length} on price {item.totalAmount}
-						</p>
-						<p>Status: {item.status}</p>
-					</div>
-				))
-			)}
+		<article className="relative w-full my-6 mx-10">
+			<Title size="lg" className="font-bold">
+				{t("title")}
+			</Title>
+
+			{/* <p className="ml-1 mb-4 text-muted">{t("description")}</p> */}
+
+			<OrdersContent />
 		</article>
 	);
 };
