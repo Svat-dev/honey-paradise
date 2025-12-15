@@ -9,6 +9,7 @@ export enum EnumStorageKeys {
 
 	// LocalStorage
 	SEARCH_HISTORY = "search_history",
+	VIEWED_PRODUCTS_HISTORY = "viewed_products_history",
 }
 
 export enum EnumSessionStorageKeys {

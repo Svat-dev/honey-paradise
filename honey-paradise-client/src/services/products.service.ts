@@ -5,6 +5,9 @@ import type {
 	GetCatsWithProductsResponse,
 	GetFavoriteProductsResponse,
 	GetPresearchDataResponse,
+	GetProductBySlugResponse,
+	GetProductResponse,
+	GetProductsRatingResponse,
 } from "@/shared/types/server";
 
 import { EnumApiRoute } from "@constants/routes";
@@ -39,9 +42,11 @@ export const productsService = {
 		return res.data;
 	},
 
+	getRating: async (slug: string) => {
+		const res = await defaultInstance.get<any, AxiosResponse<GetProductsRatingResponse>>(`${EnumApiRoute.GET_PRODUCT_RATING}/${slug}`);
 
-    return res;
-  },
+		return res;
+	},
 
 	getByIds: async (ids: string[]) => {
 		const res = await defaultInstance.get<any, AxiosResponse<GetProductResponse[]>>(EnumApiRoute.GET_PRODUCTS_BY_IDS, {

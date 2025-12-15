@@ -10,3 +10,5 @@ export const APP_NAME_RU = "Медовый рай";
 export const APP_NAME_EN = "Honey Paradise";
 
 export const BASE_CURRENCY = "USD";
+
+export const VK_SHARE_URL = "https://vk.com/share.php?url=";

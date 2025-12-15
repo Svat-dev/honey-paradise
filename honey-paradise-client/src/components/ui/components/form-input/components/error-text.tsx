@@ -1,5 +1,6 @@
 import type { ICNProps } from "@/shared/types/base.type";
 import { cn } from "@utils/base";
+import { m } from "motion/react";
 import type { FC } from "react";
 
 interface IProps extends ICNProps {
@@ -7,6 +8,15 @@ interface IProps extends ICNProps {
 }
 
 const ErrorText: FC<IProps> = ({ error, className }) => {
-	return <p className={cn("text-red-500 text-sm", className)}>{error}</p>;
+	return (
+		<m.p
+			initial={{ opacity: 0, y: 5 }}
+			animate={{ opacity: 1, y: 0 }}
+			exit={{ opacity: 0, y: 5 }}
+			className={cn("text-red-500 text-sm", className)}
+		>
+			{error}
+		</m.p>
+	);
 };
 export { ErrorText };
