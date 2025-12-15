@@ -1,56 +1,61 @@
-import type { ApiJsonValue, GetShortProductsResponse } from "@/shared/types/server";
-import type { FC } from "react";
 import { Button, Title } from "@/components/ui/common";
-import { ProductCardImages } from "@/components/ui/components/ProductCardImages";
+import type { ApiJsonValue, GetShortProductsResponse } from "@/shared/types/server";
 import { HeartCrackIcon, ShoppingCartIcon } from "lucide-react";
+
+import { ProductCardImages } from "@/components/ui/components/ProductCardImages";
 import { m } from "motion/react";
+import type { FC } from "react";
 import { useFavoritesProductCard } from "../hooks/useFavoritesProductCard";
 
 interface IProps extends GetShortProductsResponse {
-  price: string;
+	price: string;
 }
 
 const FavoriteProductCard: FC<IProps> = ({ images, slug, title, price, id, priceInUsd }) => {
-  const { handleAddToCart, handleDeleteFavorite, isSwitchingFavoritesProduct, loading, locale } = useFavoritesProductCard(id, priceInUsd);
+	const { handleAddToCart, handleDeleteFavorite, isSwitchingFavoritesProduct, loading, locale, t } = useFavoritesProductCard(
+		id,
+		priceInUsd
+	);
 
-  const _title = title[locale as keyof ApiJsonValue];
+	const _title = title[locale as keyof ApiJsonValue];
 
-  return (
-    <m.article
-      initial={{ opacity: 0.3, y: -10 }}
-      animate={"default"}
-      exit={{ opacity: 0, height: 0, paddingTop: 0, paddingBottom: 0 }}
-      variants={{ default: { opacity: 1, y: 0 } }}
-      whileInView={"default"}
-      viewport={{ once: true, amount: 0.5 }}
-      transition={{ duration: 0.4, type: "tween" }}
-      className="grid items-center grid-cols-[auto_1fr_min-content] gap-5 bg-primary rounded-md p-3 overflow-hidden"
-    >
-      <ProductCardImages images={images} slug={slug} width={160} height={112} className="border border-muted rounded-md w-40 h-28" />
+	return (
+		<m.article
+			initial={{ opacity: 0.3, y: -10 }}
+			animate={"default"}
+			exit={{ opacity: 0, height: 0, paddingTop: 0, paddingBottom: 0 }}
+			variants={{ default: { opacity: 1, y: 0 } }}
+			whileInView={"default"}
+			viewport={{ once: true, amount: 0.5 }}
+			transition={{ duration: 0.4, type: "tween" }}
+			className="grid items-center grid-cols-[auto_1fr_min-content] gap-5 bg-primary rounded-md p-3 overflow-hidden"
+		>
+			<ProductCardImages images={images} slug={slug} width={160} height={112} className="border border-muted rounded-md w-40 h-28" />
 
-      <div>
-        <Title size="sm" className="text-[22px]">
-          {_title}
-        </Title>
-        <p>{price}</p>
-      </div>
+			<div>
+				<Title size="sm" className="text-[22px]">
+					{_title}
+				</Title>
+				<p>{price}</p>
+			</div>
 
-      <div className="flex flex-col gap-2">
-        <Button variant="secondary" className="p-2" isLoading={loading.add} onClick={handleAddToCart}>
-          <ShoppingCartIcon size={24} />
-        </Button>
+			<div className="flex flex-col gap-2">
+				<Button variant="secondary" title={t("labels.addToCart")} className="p-2" isLoading={loading.add} onClick={handleAddToCart}>
+					<ShoppingCartIcon size={24} />
+				</Button>
 
-        <Button
-          variant="destructive-outline"
-          className="p-2 text-red-500"
-          isLoading={isSwitchingFavoritesProduct}
-          onClick={handleDeleteFavorite}
-        >
-          <HeartCrackIcon size={24} />
-        </Button>
-      </div>
-    </m.article>
-  );
+				<Button
+					variant="destructive-outline"
+					title={t("labels.delete")}
+					className="p-2 text-red-500"
+					isLoading={isSwitchingFavoritesProduct}
+					onClick={handleDeleteFavorite}
+				>
+					<HeartCrackIcon size={24} />
+				</Button>
+			</div>
+		</m.article>
+	);
 };
 
 export { FavoriteProductCard };

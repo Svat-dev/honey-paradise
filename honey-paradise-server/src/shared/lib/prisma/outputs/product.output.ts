@@ -16,9 +16,9 @@ export const productOutput = {
 };
 
 export const productFavoriteOutput = {
-  id: true,
-  title: true,
-  slug: true,
-  priceInUsd: true,
-  images: true,
+	id: true,
+	title: true,
+	slug: true,
+	priceInUsd: true,
+	images: true,
 };

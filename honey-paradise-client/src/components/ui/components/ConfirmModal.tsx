@@ -10,7 +10,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/common";
-import { type FC, type PropsWithChildren } from "react";
+import type { FC, PropsWithChildren } from "react";
 
 import { useConfirmModal } from "./hooks/useConfirmModal";
 import styles from "./styles/confirm-modal.module.scss";
