@@ -1,5 +1,6 @@
 export * from "./convert-price";
 export * from "./get-assets-path";
 export * from "./get-avatar-path";
+export * from "./get-markdown-by-text-style";
 export * from "./get-masked-phone";
 export * from "./get-notification-heading";

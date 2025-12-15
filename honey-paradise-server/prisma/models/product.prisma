@@ -6,10 +6,11 @@ model Product {
   description Json?
   images      String[] @map("image_urls")
 
-  priceInUsd Float @map("price_usd")
-  rating     Float @default(0)
+  priceInUsd  Float @map("price_usd")
+  rating      Float @default(0.0)
+  extraRating Json  @default("{\"taste\": 0.0, \"aroma\": 0.0, \"packaging\": 0.0}") @map("extra_rating")
 
-  comments  Comment[]
+  reviews   Review[]
   cartItems CartItem[]
 
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)

@@ -14,9 +14,10 @@ model User {
   settings UserSettings?
   cart     Cart?
 
-  token     Token[]
-  providers Provider[]
-  comments  Comment[]
+  token        Token[]
+  providers    Provider[]
+  reviews      Review[]
+  commentaries Commentary[]
 
   orders       Order[]
   transactions Transaction[]
