@@ -11,6 +11,7 @@ export const userDefaultOutput = {
 	phoneNumber: true,
 
 	avatarPath: true,
+	framePath: true,
 	likedProductIds: true,
 
 	isTFAEnabled: true,

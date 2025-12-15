@@ -1,4 +1,4 @@
-import { UpdateUserDto, UpdateUserSettingsDto } from "@/shared/types/server";
+import { UpdateAvatarFrameDto, UpdateUserDto, UpdateUserSettingsDto, UploadSettingsResponse } from "@/shared/types/server";
 
 import { getContentType } from "@/api/api-helper";
 import { instance } from "@/api/instance";
@@ -11,6 +11,14 @@ export const profileService = {
 		const res = await instance.get(EnumApiRoute.DOWNLOAD_PROFILE_SETTINGS, {
 			responseType: "blob",
 			params: { format },
+		});
+
+		return res;
+	},
+
+	uploadSettings: async (dto: FormData) => {
+		const res = await instance.post<any, AxiosResponse<UploadSettingsResponse>>(EnumApiRoute.UPLOAD_PROFILE_SETTINGS, dto, {
+			headers: getContentType("form-data"),
 		});
 
 		return res;
@@ -38,6 +46,12 @@ export const profileService = {
 		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_AVATAR, dto, {
 			headers: getContentType("form-data"),
 		});
+
+		return res;
+	},
+
+	updateAvatarFrame: async (dto: UpdateAvatarFrameDto) => {
+		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_AVATAR_FRAME, dto);
 
 		return res;
 	},

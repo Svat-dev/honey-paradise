@@ -15,7 +15,7 @@
 }
 
 .profile-avatar-wrapper {
-	@apply mr-4 opacity-0 animate-show-effect;
+	@apply mr-4 opacity-0 !h-12 !w-12 animate-show-effect;
 }
 
 .profile-block-nickname {

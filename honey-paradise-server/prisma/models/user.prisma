@@ -27,9 +27,11 @@ model User {
   telegramId  String? @unique @map("telegram_id")
   phoneNumber String? @unique @map("phone_number")
 
-  avatarPath String?      @map("avatar_path")
-  gender     EnumGenders? @default(OTHER)
-  birthdate  DateTime?
+  avatarPath String? @map("avatar_path")
+  framePath  String? @map("frame_path")
+
+  gender    EnumGenders? @default(OTHER)
+  birthdate DateTime?
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

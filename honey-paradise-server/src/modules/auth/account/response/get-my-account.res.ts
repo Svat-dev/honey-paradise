@@ -91,6 +91,9 @@ export class GetMeResponse implements Partial<User> {
 	@ApiProperty({ type: "string", description: "", example: "https://example.com/avatar.webp" })
 	avatarPath: string;
 
+	@ApiProperty({ type: "string", description: "", example: "https://example.com/frame.webp", nullable: true })
+	framePath?: string | undefined;
+
 	@ApiProperty({ type: Date, description: "", example: new Date(), nullable: true })
 	birthdate?: Date | undefined;
 

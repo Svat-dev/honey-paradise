@@ -4,7 +4,9 @@ import * as sharp from "sharp";
 
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
+import { BadGatewayException } from "@nestjs/common/exceptions/bad-gateway.exception";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
+import { ForbiddenException } from "@nestjs/common/exceptions/forbidden.exception";
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
 import { type Prisma } from "@prisma/client";
@@ -15,7 +17,10 @@ import { PrismaService } from "src/core/prisma/prisma.service";
 import { DEFAULT_AVATAR_PATH, EnumApiRoute } from "src/shared/lib/common/constants";
 import { userDefaultOutput, userDownloadSettingsOutput } from "src/shared/lib/prisma/outputs/user.output";
 import * as yamljs from "yamljs";
+import type { UpdateAvatarFrameDto } from "./dto/update-avatar-frame.dto";
 import type { UpdateUserSettingsDto } from "./dto/update-user-settings.dto";
+import type { UploadSettingsResponse } from "./response/upload-settings.res";
+import type { UserSettingsFile } from "./types/user-settings-file.type";
 
 @Injectable()
 export class ProfileService {
@@ -30,7 +35,7 @@ export class ProfileService {
 			select: userDownloadSettingsOutput,
 		});
 
-		const obj = { uid: userId, ...settings, ...user };
+		const obj = { uid: userId, ...settings, ...user } as UserSettingsFile;
 		const data = format === "json" ? JSON.stringify(obj) : yamljs.stringify(obj, 4, 2);
 
 		const uploadDir = path.join(__dirname, "../../../..", "public", format, "settings");
@@ -47,7 +52,45 @@ export class ProfileService {
 
 			fs.unlinkSync(filepath);
 		} catch (error) {
-			throw new InternalServerErrorException(error);
+			throw new InternalServerErrorException("Error while download file!", { cause: error });
+		}
+	}
+
+	async uploadSettings(userId: string, file: Express.Multer.File): Promise<UploadSettingsResponse> {
+		const fileExtension = file.originalname.split(".").pop();
+
+		const uploadDir = path.join(__dirname, "../../../..", "public", fileExtension, "settings");
+		const filepath = path.join(uploadDir, `${userId}.${fileExtension}`);
+
+		try {
+			fs.writeFileSync(filepath, file.buffer);
+
+			const localFile = fs.readFileSync(filepath, "utf-8");
+			const { uid, ...settings }: UserSettingsFile =
+				fileExtension === "json" ? JSON.parse(localFile) : fileExtension === "yml" ? yamljs.parse(localFile) : {};
+
+			const owner = await this.getProfile(uid, "id");
+
+			await this.prisma.user.update({
+				where: { id: userId },
+				data: {
+					isTFAEnabled: settings?.isTFAEnabled,
+					settings: {
+						update: {
+							defaultCurrency: settings?.defaultCurrency,
+							defaultLanguage: settings?.defaultLanguage,
+							defaultTheme: settings?.defaultTheme,
+							useFullLogout: settings?.useFullLogout,
+						},
+					},
+				},
+			});
+
+			fs.unlinkSync(filepath);
+
+			return owner?.username ? { username: owner.username } : null;
+		} catch (error) {
+			throw new InternalServerErrorException("Произошла неизвестная ошибка при загрузке файла!", { cause: error });
 		}
 	}
 
@@ -108,6 +151,35 @@ export class ProfileService {
 		}
 
 		await this.prisma.user.update({ where: { id: userId }, data: { avatarPath: `${EnumApiRoute.UPLOAD_AVATARS}/${filename}` } });
+
+		return true;
+	}
+
+	async deleteAvatarFrame(userId: string): Promise<boolean> {
+		await this.prisma.user.update({
+			where: { id: userId },
+			data: { framePath: null },
+		});
+
+		return true;
+	}
+
+	async updateAvatarFrame(userId: string, dto: UpdateAvatarFrameDto): Promise<boolean> {
+		const { id, role } = await this.getProfile(userId, "id");
+		const { framePath } = dto;
+
+		if (!framePath) return await this.deleteAvatarFrame(userId);
+
+		if (framePath.includes("http")) throw new BadGatewayException("Invalid path format"); // TODO translate
+
+		if (framePath.includes("/animated/") && (role === "REGULAR" || role === "DELIVERANCE")) {
+			throw new ForbiddenException("You don't have permission to use animated frames");
+		}
+
+		await this.prisma.user.update({
+			where: { id },
+			data: { framePath },
+		});
 
 		return true;
 	}

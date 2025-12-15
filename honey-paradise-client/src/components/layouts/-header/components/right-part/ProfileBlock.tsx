@@ -1,11 +1,11 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common";
+import { Avatar, AvatarFallback, AvatarFrame, AvatarImage } from "@/components/ui/common";
 
 import { GetMeResponseRole } from "@/shared/types/server";
 import { useMyAccount } from "@hooks/auth";
 import { cn } from "@utils/base";
-import { getAvatarPath } from "@utils/get-avatar-path";
+import { getAvatarPath, getFramesPath } from "@utils/get-avatar-path";
 import { m } from "motion/react";
 import { type FC } from "react";
 import styles from "../../styles/right-part.module.scss";
@@ -37,7 +37,10 @@ const ProfileBlock: FC<IProfileBlock> = ({ t, picturePosition }) => {
 					</m.div>
 
 					<Avatar className={styles["profile-avatar-wrapper"]}>
-						<AvatarImage src={getAvatarPath(user?.avatarPath)} alt={t("labels.avatar")} width={40} height={40} loading="eager" />
+						<AvatarImage src={getAvatarPath(user?.avatarPath)} alt={t("labels.avatar")} width={44} height={44} loading="eager" />
+
+						{user?.framePath && <AvatarFrame src={getFramesPath(user.framePath)} alt="" width={44} height={44} loading="lazy" />}
+
 						<AvatarFallback>{user?.username.split("")[0]}</AvatarFallback>
 					</Avatar>
 				</>

@@ -12,13 +12,16 @@ import { Authorization } from "src/shared/decorators/auth.decorator";
 import { Authorized } from "src/shared/decorators/authorized.decorator";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
 import { ms } from "src/shared/lib/common/utils";
-import { FileValidationPipe } from "src/shared/pipes/file-validation.pipe";
+import { AvatarFileValidationPipe } from "src/shared/pipes/avatar-validation.pipe";
 import { SettingsFileFormatPipe } from "src/shared/pipes/settings-file-format.pipe";
 import { UniqueFieldCheckPipe } from "src/shared/pipes/unique-field-check.pipe";
+import { UserSettingsFileValidationPipe } from "src/shared/pipes/user-settings-validation.pipe";
 import { UniqueFieldCheckDto } from "./dto/unique-field-check.dto";
+import { UpdateAvatarFrameDto } from "./dto/update-avatar-frame.dto";
 import { UpdateUserSettingsDto } from "./dto/update-user-settings.dto";
 import { UpdateUserDto } from "./dto/update-userinfo.dto";
 import { ProfileService } from "./profile.service";
+import { UploadSettingsResponse } from "./response/upload-settings.res";
 
 @ApiTags("Profile")
 @SkipThrottle({ auth: true })
@@ -41,6 +44,17 @@ export class ProfileController {
 		return this.profileService.downloadSettings(userId, format, res);
 	}
 
+	@ApiOperation({ summary: "Upload user settings as json to use it. Authorized only" })
+	@ApiOkResponse({ type: UploadSettingsResponse })
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Throttle({ default: { limit: 3, ttl: ms("5min") } })
+	@UseInterceptors(FileInterceptor("settings"))
+	@Post(EnumApiRoute.UPLOAD_SETTINGS)
+	async uploadSettings(@Authorized("id") userId: string, @UploadedFile(UserSettingsFileValidationPipe) file: Express.Multer.File) {
+		return this.profileService.uploadSettings(userId, file);
+	}
+
 	@ApiOperation({ summary: "Check filed on unique value. email or username or phone" })
 	@ApiParam({ name: "field", enum: ["email", "username", "phone"], example: "email" })
 	@ApiBody({ type: UniqueFieldCheckDto })
@@ -59,8 +73,19 @@ export class ProfileController {
 	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
 	@UseInterceptors(FileInterceptor("avatar"))
 	@Patch(EnumApiRoute.UPDATE_AVATAR)
-	updateAvatar(@Authorized("id") userId: string, @UploadedFile(FileValidationPipe) file: Express.Multer.File) {
+	updateAvatar(@Authorized("id") userId: string, @UploadedFile(AvatarFileValidationPipe) file: Express.Multer.File) {
 		return this.profileService.updateAvatar(userId, file);
+	}
+
+	@ApiOperation({ summary: "Update user's profile photo. Authorized only" })
+	@ApiBody({ type: UpdateAvatarFrameDto })
+	@ApiOkResponse({ type: Boolean, example: true })
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Throttle({ default: { limit: 15, ttl: ms("5min") } })
+	@Patch(EnumApiRoute.UPDATE_AVATAR_FRAME)
+	updateAvatarFrame(@Authorized("id") userId: string, @Body() dto: UpdateAvatarFrameDto) {
+		return this.profileService.updateAvatarFrame(userId, dto);
 	}
 
 	@ApiOperation({ summary: "Delete user's profile photo. Authorized only" })

@@ -7,3 +7,7 @@ export function getAvatarPath(path?: string): string {
 
 	return avatarPath;
 }
+
+export function getFramesPath(path?: string): string {
+	return path ? `${STATIC_URL}${path}` : "";
+}

@@ -1,15 +1,15 @@
+import { useMyAccount } from "@hooks/auth";
 import { AppearanceSection } from "./AppearanceSection";
-import { AvatarSection } from "./AvatarSection";
+import { AvatarSection } from "./avatar/AvatarSection";
 import { InfoSection } from "./InfoSection";
 import { TelegramSection } from "./TelegramSection";
-import { useMyAccount } from "@hooks/auth";
 
 const ProfileSettings = () => {
 	const { user, isAccLoading } = useMyAccount();
 
 	return (
 		<>
-			<AvatarSection avatarPath={user?.avatarPath} username={user?.username} isAccLoading={isAccLoading} />
+			<AvatarSection avatarPath={user?.avatarPath} framePath={user?.framePath} username={user?.username} isAccLoading={isAccLoading} />
 
 			<InfoSection
 				birthdate={user?.birthdate || undefined}

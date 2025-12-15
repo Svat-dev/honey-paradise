@@ -1,6 +1,4 @@
-import type { ALLOWED_FILE_FORMATS } from "../constants/file.const";
-
-export function validateFileFormat(filename: string, allowedFormats: typeof ALLOWED_FILE_FORMATS) {
+export function validateFileFormat(filename: string, allowedFormats: string[]) {
 	const fileParts = filename.split(".");
 	const extension = fileParts[fileParts.length - 1];
 

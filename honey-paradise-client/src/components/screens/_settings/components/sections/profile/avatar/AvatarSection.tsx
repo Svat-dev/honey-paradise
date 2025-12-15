@@ -1,23 +1,23 @@
-import { Avatar, AvatarFallback, AvatarImage, Button, Skeleton } from "@/components/ui/common";
+import { Avatar, AvatarFallback, AvatarFrame, AvatarImage, Button, Skeleton } from "@/components/ui/common";
 import { ALLOWED_AVATAR_FILE_TYPES, MAX_AVATAR_FILE_SIZE } from "@constants/base";
+import { getAvatarPath, getFramesPath } from "@utils/get-avatar-path";
 
-import { getAvatarPath } from "@utils/get-avatar-path";
+import { ConfirmModal } from "@/components/ui/components/ConfirmModal";
 import { TrashIcon } from "lucide-react";
-import dynamic from "next/dynamic";
 import type { FC } from "react";
-import { useAvatar } from "../../../hooks/useAvatar";
-import styles from "../../../styles/profile.module.scss";
-import { ProfileSettingSection } from "./ProfileSettingSection";
-
-const DynamicConfirmModal = dynamic(() => import("@/components/ui/components/ConfirmModal").then(mod => mod.ConfirmModal));
+import { useAvatar } from "../../../../hooks/useAvatar";
+import styles from "../../../../styles/profile.module.scss";
+import { ProfileSettingSection } from "../ProfileSettingSection";
+import { FrameDialog } from "./FrameDialog";
 
 interface IProps {
 	isAccLoading: boolean;
 	username?: string;
 	avatarPath?: string;
+	framePath?: string | null;
 }
 
-const AvatarSection: FC<IProps> = ({ avatarPath, username, isAccLoading }) => {
+const AvatarSection: FC<IProps> = ({ avatarPath, framePath, username, isAccLoading }) => {
 	const { handleImageChange, handleOnDelete, isAvatarUpdating, handleUpdate, inputRef, isCanDelete, t } = useAvatar();
 
 	const isLoading = isAvatarUpdating || isAccLoading;
@@ -30,6 +30,7 @@ const AvatarSection: FC<IProps> = ({ avatarPath, username, isAccLoading }) => {
 				) : (
 					<Avatar className={styles["avatar-image"]}>
 						<AvatarImage src={getAvatarPath(avatarPath)} alt={t("labels.avatarImage")} width={96} height={96} />
+						{framePath && <AvatarFrame src={getFramesPath(framePath)} alt="" width={96} height={96} />}
 						<AvatarFallback>{username?.split("")[0]}</AvatarFallback>
 					</Avatar>
 				)}
@@ -42,20 +43,22 @@ const AvatarSection: FC<IProps> = ({ avatarPath, username, isAccLoading }) => {
 							{t("avatar.updateBtn")}
 						</Button>
 
-						<DynamicConfirmModal
-							heading={t("modals.avatarDelete.heading")}
-							desc={t("modals.avatarDelete.description")}
-							onConfirm={handleOnDelete}
-						>
+						<ConfirmModal heading={t("modals.avatarDelete.heading")} desc={t("modals.avatarDelete.description")} onConfirm={handleOnDelete}>
 							<Button variant="link" title={t("labels.deleteAvatar")} disabled={isLoading || !isCanDelete(avatarPath)}>
 								<TrashIcon className="text-muted" size={24} />
 							</Button>
-						</DynamicConfirmModal>
+						</ConfirmModal>
 					</div>
 
 					<p>{t("avatar.uploadRules", { file_size: MAX_AVATAR_FILE_SIZE })}</p>
 				</div>
 			</div>
+
+			<FrameDialog framePath={framePath} avatarPath={avatarPath}>
+				<Button variant="secondary" title={t("avatar.frame.actions.btn")} className="py-2 px-2.5 !rounded-2xl" disabled={isAccLoading}>
+					{t("avatar.frame.actions.btn")}
+				</Button>
+			</FrameDialog>
 		</ProfileSettingSection>
 	);
 };
