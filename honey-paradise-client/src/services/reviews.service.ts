@@ -1,13 +1,13 @@
 import type { CreateReviewsDto, GetReviewsByPidResponse, ReactToReviewDto } from "@/shared/types/server";
 
-import type { AxiosResponse } from "axios";
-import { EnumApiRoute } from "@/shared/lib/constants/routes";
 import { instance } from "@/api/instance";
+import { EnumApiRoute } from "@/shared/lib/constants/routes";
+import type { AxiosResponse } from "axios";
 
 export const reviewService = {
-	getProductsReviews: async (productId: string) => {
+	getProductsReviews: async (query: { pid: string }) => {
 		const res = await instance.get<any, AxiosResponse<GetReviewsByPidResponse>>(EnumApiRoute.GET_PRODUCTS_REVIEW, {
-			params: { id: productId },
+			params: query,
 		});
 
 		return res.data;

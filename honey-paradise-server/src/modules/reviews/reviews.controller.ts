@@ -3,7 +3,7 @@ import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
 import { Get, Post } from "@nestjs/common/decorators/http/request-mapping.decorator";
 import { Body, Query, Req } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiQuery, ApiTags } from "@nestjs/swagger";
 import { ApiBody } from "@nestjs/swagger/dist/decorators/api-body.decorator";
 import { ApiOperation } from "@nestjs/swagger/dist/decorators/api-operation.decorator";
 import { ApiOkResponse } from "@nestjs/swagger/dist/decorators/api-response.decorator";
@@ -13,8 +13,8 @@ import { Authorization } from "src/shared/decorators/auth.decorator";
 import { Authorized } from "src/shared/decorators/authorized.decorator";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
 import { ms } from "src/shared/lib/common/utils";
-import { ProductsIdsParserPipe } from "src/shared/pipes/products-ids-parser.pipe";
 import { CreateReviewsDto } from "./dto/create-review.dto";
+import { GetReviewsQueryDto } from "./dto/get-reviews-query.dto";
 import { ReactToReviewDto } from "./dto/react-to-review.dto";
 import { UpdateReviewDto } from "./dto/update-review.dto";
 import { GetReviewsByPidResponse } from "./response/get-reviews-by-pid.res";
@@ -28,10 +28,11 @@ export class ReviewsController {
 
 	@ApiOperation({ summary: "Get reviews by product id", description: "" })
 	@ApiOkResponse({ type: GetReviewsByPidResponse })
+	@ApiQuery({ type: GetReviewsQueryDto })
 	@HttpCode(HttpStatus.OK)
 	@Get(EnumApiRoute.GET_PRODUCT_REVIEWS)
-	getReviews(@Req() req: Request, @Query("id", ProductsIdsParserPipe) productId: string[]) {
-		return this.reviewsService.getReviewsByProductId(req.session.userId, productId[0]);
+	getReviews(@Req() req: Request, productId: string[], @Query() query: GetReviewsQueryDto) {
+		return this.reviewsService.getReviewsByProductId(req.session.userId, query);
 	}
 
 	@ApiOperation({ summary: "Create a new reviews", description: "" })

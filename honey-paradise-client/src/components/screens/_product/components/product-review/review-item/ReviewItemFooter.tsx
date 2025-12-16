@@ -1,22 +1,20 @@
 import { ChevronDownIcon, Loader2Icon, ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/common";
-import type { FC } from "react";
 import { cn } from "@/shared/lib/utils/base";
+import type { FC } from "react";
 import { useReviewItemFooter } from "../../../hooks/useReviewItemFooter";
 
 interface IReviewItemFooter {
 	id: string;
-	userId: string | undefined;
-	likes: string[];
-	dislikes: string[];
+	likes: number | null;
+	dislikes: number | null;
+	isLiked: boolean;
+	isDisliked: boolean;
 }
 
-const ReviewItemFooter: FC<IReviewItemFooter> = ({ id, userId, likes, dislikes }) => {
+const ReviewItemFooter: FC<IReviewItemFooter> = ({ id, likes, dislikes, isDisliked, isLiked }) => {
 	const { isReactingToReview, handleReactToReview } = useReviewItemFooter(id);
-
-	const isLiked = likes.includes(userId || "");
-	const isDisliked = dislikes.includes(userId || "");
 
 	return (
 		<footer className="flex items-center justify-between">
@@ -33,7 +31,7 @@ const ReviewItemFooter: FC<IReviewItemFooter> = ({ id, userId, likes, dislikes }
 					disabled={isReactingToReview}
 				>
 					<ThumbsUpIcon className={cn("transition-colors will-change-auto", { "fill-green-600/60": isLiked })} />
-					{isReactingToReview ? <Loader2Icon className="animate-spin" /> : likes.length}
+					{isReactingToReview ? <Loader2Icon className="animate-spin" /> : likes || 0}
 				</Button>
 
 				<Button
@@ -43,7 +41,7 @@ const ReviewItemFooter: FC<IReviewItemFooter> = ({ id, userId, likes, dislikes }
 					disabled={isReactingToReview}
 				>
 					<ThumbsDownIcon className={cn("transition-colors will-change-auto", { "fill-red-600/60": isDisliked })} />
-					{isReactingToReview ? <Loader2Icon className="animate-spin" /> : dislikes.length}
+					{isReactingToReview ? <Loader2Icon className="animate-spin" /> : dislikes || 0}
 				</Button>
 			</div>
 		</footer>

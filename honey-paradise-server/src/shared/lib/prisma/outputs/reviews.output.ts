@@ -5,8 +5,8 @@ export const reviewsOutput = {
 	id: true,
 	text: true,
 	rating: true,
-	user: { select: reviewsUserOutput },
 	likes: true,
 	dislikes: true,
 	createdAt: true,
+	user: { select: reviewsUserOutput },
 };

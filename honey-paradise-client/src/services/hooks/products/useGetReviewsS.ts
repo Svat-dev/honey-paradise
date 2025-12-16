@@ -6,13 +6,13 @@ import { useMemo } from "react";
 export const useGetReviewsS = (productId: string) => {
 	const { data, isLoading } = useQuery({
 		queryKey: [queryKeys.getProductsReviews],
-		queryFn: () => reviewService.getProductsReviews(productId),
+		queryFn: () => reviewService.getProductsReviews({ pid: productId }),
 		enabled: !!productId,
 	});
 
 	return useMemo(
 		() => ({
-			reviews: data,
+			reviewsData: data,
 			isReviewsLoading: isLoading,
 		}),
 		[data, isLoading]

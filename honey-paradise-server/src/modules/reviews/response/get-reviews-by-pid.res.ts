@@ -42,11 +42,17 @@ export class GetReviewsByPidResponseReview {
 	@ApiProperty({ type: GetReviewsByPidResponseUser })
 	user: GetReviewsByPidResponseUser;
 
-	@ApiProperty({ type: "string", example: ["uuid-1", "uuid-2"], isArray: true })
-	likes: string[];
+	@ApiProperty({ type: "number", example: 10, nullable: true })
+	likes: number | null;
 
-	@ApiProperty({ type: "string", example: ["uuid-1", "uuid-2"], isArray: true })
-	dislikes: string[];
+	@ApiProperty({ type: "number", example: 10, nullable: true })
+	dislikes: number | null;
+
+	@ApiProperty({ type: "boolean", example: false })
+	isLiked: boolean;
+
+	@ApiProperty({ type: "boolean", example: false })
+	isDisliked: boolean;
 
 	@ApiProperty({ type: Date, example: new Date() })
 	createdAt: Date;
@@ -56,6 +62,9 @@ export class GetReviewsByPidResponse {
 	@ApiProperty({ type: GetReviewsByPidResponseReview, isArray: true })
 	reviews: GetReviewsByPidResponseReview[];
 
-	@ApiProperty({ type: "boolean", example: false })
-	isHasReview: boolean;
+	@ApiProperty({ type: GetReviewsByPidResponseReview, nullable: true })
+	mostPopularReview?: GetReviewsByPidResponseReview;
+
+	@ApiProperty({ type: GetReviewsByPidResponseReview, nullable: true })
+	userReview?: GetReviewsByPidResponseReview;
 }
