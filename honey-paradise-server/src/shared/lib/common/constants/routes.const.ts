@@ -103,6 +103,7 @@ export enum EnumApiRoute {
 	REVIEWS = "/reviews",
 	GET_PRODUCT_REVIEWS = "/product",
 	REACT_TO_REVIEW = "/react",
+	EDIT_REVIEW = "/edit",
 
 	ORDERS = "/orders",
 	CREATE_ORDER = "/create",

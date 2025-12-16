@@ -1,6 +1,7 @@
 import { ReactToReviewDto, ReactToReviewType } from "./dto/react-to-review.dto";
 
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
+import { ForbiddenException } from "@nestjs/common/exceptions/forbidden.exception";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
 import { EnumNotificationType } from "@prisma/client";
 import { PrismaService } from "src/core/prisma/prisma.service";
@@ -9,6 +10,7 @@ import { ProfileService } from "../auth/profile/profile.service";
 import { NotificationsService } from "../notifications/notifications.service";
 import { ProductsService } from "../products/services/products.service";
 import type { CreateReviewsDto } from "./dto/create-review.dto";
+import type { UpdateReviewDto } from "./dto/update-review.dto";
 import type { GetReviewsByPidResponse } from "./response/get-reviews-by-pid.res";
 
 @Injectable()
@@ -27,30 +29,24 @@ export class ReviewsService {
 			orderBy: { likesCount: "desc" },
 		});
 
-		let isHasReview = false;
-		if (userId) {
-			const userReview = await this.prisma.review.findFirst({
-				where: { userId, productId },
-				select: { id: true },
-			});
+		const userReview = userId
+			? await this.prisma.review.findFirst({
+					where: { userId, productId },
+					select: reviewsOutput,
+				})
+			: undefined;
 
-			if (userReview) isHasReview = true;
-		}
-
-		let reviews = await this.prisma.review.findMany({
-			where: { productId },
+		const reviews = await this.prisma.review.findMany({
+			where: { productId, NOT: [{ id: mostPopular.id }, { id: userReview?.id }] },
 			select: reviewsOutput,
 			take: 5,
 			orderBy: { createdAt: "desc" },
 		});
 
-		if (reviews.find(item => item.id === mostPopular.id)) {
-			reviews = reviews.filter(item => item.id !== mostPopular.id);
-		}
+		if (mostPopular) reviews.unshift(mostPopular);
+		if (userReview) reviews.unshift(userReview);
 
-		reviews.unshift(mostPopular);
-
-		return { reviews, isHasReview };
+		return { reviews, isHasReview: !!userReview };
 	}
 
 	async createReview(userId: string, dto: CreateReviewsDto) {
@@ -68,6 +64,31 @@ export class ReviewsService {
 		});
 
 		await this.countProductRating(productId);
+
+		return true;
+	}
+
+	async editReview(userId: string, dto: UpdateReviewDto): Promise<boolean> {
+		const { reviewId, rating, text } = dto;
+
+		const review = await this.prisma.review.findUnique({
+			where: { id: reviewId },
+			select: { userId: true, productId: true },
+		});
+
+		if (!review) throw new NotFoundException("Review wasn't found!"); // TODO translate
+
+		if (review.userId !== userId) throw new ForbiddenException("You can't edit this review!"); // TODO translate
+
+		await this.prisma.review.update({
+			where: { id: reviewId },
+			data: {
+				text,
+				rating: rating ? { toJSON: () => rating } : undefined,
+			},
+		});
+
+		await this.countProductRating(review.productId);
 
 		return true;
 	}

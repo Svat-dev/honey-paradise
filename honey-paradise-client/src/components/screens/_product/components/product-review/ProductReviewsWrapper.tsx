@@ -1,12 +1,12 @@
 import { Separator, Skeleton, StarRating, Title } from "@/components/ui/common";
 
-import { CreateReviewOffer } from "./CreateReviewOffer";
+import { capitalize } from "@/shared/lib/utils/base";
 import type { FC } from "react";
+import { useProductReviewsWrapper } from "../../hooks/useProductReviewsWrapper";
+import { CreateReviewOffer } from "./CreateReviewOffer";
 import { RatingBadge } from "./RatingBadge";
 import { RatingCountLine } from "./RatingCountLine";
 import { ReviewsSection } from "./ReviewsSection";
-import { capitalize } from "@/shared/lib/utils/base";
-import { useProductReviewsWrapper } from "../../hooks/useProductReviewsWrapper";
 
 interface IProps {
 	productId: string;
@@ -52,7 +52,7 @@ const ProductReviewsWrapper: FC<IProps> = ({ productId, userId, slug, reviewsLen
 
 					<Separator className="h-px w-full mt-2 mb-4 !bg-transparent" orientation="horizontal" />
 
-					{isAuthenticated && isHasReview && <CreateReviewOffer productId={productId} />}
+					{isAuthenticated && !isHasReview && <CreateReviewOffer productId={productId} />}
 				</section>
 
 				<ReviewsSection productId={productId} userId={userId} setIsHasReview={setIsHasReview} />

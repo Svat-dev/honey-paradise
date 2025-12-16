@@ -19,6 +19,12 @@ export class CreateReviewsDtoRating {
 	@IsNumber({ allowInfinity: false, allowNaN: false }, { message: "" })
 	@Min(0, { message: "" })
 	@Max(5, { message: "" })
+	aroma: number;
+
+	@ApiProperty({ type: "number", example: 5, required: false })
+	@IsNumber({ allowInfinity: false, allowNaN: false }, { message: "" })
+	@Min(0, { message: "" })
+	@Max(5, { message: "" })
 	packaging: number;
 }
 

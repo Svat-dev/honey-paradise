@@ -222,9 +222,9 @@ export class ProductsService {
 	}
 
 	async getProductRating(slug: string): Promise<GetProductsRatingResponse> {
-		const rating = await this.prisma.product.findUnique({
+		const product = await this.prisma.product.findUnique({
 			where: { slug },
-			select: { rating: true, extraRating: true },
+			select: { id: true, rating: true, extraRating: true },
 		});
 
 		const result: { rating: number; count: bigint }[] = await this.prisma.$queryRaw`
@@ -233,6 +233,7 @@ export class ProductsService {
 				COUNT(*) as count 
 			FROM "reviews" 
 			WHERE ("rating"->'common')::integer BETWEEN 1 AND 5 
+				AND ("product_id")::text = ${`${product.id}`} 
 			GROUP BY ("rating"->'common')::integer 
 			ORDER BY ("rating"->'common')::integer DESC;`;
 
@@ -242,7 +243,7 @@ export class ProductsService {
 			ratingCount[row.rating] = Number(row.count);
 		});
 
-		return { ...rating, count: ratingCount };
+		return { rating: product.rating, extraRating: product.extraRating, count: ratingCount };
 	}
 
 	async createProduct(dto: CreateProductDto) {

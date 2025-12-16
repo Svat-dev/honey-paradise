@@ -1,6 +1,6 @@
 import { notificationSettingsUserOutput } from "./notifications.output";
 
-export const userReviewsOutput = {
+export const reviewsUserOutput = {
 	id: true,
 	username: true,
 	avatarPath: true,

@@ -1,7 +1,7 @@
-import { queryKeys } from "@/shared/lib/constants/routes";
 import { reviewService } from "@/services/reviews.service";
-import { useMemo } from "react";
+import { queryKeys } from "@/shared/lib/constants/routes";
 import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 
 export const useGetReviewsS = (productId: string) => {
 	const { data, isLoading } = useQuery({

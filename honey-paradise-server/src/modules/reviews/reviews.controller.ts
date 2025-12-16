@@ -1,13 +1,14 @@
 import { Controller } from "@nestjs/common/decorators/core/controller.decorator";
 import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
 import { Get, Post } from "@nestjs/common/decorators/http/request-mapping.decorator";
-import { Body, Query } from "@nestjs/common/decorators/http/route-params.decorator";
+import { Body, Query, Req } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
 import { ApiTags } from "@nestjs/swagger";
 import { ApiBody } from "@nestjs/swagger/dist/decorators/api-body.decorator";
 import { ApiOperation } from "@nestjs/swagger/dist/decorators/api-operation.decorator";
 import { ApiOkResponse } from "@nestjs/swagger/dist/decorators/api-response.decorator";
 import { SkipThrottle, Throttle } from "@nestjs/throttler/dist/throttler.decorator";
+import type { Request } from "express";
 import { Authorization } from "src/shared/decorators/auth.decorator";
 import { Authorized } from "src/shared/decorators/authorized.decorator";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
@@ -15,6 +16,7 @@ import { ms } from "src/shared/lib/common/utils";
 import { ProductsIdsParserPipe } from "src/shared/pipes/products-ids-parser.pipe";
 import { CreateReviewsDto } from "./dto/create-review.dto";
 import { ReactToReviewDto } from "./dto/react-to-review.dto";
+import { UpdateReviewDto } from "./dto/update-review.dto";
 import { GetReviewsByPidResponse } from "./response/get-reviews-by-pid.res";
 import { ReviewsService } from "./reviews.service";
 
@@ -28,8 +30,8 @@ export class ReviewsController {
 	@ApiOkResponse({ type: GetReviewsByPidResponse })
 	@HttpCode(HttpStatus.OK)
 	@Get(EnumApiRoute.GET_PRODUCT_REVIEWS)
-	getReviews(@Authorized("id") userId: string, @Query("id", ProductsIdsParserPipe) productId: string[]) {
-		return this.reviewsService.getReviewsByProductId(userId || "", productId[0]);
+	getReviews(@Req() req: Request, @Query("id", ProductsIdsParserPipe) productId: string[]) {
+		return this.reviewsService.getReviewsByProductId(req.session.userId, productId[0]);
 	}
 
 	@ApiOperation({ summary: "Create a new reviews", description: "" })
@@ -37,10 +39,21 @@ export class ReviewsController {
 	@ApiBody({ type: CreateReviewsDto })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
-	@Throttle({ default: { limit: 3, ttl: ms("1min") } })
+	@Throttle({ default: { limit: 3, ttl: ms("10min") } })
 	@Post(EnumApiRoute.CREATE_NEW_PRODUCT)
 	createReviews(@Authorized("id") userId: string, @Body() dto: CreateReviewsDto) {
 		return this.reviewsService.createReview(userId, dto);
+	}
+
+	@ApiOperation({ summary: "Edit a review", description: "" })
+	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiBody({ type: UpdateReviewDto })
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Throttle({ default: { limit: 5, ttl: ms("3min") } })
+	@Post(EnumApiRoute.EDIT_REVIEW)
+	editReviews(@Authorized("id") userId: string, @Body() dto: UpdateReviewDto) {
+		return this.reviewsService.editReview(userId, dto);
 	}
 
 	@ApiOperation({ summary: "React to a reviews. Like or dislike", description: "" })
