@@ -4,7 +4,8 @@ import { Markdown } from "@/components/ui/components/markdown";
 import { cn } from "@/shared/lib/utils/base";
 import type { GetReviewsByPidResponseReview } from "@/shared/types/server";
 import { m } from "motion/react";
-import type { FC } from "react";
+import { useLocale } from "next-intl";
+import { useMemo, type FC } from "react";
 import { ReviewRatingBadgeWrapper } from "../RatingBadge";
 import { ReviewItemFooter } from "./ReviewItemFooter";
 import { ReviewItemHeader } from "./ReviewItemHeader";
@@ -28,9 +29,34 @@ const ReviewItem: FC<IProps> = ({
 	isMostPopular,
 	isUserReview,
 }) => {
+	const locale = useLocale();
+
+	const extraRatingArray = useMemo(
+		() => [
+			{
+				title: "Общая",
+				value: rating.common,
+				isCommon: true,
+			},
+			{
+				title: "Вкус",
+				value: rating.taste,
+			},
+			{
+				title: "Аромат",
+				value: rating.aroma,
+			},
+			{
+				title: "Упаковка",
+				value: rating.packaging,
+			},
+		],
+		[locale, rating]
+	);
+
 	return (
 		<m.article
-			key={id}
+			key={`${id}-${isUserReview ? new Date().getTime() : ""}`}
 			className={cn("bg-primary p-4 rounded-md", { "border-2 border-muted": isMostPopular && likes !== null })}
 			initial={{ opacity: 0, y: 5 }}
 			whileInView={{ opacity: 1, y: 0 }}
@@ -39,30 +65,21 @@ const ReviewItem: FC<IProps> = ({
 		>
 			{isMostPopular && likes !== null && <p className="text-2xl font-medium mb-3">Самый популярный отзыв</p>}
 
-			{isUserReview && <UserReviewItem />}
+			{isUserReview && <UserReviewItem reviewId={id} comment={text} rating={rating} />}
 
 			<ReviewItemHeader user={user} createdAt={createdAt} />
 
 			<div className="flex items-center gap-3 mb-4">
-				<ReviewRatingBadgeWrapper className="flex items-center gap-1">
-					<p>Общая:</p>
-					<StarRating className="-mt-1" size={15} rating={rating.common} bgColor="#4d4d4d33" color="#ffd700" animate={false} readOnly />
-				</ReviewRatingBadgeWrapper>
-
-				<ReviewRatingBadgeWrapper className="flex items-center gap-1">
-					<p>Вкус:</p>
-					<span>{rating.taste === 0 ? "Нет оценки" : rating.taste}</span>
-				</ReviewRatingBadgeWrapper>
-
-				<ReviewRatingBadgeWrapper className="flex items-center gap-1">
-					<p>Аромат:</p>
-					<span>{rating.aroma === 0 ? "Нет оценки" : rating.aroma}</span>
-				</ReviewRatingBadgeWrapper>
-
-				<ReviewRatingBadgeWrapper className="flex items-center gap-1">
-					<p>Упаковка:</p>
-					<span>{rating.packaging === 0 ? "Нет оценки" : rating.packaging}</span>
-				</ReviewRatingBadgeWrapper>
+				{extraRatingArray.map(({ title, value, isCommon }) => (
+					<ReviewRatingBadgeWrapper key={title} className="flex items-center gap-1">
+						<p>{title}:</p>
+						{isCommon ? (
+							<StarRating className="-mt-1" size={15} rating={rating.common} bgColor="#4d4d4d33" color="#ffd700" animate={false} readOnly />
+						) : (
+							<span>{value === 0 ? "Нет оценки" : value}</span>
+						)}
+					</ReviewRatingBadgeWrapper>
+				))}
 			</div>
 
 			<div className="ml-2 mb-4">

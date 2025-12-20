@@ -41,6 +41,7 @@ export const queryKeys = {
 	updateProfileSettings: "update profile settings",
 	updateCartItemQuantity: "update cart item quantity",
 	updateAvatarFrame: "update profile avatar frame",
+	updateProductReview: "update product review",
 	uploadUserSettings: "upload user settings file",
 
 	logout: "logout",

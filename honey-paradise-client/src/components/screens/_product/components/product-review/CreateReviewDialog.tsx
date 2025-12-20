@@ -4,6 +4,7 @@ import { AnimatePresence, m } from "motion/react";
 import type { FC, PropsWithChildren } from "react";
 
 import { FormInput } from "@/components/ui/components/form-input";
+import type { TCreateReviewSchema } from "@/shared/lib/schemas/create-review.schema";
 import dynamic from "next/dynamic";
 import { FormProvider } from "react-hook-form";
 import { useCreateReviewDialog } from "../../hooks/useCreateReviewDialog";
@@ -14,9 +15,12 @@ const DynamicCreateReviewPreviewDM = dynamic(() => import("./CreateReviewPreview
 
 interface ICreateReviewDialogProps extends PropsWithChildren {
 	productId: string;
+	reviewId: string;
+	type: "create" | "edit";
+	defaultValue?: Partial<TCreateReviewSchema>;
 }
 
-const CreateReviewDialog: FC<ICreateReviewDialogProps> = ({ children, productId }) => {
+const CreateReviewDialog: FC<ICreateReviewDialogProps> = ({ children, productId, reviewId, type, defaultValue }) => {
 	const {
 		form,
 		rating,
@@ -26,22 +30,27 @@ const CreateReviewDialog: FC<ICreateReviewDialogProps> = ({ children, productId 
 		isOpen,
 		setIsOpen,
 		isCreatingProductReview,
+		isEditingReview,
 		applyStyle,
 		handleSelect,
 		handleChangeRating,
 		handleFormSubmit,
 		handlePointerDown,
 		handlePointerMove,
-	} = useCreateReviewDialog(productId);
+	} = useCreateReviewDialog(productId, reviewId, type, defaultValue);
+
+	const isCreate = type === "create";
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
 			<DialogTrigger asChild>{children}</DialogTrigger>
 
 			<DialogContent className="!max-w-[40rem]">
-				<DialogTitle>Добавление отзыва</DialogTitle>
+				<DialogTitle>{isCreate ? "Добавление отзыва" : "Редактирование отзыва"}</DialogTitle>
 
-				<DialogDescription className="mb-2">Оставьте отзыв, чтобы другие пользователи узнали о вашем опыте</DialogDescription>
+				<DialogDescription className="mb-2">
+					{isCreate ? "Оставьте отзыв, чтобы другие пользователи узнали о вашем опыте" : "Отредактируйте свой отзыв как захотите!"}
+				</DialogDescription>
 
 				<FormProvider {...form}>
 					<form onSubmit={handleFormSubmit}>
@@ -58,6 +67,7 @@ const CreateReviewDialog: FC<ICreateReviewDialogProps> = ({ children, productId 
 										color="#ffd700"
 										rating={rating[field]}
 										onChangeRating={rate => handleChangeRating(rate, field)}
+										animate={false}
 									/>
 								</li>
 							))}
@@ -93,8 +103,8 @@ const CreateReviewDialog: FC<ICreateReviewDialogProps> = ({ children, productId 
 							</div>
 						</FormInput>
 
-						<Button variant="secondary" type="submit" className="p-3" isLoading={isCreatingProductReview}>
-							Опубликовать отзыв
+						<Button variant="secondary" type="submit" className="p-3" isLoading={isCreatingProductReview || isEditingReview}>
+							{isCreate ? "Опубликовать отзыв" : "Сохранить изменения"}
 						</Button>
 
 						<AnimatePresence>

@@ -3,6 +3,7 @@ import { type PointerEvent, type SyntheticEvent, useEffect, useMemo, useState } 
 
 import { errorCatch } from "@/api/api-helper";
 import { useCreateProductReviewS } from "@/services/hooks/products/useCreateProductReviewS";
+import { useEditReviewS } from "@/services/hooks/products/useEditReviewS";
 import { EnumSessionStorageKeys } from "@/shared/lib/constants/base";
 import { useDebounce } from "@/shared/lib/hooks/base";
 import { getMarkdownByTextStyle } from "@/shared/lib/utils";
@@ -13,23 +14,26 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import type { IRatingListData } from "../types/create-review.type";
 
-export const useCreateReviewDialog = (productId: string) => {
-	const { locale } = useLanguage();
+export const useCreateReviewDialog = (
+	productId: string,
+	reviewId: string,
+	type: "create" | "edit",
+	defaultValue?: Partial<TCreateReviewSchema>
+) => {
 	const locale = useLocale();
 	const { createProductReviewAsync, isCreatingProductReview } = useCreateProductReviewS();
+	const { editReviewAsync, isEditingReview } = useEditReviewS();
 
 	const form = useForm<TCreateReviewSchema>({
 		resolver: zodResolver(createReviewSchema),
 		mode: "onChange",
-		defaultValues: {
-			comment: "",
-			rating: {
-				common: 0,
-				taste: 0,
-				aroma: 0,
-				packaging: 0,
-			},
-		},
+		defaultValues:
+			type === "create"
+				? {
+						comment: "",
+						rating: { common: 0, taste: 0, aroma: 0, packaging: 0 },
+				  }
+				: defaultValue,
 	});
 
 	const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -83,13 +87,19 @@ export const useCreateReviewDialog = (productId: string) => {
 
 	const handleFormSubmit = async (data: TCreateReviewSchema) => {
 		try {
-			await createProductReviewAsync({ text: data.comment, rating: data.rating, productId });
+			const dto = { text: data.comment, rating: data.rating };
 
-			toast.success("Отзыв успешно оставлен");
+			if (type === "create") {
+				await createProductReviewAsync({ ...dto, productId });
+				toast.success("Отзыв успешно оставлен");
+				sessionStorage.removeItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL);
+			} else {
+				await editReviewAsync({ ...dto, reviewId: reviewId || "" });
+				toast.success("Отзыв успешно изменен!");
+			}
 
 			setIsOpen(false);
 			form.reset();
-			sessionStorage.removeItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL);
 		} catch (error) {
 			const { errMsg } = errorCatch(error as AxiosError);
 			toast.error(errMsg);
@@ -128,11 +138,13 @@ export const useCreateReviewDialog = (productId: string) => {
 	}, [isScrolling]);
 
 	useEffect(() => {
-		if (!isOpen) return;
+		if (!isOpen || type !== "create") return;
 		sessionStorage.setItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL, JSON.stringify({ value: comment }));
 	}, [comment]);
 
 	useEffect(() => {
+		if (type !== "create") return;
+
 		const storedData = JSON.parse(sessionStorage.getItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL) || '{"value": ""}');
 
 		if (storedData) form.setValue("comment", storedData.value);
@@ -147,6 +159,7 @@ export const useCreateReviewDialog = (productId: string) => {
 		comment,
 		ratingError,
 		isCreatingProductReview,
+		isEditingReview,
 		applyStyle,
 		handleSelect,
 		handlePointerDown,

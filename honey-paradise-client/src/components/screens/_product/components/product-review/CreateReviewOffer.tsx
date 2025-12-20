@@ -18,7 +18,7 @@ const CreateReviewOffer: FC<IProps> = ({ productId }) => {
 
 			<p className="text-sm mb-2">Оцените товар, ваш отзыв будет полезен</p>
 
-			<DynamicCreateReviewDialog productId={productId}>
+			<DynamicCreateReviewDialog type="create" productId={productId} reviewId="">
 				<Button className="px-3 py-2">Добавить отзыв</Button>
 			</DynamicCreateReviewDialog>
 		</div>

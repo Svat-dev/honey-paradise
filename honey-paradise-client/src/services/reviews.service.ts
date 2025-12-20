@@ -1,4 +1,4 @@
-import type { CreateReviewsDto, GetReviewsByPidResponse, ReactToReviewDto } from "@/shared/types/server";
+import type { CreateReviewsDto, GetReviewsByPidResponse, ReactToReviewDto, UpdateReviewDto } from "@/shared/types/server";
 
 import { instance } from "@/api/instance";
 import { EnumApiRoute } from "@/shared/lib/constants/routes";
@@ -21,6 +21,12 @@ export const reviewService = {
 
 	reactToReview: async (dto: ReactToReviewDto) => {
 		const res = await instance.post<any, AxiosResponse<boolean>>(EnumApiRoute.REACT_TO_REVIEW, dto);
+
+		return res;
+	},
+
+	editReview: async (dto: UpdateReviewDto) => {
+		const res = await instance.post<any, AxiosResponse<boolean>>(EnumApiRoute.EDIT_REVIEW, dto);
 
 		return res;
 	},
