@@ -5,7 +5,7 @@ import { EnumSettingsTabTypes, type ISettingsTab } from "../types/settings.type"
 
 export const useSettingsTabs = () => {
 	const t = useTranslations("global.settings.content.tabs");
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 
 	const tabs: ISettingsTab[] = useMemo(
 		() => [

@@ -1,20 +1,20 @@
 import { useEffect, useMemo, useState } from "react";
 
-import type { AxiosError } from "axios";
-import { EnumAppRoute } from "@constants/routes";
-import { UpdateNotificationsSettingsDto } from "@/shared/types/server";
 import { errorCatch } from "@/api/api-helper";
-import slugify from "slugify";
-import toast from "react-hot-toast";
-import { useLanguage } from "@i18n/hooks";
-import { useTranslations } from "next-intl";
 import { useUpdateSettingsS } from "@/services/hooks/notifications";
+import { UpdateNotificationsSettingsDto } from "@/shared/types/server";
+import { EnumAppRoute } from "@constants/routes";
+import { useLanguage } from "@i18n/hooks";
+import type { AxiosError } from "axios";
+import { useTranslations } from "next-intl";
+import toast from "react-hot-toast";
+import slugify from "slugify";
 
 export const useNotificationsSettings = () => {
 	const t = useTranslations("global.settings.content.notifications.content");
 	const tgt = useTranslations("global.settings.content.profile.telegram-linking");
 
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 	const { isSettingsUpdating, updateSettingsAsync } = useUpdateSettingsS();
 
 	const onSwitchChange = async (value: boolean, field: keyof UpdateNotificationsSettingsDto) => {

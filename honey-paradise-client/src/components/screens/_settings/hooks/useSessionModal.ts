@@ -1,15 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 
-import type { ISessionInfo } from "../types/session-modal.type";
-import type { ISessionMetadata } from "@/shared/types/models/session.type";
-import { format } from "date-fns";
 import { getProviderIcon } from "@/shared/lib/utils/session/get-provider-icon";
 import { getTimeAsWordString } from "@/shared/lib/utils/time";
+import type { ISessionMetadata } from "@/shared/types/models/session.type";
 import { useLanguage } from "@i18n/hooks";
+import { format } from "date-fns";
 import { useTranslations } from "next-intl";
+import type { ISessionInfo } from "../types/session-modal.type";
 
 export const useSessionModal = (metadata: ISessionMetadata, createdAt: string) => {
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 	const t = useTranslations("global.settings.content.devices");
 	const dt = useTranslations("shared.time");
 	const mt = useTranslations("shared.auth.methods");

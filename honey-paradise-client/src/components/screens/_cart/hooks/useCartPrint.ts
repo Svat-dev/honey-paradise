@@ -12,7 +12,7 @@ interface IOpts {
 
 export const useCartPrint = () => {
 	const t = useTranslations("global.cart.content");
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 

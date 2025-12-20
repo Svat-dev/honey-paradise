@@ -10,7 +10,7 @@ export const useFavoritesProductCard = (id: string, priceInUsd: number) => {
 	const t = useTranslations("global.favorites.content");
 	const { addCartItem, loading } = useMyCart();
 	const { switchFavoriteProductAsync, isSwitchingFavoritesProduct } = useSwitchFavoritesProducts();
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 
 	const handleDeleteFavorite = async () => {
 		try {

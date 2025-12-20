@@ -15,7 +15,7 @@ import { toast } from "react-hot-toast";
 
 export const useAppearanceSection = (settings: GetMySettingsResponse | undefined) => {
 	const t = useTranslations("global.settings.content.profile");
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 
 	const { updateSettingsAsync, isSettingsUpdating } = useUpdateSettingsS();
 

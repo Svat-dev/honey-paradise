@@ -33,7 +33,7 @@ export const useInfoSection = (
 	};
 
 	const t = useTranslations("global.settings.content.profile.personal-info");
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 
 	const [mask, setMask] = useState<InputMask<FactoryArg> | undefined>(undefined);
 	const [isDisabled, setIsDisabled] = useState<boolean>(false);

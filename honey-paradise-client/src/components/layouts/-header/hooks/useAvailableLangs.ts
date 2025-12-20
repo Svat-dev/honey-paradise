@@ -6,7 +6,7 @@ import { ILanguagesList } from "../types/data.type";
 
 export const useAvailableLangs = () => {
 	const t = useTranslations("layout.header.sidebarSheet.langsDropdown");
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 
 	const availableLanguages: ILanguagesList[] = useMemo(
 		() => [

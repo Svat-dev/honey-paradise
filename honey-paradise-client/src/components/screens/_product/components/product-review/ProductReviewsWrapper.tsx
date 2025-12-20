@@ -10,12 +10,11 @@ import { ReviewsSection } from "./ReviewsSection";
 
 interface IProps {
 	productId: string;
-	userId: string | undefined;
 	slug: string;
 	reviewsLength: number;
 }
 
-const ProductReviewsWrapper: FC<IProps> = ({ productId, userId, slug, reviewsLength }) => {
+const ProductReviewsWrapper: FC<IProps> = ({ productId, slug, reviewsLength }) => {
 	const { isAuthenticated, isHasReview, isRatingLoading, rating, reviewsArray, extraRatingArray, setIsHasReview } =
 		useProductReviewsWrapper(slug);
 
@@ -55,7 +54,7 @@ const ProductReviewsWrapper: FC<IProps> = ({ productId, userId, slug, reviewsLen
 					{isAuthenticated && !isHasReview && <CreateReviewOffer productId={productId} />}
 				</section>
 
-				<ReviewsSection productId={productId} userId={userId} setIsHasReview={setIsHasReview} />
+				<ReviewsSection productId={productId} setIsHasReview={setIsHasReview} />
 			</div>
 		</article>
 	);

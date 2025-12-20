@@ -1,16 +1,16 @@
-import type { AddCartItemDto, UpdateQuantityDto } from "@/shared/types/server";
 import { useAddCartItemS, useClearCartS, useDeleteCartItemS, useGetMyCartS, useUpdateQuantityS } from "@/services/hooks/cart";
+import type { AddCartItemDto, UpdateQuantityDto } from "@/shared/types/server";
 
-import type { AxiosError } from "axios";
 import { errorCatch } from "@/api/api-helper";
+import type { AxiosError } from "axios";
+import { useTranslations } from "next-intl";
+import { useMemo } from "react";
 import toast from "react-hot-toast";
 import { useLanguage } from "../../i18n/hooks";
-import { useMemo } from "react";
-import { useTranslations } from "next-intl";
 
 export const useMyCart = () => {
 	const t = useTranslations("global.cart.content");
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 
 	const { cart, isCartLoading, refetchCart } = useGetMyCartS();
 

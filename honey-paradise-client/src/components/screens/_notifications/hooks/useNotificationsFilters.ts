@@ -1,21 +1,21 @@
 import { SortAscIcon, SortDescIcon } from "lucide-react";
 
-import type { AxiosError } from "axios";
+import { errorCatch } from "@/api/api-helper";
+import { useMarkAsReadAllS } from "@/services/hooks/notifications";
+import { queryKeys } from "@/shared/lib/constants/routes";
+import { getNotificationHeadingByType } from "@/shared/lib/utils/get-notification-heading";
 import { EnumNotificationsSortType } from "@/shared/store/types/notifications-filter-store.type";
 import { GetMyNotificationResponseType } from "@/shared/types/server";
-import type { INotificationFilters } from "../types/notifications-filters.type";
-import { errorCatch } from "@/api/api-helper";
-import { getNotificationHeadingByType } from "@/shared/lib/utils/get-notification-heading";
-import { queryKeys } from "@/shared/lib/constants/routes";
-import toast from "react-hot-toast";
-import { useLanguage } from "@i18n/hooks";
 import { useManageNotifications } from "@hooks/auth";
-import { useMarkAsReadAllS } from "@/services/hooks/notifications";
-import { useMemo } from "react";
 import { useNotificationsContext } from "@hooks/context";
-import { useNotificationsQueryParams } from "./useNotificationsQueryParams";
+import { useLanguage } from "@i18n/hooks";
 import { useQueryClient } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
+import { useMemo } from "react";
+import toast from "react-hot-toast";
+import type { INotificationFilters } from "../types/notifications-filters.type";
+import { useNotificationsQueryParams } from "./useNotificationsQueryParams";
 
 export const useNotificationsFiltersWrapper = () => {
 	const { markAsReadAllAsync, isAllMarkingAsRead } = useMarkAsReadAllS();
@@ -39,7 +39,7 @@ export const useNotificationsFiltersWrapper = () => {
 
 export const useNotificationsFilters = () => {
 	const t = useTranslations("global.notifications.content");
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 
 	const { queryParams, updateQueryParams, reset } = useNotificationsQueryParams();
 

@@ -4,7 +4,7 @@ import { useAuth } from "@hooks/auth";
 import { type RefetchOptions, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 
-export const useMyAccountS = () => {
+export const useMyAccountS = (enabled: boolean = true) => {
 	const client = useQueryClient();
 	const { isAuthenticated } = useAuth();
 
@@ -13,7 +13,7 @@ export const useMyAccountS = () => {
 	const { error, isLoading, data, isPending, refetch, isSuccess } = useQuery({
 		queryKey,
 		queryFn: () => accountService.getMyAccount(),
-		enabled: isAuthenticated,
+		enabled: isAuthenticated && enabled,
 	});
 
 	const accRefetch = (opts?: RefetchOptions) => {

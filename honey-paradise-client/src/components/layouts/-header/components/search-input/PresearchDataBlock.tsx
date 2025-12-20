@@ -2,9 +2,9 @@ import { AnimatePresence, m } from "motion/react";
 
 import { productsService } from "@/services/products.service";
 import { queryKeys } from "@/shared/lib/constants/routes";
-import { useLanguage } from "@/shared/lib/i18n/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2Icon } from "lucide-react";
+import { useLocale } from "next-intl";
 import type { FC } from "react";
 import { PresearchCategory } from "./PresearchCategory";
 import { PresearchHistory } from "./PresearchHistory";
@@ -15,7 +15,7 @@ interface IProps {
 }
 
 const PresearchDataBlock: FC<IProps> = ({ term }) => {
-	const { locale } = useLanguage();
+	const locale = useLocale();
 
 	const { data, isLoading, isPending } = useQuery({
 		queryKey: [queryKeys.getProductsBySearch, term],

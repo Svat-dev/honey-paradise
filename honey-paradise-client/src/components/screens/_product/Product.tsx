@@ -2,17 +2,17 @@
 
 import type { ApiJsonValue, GetProductBySlugResponse } from "@/shared/types/server";
 
-import type { FC } from "react";
-import type { IProductDescriptionPropsData } from "./types/product-description.type";
-import { ProductDescription } from "./components/ProductDescription";
-import { ProductImage } from "./components/ProductImage";
-import { ProductReviewsWrapper } from "./components/product-review/ProductReviewsWrapper";
-import { ProductShareDM } from "./components/ProductShareDM";
 import { Title } from "@/components/ui/common";
 import { productsService } from "@/services/products.service";
 import { queryKeys } from "@/shared/lib/constants/routes";
-import { useProduct } from "./hooks/useProduct";
 import { useQuery } from "@tanstack/react-query";
+import type { FC } from "react";
+import { ProductReviewsWrapper } from "./components/product-review/ProductReviewsWrapper";
+import { ProductDescription } from "./components/ProductDescription";
+import { ProductImage } from "./components/ProductImage";
+import { ProductShareDM } from "./components/ProductShareDM";
+import { useProduct } from "./hooks/useProduct";
+import type { IProductDescriptionPropsData } from "./types/product-description.type";
 
 interface IProduct {
 	initialData: GetProductBySlugResponse;
@@ -58,7 +58,7 @@ const Product: FC<IProduct> = ({ initialData, slug }) => {
 				/>
 			</article>
 
-			<ProductReviewsWrapper productId={data.id} userId={user?.id} slug={data.slug} reviewsLength={data._count.reviews || 0} />
+			<ProductReviewsWrapper productId={data.id} slug={data.slug} reviewsLength={data._count.reviews || 0} />
 		</article>
 	);
 };

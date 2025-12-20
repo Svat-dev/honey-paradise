@@ -15,7 +15,7 @@ interface IFrameData {
 
 export const useAvatarFrameDialog = (framePath: string | undefined | null) => {
 	const t = useTranslations("global.settings.content.profile.avatar.frame");
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 
 	const [frame, setFrame] = useState<number>(0);
 	const [url, setUrl] = useState<string | null>(typeof framePath === "undefined" ? null : framePath);

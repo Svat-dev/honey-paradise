@@ -9,11 +9,10 @@ import { ReviewLoadingItem } from "./review-item/ReviewLoadingItem";
 
 interface IProps {
 	productId: string;
-	userId: string | undefined;
 	setIsHasReview: ReactStateHook<boolean>;
 }
 
-const ReviewsSection: FC<IProps> = ({ productId, userId, setIsHasReview }) => {
+const ReviewsSection: FC<IProps> = ({ productId, setIsHasReview }) => {
 	const { reviewsData, isReviewsLoading } = useGetReviewsS(productId);
 
 	useEffect(() => setIsHasReview(!!reviewsData?.userReview), [reviewsData?.userReview]);

@@ -15,7 +15,7 @@ export const useNotificationItem = (
 ) => {
 	const t = useTranslations("global.notifications.content.notification");
 	const dt = useTranslations("shared.time");
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 
 	const { isSelectMode, addSelectedId, removeSelectedId, selectedIds } = useNotificationsContext();
 	const { markAsRead } = useManageNotifications();

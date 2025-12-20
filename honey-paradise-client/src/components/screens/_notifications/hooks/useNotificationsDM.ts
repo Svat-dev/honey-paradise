@@ -9,7 +9,7 @@ import type { INotificationDMData } from "../types/dropdown-menu.type";
 
 export const useNotificationsDM = (nid: string, isRead: boolean, isOpen: boolean) => {
 	const t = useTranslations("global.notifications.content.notification.dropdown");
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 
 	const { isSelectMode, selectedIds, setSelectMode, removeSelectedId } = useNotificationsContext();
 

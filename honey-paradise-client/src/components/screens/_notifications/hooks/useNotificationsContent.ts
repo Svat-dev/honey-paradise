@@ -1,13 +1,13 @@
-import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 
 import { useMyNotifications } from "@hooks/auth";
 import { useLanguage } from "@i18n/hooks";
+import { useTranslations } from "next-intl";
 import { useNotificationsQueryParams } from "./useNotificationsQueryParams";
 
 export const useNotificationsContent = () => {
 	const t = useTranslations("global.notifications.content");
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 
 	const { queryParams, updateQueryParams, isFilterUpdated } = useNotificationsQueryParams();
 

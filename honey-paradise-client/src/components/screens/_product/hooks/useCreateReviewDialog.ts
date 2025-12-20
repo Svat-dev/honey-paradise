@@ -5,16 +5,17 @@ import { errorCatch } from "@/api/api-helper";
 import { useCreateProductReviewS } from "@/services/hooks/products/useCreateProductReviewS";
 import { EnumSessionStorageKeys } from "@/shared/lib/constants/base";
 import { useDebounce } from "@/shared/lib/hooks/base";
-import { useLanguage } from "@/shared/lib/i18n/hooks";
 import { getMarkdownByTextStyle } from "@/shared/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { AxiosError } from "axios";
+import { useLocale } from "next-intl";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import type { IRatingListData } from "../types/create-review.type";
 
 export const useCreateReviewDialog = (productId: string) => {
 	const { locale } = useLanguage();
+	const locale = useLocale();
 	const { createProductReviewAsync, isCreatingProductReview } = useCreateProductReviewS();
 
 	const form = useForm<TCreateReviewSchema>({

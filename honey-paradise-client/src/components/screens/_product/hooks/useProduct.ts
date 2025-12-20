@@ -6,7 +6,7 @@ import type { IViewedProductsHistory } from "../types/product.type";
 
 export const useProduct = (id: string) => {
 	const { user, isAccLoading } = useMyAccount();
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 
 	useEffect(() => {
 		const history: IViewedProductsHistory[] = JSON.parse(localStorage.getItem(EnumStorageKeys.VIEWED_PRODUCTS_HISTORY) || "[]");

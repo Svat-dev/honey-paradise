@@ -7,11 +7,11 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useAuth } from "./useAuth";
 
-export const useMyAccount = () => {
+export const useMyAccount = (enabled: boolean = true) => {
 	const { isAuthenticated, exit, auth } = useAuth();
 	const { refresh } = useRouter();
 
-	const { acc, accError, accRefetch, isAccLoading, isAccSuccess } = useMyAccountS();
+	const { acc, accError, accRefetch, isAccLoading, isAccSuccess } = useMyAccountS(enabled);
 	const { logoutAsync, isLogoutLoading } = useLogoutS();
 	const { clearSession } = useClearSessionS();
 

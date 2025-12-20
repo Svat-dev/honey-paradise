@@ -1,15 +1,15 @@
 import { BellIcon, CircleUserRoundIcon, ClipboardListIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
 
 import { EnumAppRoute } from "@constants/routes";
 import { useMyNotifications } from "@hooks/auth";
 import { useLanguage } from "@i18n/hooks";
+import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import type { ISheetLinks } from "../types/data.type";
 
 export const useMenuSheetMain = () => {
 	const t = useTranslations("layout.header");
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 	const { unReadLength, isNotificationsLoading } = useMyNotifications();
 
 	const sheetLinksData: ISheetLinks[] = useMemo(

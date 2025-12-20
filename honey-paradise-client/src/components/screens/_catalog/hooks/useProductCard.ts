@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 
 export const useProductCard = (priceInUsd: number) => {
 	const t = useTranslations("global.home.content");
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 
 	const { user } = useMyAccount();
 	const { getPrice } = useGetPrice(user?.settings.defaultCurrency);

@@ -1,14 +1,14 @@
 import { useId, useMemo } from "react";
 
 import { GetMeResponseGender } from "@/shared/types/server";
-import type { IGenderRadioGroupData } from "../types/sign-up.type";
-import { useLanguage } from "@i18n/hooks";
 import { useTheme } from "@hooks/useTheme";
+import { useLanguage } from "@i18n/hooks";
 import { useTranslations } from "next-intl";
+import type { IGenderRadioGroupData } from "../types/sign-up.type";
 
 export const useOptionalPart = () => {
 	const t = useTranslations("global.sign-up.content");
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 
 	const { theme } = useTheme();
 

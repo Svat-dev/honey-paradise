@@ -21,7 +21,7 @@ import type { TDataStatus } from "../_sign-up/types/sign-up.type";
 
 export const useSignIn = () => {
 	const t = useTranslations("global.sign-in.content");
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 
 	const errorDelay = 5000;
 	const successDelay = 2000;

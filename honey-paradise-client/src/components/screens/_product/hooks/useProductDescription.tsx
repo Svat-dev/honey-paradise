@@ -1,17 +1,16 @@
 import { EnumAppRoute, queryKeys } from "@/shared/lib/constants/routes";
 import type { ApiJsonValue, GetMyCartResponseCurrency } from "@/shared/types/server";
 import { MessageCircleMoreIcon, StarIcon } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 
 import { errorCatch } from "@/api/api-helper";
 import { Link } from "@/components/ui/common";
 import { useSwitchFavoritesProducts } from "@/services/hooks/products";
 import { useMyCart } from "@/shared/lib/hooks/auth";
 import { useGetPrice } from "@/shared/lib/hooks/useGetPrice";
-import { useLanguage } from "@/shared/lib/i18n/hooks";
 import { capitalize } from "@/shared/lib/utils/base";
 import { useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
-import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 import toast from "react-hot-toast";
@@ -22,7 +21,7 @@ export const useProductDescription = (
 	currency: GetMyCartResponseCurrency | undefined
 ) => {
 	const t = useTranslations("global.product.content");
-	const { locale } = useLanguage();
+	const locale = useLocale();
 
 	const { push } = useRouter();
 	const client = useQueryClient();

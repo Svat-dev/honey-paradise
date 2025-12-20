@@ -1,16 +1,16 @@
 import { useMemo, useState } from "react";
 
-import type { AxiosError } from "axios";
-import type { IDownloadSettingsOpt } from "../types/download-file.type";
 import { errorCatch } from "@/api/api-helper";
 import { profileService } from "@/services/profile.service";
-import toast from "react-hot-toast";
 import { useLanguage } from "@/shared/lib/i18n/hooks";
+import type { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
+import toast from "react-hot-toast";
+import type { IDownloadSettingsOpt } from "../types/download-file.type";
 
 export const useDownloadSettings = () => {
 	const t = useTranslations("global.settings.content.account.content");
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 

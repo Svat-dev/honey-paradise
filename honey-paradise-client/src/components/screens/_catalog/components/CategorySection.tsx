@@ -8,7 +8,7 @@ import { ProductCard } from "./product-card/ProductCard";
 interface IProps extends GetAllCatsResponse {}
 
 const CategorySection: FC<IProps> = ({ title, slug, products }) => {
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 
 	return (
 		<section className="py-3 px-6">

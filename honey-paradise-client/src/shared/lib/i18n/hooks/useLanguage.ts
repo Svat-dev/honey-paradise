@@ -8,14 +8,14 @@ import { EnumStorageKeys } from "../../constants/base";
 import { useAuth, useMyAccount } from "../../hooks/auth";
 import { LANGS_BY_KEY, type EnumLanguages } from "../config";
 
-export const useLanguage = () => {
+export const useLanguage = (auth: boolean = true) => {
 	const locale = useLocale();
 	const t = useTranslations("toasters.changeLanguage");
 
 	const { refresh } = useRouter();
 
 	const { isAuthenticated } = useAuth();
-	const { user } = useMyAccount();
+	const { user } = useMyAccount(auth);
 
 	const change = (lang: GetMySettingsResponseDefaultLanguage, userDefault: boolean = false) => {
 		if (!lang || locale === lang) return;

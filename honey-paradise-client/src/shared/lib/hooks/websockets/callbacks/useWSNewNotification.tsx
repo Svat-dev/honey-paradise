@@ -1,22 +1,22 @@
 import { APP_NAME_EN, APP_NAME_RU } from "@constants/base";
 
-import { GetMyNotificationsSettingsResponse } from "@/shared/types/server";
 import { NotificationsToaster } from "@/components/ui/components/NotificationsToaster";
-import type { Socket } from "socket.io-client";
+import { GetMyNotificationsSettingsResponse } from "@/shared/types/server";
 import { queryKeys } from "@constants/routes";
-import styles from "@styles/modules/toaster.module.scss";
-import toast from "react-hot-toast";
 import { useLanguage } from "@i18n/hooks";
+import styles from "@styles/modules/toaster.module.scss";
 import { useQueryClient } from "@tanstack/react-query";
-import { useSound } from "../../useSound";
 import { useTranslations } from "next-intl";
+import toast from "react-hot-toast";
+import type { Socket } from "socket.io-client";
 import { z } from "zod";
+import { useSound } from "../../useSound";
 
 export const useWSNewNotification = () => {
 	const client = useQueryClient();
 
 	const { play } = useSound("/audio/notification-sound.mp3");
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 	const t = useTranslations();
 
 	const toastId = crypto.randomUUID();

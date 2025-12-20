@@ -10,7 +10,7 @@ import type { TFieldNames } from "../types/form-input.type";
 import { useFormInput } from "./useFormInput";
 
 export const useFormDateInput = (name: TFieldNames) => {
-	const { locale } = useLanguage();
+	const { locale } = useLanguage(false);
 	const t = useTranslations("global.sign-up.content");
 
 	const { setValue, getValues, error, clearErrors } = useFormInput(name);
