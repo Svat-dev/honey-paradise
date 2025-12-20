@@ -55,6 +55,7 @@ export const queryKeys = {
 	deleteSession: "delete user session",
 	deleteAllSessions: "delete all user sessions",
 	deleteCartItem: "delete cart item",
+	deleteProductReview: "delete product review",
 	clearSession: "clear current cookie session",
 	clearAllCart: "clear all cart items",
 	clearAllFavoritesProducts: "clear all user favorites products",

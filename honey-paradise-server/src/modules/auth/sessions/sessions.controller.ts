@@ -48,7 +48,7 @@ export class SessionsController {
 	@ApiOperation({ summary: "Login to user account. (Authorization)" })
 	@ApiBody({ type: AuthLoginDto })
 	@HttpCode(HttpStatus.OK)
-	// @Recaptcha()
+	@Recaptcha()
 	@Throttle({ default: { limit: 10, ttl: ms("10min") } })
 	@Post(EnumApiRoute.SIGN_IN)
 	login(@Body() dto: AuthLoginDto, @Req() req: Request, @Res({ passthrough: true }) res: Response, @UserAgent() userAgent: string) {

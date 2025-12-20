@@ -1,5 +1,4 @@
 import { ReactToReviewDto, ReactToReviewType } from "./dto/react-to-review.dto";
-import type { GetReviewsByPidResponse } from "./response/get-reviews-by-pid.res";
 
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { ForbiddenException } from "@nestjs/common/exceptions/forbidden.exception";
@@ -11,8 +10,9 @@ import { ProfileService } from "../auth/profile/profile.service";
 import { NotificationsService } from "../notifications/notifications.service";
 import { ProductsService } from "../products/services/products.service";
 import type { CreateReviewsDto } from "./dto/create-review.dto";
-import { type GetReviewsQueryDto } from "./dto/get-reviews-query.dto";
+import type { GetReviewsQueryDto } from "./dto/get-reviews-query.dto";
 import type { UpdateReviewDto } from "./dto/update-review.dto";
+import type { GetReviewsByPidResponse } from "./response/get-reviews-by-pid.res";
 
 @Injectable()
 export class ReviewsService {
@@ -188,6 +188,25 @@ export class ReviewsService {
 			where: { id: review.id },
 			data: { likesCount: review.likes.length - review.dislikes.length },
 		});
+
+		return true;
+	}
+
+	async deleteReview(userId: string, reviewId: string): Promise<boolean> {
+		const review = await this.prisma.review.findUnique({
+			where: { id: reviewId },
+			select: { userId: true, productId: true },
+		});
+
+		if (!review) throw new NotFoundException("Review wasn't found!"); // TODO translate
+
+		if (review.userId !== userId) throw new ForbiddenException("You can't delete this review!"); // TODO translate
+
+		await this.prisma.review.delete({
+			where: { id: reviewId },
+		});
+
+		await this.countProductRating(review.productId);
 
 		return true;
 	}

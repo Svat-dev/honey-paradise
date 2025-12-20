@@ -1,7 +1,11 @@
 import { Button } from "@/components/ui/common";
+import type { ReactStateHook } from "@/shared/types";
 import type { GetReviewsByPidResponseRating } from "@/shared/types/server";
+import styles from "@styles/modules/toaster.module.scss";
 import dynamic from "next/dynamic";
 import type { FC } from "react";
+import toast from "react-hot-toast";
+import { DeleteReviewToaster } from "./DeleteReviewToaster";
 
 const DynamicCreateReviewDialog = dynamic(() => import("../CreateReviewDialog").then(mod => mod.CreateReviewDialog), { ssr: false });
 
@@ -9,9 +13,28 @@ interface IProps {
 	reviewId: string;
 	rating: GetReviewsByPidResponseRating;
 	comment: string;
+	setIsDeleted: ReactStateHook<boolean>;
 }
 
-const UserReviewItem: FC<IProps> = ({ reviewId, comment, rating }) => {
+const UserReviewItem: FC<IProps> = ({ reviewId, comment, rating, setIsDeleted }) => {
+	const toastId = crypto.randomUUID();
+
+	const handleDelete = () => {
+		setIsDeleted(prev => !prev);
+
+		toast(
+			() => (
+				<DeleteReviewToaster reviewId={reviewId} setNotDeleted={() => setIsDeleted(false)} removeToast={() => toast.dismiss(toastId)} />
+			),
+			{
+				position: "bottom-center",
+				id: toastId,
+				duration: Infinity,
+				className: styles["delete-review-toaster"],
+			}
+		);
+	};
+
 	return (
 		<div className="flex justify-between items-center mb-4">
 			<p className="text-xl font-medium">Ваш отзыв</p>
@@ -23,7 +46,7 @@ const UserReviewItem: FC<IProps> = ({ reviewId, comment, rating }) => {
 					</Button>
 				</DynamicCreateReviewDialog>
 
-				<Button variant="destructive" className="p-2">
+				<Button variant="destructive" className="p-2" onClick={handleDelete}>
 					Удалить
 				</Button>
 			</div>

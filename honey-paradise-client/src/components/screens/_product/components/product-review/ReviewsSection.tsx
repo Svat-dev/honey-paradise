@@ -1,7 +1,7 @@
 import { AnimatePresence } from "motion/react";
 
 import { Separator } from "@/components/ui/common";
-import { useGetReviewsS } from "@/services/hooks/products/useGetReviewsS";
+import { useGetReviewsS } from "@/services/hooks/products/reviews/useGetReviewsS";
 import type { ReactStateHook } from "@/shared/types";
 import { useEffect, type FC } from "react";
 import { ReviewItem } from "./review-item/ReviewItem";

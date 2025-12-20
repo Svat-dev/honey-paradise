@@ -1,9 +1,10 @@
 import { Controller } from "@nestjs/common/decorators/core/controller.decorator";
 import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
-import { Get, Post } from "@nestjs/common/decorators/http/request-mapping.decorator";
-import { Body, Query, Req } from "@nestjs/common/decorators/http/route-params.decorator";
+import { Delete, Get, Patch, Post, Put } from "@nestjs/common/decorators/http/request-mapping.decorator";
+import { Body, Param, Query, Req } from "@nestjs/common/decorators/http/route-params.decorator";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
-import { ApiQuery, ApiTags } from "@nestjs/swagger";
+import { ParseUUIDPipe } from "@nestjs/common/pipes/parse-uuid.pipe";
+import { ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { ApiBody } from "@nestjs/swagger/dist/decorators/api-body.decorator";
 import { ApiOperation } from "@nestjs/swagger/dist/decorators/api-operation.decorator";
 import { ApiOkResponse } from "@nestjs/swagger/dist/decorators/api-response.decorator";
@@ -31,7 +32,7 @@ export class ReviewsController {
 	@ApiQuery({ type: GetReviewsQueryDto })
 	@HttpCode(HttpStatus.OK)
 	@Get(EnumApiRoute.GET_PRODUCT_REVIEWS)
-	getReviews(@Req() req: Request, productId: string[], @Query() query: GetReviewsQueryDto) {
+	getReviews(@Req() req: Request, @Query() query: GetReviewsQueryDto) {
 		return this.reviewsService.getReviewsByProductId(req.session.userId, query);
 	}
 
@@ -52,7 +53,7 @@ export class ReviewsController {
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Throttle({ default: { limit: 5, ttl: ms("3min") } })
-	@Post(EnumApiRoute.EDIT_REVIEW)
+	@Put(EnumApiRoute.EDIT_REVIEW)
 	editReviews(@Authorized("id") userId: string, @Body() dto: UpdateReviewDto) {
 		return this.reviewsService.editReview(userId, dto);
 	}
@@ -63,8 +64,19 @@ export class ReviewsController {
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Throttle({ default: { limit: 15, ttl: ms("3min") } })
-	@Post(EnumApiRoute.REACT_TO_REVIEW)
+	@Patch(EnumApiRoute.REACT_TO_REVIEW)
 	reactToReview(@Authorized("id") userId: string, @Body() dto: ReactToReviewDto) {
 		return this.reviewsService.reactToReview(userId, dto);
+	}
+
+	@ApiOperation({ summary: "Delete user review", description: "" })
+	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiParam({ name: "id", type: String, example: "uuid" })
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Throttle({ default: { limit: 5, ttl: ms("3min") } })
+	@Delete(EnumApiRoute.DELETE_REVIEW)
+	deleteReview(@Authorized("id") userId: string, @Param("id", new ParseUUIDPipe({ version: "4" })) reviewId: string) {
+		return this.reviewsService.deleteReview(userId, reviewId);
 	}
 }

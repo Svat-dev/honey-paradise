@@ -5,3 +5,7 @@
 .notifications-toaster {
 	@apply bg-secondary text-secondary-foreground border border-muted max-w-[32rem] !important;
 }
+
+.delete-review-toaster {
+	@apply bg-secondary text-secondary-foreground max-w-[32rem] overflow-hidden !important;
+}

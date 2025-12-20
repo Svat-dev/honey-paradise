@@ -5,7 +5,7 @@ import { cn } from "@/shared/lib/utils/base";
 import type { GetReviewsByPidResponseReview } from "@/shared/types/server";
 import { m } from "motion/react";
 import { useLocale } from "next-intl";
-import { useMemo, type FC } from "react";
+import { useMemo, useState, type FC } from "react";
 import { ReviewRatingBadgeWrapper } from "../RatingBadge";
 import { ReviewItemFooter } from "./ReviewItemFooter";
 import { ReviewItemHeader } from "./ReviewItemHeader";
@@ -30,6 +30,7 @@ const ReviewItem: FC<IProps> = ({
 	isUserReview,
 }) => {
 	const locale = useLocale();
+	const [isDeleted, setIsDeleted] = useState<boolean>(false);
 
 	const extraRatingArray = useMemo(
 		() => [
@@ -59,13 +60,13 @@ const ReviewItem: FC<IProps> = ({
 			key={`${id}-${isUserReview ? new Date().getTime() : ""}`}
 			className={cn("bg-primary p-4 rounded-md", { "border-2 border-muted": isMostPopular && likes !== null })}
 			initial={{ opacity: 0, y: 5 }}
-			whileInView={{ opacity: 1, y: 0 }}
+			whileInView={isDeleted ? { opacity: 0.3, y: 0, pointerEvents: "none" } : { opacity: 1, y: 0 }}
 			transition={{ type: "tween", duration: 0.4 }}
 			viewport={{ once: true, amount: "some" }}
 		>
 			{isMostPopular && likes !== null && <p className="text-2xl font-medium mb-3">Самый популярный отзыв</p>}
 
-			{isUserReview && <UserReviewItem reviewId={id} comment={text} rating={rating} />}
+			{isUserReview && <UserReviewItem reviewId={id} comment={text} rating={rating} setIsDeleted={setIsDeleted} />}
 
 			<ReviewItemHeader user={user} createdAt={createdAt} />
 

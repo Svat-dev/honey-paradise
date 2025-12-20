@@ -20,13 +20,19 @@ export const reviewService = {
 	},
 
 	reactToReview: async (dto: ReactToReviewDto) => {
-		const res = await instance.post<any, AxiosResponse<boolean>>(EnumApiRoute.REACT_TO_REVIEW, dto);
+		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.REACT_TO_REVIEW, dto);
 
 		return res;
 	},
 
 	editReview: async (dto: UpdateReviewDto) => {
-		const res = await instance.post<any, AxiosResponse<boolean>>(EnumApiRoute.EDIT_REVIEW, dto);
+		const res = await instance.put<any, AxiosResponse<boolean>>(EnumApiRoute.EDIT_REVIEW, dto);
+
+		return res;
+	},
+
+	deleteReview: async (id: string) => {
+		const res = await instance.delete<any, AxiosResponse<boolean>>(`${EnumApiRoute.DELETE_REVIEW}/${id}`);
 
 		return res;
 	},

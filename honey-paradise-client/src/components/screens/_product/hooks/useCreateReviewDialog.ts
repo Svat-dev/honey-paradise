@@ -2,8 +2,8 @@ import { type TCreateReviewSchema, createReviewSchema } from "@/shared/lib/schem
 import { type PointerEvent, type SyntheticEvent, useEffect, useMemo, useState } from "react";
 
 import { errorCatch } from "@/api/api-helper";
-import { useCreateProductReviewS } from "@/services/hooks/products/useCreateProductReviewS";
-import { useEditReviewS } from "@/services/hooks/products/useEditReviewS";
+import { useCreateProductReviewS } from "@/services/hooks/products/reviews/useCreateProductReviewS";
+import { useEditReviewS } from "@/services/hooks/products/reviews/useEditReviewS";
 import { EnumSessionStorageKeys } from "@/shared/lib/constants/base";
 import { useDebounce } from "@/shared/lib/hooks/base";
 import { getMarkdownByTextStyle } from "@/shared/lib/utils";
