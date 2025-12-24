@@ -57,7 +57,7 @@ const ReviewItem: FC<IProps> = ({
 
 	return (
 		<m.article
-			key={`${id}-${isUserReview ? new Date().getTime() : ""}`}
+			key={id}
 			className={cn("bg-primary p-4 rounded-md", { "border-2 border-muted": isMostPopular && likes !== null })}
 			initial={{ opacity: 0, y: 5 }}
 			whileInView={isDeleted ? { opacity: 0.3, y: 0, pointerEvents: "none" } : { opacity: 1, y: 0 }}

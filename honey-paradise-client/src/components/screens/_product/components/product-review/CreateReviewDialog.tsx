@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger, StarRating } from "@/components/ui/common";
-import { BoldIcon, ItalicIcon, Link2 } from "lucide-react";
+import { BoldIcon, ItalicIcon, Link2, TrashIcon } from "lucide-react";
 import { AnimatePresence, m } from "motion/react";
 import type { FC, PropsWithChildren } from "react";
 
@@ -61,7 +61,19 @@ const CreateReviewDialog: FC<ICreateReviewDialogProps> = ({ children, productId,
 						>
 							{ratingListData.map(({ text, field }) => (
 								<li key={field} className="flex flex-col items-center gap-1 bg-secondary p-2 w-fit rounded-2xl select-none">
-									<p className="whitespace-nowrap">{text}</p>
+									<div className="flex items-center justify-between w-full whitespace-nowrap">
+										<p>{text}</p>
+										{field !== "common" && (
+											<Button
+												variant="ghost"
+												className="hover:!text-muted"
+												onClick={() => handleChangeRating(0, field)}
+												disabled={rating[field] === 0}
+											>
+												<TrashIcon size={18} />
+											</Button>
+										)}
+									</div>
 									<StarRating
 										bgColor="#4d4d4d50"
 										color="#ffd700"

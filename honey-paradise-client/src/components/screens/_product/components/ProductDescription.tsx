@@ -1,32 +1,21 @@
 import { Button, Separator, Skeleton } from "@/components/ui/common";
-
 import { cn } from "@/shared/lib/utils/base";
 import { HeartIcon } from "lucide-react";
-import { m } from "motion/react";
+
 import type { FC } from "react";
 import { useProductDescription } from "../hooks/useProductDescription";
 import type { IProductDescriptionProps } from "../types/product-description.type";
+import { ProductDescriptionText } from "./ProductDescriptionText";
 
 const ProductDescription: FC<IProductDescriptionProps> = ({ currency, isLiked, isProductLoading, isAccLoading, data }) => {
-	const { t, descData, handleSwitchFavorite, handleAddToCart, getPrice, isInCart, isSwitchingFavoritesProduct, loading } =
-		useProductDescription(data, currency);
+	const { id, description, priceInUsd, rating, reviews, category } = data;
 
-	const { priceInUsd } = data;
+	const { t, handleSwitchFavorite, handleAddToCart, getPrice, isInCart, isSwitchingFavoritesProduct, loading, locale } =
+		useProductDescription(id, priceInUsd, currency);
 
 	return (
 		<section className="flex flex-col gap-2 p-6 bg-secondary">
-			{descData.map(({ name, value }, i) => (
-				<m.p
-					key={name}
-					initial={{ opacity: 0, y: -10 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.4, type: "tween", delay: 0.3 * i }}
-					className={i === 2 || i === 3 ? "inline-flex items-center" : ""}
-				>
-					<span className="text-muted">{name}:</span>&nbsp;
-					{value}
-				</m.p>
-			))}
+			<ProductDescriptionText description={description} rating={rating} reviews={reviews} category={category} locale={locale} />
 
 			<Separator orientation="horizontal" className="w-full h-px my-3" />
 

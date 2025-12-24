@@ -27,8 +27,9 @@ const UserReviewItem: FC<IProps> = ({ reviewId, comment, rating, setIsDeleted })
 				<DeleteReviewToaster reviewId={reviewId} setNotDeleted={() => setIsDeleted(false)} removeToast={() => toast.dismiss(toastId)} />
 			),
 			{
-				position: "bottom-center",
 				id: toastId,
+				icon: "🗑️",
+				position: "bottom-center",
 				duration: Infinity,
 				className: styles["delete-review-toaster"],
 			}

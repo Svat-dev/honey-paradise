@@ -5,7 +5,7 @@ import { useMemo } from "react";
 
 export const useGetReviewsS = (productId: string) => {
 	const { data, isLoading } = useQuery({
-		queryKey: [queryKeys.getProductsReviews],
+		queryKey: [queryKeys.getProductsReviews, productId],
 		queryFn: () => reviewService.getProductsReviews({ pid: productId }),
 		enabled: !!productId,
 	});

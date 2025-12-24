@@ -39,7 +39,7 @@
 					},
 					"rating": {
 						"name": "Рейтинг",
-						"value": "{rating} из 5 <icon></icon>"
+						"value": "{rating} из 5"
 					},
 					"comment": "Количество отзывов"
 				}
