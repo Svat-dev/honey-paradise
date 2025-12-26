@@ -1,4 +1,6 @@
-import { Skeleton } from "@/components/ui/common";
+import { Button, Separator, Skeleton } from "@/components/ui/common";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+
 import { getAssetsPath } from "@/shared/lib/utils";
 import { cn } from "@/shared/lib/utils/base";
 import { m } from "motion/react";
@@ -12,10 +14,11 @@ interface IProps {
 }
 
 const ProductImage: FC<IProps> = ({ isLoading, images }) => {
-	const { imageUrl, imageIndex, isImageLoading, handleMouseEnter, handleMouseLeave } = useProductImage(images);
+	const { imageUrl, imageIndex, isImageLoading, handleMouseEnter, handleMouseLeave, handleNextClick, handlePrevClick } =
+		useProductImage(images);
 
 	return (
-		<section className="flex gap-7 p-6">
+		<section className="relative flex gap-7 p-6">
 			<div className="flex flex-col gap-4">
 				{images.map((url, i) => (
 					<m.div
@@ -35,6 +38,18 @@ const ProductImage: FC<IProps> = ({ isLoading, images }) => {
 						<Image src={getAssetsPath(url)} alt="" width={80} height={60} aria-hidden />
 					</m.div>
 				))}
+
+				<Separator orientation="horizontal" className="mt-2 -mb-1" />
+
+				<div className="flex items-center gap-2 w-full">
+					<Button variant="ghost" className="p-2 hover:!bg-muted/20" onClick={handlePrevClick} disabled={isImageLoading}>
+						<ChevronLeftIcon size={24} />
+					</Button>
+
+					<Button variant="ghost" className="p-2 hover:!bg-muted/20" onClick={handleNextClick} disabled={isImageLoading}>
+						<ChevronRightIcon size={24} />
+					</Button>
+				</div>
 			</div>
 
 			<div

@@ -21,7 +21,7 @@ export const useAvatarFrameDialog = (framePath: string | undefined | null) => {
 	const [url, setUrl] = useState<string | null>(typeof framePath === "undefined" ? null : framePath);
 
 	const staticFrames: IFrameData[] = useMemo(
-		() => [...Array(6).keys()].map((_, i) => ({ label: t("labels.static", { i }), value: i })),
+		() => [...new Array(6).keys()].map((_, i) => ({ label: t("labels.static", { i }), value: i })),
 		[locale]
 	);
 

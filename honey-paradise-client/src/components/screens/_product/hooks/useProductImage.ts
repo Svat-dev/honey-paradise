@@ -14,6 +14,10 @@ export const useProductImage = (images: string[]) => {
 
 	const handleMouseLeave = () => setIsCarouselActive(true);
 
+	const handlePrevClick = () => setImageIndex(prev => (prev - 1 + images.length) % images.length);
+
+	const handleNextClick = () => setImageIndex(prev => (prev + 1) % images.length);
+
 	useEffect(() => {
 		setIsImageLoading(true);
 
@@ -41,6 +45,8 @@ export const useProductImage = (images: string[]) => {
 	return {
 		handleMouseEnter,
 		handleMouseLeave,
+		handlePrevClick,
+		handleNextClick,
 		imageIndex,
 		isImageLoading,
 		imageUrl,

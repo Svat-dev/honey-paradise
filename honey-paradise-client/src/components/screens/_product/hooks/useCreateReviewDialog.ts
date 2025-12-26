@@ -92,7 +92,16 @@ export const useCreateReviewDialog = (
 			if (type === "create") {
 				await createProductReviewAsync({ ...dto, productId });
 				toast.success("Отзыв успешно оставлен");
-				sessionStorage.removeItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL);
+
+				const data: Record<string, string> = JSON.parse(sessionStorage.getItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL) || "{}");
+
+				if (Object.keys(data).length <= 1) sessionStorage.removeItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL);
+				else {
+					if (productId in data) {
+						delete data[productId];
+						sessionStorage.setItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL, JSON.stringify(data));
+					}
+				}
 			} else {
 				await editReviewAsync({ ...dto, reviewId: reviewId || "" });
 				toast.success("Отзыв успешно изменен!");
@@ -139,15 +148,20 @@ export const useCreateReviewDialog = (
 
 	useEffect(() => {
 		if (!isOpen || type !== "create") return;
-		sessionStorage.setItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL, JSON.stringify({ value: comment }));
+		const data: Record<string, string> = JSON.parse(sessionStorage.getItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL) || "{}");
+
+		data[productId] = comment;
+		console.log(data);
+
+		sessionStorage.setItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL, JSON.stringify(data));
 	}, [comment]);
 
 	useEffect(() => {
 		if (type !== "create") return;
 
-		const storedData = JSON.parse(sessionStorage.getItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL) || '{"value": ""}');
+		const storedData: Record<string, string> = JSON.parse(sessionStorage.getItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL) || "{}");
 
-		if (storedData) form.setValue("comment", storedData.value);
+		if (storedData) form.setValue("comment", storedData[productId] || "");
 	}, []);
 
 	return {
