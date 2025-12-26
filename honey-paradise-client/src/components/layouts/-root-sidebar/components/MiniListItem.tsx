@@ -11,7 +11,7 @@ const MiniListItem: FC<IListItem> = data => {
 		<li className="transition-all hover:translate-x-2 hover:text-muted">
 			<Link href={link} className="px-1 py-0.5 flex items-center gap-1">
 				<data.icon size={20} />
-				<p className="max-w-44 leading-4">{title}</p>
+				<p className="leading-4 whitespace-nowrap">{title}</p>
 			</Link>
 		</li>
 	);

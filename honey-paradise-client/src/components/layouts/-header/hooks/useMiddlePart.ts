@@ -19,6 +19,8 @@ export const useMiddlePart = () => {
 
 	const setIsOpen: ReactStateHook<boolean> = value => {
 		_setIsOpen(value);
+
+		if (!value && !searchOverlay) return;
 		setSearchOverlay(!isOpen);
 	};
 

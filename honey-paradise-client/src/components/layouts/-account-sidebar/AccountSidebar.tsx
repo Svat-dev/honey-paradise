@@ -4,10 +4,10 @@ import { ListItem } from "./components/ListItem";
 import { useAccountSidebar } from "./hooks/useAccountSidebar";
 
 const AccountSidebar = () => {
-	const { data, height } = useAccountSidebar();
+	const { data } = useAccountSidebar();
 
 	return (
-		<aside className="bg-primary sticky left-0 top-[3.75rem]" style={{ height }}>
+		<aside className="sticky top-[3.75rem] w-fit h-[calc(100vh-3.75rem)] bg-primary">
 			<nav className="mt-6">
 				<ul className="list-none px-6">
 					{data.map(item => (

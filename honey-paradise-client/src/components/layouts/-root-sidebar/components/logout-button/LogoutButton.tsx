@@ -29,7 +29,7 @@ const LogoutButton: FC<ILogoutButton> = ({ reversed, oneClick }) => {
 					type="button"
 					title={t("labels.logout")}
 					className={cn(styles["logout-btn-dmt"], {
-						"flex-row-reverse hover:-translate-x-2 w-fit": reversed,
+						"flex-row-reverse hover:-translate-x-2 w-fit !mt-0": reversed,
 						"hover:translate-x-2": !reversed,
 					})}
 				>

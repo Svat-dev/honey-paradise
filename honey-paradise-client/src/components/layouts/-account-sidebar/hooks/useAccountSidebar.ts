@@ -1,21 +1,15 @@
 import { BellIcon, ClipboardListIcon, CoinsIcon, HeartIcon, LinkIcon, SettingsIcon, ShoppingCartIcon } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { useLayoutEffect, useMemo, useState } from "react";
 
 import { EnumAppRoute } from "@constants/routes";
 import { usePathname } from "next/navigation";
+import { useMemo } from "react";
 import type { IAccountNavigation } from "../types/data.type";
 
 export const useAccountSidebar = () => {
 	const t = useTranslations("layout.account-sidebar.links");
 	const locale = useLocale();
 	const pathname = usePathname();
-
-	const [height, setHeight] = useState<string>("auto");
-
-	useLayoutEffect(() => {
-		if (typeof window !== "undefined") setHeight(`${window.innerHeight - 60}px`);
-	}, []);
 
 	const data: IAccountNavigation[] = useMemo(
 		() => [
@@ -65,5 +59,5 @@ export const useAccountSidebar = () => {
 		[pathname, locale]
 	);
 
-	return { data, height };
+	return { data };
 };

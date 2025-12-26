@@ -10,11 +10,11 @@
 	@apply relative flex items-center justify-between gap-3 w-fit rounded-lg bg-primary h-10 px-1 py-1;
 
 	> button {
-		@apply w-28 text-center z-20;
+		@apply w-28 text-center z-10;
 	}
 
 	> div {
-		@apply absolute top-1/2 left-0 -translate-y-1/2 bg-secondary rounded-lg h-8 w-28 ml-1 z-10 transition-all will-change-auto;
+		@apply absolute top-1/2 left-0 -translate-y-1/2 bg-secondary rounded-lg h-8 w-28 ml-1 z-[5] transition-all will-change-auto;
 	}
 }
 

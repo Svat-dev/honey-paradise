@@ -9,8 +9,8 @@ const RootSidebar = async () => {
 	const data = await getNavListData();
 
 	return (
-		<aside className="w-80 h-full bg-primary sticky bottom-0">
-			<div className="px-4 py-4">
+		<aside className="sticky top-[3.75rem] w-fit h-[calc(100vh-3.75rem)] bg-primary p-3">
+			<div className="relative h-full px-4 py-2">
 				<nav className="mb-7">
 					<h3 className="text-lg font-medium">{t("list.title")}:</h3>
 
@@ -21,10 +21,15 @@ const RootSidebar = async () => {
 					</ul>
 				</nav>
 
-				<div>
-					<ChangeThemeButton />
-					<LogoutButton />
-				</div>
+				<footer className="absolute bottom-0">
+					<div className="flex gap-4 mb-2">
+						<ChangeThemeButton />
+						<LogoutButton />
+					</div>
+
+					<p className="text-sm text-muted">Honey Paradise Inc. ©</p>
+					<p className="text-sm text-muted">Все права защищены. {new Date().getFullYear()}</p>
+				</footer>
 			</div>
 		</aside>
 	);
