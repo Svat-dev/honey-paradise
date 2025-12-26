@@ -6,6 +6,7 @@ import { PrismaService } from "src/core/prisma/prisma.service";
 import { cartDefaultOutput, cartItemDefaultOutput, cartItemProductOutput } from "src/shared/lib/prisma/outputs/cart.output";
 import { FavoritesProductsService } from "../products/services/favorites-products.service";
 import { ProductsService } from "../products/services/products.service";
+import { PromoCodesService } from "../promocodes/promocodes.service";
 import type { AddCartItemDto } from "./dto/add-cart-item.dto";
 import { UpdateQuantityType, type UpdateQuantityDto } from "./dto/update-quantity.dto";
 import type { GetMyCartResponse } from "./response/get-my-cart.res";
@@ -15,7 +16,8 @@ export class CartService {
 	constructor(
 		private readonly prisma: PrismaService,
 		private readonly productService: ProductsService,
-		private readonly productFavoritesService: FavoritesProductsService
+		private readonly productFavoritesService: FavoritesProductsService,
+		private readonly promoCodesService: PromoCodesService
 	) {}
 
 	async getMyCart(userId: string): Promise<GetMyCartResponse> {
@@ -41,8 +43,12 @@ export class CartService {
 
 			if (!cart) throw new NotFoundException("Cart not found"); // TODO translation
 
+			const { discount, freeDelivery } = await this.promoCodesService.countDiscounts(cart.id);
+
 			return {
 				...cart,
+				deliveryPrice: freeDelivery ? 0 : 100,
+				discount,
 				length: cart._count.cartItems,
 				currency: settings.defaultCurrency || EnumCurrencies.DOLLAR,
 			};
@@ -122,14 +128,15 @@ export class CartService {
 		return this.countTotalPrice(cartId);
 	}
 
-	async clearCartByUId(userId: string): Promise<boolean> {
-		const { id: cartId } = await this.getCartByUId(userId);
+	async clearCartByUId(userId: string, formOrder: boolean = false): Promise<boolean> {
+		const { id: cartId, promoTokens } = await this.getCartByUId(userId);
 
-		await this.prisma.cartItem.deleteMany({ where: { cartId } });
+		if (formOrder) await this.promoCodesService.setStatusToIds(promoTokens, "USED");
 
 		await this.prisma.cart.update({
 			where: { id: cartId },
-			data: { totalPrice: 0 },
+			data: { totalPrice: 0, cartItems: { set: [] }, promoTokens: formOrder ? [] : undefined },
+			select: { promoTokens: true },
 		});
 
 		return true;
@@ -138,7 +145,7 @@ export class CartService {
 	private async getCartByUId(userId: string) {
 		const cart = await this.prisma.cart.findUnique({
 			where: { userId },
-			select: { id: true },
+			select: { id: true, promoTokens: true },
 		});
 
 		if (!cart) throw new NotFoundException("Cart not found"); // TODO: translation

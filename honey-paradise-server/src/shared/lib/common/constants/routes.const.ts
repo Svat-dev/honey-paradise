@@ -109,4 +109,9 @@ export enum EnumApiRoute {
 	ORDERS = "/orders",
 	CREATE_ORDER = "/create",
 	GET_USER_ORDERS = "/all",
+
+	PROMO_CODES = "/promo-codes",
+	USE_PROMO_CODE = "/use",
+	CREATE_PROMO_CODE = "/create",
+	DELETE_PROMO_CODE = "/delete/:id",
 }

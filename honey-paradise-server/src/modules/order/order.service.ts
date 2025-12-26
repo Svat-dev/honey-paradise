@@ -39,7 +39,7 @@ export class OrderService {
 			select: { id: true, totalAmount: true },
 		});
 
-		await this.cartService.clearCartByUId(userId);
+		await this.cartService.clearCartByUId(userId, true);
 
 		return { orderId: id, totalAmount };
 	}

@@ -47,6 +47,12 @@ export class GetMyCartResponse implements Partial<Cart> {
 	@ApiProperty({ type: "number", description: "", example: 1200 })
 	totalPrice: number;
 
+	@ApiProperty({ type: "number", description: "", example: 100 })
+	deliveryPrice: number;
+
+	@ApiProperty({ type: "number", description: "", example: 0.25 })
+	discount: number;
+
 	@ApiProperty({ type: GetMyCartItemsResponse, isArray: true, description: "" })
 	cartItems: GetMyCartItemsResponse[];
 

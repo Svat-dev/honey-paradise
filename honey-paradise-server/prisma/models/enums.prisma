@@ -20,6 +20,29 @@ enum EnumTokenTypes {
   TELEGRAM_TFA_AUTH
 }
 
+enum EnumPromoTokenTypes {
+  BIRTHDAY
+  SHOP_BIRTHDAY
+  FIRST_ORDER
+  NEW_YEAR
+  FREE_DELIVERY
+  PERSONAL
+}
+
+enum EnumPromoTokenDiscountType {
+  ALL
+  FREE_DELIVERY
+  TO_CATEGORY
+  TO_PRODUCTS
+}
+
+enum EnumPromoTokensStatus {
+  DEFAULT
+  APPLIED
+  USED
+  EXPIRED
+}
+
 enum EnumNotificationType {
   ORDER_STATUS
   ACCOUNT_STATUS

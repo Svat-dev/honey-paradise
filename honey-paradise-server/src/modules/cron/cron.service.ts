@@ -34,6 +34,17 @@ export class CronService {
 		return true;
 	}
 
+	async managePromoTokens() {
+		await this.prisma.promoToken.updateMany({
+			where: { expiresAt: { lte: new Date() }, status: "DEFAULT", type: { notIn: ["BIRTHDAY", "FIRST_ORDER", "SHOP_BIRTHDAY"] } },
+			data: { status: "EXPIRED" },
+		});
+
+		await this.prisma.promoToken.deleteMany({
+			where: { expiresAt: { lte: new Date() }, status: { in: ["USED", "EXPIRED"] } },
+		});
+	}
+
 	@Cron("*/1 * * * *")
 	async deleteExpiredTokens() {
 		const expiredTokens = await this.prisma.token.findMany({

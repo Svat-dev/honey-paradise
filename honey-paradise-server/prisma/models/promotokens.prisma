@@ -1,0 +1,18 @@
+model PromoToken {
+  id String @id @default(uuid()) @db.Uuid
+
+  token  String                @unique @default(uuid())
+  status EnumPromoTokensStatus @default(DEFAULT)
+  type   EnumPromoTokenTypes
+
+  discount     Float                      @default(0.0)
+  discountType EnumPromoTokenDiscountType @map("discount_type")
+
+  expiresAt DateTime? @map("expires_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([token, type])
+  @@map("promo_tokens")
+}
