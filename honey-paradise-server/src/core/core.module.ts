@@ -21,6 +21,7 @@ import { NotificationsModule } from "src/modules/notifications/notifications.mod
 import { OrderModule } from "src/modules/order/order.module";
 import { ProductsModule } from "src/modules/products/products.module";
 import { ReviewsModule } from "src/modules/reviews/reviews.module";
+import { SpecialOffersModule } from "src/modules/special-offers/special-offers.module";
 import { EnumApiRoute } from "src/shared/lib/common/constants";
 import { IS_DEV_ENV } from "src/shared/lib/common/utils/is-dev.util";
 import { EnumStorageKeys } from "src/shared/types/client/enums.type";
@@ -83,6 +84,7 @@ import { TelegramModule } from "./telegram/telegram.module";
 		ProductsModule,
 		OrderModule,
 		ReviewsModule,
+		SpecialOffersModule,
 	],
 	providers: [
 		{

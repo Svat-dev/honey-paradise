@@ -16,11 +16,12 @@ model User {
 
   token        Token[]
   providers    Provider[]
-  reviews      Review[]
-  commentaries Commentary[]
-
-  orders       Order[]
   transactions Transaction[]
+
+  reviews       Review[]
+  orders        Order[]
+  commentaries  Commentary[]
+  specialOffers SpecialOffer[]
 
   likedProductIds String[] @default([]) @map("liked_products")
 

@@ -12,6 +12,13 @@ enum EnumUserRoles {
   ADMIN
 }
 
+enum EnumDiscountType {
+  SEASON
+  CATEGORY
+  SELLOUT
+  VIP_CLUB
+}
+
 enum EnumTokenTypes {
   EMAIL_VERIFY
   PASSWORD_RECOVERY
@@ -47,6 +54,16 @@ enum EnumNotificationType {
   ACCOUNT_STATUS
   SPECIAL_OFFERS
   TELEGRAM
+}
+
+enum EnumSpecialOfferCondition {
+  PRODUCT
+  CART_PRICE
+}
+
+enum EnumSpecialOfferAward {
+  PRODUCT
+  DISCOUNT
 }
 
 enum EnumLanguages {
