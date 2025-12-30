@@ -43,6 +43,4 @@ export class OrderService {
 
 		return { orderId: id, totalAmount };
 	}
-
-	async deleteOrder(userId: string) {}
 }

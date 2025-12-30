@@ -25,7 +25,6 @@ enum EnumPromoTokenTypes {
   SHOP_BIRTHDAY
   FIRST_ORDER
   NEW_YEAR
-  FREE_DELIVERY
   PERSONAL
 }
 

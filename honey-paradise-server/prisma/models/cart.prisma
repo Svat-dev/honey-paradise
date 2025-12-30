@@ -1,8 +1,9 @@
 model Cart {
   id String @id @default(uuid()) @db.Uuid
 
-  totalPrice  Float    @default(0) @map("total_price")
-  promoTokens String[] @default([]) @map("promo_tokens")
+  totalPrice      Float                 @default(0) @map("total_price")
+  promoTokens     String[]              @default([]) @map("promo_tokens")
+  usedPromoTokens EnumPromoTokenTypes[] @default([]) @map("used_promo_tokens")
 
   cartItems CartItem[]
 

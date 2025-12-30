@@ -128,14 +128,14 @@ export class CartService {
 		return this.countTotalPrice(cartId);
 	}
 
-	async clearCartByUId(userId: string, formOrder: boolean = false): Promise<boolean> {
+	async clearCartByUId(userId: string, fromOrder: boolean = false): Promise<boolean> {
 		const { id: cartId, promoTokens } = await this.getCartByUId(userId);
 
-		if (formOrder) await this.promoCodesService.setStatusToIds(promoTokens, "USED");
+		if (fromOrder) await this.promoCodesService.setStatusToIds(promoTokens, "USED");
 
 		await this.prisma.cart.update({
 			where: { id: cartId },
-			data: { totalPrice: 0, cartItems: { set: [] }, promoTokens: formOrder ? [] : undefined },
+			data: { totalPrice: 0, cartItems: { set: [] }, promoTokens: fromOrder ? [] : undefined },
 			select: { promoTokens: true },
 		});
 

@@ -1,10 +1,13 @@
+import { EnumPromoTokenTypes, EnumPromoTokensStatus, EnumTokenTypes } from "@prisma/client";
+
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { Logger } from "@nestjs/common/services/logger.service";
 import { Cron } from "@nestjs/schedule/dist/decorators/cron.decorator";
-import { EnumTokenTypes } from "@prisma/client";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { TelegramService } from "src/core/telegram/telegram.service";
 import { ms } from "src/shared/lib/common/utils";
+
+// import { CronExpression } from "@nestjs/schedule/dist/enums/cron-expression.enum";
 
 @Injectable()
 export class CronService {
@@ -34,14 +37,27 @@ export class CronService {
 		return true;
 	}
 
+	@Cron("0 0 1 1 *", { timeZone: "UTC" })
+	async manageUsedCommonPromoTokens() {
+		this.logger.log(`Happy ${new Date().getUTCFullYear()} year!`);
+
+		await this.prisma.cart.updateMany({
+			where: { usedPromoTokens: { isEmpty: false }, userId: { not: null } },
+			data: { usedPromoTokens: { set: [] } },
+		});
+	}
+
+	@Cron("0 0 * * *")
 	async managePromoTokens() {
+		const commonTypes = [EnumPromoTokenTypes.BIRTHDAY, EnumPromoTokenTypes.FIRST_ORDER];
+
 		await this.prisma.promoToken.updateMany({
-			where: { expiresAt: { lte: new Date() }, status: "DEFAULT", type: { notIn: ["BIRTHDAY", "FIRST_ORDER", "SHOP_BIRTHDAY"] } },
-			data: { status: "EXPIRED" },
+			where: { expiresAt: { lte: new Date() }, status: EnumPromoTokensStatus.DEFAULT, type: { notIn: commonTypes } },
+			data: { status: EnumPromoTokensStatus.EXPIRED },
 		});
 
 		await this.prisma.promoToken.deleteMany({
-			where: { expiresAt: { lte: new Date() }, status: { in: ["USED", "EXPIRED"] } },
+			where: { expiresAt: { lte: new Date() }, status: EnumPromoTokensStatus.EXPIRED, type: { notIn: commonTypes } },
 		});
 	}
 
