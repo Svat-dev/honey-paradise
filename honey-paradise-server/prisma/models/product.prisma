@@ -12,7 +12,7 @@ model Product {
 
   reviews   Review[]
   cartItems CartItem[]
-  discounts Discount[]
+  discounts Discount[] @relation(name: "discount_to_product")
 
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String   @map("category_id")

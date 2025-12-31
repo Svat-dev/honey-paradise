@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
-import { EnumCurrencies } from "@prisma/client";
+import { EnumCurrencies, EnumDiscountType, EnumUserRoles } from "@prisma/client";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { cartDefaultOutput, cartItemDefaultOutput, cartItemProductOutput } from "src/shared/lib/prisma/outputs/cart.output";
 import { FavoritesProductsService } from "../products/services/favorites-products.service";
@@ -58,14 +58,22 @@ export class CartService {
 	}
 
 	async addCartItem(userId: string, dto: AddCartItemDto): Promise<boolean> {
-		const { id: cartId } = await this.getCartByUId(userId);
-		const { id: productId } = await this.productService.getProductsByIds(dto.productId);
+		const { id: cartId, user } = await this.getCartByUId(userId);
+		const { id: productId, priceInUsd, discounts } = await this.productService.getProductsByIds(dto.productId);
+
+		const allowedRoles = [EnumUserRoles.ADMIN, EnumUserRoles.VIP] as EnumUserRoles[];
+		const totalDiscount = discounts.reduce((acc, { discount, type }) => {
+			if (type === EnumDiscountType.VIP_CLUB) {
+				if (!allowedRoles.includes(user.role)) return acc;
+			}
+			return acc + discount;
+		}, 0);
 
 		await this.prisma.cartItem.create({
 			data: {
 				product: { connect: { id: productId } },
 				quantity: dto.quantity,
-				priceInUSD: dto.priceInUSD,
+				priceInUSD: priceInUsd - priceInUsd * totalDiscount,
 				cart: { connect: { id: cartId } },
 			},
 		});
@@ -81,7 +89,6 @@ export class CartService {
 		for (const { id, priceInUsd } of favorites.products) {
 			await this.addCartItem(userId, {
 				productId: id,
-				priceInUSD: priceInUsd,
 				quantity: 1,
 			});
 		}
@@ -145,7 +152,7 @@ export class CartService {
 	private async getCartByUId(userId: string) {
 		const cart = await this.prisma.cart.findUnique({
 			where: { userId },
-			select: { id: true, promoTokens: true },
+			select: { id: true, promoTokens: true, user: { select: { id: true, role: true } } },
 		});
 
 		if (!cart) throw new NotFoundException("Cart not found"); // TODO: translation

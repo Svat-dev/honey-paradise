@@ -21,7 +21,7 @@ model User {
   reviews       Review[]
   orders        Order[]
   commentaries  Commentary[]
-  specialOffers SpecialOffer[]
+  specialOffers SpecialOffer[] @relation(name: "special_offer_to_user")
 
   likedProductIds String[] @default([]) @map("liked_products")
 

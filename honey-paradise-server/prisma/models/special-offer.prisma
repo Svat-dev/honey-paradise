@@ -7,7 +7,7 @@ model SpecialOffer {
   award      EnumSpecialOfferAward
   awardValue String                @map("award_value")
 
-  users User[]
+  users User[] @relation(name: "special_offer_to_user")
 
   updatedAt DateTime @updatedAt @map("updated_at")
   createdAt DateTime @default(now()) @map("created_at")

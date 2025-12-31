@@ -1,4 +1,5 @@
 import { productCategoryOutput } from "./category.output";
+import { discountProductOutput } from "./discount.output";
 
 //: Prisma.ProductSelect
 export const productOutput = {
@@ -10,6 +11,7 @@ export const productOutput = {
 		priceInUsd: true,
 		rating: true,
 		images: true,
+		discounts: { select: discountProductOutput },
 		_count: {
 			select: {
 				reviews: true,

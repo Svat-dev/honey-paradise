@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsNumber, IsString, IsUUID } from "class-validator";
+import { IsInt, IsNotEmpty, IsString, IsUUID } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
 import type { CartItem } from "@prisma/client";
@@ -8,11 +8,6 @@ export class AddCartItemDto implements Partial<CartItem> {
 	@IsNotEmpty()
 	@IsInt({ message: "Quantity must be a number" })
 	quantity: number;
-
-	@ApiProperty({ type: "number", description: "Price of the product", example: 10.99 })
-	@IsNotEmpty()
-	@IsNumber({}, { message: "Price must be a float" })
-	priceInUSD: number;
 
 	@ApiProperty({ type: "string", description: "Product ID", example: "123e4567-e89b-12d3-a456-426614174000" })
 	@IsNotEmpty()

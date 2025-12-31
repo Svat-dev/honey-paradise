@@ -1,13 +1,21 @@
+import { EnumDiscountType, EnumUserRoles } from "@prisma/client";
 import { productBySlugOutput, productOutput } from "src/shared/lib/prisma/outputs/product.output";
 import type { GetAllCatsResponse, GetCatsWithProductsResponse } from "../response/get-all-products.res";
-import type { GetProductBySlugResponse, GetProductResponse } from "../response/get-product.res";
+import type { GetProductBySlugResponse, GetProductBySlugResponseDiscount, GetProductResponse } from "../response/get-product.res";
 
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator";
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception";
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
 import { PrismaService } from "src/core/prisma/prisma.service";
+import { discountProductOutput } from "src/shared/lib/prisma/outputs/discount.output";
 import type { CreateProductDto } from "../dto/create-product.dto";
 import type { GetProductsRatingResponse } from "../response/get-products-rating.res";
+
+interface IGetProductByIdsResponse {
+	id: string;
+	priceInUsd: number;
+	discounts: GetProductBySlugResponseDiscount[];
+}
 
 @Injectable()
 export class ProductsService {
@@ -24,9 +32,26 @@ export class ProductsService {
 				GROUP BY "product_id"
 			),
 			"sorted_products" AS (
-				SELECT p."id", p."title", p."slug", p."description", p."price_usd" AS "priceInUsd", p."rating", p."image_urls" AS images, p."category_id", COALESCE(cm."reviews_count", 0) AS reviews
+				SELECT 
+					p."id",
+					p."title",
+					p."slug",
+					p."description",
+					p."price_usd" AS "priceInUsd",
+					p."rating",
+					p."image_urls" AS images,
+					p."category_id",
+					COALESCE(cm."reviews_count", 0) AS reviews,
+					COALESCE(
+						json_agg(
+							json_build_object('id', d."id", 'type', d."type", 'discount', d."discount")
+						) FILTER (WHERE d."id" IS NOT NULL),
+						'[]'
+					) AS "discounts"
 				FROM "products" p
 				LEFT JOIN "product_reviews" cm ON p."id" = cm."product_id"
+				LEFT JOIN "_discount_to_product" dtp ON p."id" = dtp."B"
+				LEFT JOIN "discounts" d ON dtp."A" = d."id"
 				WHERE EXISTS (
 					SELECT 1
 					FROM "categories" c
@@ -39,6 +64,7 @@ export class ProductsService {
 							p."slug" ILIKE ${`%${term}%`}
 						)
 				)
+				GROUP BY p."id", COALESCE(cm."reviews_count", 0)
 				ORDER BY p."title"->${`${lang}`} ASC, p."slug" ASC
 			)
 			SELECT
@@ -63,16 +89,7 @@ export class ProductsService {
 
 				if (length === 0) continue;
 
-				const newProducts = cat.products.map<GetProductResponse>((product: any) => {
-					const { category_id, reviews, ...other } = product;
-
-					return {
-						...other,
-						_count: {
-							reviews: parseInt(reviews),
-						},
-					};
-				});
+				const newProducts = cat.products.map<GetProductResponse>((p: any) => this.getProductResponse(p, true));
 
 				allProductsLength += parseInt(String(cat.productsLength));
 
@@ -128,16 +145,22 @@ export class ProductsService {
 	}
 
 	async getPopularProducts(): Promise<GetProductResponse[]> {
-		const products = await this.prisma.product.findMany({
-			...productOutput,
-			where: {
-				AND: [{ rating: { gte: 4.5 } }, { rating: { lte: 5 } }],
-			},
-			orderBy: { reviews: { _count: "desc" }, rating: "desc" },
-			take: 6,
-		});
+		try {
+			const query = await this.prisma.product.findMany({
+				select: { ...productOutput.select, discounts: { select: discountProductOutput } },
+				where: {
+					AND: [{ rating: { gte: 4.5 } }, { rating: { lte: 5.0 } }],
+				},
+				orderBy: { rating: "desc" }, // TODO sort by reviewCount
+				take: 4,
+			});
 
-		return products;
+			const products = this.getProductResponse(query, false);
+
+			return products;
+		} catch (error) {
+			throw new InternalServerErrorException(error);
+		}
 	}
 
 	async getProductsByCategorySlug(slug: string, lang: "en" | "ru"): Promise<GetAllCatsResponse> {
@@ -149,14 +172,32 @@ export class ProductsService {
 				GROUP BY "product_id"
 			),
 			"sorted_products" AS (
-				SELECT p."id", p."title", p."slug", p."description", p."price_usd" AS "priceInUsd", p."rating", p."image_urls" AS images, p."category_id", COALESCE(cm."reviews_count", 0) AS reviews
+				SELECT
+					p."id",
+					p."title",
+					p."slug",
+					p."description",
+					p."price_usd" AS "priceInUsd",
+					p."rating",
+					p."image_urls" AS images,
+					p."category_id",
+					COALESCE(cm."reviews_count", 0) AS reviews,
+					COALESCE(
+						json_agg(
+							json_build_object('id', d."id", 'type', d."type", 'discount', d."discount")
+						) FILTER (WHERE d."id" IS NOT NULL),
+						'[]'
+					) AS "discounts"
 				FROM "products" p
 				LEFT JOIN "product_reviews" cm ON p."id" = cm."product_id"
+				LEFT JOIN "_discount_to_product" dtp ON p."id" = dtp."B"
+				LEFT JOIN "discounts" d ON dtp."A" = d."id"
 				WHERE EXISTS (
 					SELECT 1
 					FROM "categories" c
 					WHERE c."id" = p."category_id"
 				)
+				GROUP BY p."id", COALESCE(cm."reviews_count", 0)
 				ORDER BY p."title"->${`${lang}`} ASC, p."slug" ASC
 			)
 			SELECT
@@ -177,11 +218,7 @@ export class ProductsService {
 
 			const { productsLength, products, ...other } = category[0];
 
-			const newProducts = category[0].products.map<GetProductResponse>((product: any) => {
-				const { category_id, reviews, ...other } = product;
-
-				return { ...other, _count: { reviews: parseInt(reviews) } };
-			});
+			const newProducts = category[0].products.map<GetProductResponse>((p: any) => this.getProductResponse(p, true));
 
 			return {
 				...other,
@@ -193,23 +230,25 @@ export class ProductsService {
 		}
 	}
 
-	async getProductsByIds(id: string): Promise<{ id: string }>;
+	async getProductsByIds(id: string): Promise<IGetProductByIdsResponse>;
 	async getProductsByIds(id: string[]): Promise<GetProductResponse[]>;
 	async getProductsByIds(id: string | string[]): Promise<{ id: string } | GetProductResponse[]> {
 		if (!Array.isArray(id)) {
 			const product = await this.prisma.product.findUnique({
 				where: { id },
-				select: { id: true },
+				select: { id: true, priceInUsd: true, discounts: { select: discountProductOutput } },
 			});
 
 			if (!product) throw new NotFoundException("Product not found"); // TODO: add error message
 
 			return product;
 		} else {
-			const products = await this.prisma.product.findMany({
+			const query = await this.prisma.product.findMany({
 				...productOutput,
 				where: { id: { in: id } },
 			});
+
+			const products = this.getProductResponse(query, false);
 
 			return products;
 		}
@@ -264,5 +303,44 @@ export class ProductsService {
 		});
 
 		return true;
+	}
+
+	private getProductResponse(query: any, fromGetAll: true, role?: EnumUserRoles): GetProductResponse;
+	private getProductResponse(query: any[], fromGetAll: false, role?: EnumUserRoles): GetProductResponse[];
+	private getProductResponse(query: any[], fromGetAll: boolean, role?: EnumUserRoles): GetProductResponse[] | GetProductResponse {
+		const allowedRoles: EnumUserRoles[] = [EnumUserRoles.ADMIN, EnumUserRoles.VIP];
+
+		if (fromGetAll) {
+			const { category_id, reviews, discounts, ...other } = query as any;
+
+			const totalDiscount = (discounts as any[]).reduce((acc: number, { discount, type }: any) => {
+				if (type === EnumDiscountType.VIP_CLUB) {
+					if (!allowedRoles.includes(role)) {
+						return acc;
+					}
+				}
+				return acc + discount;
+			}, 0);
+
+			return {
+				...other,
+				totalDiscount,
+				_count: {
+					reviews: parseInt(reviews),
+				},
+			};
+		} else {
+			const products = query.map<GetProductResponse>(({ discounts, ...item }) => ({
+				...item,
+				totalDiscount: discounts.reduce((acc: number, { discount, type }: any) => {
+					if (type === EnumDiscountType.VIP_CLUB) {
+						if (!allowedRoles.includes(role)) return acc;
+					}
+					return acc + discount;
+				}, 0),
+			}));
+
+			return products;
+		}
 	}
 }
