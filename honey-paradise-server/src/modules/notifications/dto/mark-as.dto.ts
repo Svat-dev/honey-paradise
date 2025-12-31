@@ -12,6 +12,6 @@ export class NotificationsIdsDto {
 
 	@ApiProperty({ type: "boolean", description: "", example: false, required: false })
 	@IsBoolean({ message: "" })
-	@IsOptional({ message: "" })
+	@IsOptional()
 	single?: boolean;
 }

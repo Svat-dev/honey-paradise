@@ -19,6 +19,6 @@ export class EmailVerifyDto {
 
 	@ApiProperty({ type: "boolean", description: "", example: false, required: false })
 	@IsBoolean({ message: "" })
-	@IsOptional({ message: "" })
+	@IsOptional()
 	isNeedAuth?: boolean;
 }

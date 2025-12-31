@@ -6,23 +6,23 @@ export enum EnumNotificationsSort {
 }
 
 export class GetAllQueryDto {
-	@IsOptional({ message: "" })
+	@IsOptional()
 	@IsEnum(EnumNotificationsSort, { message: "" })
 	sort?: EnumNotificationsSort;
 
-	@IsOptional({ message: "" })
+	@IsOptional()
 	@IsString({ message: "" })
 	is_read?: string;
 
-	@IsOptional({ message: "" })
+	@IsOptional()
 	@IsString({ message: "" })
 	types?: string;
 
-	@IsOptional({ message: "" })
+	@IsOptional()
 	@IsString({ message: "" })
 	page?: string;
 
-	@IsOptional({ message: "" })
+	@IsOptional()
 	@IsString({ message: "" })
 	per_page?: string;
 }

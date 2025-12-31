@@ -7,24 +7,24 @@ export class UpdateNotificationsSettingsDto implements Partial<NotificationSetti
 	@ApiProperty({ type: "boolean", description: "", example: false, required: false })
 	@IsNotEmpty({ message: "" })
 	@IsBoolean({ message: "" })
-	@IsOptional({ message: "" })
+	@IsOptional()
 	enabled?: boolean;
 
 	@ApiProperty({ type: "boolean", description: "", example: false, required: false })
 	@IsNotEmpty({ message: "" })
 	@IsBoolean({ message: "" })
-	@IsOptional({ message: "" })
+	@IsOptional()
 	withSound?: boolean;
 
 	@ApiProperty({ type: "boolean", description: "", example: false, required: false })
 	@IsNotEmpty({ message: "" })
 	@IsBoolean({ message: "" })
-	@IsOptional({ message: "" })
+	@IsOptional()
 	siteNotificationsType?: boolean;
 
 	@ApiProperty({ type: "boolean", description: "", example: false, required: false })
 	@IsNotEmpty({ message: "" })
 	@IsBoolean({ message: "" })
-	@IsOptional({ message: "" })
+	@IsOptional()
 	telegramNotificationsType?: boolean;
 }

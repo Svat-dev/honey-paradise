@@ -7,7 +7,7 @@ import { USERNAME_REGEX, VALUES } from "src/shared/lib/common/constants";
 export class UpdateUserDto implements Partial<User> {
 	@ApiProperty({ type: "string", description: "", example: "70000000000", required: false })
 	@IsString({ message: "" })
-	@IsOptional({ message: "" })
+	@IsOptional()
 	phoneNumber?: string;
 
 	@ApiProperty({ type: "string", description: "", example: "john_doe52", required: false })
