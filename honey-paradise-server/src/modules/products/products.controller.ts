@@ -50,8 +50,9 @@ export class ProductsController {
 	@Get(EnumApiRoute.GET_ALL_PRODUCTS)
 	getAllCatsWithProducts(@Query() query: GetProductsQueryDto, @Req() req: Request) {
 		const lang = req.cookies[EnumStorageKeys.LOCALE_LANGUAGE] || "en";
+		const userId = req.session.userId;
 
-		return this.productsService.getAllCatsWithProducts(query.q, lang);
+		return this.productsService.getAllCatsWithProducts(query.q, lang, userId);
 	}
 
 	@ApiOperation({ summary: "Get products by searching query", description: "" })
@@ -78,8 +79,10 @@ export class ProductsController {
 	@ApiOkResponse({ type: GetProductResponse, isArray: true })
 	@HttpCode(HttpStatus.OK)
 	@Get(EnumApiRoute.GET_POPULAR_PRODUCTS)
-	getPopular() {
-		return this.productsService.getPopularProducts();
+	getPopular(@Req() req: Request) {
+		const userId = req.session.userId;
+
+		return this.productsService.getPopularProducts(userId);
 	}
 
 	@ApiOperation({
@@ -89,8 +92,10 @@ export class ProductsController {
 	@ApiOkResponse({ type: GetProductBySlugResponse })
 	@HttpCode(HttpStatus.OK)
 	@Get(EnumApiRoute.GET_PRODUCT_BY_SLUG)
-	getBySlug(@Param("slug") slug: string) {
-		return this.productsService.getProductBySlug(slug);
+	getBySlug(@Param("slug") slug: string, @Req() req: Request) {
+		const userId = req.session.userId;
+
+		return this.productsService.getProductBySlug(slug, userId);
 	}
 
 	@ApiOperation({
@@ -100,8 +105,10 @@ export class ProductsController {
 	@ApiOkResponse({ type: GetProductResponse, isArray: true })
 	@HttpCode(HttpStatus.OK)
 	@Get(EnumApiRoute.GET_PRODUCTS_BY_IDS)
-	getByIds(@Query("ids", ProductsIdsParserPipe) ids: string[]) {
-		return this.productsService.getProductsByIds(ids);
+	getByIds(@Query("ids", ProductsIdsParserPipe) ids: string[], @Req() req: Request) {
+		const userId = req.session.userId;
+
+		return this.productsService.getProductsByIds(ids, userId);
 	}
 
 	@ApiOperation({ summary: "Get products by category slug", description: "" })
@@ -110,8 +117,9 @@ export class ProductsController {
 	@Get(EnumApiRoute.GET_BY_CATEGORY_SLUG)
 	getByCategorySlug(@Param("slug") slug: string, @Req() req: Request) {
 		const lang = req.cookies[EnumStorageKeys.LOCALE_LANGUAGE] || "en";
+		const userId = req.session.userId;
 
-		return this.productsService.getProductsByCategorySlug(slug, lang);
+		return this.productsService.getProductsByCategorySlug(slug, lang, userId);
 	}
 
 	@ApiOperation({ summary: "Get favorite user's products", description: "" })

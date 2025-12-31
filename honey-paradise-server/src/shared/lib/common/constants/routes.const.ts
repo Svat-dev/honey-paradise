@@ -114,4 +114,11 @@ export enum EnumApiRoute {
 	USE_PROMO_CODE = "/use",
 	CREATE_PROMO_CODE = "/create",
 	DELETE_PROMO_CODE = "/delete/:id",
+
+	OFFERS = "/offers",
+	SPECIAL_OFFERS = "/special",
+	DISCOUNTS = "/discounts",
+
+	CREATE_DISCOUNT = "/create",
+	DELETE_DISCOUNT = "/delete",
 }

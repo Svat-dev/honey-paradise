@@ -19,7 +19,6 @@ export const userDefaultOutput = {
 
 	avatarPath: true,
 	framePath: true,
-	likedProductIds: true,
 
 	isTFAEnabled: true,
 };
