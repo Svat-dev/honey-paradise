@@ -34,63 +34,63 @@ import { RedisModule } from "./redis/redis.module";
 import { TelegramModule } from "./telegram/telegram.module";
 
 @Module({
-	imports: [
-		// ...config modules
-		ConfigModule.forRoot({
-			ignoreEnvFile: !IS_DEV_ENV,
-			isGlobal: true,
-		}),
-		ServeStaticModule.forRoot({
-			rootPath: path.join(__dirname, "../..", "public"),
-			serveRoot: EnumApiRoute.STATIC,
-		}),
-		I18nModule.forRootAsync({
-			imports: [ConfigModule],
-			inject: [ConfigService],
-			useFactory: getI18nConfig,
-			resolvers: [new CookieResolver([EnumStorageKeys.LOCALE_LANGUAGE])],
-		}),
-		JwtModule.registerAsync({
-			imports: [ConfigModule],
-			inject: [ConfigService],
-			useFactory: getJwtConfig,
-			global: true,
-		}),
-		MailModule,
+  imports: [
+    // ...config modules
+    ConfigModule.forRoot({
+      ignoreEnvFile: !IS_DEV_ENV,
+      isGlobal: true,
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: path.join(__dirname, "../..", "public"),
+      serveRoot: EnumApiRoute.STATIC,
+    }),
+    I18nModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: getI18nConfig,
+      resolvers: [new CookieResolver([EnumStorageKeys.LOCALE_LANGUAGE])],
+    }),
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: getJwtConfig,
+      global: true,
+    }),
+    MailModule,
 
-		// DDoS protection
-		ThrottlerModule.forRootAsync({
-			imports: [ConfigModule],
-			inject: [ConfigService],
-			useFactory: getThrottlerConfig,
-		}),
+    // DDoS protection
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: getThrottlerConfig,
+    }),
 
-		// ...database modules
-		PrismaModule,
-		RedisModule,
+    // ...database modules
+    PrismaModule,
+    RedisModule,
 
-		// websockets modules
+    // websockets modules
 
-		// ...other modules
-		CronModule,
-		TelegramModule,
-		AccountModule,
-		ProfileModule,
-		SessionsModule,
-		ProvidersModule,
-		VerificationModule,
-		NotificationsModule,
-		CartModule,
-		ProductsModule,
-		OrderModule,
-		ReviewsModule,
-		OffersModule,
-	],
-	providers: [
-		{
-			provide: APP_GUARD,
-			useClass: ThrottlerGuard,
-		},
-	],
+    // ...other modules
+    CronModule,
+    TelegramModule,
+    AccountModule,
+    ProfileModule,
+    SessionsModule,
+    ProvidersModule,
+    VerificationModule,
+    NotificationsModule,
+    CartModule,
+    ProductsModule,
+    OrderModule,
+    ReviewsModule,
+    OffersModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class CoreModule {}
