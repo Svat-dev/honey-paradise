@@ -2,9 +2,17 @@
 .wrapper::before,
 .border-line::after,
 .border-line::before {
-	@apply content-[""] absolute block -top-1/2 -left-1/2 z-10 origin-bottom-right transition-all;
+	@apply absolute -left-1/2 -top-1/2 z-10 block origin-bottom-right transition-all content-[""];
 
-	background: linear-gradient(0deg, transparent, transparent, #4d4d4daf, #4d4d4daf, #4d4d4daf, #4d4d4daf);
+	background: linear-gradient(
+		0deg,
+		transparent,
+		transparent,
+		#4d4d4daf,
+		#4d4d4daf,
+		#4d4d4daf,
+		#4d4d4daf
+	);
 	box-shadow: 0 0 2px 2px #1c1c1c;
 	animation: spin linear 6000ms infinite;
 }
@@ -28,7 +36,7 @@
 }
 
 .wrapper {
-	@apply overflow-hidden absolute rounded-md bg-white left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all;
+	@apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-md bg-white transition-all;
 
 	&::after {
 		animation-delay: -3000ms;
@@ -36,7 +44,7 @@
 }
 
 .border-line {
-	@apply absolute top-0 inset-0;
+	@apply absolute inset-0 top-0;
 
 	&::before {
 		animation-delay: -1500ms;
@@ -47,11 +55,11 @@
 }
 
 .form {
-	@apply absolute inset-1 bg-primary px-7 py-6 rounded-md flex flex-col z-20;
+	@apply absolute inset-1 z-20 flex flex-col rounded-md bg-primary px-7 py-6;
 }
 
 .title {
-	@apply w-full text-center mb-8;
+	@apply mb-8 w-full text-center;
 }
 
 @keyframes spin {

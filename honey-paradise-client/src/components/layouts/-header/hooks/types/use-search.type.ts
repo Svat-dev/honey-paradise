@@ -1,8 +1,8 @@
 export interface ISearchFormFields {
-	q: string;
+	q: string
 }
 
 export interface ISearchHistory {
-	url: string;
-	q: string;
+	url: string
+	q: string
 }

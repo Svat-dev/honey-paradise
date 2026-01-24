@@ -1,9 +1,9 @@
 .items-wrapper {
-	@apply flex flex-col gap-4 mb-16 pr-3 max-h-[29rem] overflow-y-scroll;
+	@apply mb-16 flex max-h-[29rem] flex-col gap-4 overflow-y-scroll pr-3;
 }
 
 .not-found {
-	@apply flex items-center gap-5 rounded-md w-fit mt-5 opacity-0 animate-show-effect self-center;
+	@apply mt-5 flex w-fit animate-show-effect items-center gap-5 self-center rounded-md opacity-0;
 
 	> p {
 		@apply leading-7;
@@ -11,14 +11,14 @@
 }
 
 .pagination-wrapper {
-	@apply absolute -bottom-6 pb-7 w-full bg-background flex justify-center opacity-0 animate-show-effect;
+	@apply absolute -bottom-6 flex w-full animate-show-effect justify-center bg-background pb-7 opacity-0;
 }
 
 .item {
-	@apply relative overflow-hidden flex items-center justify-between bg-primary rounded-md px-3 py-2 opacity-0 animate-show-effect will-change-auto transition-all;
+	@apply relative flex animate-show-effect items-center justify-between overflow-hidden rounded-md bg-primary px-3 py-2 opacity-0 transition-all will-change-auto;
 
 	&[data-selected="true"] {
-		@apply ring-1 ring-black ring-inset;
+		@apply ring-1 ring-inset ring-black;
 
 		> div[role="none"] {
 			@apply opacity-100;
@@ -35,22 +35,22 @@
 		@apply flex items-center gap-1;
 
 		> p {
-			@apply text-muted text-sm;
+			@apply text-sm text-muted;
 		}
 		> span {
-			@apply flex items-center text-sm gap-1;
+			@apply flex items-center gap-1 text-sm;
 		}
 	}
 
 	> p {
-		@apply text-muted ml-1;
+		@apply ml-1 text-muted;
 	}
 }
 
 .item-overlay {
-	@apply absolute left-0 w-full h-full bg-muted/30 pointer-events-none opacity-0 transition-opacity will-change-auto;
+	@apply pointer-events-none absolute left-0 h-full w-full bg-muted/30 opacity-0 transition-opacity will-change-auto;
 }
 
 .loader {
-	@apply w-full h-28 rounded-md;
+	@apply h-28 w-full rounded-md;
 }

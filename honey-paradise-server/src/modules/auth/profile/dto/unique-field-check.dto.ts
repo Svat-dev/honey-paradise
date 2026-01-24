@@ -1,15 +1,14 @@
-import { IsNotEmpty, IsString } from "class-validator";
-
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger"
+import { IsNotEmpty, IsString } from "class-validator"
 
 export class UniqueFieldCheckDto {
-  @ApiProperty({
-    type: "string",
-    description: "",
-    example: "username",
-    required: true,
-  })
-  @IsNotEmpty({ message: "" })
-  @IsString({ message: "" })
-  fieldValue: string;
+	@ApiProperty({
+		type: "string",
+		description: "",
+		example: "username",
+		required: true
+	})
+	@IsNotEmpty({ message: "" })
+	@IsString({ message: "" })
+	fieldValue: string
 }

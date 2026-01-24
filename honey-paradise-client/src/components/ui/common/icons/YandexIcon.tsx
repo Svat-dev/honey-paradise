@@ -1,8 +1,14 @@
-import type { LucideProps } from "lucide-react";
-import type { FC } from "react";
+import type { LucideProps } from "lucide-react"
+import type { FC } from "react"
 
-const YandexIcon: FC<LucideProps> = ({ size = 24, strokeWidth = 0, stroke = "currentColor", fill = "currentColor", ...props }) => {
-	const { height, width, viewBox } = props;
+const YandexIcon: FC<LucideProps> = ({
+	size = 24,
+	strokeWidth = 0,
+	stroke = "currentColor",
+	fill = "currentColor",
+	...props
+}) => {
+	const { height, width, viewBox } = props
 
 	return (
 		<svg
@@ -12,7 +18,16 @@ const YandexIcon: FC<LucideProps> = ({ size = 24, strokeWidth = 0, stroke = "cur
 			fill={fill}
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<rect x="1.5" y="1.5" width="253" height="253" rx="126.5" stroke={stroke} strokeOpacity="0.06" strokeWidth="3" />
+			<rect
+				x="1.5"
+				y="1.5"
+				width="253"
+				height="253"
+				rx="126.5"
+				stroke={stroke}
+				strokeOpacity="0.06"
+				strokeWidth="3"
+			/>
 			<path
 				fillRule="evenodd"
 				clipRule="evenodd"
@@ -20,7 +35,7 @@ const YandexIcon: FC<LucideProps> = ({ size = 24, strokeWidth = 0, stroke = "cur
 				fill="red"
 			/>
 		</svg>
-	);
-};
+	)
+}
 
-export { YandexIcon };
+export { YandexIcon }

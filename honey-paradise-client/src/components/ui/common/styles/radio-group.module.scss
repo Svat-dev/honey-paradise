@@ -15,7 +15,7 @@
 }
 
 .radio-group-item-indicator-ui {
-	@apply absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 opacity-0 animate-show-effect duration-200;
+	@apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-show-effect opacity-0 duration-200;
 
 	> svg {
 		@apply h-3 w-3 fill-black;

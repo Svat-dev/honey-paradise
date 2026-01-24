@@ -1,28 +1,51 @@
-import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/common";
-import { CheckIcon, ChevronDownIcon, LoaderCircleIcon } from "lucide-react";
+import { CheckIcon, ChevronDownIcon, LoaderCircleIcon } from "lucide-react"
+import type { FC } from "react"
 
-import { cn } from "@/shared/lib/utils/base";
-import type { FC } from "react";
-import { useDropdownInput } from "../../hooks/useDropdownInput";
-import type { IDropdownInputProps } from "../../types/form-input.type";
+import {
+	Button,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger
+} from "@/components/ui/common"
+import { cn } from "@/shared/lib/utils/base"
 
-const DropdownInput: FC<IDropdownInputProps> = ({ name, data, align, isLoading, ...props }) => {
-	const { value, onChange, isOpen, setIsOpen, label } = useDropdownInput(name);
+import { useDropdownInput } from "../../hooks/useDropdownInput"
+import type { IDropdownInputProps } from "../../types/form-input.type"
 
-	if (!data) return null;
+const DropdownInput: FC<IDropdownInputProps> = ({
+	name,
+	data,
+	align,
+	isLoading,
+	...props
+}) => {
+	const { value, onChange, isOpen, setIsOpen, label } = useDropdownInput(name)
 
-	const current = data.find(item => item.value === value);
+	if (!data) return null
+
+	const current = data.find(item => item.value === value)
 
 	return (
 		<DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
 			<DropdownMenuTrigger asChild>
-				<Button variant="secondary" className="gap-1 px-2 py-1 mb-1" title={props.title} disabled={isLoading}>
+				<Button
+					variant="secondary"
+					className="mb-1 gap-1 px-2 py-1"
+					title={props.title}
+					disabled={isLoading}
+				>
 					{isLoading ? (
 						<LoaderCircleIcon size={20} className="animate-spin" />
 					) : (
-						<p className="opacity-0 animate-show-effect">{label(current) || value}</p>
+						<p className="animate-show-effect opacity-0">
+							{label(current) || value}
+						</p>
 					)}
-					<ChevronDownIcon size={22} className={cn("transition-transform", { "rotate-180": isOpen })} />
+					<ChevronDownIcon
+						size={22}
+						className={cn("transition-transform", { "rotate-180": isOpen })}
+					/>
 				</Button>
 			</DropdownMenuTrigger>
 
@@ -39,7 +62,7 @@ const DropdownInput: FC<IDropdownInputProps> = ({ name, data, align, isLoading, 
 				))}
 			</DropdownMenuContent>
 		</DropdownMenu>
-	);
-};
+	)
+}
 
-export { DropdownInput };
+export { DropdownInput }

@@ -1,46 +1,86 @@
-import { Button, Separator, Skeleton } from "@/components/ui/common";
-import { HeartIcon, InfoIcon } from "lucide-react";
+import { HeartIcon, InfoIcon } from "lucide-react"
+import dynamic from "next/dynamic"
+import type { FC } from "react"
 
-import { cn } from "@/shared/lib/utils/base";
-import dynamic from "next/dynamic";
-import type { FC } from "react";
-import { useProductDescription } from "../hooks/useProductDescription";
-import type { IProductDescriptionProps } from "../types/product-description.type";
-import { ProductDescriptionText } from "./ProductDescriptionText";
+import { Button, Separator, Skeleton } from "@/components/ui/common"
+import { cn } from "@/shared/lib/utils/base"
 
-const DynamicProductDiscountDM = dynamic(() => import("./ProductDiscountDM").then(mod => mod.ProductDiscountDM), { ssr: false });
+import { useProductDescription } from "../hooks/useProductDescription"
+import type { IProductDescriptionProps } from "../types/product-description.type"
 
-const ProductDescription: FC<IProductDescriptionProps> = ({ currency, isProductLoading, isAccLoading, data }) => {
-	const { id, description, priceInUsd, discounts, rating, reviews, category } = data;
+import { ProductDescriptionText } from "./ProductDescriptionText"
 
-	const { t, handleSwitchFavorite, handleAddToCart, getPrice, isLiked, isInCart, isSwitchingFavoritesProduct, loading, locale } =
-		useProductDescription(id, data.isLiked, currency);
+const DynamicProductDiscountDM = dynamic(
+	() => import("./ProductDiscountDM").then(mod => mod.ProductDiscountDM),
+	{ ssr: false }
+)
 
-	const totalDiscount = discounts.reduce((acc, curr) => acc + curr.discount, 0);
-	const totalPrice = priceInUsd - priceInUsd * totalDiscount;
-	const getDiscountPrice = (price: number) => getPrice(price, true, true);
+const ProductDescription: FC<IProductDescriptionProps> = ({
+	currency,
+	isProductLoading,
+	isAccLoading,
+	data
+}) => {
+	const { id, description, priceInUsd, discounts, rating, reviews, category } =
+		data
+
+	const {
+		t,
+		handleSwitchFavorite,
+		handleAddToCart,
+		getPrice,
+		isLiked,
+		isInCart,
+		isSwitchingFavoritesProduct,
+		loading,
+		locale
+	} = useProductDescription(id, data.isLiked, currency)
+
+	const totalDiscount = discounts.reduce((acc, curr) => acc + curr.discount, 0)
+	const totalPrice = priceInUsd - priceInUsd * totalDiscount
+	const getDiscountPrice = (price: number) => getPrice(price, true, true)
 
 	return (
-		<section className="flex flex-col gap-2 p-6 bg-secondary">
-			<ProductDescriptionText description={description} rating={rating} reviews={reviews} category={category} locale={locale} />
+		<section className="flex flex-col gap-2 bg-secondary p-6">
+			<ProductDescriptionText
+				description={description}
+				rating={rating}
+				reviews={reviews}
+				category={category}
+				locale={locale}
+			/>
 
-			<Separator orientation="horizontal" className="w-full h-px my-3" />
+			<Separator orientation="horizontal" className="my-3 h-px w-full" />
 
 			<div className="flex items-center gap-3">
-				<div className="flex items-center justify-between w-full bg-primary/40 px-4 py-2 rounded-lg shadow-sm">
+				<div className="flex w-full items-center justify-between rounded-lg bg-primary/40 px-4 py-2 shadow-sm">
 					<div>
-						{isAccLoading ? <Skeleton className="w-24 h-6 mb-2" /> : <p className="text-lg">{getPrice(totalPrice, true, true)}</p>}
+						{isAccLoading ? (
+							<Skeleton className="mb-2 h-6 w-24" />
+						) : (
+							<p className="text-lg">{getPrice(totalPrice, true, true)}</p>
+						)}
 
 						{totalDiscount > 0 &&
 							(isAccLoading ? (
-								<Skeleton className="w-20 h-5" />
+								<Skeleton className="h-5 w-20" />
 							) : (
-								<p className="text-muted line-through">{getPrice(priceInUsd, true, false)}</p>
+								<p className="text-muted line-through">
+									{getPrice(priceInUsd, true, false)}
+								</p>
 							))}
 					</div>
 
-					<DynamicProductDiscountDM discounts={discounts} priceInUsd={priceInUsd} totalPrice={totalPrice} getPrice={getDiscountPrice}>
-						<Button variant="ghost" className="text-muted hover:text-black opacity-0 animate-show-effect">
+					<DynamicProductDiscountDM
+						discounts={discounts}
+						priceInUsd={priceInUsd}
+						totalPrice={totalPrice}
+						getPrice={getDiscountPrice}
+					>
+						<Button
+							variant="ghost"
+							className="animate-show-effect text-muted opacity-0 hover:text-black"
+						>
 							<InfoIcon size={24} />
 						</Button>
 					</DynamicProductDiscountDM>
@@ -49,13 +89,15 @@ const ProductDescription: FC<IProductDescriptionProps> = ({ currency, isProductL
 				<Button
 					variant="default"
 					title="Switch favorite"
-					className="p-3 !bg-primary/40 !text-red-500"
+					className="!bg-primary/40 p-3 !text-red-500"
 					disabled={isAccLoading || isSwitchingFavoritesProduct}
 					onClick={handleSwitchFavorite}
 				>
 					<HeartIcon
 						size={24}
-						className={cn("opacity-0 animate-show-effect", { "fill-red-500": isLiked === null ? data.isLiked : isLiked })}
+						className={cn("animate-show-effect opacity-0", {
+							"fill-red-500": isLiked === null ? data.isLiked : isLiked
+						})}
 					/>
 				</Button>
 
@@ -71,7 +113,7 @@ const ProductDescription: FC<IProductDescriptionProps> = ({ currency, isProductL
 				</Button>
 			</div>
 		</section>
-	);
-};
+	)
+}
 
-export { ProductDescription };
+export { ProductDescription }

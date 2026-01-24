@@ -1,5 +1,5 @@
 .wrapper {
-	@apply flex items-center justify-between bg-primary rounded-md w-full px-3 py-4 mb-8;
+	@apply mb-8 flex w-full items-center justify-between rounded-md bg-primary px-3 py-4;
 }
 
 .filters-wrapper {
@@ -36,7 +36,7 @@
 
 .reset {
 	> svg {
-		@apply transition-all will-change-auto duration-500;
+		@apply transition-all duration-500 will-change-auto;
 	}
 
 	&:hover > svg {
@@ -57,7 +57,7 @@
 }
 
 .dm-item {
-	@apply flex items-center justify-between gap-3 cursor-pointer transition-colors will-change-auto;
+	@apply flex cursor-pointer items-center justify-between gap-3 transition-colors will-change-auto;
 
 	> div {
 		@apply flex items-center gap-2;

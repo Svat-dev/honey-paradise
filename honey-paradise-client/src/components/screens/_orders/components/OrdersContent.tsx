@@ -1,10 +1,10 @@
-"use client";
+"use client"
 
-import { Title } from "@/components/ui/common";
-import { useGetMyOrdersS } from "@/services/hooks/order/useGetMyOrdersS";
+import { Title } from "@/components/ui/common"
+import { useGetMyOrdersS } from "@/services/hooks/order/useGetMyOrdersS"
 
 const OrdersContent = () => {
-	const { orders, isOrdersLoading } = useGetMyOrdersS();
+	const { orders, isOrdersLoading } = useGetMyOrdersS()
 
 	return (
 		<>
@@ -22,7 +22,7 @@ const OrdersContent = () => {
 				))
 			)}
 		</>
-	);
-};
+	)
+}
 
-export { OrdersContent };
+export { OrdersContent }

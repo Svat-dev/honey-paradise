@@ -1,25 +1,25 @@
 export const cartItemProductOutput = {
-  id: true,
+	id: true,
 
-  title: true,
-  slug: true,
+	title: true,
+	slug: true,
 
-  images: true,
-};
+	images: true
+}
 
 export const cartItemDefaultOutput = {
-  id: true,
+	id: true,
 
-  priceInUSD: true,
-  quantity: true,
+	priceInUSD: true,
+	quantity: true,
 
-  createdAt: true,
-}; // Prisma.CartItemSelect
+	createdAt: true
+} // Prisma.CartItemSelect
 
 export const cartDefaultOutput = {
-  id: true,
-  totalPrice: true,
+	id: true,
+	totalPrice: true,
 
-  _count: { select: { cartItems: true } },
-  createdAt: true,
-}; // Prisma.CartSelect
+	_count: { select: { cartItems: true } },
+	createdAt: true
+} // Prisma.CartSelect

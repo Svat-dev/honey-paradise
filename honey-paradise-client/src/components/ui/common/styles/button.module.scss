@@ -23,7 +23,7 @@
 }
 
 .button-ui-outline {
-	@apply border border-black text-black py-1.5 px-2 gap-1;
+	@apply gap-1 border border-black px-2 py-1.5 text-black;
 
 	&:hover {
 		@apply bg-secondary/40;
@@ -51,7 +51,7 @@
 }
 
 .button-ui-loader {
-	@apply w-5 h-5 animate-spin;
+	@apply h-5 w-5 animate-spin;
 }
 
 .button-ui-destructive {
@@ -63,7 +63,7 @@
 }
 
 .button-ui-destructive-outline {
-	@apply bg-transparent border border-red-600;
+	@apply border border-red-600 bg-transparent;
 
 	&:hover {
 		@apply bg-secondary/40;

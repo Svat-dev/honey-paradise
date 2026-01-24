@@ -17,17 +17,17 @@
 		}
 
 		> button:last-of-type {
-			@apply py-1.5 px-2;
+			@apply px-2 py-1.5;
 		}
 	}
 }
 
 .loading-item {
-	@apply w-full h-[72px];
+	@apply h-[72px] w-full;
 }
 
 .session-item {
-	@apply flex items-center justify-between bg-secondary px-4 py-3 rounded-md border border-muted;
+	@apply flex items-center justify-between rounded-md border border-muted bg-secondary px-4 py-3;
 
 	> div {
 		@apply flex items-center;
@@ -36,7 +36,7 @@
 			@apply gap-4;
 
 			> div:first-of-type {
-				@apply bg-primary p-2.5 rounded-full;
+				@apply rounded-full bg-primary p-2.5;
 			}
 
 			> div:last-of-type {
@@ -54,7 +54,7 @@
 			@apply gap-5;
 
 			> button {
-				@apply py-1.5 px-2;
+				@apply px-2 py-1.5;
 			}
 		}
 	}

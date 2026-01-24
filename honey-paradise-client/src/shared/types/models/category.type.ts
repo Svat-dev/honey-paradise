@@ -1,9 +1,9 @@
 export interface ICategory {
-	id: string;
+	id: string
 
-	title: string;
-	slug: string;
+	title: string
+	slug: string
 
-	createdAt: Date;
-	updatedAt: Date;
+	createdAt: Date
+	updatedAt: Date
 }

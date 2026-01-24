@@ -1,11 +1,11 @@
-import type { FC, PropsWithChildren } from "react";
+import { cn } from "@utils/base"
+import type { FC, PropsWithChildren } from "react"
 
-import { Title } from "@/components/ui/common";
-import { cn } from "@utils/base";
+import { Title } from "@/components/ui/common"
 
 interface IProps extends PropsWithChildren {
-	title: string;
-	className?: string;
+	title: string
+	className?: string
 }
 
 const OptionalPartSection: FC<IProps> = ({ className, title, children }) => {
@@ -16,7 +16,7 @@ const OptionalPartSection: FC<IProps> = ({ className, title, children }) => {
 			</Title>
 			{children}
 		</div>
-	);
-};
+	)
+}
 
-export { OptionalPartSection };
+export { OptionalPartSection }

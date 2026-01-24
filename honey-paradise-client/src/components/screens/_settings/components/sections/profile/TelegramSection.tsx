@@ -1,3 +1,6 @@
+import { RefreshCwIcon } from "lucide-react"
+import dynamic from "next/dynamic"
+
 import {
 	Button,
 	Dialog,
@@ -7,17 +10,18 @@ import {
 	DialogTitle,
 	Link,
 	Separator,
-	Skeleton,
-} from "@/components/ui/common";
+	Skeleton
+} from "@/components/ui/common"
+import { ConfirmModal } from "@/components/ui/components/ConfirmModal"
 
-import { ConfirmModal } from "@/components/ui/components/ConfirmModal";
-import { RefreshCwIcon } from "lucide-react";
-import dynamic from "next/dynamic";
-import { useTelegramSection } from "../../../hooks/useTelegramSection";
-import styles from "../../../styles/profile.module.scss";
-import { ProfileSettingSection } from "./ProfileSettingSection";
+import { useTelegramSection } from "../../../hooks/useTelegramSection"
+import styles from "../../../styles/profile.module.scss"
 
-const DynamicDialogContent = dynamic(() => import("@/components/ui/common").then(mod => mod.DialogContent));
+import { ProfileSettingSection } from "./ProfileSettingSection"
+
+const DynamicDialogContent = dynamic(() =>
+	import("@/components/ui/common").then(mod => mod.DialogContent)
+)
 
 const TelegramSection = () => {
 	const {
@@ -35,31 +39,48 @@ const TelegramSection = () => {
 		onComplete,
 		telegramInfo,
 		isTgDisconnecting,
-		telegramRefetch,
-	} = useTelegramSection();
+		telegramRefetch
+	} = useTelegramSection()
 
 	return (
-		<ProfileSettingSection title={t("title")} description={t("description")} animate>
+		<ProfileSettingSection
+			title={t("title")}
+			description={t("description")}
+			animate
+		>
 			<div className={styles["telegram-connect-wrapper"]}>
 				<div>
 					{isTelegramInfoLoading ? (
 						<>
 							{...Array(limit)
 								.fill(0)
-								.map((_, i) => <Skeleton key={i} className="w-52 h-6" />)}
+								.map((_, i) => <Skeleton key={i} className="h-6 w-52" />)}
 						</>
 					) : (
 						<>
 							<p>
 								{t.rich("status", {
 									sts: String(!!telegramInfo?.connected),
-									text: chunks => <span className={!telegramInfo?.tgId ? "text-red-500" : "text-green-500"}>{chunks}</span>,
+									text: chunks => (
+										<span
+											className={
+												!telegramInfo?.tgId ? "text-red-500" : "text-green-500"
+											}
+										>
+											{chunks}
+										</span>
+									)
 								})}
 							</p>
 
 							{telegramInfo?.connected && (
 								<>
-									<p>{t.rich("tgId", { id: String(telegramInfo?.tgId), text: chunks => <span>{chunks}</span> })}</p>
+									<p>
+										{t.rich("tgId", {
+											id: String(telegramInfo?.tgId),
+											text: chunks => <span>{chunks}</span>
+										})}
+									</p>
 									<p>
 										{t.rich("tgUse", {
 											username: String(telegramInfo?.tgUsername),
@@ -67,7 +88,7 @@ const TelegramSection = () => {
 												<Link href={tgUserLink} target="_blank" isOutside>
 													{chunks}
 												</Link>
-											),
+											)
 										})}
 									</p>
 								</>
@@ -80,15 +101,25 @@ const TelegramSection = () => {
 					<DynamicDialogContent>
 						<DialogHeader className="mb-3">
 							<DialogTitle>{dt("telegramConnect.heading")}</DialogTitle>
-							<DialogDescription>{dt("telegramConnect.description")}</DialogDescription>
+							<DialogDescription>
+								{dt("telegramConnect.description")}
+							</DialogDescription>
 						</DialogHeader>
 
 						<DialogFooter>
-							<Button variant="secondary" className="py-1.5 px-2" onClick={onComplete}>
+							<Button
+								variant="secondary"
+								className="px-2 py-1.5"
+								onClick={onComplete}
+							>
 								{dt("telegramConnect.submitBtn")}
 							</Button>
 
-							<Button variant="destructive" className="py-1.5 px-2" onClick={onCancel}>
+							<Button
+								variant="destructive"
+								className="px-2 py-1.5"
+								onClick={onCancel}
+							>
 								{dt("telegramConnect.cancelBtn")}
 							</Button>
 						</DialogFooter>
@@ -118,7 +149,11 @@ const TelegramSection = () => {
 									desc={dt("telegramDisconnect.description")}
 									onConfirm={handleDisconnect}
 								>
-									<Button variant="secondary" title={t("labels.disconnectBtn")} isLoading={isTelegramInfoLoading || isTgDisconnecting}>
+									<Button
+										variant="secondary"
+										title={t("labels.disconnectBtn")}
+										isLoading={isTelegramInfoLoading || isTgDisconnecting}
+									>
 										{t("actions.disconnect")}
 									</Button>
 								</ConfirmModal>
@@ -128,7 +163,9 @@ const TelegramSection = () => {
 						<Button
 							variant="ghost"
 							onClick={() => telegramRefetch()}
-							disabled={isTelegramInfoLoading || isTgDisconnecting || isTgConnecting}
+							disabled={
+								isTelegramInfoLoading || isTgDisconnecting || isTgConnecting
+							}
 							className="[&_>_svg]:hover:rotate-180"
 						>
 							<RefreshCwIcon size={24} className="transition-transform" />
@@ -137,7 +174,7 @@ const TelegramSection = () => {
 				</div>
 			</div>
 		</ProfileSettingSection>
-	);
-};
+	)
+}
 
-export { TelegramSection };
+export { TelegramSection }

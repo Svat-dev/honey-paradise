@@ -1,15 +1,15 @@
-import type { EnumTransactionStatus } from "./enums.type";
+import type { EnumTransactionStatus } from "./enums.type"
 
 export interface ITransaction {
-	id: string;
-	externalId?: string;
+	id: string
+	externalId?: string
 
-	amount: number;
-	status: EnumTransactionStatus;
+	amount: number
+	status: EnumTransactionStatus
 
-	userId: string;
-	orderId: string;
+	userId: string
+	orderId: string
 
-	createdAt: Date;
-	updatedAt: Date;
+	createdAt: Date
+	updatedAt: Date
 }

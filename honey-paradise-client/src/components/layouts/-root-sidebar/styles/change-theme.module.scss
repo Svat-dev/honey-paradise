@@ -1,5 +1,5 @@
 .button {
-	@apply relative flex bg-secondary py-1 px-1.5 gap-4 rounded-xl border border-black overflow-hidden mb-2;
+	@apply relative mb-2 flex gap-4 overflow-hidden rounded-xl border border-black bg-secondary px-1.5 py-1;
 
 	> svg {
 		@apply z-20;
@@ -7,5 +7,5 @@
 }
 
 .indicator {
-	@apply absolute -left-1 right-0 top-0 bg-primary h-full w-1/2 rounded-xl z-10 transition-transform;
+	@apply absolute -left-1 right-0 top-0 z-10 h-full w-1/2 rounded-xl bg-primary transition-transform;
 }

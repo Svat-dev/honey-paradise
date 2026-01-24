@@ -1,16 +1,26 @@
-import { Button } from "@/components/ui/common";
-import { RefreshCcwIcon } from "lucide-react";
-import { SessionItem } from "./SessionItem";
-import { SessionsLoading } from "./SessionsLoading";
-import styles from "../../../styles/devices.module.scss";
-import { useSessions } from "@hooks/auth";
-import { useTranslations } from "next-intl";
+import { useSessions } from "@hooks/auth"
+import { RefreshCcwIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
+
+import { Button } from "@/components/ui/common"
+
+import styles from "../../../styles/devices.module.scss"
+
+import { SessionItem } from "./SessionItem"
+import { SessionsLoading } from "./SessionsLoading"
 
 const DevicesSettings = () => {
-	const t = useTranslations("global.settings.content.devices");
-	const { sessions, currentSession, removeSession, removeAllSessions, isSessionLoading, sessionsRefetch } = useSessions();
+	const t = useTranslations("global.settings.content.devices")
+	const {
+		sessions,
+		currentSession,
+		removeSession,
+		removeAllSessions,
+		isSessionLoading,
+		sessionsRefetch
+	} = useSessions()
 
-	const disabled = sessions?.length === 1 || isSessionLoading;
+	const disabled = sessions?.length === 1 || isSessionLoading
 
 	return (
 		<div className={styles["wrapper"]}>
@@ -38,7 +48,11 @@ const DevicesSettings = () => {
 			)}
 
 			<div>
-				<Button variant="ghost" onClick={() => sessionsRefetch()} disabled={isSessionLoading}>
+				<Button
+					variant="ghost"
+					onClick={() => sessionsRefetch()}
+					disabled={isSessionLoading}
+				>
 					<RefreshCcwIcon size={24} />
 				</Button>
 
@@ -53,7 +67,7 @@ const DevicesSettings = () => {
 				</Button>
 			</div>
 		</div>
-	);
-};
+	)
+}
 
-export { DevicesSettings };
+export { DevicesSettings }

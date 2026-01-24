@@ -1,24 +1,33 @@
-import { useGetByUserS, useGetCurrentS, useRemoveAllSessionsS, useRemoveSessionS } from "@/services/hooks/session";
+import { useMemo } from "react"
 
-import { useMemo } from "react";
+import {
+	useGetByUserS,
+	useGetCurrentS,
+	useRemoveAllSessionsS,
+	useRemoveSessionS
+} from "@/services/hooks/session"
 
 export const useSessions = () => {
-	const { currentSession, isSessionLoading, isSuccess } = useGetCurrentS();
-	const { sessions, sessionsRefetch, isSessionsLoading } = useGetByUserS();
-	const { removeSessionAsync, isRemovingSession } = useRemoveSessionS();
-	const { removeAllSessions, isAllSessionsRemoving } = useRemoveAllSessionsS();
+	const { currentSession, isSessionLoading, isSuccess } = useGetCurrentS()
+	const { sessions, sessionsRefetch, isSessionsLoading } = useGetByUserS()
+	const { removeSessionAsync, isRemovingSession } = useRemoveSessionS()
+	const { removeAllSessions, isAllSessionsRemoving } = useRemoveAllSessionsS()
 
 	const remove = async (sid: string) => {
-		await removeSessionAsync(sid);
-		sessionsRefetch();
-	};
+		await removeSessionAsync(sid)
+		sessionsRefetch()
+	}
 
 	const removeAll = async () => {
-		await removeAllSessions();
-		sessionsRefetch();
-	};
+		await removeAllSessions()
+		sessionsRefetch()
+	}
 
-	const isLoading = isSessionLoading || isSessionsLoading || isRemovingSession || isAllSessionsRemoving;
+	const isLoading =
+		isSessionLoading ||
+		isSessionsLoading ||
+		isRemovingSession ||
+		isAllSessionsRemoving
 
 	return useMemo(
 		() => ({
@@ -28,8 +37,8 @@ export const useSessions = () => {
 			removeAllSessions: removeAll,
 			sessionsRefetch,
 			isSessionLoading: isLoading,
-			isSessionSuccess: isSuccess,
+			isSessionSuccess: isSuccess
 		}),
 		[sessions?.data, currentSession?.data, isLoading, isSuccess]
-	);
-};
+	)
+}

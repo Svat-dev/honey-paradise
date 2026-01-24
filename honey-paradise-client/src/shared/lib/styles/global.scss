@@ -1,5 +1,5 @@
 * {
-	@apply m-0 p-0 box-border;
+	@apply m-0 box-border p-0;
 
 	scrollbar-width: thin;
 	scrollbar-color: rgb(var(--primary)) transparent;
@@ -13,7 +13,7 @@ html {
 }
 
 body#none-scrollable {
-	@apply pr-[18px] overflow-hidden;
+	@apply overflow-hidden pr-[18px];
 }
 
 body#none-scrollable-2 {
@@ -45,7 +45,7 @@ body#none-scrollable-2 {
 	}
 
 	body {
-		@apply bg-background text-black font-rubik min-h-screen relative overflow-x-hidden overflow-y-auto;
+		@apply relative min-h-screen overflow-y-auto overflow-x-hidden bg-background font-rubik text-black;
 	}
 }
 

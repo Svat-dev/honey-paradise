@@ -1,18 +1,28 @@
-import { type TCreateReviewSchema, createReviewSchema } from "@/shared/lib/schemas/create-review.schema";
-import { type PointerEvent, type SyntheticEvent, useEffect, useMemo, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod"
+import type { AxiosError } from "axios"
+import { useLocale } from "next-intl"
+import {
+	type PointerEvent,
+	type SyntheticEvent,
+	useEffect,
+	useMemo,
+	useState
+} from "react"
+import { useForm } from "react-hook-form"
+import toast from "react-hot-toast"
 
-import { errorCatch } from "@/api/api-helper";
-import { useCreateProductReviewS } from "@/services/hooks/products/reviews/useCreateProductReviewS";
-import { useEditReviewS } from "@/services/hooks/products/reviews/useEditReviewS";
-import { EnumSessionStorageKeys } from "@/shared/lib/constants/base";
-import { useDebounce } from "@/shared/lib/hooks/base";
-import { getMarkdownByTextStyle } from "@/shared/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { AxiosError } from "axios";
-import { useLocale } from "next-intl";
-import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-import type { IRatingListData } from "../types/create-review.type";
+import { errorCatch } from "@/api/api-helper"
+import { useCreateProductReviewS } from "@/services/hooks/products/reviews/useCreateProductReviewS"
+import { useEditReviewS } from "@/services/hooks/products/reviews/useEditReviewS"
+import { EnumSessionStorageKeys } from "@/shared/lib/constants/base"
+import { useDebounce } from "@/shared/lib/hooks/base"
+import {
+	createReviewSchema,
+	type TCreateReviewSchema
+} from "@/shared/lib/schemas/create-review.schema"
+import { getMarkdownByTextStyle } from "@/shared/lib/utils"
+
+import type { IRatingListData } from "../types/create-review.type"
 
 export const useCreateReviewDialog = (
 	productId: string,
@@ -20,9 +30,10 @@ export const useCreateReviewDialog = (
 	type: "create" | "edit",
 	defaultValue?: Partial<TCreateReviewSchema>
 ) => {
-	const locale = useLocale();
-	const { createProductReviewAsync, isCreatingProductReview } = useCreateProductReviewS();
-	const { editReviewAsync, isEditingReview } = useEditReviewS();
+	const locale = useLocale()
+	const { createProductReviewAsync, isCreatingProductReview } =
+		useCreateProductReviewS()
+	const { editReviewAsync, isEditingReview } = useEditReviewS()
 
 	const form = useForm<TCreateReviewSchema>({
 		resolver: zodResolver(createReviewSchema),
@@ -31,138 +42,162 @@ export const useCreateReviewDialog = (
 			type === "create"
 				? {
 						comment: "",
-						rating: { common: 0, taste: 0, aroma: 0, packaging: 0 },
-				  }
-				: defaultValue,
-	});
+						rating: { common: 0, taste: 0, aroma: 0, packaging: 0 }
+					}
+				: defaultValue
+	})
 
-	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const [isScrolling, setIsScrolling] = useState<boolean>(false);
-	const [startPosition, setStartPosition] = useState<number>(0);
+	const [isOpen, setIsOpen] = useState<boolean>(false)
+	const [isScrolling, setIsScrolling] = useState<boolean>(false)
+	const [startPosition, setStartPosition] = useState<number>(0)
 
-	const [selectionStart, setSelectionStart] = useState<number | null>(null);
-	const [selectionEnd, setSelectionEnd] = useState<number | null>(null);
+	const [selectionStart, setSelectionStart] = useState<number | null>(null)
+	const [selectionEnd, setSelectionEnd] = useState<number | null>(null)
 
 	const ratingListData: IRatingListData[] = useMemo(
 		() => [
 			{
 				text: "Общая оценка товара",
-				field: "common",
+				field: "common"
 			},
 			{
 				text: "Оценка вкуса",
-				field: "taste",
+				field: "taste"
 			},
 			{
 				text: "Оценка аромата",
-				field: "aroma",
+				field: "aroma"
 			},
 			{
 				text: "Оценка упаковки",
-				field: "packaging",
-			},
+				field: "packaging"
+			}
 		],
 		[locale]
-	);
+	)
 
-	const rating = form.watch("rating");
-	const comment = useDebounce(form.watch("comment"), 300);
+	const rating = form.watch("rating")
+	const comment = useDebounce(form.watch("comment"), 300)
 
-	const ratingError = form.formState.errors.rating?.common?.message;
+	const ratingError = form.formState.errors.rating?.common?.message
 
 	const handlePointerDown = (e: PointerEvent<HTMLUListElement>) => {
-		setStartPosition(e.pageX);
-		setIsScrolling(true);
-	};
+		setStartPosition(e.pageX)
+		setIsScrolling(true)
+	}
 
 	const handlePointerMove = (e: PointerEvent<HTMLUListElement>) => {
-		if (!isScrolling) return;
-		e.currentTarget.scroll({ behavior: "smooth", left: startPosition - e.pageX });
-	};
+		if (!isScrolling) return
+		e.currentTarget.scroll({
+			behavior: "smooth",
+			left: startPosition - e.pageX
+		})
+	}
 
-	const handleChangeRating = (value: number, field: keyof TCreateReviewSchema["rating"]) => {
-		if (field === "common") form.clearErrors("rating.common");
-		form.setValue(`rating.${field}`, value);
-	};
+	const handleChangeRating = (
+		value: number,
+		field: keyof TCreateReviewSchema["rating"]
+	) => {
+		if (field === "common") form.clearErrors("rating.common")
+		form.setValue(`rating.${field}`, value)
+	}
 
 	const handleFormSubmit = async (data: TCreateReviewSchema) => {
 		try {
-			const dto = { text: data.comment, rating: data.rating };
+			const dto = { text: data.comment, rating: data.rating }
 
 			if (type === "create") {
-				await createProductReviewAsync({ ...dto, productId });
-				toast.success("Отзыв успешно оставлен");
+				await createProductReviewAsync({ ...dto, productId })
+				toast.success("Отзыв успешно оставлен")
 
-				const data: Record<string, string> = JSON.parse(sessionStorage.getItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL) || "{}");
+				const data: Record<string, string> = JSON.parse(
+					sessionStorage.getItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL) ||
+						"{}"
+				)
 
-				if (Object.keys(data).length <= 1) sessionStorage.removeItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL);
+				if (Object.keys(data).length <= 1)
+					sessionStorage.removeItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL)
 				else {
 					if (productId in data) {
-						delete data[productId];
-						sessionStorage.setItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL, JSON.stringify(data));
+						delete data[productId]
+						sessionStorage.setItem(
+							EnumSessionStorageKeys.CREATE_REVIEW_MODAL,
+							JSON.stringify(data)
+						)
 					}
 				}
 			} else {
-				await editReviewAsync({ ...dto, reviewId: reviewId || "" });
-				toast.success("Отзыв успешно изменен!");
+				await editReviewAsync({ ...dto, reviewId: reviewId || "" })
+				toast.success("Отзыв успешно изменен!")
 			}
 
-			setIsOpen(false);
-			form.reset();
+			setIsOpen(false)
+			form.reset()
 		} catch (error) {
-			const { errMsg } = errorCatch(error as AxiosError);
-			toast.error(errMsg);
+			const { errMsg } = errorCatch(error as AxiosError)
+			toast.error(errMsg)
 		}
-	};
+	}
 
 	const handleSelect = (e: SyntheticEvent<HTMLTextAreaElement, Event>) => {
-		setSelectionStart(e.currentTarget.selectionStart);
-		setSelectionEnd(e.currentTarget.selectionEnd);
-	};
+		setSelectionStart(e.currentTarget.selectionStart)
+		setSelectionEnd(e.currentTarget.selectionEnd)
+	}
 
 	const applyStyle = (type: "bold" | "italic" | "link") => {
-		if (!selectionStart || !selectionEnd) return;
+		if (!selectionStart || !selectionEnd) return
 
-		const value = form.getValues("comment");
-		const formatted = getMarkdownByTextStyle(type, value.slice(selectionStart, selectionEnd));
-		const newComment = value.slice(0, selectionStart) + formatted + value.slice(selectionEnd);
+		const value = form.getValues("comment")
+		const formatted = getMarkdownByTextStyle(
+			type,
+			value.slice(selectionStart, selectionEnd)
+		)
+		const newComment =
+			value.slice(0, selectionStart) + formatted + value.slice(selectionEnd)
 
-		form.setValue("comment", newComment, { shouldValidate: true });
+		form.setValue("comment", newComment, { shouldValidate: true })
 
-		setSelectionStart(null);
-		setSelectionEnd(null);
-	};
+		setSelectionStart(null)
+		setSelectionEnd(null)
+	}
 
 	useEffect(() => {
-		if (!isScrolling) return;
+		if (!isScrolling) return
 
 		window.addEventListener("pointerup", () => {
-			setStartPosition(0);
-			setIsScrolling(false);
-		});
+			setStartPosition(0)
+			setIsScrolling(false)
+		})
 
 		return () => {
-			window.removeEventListener("pointerup", () => {});
-		};
-	}, [isScrolling]);
+			window.removeEventListener("pointerup", () => {})
+		}
+	}, [isScrolling])
 
 	useEffect(() => {
-		if (!isOpen || type !== "create") return;
-		const data: Record<string, string> = JSON.parse(sessionStorage.getItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL) || "{}");
+		if (!isOpen || type !== "create") return
+		const data: Record<string, string> = JSON.parse(
+			sessionStorage.getItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL) || "{}"
+		)
 
-		data[productId] = comment;
-		console.log(data);
+		data[productId] = comment
+		console.log(data)
 
-		sessionStorage.setItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL, JSON.stringify(data));
-	}, [comment]);
+		sessionStorage.setItem(
+			EnumSessionStorageKeys.CREATE_REVIEW_MODAL,
+			JSON.stringify(data)
+		)
+	}, [comment])
 
 	useEffect(() => {
-		if (type !== "create") return;
+		if (type !== "create") return
 
-		const storedData: Record<string, string> = JSON.parse(sessionStorage.getItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL) || "{}");
+		const storedData: Record<string, string> = JSON.parse(
+			sessionStorage.getItem(EnumSessionStorageKeys.CREATE_REVIEW_MODAL) || "{}"
+		)
 
-		if (storedData) form.setValue("comment", storedData[productId] || "");
-	}, []);
+		if (storedData) form.setValue("comment", storedData[productId] || "")
+	}, [])
 
 	return {
 		form,
@@ -179,6 +214,6 @@ export const useCreateReviewDialog = (
 		handlePointerDown,
 		handlePointerMove,
 		handleChangeRating,
-		handleFormSubmit: form.handleSubmit(handleFormSubmit),
-	};
-};
+		handleFormSubmit: form.handleSubmit(handleFormSubmit)
+	}
+}

@@ -1,8 +1,8 @@
 .email-wrapper {
-	@apply relative w-full bg-primary rounded-lg p-3 mb-5;
+	@apply relative mb-5 w-full rounded-lg bg-primary p-3;
 
 	> form {
-		@apply flex flex-col px-1 mt-2 mb-4;
+		@apply mb-4 mt-2 flex flex-col px-1;
 
 		> div:nth-of-type(1) {
 			@apply flex items-center justify-between;
@@ -15,18 +15,18 @@
 				}
 
 				> div {
-					@apply w-28 h-6 rounded-full;
+					@apply h-6 w-28 rounded-full;
 				}
 
 				> span {
-					@apply ring-1 ring-inset rounded-full px-1.5 py-0.5 text-sm;
+					@apply rounded-full px-1.5 py-0.5 text-sm ring-1 ring-inset;
 
 					&[data-verified="true"] {
-						@apply ring-green-700 bg-green-400 text-green-950;
+						@apply bg-green-400 text-green-950 ring-green-700;
 					}
 
 					&[data-verified="false"] {
-						@apply ring-red-800 bg-red-400 text-red-950;
+						@apply bg-red-400 text-red-950 ring-red-800;
 					}
 				}
 			}
@@ -48,10 +48,10 @@
 			}
 
 			> div:last-of-type {
-				@apply flex items-center justify-between mt-4;
+				@apply mt-4 flex items-center justify-between;
 
 				> button {
-					@apply py-1.5 px-2;
+					@apply px-2 py-1.5;
 
 					&:last-of-type {
 						@apply border border-muted;
@@ -63,10 +63,10 @@
 }
 
 .security-wrapper {
-	@apply relative flex flex-col w-full bg-primary rounded-lg px-4 pt-5 pb-3 mb-5;
+	@apply relative mb-5 flex w-full flex-col rounded-lg bg-primary px-4 pb-3 pt-5;
 
 	> h4 {
-		@apply font-medium mb-2;
+		@apply mb-2 font-medium;
 	}
 
 	> div:nth-of-type(2n) {
@@ -79,7 +79,7 @@
 
 		> div {
 			&:first-of-type {
-				@apply flex items-center justify-center bg-secondary p-2 rounded-full;
+				@apply flex items-center justify-center rounded-full bg-secondary p-2;
 			}
 
 			> p:first-of-type {
@@ -87,7 +87,7 @@
 			}
 
 			> p:last-of-type {
-				@apply text-muted text-sm ml-0.5;
+				@apply ml-0.5 text-sm text-muted;
 			}
 		}
 
@@ -98,14 +98,14 @@
 }
 
 .actions-wrapper {
-	@apply w-full rounded-lg px-4 py-3 mb-5 border-2 border-red-500;
+	@apply mb-5 w-full rounded-lg border-2 border-red-500 px-4 py-3;
 
 	> h4 {
-		@apply font-medium mb-1;
+		@apply mb-1 font-medium;
 	}
 
 	> div:nth-of-type(2n) {
-		@apply bg-red-500 h-[2px] my-4 !important;
+		@apply my-4 h-[2px] bg-red-500 !important;
 	}
 
 	> div:nth-of-type(2n - 1) {
@@ -117,7 +117,7 @@
 			}
 
 			> p:last-of-type {
-				@apply text-muted text-sm;
+				@apply text-sm text-muted;
 			}
 		}
 

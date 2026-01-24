@@ -1,33 +1,51 @@
-import { Button, Separator, Switch, Title } from "@/components/ui/common";
-import { Edit2Icon, KeyRoundIcon, LogOutIcon, ShieldCheckIcon } from "lucide-react";
+import {
+	Edit2Icon,
+	KeyRoundIcon,
+	LogOutIcon,
+	ShieldCheckIcon
+} from "lucide-react"
+import dynamic from "next/dynamic"
+import type { FC } from "react"
+import slugify from "slugify"
 
-import { TelegramIcon } from "@/components/ui/common/icons";
-import dynamic from "next/dynamic";
-import type { FC } from "react";
-import slugify from "slugify";
-import { useSecuritySection } from "../../../hooks/useSecuritySection";
-import styles from "../../../styles/account.module.scss";
+import { Button, Separator, Switch, Title } from "@/components/ui/common"
+import { TelegramIcon } from "@/components/ui/common/icons"
 
-const DynamicChangePasswordModal = dynamic(() => import("./ChangePasswordModal").then(mod => mod.ChangePasswordModal));
+import { useSecuritySection } from "../../../hooks/useSecuritySection"
+import styles from "../../../styles/account.module.scss"
+
+const DynamicChangePasswordModal = dynamic(() =>
+	import("./ChangePasswordModal").then(mod => mod.ChangePasswordModal)
+)
 
 interface ISecuritySection {
-	isTFAEnabled: boolean | undefined;
-	isFullLogoutEnabled: boolean | undefined;
-	useTgTfaLogin: boolean | undefined;
-	isTgTfaDisabled: boolean;
-	isAccLoading: boolean;
+	isTFAEnabled: boolean | undefined
+	isFullLogoutEnabled: boolean | undefined
+	useTgTfaLogin: boolean | undefined
+	isTgTfaDisabled: boolean
+	isAccLoading: boolean
 }
 
-const SecuritySection: FC<ISecuritySection> = ({ isFullLogoutEnabled, isTFAEnabled, isAccLoading, useTgTfaLogin, isTgTfaDisabled }) => {
-	const { isSettingsUpdating, onSwitchChange, getTitles, t } = useSecuritySection();
+const SecuritySection: FC<ISecuritySection> = ({
+	isFullLogoutEnabled,
+	isTFAEnabled,
+	isAccLoading,
+	useTgTfaLogin,
+	isTgTfaDisabled
+}) => {
+	const { isSettingsUpdating, onSwitchChange, getTitles, t } =
+		useSecuritySection()
 
-	const isLoading = isSettingsUpdating || isAccLoading;
+	const isLoading = isSettingsUpdating || isAccLoading
 
 	return (
 		<section className={styles["security-wrapper"]}>
 			<Title size="sm">
 				{t("security.title")}
-				<a className="opacity-0 size-0" id={slugify(t("security.title"), { locale: "en", lower: true })} />
+				<a
+					className="size-0 opacity-0"
+					id={slugify(t("security.title"), { locale: "en", lower: true })}
+				/>
 			</Title>
 
 			<div>
@@ -41,7 +59,11 @@ const SecuritySection: FC<ISecuritySection> = ({ isFullLogoutEnabled, isTFAEnabl
 				</div>
 
 				<DynamicChangePasswordModal>
-					<Button variant="secondary" title={t("labels.changePasswordBtn")} className="p-2">
+					<Button
+						variant="secondary"
+						title={t("labels.changePasswordBtn")}
+						className="p-2"
+					>
 						<Edit2Icon size={18} />
 					</Button>
 				</DynamicChangePasswordModal>
@@ -108,7 +130,7 @@ const SecuritySection: FC<ISecuritySection> = ({ isFullLogoutEnabled, isTFAEnabl
 				/>
 			</div>
 		</section>
-	);
-};
+	)
+}
 
-export { SecuritySection };
+export { SecuritySection }

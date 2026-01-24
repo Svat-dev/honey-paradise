@@ -1,4 +1,4 @@
 export interface ISwitchStates {
-	tfa: boolean | undefined;
-	fullLogout: boolean | undefined;
+	tfa: boolean | undefined
+	fullLogout: boolean | undefined
 }

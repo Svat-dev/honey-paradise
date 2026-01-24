@@ -1,47 +1,50 @@
-import { SortAscIcon, SortDescIcon } from "lucide-react";
+import { useManageNotifications } from "@hooks/auth"
+import { useNotificationsContext } from "@hooks/context"
+import { useLanguage } from "@i18n/hooks"
+import { useQueryClient } from "@tanstack/react-query"
+import type { AxiosError } from "axios"
+import { SortAscIcon, SortDescIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
+import { useMemo } from "react"
+import toast from "react-hot-toast"
 
-import { errorCatch } from "@/api/api-helper";
-import { useMarkAsReadAllS } from "@/services/hooks/notifications";
-import { queryKeys } from "@/shared/lib/constants/routes";
-import { getNotificationHeadingByType } from "@/shared/lib/utils/get-notification-heading";
-import { EnumNotificationsSortType } from "@/shared/store/types/notifications-filter-store.type";
-import { GetMyNotificationResponseType } from "@/shared/types/server";
-import { useManageNotifications } from "@hooks/auth";
-import { useNotificationsContext } from "@hooks/context";
-import { useLanguage } from "@i18n/hooks";
-import { useQueryClient } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
-import { useTranslations } from "next-intl";
-import { useMemo } from "react";
-import toast from "react-hot-toast";
-import type { INotificationFilters } from "../types/notifications-filters.type";
-import { useNotificationsQueryParams } from "./useNotificationsQueryParams";
+import { errorCatch } from "@/api/api-helper"
+import { useMarkAsReadAllS } from "@/services/hooks/notifications"
+import { queryKeys } from "@/shared/lib/constants/routes"
+import { getNotificationHeadingByType } from "@/shared/lib/utils/get-notification-heading"
+import { EnumNotificationsSortType } from "@/shared/store/types/notifications-filter-store.type"
+import { GetMyNotificationResponseType } from "@/shared/types/server"
+
+import type { INotificationFilters } from "../types/notifications-filters.type"
+
+import { useNotificationsQueryParams } from "./useNotificationsQueryParams"
 
 export const useNotificationsFiltersWrapper = () => {
-	const { markAsReadAllAsync, isAllMarkingAsRead } = useMarkAsReadAllS();
+	const { markAsReadAllAsync, isAllMarkingAsRead } = useMarkAsReadAllS()
 
 	const markAsReadAll = async () => {
 		try {
-			await markAsReadAllAsync();
+			await markAsReadAllAsync()
 
-			toast.success("Все уведомления помечены как прочитанные");
+			toast.success("Все уведомления помечены как прочитанные")
 		} catch (error) {
-			const { errMsg } = errorCatch(error as AxiosError);
-			toast.error(errMsg);
+			const { errMsg } = errorCatch(error as AxiosError)
+			toast.error(errMsg)
 		}
-	};
+	}
 
 	return {
 		markAsReadAll,
-		isAllMarkingAsRead,
-	};
-};
+		isAllMarkingAsRead
+	}
+}
 
 export const useNotificationsFilters = () => {
-	const t = useTranslations("global.notifications.content");
-	const { locale } = useLanguage(false);
+	const t = useTranslations("global.notifications.content")
+	const { locale } = useLanguage(false)
 
-	const { queryParams, updateQueryParams, reset } = useNotificationsQueryParams();
+	const { queryParams, updateQueryParams, reset } =
+		useNotificationsQueryParams()
 
 	const notificationsFilters: INotificationFilters = useMemo(
 		() => ({
@@ -49,38 +52,48 @@ export const useNotificationsFilters = () => {
 				{
 					icon: SortDescIcon,
 					type: EnumNotificationsSortType.NEWEST,
-					label: t("filters.sortTypes.newest"),
+					label: t("filters.sortTypes.newest")
 				},
 				{
 					icon: SortAscIcon,
 					type: EnumNotificationsSortType.OLDEST,
-					label: t("filters.sortTypes.oldest"),
-				},
+					label: t("filters.sortTypes.oldest")
+				}
 			],
-			notificationType: Object.values(GetMyNotificationResponseType).map(type => ({ type })),
+			notificationType: Object.values(GetMyNotificationResponseType).map(
+				type => ({ type })
+			)
 		}),
 		[locale]
-	);
+	)
 
-	const onChangeSortType = (type: EnumNotificationsSortType) => updateQueryParams("sort", type);
+	const onChangeSortType = (type: EnumNotificationsSortType) =>
+		updateQueryParams("sort", type)
 
-	const onChangeIsRead = (isRead: boolean) => updateQueryParams("is_read", String(isRead));
+	const onChangeIsRead = (isRead: boolean) =>
+		updateQueryParams("is_read", String(isRead))
 
-	const onChangeNotificationsType = (checked: boolean, type: GetMyNotificationResponseType) => {
-		const types = queryParams.types!;
+	const onChangeNotificationsType = (
+		checked: boolean,
+		type: GetMyNotificationResponseType
+	) => {
+		const types = queryParams.types!
 
-		if (checked) types.push(type);
+		if (checked) types.push(type)
 		else {
-			const index = types.indexOf(type);
-			if (index! > -1) types.splice(index!, 1);
+			const index = types.indexOf(type)
+			if (index! > -1) types.splice(index!, 1)
 		}
 
-		return updateQueryParams("types", types.join(","));
-	};
+		return updateQueryParams("types", types.join(","))
+	}
 
-	const SortIcon = notificationsFilters.sortType.find(item => item.type === queryParams.sort)?.icon || SortDescIcon;
+	const SortIcon =
+		notificationsFilters.sortType.find(item => item.type === queryParams.sort)
+			?.icon || SortDescIcon
 
-	const heading = (type: GetMyNotificationResponseType) => getNotificationHeadingByType(type, t);
+	const heading = (type: GetMyNotificationResponseType) =>
+		getNotificationHeadingByType(type, t)
 
 	return {
 		onChangeSortType,
@@ -91,47 +104,59 @@ export const useNotificationsFilters = () => {
 		notificationsFilters,
 		reset,
 		heading,
-		t,
-	};
-};
+		t
+	}
+}
 
 export const useNotificationsFiltersActions = () => {
-	const t = useTranslations("global.notifications.content");
-	const client = useQueryClient();
+	const t = useTranslations("global.notifications.content")
+	const client = useQueryClient()
 
-	const { isSelectMode, selectedIds, cancelSelectMode } = useNotificationsContext();
-	const { deleteNotification, markAsArchived, markAsRead, isDeleting, isMarkingAsArchived, isMarkingAsRead } = useManageNotifications();
+	const { isSelectMode, selectedIds, cancelSelectMode } =
+		useNotificationsContext()
+	const {
+		deleteNotification,
+		markAsArchived,
+		markAsRead,
+		isDeleting,
+		isMarkingAsArchived,
+		isMarkingAsRead
+	} = useManageNotifications()
 
-	const refresh = () => client.invalidateQueries({ queryKey: [queryKeys.getAllUserNotifications], type: "all" });
+	const refresh = () =>
+		client.invalidateQueries({
+			queryKey: [queryKeys.getAllUserNotifications],
+			type: "all"
+		})
 
 	const readSelected = async () => {
 		try {
-			await markAsRead({ ids: selectedIds });
-			cancelSelectMode();
+			await markAsRead({ ids: selectedIds })
+			cancelSelectMode()
 		} catch (error) {
-			console.error(error);
+			console.error(error)
 		}
-	};
+	}
 
 	const deleteSelected = async () => {
 		try {
-			await deleteNotification(selectedIds);
-			cancelSelectMode();
+			await deleteNotification(selectedIds)
+			cancelSelectMode()
 		} catch (error) {
-			console.error(error);
+			console.error(error)
 		}
-	};
+	}
 
 	const archiveSelected = async () => {
 		try {
-			await markAsArchived({ ids: selectedIds });
-			cancelSelectMode();
+			await markAsArchived({ ids: selectedIds })
+			cancelSelectMode()
 		} catch (error) {
-			console.error(error);
+			console.error(error)
 		}
-	};
+	}
 
-	const isLoading = isMarkingAsArchived || isMarkingAsRead || isDeleting;
+	const isLoading = isMarkingAsArchived || isMarkingAsRead || isDeleting
 
 	return {
 		isSelectMode,
@@ -142,6 +167,6 @@ export const useNotificationsFiltersActions = () => {
 		archiveSelected,
 		readSelected,
 		refresh,
-		t,
-	};
-};
+		t
+	}
+}

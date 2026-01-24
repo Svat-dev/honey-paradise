@@ -1,9 +1,9 @@
 .block {
-	@apply flex flex-row-reverse items-center w-full relative;
+	@apply relative flex w-full flex-row-reverse items-center;
 }
 
 .search-button {
-	@apply px-3 gap-1.5 h-fit py-0.5 rounded-lg;
+	@apply h-fit gap-1.5 rounded-lg px-3 py-0.5;
 
 	> kbd {
 		@apply text-sm transition-all;
@@ -21,19 +21,19 @@
 		}
 
 		> svg {
-			@apply rotate-[360deg] translate-x-6;
+			@apply translate-x-6 rotate-[360deg];
 		}
 	}
 }
 
 .search-input {
-	@apply overflow-hidden bg-background/85 w-0 h-9 absolute transition-all pointer-events-none rounded-xl flex items-center px-0;
+	@apply pointer-events-none absolute flex h-9 w-0 items-center overflow-hidden rounded-xl bg-background/85 px-0 transition-all;
 
 	> input {
-		@apply ml-4 bg-transparent h-fit p-0;
+		@apply ml-4 h-fit bg-transparent p-0;
 	}
 }
 
 .close-btn {
-	@apply text-sm ml-1 py-0.5 px-2;
+	@apply ml-1 px-2 py-0.5 text-sm;
 }

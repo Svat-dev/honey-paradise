@@ -1,24 +1,36 @@
-import { Button, Link } from "@/components/ui/common";
+import { VALUES } from "@constants/base"
+import { EnumAppRoute } from "@constants/routes"
+import _styles from "@styles/modules/auth-form-wrapper.module.scss"
+import type { FC } from "react"
 
-import { EnumAppRoute } from "@constants/routes";
-import type { FC } from "react";
-import { FormBlock } from "@/components/ui/layouts";
-import { FormInput } from "@/components/ui/components/form-input";
-import { VALUES } from "@constants/base";
-import _styles from "@styles/modules/auth-form-wrapper.module.scss";
-import styles from "../styles/main-part.module.scss";
+import { Button, Link } from "@/components/ui/common"
+import { FormInput } from "@/components/ui/components/form-input"
+import { FormBlock } from "@/components/ui/layouts"
+
+import styles from "../styles/main-part.module.scss"
 
 interface IProps {
-	onClickToNext: VoidFunction;
-	isActive: boolean;
-	disabled: boolean;
-	t: any;
-	isPending: boolean;
+	onClickToNext: VoidFunction
+	isActive: boolean
+	disabled: boolean
+	t: any
+	isPending: boolean
 }
 
-const MainPart: FC<IProps> = ({ onClickToNext, isActive, disabled, t, isPending }) => {
+const MainPart: FC<IProps> = ({
+	onClickToNext,
+	isActive,
+	disabled,
+	t,
+	isPending
+}) => {
 	return (
-		<FormBlock title={t("main_part.title")} containerClassName={styles["section"]} titleClassName={_styles["title"]} active={isActive}>
+		<FormBlock
+			title={t("main_part.title")}
+			containerClassName={styles["section"]}
+			titleClassName={_styles["title"]}
+			active={isActive}
+		>
 			<FormInput
 				name="email"
 				type="email"
@@ -58,7 +70,13 @@ const MainPart: FC<IProps> = ({ onClickToNext, isActive, disabled, t, isPending 
 			/>
 
 			<div className={styles["footer"]}>
-				<Button variant="secondary" onClick={onClickToNext} disabled={disabled} isLoading={isPending} tabIndex={4}>
+				<Button
+					variant="secondary"
+					onClick={onClickToNext}
+					disabled={disabled}
+					isLoading={isPending}
+					tabIndex={4}
+				>
 					{t("footer.continueBtn")}
 				</Button>
 
@@ -67,8 +85,7 @@ const MainPart: FC<IProps> = ({ onClickToNext, isActive, disabled, t, isPending 
 				</Link>
 			</div>
 		</FormBlock>
-	);
-};
+	)
+}
 
-export { MainPart };
-
+export { MainPart }

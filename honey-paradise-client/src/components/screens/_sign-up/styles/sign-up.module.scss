@@ -1,21 +1,21 @@
 .wrapper {
-	@apply w-[28.125rem] h-[29.375rem];
+	@apply h-[29.375rem] w-[28.125rem];
 
 	&::after,
 	&::before,
 	> .border-line::after,
 	> .border-line::before {
-		@apply w-[28.125rem] h-[29.375rem];
+		@apply h-[29.375rem] w-[28.125rem];
 	}
 }
 
 .wrapper-higher {
-	@apply w-[29.375rem] h-[40rem];
+	@apply h-[40rem] w-[29.375rem];
 
 	&::after,
 	&::before,
 	> .border-line::after,
 	> .border-line::before {
-		@apply w-[29.375rem] h-[40rem];
+		@apply h-[40rem] w-[29.375rem];
 	}
 }

@@ -1,7 +1,7 @@
 export interface IAuthStore extends IActions {
-	isAuthenticated: boolean | undefined;
+	isAuthenticated: boolean | undefined
 }
 
 interface IActions {
-	setIsAuthenticated: (value: boolean) => void;
+	setIsAuthenticated: (value: boolean) => void
 }

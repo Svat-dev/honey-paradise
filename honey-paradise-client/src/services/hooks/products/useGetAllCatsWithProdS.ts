@@ -1,28 +1,29 @@
-"use client";
+"use client"
 
-import { productsService } from "@/services/products.service";
-import { queryKeys } from "@constants/routes";
-import { useQuery } from "@tanstack/react-query";
-import { useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import { queryKeys } from "@constants/routes"
+import { useQuery } from "@tanstack/react-query"
+import { useSearchParams } from "next/navigation"
+import { useMemo } from "react"
+
+import { productsService } from "@/services/products.service"
 
 export const useGetAllCatsWithProdS = () => {
-	const q = useSearchParams().get("q");
+	const q = useSearchParams().get("q")
 
 	const { data, isPending, isLoading, refetch } = useQuery({
 		queryKey: [queryKeys.getAllCatsWithProducts, q],
 		queryFn: () => productsService.getAllCatsWithProducts(q || undefined),
-		enabled: true,
-	});
+		enabled: true
+	})
 
-	const _isLoading = isLoading || isPending;
+	const _isLoading = isLoading || isPending
 
 	return useMemo(
 		() => ({
 			catsWithProducts: data?.data,
 			isCatsWithProductsLoading: _isLoading,
-			refetchCatsWithProducts: refetch,
+			refetchCatsWithProducts: refetch
 		}),
 		[data?.data, _isLoading]
-	);
-};
+	)
+}

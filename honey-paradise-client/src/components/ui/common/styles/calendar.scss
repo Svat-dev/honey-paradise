@@ -12,12 +12,12 @@
 }
 
 .vc-arrow {
-	@apply bg-muted-darker rounded-md !important;
+	@apply rounded-md bg-muted-darker !important;
 }
 
 .vc-months__month,
 .vc-years__year {
-	@apply bg-primary text-black border-2 border-muted transition-all will-change-auto !important;
+	@apply border-2 border-muted bg-primary text-black transition-all will-change-auto !important;
 
 	&:hover {
 		@apply border-transparent !important;
@@ -31,7 +31,7 @@
 .vc-date {
 	&[data-vc-date-weekend=""] {
 		.vc-date__btn {
-			@apply text-red-500 font-medium !important;
+			@apply font-medium text-red-500 !important;
 		}
 	}
 
@@ -61,7 +61,7 @@
 }
 
 .vc-week__day {
-	@apply text-black cursor-default !important;
+	@apply cursor-default text-black !important;
 
 	&[data-vc-week-day-off=""] {
 		@apply text-red-500 !important;

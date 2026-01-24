@@ -1,13 +1,16 @@
-import IMask from "imask";
+import IMask from "imask"
 
-const defaultMask = "+7 (000) 000-00-00";
+const defaultMask = "+7 (000) 000-00-00"
 
-export function getMaskedPhone(phone: string | undefined, pattern: string = defaultMask): string {
-	if (!phone) return "";
+export function getMaskedPhone(
+	phone: string | undefined,
+	pattern: string = defaultMask
+): string {
+	if (!phone) return ""
 
-	const mask = IMask.createMask({ mask: pattern });
+	const mask = IMask.createMask({ mask: pattern })
 
-	mask.resolve(phone);
+	mask.resolve(phone)
 
-	return mask.value;
+	return mask.value
 }

@@ -1,1 +1,1 @@
-export type TUpdatePasswordResponse = boolean | { res: string };
+export type TUpdatePasswordResponse = boolean | { res: string }

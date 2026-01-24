@@ -1,19 +1,40 @@
-import { Title } from "@/components/ui/common";
-import type { GetMyNotificationResponse } from "@/shared/types/server";
-import { cn } from "@utils/base";
-import { DotIcon } from "lucide-react";
-import dynamic from "next/dynamic";
-import type { FC } from "react";
-import { useNotificationItem } from "../hooks/useNotificationItem";
-import styles from "../styles/notifications.module.scss";
+import { cn } from "@utils/base"
+import { DotIcon } from "lucide-react"
+import dynamic from "next/dynamic"
+import type { FC } from "react"
 
-const DynamicNotificationsItemDM = dynamic(() => import("./dropdown/NotificationsDM").then(mod => mod.NotificationsItemDM));
+import { Title } from "@/components/ui/common"
+import type { GetMyNotificationResponse } from "@/shared/types/server"
+
+import { useNotificationItem } from "../hooks/useNotificationItem"
+import styles from "../styles/notifications.module.scss"
+
+const DynamicNotificationsItemDM = dynamic(() =>
+	import("./dropdown/NotificationsDM").then(mod => mod.NotificationsItemDM)
+)
 
 interface INotificationItem extends Partial<GetMyNotificationResponse> {}
 
-const NotificationItem: FC<INotificationItem> = ({ id, isRead, message, type, createdAt }) => {
-	const { onContextMenu, title, time, isOpen, setIsOpen, isSelected, isSelectMode, onClick, onMouseEnter, onMouseLeave, t } =
-		useNotificationItem(id, type, !!isRead, createdAt);
+const NotificationItem: FC<INotificationItem> = ({
+	id,
+	isRead,
+	message,
+	type,
+	createdAt
+}) => {
+	const {
+		onContextMenu,
+		title,
+		time,
+		isOpen,
+		setIsOpen,
+		isSelected,
+		isSelectMode,
+		onClick,
+		onMouseEnter,
+		onMouseLeave,
+		t
+	} = useNotificationItem(id, type, !!isRead, createdAt)
 
 	return (
 		<article
@@ -43,9 +64,14 @@ const NotificationItem: FC<INotificationItem> = ({ id, isRead, message, type, cr
 				<p>{message}</p>
 			</div>
 
-			<DynamicNotificationsItemDM nid={id} isRead={isRead} isOpen={isOpen} setIsOpen={setIsOpen} />
+			<DynamicNotificationsItemDM
+				nid={id}
+				isRead={isRead}
+				isOpen={isOpen}
+				setIsOpen={setIsOpen}
+			/>
 		</article>
-	);
-};
+	)
+}
 
-export { NotificationItem };
+export { NotificationItem }

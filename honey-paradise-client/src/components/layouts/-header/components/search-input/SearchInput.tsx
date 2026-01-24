@@ -1,31 +1,51 @@
-import { SearchIcon, XIcon } from "lucide-react";
+import { SearchIcon, XIcon } from "lucide-react"
+import { m } from "motion/react"
+import type { FC } from "react"
+import { FormProvider, type UseFormReturn } from "react-hook-form"
 
-import type { ReactStateHook } from "@/shared/types";
-import { m } from "motion/react";
-import type { FC } from "react";
-import { FormProvider, type UseFormReturn } from "react-hook-form";
-import type { ISearchFormFields } from "../../hooks/types/use-search.type";
-import { useSearchInput } from "../../hooks/useSearchInput";
+import type { ReactStateHook } from "@/shared/types"
+
+import type { ISearchFormFields } from "../../hooks/types/use-search.type"
+import { useSearchInput } from "../../hooks/useSearchInput"
 
 interface ISearchInput {
-	isOpen: boolean;
-	setIsOpen: ReactStateHook<boolean>;
-	setOverlay: ReactStateHook<boolean>;
-	form: UseFormReturn<ISearchFormFields, any, ISearchFormFields>;
+	isOpen: boolean
+	setIsOpen: ReactStateHook<boolean>
+	setOverlay: ReactStateHook<boolean>
+	form: UseFormReturn<ISearchFormFields, any, ISearchFormFields>
 }
 
-const SearchInput: FC<ISearchInput> = ({ isOpen, form, setIsOpen, setOverlay }) => {
-	const { clear, onInput, onSubmit, onFocus, q, t } = useSearchInput(setIsOpen, setOverlay, isOpen, form);
+const SearchInput: FC<ISearchInput> = ({
+	isOpen,
+	form,
+	setIsOpen,
+	setOverlay
+}) => {
+	const { clear, onInput, onSubmit, onFocus, q, t } = useSearchInput(
+		setIsOpen,
+		setOverlay,
+		isOpen,
+		form
+	)
 
 	return (
 		<FormProvider {...form}>
-			<form className="relative z-40 flex flex-row-reverse items-center p-2.5 h-10 w-full" onSubmit={onSubmit}>
+			<form
+				className="relative z-40 flex h-10 w-full flex-row-reverse items-center p-2.5"
+				onSubmit={onSubmit}
+			>
 				<m.input
 					type="search"
 					initial={{ width: 0, borderRadius: "9999px", padding: "0" }}
-					variants={{ opened: { width: "100%", borderRadius: "0 9999px 9999px 0", padding: "0 2.25rem 0 0.5rem" } }}
+					variants={{
+						opened: {
+							width: "100%",
+							borderRadius: "0 9999px 9999px 0",
+							padding: "0 2.25rem 0 0.5rem"
+						}
+					}}
 					animate={isOpen ? "opened" : ""}
-					className="bg-secondary leading-10 h-10"
+					className="h-10 bg-secondary leading-10"
 					maxLength={255}
 					spellCheck={false}
 					autoComplete="off"
@@ -33,7 +53,9 @@ const SearchInput: FC<ISearchInput> = ({ isOpen, form, setIsOpen, setOverlay }) 
 					placeholder={t("search.placeholder")}
 					onInput={onInput}
 					onFocus={onFocus}
-					{...form.register("q", { pattern: { value: /^[a-zA-Zа-яА-Я0-9_(). ,-]*$/, message: "" } })}
+					{...form.register("q", {
+						pattern: { value: /^[a-zA-Zа-яА-Я0-9_(). ,-]*$/, message: "" }
+					})}
 				/>
 				<m.button
 					type="submit"
@@ -41,7 +63,7 @@ const SearchInput: FC<ISearchInput> = ({ isOpen, form, setIsOpen, setOverlay }) 
 					variants={{ opened: { borderRadius: "9999px 0 0 9999px" } }}
 					animate={isOpen ? "opened" : ""}
 					transition={{ type: "tween" }}
-					className="flex items-center justify-center size-10 p-1 transition-colors will-change-auto bg-secondary hover:bg-secondary/70"
+					className="flex size-10 items-center justify-center bg-secondary p-1 transition-colors will-change-auto hover:bg-secondary/70"
 					title={t("labels.findBtn")}
 					disabled={!q}
 				>
@@ -62,7 +84,7 @@ const SearchInput: FC<ISearchInput> = ({ isOpen, form, setIsOpen, setOverlay }) 
 				</m.button>
 			</form>
 		</FormProvider>
-	);
-};
+	)
+}
 
-export { SearchInput };
+export { SearchInput }

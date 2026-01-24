@@ -1,60 +1,65 @@
-import { type RefetchOptions, useMutation, useQuery } from "@tanstack/react-query";
+import { queryKeys } from "@constants/routes"
+import { useAuth } from "@hooks/auth"
+import {
+	type RefetchOptions,
+	useMutation,
+	useQuery
+} from "@tanstack/react-query"
+import type { AxiosError } from "axios"
+import { useEffect, useMemo, useState } from "react"
 
-import { accountService } from "@/services/account.service";
-import type { GetTgInfoResponse } from "@/shared/types/server";
-import { queryKeys } from "@constants/routes";
-import { useAuth } from "@hooks/auth";
-import type { AxiosError } from "axios";
-import { useEffect, useMemo, useState } from "react";
+import { accountService } from "@/services/account.service"
+import type { GetTgInfoResponse } from "@/shared/types/server"
 
 export const useConnectTgS = () => {
 	const { mutateAsync, isPending } = useMutation({
 		mutationKey: [queryKeys.connectTg],
-		mutationFn: () => accountService.connectTelegram(),
-	});
+		mutationFn: () => accountService.connectTelegram()
+	})
 
-	return { connectTgAsync: mutateAsync, isTgConnecting: isPending };
-};
+	return { connectTgAsync: mutateAsync, isTgConnecting: isPending }
+}
 
 export const useDisconnectTgS = () => {
 	const { mutateAsync, isPending } = useMutation({
 		mutationKey: [queryKeys.disconnectTg],
-		mutationFn: () => accountService.disconnectTelegram(),
-	});
+		mutationFn: () => accountService.disconnectTelegram()
+	})
 
-	return { disconnectTgAsync: mutateAsync, isTgDisconnecting: isPending };
-};
+	return { disconnectTgAsync: mutateAsync, isTgDisconnecting: isPending }
+}
 
 export const useGetTelegramInfoS = () => {
-	const { isAuthenticated } = useAuth();
+	const { isAuthenticated } = useAuth()
 
-	const [telegramInfo, setTelegramInfo] = useState<Partial<GetTgInfoResponse> | null>(null);
+	const [telegramInfo, setTelegramInfo] =
+		useState<Partial<GetTgInfoResponse> | null>(null)
 
 	const { data, refetch, isPending, isLoading, error } = useQuery({
 		queryKey: [queryKeys.getTelegramInfo],
 		queryFn: () => accountService.getTelegramInfo(),
-		enabled: isAuthenticated,
-	});
+		enabled: isAuthenticated
+	})
 
-	const telegramRefetch = (opts?: RefetchOptions) => refetch(opts);
-
-	useEffect(() => {
-		if (data?.data) setTelegramInfo(data.data);
-	}, [data?.data]);
+	const telegramRefetch = (opts?: RefetchOptions) => refetch(opts)
 
 	useEffect(() => {
-		const e = error as AxiosError;
-		if (e?.status === 400) setTelegramInfo({ connected: false });
-	}, [error]);
+		if (data?.data) setTelegramInfo(data.data)
+	}, [data?.data])
 
-	const isTelegramInfoLoading = isLoading || isPending;
+	useEffect(() => {
+		const e = error as AxiosError
+		if (e?.status === 400) setTelegramInfo({ connected: false })
+	}, [error])
+
+	const isTelegramInfoLoading = isLoading || isPending
 
 	return useMemo(
 		() => ({
 			telegramInfo,
 			isTelegramInfoLoading,
-			telegramRefetch,
+			telegramRefetch
 		}),
 		[telegramInfo, isTelegramInfoLoading, telegramRefetch]
-	);
-};
+	)
+}

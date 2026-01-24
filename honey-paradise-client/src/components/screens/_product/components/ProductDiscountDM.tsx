@@ -1,49 +1,69 @@
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, Separator, Title } from "@/components/ui/common";
-import type { FC, PropsWithChildren } from "react";
+import type { FC, PropsWithChildren } from "react"
 
-import { GetProductBySlugResponseDiscountType, type GetProductBySlugResponseDiscount } from "@/shared/types/server";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuTrigger,
+	Separator,
+	Title
+} from "@/components/ui/common"
+import {
+	type GetProductBySlugResponseDiscount,
+	GetProductBySlugResponseDiscountType
+} from "@/shared/types/server"
 
 interface IProps extends PropsWithChildren {
-	discounts: GetProductBySlugResponseDiscount[];
-	priceInUsd: number;
-	totalPrice: number;
-	getPrice: (price: number) => string;
+	discounts: GetProductBySlugResponseDiscount[]
+	priceInUsd: number
+	totalPrice: number
+	getPrice: (price: number) => string
 }
 
-const ProductDiscountDM: FC<IProps> = ({ children, priceInUsd, totalPrice, discounts, getPrice }) => {
+const ProductDiscountDM: FC<IProps> = ({
+	children,
+	priceInUsd,
+	totalPrice,
+	discounts,
+	getPrice
+}) => {
 	const getType = (type: GetProductBySlugResponseDiscountType) => {
 		switch (type) {
 			case "CATEGORY":
-				return "Скидка категории";
+				return "Скидка категории"
 			case "SEASON":
-				return "Сезонная скидка";
+				return "Сезонная скидка"
 			case "SELLOUT":
-				return "Распродажа";
+				return "Распродажа"
 			case "VIP_CLUB":
-				return "Скидка вип-клуба";
+				return "Скидка вип-клуба"
 			default:
-				return "Скидка";
+				return "Скидка"
 		}
-	};
+	}
 
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
 
 			<DropdownMenuContent className="!p-2">
-				<Title size="xs" className="font-medium mb-2">
+				<Title size="xs" className="mb-2 font-medium">
 					Информация о цене товара
 				</Title>
 
-				<div className="flex items-center gap-3 mb-0.5">
+				<div className="mb-0.5 flex items-center gap-3">
 					<span>Полная цена товара:</span>
 					{getPrice(priceInUsd)}
 				</div>
 
 				{discounts.map(({ id, type, discount }) => (
-					<div key={id} className="flex items-center justify-between w-full mb-0.5">
+					<div
+						key={id}
+						className="mb-0.5 flex w-full items-center justify-between"
+					>
 						<span className="whitespace-nowrap">{getType(type)}</span>
-						<span className="text-muted">-{getPrice(priceInUsd * discount).slice(1)}</span>
+						<span className="text-muted">
+							-{getPrice(priceInUsd * discount).slice(1)}
+						</span>
 					</div>
 				))}
 
@@ -55,7 +75,7 @@ const ProductDiscountDM: FC<IProps> = ({ children, priceInUsd, totalPrice, disco
 				</p>
 			</DropdownMenuContent>
 		</DropdownMenu>
-	);
-};
+	)
+}
 
-export { ProductDiscountDM };
+export { ProductDiscountDM }

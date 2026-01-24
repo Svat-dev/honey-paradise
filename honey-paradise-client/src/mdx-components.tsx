@@ -1,6 +1,6 @@
-import { Link, Title } from "@/components/ui/common";
+import type { MDXComponents } from "mdx/types"
 
-import type { MDXComponents } from "mdx/types";
+import { Link, Title } from "@/components/ui/common"
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
 	return {
@@ -28,10 +28,16 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
 		li: ({ children }) => <li className="mb-1">{children}</li>,
 		p: ({ children }) => <p className="px-4">{children}</p>,
 		a: ({ children, href, ...props }) => (
-			<Link href={href} target="_blank" style={{ fontWeight: 500 }} {...props} isOutside>
+			<Link
+				href={href}
+				target="_blank"
+				style={{ fontWeight: 500 }}
+				{...props}
+				isOutside
+			>
 				{children}
 			</Link>
 		),
-		...components,
-	};
+		...components
+	}
 }

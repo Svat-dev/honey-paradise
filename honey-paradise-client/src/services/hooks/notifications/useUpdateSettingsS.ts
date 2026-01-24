@@ -1,22 +1,27 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-import { UpdateNotificationsSettingsDto } from "@/shared/types/server";
-import { notificationsService } from "@/services/notifications.service";
-import { queryKeys } from "@/shared/lib/constants/routes";
+import { notificationsService } from "@/services/notifications.service"
+import { queryKeys } from "@/shared/lib/constants/routes"
+import { UpdateNotificationsSettingsDto } from "@/shared/types/server"
 
 export const useUpdateSettingsS = () => {
-	const client = useQueryClient();
+	const client = useQueryClient()
 
-	const onSuccess = () => client.invalidateQueries({ queryKey: [queryKeys.getMyAccount], type: "all" });
+	const onSuccess = () =>
+		client.invalidateQueries({
+			queryKey: [queryKeys.getMyAccount],
+			type: "all"
+		})
 
 	const { mutateAsync, isPending } = useMutation({
 		mutationKey: [queryKeys.updateNotificationsSettings],
-		mutationFn: (dto: UpdateNotificationsSettingsDto) => notificationsService.updateSettings(dto),
-		onSuccess,
-	});
+		mutationFn: (dto: UpdateNotificationsSettingsDto) =>
+			notificationsService.updateSettings(dto),
+		onSuccess
+	})
 
 	return {
 		updateSettingsAsync: mutateAsync,
-		isSettingsUpdating: isPending,
-	};
-};
+		isSettingsUpdating: isPending
+	}
+}

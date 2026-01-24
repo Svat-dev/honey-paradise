@@ -1,18 +1,23 @@
-import { MotionSkeleton } from "@/components/ui/common";
-import { ProductCardLoading } from "./product-card/ProductCardLoading";
+import { MotionSkeleton } from "@/components/ui/common"
+
+import { ProductCardLoading } from "./product-card/ProductCardLoading"
 
 const CategoryLoading = () => {
 	return (
-		<section className="py-3 px-6">
-			<MotionSkeleton initial={false} exit={{ opacity: 0, y: -15, display: "none" }} className="w-52 h-7 mb-2" />
+		<section className="px-6 py-3">
+			<MotionSkeleton
+				initial={false}
+				exit={{ opacity: 0, y: -15, display: "none" }}
+				className="mb-2 h-7 w-52"
+			/>
 
-			<div className="flex gap-x-10 gap-y-3 flex-wrap">
+			<div className="flex flex-wrap gap-x-10 gap-y-3">
 				{new Array(3).fill(0).map((_, i) => (
 					<ProductCardLoading key={i} />
 				))}
 			</div>
 		</section>
-	);
-};
+	)
+}
 
-export { CategoryLoading };
+export { CategoryLoading }

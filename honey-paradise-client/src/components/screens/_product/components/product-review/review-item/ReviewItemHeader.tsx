@@ -1,24 +1,42 @@
-import { Avatar, AvatarFallback, AvatarFrame, AvatarImage, Button } from "@/components/ui/common";
-import { getAvatarPath, getFramesPath } from "@/shared/lib/utils";
+import { format } from "date-fns"
+import { InfoIcon } from "lucide-react"
+import type { FC } from "react"
 
-import type { GetReviewsByPidResponseUser } from "@/shared/types/server";
-import { format } from "date-fns";
-import { InfoIcon } from "lucide-react";
-import type { FC } from "react";
+import {
+	Avatar,
+	AvatarFallback,
+	AvatarFrame,
+	AvatarImage,
+	Button
+} from "@/components/ui/common"
+import { getAvatarPath, getFramesPath } from "@/shared/lib/utils"
+import type { GetReviewsByPidResponseUser } from "@/shared/types/server"
 
 interface IReviewItemHeader {
-	user: GetReviewsByPidResponseUser;
-	createdAt: string;
+	user: GetReviewsByPidResponseUser
+	createdAt: string
 }
 
 const ReviewItemHeader: FC<IReviewItemHeader> = ({ createdAt, user }) => {
 	return (
-		<header className="flex items-center justify-between mb-4">
+		<header className="mb-4 flex items-center justify-between">
 			<div className="flex items-center gap-2">
 				<Avatar>
-					<AvatarImage src={getAvatarPath(user.avatarPath)} alt={"Avatar"} width={40} height={40} loading="lazy" />
+					<AvatarImage
+						src={getAvatarPath(user.avatarPath)}
+						alt={"Avatar"}
+						width={40}
+						height={40}
+						loading="lazy"
+					/>
 
-					{user?.framePath && <AvatarFrame src={getFramesPath(user.framePath)} alt="" loading="lazy" />}
+					{user?.framePath && (
+						<AvatarFrame
+							src={getFramesPath(user.framePath)}
+							alt=""
+							loading="lazy"
+						/>
+					)}
 
 					<AvatarFallback>{user.username.split("")[0]}</AvatarFallback>
 				</Avatar>
@@ -34,7 +52,7 @@ const ReviewItemHeader: FC<IReviewItemHeader> = ({ createdAt, user }) => {
 				</Button>
 			</div>
 		</header>
-	);
-};
+	)
+}
 
-export { ReviewItemHeader };
+export { ReviewItemHeader }

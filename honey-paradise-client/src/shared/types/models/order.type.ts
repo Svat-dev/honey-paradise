@@ -1,15 +1,15 @@
-import type { EnumOrderStatus } from "./enums.type";
+import type { EnumOrderStatus } from "./enums.type"
 
 export interface IOrder {
-	id: string;
+	id: string
 
-	totalAmount: number;
-	status: EnumOrderStatus;
+	totalAmount: number
+	status: EnumOrderStatus
 
-	items: JSON;
+	items: JSON
 
-	userId: string;
+	userId: string
 
-	createdAt: Date;
-	updatedAt: Date;
+	createdAt: Date
+	updatedAt: Date
 }

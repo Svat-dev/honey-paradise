@@ -1,26 +1,36 @@
-import { Button, Separator, Skeleton, Title } from "@/components/ui/common";
-import { LoaderIcon, RefreshCcwIcon } from "lucide-react";
-import { CheckmarkIcon, ErrorIcon } from "react-hot-toast";
+import { LoaderIcon, RefreshCcwIcon } from "lucide-react"
+import type { FC } from "react"
+import { FormProvider } from "react-hook-form"
+import { CheckmarkIcon, ErrorIcon } from "react-hot-toast"
+import slugify from "slugify"
 
-import { FormInput } from "@/components/ui/components/form-input";
-import type { FC } from "react";
-import { FormProvider } from "react-hook-form";
-import slugify from "slugify";
-import { useEmailSection } from "../../../hooks/useEmailSection";
-import styles from "../../../styles/account.module.scss";
-import _styles from "../../../styles/settings.module.scss";
+import { Button, Separator, Skeleton, Title } from "@/components/ui/common"
+import { FormInput } from "@/components/ui/components/form-input"
+
+import { useEmailSection } from "../../../hooks/useEmailSection"
+import styles from "../../../styles/account.module.scss"
+import _styles from "../../../styles/settings.module.scss"
 
 interface IProps {
-	email: string | undefined;
-	isVerified: boolean | undefined;
-	isAccLoading: boolean;
+	email: string | undefined
+	isVerified: boolean | undefined
+	isAccLoading: boolean
 }
 
 const EmailSection: FC<IProps> = ({ email, isVerified, isAccLoading }) => {
-	const { form, isDisabled, onSubmit, emailUnique, isCheckingUnique, resetFields, confirmEmail, isEmailUpdating, t } =
-		useEmailSection(email);
+	const {
+		form,
+		isDisabled,
+		onSubmit,
+		emailUnique,
+		isCheckingUnique,
+		resetFields,
+		confirmEmail,
+		isEmailUpdating,
+		t
+	} = useEmailSection(email)
 
-	const isLoading = isAccLoading || isEmailUpdating;
+	const isLoading = isAccLoading || isEmailUpdating
 
 	return (
 		<section className={styles["email-wrapper"]}>
@@ -30,13 +40,27 @@ const EmailSection: FC<IProps> = ({ email, isVerified, isAccLoading }) => {
 						<div>
 							<Title size="sm">
 								{t("email.title")}
-								<a className="opacity-0 size-0" id={slugify(t("email.title"), { locale: "en", lower: true })} />
+								<a
+									className="size-0 opacity-0"
+									id={slugify(t("email.title"), { locale: "en", lower: true })}
+								/>
 							</Title>
 
-							{isLoading ? <Skeleton /> : <span data-verified={isVerified}>{t("email.verified", { isVerified: String(isVerified) })}</span>}
+							{isLoading ? (
+								<Skeleton />
+							) : (
+								<span data-verified={isVerified}>
+									{t("email.verified", { isVerified: String(isVerified) })}
+								</span>
+							)}
 						</div>
 
-						<Button variant="ghost" title={t("labels.resetFieldBtn")} disabled={isLoading} onClick={resetFields}>
+						<Button
+							variant="ghost"
+							title={t("labels.resetFieldBtn")}
+							disabled={isLoading}
+							onClick={resetFields}
+						>
 							<RefreshCcwIcon size={20} />
 						</Button>
 					</div>
@@ -54,7 +78,10 @@ const EmailSection: FC<IProps> = ({ email, isVerified, isAccLoading }) => {
 						) : emailUnique === false ? (
 							<ErrorIcon className={_styles["unique-status-icon"]} />
 						) : emailUnique === "loading" ? (
-							<LoaderIcon size={20} className={_styles["unique-status-loading-icon"]} />
+							<LoaderIcon
+								size={20}
+								className={_styles["unique-status-loading-icon"]}
+							/>
 						) : undefined}
 					</FormInput>
 
@@ -86,7 +113,7 @@ const EmailSection: FC<IProps> = ({ email, isVerified, isAccLoading }) => {
 				</form>
 			</FormProvider>
 		</section>
-	);
-};
+	)
+}
 
-export { EmailSection };
+export { EmailSection }

@@ -1,6 +1,8 @@
-import { z } from "zod";
+import { z } from "zod"
 
-const ratingSchema = z.number({ message: "Поле должно быть числом" }).max(5, "Макс. значение 5");
+const ratingSchema = z
+	.number({ message: "Поле должно быть числом" })
+	.max(5, "Макс. значение 5")
 
 export const createReviewSchema = z.object({
 	comment: z
@@ -11,16 +13,16 @@ export const createReviewSchema = z.object({
 		common: ratingSchema.min(1, "Заполните как минимум общий рейтинг"),
 		taste: ratingSchema,
 		aroma: ratingSchema,
-		packaging: ratingSchema,
-	}),
-});
+		packaging: ratingSchema
+	})
+})
 
 export type TCreateReviewSchema = {
-	comment: string;
+	comment: string
 	rating: {
-		common: number;
-		taste: number;
-		aroma: number;
-		packaging: number;
-	};
-};
+		common: number
+		taste: number
+		aroma: number
+		packaging: number
+	}
+}

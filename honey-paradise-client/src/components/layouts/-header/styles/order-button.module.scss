@@ -1,8 +1,8 @@
 .order-button {
-	@apply w-fit py-0.5 px-2 gap-1;
+	@apply w-fit gap-1 px-2 py-0.5;
 
 	> svg:last-of-type {
-		@apply absolute top-1/2 -translate-y-1/2 right-1.5 pointer-events-none opacity-0 transition-all -translate-x-1;
+		@apply pointer-events-none absolute right-1.5 top-1/2 -translate-x-1 -translate-y-1/2 opacity-0 transition-all;
 	}
 
 	&:hover > p:last-of-type {
@@ -10,7 +10,7 @@
 	}
 
 	&:hover > svg:last-of-type {
-		@apply opacity-100 translate-x-0;
+		@apply translate-x-0 opacity-100;
 	}
 }
 

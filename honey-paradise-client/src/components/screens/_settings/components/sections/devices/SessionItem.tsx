@@ -1,31 +1,49 @@
-import { Button } from "@/components/ui/common";
-import type { ISessionMetadata } from "@/shared/types/models/session.type";
-import { capitalize } from "@utils/base";
-import { DotIcon } from "lucide-react";
-import { m } from "motion/react";
-import dynamic from "next/dynamic";
-import type { FC } from "react";
-import { useSessionItem } from "../../../hooks/useSessionItem";
-import styles from "../../../styles/devices.module.scss";
-import { SessionModal } from "./SessionModal";
+import { capitalize } from "@utils/base"
+import { DotIcon } from "lucide-react"
+import { m } from "motion/react"
+import dynamic from "next/dynamic"
+import type { FC } from "react"
 
-const DynamicConfirmModal = dynamic(() => import("@/components/ui/components/ConfirmModal").then(mod => mod.ConfirmModal));
+import { Button } from "@/components/ui/common"
+import type { ISessionMetadata } from "@/shared/types/models/session.type"
+
+import { useSessionItem } from "../../../hooks/useSessionItem"
+import styles from "../../../styles/devices.module.scss"
+
+import { SessionModal } from "./SessionModal"
+
+const DynamicConfirmModal = dynamic(() =>
+	import("@/components/ui/components/ConfirmModal").then(
+		mod => mod.ConfirmModal
+	)
+)
 
 interface IProps {
-	remove: (sid: string) => Promise<void>;
-	createdAt: string;
-	sid: string;
-	metadata: ISessionMetadata;
-	isCurrent: boolean;
+	remove: (sid: string) => Promise<void>
+	createdAt: string
+	sid: string
+	metadata: ISessionMetadata
+	isCurrent: boolean
 }
 
-const SessionItem: FC<IProps> = ({ createdAt, metadata, remove, isCurrent, sid }) => {
-	const removeFunc = async () => await remove(sid);
+const SessionItem: FC<IProps> = ({
+	createdAt,
+	metadata,
+	remove,
+	isCurrent,
+	sid
+}) => {
+	const removeFunc = async () => await remove(sid)
 
-	const { Icon, browser, city, country, handleRemove, os, t, time } = useSessionItem(metadata, removeFunc, isCurrent, createdAt);
+	const { Icon, browser, city, country, handleRemove, os, t, time } =
+		useSessionItem(metadata, removeFunc, isCurrent, createdAt)
 
 	return (
-		<m.article className={styles["session-item"]} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+		<m.article
+			className={styles["session-item"]}
+			initial={{ opacity: 0 }}
+			animate={{ opacity: 1 }}
+		>
 			<div>
 				<div>
 					<Icon size={24} />
@@ -74,7 +92,11 @@ const SessionItem: FC<IProps> = ({ createdAt, metadata, remove, isCurrent, sid }
 				</SessionModal>
 
 				{!isCurrent && (
-					<DynamicConfirmModal heading={t("modals.confirm.title")} desc={t("modals.confirm.description")} onConfirm={handleRemove}>
+					<DynamicConfirmModal
+						heading={t("modals.confirm.title")}
+						desc={t("modals.confirm.description")}
+						onConfirm={handleRemove}
+					>
 						<Button variant="destructive" title={t("labels.removeBtn")}>
 							{t("content.removeBtn")}
 						</Button>
@@ -82,7 +104,7 @@ const SessionItem: FC<IProps> = ({ createdAt, metadata, remove, isCurrent, sid }
 				)}
 			</div>
 		</m.article>
-	);
-};
+	)
+}
 
-export { SessionItem };
+export { SessionItem }

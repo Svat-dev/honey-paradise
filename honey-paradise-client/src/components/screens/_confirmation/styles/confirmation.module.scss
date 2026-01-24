@@ -2,23 +2,23 @@
 .wrapper::before,
 .border-line::after,
 .border-line::before {
-	@apply w-[38rem] h-[24rem];
+	@apply h-[24rem] w-[38rem];
 }
 
 .wrapper {
-	@apply w-[38rem] h-[24rem];
+	@apply h-[24rem] w-[38rem];
 }
 
 .title-wrapper {
-	@apply flex items-center justify-between mb-4;
+	@apply mb-4 flex items-center justify-between;
 
 	> div > p {
-		@apply mb-8 ml-1 text-muted text-sm leading-5;
+		@apply mb-8 ml-1 text-sm leading-5 text-muted;
 	}
 }
 
 .form-input-wrapper {
-	@apply flex justify-center mb-5 !important;
+	@apply mb-5 flex justify-center !important;
 }
 
 .form-input-error {
@@ -34,10 +34,10 @@
 }
 
 .actions-wrapper {
-	@apply flex justify-between items-center;
+	@apply flex items-center justify-between;
 
 	> button {
-		@apply py-1.5 px-2;
+		@apply px-2 py-1.5;
 
 		&:last-of-type {
 			@apply border-2 border-muted;

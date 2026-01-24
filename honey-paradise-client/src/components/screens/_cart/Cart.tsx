@@ -8,12 +8,12 @@ const Cart = async () => {
 	const t = await getTranslations("global.cart.content")
 
 	return (
-		<article className="relative w-full my-6 mx-10">
+		<article className="relative mx-10 my-6 w-full">
 			<Title size="lg" className="font-bold">
 				{t("title")}
 			</Title>
 
-			<p className="ml-1 mb-4 text-muted print:hidden">{t("description")}</p>
+			<p className="mb-4 ml-1 text-muted print:hidden">{t("description")}</p>
 
 			<CartContent />
 		</article>

@@ -100,7 +100,7 @@ export enum EnumApiRoute {
 	GET_USER_ORDERS = `${ORDERS}/all`,
 
 	PROMO_CODES = "/promo-codes",
-	USE_PROMO_CODE = `${PROMO_CODES}/use`,
+	USE_PROMO_CODE = `${PROMO_CODES}/use`
 }
 
 export enum EnumStaticRoute {
@@ -115,5 +115,5 @@ export enum EnumStaticRoute {
 	UPLOADS_AVATARS = `${AVATARS}/uploads`,
 
 	FRAMES = "/frames",
-	ANIMATED_FRAMES = `${FRAMES}/animated`,
+	ANIMATED_FRAMES = `${FRAMES}/animated`
 }

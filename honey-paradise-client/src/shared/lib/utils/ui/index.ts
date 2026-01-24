@@ -1,1 +1,1 @@
-export * from "./get-pagination-schema";
+export * from "./get-pagination-schema"

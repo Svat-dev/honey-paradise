@@ -1,71 +1,75 @@
-import { type TPasswordChangeFields, createChangePasswordSchema } from "@/shared/lib/schemas/password-recovery.schema";
+import { zodResolver } from "@hookform/resolvers/zod"
+import type { AxiosError } from "axios"
+import { useTranslations } from "next-intl"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { toast } from "react-hot-toast"
 
-import { errorCatch } from "@/api/api-helper";
-import { useRecoverPasswordS } from "@/services/hooks/account";
-import { EnumAppRoute } from "@/shared/lib/constants/routes";
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { AxiosError } from "axios";
-import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import type { TDataStatus } from "../types/type";
+import { errorCatch } from "@/api/api-helper"
+import { useRecoverPasswordS } from "@/services/hooks/account"
+import { EnumAppRoute } from "@/shared/lib/constants/routes"
+import {
+	createChangePasswordSchema,
+	type TPasswordChangeFields
+} from "@/shared/lib/schemas/password-recovery.schema"
+
+import type { TDataStatus } from "../types/type"
 
 export const useChangePassword = (token: string) => {
-	const errorDelay = 4000;
-	const successDelay = 2000;
+	const errorDelay = 4000
+	const successDelay = 2000
 
-	const t = useTranslations("global.password-recovery.content.change");
-	const { replace } = useRouter();
+	const t = useTranslations("global.password-recovery.content.change")
+	const { replace } = useRouter()
 
-	const [dataStatus, setDataStatus] = useState<TDataStatus>("default");
+	const [dataStatus, setDataStatus] = useState<TDataStatus>("default")
 
-	const { isPasswordRecovering, recoverPasswordAsync } = useRecoverPasswordS();
+	const { isPasswordRecovering, recoverPasswordAsync } = useRecoverPasswordS()
 
-	const schema = createChangePasswordSchema(t);
+	const schema = createChangePasswordSchema(t)
 
 	const form = useForm<TPasswordChangeFields>({
 		resolver: zodResolver(schema),
 		mode: "onSubmit",
 		defaultValues: {
-			password: "",
-		},
-	});
+			password: ""
+		}
+	})
 
 	const onError = (msg: string) => {
-		setDataStatus("error");
-		toast.error(msg, { duration: errorDelay });
+		setDataStatus("error")
+		toast.error(msg, { duration: errorDelay })
 
-		return setTimeout(() => setDataStatus("default"), errorDelay);
-	};
+		return setTimeout(() => setDataStatus("default"), errorDelay)
+	}
 
 	const onSubmit = async (data: TPasswordChangeFields) => {
 		try {
-			await recoverPasswordAsync({ password: data.password, token });
+			await recoverPasswordAsync({ password: data.password, token })
 
-			setDataStatus("good");
-			toast.success(t("toasters.success"), { duration: successDelay });
+			setDataStatus("good")
+			toast.success(t("toasters.success"), { duration: successDelay })
 
 			setTimeout(() => {
-				setDataStatus("default");
-				replace(EnumAppRoute.SIGN_IN);
-			}, successDelay);
+				setDataStatus("default")
+				replace(EnumAppRoute.SIGN_IN)
+			}, successDelay)
 		} catch (error) {
-			const { errMsg } = errorCatch(error as AxiosError);
-			const msg = t("toasters.error", { e: errMsg });
+			const { errMsg } = errorCatch(error as AxiosError)
+			const msg = t("toasters.error", { e: errMsg })
 
-			return onError(msg);
+			return onError(msg)
 		}
-	};
+	}
 
-	const _onSubmit = form.handleSubmit(onSubmit);
+	const _onSubmit = form.handleSubmit(onSubmit)
 
 	return {
 		dataStatus,
 		onSubmit: _onSubmit,
 		form,
 		isPasswordRecovering,
-		t,
-	};
-};
+		t
+	}
+}

@@ -9,10 +9,10 @@ export enum EnumStorageKeys {
 
 	// LocalStorage
 	SEARCH_HISTORY = "search_history",
-	VIEWED_PRODUCTS_HISTORY = "viewed_products_history",
+	VIEWED_PRODUCTS_HISTORY = "viewed_products_history"
 }
 
 export enum EnumSessionStorageKeys {
 	CHANGE_PASSWORD_MODAL = "change_password_modal_q",
-	CREATE_REVIEW_MODAL = "create_review_modal_comment",
+	CREATE_REVIEW_MODAL = "create_review_modal_comment"
 }

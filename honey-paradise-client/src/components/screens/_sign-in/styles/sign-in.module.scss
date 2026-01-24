@@ -2,15 +2,15 @@
 .wrapper::before,
 .border-line::after,
 .border-line::before {
-	@apply w-[28.125rem] h-[37rem];
+	@apply h-[37rem] w-[28.125rem];
 }
 
 .wrapper {
-	@apply w-[28.125rem] h-[37rem];
+	@apply h-[37rem] w-[28.125rem];
 }
 
 .help-wrapper {
-	@apply flex w-full items-center justify-between mb-5 px-2;
+	@apply mb-5 flex w-full items-center justify-between px-2;
 
 	> a:first-of-type {
 		@apply text-muted transition-colors will-change-auto;
@@ -26,26 +26,26 @@
 }
 
 .footer-actions {
-	@apply flex items-center gap-4 mb-6;
+	@apply mb-6 flex items-center gap-4;
 
 	> button {
-		@apply py-1.5 px-2 border-2 border-muted;
+		@apply border-2 border-muted px-2 py-1.5;
 	}
 
 	> p {
-		@apply text-red-500 leading-5;
+		@apply leading-5 text-red-500;
 	}
 }
 
 .footer-socials {
-	@apply flex items-center flex-col;
+	@apply flex flex-col items-center;
 
 	> p {
-		@apply relative block w-full text-center text-muted mb-3;
+		@apply relative mb-3 block w-full text-center text-muted;
 
 		&::before,
 		&::after {
-			@apply content-[""] absolute block top-1/2 w-1/5 h-px bg-muted;
+			@apply absolute top-1/2 block h-px w-1/5 bg-muted content-[""];
 		}
 
 		&[lang="ru"] {
@@ -69,10 +69,10 @@
 	@apply flex items-center gap-6;
 
 	> a {
-		@apply relative rounded-full bg-white/80 w-11 h-11 flex overflow-hidden;
+		@apply relative flex h-11 w-11 overflow-hidden rounded-full bg-white/80;
 
 		> img {
-			@apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+			@apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
 		}
 	}
 }

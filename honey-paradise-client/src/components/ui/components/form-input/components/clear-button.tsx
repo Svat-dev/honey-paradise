@@ -1,13 +1,15 @@
-import type { ICNProps } from "@/shared/types/base.type";
-import { cn } from "@utils/base";
-import { XIcon } from "lucide-react";
-import type { FC } from "react";
-import styles from "../styles/default-input.module.scss";
+import { cn } from "@utils/base"
+import { XIcon } from "lucide-react"
+import type { FC } from "react"
+
+import type { ICNProps } from "@/shared/types/base.type"
+
+import styles from "../styles/default-input.module.scss"
 
 interface IProps extends ICNProps {
-	value: string | undefined;
-	onClick: VoidFunction;
-	t: any;
+	value: string | undefined
+	onClick: VoidFunction
+	t: any
 }
 
 const ClearButton: FC<IProps> = ({ value, onClick, className, t }) => {
@@ -18,7 +20,7 @@ const ClearButton: FC<IProps> = ({ value, onClick, className, t }) => {
 			className={cn(
 				styles["clear-btn"],
 				{
-					"!opacity-0 !scale-95 !pointer-events-none": !value,
+					"!pointer-events-none !scale-95 !opacity-0": !value
 				},
 				className
 			)}
@@ -26,7 +28,7 @@ const ClearButton: FC<IProps> = ({ value, onClick, className, t }) => {
 		>
 			<XIcon size={20} />
 		</button>
-	);
-};
+	)
+}
 
-export { ClearButton };
+export { ClearButton }

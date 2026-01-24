@@ -1,1 +1,1 @@
-export * from "./get-time-as-word";
+export * from "./get-time-as-word"

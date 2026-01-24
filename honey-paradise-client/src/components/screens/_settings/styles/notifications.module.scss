@@ -1,8 +1,8 @@
 .switches-content-wrapper {
-	@apply relative flex flex-col w-full bg-primary rounded-lg px-4 pt-3 pb-4 mb-5;
+	@apply relative mb-5 flex w-full flex-col rounded-lg bg-primary px-4 pb-4 pt-3;
 
 	> h4 {
-		@apply font-medium mb-2;
+		@apply mb-2 font-medium;
 	}
 
 	> div:nth-of-type(2n) {
@@ -13,23 +13,23 @@
 .permissions-wrapper {
 	> div:last-of-type {
 		div > span {
-			@apply ring-1 ring-inset rounded-full px-1.5 py-0.5 text-sm ml-2;
+			@apply ml-2 rounded-full px-1.5 py-0.5 text-sm ring-1 ring-inset;
 
 			&[data-permission="granted"] {
-				@apply ring-green-700 bg-green-400 text-green-950;
+				@apply bg-green-400 text-green-950 ring-green-700;
 			}
 
 			&[data-permission="default"] {
-				@apply text-black bg-secondary ring-secondary;
+				@apply bg-secondary text-black ring-secondary;
 			}
 
 			&[data-permission="denied"] {
-				@apply ring-red-800 bg-red-400 text-red-950;
+				@apply bg-red-400 text-red-950 ring-red-800;
 			}
 		}
 
 		> button {
-			@apply py-1.5 px-2;
+			@apply px-2 py-1.5;
 		}
 	}
 }
@@ -40,7 +40,7 @@
 
 	> div {
 		&:first-of-type {
-			@apply flex items-center justify-center bg-secondary p-2 rounded-full;
+			@apply flex items-center justify-center rounded-full bg-secondary p-2;
 		}
 
 		> p:first-of-type {
@@ -48,7 +48,7 @@
 		}
 
 		> p:last-of-type {
-			@apply text-muted text-sm ml-0.5;
+			@apply ml-0.5 text-sm text-muted;
 		}
 	}
 
@@ -60,18 +60,18 @@
 .destination-types-wrapper {
 	> div:last-of-type {
 		div > span {
-			@apply ring-1 ring-inset rounded-full px-1.5 py-0.5 text-sm ml-2 inline;
+			@apply ml-2 inline rounded-full px-1.5 py-0.5 text-sm ring-1 ring-inset;
 
 			&[data-linked="true"] {
-				@apply ring-green-700 bg-green-400 text-green-950;
+				@apply bg-green-400 text-green-950 ring-green-700;
 			}
 
 			&[data-linked="loading"] {
-				@apply text-black bg-secondary ring-secondary;
+				@apply bg-secondary text-black ring-secondary;
 			}
 
 			&[data-linked="false"] {
-				@apply ring-red-800 bg-red-400 text-red-950;
+				@apply bg-red-400 text-red-950 ring-red-800;
 			}
 		}
 	}

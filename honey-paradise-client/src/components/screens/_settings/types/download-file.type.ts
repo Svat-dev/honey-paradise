@@ -1,5 +1,5 @@
 export interface IDownloadSettingsOpt {
-	title: string;
-	label: string;
-	fn: Function;
+	title: string
+	label: string
+	fn: Function
 }

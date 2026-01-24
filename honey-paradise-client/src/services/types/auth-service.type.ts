@@ -1,4 +1,4 @@
 export interface ISignInResponse {
-	tfa: boolean;
-	tg: boolean;
+	tfa: boolean
+	tg: boolean
 }

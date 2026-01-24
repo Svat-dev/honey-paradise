@@ -1,28 +1,28 @@
 .content-wrapper {
-	@apply relative w-full my-6 mx-10;
+	@apply relative mx-10 my-6 w-full;
 }
 
 .content-desc {
-	@apply ml-1 mb-4 text-muted;
+	@apply mb-4 ml-1 text-muted;
 }
 
 .tabs {
-	@apply relative flex items-center justify-between gap-3 w-fit rounded-lg bg-primary h-10 px-1 py-1;
+	@apply relative flex h-10 w-fit items-center justify-between gap-3 rounded-lg bg-primary px-1 py-1;
 
 	> button {
-		@apply w-28 text-center z-10;
+		@apply z-10 w-28 text-center;
 	}
 
 	> div {
-		@apply absolute top-1/2 left-0 -translate-y-1/2 bg-secondary rounded-lg h-8 w-28 ml-1 z-[5] transition-all will-change-auto;
+		@apply absolute left-0 top-1/2 z-[5] ml-1 h-8 w-28 -translate-y-1/2 rounded-lg bg-secondary transition-all will-change-auto;
 	}
 }
 
 .unique-status-icon {
 	@apply absolute !important;
-	@apply top-1/4 right-8 pointer-events-none;
+	@apply pointer-events-none right-8 top-1/4;
 }
 
 .unique-status-loading-icon {
-	@apply absolute top-1/4 right-8 pointer-events-none text-muted animate-spin;
+	@apply pointer-events-none absolute right-8 top-1/4 animate-spin text-muted;
 }

@@ -1,18 +1,23 @@
-import { AnimatePresence, m } from "motion/react";
+import { AnimatePresence, m } from "motion/react"
+import type { FC } from "react"
 
-import { cn } from "@/shared/lib/utils/base";
-import type { FC } from "react";
+import { cn } from "@/shared/lib/utils/base"
 
 interface IProps {
-	length: number;
-	maxLength: number | undefined;
+	length: number
+	maxLength: number | undefined
 }
 
 const TextareaCounter: FC<IProps> = ({ length, maxLength }) => {
 	return (
 		<div className="absolute bottom-2 right-2 flex items-center text-sm text-muted">
 			<AnimatePresence mode="popLayout">
-				<p key={"4321"} className={cn("transition-all will-change-auto", { "text-base text-black": maxLength === length })}>
+				<p
+					key={"4321"}
+					className={cn("transition-all will-change-auto", {
+						"text-base text-black": maxLength === length
+					})}
+				>
 					{length}
 				</p>
 
@@ -23,7 +28,7 @@ const TextareaCounter: FC<IProps> = ({ length, maxLength }) => {
 				)}
 			</AnimatePresence>
 		</div>
-	);
-};
+	)
+}
 
-export { TextareaCounter };
+export { TextareaCounter }

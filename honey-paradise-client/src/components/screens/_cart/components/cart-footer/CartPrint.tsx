@@ -1,6 +1,12 @@
 import { PrinterIcon } from "lucide-react"
 
-import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/common"
+import {
+	Button,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger
+} from "@/components/ui/common"
 
 import { useCartPrint } from "../../hooks/useCartPrint"
 
@@ -10,7 +16,10 @@ const CartPrint = () => {
 	return (
 		<DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
 			<DropdownMenuTrigger asChild>
-				<Button variant="link" className="flex items-center gap-1 will-change-auto">
+				<Button
+					variant="link"
+					className="flex items-center gap-1 will-change-auto"
+				>
 					<PrinterIcon size={20} />
 					{t("footer.print.opt1")}
 				</Button>

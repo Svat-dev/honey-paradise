@@ -1,13 +1,13 @@
-import { productDiscountOutput } from "./product.output";
+import { productDiscountOutput } from "./product.output"
 
 export const discountProductOutput = {
-  id: true,
-  type: true,
-  discount: true,
-};
+	id: true,
+	type: true,
+	discount: true
+}
 
 export const discountDefaultOutput = {
-  ...discountProductOutput,
-  expiresAt: true,
-  products: { select: productDiscountOutput },
-};
+	...discountProductOutput,
+	expiresAt: true,
+	products: { select: productDiscountOutput }
+}

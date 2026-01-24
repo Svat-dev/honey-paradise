@@ -1,5 +1,5 @@
 .main {
-	@apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-4;
+	@apply absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-4;
 }
 
 .content-wrapper {
@@ -8,7 +8,7 @@
 	}
 
 	> p {
-		@apply text-gray-500 ml-1 mb-6;
+		@apply mb-6 ml-1 text-gray-500;
 	}
 }
 
@@ -37,15 +37,15 @@
 	animation: bee-flying-1 1.5s linear infinite;
 }
 .bee-1 {
-	@apply right-12 -top-10 -rotate-90;
+	@apply -top-10 right-12 -rotate-90;
 	animation: bee-flying-1 1.5s linear infinite;
 }
 .bee-2 {
-	@apply left-12 -top-10 -rotate-[290deg];
+	@apply -top-10 left-12 -rotate-[290deg];
 	animation: bee-flying-2 1.5s linear infinite;
 }
 .bee-3 {
-	@apply left-12 bottom-20 rotate-180;
+	@apply bottom-20 left-12 rotate-180;
 	animation: bee-flying-2 1.5s linear infinite;
 }
 .bee-4 {
@@ -57,11 +57,11 @@
 	animation: bee-flying-2 1.5s linear infinite;
 }
 .bee-6 {
-	@apply right-4 bottom-28 -rotate-[270deg];
+	@apply bottom-28 right-4 -rotate-[270deg];
 	animation: bee-flying-2 1.5s linear infinite;
 }
 .bee-7 {
-	@apply right-32 bottom-0;
+	@apply bottom-0 right-32;
 	animation: bee-flying-1 1.5s linear infinite;
 }
 

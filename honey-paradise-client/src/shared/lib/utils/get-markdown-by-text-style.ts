@@ -1,15 +1,18 @@
-export function getMarkdownByTextStyle(type: "bold" | "italic" | "link", text: string): string {
+export function getMarkdownByTextStyle(
+	type: "bold" | "italic" | "link",
+	text: string
+): string {
 	switch (type) {
 		case "bold":
-			return `**${text}**`;
+			return `**${text}**`
 
 		case "italic":
-			return `_${text}_`;
+			return `_${text}_`
 
 		case "link":
-			return `[${text}](ссылка)`;
+			return `[${text}](ссылка)`
 
 		default:
-			return text;
+			return text
 	}
 }

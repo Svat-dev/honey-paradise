@@ -3,7 +3,7 @@
 }
 
 .error-txt {
-	@apply absolute -bottom-5 px-1.5 leading-3 text-sm;
+	@apply absolute -bottom-5 px-1.5 text-sm leading-3;
 }
 
 .input-wrapper {
@@ -19,15 +19,15 @@
 }
 
 .required {
-	@apply text-red-500 text-lg absolute -top-3 -right-1;
+	@apply absolute -right-1 -top-3 text-lg text-red-500;
 }
 
 .label {
-	@apply absolute -top-5 left-1 text-muted text-sm transition-colors;
+	@apply absolute -top-5 left-1 text-sm text-muted transition-colors;
 }
 
 .password-eye {
-	@apply absolute top-1/2 right-1.5 -translate-y-[25%] z-20 p-px;
+	@apply absolute right-1.5 top-1/2 z-20 -translate-y-[25%] p-px;
 
 	> svg {
 		@apply opacity-70 transition-opacity duration-200 will-change-auto;
@@ -43,7 +43,7 @@
 }
 
 .clear-btn {
-	@apply absolute top-1/2 right-1.5 -translate-y-[25%] z-20 p-px opacity-100 scale-100 transition-all will-change-auto;
+	@apply absolute right-1.5 top-1/2 z-20 -translate-y-[25%] scale-100 p-px opacity-100 transition-all will-change-auto;
 
 	> svg {
 		@apply opacity-70 transition-opacity duration-200 will-change-auto;
@@ -55,10 +55,10 @@
 }
 
 .loader {
-	@apply absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-3 opacity-0 animate-show-effect;
+	@apply absolute left-3 top-1/2 flex -translate-y-1/2 animate-show-effect items-center gap-3 opacity-0;
 
 	> div {
-		@apply h-4 w-4 duration-700 !rounded-full;
+		@apply h-4 w-4 !rounded-full duration-700;
 
 		&:nth-of-type(2) {
 			@apply delay-150;

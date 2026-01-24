@@ -1,22 +1,22 @@
 export const notificationUserOutput = {
-  id: true,
+	id: true,
 
-  message: true,
-  type: true,
-  isRead: true,
+	message: true,
+	type: true,
+	isRead: true,
 
-  createdAt: true,
-  updatedAt: true,
-}; // Prisma.NotificationSelect
+	createdAt: true,
+	updatedAt: true
+} // Prisma.NotificationSelect
 
 export const notificationSettingsUserOutput = {
-  id: true,
+	id: true,
 
-  enabled: true,
-  withSound: true,
+	enabled: true,
+	withSound: true,
 
-  siteNotificationsType: true,
-  telegramNotificationsType: true,
+	siteNotificationsType: true,
+	telegramNotificationsType: true,
 
-  updatedAt: true,
-}; // Prisma.NotificationSettingsSelect
+	updatedAt: true
+} // Prisma.NotificationSettingsSelect

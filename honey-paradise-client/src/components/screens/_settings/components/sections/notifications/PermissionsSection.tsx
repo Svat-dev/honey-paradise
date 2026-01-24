@@ -1,29 +1,46 @@
-import { Button, Separator, Switch, Title } from "@/components/ui/common";
-import { AlertOctagonIcon, BellIcon, MegaphoneIcon } from "lucide-react";
-import { useNotificationsSettings, usePermissionSection } from "../../../hooks/useNotificationsSettings";
+import { cn } from "@utils/base"
+import { AlertOctagonIcon, BellIcon, MegaphoneIcon } from "lucide-react"
+import type { FC } from "react"
+import slugify from "slugify"
 
-import { cn } from "@utils/base";
-import type { FC } from "react";
-import slugify from "slugify";
-import styles from "../../../styles/notifications.module.scss";
+import { Button, Separator, Switch, Title } from "@/components/ui/common"
+
+import {
+	useNotificationsSettings,
+	usePermissionSection
+} from "../../../hooks/useNotificationsSettings"
+import styles from "../../../styles/notifications.module.scss"
 
 interface IProps {
-	isAccLoading: boolean;
-	isEnabled: boolean;
-	isWithSound: boolean;
+	isAccLoading: boolean
+	isEnabled: boolean
+	isWithSound: boolean
 }
 
-const PermissionsSection: FC<IProps> = ({ isAccLoading, isEnabled, isWithSound }) => {
-	const { onRequestPermission, permission } = usePermissionSection();
-	const { isSettingsUpdating, onSwitchChange, getTitles, t } = useNotificationsSettings();
+const PermissionsSection: FC<IProps> = ({
+	isAccLoading,
+	isEnabled,
+	isWithSound
+}) => {
+	const { onRequestPermission, permission } = usePermissionSection()
+	const { isSettingsUpdating, onSwitchChange, getTitles, t } =
+		useNotificationsSettings()
 
-	const isLoading = isAccLoading || isSettingsUpdating;
+	const isLoading = isAccLoading || isSettingsUpdating
 
 	return (
-		<section className={cn(styles["switches-content-wrapper"], styles["permissions-wrapper"])}>
+		<section
+			className={cn(
+				styles["switches-content-wrapper"],
+				styles["permissions-wrapper"]
+			)}
+		>
 			<Title size="sm">
 				{t("permissions.title")}
-				<a className="opacity-0 size-0" id={slugify(t("permissions.title"), { locale: "en", lower: true })} />
+				<a
+					className="size-0 opacity-0"
+					id={slugify(t("permissions.title"), { locale: "en", lower: true })}
+				/>
 			</Title>
 
 			<div className={styles["switch-wrapper"]}>
@@ -74,16 +91,23 @@ const PermissionsSection: FC<IProps> = ({ isAccLoading, isEnabled, isWithSound }
 
 				<div>
 					<p className="inline">{t("permissions.push.title")}</p>
-					<span data-permission={permission}>{t("permissions.push.permitted", { permission })}</span>
+					<span data-permission={permission}>
+						{t("permissions.push.permitted", { permission })}
+					</span>
 					<p>{t("permissions.push.description")}</p>
 				</div>
 
-				<Button variant="secondary" title={t("labels.reqPermBtn")} disabled={permission === "granted"} onClick={onRequestPermission}>
+				<Button
+					variant="secondary"
+					title={t("labels.reqPermBtn")}
+					disabled={permission === "granted"}
+					onClick={onRequestPermission}
+				>
 					{t("permissions.push.reqPermBtn")}
 				</Button>
 			</div>
 		</section>
-	);
-};
+	)
+}
 
-export { PermissionsSection };
+export { PermissionsSection }

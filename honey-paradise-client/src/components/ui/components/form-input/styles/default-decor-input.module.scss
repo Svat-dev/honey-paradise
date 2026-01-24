@@ -1,14 +1,14 @@
 .input {
-	@apply relative w-full pt-5 px-3 pb-2 bg-transparent text-input z-10 transition-all duration-500 will-change-auto;
+	@apply relative z-10 w-full bg-transparent px-3 pb-2 pt-5 text-input transition-all duration-500 will-change-auto;
 
 	&::placeholder {
-		@apply opacity-0 sr-only;
+		@apply sr-only opacity-0;
 	}
 
 	&:focus,
 	&:not(:placeholder-shown) {
 		& ~ .label {
-			@apply text-black -translate-y-7 text-sm px-1.5;
+			@apply -translate-y-7 px-1.5 text-sm text-black;
 		}
 		& ~ .decor-input {
 			@apply h-9;
@@ -17,9 +17,9 @@
 }
 
 .decor-input {
-	@apply absolute left-0 bottom-1 w-full h-0.5 bg-white rounded-md overflow-hidden transition-all duration-500 pointer-events-none will-change-auto;
+	@apply pointer-events-none absolute bottom-1 left-0 h-0.5 w-full overflow-hidden rounded-md bg-white transition-all duration-500 will-change-auto;
 }
 
 .label {
-	@apply absolute top-0 left-0 pt-5 px-3 pb-2 text-muted transition-all duration-500 select-none pointer-events-none will-change-auto;
+	@apply pointer-events-none absolute left-0 top-0 select-none px-3 pb-2 pt-5 text-muted transition-all duration-500 will-change-auto;
 }

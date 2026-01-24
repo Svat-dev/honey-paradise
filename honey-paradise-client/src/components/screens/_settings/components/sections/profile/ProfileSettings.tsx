@@ -1,15 +1,21 @@
-import { useMyAccount } from "@hooks/auth";
-import { AppearanceSection } from "./AppearanceSection";
-import { AvatarSection } from "./avatar/AvatarSection";
-import { InfoSection } from "./InfoSection";
-import { TelegramSection } from "./TelegramSection";
+import { useMyAccount } from "@hooks/auth"
+
+import { AppearanceSection } from "./AppearanceSection"
+import { AvatarSection } from "./avatar/AvatarSection"
+import { InfoSection } from "./InfoSection"
+import { TelegramSection } from "./TelegramSection"
 
 const ProfileSettings = () => {
-	const { user, isAccLoading } = useMyAccount();
+	const { user, isAccLoading } = useMyAccount()
 
 	return (
 		<>
-			<AvatarSection avatarPath={user?.avatarPath} framePath={user?.framePath} username={user?.username} isAccLoading={isAccLoading} />
+			<AvatarSection
+				avatarPath={user?.avatarPath}
+				framePath={user?.framePath}
+				username={user?.username}
+				isAccLoading={isAccLoading}
+			/>
 
 			<InfoSection
 				birthdate={user?.birthdate || undefined}
@@ -19,11 +25,14 @@ const ProfileSettings = () => {
 				isLoading={isAccLoading}
 			/>
 
-			<AppearanceSection settings={user?.settings} isAccLoading={isAccLoading} />
+			<AppearanceSection
+				settings={user?.settings}
+				isAccLoading={isAccLoading}
+			/>
 
 			<TelegramSection />
 		</>
-	);
-};
+	)
+}
 
-export { ProfileSettings };
+export { ProfileSettings }

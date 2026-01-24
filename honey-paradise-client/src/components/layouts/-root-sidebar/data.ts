@@ -1,5 +1,6 @@
-"use server";
+"use server"
 
+import { EnumAppRoute } from "@constants/routes"
 import {
 	ArrowUpNarrowWideIcon,
 	BookOpenIcon,
@@ -8,16 +9,17 @@ import {
 	LibraryBigIcon,
 	ListPlusIcon,
 	ScrollTextIcon,
-	ShieldAlertIcon,
-} from "lucide-react";
+	ShieldAlertIcon
+} from "lucide-react"
+import { getTranslations } from "next-intl/server"
 
-import { EnumAppRoute } from "@constants/routes";
-import { getTranslations } from "next-intl/server";
-import type { INavList } from "./types/data.type";
+import type { INavList } from "./types/data.type"
 
 export async function getNavListData(): Promise<INavList[]> {
-	const topics = await getTranslations("layout.root-sidebar.list.content.topics");
-	const links = await getTranslations("layout.root-sidebar.list.content.links");
+	const topics = await getTranslations(
+		"layout.root-sidebar.list.content.topics"
+	)
+	const links = await getTranslations("layout.root-sidebar.list.content.links")
 
 	const navListData: INavList[] = [
 		{
@@ -26,19 +28,19 @@ export async function getNavListData(): Promise<INavList[]> {
 				{
 					icon: BookOpenIcon,
 					link: "/",
-					title: links("wiki"),
+					title: links("wiki")
 				},
 				{
 					icon: LibraryBigIcon,
 					link: "/",
-					title: links("deference"),
+					title: links("deference")
 				},
 				{
 					icon: ScrollTextIcon,
 					link: "/",
-					title: links("sorts"),
-				},
-			],
+					title: links("sorts")
+				}
+			]
 		},
 		{
 			topic: topics("catalog"),
@@ -46,19 +48,19 @@ export async function getNavListData(): Promise<INavList[]> {
 				{
 					icon: ArrowUpNarrowWideIcon,
 					link: "/",
-					title: links("popular"),
+					title: links("popular")
 				},
 				{
 					icon: ListPlusIcon,
 					link: "/",
-					title: links("new"),
+					title: links("new")
 				},
 				{
 					icon: Layers3Icon,
 					link: EnumAppRoute.CATALOG,
-					title: links("allProducts"),
-				},
-			],
+					title: links("allProducts")
+				}
+			]
 		},
 		{
 			topic: topics("information"),
@@ -66,16 +68,16 @@ export async function getNavListData(): Promise<INavList[]> {
 				{
 					icon: InfoIcon,
 					link: "/",
-					title: links("about"),
+					title: links("about")
 				},
 				{
 					icon: ShieldAlertIcon,
 					link: EnumAppRoute.PRIVACY_POLICY,
-					title: links("privacyPolicy"),
-				},
-			],
-		},
-	];
+					title: links("privacyPolicy")
+				}
+			]
+		}
+	]
 
-	return navListData;
+	return navListData
 }

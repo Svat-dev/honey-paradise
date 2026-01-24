@@ -1,10 +1,10 @@
-import { GetMySettingsResponseDefaultCurrency } from "../server";
+import { GetMySettingsResponseDefaultCurrency } from "../server"
 
 export interface ICart {
-	id: string;
+	id: string
 
-	totalPrice: number;
-	currency: GetMySettingsResponseDefaultCurrency;
+	totalPrice: number
+	currency: GetMySettingsResponseDefaultCurrency
 
-	createdAt: Date;
+	createdAt: Date
 }

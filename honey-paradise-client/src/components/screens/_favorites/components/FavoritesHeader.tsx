@@ -1,30 +1,45 @@
-import { Button, Skeleton, Title } from "@/components/ui/common";
+import type { FC } from "react"
 
-import type { FC } from "react";
-import { useFavoritesHeader } from "../hooks/useFavoritesHeader";
+import { Button, Skeleton, Title } from "@/components/ui/common"
+
+import { useFavoritesHeader } from "../hooks/useFavoritesHeader"
 
 interface IFavoritesHeaderProps {
-	length: number | undefined;
-	total: string | undefined;
-	isLoading: boolean;
+	length: number | undefined
+	total: string | undefined
+	isLoading: boolean
 }
 
-const FavoritesHeader: FC<IFavoritesHeaderProps> = ({ length, total, isLoading }) => {
-	const { isAddingFavoritesToCart, isClearingFavoritesProducts, handleAddFavoritesToCart, handleClearFavorites, t } = useFavoritesHeader();
+const FavoritesHeader: FC<IFavoritesHeaderProps> = ({
+	length,
+	total,
+	isLoading
+}) => {
+	const {
+		isAddingFavoritesToCart,
+		isClearingFavoritesProducts,
+		handleAddFavoritesToCart,
+		handleClearFavorites,
+		t
+	} = useFavoritesHeader()
 
 	return (
-		<section className="sticky top-16 z-20 flex justify-between bg-primary rounded-md p-3 w-full mb-5">
-			<Title size="md" className="flex items-center text-xl self-start">
+		<section className="sticky top-16 z-20 mb-5 flex w-full justify-between rounded-md bg-primary p-3">
+			<Title size="md" className="flex items-center self-start text-xl">
 				{t.rich("amount", {
 					isLoading: String(isLoading),
 					length: length || 0,
 					total: total || 0,
-					txt1: chunks => <span className="flex items-center font-semibold gap-1">{chunks}</span>,
+					txt1: chunks => (
+						<span className="flex items-center gap-1 font-semibold">
+							{chunks}
+						</span>
+					),
 					txt2: chunks => <span>{chunks}</span>,
 					txt3: chunks => <span className="font-medium">{chunks}</span>,
-					loader1: () => <Skeleton className="w-6 h-5" />,
+					loader1: () => <Skeleton className="h-5 w-6" />,
 					loader2: () => <Skeleton className="h-5 w-16" />,
-					space: () => <>&nbsp;</>,
+					space: () => <>&nbsp;</>
 				})}
 			</Title>
 
@@ -52,7 +67,7 @@ const FavoritesHeader: FC<IFavoritesHeaderProps> = ({ length, total, isLoading }
 				</Button>
 			</div>
 		</section>
-	);
-};
+	)
+}
 
-export { FavoritesHeader };
+export { FavoritesHeader }

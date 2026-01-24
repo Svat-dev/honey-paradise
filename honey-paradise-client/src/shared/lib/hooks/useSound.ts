@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react"
 
 /**
  * Хук для воспроизведения аудио без использования компонента audio
@@ -6,30 +6,30 @@ import { useEffect, useRef } from "react";
  * @returns {{play: Promise<void>}} play - функция для воспроизведения аудио
  */
 export const useSound = (src: string): { play: () => Promise<void> } => {
-	const audioRef = useRef<HTMLAudioElement | null>(null);
+	const audioRef = useRef<HTMLAudioElement | null>(null)
 
 	useEffect(() => {
-		audioRef.current = new Audio(src);
+		audioRef.current = new Audio(src)
 
 		return () => {
 			if (audioRef.current) {
-				audioRef.current.pause();
-				audioRef.current.currentTime = 0;
-				audioRef.current = null;
+				audioRef.current.pause()
+				audioRef.current.currentTime = 0
+				audioRef.current = null
 			}
-		};
-	}, [src]);
+		}
+	}, [src])
 
 	const play = async () => {
 		try {
 			if (audioRef.current) {
-				await audioRef.current.play();
-				audioRef.current.currentTime = 0;
+				await audioRef.current.play()
+				audioRef.current.currentTime = 0
 			}
 		} catch (error) {
-			console.error("Error while playing an audio:", error);
+			console.error("Error while playing an audio:", error)
 		}
-	};
+	}
 
-	return { play };
-};
+	return { play }
+}

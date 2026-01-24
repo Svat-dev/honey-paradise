@@ -1,3 +1,7 @@
+import { VALUES } from "@constants/base"
+import type { FC, PropsWithChildren } from "react"
+import { FormProvider } from "react-hook-form"
+
 import {
 	Button,
 	Dialog,
@@ -6,19 +10,17 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
-} from "@/components/ui/common";
-import type { FC, PropsWithChildren } from "react";
+	DialogTrigger
+} from "@/components/ui/common"
+import { FormInput } from "@/components/ui/components/form-input"
 
-import { FormInput } from "@/components/ui/components/form-input";
-import { VALUES } from "@constants/base";
-import { FormProvider } from "react-hook-form";
-import { useChangePasswordModal } from "../../../hooks/useSecuritySection";
+import { useChangePasswordModal } from "../../../hooks/useSecuritySection"
 
 interface IProps extends PropsWithChildren {}
 
 const ChangePasswordModal: FC<IProps> = ({ children }) => {
-	const { form, isOpen, isPasswordUpdating, onSubmit, setIsOpen, t } = useChangePasswordModal();
+	const { form, isOpen, isPasswordUpdating, onSubmit, setIsOpen, t } =
+		useChangePasswordModal()
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -27,9 +29,13 @@ const ChangePasswordModal: FC<IProps> = ({ children }) => {
 				<FormProvider {...form}>
 					<form onSubmit={onSubmit}>
 						<DialogHeader className="mb-7">
-							<DialogTitle>{t("security.changePasswordModal.title")}</DialogTitle>
+							<DialogTitle>
+								{t("security.changePasswordModal.title")}
+							</DialogTitle>
 
-							<DialogDescription className="ml-1">{t("security.changePasswordModal.description")}</DialogDescription>
+							<DialogDescription className="ml-1">
+								{t("security.changePasswordModal.description")}
+							</DialogDescription>
 						</DialogHeader>
 
 						<FormInput
@@ -62,7 +68,7 @@ const ChangePasswordModal: FC<IProps> = ({ children }) => {
 								type="submit"
 								title={t("labels.changePasswordBtn")}
 								tabIndex={3}
-								className="py-1.5 px-2 border border-muted"
+								className="border border-muted px-2 py-1.5"
 								isLoading={isPasswordUpdating}
 							>
 								{t("security.changePasswordModal.confirmBtn")}
@@ -72,7 +78,7 @@ const ChangePasswordModal: FC<IProps> = ({ children }) => {
 				</FormProvider>
 			</DialogContent>
 		</Dialog>
-	);
-};
+	)
+}
 
-export { ChangePasswordModal };
+export { ChangePasswordModal }

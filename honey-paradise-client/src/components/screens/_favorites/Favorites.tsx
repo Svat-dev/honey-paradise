@@ -1,21 +1,23 @@
-import { Title } from "@/components/ui/common";
-import { getTranslations } from "next-intl/server";
-import { FavoritesContent } from "./components/FavoritesContent";
+import { getTranslations } from "next-intl/server"
+
+import { Title } from "@/components/ui/common"
+
+import { FavoritesContent } from "./components/FavoritesContent"
 
 const Favorites = async () => {
-	const t = await getTranslations("global.favorites.content");
+	const t = await getTranslations("global.favorites.content")
 
 	return (
-		<article className="relative w-full my-6 mx-10">
+		<article className="relative mx-10 my-6 w-full">
 			<Title size="lg" className="font-bold">
 				{t("title")}
 			</Title>
 
-			<p className="ml-1 mb-4 text-muted">{t("description")}</p>
+			<p className="mb-4 ml-1 text-muted">{t("description")}</p>
 
 			<FavoritesContent />
 		</article>
-	);
-};
+	)
+}
 
-export { Favorites };
+export { Favorites }

@@ -7,7 +7,7 @@
 }
 
 .footer {
-	@apply flex w-full justify-between items-center px-4;
+	@apply flex w-full items-center justify-between px-4;
 }
 
 .recaptcha {
@@ -19,11 +19,11 @@
 }
 
 .submit-btn {
-	@apply py-1.5 px-2 border-2 border-muted min-w-28;
+	@apply min-w-28 border-2 border-muted px-2 py-1.5;
 }
 
 .return-btn {
-	@apply py-1.5 px-2;
+	@apply px-2 py-1.5;
 }
 
 @keyframes animate-show-in {

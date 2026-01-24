@@ -1,14 +1,14 @@
 export enum EnumLanguages {
 	RU = "ru",
-	EN = "en",
+	EN = "en"
 }
 
-export const LANGUAGES = ["ru", "en"];
-export const DEFAULT_LANGUAGE = String(EnumLanguages.EN);
+export const LANGUAGES = ["ru", "en"]
+export const DEFAULT_LANGUAGE = String(EnumLanguages.EN)
 
 export const LANGS_BY_KEY = {
 	ru: "Русский",
 	en: "English",
 	ru_full: "Русский язык",
-	en_full: "English language",
-};
+	en_full: "English language"
+}

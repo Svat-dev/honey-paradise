@@ -1,28 +1,38 @@
-import type { TCurrenciesCodes } from "@/services/types/currency-service.type";
-import type { GetMySettingsResponseDefaultCurrency } from "@/shared/types/server";
+import type { TCurrenciesCodes } from "@/services/types/currency-service.type"
+import type { GetMySettingsResponseDefaultCurrency } from "@/shared/types/server"
 
-export function convertPrice(price: number, currency: string, round: boolean = false): string {
-	if (typeof price === "undefined") return "0";
+export function convertPrice(
+	price: number,
+	currency: string,
+	round: boolean = false
+): string {
+	if (typeof price === "undefined") return "0"
 
-	const roundPrice = round ? Math.round(price) : price;
+	const roundPrice = round ? Math.round(price) : price
 
-	const res = roundPrice.toLocaleString("en-US", { currency, currencyDisplay: "narrowSymbol", style: "currency" });
+	const res = roundPrice.toLocaleString("en-US", {
+		currency,
+		currencyDisplay: "narrowSymbol",
+		style: "currency"
+	})
 
-	return res;
+	return res
 }
 
-export function getCurrencyFromSettings(currency: GetMySettingsResponseDefaultCurrency): TCurrenciesCodes {
+export function getCurrencyFromSettings(
+	currency: GetMySettingsResponseDefaultCurrency
+): TCurrenciesCodes {
 	switch (currency) {
 		case "DOLLAR":
-			return "USD";
+			return "USD"
 
 		case "EURO":
-			return "EUR";
+			return "EUR"
 
 		case "RUBLE":
-			return "RUB";
+			return "RUB"
 
 		default:
-			return "USD";
+			return "USD"
 	}
 }

@@ -1,28 +1,29 @@
-import { sessionService } from "@/services/session.service";
-import { queryKeys } from "@/shared/lib/constants/routes";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query"
+
+import { sessionService } from "@/services/session.service"
+import { queryKeys } from "@/shared/lib/constants/routes"
 
 export const useRemoveSessionS = () => {
 	const { mutateAsync, mutate, isPending } = useMutation({
 		mutationKey: [queryKeys.deleteSession],
-		mutationFn: (sid: string) => sessionService.removeSession(sid),
-	});
+		mutationFn: (sid: string) => sessionService.removeSession(sid)
+	})
 
 	return {
 		removeSessionAsync: mutateAsync,
 		removeSession: mutate,
-		isRemovingSession: isPending,
-	};
-};
+		isRemovingSession: isPending
+	}
+}
 
 export const useRemoveAllSessionsS = () => {
 	const { mutateAsync, isPending } = useMutation({
 		mutationKey: [queryKeys.deleteAllSessions],
-		mutationFn: () => sessionService.removeAllSessions(),
-	});
+		mutationFn: () => sessionService.removeAllSessions()
+	})
 
 	return {
 		removeAllSessions: mutateAsync,
-		isAllSessionsRemoving: isPending,
-	};
-};
+		isAllSessionsRemoving: isPending
+	}
+}

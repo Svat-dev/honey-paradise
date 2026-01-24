@@ -1,9 +1,11 @@
-import { Skeleton } from "@/components/ui/common";
-import type { FC } from "react";
-import styles from "../styles/notifications.module.scss";
+import type { FC } from "react"
+
+import { Skeleton } from "@/components/ui/common"
+
+import styles from "../styles/notifications.module.scss"
 
 interface IProps {
-	limit: number;
+	limit: number
 }
 
 const NotificationsLoading: FC<IProps> = ({ limit }) => {
@@ -13,7 +15,7 @@ const NotificationsLoading: FC<IProps> = ({ limit }) => {
 				.fill(0)
 				.map((_, i) => <Skeleton key={i} className={styles["loader"]} />)}
 		</>
-	);
-};
+	)
+}
 
-export { NotificationsLoading };
+export { NotificationsLoading }

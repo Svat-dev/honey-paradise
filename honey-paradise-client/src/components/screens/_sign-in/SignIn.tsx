@@ -1,20 +1,26 @@
-"use client";
+"use client"
 
-import { Alert, AlertDescription, AlertTitle, Button } from "@/components/ui/common";
+import { VALUES } from "@constants/base"
+import { EnumAppRoute } from "@constants/routes"
+import _styles from "@styles/modules/auth-form-wrapper.module.scss"
+import { cn } from "@utils/base"
+import { ShieldCheckIcon } from "lucide-react"
+import ReCAPTCHA from "react-google-recaptcha"
+import { FormProvider } from "react-hook-form"
 
-import { Link } from "@/components/ui/common";
-import { FormInput } from "@/components/ui/components/form-input";
-import { FormBlock } from "@/components/ui/layouts";
-import { VALUES } from "@constants/base";
-import { EnumAppRoute } from "@constants/routes";
-import _styles from "@styles/modules/auth-form-wrapper.module.scss";
-import { cn } from "@utils/base";
-import { ShieldCheckIcon } from "lucide-react";
-import ReCAPTCHA from "react-google-recaptcha";
-import { FormProvider } from "react-hook-form";
-import { Footer } from "./components/Footer";
-import styles from "./styles/sign-in.module.scss";
-import { useSignIn } from "./useSignIn";
+import {
+	Alert,
+	AlertDescription,
+	AlertTitle,
+	Button
+} from "@/components/ui/common"
+import { Link } from "@/components/ui/common"
+import { FormInput } from "@/components/ui/components/form-input"
+import { FormBlock } from "@/components/ui/layouts"
+
+import { Footer } from "./components/Footer"
+import styles from "./styles/sign-in.module.scss"
+import { useSignIn } from "./useSignIn"
 
 const SignIn = () => {
 	const {
@@ -31,21 +37,35 @@ const SignIn = () => {
 		recaptchaRef,
 		isSuccess,
 		isTgSignInLoading,
-		isCancelTgSignInLoading,
-	} = useSignIn();
+		isCancelTgSignInLoading
+	} = useSignIn()
 
 	return (
-		<div data-status={dataStatus} className={cn(_styles["wrapper"], styles["wrapper"], { "!h-[12rem] !w-[35rem]": isSuccess })}>
+		<div
+			data-status={dataStatus}
+			className={cn(_styles["wrapper"], styles["wrapper"], {
+				"!h-[12rem] !w-[35rem]": isSuccess
+			})}
+		>
 			<span
 				data-status={dataStatus}
-				className={cn(_styles["border-line"], styles["border-line"], { "!h-[12rem] !w-[35rem]": isSuccess })}
+				className={cn(_styles["border-line"], styles["border-line"], {
+					"!h-[12rem] !w-[35rem]": isSuccess
+				})}
 			></span>
 
 			<FormProvider {...form}>
-				<form className={_styles["form"]} onSubmit={form.handleSubmit(onSubmit)}>
+				<form
+					className={_styles["form"]}
+					onSubmit={form.handleSubmit(onSubmit)}
+				>
 					{isSuccess ? (
 						<>
-							<Alert className={cn("mb-4 transition-opacity will-change-auto", { "opacity-80": isTgSignInLoading })}>
+							<Alert
+								className={cn("mb-4 transition-opacity will-change-auto", {
+									"opacity-80": isTgSignInLoading
+								})}
+							>
 								<ShieldCheckIcon size={28} />
 
 								<AlertTitle>{t("alert.title")}</AlertTitle>
@@ -53,9 +73,13 @@ const SignIn = () => {
 								<AlertDescription>{t("alert.description")}</AlertDescription>
 							</Alert>
 							<Button
-								className="w-fit py-1.5 px-2 self-end"
+								className="w-fit self-end px-2 py-1.5"
 								variant="destructive"
-								disabled={isSignInLoading || isTgSignInLoading || isCancelTgSignInLoading}
+								disabled={
+									isSignInLoading ||
+									isTgSignInLoading ||
+									isCancelTgSignInLoading
+								}
 								isLoading={isCancelTgSignInLoading}
 								onClick={onCancelTgSignIn}
 								title={t("alert.cancelBtn")}
@@ -65,7 +89,11 @@ const SignIn = () => {
 							</Button>
 						</>
 					) : (
-						<FormBlock title={t("title")} titleClassName={_styles["title"]} active>
+						<FormBlock
+							title={t("title")}
+							titleClassName={_styles["title"]}
+							active
+						>
 							<FormInput
 								type="text"
 								name="id"
@@ -107,13 +135,19 @@ const SignIn = () => {
 								tabIndex={5}
 							/>
 
-							<Footer isError={error} isLoading={isSignInLoading} status={dataStatus} t={t} locale={locale} />
+							<Footer
+								isError={error}
+								isLoading={isSignInLoading}
+								status={dataStatus}
+								t={t}
+								locale={locale}
+							/>
 						</FormBlock>
 					)}
 				</form>
 			</FormProvider>
 		</div>
-	);
-};
+	)
+}
 
-export { SignIn };
+export { SignIn }

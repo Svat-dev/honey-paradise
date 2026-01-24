@@ -1,10 +1,19 @@
-import { cn } from "@utils/base";
-import { ArrowUpRightIcon } from "lucide-react";
-import Link from "next/dist/client/link";
-import type { TLinkType } from "./types/link.type";
+import { cn } from "@utils/base"
+import { ArrowUpRightIcon } from "lucide-react"
+import Link from "next/dist/client/link"
 
-const LinkUI: TLinkType = ({ href, children, className, asAnchor, asChild, isOutside, ...props }) => {
-	const newHref = asAnchor ? `#${href}` : href;
+import type { TLinkType } from "./types/link.type"
+
+const LinkUI: TLinkType = ({
+	href,
+	children,
+	className,
+	asAnchor,
+	asChild,
+	isOutside,
+	...props
+}) => {
+	const newHref = asAnchor ? `#${href}` : href
 
 	return (
 		<Link href={newHref} className={cn("inline-flex", className)} {...props}>
@@ -15,7 +24,7 @@ const LinkUI: TLinkType = ({ href, children, className, asAnchor, asChild, isOut
 				</span>
 			)}
 		</Link>
-	);
-};
+	)
+}
 
-export { LinkUI as Link };
+export { LinkUI as Link }

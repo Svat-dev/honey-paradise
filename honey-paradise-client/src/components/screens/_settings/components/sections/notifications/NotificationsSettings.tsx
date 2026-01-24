@@ -1,9 +1,10 @@
-import { useMyAccount } from "@hooks/auth";
-import { DestinationTypes } from "./DestinationTypes";
-import { PermissionsSection } from "./PermissionsSection";
+import { useMyAccount } from "@hooks/auth"
+
+import { DestinationTypes } from "./DestinationTypes"
+import { PermissionsSection } from "./PermissionsSection"
 
 const NotificationsSettings = () => {
-	const { user, isAccLoading } = useMyAccount();
+	const { user, isAccLoading } = useMyAccount()
 
 	return (
 		<>
@@ -17,10 +18,12 @@ const NotificationsSettings = () => {
 				isAccLoading={isAccLoading}
 				isTgLinked={!!user?.telegramId}
 				isSiteNotification={!!user?.notificationSettings.siteNotificationsType}
-				isTgNotification={!!user?.notificationSettings.telegramNotificationsType}
+				isTgNotification={
+					!!user?.notificationSettings.telegramNotificationsType
+				}
 			/>
 		</>
-	);
-};
+	)
+}
 
-export { NotificationsSettings };
+export { NotificationsSettings }

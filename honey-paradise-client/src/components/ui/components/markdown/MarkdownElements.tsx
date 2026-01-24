@@ -1,33 +1,63 @@
-import { Link, Separator, Title } from "../../common";
+import type { MarkdownComponents } from "@md-parser/react"
 
-import type { MarkdownComponents } from "@md-parser/react";
-import { markdownTitleSizes } from "./data";
+import { Link, Separator, Title } from "../../common"
 
-const HeadingRenderer: MarkdownComponents["heading"] = ({ children, level }) => <Title size={markdownTitleSizes[level]}>{children}</Title>;
+import { markdownTitleSizes } from "./data"
 
-const ParagraphRenderer: MarkdownComponents["paragraph"] = ({ children }) => <p>{children}</p>;
+const HeadingRenderer: MarkdownComponents["heading"] = ({
+	children,
+	level
+}) => <Title size={markdownTitleSizes[level]}>{children}</Title>
 
-const LinkRenderer: MarkdownComponents["link"] = ({ children, href, title }) => (
-	<Link href={href} title={title} className="text-blue-700 hover:underline visited:text-purple-500">
+const ParagraphRenderer: MarkdownComponents["paragraph"] = ({ children }) => (
+	<p>{children}</p>
+)
+
+const LinkRenderer: MarkdownComponents["link"] = ({
+	children,
+	href,
+	title
+}) => (
+	<Link
+		href={href}
+		title={title}
+		className="text-blue-700 visited:text-purple-500 hover:underline"
+	>
 		{children}
 	</Link>
-);
+)
 
-const ListRenderer: MarkdownComponents["list"] = ({ children }) => <ul className="ml-6">{children}</ul>;
+const ListRenderer: MarkdownComponents["list"] = ({ children }) => (
+	<ul className="ml-6">{children}</ul>
+)
 
-const ListItemRenderer: MarkdownComponents["listItem"] = ({ children }) => <li>{children}</li>;
+const ListItemRenderer: MarkdownComponents["listItem"] = ({ children }) => (
+	<li>{children}</li>
+)
 
-const StrongRenderer: MarkdownComponents["strong"] = ({ children }) => <strong>{children}</strong>;
+const StrongRenderer: MarkdownComponents["strong"] = ({ children }) => (
+	<strong>{children}</strong>
+)
 
-const ItalicRenderer: MarkdownComponents["emphasis"] = ({ children }) => <em>{children}</em>;
+const ItalicRenderer: MarkdownComponents["emphasis"] = ({ children }) => (
+	<em>{children}</em>
+)
 
-const StrikeThroughRenderer: MarkdownComponents["strikeThrough"] = ({ children }) => <del>{children}</del>;
+const StrikeThroughRenderer: MarkdownComponents["strikeThrough"] = ({
+	children
+}) => <del>{children}</del>
 
-const CodeRenderer: MarkdownComponents["code"] = ({ value }) => <pre>{value}</pre>;
+const CodeRenderer: MarkdownComponents["code"] = ({ value }) => (
+	<pre>{value}</pre>
+)
 
-const InlineCodeRenderer: MarkdownComponents["inlineCode"] = ({ value }) => <code>{value}</code>;
+const InlineCodeRenderer: MarkdownComponents["inlineCode"] = ({ value }) => (
+	<code>{value}</code>
+)
 
-const DividerRenderer: MarkdownComponents["divider"] = () => <Separator orientation="horizontal" className="my-2 !bg-transparent" />;
+const DividerRenderer: MarkdownComponents["divider"] = () => (
+	<Separator orientation="horizontal" className="my-2 !bg-transparent" />
+)
 
 export const mdComponents: Partial<MarkdownComponents> = {
 	heading: HeadingRenderer,
@@ -40,5 +70,5 @@ export const mdComponents: Partial<MarkdownComponents> = {
 	emphasis: ItalicRenderer,
 	strikeThrough: StrikeThroughRenderer,
 	code: CodeRenderer,
-	inlineCode: InlineCodeRenderer,
-};
+	inlineCode: InlineCodeRenderer
+}

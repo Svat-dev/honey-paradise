@@ -1,46 +1,48 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 
 export const useProductImage = (images: string[]) => {
-	const [imageIndex, setImageIndex] = useState<number>(0);
-	const [imageUrl, setImageUrl] = useState<string>(images[0]);
+	const [imageIndex, setImageIndex] = useState<number>(0)
+	const [imageUrl, setImageUrl] = useState<string>(images[0])
 
-	const [isImageLoading, setIsImageLoading] = useState<boolean>(false);
-	const [isCarouselActive, setIsCarouselActive] = useState<boolean>(true);
+	const [isImageLoading, setIsImageLoading] = useState<boolean>(false)
+	const [isCarouselActive, setIsCarouselActive] = useState<boolean>(true)
 
 	const handleMouseEnter = (index: number) => {
-		setIsCarouselActive(false);
-		setImageIndex(index);
-	};
+		setIsCarouselActive(false)
+		setImageIndex(index)
+	}
 
-	const handleMouseLeave = () => setIsCarouselActive(true);
+	const handleMouseLeave = () => setIsCarouselActive(true)
 
-	const handlePrevClick = () => setImageIndex(prev => (prev - 1 + images.length) % images.length);
+	const handlePrevClick = () =>
+		setImageIndex(prev => (prev - 1 + images.length) % images.length)
 
-	const handleNextClick = () => setImageIndex(prev => (prev + 1) % images.length);
+	const handleNextClick = () =>
+		setImageIndex(prev => (prev + 1) % images.length)
 
 	useEffect(() => {
-		setIsImageLoading(true);
+		setIsImageLoading(true)
 
 		const timeout = setTimeout(() => {
-			setIsImageLoading(false);
-			setImageUrl(images[imageIndex]);
-		}, 400);
+			setIsImageLoading(false)
+			setImageUrl(images[imageIndex])
+		}, 400)
 
 		return () => {
-			if (timeout) clearTimeout(timeout);
-		};
-	}, [imageIndex]);
+			if (timeout) clearTimeout(timeout)
+		}
+	}, [imageIndex])
 
 	useEffect(() => {
-		if (!isCarouselActive) return;
+		if (!isCarouselActive) return
 
-		const nextIndex = (imageIndex + 1) % images.length;
-		const interval = setInterval(() => setImageIndex(nextIndex), 10000);
+		const nextIndex = (imageIndex + 1) % images.length
+		const interval = setInterval(() => setImageIndex(nextIndex), 10000)
 
 		return () => {
-			if (interval) clearInterval(interval);
-		};
-	}, [imageIndex, isCarouselActive]);
+			if (interval) clearInterval(interval)
+		}
+	}, [imageIndex, isCarouselActive])
 
 	return {
 		handleMouseEnter,
@@ -49,6 +51,6 @@ export const useProductImage = (images: string[]) => {
 		handleNextClick,
 		imageIndex,
 		isImageLoading,
-		imageUrl,
-	};
-};
+		imageUrl
+	}
+}

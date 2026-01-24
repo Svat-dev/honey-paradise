@@ -1,5 +1,5 @@
 .list {
-	@apply inline-flex items-center gap-5 w-full list-none ml-5;
+	@apply ml-5 inline-flex w-full list-none items-center gap-5;
 }
 
 .list-item {
@@ -20,6 +20,6 @@
 	}
 
 	&::before {
-		@apply content-[""] h-0.5 w-0 bg-muted absolute bottom-0.5 transition-[width];
+		@apply absolute bottom-0.5 h-0.5 w-0 bg-muted transition-[width] content-[""];
 	}
 }

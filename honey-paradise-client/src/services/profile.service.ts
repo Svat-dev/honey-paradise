@@ -1,64 +1,94 @@
-import { UpdateAvatarFrameDto, UpdateUserDto, UpdateUserSettingsDto, UploadSettingsResponse } from "@/shared/types/server";
+import { EnumApiRoute } from "@constants/routes"
+import type { AxiosResponse } from "axios"
 
-import { getContentType } from "@/api/api-helper";
-import { instance } from "@/api/instance";
-import type { Nullable } from "@/shared/types";
-import { EnumApiRoute } from "@constants/routes";
-import type { AxiosResponse } from "axios";
+import { getContentType } from "@/api/api-helper"
+import { instance } from "@/api/instance"
+import type { Nullable } from "@/shared/types"
+import {
+	UpdateAvatarFrameDto,
+	UpdateUserDto,
+	UpdateUserSettingsDto,
+	UploadSettingsResponse
+} from "@/shared/types/server"
 
 export const profileService = {
 	downloadSettings: async (format: "yml" | "json") => {
 		const res = await instance.get(EnumApiRoute.DOWNLOAD_PROFILE_SETTINGS, {
 			responseType: "blob",
-			params: { format },
-		});
+			params: { format }
+		})
 
-		return res;
+		return res
 	},
 
 	uploadSettings: async (dto: FormData) => {
-		const res = await instance.post<any, AxiosResponse<UploadSettingsResponse>>(EnumApiRoute.UPLOAD_PROFILE_SETTINGS, dto, {
-			headers: getContentType("form-data"),
-		});
+		const res = await instance.post<any, AxiosResponse<UploadSettingsResponse>>(
+			EnumApiRoute.UPLOAD_PROFILE_SETTINGS,
+			dto,
+			{
+				headers: getContentType("form-data")
+			}
+		)
 
-		return res;
+		return res
 	},
 
-	uniqueFieldCheck: async (fieldValue: string | undefined, field: "email" | "username" | "phone") => {
-		const res = await instance.post<any, AxiosResponse<boolean>>(`${EnumApiRoute.CHECK_UNIQUE}/${field}`, { fieldValue });
+	uniqueFieldCheck: async (
+		fieldValue: string | undefined,
+		field: "email" | "username" | "phone"
+	) => {
+		const res = await instance.post<any, AxiosResponse<boolean>>(
+			`${EnumApiRoute.CHECK_UNIQUE}/${field}`,
+			{ fieldValue }
+		)
 
-		return res;
+		return res
 	},
 
 	updateProfile: async (dto: Nullable<UpdateUserDto>) => {
-		const res = await instance.put<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_PROFILE, dto);
+		const res = await instance.put<any, AxiosResponse<boolean>>(
+			EnumApiRoute.UPDATE_PROFILE,
+			dto
+		)
 
-		return res;
+		return res
 	},
 
 	updateSettings: async (dto: Nullable<UpdateUserSettingsDto>) => {
-		const res = await instance.put<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_PROFILE_SETTINGS, dto);
+		const res = await instance.put<any, AxiosResponse<boolean>>(
+			EnumApiRoute.UPDATE_PROFILE_SETTINGS,
+			dto
+		)
 
-		return res;
+		return res
 	},
 
 	updateAvatar: async (dto: FormData) => {
-		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_AVATAR, dto, {
-			headers: getContentType("form-data"),
-		});
+		const res = await instance.patch<any, AxiosResponse<boolean>>(
+			EnumApiRoute.UPDATE_AVATAR,
+			dto,
+			{
+				headers: getContentType("form-data")
+			}
+		)
 
-		return res;
+		return res
 	},
 
 	updateAvatarFrame: async (dto: UpdateAvatarFrameDto) => {
-		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.UPDATE_AVATAR_FRAME, dto);
+		const res = await instance.patch<any, AxiosResponse<boolean>>(
+			EnumApiRoute.UPDATE_AVATAR_FRAME,
+			dto
+		)
 
-		return res;
+		return res
 	},
 
 	deleteAvatar: async () => {
-		const res = await instance.delete<any, AxiosResponse<boolean>>(EnumApiRoute.DELETE_AVATAR);
+		const res = await instance.delete<any, AxiosResponse<boolean>>(
+			EnumApiRoute.DELETE_AVATAR
+		)
 
-		return res;
-	},
-};
+		return res
+	}
+}

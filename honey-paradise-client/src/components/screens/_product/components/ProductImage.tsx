@@ -1,21 +1,29 @@
-import { Button, Separator, Skeleton } from "@/components/ui/common";
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
+import { m } from "motion/react"
+import Image from "next/image"
+import type { FC } from "react"
 
-import { getAssetsPath } from "@/shared/lib/utils";
-import { cn } from "@/shared/lib/utils/base";
-import { m } from "motion/react";
-import Image from "next/image";
-import type { FC } from "react";
-import { useProductImage } from "../hooks/useProductImage";
+import { Button, Separator, Skeleton } from "@/components/ui/common"
+import { getAssetsPath } from "@/shared/lib/utils"
+import { cn } from "@/shared/lib/utils/base"
+
+import { useProductImage } from "../hooks/useProductImage"
 
 interface IProps {
-	isLoading: boolean;
-	images: string[];
+	isLoading: boolean
+	images: string[]
 }
 
 const ProductImage: FC<IProps> = ({ isLoading, images }) => {
-	const { imageUrl, imageIndex, isImageLoading, handleMouseEnter, handleMouseLeave, handleNextClick, handlePrevClick } =
-		useProductImage(images);
+	const {
+		imageUrl,
+		imageIndex,
+		isImageLoading,
+		handleMouseEnter,
+		handleMouseLeave,
+		handleNextClick,
+		handlePrevClick
+	} = useProductImage(images)
 
 	return (
 		<section className="relative flex gap-7 p-6">
@@ -26,45 +34,73 @@ const ProductImage: FC<IProps> = ({ isLoading, images }) => {
 						initial={{ opacity: 0, y: -10 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.3, type: "tween", delay: 0.3 * i }}
-						className="relative w-20 h-fit bg-secondary rounded-md overflow-hidden"
+						className="relative h-fit w-20 overflow-hidden rounded-md bg-secondary"
 						onMouseEnter={() => handleMouseEnter(i)}
 						onMouseLeave={handleMouseLeave}
 					>
 						<div
-							className={cn("absolute w-1 h-full bg-muted opacity-0 pointer-events-none transition-opacity", {
-								"opacity-100": imageIndex === i,
-							})}
+							className={cn(
+								"pointer-events-none absolute h-full w-1 bg-muted opacity-0 transition-opacity",
+								{
+									"opacity-100": imageIndex === i
+								}
+							)}
 						/>
-						<Image src={getAssetsPath(url)} alt="" width={80} height={60} aria-hidden />
+						<Image
+							src={getAssetsPath(url)}
+							alt=""
+							width={80}
+							height={60}
+							aria-hidden
+						/>
 					</m.div>
 				))}
 
-				<Separator orientation="horizontal" className="mt-2 -mb-1" />
+				<Separator orientation="horizontal" className="-mb-1 mt-2" />
 
-				<div className="flex items-center gap-2 w-full">
-					<Button variant="ghost" className="p-2 hover:!bg-muted/20" onClick={handlePrevClick} disabled={isImageLoading}>
+				<div className="flex w-full items-center gap-2">
+					<Button
+						variant="ghost"
+						className="p-2 hover:!bg-muted/20"
+						onClick={handlePrevClick}
+						disabled={isImageLoading}
+					>
 						<ChevronLeftIcon size={24} />
 					</Button>
 
-					<Button variant="ghost" className="p-2 hover:!bg-muted/20" onClick={handleNextClick} disabled={isImageLoading}>
+					<Button
+						variant="ghost"
+						className="p-2 hover:!bg-muted/20"
+						onClick={handleNextClick}
+						disabled={isImageLoading}
+					>
 						<ChevronRightIcon size={24} />
 					</Button>
 				</div>
 			</div>
 
 			<div
-				className={cn("overflow-hidden h-[25rem] opacity-100 will-change-auto transition-opacity", {
-					"opacity-0 pointer-events-none": isImageLoading,
-				})}
+				className={cn(
+					"h-[25rem] overflow-hidden opacity-100 transition-opacity will-change-auto",
+					{
+						"pointer-events-none opacity-0": isImageLoading
+					}
+				)}
 			>
 				{isLoading ? (
-					<Skeleton className="w-[28rem] h-[20rem]" />
+					<Skeleton className="h-[20rem] w-[28rem]" />
 				) : (
-					<Image className="rounded-md" src={getAssetsPath(imageUrl)} alt="" width={448} height={320} />
+					<Image
+						className="rounded-md"
+						src={getAssetsPath(imageUrl)}
+						alt=""
+						width={448}
+						height={320}
+					/>
 				)}
 			</div>
 		</section>
-	);
-};
+	)
+}
 
-export { ProductImage };
+export { ProductImage }

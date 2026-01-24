@@ -12,7 +12,7 @@
 	@apply items-center px-1;
 
 	> button {
-		@apply py-2 px-3;
+		@apply px-3 py-2;
 
 		&:last-of-type {
 			@apply border border-muted;

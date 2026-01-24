@@ -1,53 +1,57 @@
-import { useEffect, useState } from "react";
+import type { AxiosError } from "axios"
+import { useEffect, useState } from "react"
+import toast from "react-hot-toast"
 
-import { errorCatch } from "@/api/api-helper";
-import { useDeleteReviewS } from "@/services/hooks/products";
-import type { AxiosError } from "axios";
-import toast from "react-hot-toast";
+import { errorCatch } from "@/api/api-helper"
+import { useDeleteReviewS } from "@/services/hooks/products"
 
-export const useDeleteReviewToaster = (setNotDeleted: VoidFunction, removeToast: VoidFunction, reviewId: string) => {
-	const { deleteReviewAsync } = useDeleteReviewS();
-	const [timer, setTimer] = useState<number>(10);
+export const useDeleteReviewToaster = (
+	setNotDeleted: VoidFunction,
+	removeToast: VoidFunction,
+	reviewId: string
+) => {
+	const { deleteReviewAsync } = useDeleteReviewS()
+	const [timer, setTimer] = useState<number>(10)
 
 	const cancelDeleting = () => {
-		setTimer(10);
-		setNotDeleted();
-		removeToast();
-	};
+		setTimer(10)
+		setNotDeleted()
+		removeToast()
+	}
 
 	const handleDeleteReview = async () => {
 		try {
-			await deleteReviewAsync(reviewId);
+			await deleteReviewAsync(reviewId)
 		} catch (error) {
-			const { errMsg } = errorCatch(error as AxiosError);
-			toast.error(errMsg);
+			const { errMsg } = errorCatch(error as AxiosError)
+			toast.error(errMsg)
 		} finally {
-			removeToast();
+			removeToast()
 		}
-	};
+	}
 
-	const agreeWithDeleting = () => setTimer(0);
+	const agreeWithDeleting = () => setTimer(0)
 
 	useEffect(() => {
 		if (timer <= -1) {
-			handleDeleteReview();
-			return;
+			handleDeleteReview()
+			return
 		}
 
 		const timeout = setTimeout(() => {
-			setTimer(prev => prev - 0.5);
-		}, 500);
+			setTimer(prev => prev - 0.5)
+		}, 500)
 
 		return () => {
-			clearTimeout(timeout);
-		};
-	}, [timer]);
+			clearTimeout(timeout)
+		}
+	}, [timer])
 
-	const progressWidth = (timer / 10) * 100;
+	const progressWidth = (timer / 10) * 100
 
 	return {
 		cancelDeleting,
 		progressWidth,
-		agreeWithDeleting,
-	};
-};
+		agreeWithDeleting
+	}
+}

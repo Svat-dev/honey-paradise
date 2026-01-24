@@ -1,34 +1,59 @@
 import { m } from "motion/react"
 import Image from "next/image"
+import type { FC } from "react"
 
 import { Button, Title } from "@/components/ui/common"
 import { getAssetsPath } from "@/shared/lib/utils"
+import type {
+	GetMyCartItemsResponse,
+	GetMyCartResponseCurrency
+} from "@/shared/types/server"
 
 import { useCartItem } from "../hooks/useCartItem"
 
-import type { GetMyCartItemsResponse, GetMyCartResponseCurrency } from "@/shared/types/server"
-
-import type { FC } from "react"
 interface ICartItem extends GetMyCartItemsResponse {
 	locale: "en" | "ru"
 	currency: GetMyCartResponseCurrency
 }
 
-const CartItem: FC<ICartItem> = ({ id, priceInUSD, product, quantity, locale, currency }) => {
-	const { amount, changeQuantity, deleteCartItem, isLoading, isDeleting, getPrice, t } = useCartItem(currency, quantity)
+const CartItem: FC<ICartItem> = ({
+	id,
+	priceInUSD,
+	product,
+	quantity,
+	locale,
+	currency
+}) => {
+	const {
+		amount,
+		changeQuantity,
+		deleteCartItem,
+		isLoading,
+		isDeleting,
+		getPrice,
+		t
+	} = useCartItem(currency, quantity)
 
 	return (
 		<m.div
 			initial={{ opacity: 0.3, y: -10 }}
-			variants={{ loading: { opacity: 0.6, pointerEvents: 0 }, default: { opacity: 1, y: 0 } }}
+			variants={{
+				loading: { opacity: 0.6, pointerEvents: 0 },
+				default: { opacity: 1, y: 0 }
+			}}
 			animate={isLoading ? "loading" : ""}
 			exit={{ opacity: 0, height: 0, paddingTop: 0, paddingBottom: 0 }}
 			whileInView={"default"}
 			viewport={{ once: true, amount: 0.5 }}
 			transition={{ duration: 0.4, type: "tween" }}
-			className="flex items-center gap-5 bg-primary rounded-md shadow-md p-3 print:justify-between"
+			className="flex items-center gap-5 rounded-md bg-primary p-3 shadow-md print:justify-between"
 		>
-			<Image src={getAssetsPath(product.images[0])} alt={product.title[locale]} width={100} height={100} />
+			<Image
+				src={getAssetsPath(product.images[0])}
+				alt={product.title[locale]}
+				width={100}
+				height={100}
+			/>
 
 			<Title size="sm" className="text-xl">
 				{product.title[locale]}

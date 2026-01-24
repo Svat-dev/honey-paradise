@@ -1,4 +1,7 @@
-import { defaultInstance, instance } from "@/api/instance";
+import { EnumApiRoute } from "@constants/routes"
+import type { AxiosResponse } from "axios"
+
+import { defaultInstance, instance } from "@/api/instance"
 import type {
 	CreateProductDto,
 	GetAllCatsResponse,
@@ -7,88 +10,118 @@ import type {
 	GetPresearchDataResponse,
 	GetProductBySlugResponse,
 	GetProductResponse,
-	GetProductsRatingResponse,
-} from "@/shared/types/server";
-
-import { EnumApiRoute } from "@constants/routes";
-import type { AxiosResponse } from "axios";
+	GetProductsRatingResponse
+} from "@/shared/types/server"
 
 export const productsService = {
 	getAllCatsWithProducts: async (q?: string) => {
-		const res = await defaultInstance.get<any, AxiosResponse<GetCatsWithProductsResponse>>(EnumApiRoute.GET_ALL_PRODUCTS, {
-			params: { q: q || "" },
-		});
+		const res = await defaultInstance.get<
+			any,
+			AxiosResponse<GetCatsWithProductsResponse>
+		>(EnumApiRoute.GET_ALL_PRODUCTS, {
+			params: { q: q || "" }
+		})
 
-		return res;
+		return res
 	},
 
 	getPresearchData: async (searchTerm: string) => {
-		const res = await defaultInstance.get<any, AxiosResponse<GetPresearchDataResponse>>(EnumApiRoute.GET_PRESEARCH_DATA, {
-			params: { q: searchTerm },
-		});
+		const res = await defaultInstance.get<
+			any,
+			AxiosResponse<GetPresearchDataResponse>
+		>(EnumApiRoute.GET_PRESEARCH_DATA, {
+			params: { q: searchTerm }
+		})
 
-		return res;
+		return res
 	},
 
 	getPopular: async () => {
-		const res = await defaultInstance.get<any, AxiosResponse<GetProductResponse[]>>(EnumApiRoute.GET_POPULAR_PRODUCTS);
+		const res = await defaultInstance.get<
+			any,
+			AxiosResponse<GetProductResponse[]>
+		>(EnumApiRoute.GET_POPULAR_PRODUCTS)
 
-		return res;
+		return res
 	},
 
 	getBySlug: async (slug: string) => {
-		const res = await defaultInstance.get<any, AxiosResponse<GetProductBySlugResponse>>(`${EnumApiRoute.GET_PRODUCT_BY_SLUG}/${slug}`);
+		const res = await defaultInstance.get<
+			any,
+			AxiosResponse<GetProductBySlugResponse>
+		>(`${EnumApiRoute.GET_PRODUCT_BY_SLUG}/${slug}`)
 
-		return res.data;
+		return res.data
 	},
 
 	getRating: async (slug: string) => {
-		const res = await defaultInstance.get<any, AxiosResponse<GetProductsRatingResponse>>(`${EnumApiRoute.GET_PRODUCT_RATING}/${slug}`);
+		const res = await defaultInstance.get<
+			any,
+			AxiosResponse<GetProductsRatingResponse>
+		>(`${EnumApiRoute.GET_PRODUCT_RATING}/${slug}`)
 
-		return res;
+		return res
 	},
 
 	getByIds: async (ids: string[]) => {
-		const res = await defaultInstance.get<any, AxiosResponse<GetProductResponse[]>>(EnumApiRoute.GET_PRODUCTS_BY_IDS, {
-			params: { ids: ids.join(",") },
-		});
+		const res = await defaultInstance.get<
+			any,
+			AxiosResponse<GetProductResponse[]>
+		>(EnumApiRoute.GET_PRODUCTS_BY_IDS, {
+			params: { ids: ids.join(",") }
+		})
 
-		return res.data;
+		return res.data
 	},
 
 	getByCatSlug: async (slug: string) => {
-		const res = await defaultInstance.get<any, AxiosResponse<GetAllCatsResponse>>(`${EnumApiRoute.PRODUCTS_CATEGORY}/${slug}`);
+		const res = await defaultInstance.get<
+			any,
+			AxiosResponse<GetAllCatsResponse>
+		>(`${EnumApiRoute.PRODUCTS_CATEGORY}/${slug}`)
 
-		return res;
+		return res
 	},
 
 	getFavorites: async () => {
-		const res = await instance.get<any, AxiosResponse<GetFavoriteProductsResponse>>(EnumApiRoute.FAVORITES_PRODUCTS);
+		const res = await instance.get<
+			any,
+			AxiosResponse<GetFavoriteProductsResponse>
+		>(EnumApiRoute.FAVORITES_PRODUCTS)
 
-		return res;
+		return res
 	},
 
 	createProduct: async (dto: CreateProductDto) => {
-		const res = await instance.post<any, AxiosResponse<boolean>>(EnumApiRoute.CREATE_NEW_PRODUCT, dto);
+		const res = await instance.post<any, AxiosResponse<boolean>>(
+			EnumApiRoute.CREATE_NEW_PRODUCT,
+			dto
+		)
 
-		return res;
+		return res
 	},
 
 	addFavoritesToCart: async () => {
-		const res = await instance.post<any, AxiosResponse<boolean>>(EnumApiRoute.ADD_FAVORITES_TO_CART);
+		const res = await instance.post<any, AxiosResponse<boolean>>(
+			EnumApiRoute.ADD_FAVORITES_TO_CART
+		)
 
-		return res;
+		return res
 	},
 
 	switchFavoritesProduct: async (productId: string) => {
-		const res = await instance.patch<any, AxiosResponse<boolean>>(`${EnumApiRoute.SWITCH_FAVORITES_PRODUCTS}/${productId}`);
+		const res = await instance.patch<any, AxiosResponse<boolean>>(
+			`${EnumApiRoute.SWITCH_FAVORITES_PRODUCTS}/${productId}`
+		)
 
-		return res;
+		return res
 	},
 
 	clearAllFavoritesProducts: async () => {
-		const res = await instance.patch<any, AxiosResponse<boolean>>(EnumApiRoute.CLEAR_FAVORITES_PRODUCTS);
+		const res = await instance.patch<any, AxiosResponse<boolean>>(
+			EnumApiRoute.CLEAR_FAVORITES_PRODUCTS
+		)
 
-		return res;
-	},
-};
+		return res
+	}
+}

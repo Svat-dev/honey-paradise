@@ -1,4 +1,4 @@
-import type { TypeTitleSize } from "../../common/types/title.type";
+import type { TypeTitleSize } from "../../common/types/title.type"
 
 export const markdownTitleSizes: Record<number, TypeTitleSize> = {
 	1: "2xl",
@@ -6,5 +6,5 @@ export const markdownTitleSizes: Record<number, TypeTitleSize> = {
 	3: "lg",
 	4: "md",
 	5: "sm",
-	6: "xs",
-};
+	6: "xs"
+}

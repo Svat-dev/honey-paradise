@@ -5,12 +5,12 @@
  * @returns Слово с первой заглавной буквой
  */
 export function capitalize(name: string, otherLow: boolean = false): string {
-	name = otherLow ? name.toLowerCase() : name;
+	name = otherLow ? name.toLowerCase() : name
 
-	const splitted = name.split("");
-	const first = splitted[0].toUpperCase();
+	const splitted = name.split("")
+	const first = splitted[0].toUpperCase()
 
-	const result = [first, ...splitted.splice(1, splitted.length - 1)].join("");
+	const result = [first, ...splitted.splice(1, splitted.length - 1)].join("")
 
-	return result;
+	return result
 }

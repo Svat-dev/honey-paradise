@@ -1,18 +1,21 @@
-"use client";
+"use client"
 
-import type { FC, PropsWithChildren } from "react";
-import { MenuSheetFooter, MenuSheetHeader, MenuSheetMain } from "./index";
-import { Sheet, SheetTrigger } from "@/components/ui/common";
+import { useTranslations } from "next-intl"
+import dynamic from "next/dynamic"
+import type { FC, PropsWithChildren } from "react"
 
-import dynamic from "next/dynamic";
-import { useTranslations } from "next-intl";
+import { Sheet, SheetTrigger } from "@/components/ui/common"
 
-const DynamicSheetContent = dynamic(() => import("@/components/ui/common").then(mod => mod.SheetContent));
+import { MenuSheetFooter, MenuSheetHeader, MenuSheetMain } from "./index"
+
+const DynamicSheetContent = dynamic(() =>
+	import("@/components/ui/common").then(mod => mod.SheetContent)
+)
 
 interface IMenuSheet extends PropsWithChildren {}
 
 const MenuSheet: FC<IMenuSheet> = ({ children }) => {
-	const t = useTranslations("layout.header.sidebarSheet");
+	const t = useTranslations("layout.header.sidebarSheet")
 
 	return (
 		<Sheet>
@@ -23,7 +26,7 @@ const MenuSheet: FC<IMenuSheet> = ({ children }) => {
 				<MenuSheetFooter />
 			</DynamicSheetContent>
 		</Sheet>
-	);
-};
+	)
+}
 
-export { MenuSheet };
+export { MenuSheet }

@@ -1,3 +1,3 @@
-export * from "./useNotificationsDeleteS";
-export * from "./useNotificationsMarkS";
-export * from "./useUpdateSettingsS";
+export * from "./useNotificationsDeleteS"
+export * from "./useNotificationsMarkS"
+export * from "./useUpdateSettingsS"

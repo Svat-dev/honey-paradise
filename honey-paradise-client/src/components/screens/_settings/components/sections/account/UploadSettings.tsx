@@ -1,17 +1,25 @@
-import { Button } from "@/components/ui/common";
-import { ALLOWED_SETTINGS_FILE_TYPES } from "@/shared/lib/constants/base";
-import { UploadIcon } from "lucide-react";
-import type { FC } from "react";
-import { useUploadSettings } from "../../../hooks/useUploadSettings";
+import { UploadIcon } from "lucide-react"
+import type { FC } from "react"
+
+import { Button } from "@/components/ui/common"
+import { ALLOWED_SETTINGS_FILE_TYPES } from "@/shared/lib/constants/base"
+
+import { useUploadSettings } from "../../../hooks/useUploadSettings"
 
 interface IProps {
-	isLoading: boolean;
+	isLoading: boolean
 }
 
 const UploadSettings: FC<IProps> = ({ isLoading }) => {
-	const { t, inputRef, handleUploadFile, handleFileChange, isSettingsUploading } = useUploadSettings();
+	const {
+		t,
+		inputRef,
+		handleUploadFile,
+		handleFileChange,
+		isSettingsUploading
+	} = useUploadSettings()
 
-	const isDisabled = isSettingsUploading || isLoading;
+	const isDisabled = isSettingsUploading || isLoading
 
 	return (
 		<div>
@@ -41,7 +49,7 @@ const UploadSettings: FC<IProps> = ({ isLoading }) => {
 				{t("uploadFile.btn")}
 			</Button>
 		</div>
-	);
-};
+	)
+}
 
-export { UploadSettings };
+export { UploadSettings }

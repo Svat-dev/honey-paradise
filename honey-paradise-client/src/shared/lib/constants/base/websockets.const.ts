@@ -1,6 +1,6 @@
 export enum EnumWSPaths {
 	NOTIFICATIONS = "/api/notifications/connect-socket",
-	SESSIONS = "/api/auth/connect-socket",
+	SESSIONS = "/api/auth/connect-socket"
 }
 
 export enum EnumWSRoutes {
@@ -10,5 +10,5 @@ export enum EnumWSRoutes {
 
 	TG_ACCEPTED = "tg-accepted",
 	TG_REJECTED = "tg-rejected",
-	TG_CODE_LIFETIME_EXPIRED = "tg-code-lifetime-expired",
+	TG_CODE_LIFETIME_EXPIRED = "tg-code-lifetime-expired"
 }

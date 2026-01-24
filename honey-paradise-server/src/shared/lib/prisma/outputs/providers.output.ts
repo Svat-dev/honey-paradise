@@ -1,11 +1,11 @@
 export const providerDefaultOutput = {
-  id: true,
+	id: true,
 
-  providerId: true,
-  type: true,
+	providerId: true,
+	type: true,
 
-  userId: true,
+	userId: true,
 
-  createdAt: true,
-  updatedAt: true,
-}; // Prisma.ProviderSelect
+	createdAt: true,
+	updatedAt: true
+} // Prisma.ProviderSelect

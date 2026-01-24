@@ -1,22 +1,39 @@
-"use client";
+"use client"
 
-import { Button, Title } from "@/components/ui/common";
+import _styles from "@styles/modules/auth-form-wrapper.module.scss"
+import { cn } from "@utils/base"
+import Image from "next/image"
+import { FormProvider } from "react-hook-form"
 
-import { FormInput } from "@/components/ui/components/form-input";
-import _styles from "@styles/modules/auth-form-wrapper.module.scss";
-import { cn } from "@utils/base";
-import Image from "next/image";
-import { FormProvider } from "react-hook-form";
-import { useTFAConfirmation } from "../hooks/useTFAConfirmation";
-import styles from "../styles/confirmation.module.scss";
-import styles_ from "../styles/sign-in-confirmation.module.scss";
+import { Button, Title } from "@/components/ui/common"
+import { FormInput } from "@/components/ui/components/form-input"
+
+import { useTFAConfirmation } from "../hooks/useTFAConfirmation"
+import styles from "../styles/confirmation.module.scss"
+import styles_ from "../styles/sign-in-confirmation.module.scss"
 
 const SignInConfirmation = () => {
-	const { cooldown, dataStatus, isLoading, form, t, refreshCode, limit, onSubmit, isTFACodeSending } = useTFAConfirmation();
+	const {
+		cooldown,
+		dataStatus,
+		isLoading,
+		form,
+		t,
+		refreshCode,
+		limit,
+		onSubmit,
+		isTFACodeSending
+	} = useTFAConfirmation()
 
 	return (
-		<section data-status={dataStatus} className={cn(_styles["wrapper"], styles_["wrapper"])}>
-			<span data-status={dataStatus} className={cn(_styles["border-line"], styles_["border-line"])}></span>
+		<section
+			data-status={dataStatus}
+			className={cn(_styles["wrapper"], styles_["wrapper"])}
+		>
+			<span
+				data-status={dataStatus}
+				className={cn(_styles["border-line"], styles_["border-line"])}
+			></span>
 
 			<FormProvider {...form}>
 				<form className={_styles["form"]} onSubmit={onSubmit}>
@@ -28,7 +45,14 @@ const SignInConfirmation = () => {
 							<p>{t("2fa.description.default")}</p>
 						</div>
 
-						<Image src="/assets/2fa-icon.webp" alt={""} width={90} height={90} className="mb-6" priority />
+						<Image
+							src="/assets/2fa-icon.webp"
+							alt={""}
+							width={90}
+							height={90}
+							className="mb-6"
+							priority
+						/>
 					</div>
 
 					<FormInput
@@ -48,7 +72,9 @@ const SignInConfirmation = () => {
 							onClick={refreshCode}
 							isLoading={isTFACodeSending}
 						>
-							{cooldown === 0 ? t("actions.resendBtn") : t("actions.resendBtnWithCooldown", { cooldown })}
+							{cooldown === 0
+								? t("actions.resendBtn")
+								: t("actions.resendBtnWithCooldown", { cooldown })}
 						</Button>
 
 						<Button
@@ -64,7 +90,7 @@ const SignInConfirmation = () => {
 				</form>
 			</FormProvider>
 		</section>
-	);
-};
+	)
+}
 
-export { SignInConfirmation };
+export { SignInConfirmation }

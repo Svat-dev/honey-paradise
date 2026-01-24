@@ -1,19 +1,26 @@
-import type { ApiJsonValue, CategoriesPresearchResponse } from "@/shared/types/server";
-import { AnimatePresence, m } from "motion/react";
+import { AnimatePresence, m } from "motion/react"
+import Image from "next/image"
+import type { FC } from "react"
 
-import { Link } from "@/components/ui/common";
-import { EnumAppRoute } from "@/shared/lib/constants/routes";
-import { getAssetsPath } from "@/shared/lib/utils";
-import Image from "next/image";
-import type { FC } from "react";
+import { Link } from "@/components/ui/common"
+import { EnumAppRoute } from "@/shared/lib/constants/routes"
+import { getAssetsPath } from "@/shared/lib/utils"
+import type {
+	ApiJsonValue,
+	CategoriesPresearchResponse
+} from "@/shared/types/server"
 
 interface IPresearchCategory {
-	cats: CategoriesPresearchResponse[] | null;
-	isLoading: boolean;
-	locale: string;
+	cats: CategoriesPresearchResponse[] | null
+	isLoading: boolean
+	locale: string
 }
 
-const PresearchCategory: FC<IPresearchCategory> = ({ cats, isLoading, locale }) => {
+const PresearchCategory: FC<IPresearchCategory> = ({
+	cats,
+	isLoading,
+	locale
+}) => {
 	return (
 		<AnimatePresence>
 			{cats?.length && !isLoading ? (
@@ -25,8 +32,17 @@ const PresearchCategory: FC<IPresearchCategory> = ({ cats, isLoading, locale }) 
 						animate={{ opacity: 1 }}
 						exit={{ opacity: 0, y: 5 }}
 					>
-						<Link href={`${EnumAppRoute.CATALOG}/${slug}`} className="flex items-center gap-2">
-							<Image src={getAssetsPath(image)} alt={`Category ${slug}`} width={45} height={40} className="rounded-md" />
+						<Link
+							href={`${EnumAppRoute.CATALOG}/${slug}`}
+							className="flex items-center gap-2"
+						>
+							<Image
+								src={getAssetsPath(image)}
+								alt={`Category ${slug}`}
+								width={45}
+								height={40}
+								className="rounded-md"
+							/>
 							{title[locale as keyof ApiJsonValue]}
 						</Link>
 					</m.li>
@@ -35,7 +51,7 @@ const PresearchCategory: FC<IPresearchCategory> = ({ cats, isLoading, locale }) 
 				<p>Ничего не нашлось</p>
 			)}
 		</AnimatePresence>
-	);
-};
+	)
+}
 
-export { PresearchCategory };
+export { PresearchCategory }

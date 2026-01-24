@@ -1,11 +1,11 @@
 .main-toaster {
-	@apply bg-secondary text-secondary-foreground border border-muted !important;
+	@apply border border-muted bg-secondary text-secondary-foreground !important;
 }
 
 .notifications-toaster {
-	@apply bg-secondary text-secondary-foreground border border-muted max-w-[32rem] !important;
+	@apply max-w-[32rem] border border-muted bg-secondary text-secondary-foreground !important;
 }
 
 .delete-review-toaster {
-	@apply bg-secondary text-secondary-foreground max-w-[32rem] overflow-hidden !important;
+	@apply max-w-[32rem] overflow-hidden bg-secondary text-secondary-foreground !important;
 }

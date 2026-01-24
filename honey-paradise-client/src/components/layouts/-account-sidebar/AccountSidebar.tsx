@@ -7,7 +7,7 @@ const AccountSidebar = () => {
 	const { data } = useAccountSidebar()
 
 	return (
-		<aside className="sticky top-[3.75rem] w-fit h-[calc(100vh-3.75rem)] bg-primary print:hidden">
+		<aside className="sticky top-[3.75rem] h-[calc(100vh-3.75rem)] w-fit bg-primary print:hidden">
 			<nav className="mt-6">
 				<ul className="list-none px-6">
 					{data.map(item => (

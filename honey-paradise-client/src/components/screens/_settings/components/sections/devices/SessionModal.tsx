@@ -1,3 +1,7 @@
+import { Map, Placemark, YMaps } from "@pbe/react-yandex-maps"
+import Image from "next/image"
+import type { FC } from "react"
+
 import {
 	Button,
 	Dialog,
@@ -6,19 +10,23 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
-} from "@/components/ui/common";
-import { Map, Placemark, YMaps } from "@pbe/react-yandex-maps";
+	DialogTrigger
+} from "@/components/ui/common"
 
-import Image from "next/image";
-import type { FC } from "react";
-import { useSessionModal } from "../../../hooks/useSessionModal";
-import type { ISessionModalProps } from "../../../types/session-modal.type";
+import { useSessionModal } from "../../../hooks/useSessionModal"
+import type { ISessionModalProps } from "../../../types/session-modal.type"
 
-const SessionModal: FC<ISessionModalProps> = ({ children, createdAt, metadata }) => {
-	const { center, setIsOpen, data, isOpen, lang, t } = useSessionModal(metadata, createdAt);
+const SessionModal: FC<ISessionModalProps> = ({
+	children,
+	createdAt,
+	metadata
+}) => {
+	const { center, setIsOpen, data, isOpen, lang, t } = useSessionModal(
+		metadata,
+		createdAt
+	)
 
-	const close = () => setIsOpen(false);
+	const close = () => setIsOpen(false)
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -26,18 +34,27 @@ const SessionModal: FC<ISessionModalProps> = ({ children, createdAt, metadata })
 
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle className="!text-xl">{t("modals.more.title")}</DialogTitle>
+					<DialogTitle className="!text-xl">
+						{t("modals.more.title")}
+					</DialogTitle>
 
-					<DialogDescription className="!leading-5 ml-1">{t("modals.more.description")}</DialogDescription>
+					<DialogDescription className="ml-1 !leading-5">
+						{t("modals.more.description")}
+					</DialogDescription>
 				</DialogHeader>
 
 				{data.map(item => (
 					<div className="flex items-center" key={item.value}>
 						<span className="font-medium">{item.text}</span>
-						<span className="inline-flex items-center gap-1 ml-2 text-muted">
+						<span className="ml-2 inline-flex items-center gap-1 text-muted">
 							{item.icon &&
 								(typeof item.icon === "string" ? (
-									<Image src={`/icons/providers/${item.icon}.svg`} alt={item.value} width={20} height={20} />
+									<Image
+										src={`/icons/providers/${item.icon}.svg`}
+										alt={item.value}
+										width={20}
+										height={20}
+									/>
 								) : (
 									<item.icon size={20} />
 								))}
@@ -55,13 +72,18 @@ const SessionModal: FC<ISessionModalProps> = ({ children, createdAt, metadata })
 				</YMaps>
 
 				<DialogFooter className="!justify-center">
-					<Button variant="secondary" title={t("labels.closeBtn")} className="py-2 px-3 border border-muted" onClick={close}>
+					<Button
+						variant="secondary"
+						title={t("labels.closeBtn")}
+						className="border border-muted px-3 py-2"
+						onClick={close}
+					>
 						{t("modals.more.closeBtn")}
 					</Button>
 				</DialogFooter>
 			</DialogContent>
 		</Dialog>
-	);
-};
+	)
+}
 
-export { SessionModal };
+export { SessionModal }

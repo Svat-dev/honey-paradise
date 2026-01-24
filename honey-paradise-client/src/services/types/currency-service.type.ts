@@ -1,14 +1,14 @@
 export interface ICurrencyResponseRates {
-	EUR: number;
-	RUB: number;
+	EUR: number
+	RUB: number
 }
 
-export type TCurrenciesCodes = "USD" | "EUR" | "RUB";
+export type TCurrenciesCodes = "USD" | "EUR" | "RUB"
 
 export interface ICurrencyResponse {
-	disclaimer: string;
-	license: string;
-	timestamp: number;
-	base: string;
-	rates: ICurrencyResponseRates;
+	disclaimer: string
+	license: string
+	timestamp: number
+	base: string
+	rates: ICurrencyResponseRates
 }

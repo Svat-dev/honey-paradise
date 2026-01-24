@@ -1,5 +1,5 @@
 .logout-btn-dmt {
-	@apply text-red-600 font-medium flex gap-1 items-center transition-transform -mt-2;
+	@apply -mt-2 flex items-center gap-1 font-medium text-red-600 transition-transform;
 }
 
 .logout-btn-dmc {
@@ -7,7 +7,7 @@
 }
 
 .logout-btn-dmi {
-	@apply justify-between cursor-default;
+	@apply cursor-default justify-between;
 
 	> p {
 		@apply cursor-pointer transition-colors hover:text-muted;
@@ -18,6 +18,6 @@
 	}
 
 	> div {
-		@apply bg-secondary text-secondary-foreground text-xs absolute -right-40 max-w-44 p-1 rounded-sm opacity-0 transition-opacity pointer-events-none;
+		@apply pointer-events-none absolute -right-40 max-w-44 rounded-sm bg-secondary p-1 text-xs text-secondary-foreground opacity-0 transition-opacity;
 	}
 }

@@ -1,99 +1,116 @@
-import { type TPasswordChangeTwoFields, createChangeTwoPasswordSchema } from "@schemas/password-recovery.schema";
+import { EnumSessionStorageKeys } from "@constants/base"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useDebounce } from "@hooks/base"
+import {
+	createChangeTwoPasswordSchema,
+	type TPasswordChangeTwoFields
+} from "@schemas/password-recovery.schema"
+import type { AxiosError } from "axios"
+import { useTranslations } from "next-intl"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { toast } from "react-hot-toast"
 
-import { errorCatch } from "@/api/api-helper";
-import { useUpdatePasswordS } from "@/services/hooks/account";
-import { useUpdateSettingsS } from "@/services/hooks/profile";
-import { UpdateUserSettingsDto } from "@/shared/types/server";
-import { EnumSessionStorageKeys } from "@constants/base";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useDebounce } from "@hooks/base";
-import type { AxiosError } from "axios";
-import { useTranslations } from "next-intl";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
+import { errorCatch } from "@/api/api-helper"
+import { useUpdatePasswordS } from "@/services/hooks/account"
+import { useUpdateSettingsS } from "@/services/hooks/profile"
+import { UpdateUserSettingsDto } from "@/shared/types/server"
 
 export const useSecuritySection = () => {
-	const t = useTranslations("global.settings.content.account.content");
+	const t = useTranslations("global.settings.content.account.content")
 
-	const { isSettingsUpdating, updateSettingsAsync } = useUpdateSettingsS();
+	const { isSettingsUpdating, updateSettingsAsync } = useUpdateSettingsS()
 
-	const onSwitchChange = async (value: boolean, field: keyof UpdateUserSettingsDto) => {
+	const onSwitchChange = async (
+		value: boolean,
+		field: keyof UpdateUserSettingsDto
+	) => {
 		try {
-			await updateSettingsAsync({ [field]: value });
+			await updateSettingsAsync({ [field]: value })
 
-			toast.success(t("toasters.security.success"));
+			toast.success(t("toasters.security.success"))
 		} catch (e) {
-			const { errMsg } = errorCatch(e as AxiosError);
+			const { errMsg } = errorCatch(e as AxiosError)
 
-			toast.error(errMsg);
+			toast.error(errMsg)
 		}
-	};
+	}
 
 	const getTitles = () => {
-		const tfa_server = t("security.2fa.title").split(" ");
-		const fullLogout_server = t("security.fullLogout.title").split(" ");
-		const tg_tfa_server = t("security.tg2fa.title").split(" ");
+		const tfa_server = t("security.2fa.title").split(" ")
+		const fullLogout_server = t("security.fullLogout.title").split(" ")
+		const tg_tfa_server = t("security.tg2fa.title").split(" ")
 
-		tfa_server.shift();
-		fullLogout_server.shift();
-		tg_tfa_server.shift();
+		tfa_server.shift()
+		fullLogout_server.shift()
+		tg_tfa_server.shift()
 
 		return {
 			tfa: " " + tfa_server.join(" "),
 			fullLogout: " " + fullLogout_server.join(" "),
-			tgTfa: " " + tg_tfa_server.join(" "),
-		};
-	};
+			tgTfa: " " + tg_tfa_server.join(" ")
+		}
+	}
 
 	return {
 		onSwitchChange,
 		isSettingsUpdating,
 		getTitles,
-		t,
-	};
-};
+		t
+	}
+}
 
 export const useChangePasswordModal = () => {
-	const t = useTranslations("global.settings.content.account.content");
-	const et = useTranslations("global.settings.content.account.content.security.changePasswordModal");
+	const t = useTranslations("global.settings.content.account.content")
+	const et = useTranslations(
+		"global.settings.content.account.content.security.changePasswordModal"
+	)
 
-	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const [isOpen, setIsOpen] = useState<boolean>(false)
 
-	const { isPasswordUpdating, updatePasswordAsync } = useUpdatePasswordS();
+	const { isPasswordUpdating, updatePasswordAsync } = useUpdatePasswordS()
 
 	const defaultValues =
-		typeof window !== "undefined" ? JSON.parse(sessionStorage.getItem(EnumSessionStorageKeys.CHANGE_PASSWORD_MODAL) || "{}") : {};
+		typeof window !== "undefined"
+			? JSON.parse(
+					sessionStorage.getItem(
+						EnumSessionStorageKeys.CHANGE_PASSWORD_MODAL
+					) || "{}"
+				)
+			: {}
 
-	const schema = createChangeTwoPasswordSchema(et);
+	const schema = createChangeTwoPasswordSchema(et)
 	const form = useForm<TPasswordChangeTwoFields>({
 		resolver: zodResolver(schema),
 		mode: "onChange",
-		defaultValues,
-	});
+		defaultValues
+	})
 
 	const onSubmit = async (data: TPasswordChangeTwoFields) => {
 		try {
-			await updatePasswordAsync({ password: data.password });
+			await updatePasswordAsync({ password: data.password })
 
-			form.reset();
-			setIsOpen(false);
+			form.reset()
+			setIsOpen(false)
 
-			toast.success(t("toasters.changePasswordModal.success"));
+			toast.success(t("toasters.changePasswordModal.success"))
 		} catch (e) {
-			const { errMsg } = errorCatch(e as AxiosError);
+			const { errMsg } = errorCatch(e as AxiosError)
 
-			toast.error(errMsg);
+			toast.error(errMsg)
 		}
-	};
+	}
 
 	useDebounce(
 		() => {
-			sessionStorage.setItem(EnumSessionStorageKeys.CHANGE_PASSWORD_MODAL, JSON.stringify(form.getValues()));
+			sessionStorage.setItem(
+				EnumSessionStorageKeys.CHANGE_PASSWORD_MODAL,
+				JSON.stringify(form.getValues())
+			)
 		},
 		300,
 		[form.getValues()]
-	);
+	)
 
 	return {
 		form,
@@ -101,6 +118,6 @@ export const useChangePasswordModal = () => {
 		isOpen,
 		setIsOpen,
 		isPasswordUpdating,
-		t,
-	};
-};
+		t
+	}
+}

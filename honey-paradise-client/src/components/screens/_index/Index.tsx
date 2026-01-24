@@ -1,5 +1,5 @@
-import { PopularSection } from "./components/PopularSection";
-import { RecentSection } from "./components/RecentSection";
+import { PopularSection } from "./components/PopularSection"
+import { RecentSection } from "./components/RecentSection"
 
 const Index = () => {
 	return (
@@ -8,7 +8,7 @@ const Index = () => {
 
 			<RecentSection />
 		</div>
-	);
-};
+	)
+}
 
-export { Index };
+export { Index }

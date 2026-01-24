@@ -1,12 +1,13 @@
-import { Input, Skeleton } from "@/components/ui/common";
-import type { FC, PropsWithChildren } from "react";
+import { cn } from "@utils/base"
+import type { FC, PropsWithChildren } from "react"
 
-import { cn } from "@utils/base";
-import { useFormDefaultInput } from "../../hooks/useFormDefaultInput";
-import styles from "../../styles/default-input.module.scss";
-import type { IFormDefaultInputProps } from "../../types/form-input.type";
-import { ClearButton } from "../clear-button";
-import { PasswordEye } from "../password-eye";
+import { Input, Skeleton } from "@/components/ui/common"
+
+import { useFormDefaultInput } from "../../hooks/useFormDefaultInput"
+import styles from "../../styles/default-input.module.scss"
+import type { IFormDefaultInputProps } from "../../types/form-input.type"
+import { ClearButton } from "../clear-button"
+import { PasswordEye } from "../password-eye"
 
 const DefaultInput: FC<PropsWithChildren<IFormDefaultInputProps>> = ({
 	name,
@@ -18,7 +19,17 @@ const DefaultInput: FC<PropsWithChildren<IFormDefaultInputProps>> = ({
 	children,
 	...props
 }) => {
-	const { clear, clearError, isPassword, isShowPassword, onInput, showPassword, register, t, value } = useFormDefaultInput(name, setMask);
+	const {
+		clear,
+		clearError,
+		isPassword,
+		isShowPassword,
+		onInput,
+		showPassword,
+		register,
+		t,
+		value
+	} = useFormDefaultInput(name, setMask)
 
 	return (
 		<div className={styles["input-wrapper"]}>
@@ -26,7 +37,13 @@ const DefaultInput: FC<PropsWithChildren<IFormDefaultInputProps>> = ({
 				className={cn(className, { "tracking-widest": isPassword })}
 				onInput={onInput}
 				{...props}
-				placeholder={!isLoading ? (props.placeholder ? props.placeholder : name) : undefined}
+				placeholder={
+					!isLoading
+						? props.placeholder
+							? props.placeholder
+							: name
+						: undefined
+				}
 				type={!isPassword ? props.type : isShowPassword ? "text" : props.type}
 				spellCheck={false}
 				disabled={props?.disabled || isLoading}
@@ -47,10 +64,22 @@ const DefaultInput: FC<PropsWithChildren<IFormDefaultInputProps>> = ({
 
 			{children}
 
-			{isPassword && <PasswordEye value={isShowPassword} onClick={showPassword} className="!-translate-y-[45%]" t={t} />}
-			<ClearButton onClick={clear} value={value} className={cn(clearBtnClassName, "!-translate-y-[45%]")} t={t} />
+			{isPassword && (
+				<PasswordEye
+					value={isShowPassword}
+					onClick={showPassword}
+					className="!-translate-y-[45%]"
+					t={t}
+				/>
+			)}
+			<ClearButton
+				onClick={clear}
+				value={value}
+				className={cn(clearBtnClassName, "!-translate-y-[45%]")}
+				t={t}
+			/>
 		</div>
-	);
-};
+	)
+}
 
-export { DefaultInput };
+export { DefaultInput }
