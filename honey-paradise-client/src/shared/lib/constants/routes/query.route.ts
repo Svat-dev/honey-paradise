@@ -69,4 +69,5 @@ export const queryKeys = {
 
 	switchFavoritesProducts: "switch user favorites products",
 	reactToReview: "react to a review",
+	usePromoCode: "use promo code",
 } as const;

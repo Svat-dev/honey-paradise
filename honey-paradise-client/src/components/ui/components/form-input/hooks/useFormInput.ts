@@ -25,6 +25,8 @@ export const useFormInput = (name: TFieldNames, isDecorated?: boolean, genderTyp
 				return isDecorated ? "default-decor" : "default";
 			case "username":
 				return isDecorated ? "default-decor" : "default";
+			case "promoCode":
+				return isDecorated ? "default-decor" : "default";
 			case "gender":
 				return genderType === "radio-group" ? "radio-group" : "dropdown";
 			case "language":

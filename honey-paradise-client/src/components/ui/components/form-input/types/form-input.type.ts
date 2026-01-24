@@ -1,6 +1,7 @@
 import type { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
 
 import type { TCreateReviewSchema } from "@/shared/lib/schemas/create-review.schema";
+import type { TPromoCodeFields } from "@/shared/lib/schemas/promo-code.schema";
 import type { ReactStateHook } from "@/shared/types/base.type";
 import type { TConfirmationFields } from "@schemas/confirmation.schema";
 import type { TSignInFields } from "@schemas/sign-in.schema";
@@ -20,7 +21,8 @@ export type TFieldNames =
 	| keyof TConfirmationFields
 	| keyof TUpdateUserinfoFields
 	| keyof TUpdateAppearanceFields
-	| keyof TCreateReviewSchema;
+	| keyof TCreateReviewSchema
+	| keyof TPromoCodeFields;
 
 export type TInputType = "default" | "default-decor" | "textarea" | "radio-group" | "date" | "otp" | "dropdown";
 

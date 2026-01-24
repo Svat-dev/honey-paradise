@@ -6,8 +6,6 @@ const Index = () => {
 		<div>
 			<PopularSection />
 
-			<section>Секция 2. Что-нибудь еще</section>
-
 			<RecentSection />
 		</div>
 	);

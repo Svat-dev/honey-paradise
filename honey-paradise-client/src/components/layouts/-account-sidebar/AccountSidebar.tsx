@@ -1,13 +1,13 @@
-"use client";
+"use client"
 
-import { ListItem } from "./components/ListItem";
-import { useAccountSidebar } from "./hooks/useAccountSidebar";
+import { ListItem } from "./components/ListItem"
+import { useAccountSidebar } from "./hooks/useAccountSidebar"
 
 const AccountSidebar = () => {
-	const { data } = useAccountSidebar();
+	const { data } = useAccountSidebar()
 
 	return (
-		<aside className="sticky top-[3.75rem] w-fit h-[calc(100vh-3.75rem)] bg-primary">
+		<aside className="sticky top-[3.75rem] w-fit h-[calc(100vh-3.75rem)] bg-primary print:hidden">
 			<nav className="mt-6">
 				<ul className="list-none px-6">
 					{data.map(item => (
@@ -16,7 +16,7 @@ const AccountSidebar = () => {
 				</ul>
 			</nav>
 		</aside>
-	);
-};
+	)
+}
 
-export { AccountSidebar };
+export { AccountSidebar }

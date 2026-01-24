@@ -1,18 +1,19 @@
-"use client";
+"use client"
 
-import { useAuth } from "@hooks/auth";
-import type { FC } from "react";
-import { AuthOffBlock } from "./AuthOffBlock";
-import { AuthOnBlock } from "./AuthOnBlock";
+import { useAuth } from "@hooks/auth"
 
+import { AuthOffBlock } from "./AuthOffBlock"
+import { AuthOnBlock } from "./AuthOnBlock"
+
+import type { FC } from "react"
 interface IProps {
-	isAuth: boolean;
+	isAuth: boolean
 }
 
 const RightPart: FC<IProps> = ({ isAuth }) => {
-	const { isAuthenticated } = useAuth(isAuth);
+	const { isAuthenticated } = useAuth(isAuth)
 
-	return <div className="flex items-center">{isAuthenticated ? <AuthOnBlock /> : <AuthOffBlock />}</div>;
-};
+	return <div className="flex items-center print:hidden">{isAuthenticated ? <AuthOnBlock /> : <AuthOffBlock />}</div>
+}
 
-export { RightPart };
+export { RightPart }

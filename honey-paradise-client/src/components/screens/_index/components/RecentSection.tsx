@@ -28,7 +28,7 @@ const RecentSection = () => {
 									<Button
 										variant="outline"
 										title="Удалить из истории"
-										className="!absolute z-10 top-4 right-5 !p-2 !bg-muted/30 hover:rounded-3xl hover:border-red-500 hover:text-red-500 active:scale-90"
+										className="!absolute z-10 top-4 left-5 !p-2 !bg-muted/30 hover:rounded-3xl hover:border-red-500 hover:text-red-500 active:scale-90"
 										onClick={() => removeFromHistory(item.id)}
 									>
 										<Trash2Icon size={24} className="transition-colors will-change-auto" />

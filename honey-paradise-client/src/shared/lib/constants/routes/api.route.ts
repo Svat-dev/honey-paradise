@@ -98,6 +98,9 @@ export enum EnumApiRoute {
 	ORDERS = "/orders",
 	CREATE_ORDER = `${ORDERS}/create`,
 	GET_USER_ORDERS = `${ORDERS}/all`,
+
+	PROMO_CODES = "/promo-codes",
+	USE_PROMO_CODE = `${PROMO_CODES}/use`,
 }
 
 export enum EnumStaticRoute {

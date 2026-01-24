@@ -1,20 +1,21 @@
-import { useLanguage } from "@/shared/lib/i18n/hooks";
-import { ArrowDownToLineIcon, type LucideIcon, PrinterIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { ArrowDownToLineIcon, LucideIcon, PrinterIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
+import { useMemo, useState } from "react"
+
+import { useLanguage } from "@/shared/lib/i18n/hooks"
 
 interface IOpts {
-	title: string;
-	label: string;
-	Icon: LucideIcon;
-	fn: () => void;
+	title: string
+	label: string
+	Icon: LucideIcon
+	fn: () => void
 }
 
 export const useCartPrint = () => {
-	const t = useTranslations("global.cart.content");
-	const { locale } = useLanguage(false);
+	const t = useTranslations("global.cart.content")
+	const { locale } = useLanguage(false)
 
-	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const [isOpen, setIsOpen] = useState<boolean>(false)
 
 	const data: IOpts[] = useMemo(
 		() => [
@@ -22,22 +23,22 @@ export const useCartPrint = () => {
 				title: t("footer.print.opt1"),
 				label: t("footer.print.labels.opt1"),
 				Icon: PrinterIcon,
-				fn: () => console.log("Print cart here"),
+				fn: () => window.print()
 			},
 			{
 				title: t("footer.print.opt2"),
 				label: t("footer.print.labels.opt2"),
 				Icon: ArrowDownToLineIcon,
-				fn: () => console.log("Save cart as .pdf"),
-			},
+				fn: () => console.log("Save cart as .pdf")
+			}
 		],
 		[locale]
-	);
+	)
 
 	return {
 		isOpen,
 		setIsOpen,
 		data,
-		t,
-	};
-};
+		t
+	}
+}

@@ -1,76 +1,33 @@
-import { Button, Input, Skeleton, Title } from "@/components/ui/common";
+import { TableIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
 
-import { CartPrint } from "./CartPrint";
-import type { FC } from "react";
-import type { GetMyCartResponseCurrency } from "@/shared/types/server";
-import { TableIcon } from "lucide-react";
-import { useCreateOrderS } from "@/services/hooks/order/useCreateOrderS";
-import { useGetPrice } from "@/shared/lib/hooks/useGetPrice";
-import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/common"
+import { useCreateOrderS } from "@/services/hooks/order/useCreateOrderS"
 
+import { CartFooterInfo } from "./CartFooterInfo"
+import { CartPrint } from "./CartPrint"
+import { CartPromoCode } from "./CartPromoCode"
+
+import type { GetMyCartResponseCurrency } from "@/shared/types/server"
+import type { FC } from "react"
 interface IProps {
-	length?: number;
-	total?: number;
-	currency?: GetMyCartResponseCurrency;
-	isLoading: boolean;
+	length?: number
+	total?: number
+	discount?: number
+	currency?: GetMyCartResponseCurrency
+	isLoading: boolean
 }
 
-const CartFooter: FC<IProps> = ({ length, total, currency, isLoading }) => {
-	const t = useTranslations("global.cart.content");
-	const { getPrice } = useGetPrice(currency);
-	const { createOrder, isCreatingOrder } = useCreateOrderS();
+const CartFooter: FC<IProps> = ({ length, ...props }) => {
+	const t = useTranslations("global.cart.content")
+	const { createOrder, isCreatingOrder } = useCreateOrderS()
 
 	return (
-		<section className="grid grid-cols-[2fr_1fr] w-full bg-primary py-3 px-4 rounded-md">
-			<div>
-				<Title size="md" className="font-semibold text-2xl">
-					{t("footer.title")}
-				</Title>
+		<section className="grid grid-cols-[2fr_1fr] w-full bg-primary py-3 px-4 rounded-md print:!block">
+			<CartFooterInfo length={length} {...props} />
 
-				<div className="flex ml-1 text-lg">
-					{t.rich("footer.amount", {
-						isLoading: String(isLoading),
-						length: length || 0,
-						total: getPrice(total || 0, true, false),
-						title: chunks => (
-							<Title size="sm" className="text-xl">
-								{chunks}
-								&nbsp;
-							</Title>
-						),
-						txt1: chunks => <span className="flex items-center font-semibold gap-1">{chunks}&nbsp;</span>,
-						txt2: chunks => <span>{chunks}&nbsp;</span>,
-						txt3: chunks => <span className="font-medium">{chunks}</span>,
-						loader1: () => <Skeleton className="w-6 h-5" />,
-						loader2: () => <Skeleton className="h-5 w-16" />,
-					})}
-				</div>
-
-				<div className="flex ml-1 text-lg">
-					{t.rich("footer.discount", {
-						title: chunks => (
-							<Title size="sm" className="text-xl">
-								{chunks}
-								&nbsp;
-							</Title>
-						),
-						txt: () => <span className="font-medium">???%</span>,
-					})}
-				</div>
-			</div>
-
-			<div>
-				<div className="flex flex-col mb-2">
-					<Title size="sm" className="text-xl">
-						{t("footer.promo.label")}
-					</Title>
-
-					<Input name="promo-code" placeholder={t("footer.promo.placeholder")} className="w-full mb-2" maxLength={30} />
-
-					<Button variant="secondary" title={t("labels.usePromo")} className="px-2 py-1.5 self-end" disabled={isLoading}>
-						{t("actions.usePromo")}
-					</Button>
-				</div>
+			<div className="print:hidden">
+				<CartPromoCode isLoading={props.isLoading} />
 
 				<div className="flex items-center justify-between mb-3">
 					<CartPrint />
@@ -93,7 +50,7 @@ const CartFooter: FC<IProps> = ({ length, total, currency, isLoading }) => {
 				</Button>
 			</div>
 		</section>
-	);
-};
+	)
+}
 
-export { CartFooter };
+export { CartFooter }

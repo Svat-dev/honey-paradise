@@ -1,10 +1,11 @@
-import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/common";
+import { PrinterIcon } from "lucide-react"
 
-import { PrinterIcon } from "lucide-react";
-import { useCartPrint } from "../../hooks/useCartPrint";
+import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/common"
+
+import { useCartPrint } from "../../hooks/useCartPrint"
 
 const CartPrint = () => {
-	const { data, isOpen, setIsOpen, t } = useCartPrint();
+	const { data, isOpen, setIsOpen, t } = useCartPrint()
 
 	return (
 		<DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
@@ -31,7 +32,7 @@ const CartPrint = () => {
 				))}
 			</DropdownMenuContent>
 		</DropdownMenu>
-	);
-};
+	)
+}
 
-export { CartPrint };
+export { CartPrint }

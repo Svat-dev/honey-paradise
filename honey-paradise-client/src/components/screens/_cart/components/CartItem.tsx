@@ -1,19 +1,21 @@
-import { Button, Title } from "@/components/ui/common";
-import type { GetMyCartItemsResponse, GetMyCartResponseCurrency } from "@/shared/types/server";
+import { m } from "motion/react"
+import Image from "next/image"
 
-import type { FC } from "react";
-import Image from "next/image";
-import { getAssetsPath } from "@/shared/lib/utils";
-import { m } from "motion/react";
-import { useCartItem } from "../hooks/useCartItem";
+import { Button, Title } from "@/components/ui/common"
+import { getAssetsPath } from "@/shared/lib/utils"
 
+import { useCartItem } from "../hooks/useCartItem"
+
+import type { GetMyCartItemsResponse, GetMyCartResponseCurrency } from "@/shared/types/server"
+
+import type { FC } from "react"
 interface ICartItem extends GetMyCartItemsResponse {
-	locale: "en" | "ru";
-	currency: GetMyCartResponseCurrency;
+	locale: "en" | "ru"
+	currency: GetMyCartResponseCurrency
 }
 
 const CartItem: FC<ICartItem> = ({ id, priceInUSD, product, quantity, locale, currency }) => {
-	const { amount, changeQuantity, deleteCartItem, isLoading, isDeleting, getPrice, t } = useCartItem(currency, quantity);
+	const { amount, changeQuantity, deleteCartItem, isLoading, isDeleting, getPrice, t } = useCartItem(currency, quantity)
 
 	return (
 		<m.div
@@ -24,7 +26,7 @@ const CartItem: FC<ICartItem> = ({ id, priceInUSD, product, quantity, locale, cu
 			whileInView={"default"}
 			viewport={{ once: true, amount: 0.5 }}
 			transition={{ duration: 0.4, type: "tween" }}
-			className="flex items-center gap-5 bg-primary rounded-md shadow-md p-3"
+			className="flex items-center gap-5 bg-primary rounded-md shadow-md p-3 print:justify-between"
 		>
 			<Image src={getAssetsPath(product.images[0])} alt={product.title[locale]} width={100} height={100} />
 
@@ -35,7 +37,7 @@ const CartItem: FC<ICartItem> = ({ id, priceInUSD, product, quantity, locale, cu
 			<div className="flex items-center gap-2">
 				<Button
 					variant="secondary"
-					className="px-4 py-3"
+					className="px-4 py-3 print:!hidden"
 					title={t("counter.-")}
 					disabled={isLoading || amount <= 1}
 					onClick={() => changeQuantity("decrease", id)}
@@ -47,7 +49,7 @@ const CartItem: FC<ICartItem> = ({ id, priceInUSD, product, quantity, locale, cu
 
 				<Button
 					variant="secondary"
-					className="px-4 py-3"
+					className="px-4 py-3 print:!hidden"
 					title={t("counter.+")}
 					disabled={isLoading}
 					onClick={() => changeQuantity("increase", id)}
@@ -60,7 +62,7 @@ const CartItem: FC<ICartItem> = ({ id, priceInUSD, product, quantity, locale, cu
 
 			<Button
 				variant="secondary"
-				className="px-2 py-1.5"
+				className="px-2 py-1.5 print:!hidden"
 				title={t("labels.delete")}
 				disabled={isLoading}
 				isLoading={isDeleting}
@@ -69,7 +71,7 @@ const CartItem: FC<ICartItem> = ({ id, priceInUSD, product, quantity, locale, cu
 				{t("actions.delete")}
 			</Button>
 		</m.div>
-	);
-};
+	)
+}
 
-export { CartItem };
+export { CartItem }

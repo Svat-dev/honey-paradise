@@ -3,7 +3,7 @@
 }
 
 .list-item {
-	@apply relative whitespace-nowrap;
+	@apply relative whitespace-nowrap print:hidden;
 
 	> a {
 		@apply transition-colors;
