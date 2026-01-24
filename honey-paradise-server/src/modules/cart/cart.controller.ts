@@ -1,18 +1,35 @@
-import { ApiBody, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
+import { Controller } from "@nestjs/common/decorators/core/controller.decorator"
+import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator"
+import {
+	Delete,
+	Get,
+	Post,
+	Put
+} from "@nestjs/common/decorators/http/request-mapping.decorator"
+import {
+	Body,
+	Param,
+	Res
+} from "@nestjs/common/decorators/http/route-params.decorator"
+import { HttpStatus } from "@nestjs/common/enums/http-status.enum"
+import {
+	ApiBody,
+	ApiOkResponse,
+	ApiOperation,
+	ApiParam,
+	ApiTags
+} from "@nestjs/swagger"
+import { SkipThrottle } from "@nestjs/throttler/dist/throttler.decorator"
+import type { Response } from "express"
+import { I18nLang } from "nestjs-i18n"
+import { Authorization } from "src/shared/decorators/auth.decorator"
+import { Authorized } from "src/shared/decorators/authorized.decorator"
+import { EnumApiRoute } from "src/shared/lib/common/constants"
 
-import { Controller } from "@nestjs/common/decorators/core/controller.decorator";
-import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator";
-import { Delete, Get, Post, Put } from "@nestjs/common/decorators/http/request-mapping.decorator";
-import { Body, Param } from "@nestjs/common/decorators/http/route-params.decorator";
-import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
-import { SkipThrottle } from "@nestjs/throttler/dist/throttler.decorator";
-import { Authorization } from "src/shared/decorators/auth.decorator";
-import { Authorized } from "src/shared/decorators/authorized.decorator";
-import { EnumApiRoute } from "src/shared/lib/common/constants";
-import { CartService } from "./cart.service";
-import { AddCartItemDto } from "./dto/add-cart-item.dto";
-import { UpdateQuantityDto } from "./dto/update-quantity.dto";
-import { GetMyCartResponse } from "./response/get-my-cart.res";
+import { CartService } from "./cart.service"
+import { AddCartItemDto } from "./dto/add-cart-item.dto"
+import { UpdateQuantityDto } from "./dto/update-quantity.dto"
+import { GetMyCartResponse } from "./response/get-my-cart.res"
 
 @ApiTags("Carts")
 @SkipThrottle({ auth: true })
@@ -26,7 +43,22 @@ export class CartController {
 	@Authorization()
 	@Get(EnumApiRoute.GET_MY_CART)
 	getMyCart(@Authorized("id") userId: string) {
-		return this.cartService.getMyCart(userId);
+		return this.cartService.getMyCart(userId)
+	}
+
+	@ApiOperation({
+		summary: "Get current user cart excel table",
+		description: ""
+	})
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Get(EnumApiRoute.GET_MY_CART_TABLE)
+	getMyCartTable(
+		@Authorized("id") userId: string,
+		@Res() res: Response,
+		@I18nLang() lang: string
+	) {
+		return this.cartService.getCartExcelTable(userId, res, lang)
 	}
 
 	@ApiOperation({ summary: "Add item to cart", description: "" })
@@ -36,19 +68,19 @@ export class CartController {
 	@Authorization()
 	@Post(EnumApiRoute.ADD_CART_ITEM)
 	addCartItem(@Authorized("id") userId: string, @Body() dto: AddCartItemDto) {
-		return this.cartService.addCartItem(userId, dto);
+		return this.cartService.addCartItem(userId, dto)
 	}
 
 	@ApiOperation({
 		summary: "Add favorites products to user's cart",
-		description: "",
+		description: ""
 	})
 	@ApiOkResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Post(EnumApiRoute.ADD_FAVORITES_TO_CART)
 	addFavoritesToCart(@Authorized("id") userId: string) {
-		return this.cartService.addFavoritesToCart(userId);
+		return this.cartService.addFavoritesToCart(userId)
 	}
 
 	@ApiOperation({ summary: "Update cart item's quantity", description: "" })
@@ -58,7 +90,7 @@ export class CartController {
 	@Authorization()
 	@Put(EnumApiRoute.UPDATE_QUANTITY)
 	updateQuantity(@Body() dto: UpdateQuantityDto) {
-		return this.cartService.updateCartItem(dto);
+		return this.cartService.updateCartItem(dto)
 	}
 
 	@ApiOperation({ summary: "Remove item from cart", description: "" })
@@ -68,7 +100,7 @@ export class CartController {
 	@Authorization()
 	@Delete(`${EnumApiRoute.REMOVE_CART_ITEM}/:id`)
 	removeCartItem(@Param("id") itemId: string) {
-		return this.cartService.removeCartItem(itemId);
+		return this.cartService.removeCartItem(itemId)
 	}
 
 	@ApiOperation({ summary: "Clear all cart by id", description: "" })
@@ -77,6 +109,6 @@ export class CartController {
 	@Authorization()
 	@Delete(EnumApiRoute.CLEAR_CART)
 	cleatCart(@Authorized("id") userId: string) {
-		return this.cartService.clearCartByUId(userId);
+		return this.cartService.clearCartByUId(userId)
 	}
 }

@@ -185,5 +185,30 @@
 			"cant_save_session": "Couldn't save session, try again later",
 			"user_agent_not_found": "User-agent failed found! Contact support"
 		}
+	},
+	"tables": {
+		"cart": {
+			"title": "User cart workbook",
+			"description": "User cart workbook with all products",
+			"header": {
+				"product": "Product title",
+				"category": "Category",
+				"variation": "Variation",
+				"quantity": "Quantity",
+				"price": "Price, $",
+				"total": "Total price, $"
+			},
+			"weight": {
+				"one": "{count} gram",
+				"other": "{count} grams"
+			},
+			"tooltips": {
+				"product": "Product link",
+				"category": "Category link"
+			},
+			"total": "Total",
+			"user": "User",
+			"date": "Date"
+		}
 	}
 }
