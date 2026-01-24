@@ -8,17 +8,18 @@ import type { Socket } from "socket.io";
 
 @Injectable()
 export class WsSessionAuthGuard implements CanActivate {
-	canActivate(context: ExecutionContext): boolean {
-		const client = context.switchToWs().getClient() as Socket;
+  canActivate(context: ExecutionContext): boolean {
+    const client = context.switchToWs().getClient() as Socket;
 
-		const token = client.handshake.auth.token;
+    const token = client.handshake.auth.token;
 
-		if (!token || !this.validateToken(token)) throw new WsException("Не авторизован");
+    if (!token || !this.validateToken(token))
+      throw new WsException("Не авторизован");
 
-		return true;
-	}
+    return true;
+  }
 
-	private validateToken(token: string): boolean {
-		return isJWT(token);
-	}
+  private validateToken(token: string): boolean {
+    return isJWT(token);
+  }
 }

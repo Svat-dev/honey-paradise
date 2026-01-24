@@ -7,20 +7,26 @@ import { ProfileService } from "src/modules/auth/profile/profile.service";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-	public constructor(
-		private readonly profileService: ProfileService,
-		private readonly i18n: I18nService
-	) {}
+  public constructor(
+    private readonly profileService: ProfileService,
+    private readonly i18n: I18nService,
+  ) {}
 
-	public async canActivate(context: ExecutionContext): Promise<boolean> {
-		const request = context.switchToHttp().getRequest();
+  public async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest();
 
-		if (typeof request.session.userId === "undefined") throw new UnauthorizedException(this.i18n.t("d.errors.auth_to_have_access"));
+    if (typeof request.session.userId === "undefined")
+      throw new UnauthorizedException(
+        this.i18n.t("d.errors.auth_to_have_access"),
+      );
 
-		const user = await this.profileService.getProfile(request.session.userId, "id");
+    const user = await this.profileService.getProfile(
+      request.session.userId,
+      "id",
+    );
 
-		request.user = user;
+    request.user = user;
 
-		return true;
-	}
+    return true;
+  }
 }

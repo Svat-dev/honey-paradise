@@ -6,9 +6,9 @@ import { RolesGuard } from "../guards/roles.guard";
 import { Roles } from "./roles.decorator";
 
 export function Authorization(...roles: EnumUserRoles[]) {
-	if (roles.length > 0) {
-		return applyDecorators(Roles(...roles), UseGuards(AuthGuard, RolesGuard));
-	}
+  if (roles.length > 0) {
+    return applyDecorators(Roles(...roles), UseGuards(AuthGuard, RolesGuard));
+  }
 
-	return applyDecorators(UseGuards(AuthGuard));
+  return applyDecorators(UseGuards(AuthGuard));
 }

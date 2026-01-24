@@ -7,8 +7,8 @@ import { VerificationModule } from "src/modules/auth/verification/verification.m
 
 @Global()
 @Module({
-	imports: [ProfileModule, VerificationModule],
-	providers: [TelegramService, SessionsGateway],
-	exports: [TelegramService],
+  imports: [ProfileModule, VerificationModule],
+  providers: [TelegramService, SessionsGateway],
+  exports: [TelegramService],
 })
 export class TelegramModule {}

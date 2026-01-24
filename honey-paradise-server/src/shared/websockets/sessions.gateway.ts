@@ -12,81 +12,94 @@ import { WsSessionAuthGuard } from "../guards/ws-auth-session.guard";
 import { EnumWSPaths, EnumWSRoutes } from "../lib/common/constants";
 
 @WebSocketGateway({
-	path: EnumWSPaths.SESSIONS,
-	cors: {
-		origin: process.env.CLIENT_URL,
-		credentials: true,
-	},
+  path: EnumWSPaths.SESSIONS,
+  cors: {
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  },
 })
 @UseGuards(WsSessionAuthGuard)
-export class SessionsGateway implements OnGatewayConnection, OnGatewayDisconnect {
-	@WebSocketServer() private server: Server;
+export class SessionsGateway
+  implements OnGatewayConnection, OnGatewayDisconnect
+{
+  @WebSocketServer() private server: Server;
 
-	constructor(private readonly jwtService: JwtService) {}
+  constructor(private readonly jwtService: JwtService) {}
 
-	async handleConnection(client: Socket) {
-		const token = await client.handshake.auth.token;
-		const payload = token ? this.jwtService.verify<{ room: string; token: string }>(token) : null;
+  async handleConnection(client: Socket) {
+    const token = await client.handshake.auth.token;
+    const payload = token
+      ? this.jwtService.verify<{ room: string; token: string }>(token)
+      : null;
 
-		if (payload?.room) await client.join(payload.room);
+    if (payload?.room) await client.join(payload.room);
 
-		return true;
-	}
+    return true;
+  }
 
-	async handleDisconnect(client: Socket) {
-		const token = await client.handshake.auth.token;
-		const payload = token ? this.jwtService.verify<{ room: string; token: string }>(token) : null;
+  async handleDisconnect(client: Socket) {
+    const token = await client.handshake.auth.token;
+    const payload = token
+      ? this.jwtService.verify<{ room: string; token: string }>(token)
+      : null;
 
-		if (payload?.room) await client.leave(payload.room);
+    if (payload?.room) await client.leave(payload.room);
 
-		return true;
-	}
+    return true;
+  }
 
-	handleDisconnectRoom(roomId: string) {
-		if (this.server.sockets.adapter.rooms.has(roomId)) {
-			this.server.in(roomId).disconnectSockets(true);
-		}
-	}
+  handleDisconnectRoom(roomId: string) {
+    if (this.server.sockets.adapter.rooms.has(roomId)) {
+      this.server.in(roomId).disconnectSockets(true);
+    }
+  }
 
-	@SubscribeMessage(EnumWSRoutes.TG_ACCEPTED)
-	handleAcceptTgLogin(@MessageBody() payload: { token: string; room: string }) {
-		if (!payload.token || !isUUID(payload.token, 4)) {
-			this.server.to(payload.room).emit(EnumWSRoutes.TG_ACCEPTED, {
-				error: true,
-				message: "Неправильный токен входа!",
-			});
+  @SubscribeMessage(EnumWSRoutes.TG_ACCEPTED)
+  handleAcceptTgLogin(@MessageBody() payload: { token: string; room: string }) {
+    if (!payload.token || !isUUID(payload.token, 4)) {
+      this.server.to(payload.room).emit(EnumWSRoutes.TG_ACCEPTED, {
+        error: true,
+        message: "Неправильный токен входа!",
+      });
 
-			return false;
-		}
+      return false;
+    }
 
-		this.server.to(payload.room).emit(EnumWSRoutes.TG_ACCEPTED, { token: payload.token });
+    this.server
+      .to(payload.room)
+      .emit(EnumWSRoutes.TG_ACCEPTED, { token: payload.token });
 
-		return true;
-	}
+    return true;
+  }
 
-	@SubscribeMessage(EnumWSRoutes.TG_REJECTED)
-	handleRejectTgLogin(@MessageBody() payload: { room: string }) {
-		this.server.to(payload.room).emit(EnumWSRoutes.TG_REJECTED, {
-			error: true,
-			message: "Ваш запрос на вход был отклонен!",
-		});
+  @SubscribeMessage(EnumWSRoutes.TG_REJECTED)
+  handleRejectTgLogin(@MessageBody() payload: { room: string }) {
+    this.server.to(payload.room).emit(EnumWSRoutes.TG_REJECTED, {
+      error: true,
+      message: "Ваш запрос на вход был отклонен!",
+    });
 
-		this.server.in(payload.room).disconnectSockets(true);
+    this.server.in(payload.room).disconnectSockets(true);
 
-		return true;
-	}
+    return true;
+  }
 
-	@SubscribeMessage(EnumWSRoutes.TG_CODE_LIFETIME_EXPIRED)
-	handleCodeLifetimeExpired(@MessageBody() payload: { jwt_token: string }) {
-		const token_payload = this.jwtService.verify<{ room: string; token: string }>(payload.jwt_token);
+  @SubscribeMessage(EnumWSRoutes.TG_CODE_LIFETIME_EXPIRED)
+  handleCodeLifetimeExpired(@MessageBody() payload: { jwt_token: string }) {
+    const token_payload = this.jwtService.verify<{
+      room: string;
+      token: string;
+    }>(payload.jwt_token);
 
-		this.server.to(token_payload.room).emit(EnumWSRoutes.TG_CODE_LIFETIME_EXPIRED, {
-			error: true,
-			message: "Ваше время входа закончилось!",
-		});
+    this.server
+      .to(token_payload.room)
+      .emit(EnumWSRoutes.TG_CODE_LIFETIME_EXPIRED, {
+        error: true,
+        message: "Ваше время входа закончилось!",
+      });
 
-		this.server.in(token_payload.room).disconnectSockets(true);
+    this.server.in(token_payload.room).disconnectSockets(true);
 
-		return true;
-	}
+    return true;
+  }
 }

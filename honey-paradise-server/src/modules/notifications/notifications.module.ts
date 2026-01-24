@@ -7,9 +7,9 @@ import { VerificationModule } from "../auth/verification/verification.module";
 import { forwardRef } from "@nestjs/common/utils/forward-ref.util";
 
 @Module({
-	controllers: [NotificationsController],
-	imports: [ProfileModule, forwardRef(() => VerificationModule)],
-	providers: [NotificationsService, NotificationGateway],
-	exports: [NotificationsService],
+  controllers: [NotificationsController],
+  imports: [ProfileModule, forwardRef(() => VerificationModule)],
+  providers: [NotificationsService, NotificationGateway],
+  exports: [NotificationsService],
 })
 export class NotificationsModule {}

@@ -12,8 +12,14 @@ import { VkStrategy } from "src/shared/strategy/vk.strategy";
 import { YandexStrategy } from "src/shared/strategy/yandex.strategy";
 
 @Module({
-	controllers: [ProvidersController, OAuthController],
-	providers: [ProvidersService, GoogleStrategy, GithubStrategy, YandexStrategy, VkStrategy],
-	imports: [PassportModule, ProfileModule, AccountModule, NotificationsModule],
+  controllers: [ProvidersController, OAuthController],
+  providers: [
+    ProvidersService,
+    GoogleStrategy,
+    GithubStrategy,
+    YandexStrategy,
+    VkStrategy,
+  ],
+  imports: [PassportModule, ProfileModule, AccountModule, NotificationsModule],
 })
 export class ProvidersModule {}

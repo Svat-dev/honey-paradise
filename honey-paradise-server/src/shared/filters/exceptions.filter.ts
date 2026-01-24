@@ -10,27 +10,36 @@ import type { IException } from "../types/exception.type";
 
 @Catch()
 export class ExceptionsFilter implements ExceptionFilter {
-	private readonly logger = new Logger("AppExceptions");
+  private readonly logger = new Logger("AppExceptions");
 
-	catch(exception: any, host: ArgumentsHost) {
-		const ctx = host.switchToHttp();
-		const i18nCtx = I18nContext.current<I18nTranslation>(host);
-		const response = ctx.getResponse() as Response;
+  catch(exception: any, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const i18nCtx = I18nContext.current<I18nTranslation>(host);
+    const response = ctx.getResponse() as Response;
 
-		const status = exception instanceof HttpException ? exception.getStatus() : 500;
-		const message = exception instanceof HttpException ? exception.message : i18nCtx?.t("d.errors.500.default" as never);
-		const cause = exception instanceof HttpException ? (exception.getStatus() === 500 ? exception.message : exception.cause) : "";
+    const status =
+      exception instanceof HttpException ? exception.getStatus() : 500;
+    const message =
+      exception instanceof HttpException
+        ? exception.message
+        : i18nCtx?.t("d.errors.500.default" as never);
+    const cause =
+      exception instanceof HttpException
+        ? exception.getStatus() === 500
+          ? exception.message
+          : exception.cause
+        : "";
 
-		this.logger.error(message, exception);
+    this.logger.error(message, exception);
 
-		const newException: IException = {
-			status,
-			message,
-			cause,
-			timestamp: new Date().toISOString(),
-			path: ctx.getRequest().url,
-		};
+    const newException: IException = {
+      status,
+      message,
+      cause,
+      timestamp: new Date().toISOString(),
+      path: ctx.getRequest().url,
+    };
 
-		response.status(status).json(newException);
-	}
+    response.status(status).json(newException);
+  }
 }

@@ -6,8 +6,8 @@ import { DiscountsService } from "./services/discounts.service";
 import { SpecialOffersService } from "./services/special-offers.service";
 
 @Module({
-	controllers: [SpecialOffersController, DiscountsController],
-	providers: [SpecialOffersService, DiscountsService],
-	imports: [ProfileModule],
+  controllers: [SpecialOffersController, DiscountsController],
+  providers: [SpecialOffersService, DiscountsService],
+  imports: [ProfileModule],
 })
 export class OffersModule {}

@@ -7,20 +7,20 @@ import type { Socket } from "socket.io";
 
 @Injectable()
 export class WsAuthGuard implements CanActivate {
-	canActivate(context: ExecutionContext): boolean {
-		const client = context.switchToWs().getClient() as Socket;
+  canActivate(context: ExecutionContext): boolean {
+    const client = context.switchToWs().getClient() as Socket;
 
-		const token = client.handshake.auth.userId;
-		const session = client.handshake.auth.sid;
+    const token = client.handshake.auth.userId;
+    const session = client.handshake.auth.sid;
 
-		if (!token || !session || !this.validateToken(token)) {
-			throw new WsException("Не авторизован");
-		}
+    if (!token || !session || !this.validateToken(token)) {
+      throw new WsException("Не авторизован");
+    }
 
-		return true;
-	}
+    return true;
+  }
 
-	private validateToken(token: string): boolean {
-		return isUUID(token, 4);
-	}
+  private validateToken(token: string): boolean {
+    return isUUID(token, 4);
+  }
 }

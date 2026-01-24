@@ -5,12 +5,15 @@ import { specialOfferCartOutput } from "src/shared/lib/prisma/outputs/special-of
 
 @Injectable()
 export class SpecialOffersService {
-	constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-	async countSpecialOffersDiscount(cartId: string) {
-		const query = await this.prisma.specialOffer.findMany({
-			where: { users: { some: { cart: { id: cartId } } }, award: EnumSpecialOfferAward.DISCOUNT },
-			select: specialOfferCartOutput,
-		});
-	}
+  async countSpecialOffersDiscount(cartId: string) {
+    const query = await this.prisma.specialOffer.findMany({
+      where: {
+        users: { some: { cart: { id: cartId } } },
+        award: EnumSpecialOfferAward.DISCOUNT,
+      },
+      select: specialOfferCartOutput,
+    });
+  }
 }

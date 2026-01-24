@@ -1,40 +1,39 @@
-import "reflect-metadata";
+import "reflect-metadata"
+import { ValidationPipe } from "@nestjs/common/pipes/validation.pipe"
+import { ConfigService } from "@nestjs/config/dist/config.service"
+import { NestFactory } from "@nestjs/core"
+import { IoAdapter } from "@nestjs/platform-socket.io/adapters/io-adapter"
+import { SwaggerModule } from "@nestjs/swagger/dist/swagger-module"
+import { RedisStore } from "connect-redis"
+import * as cookieParser from "cookie-parser"
+import * as session from "express-session"
 
-import * as cookieParser from "cookie-parser";
-import * as session from "express-session";
-
-import { ConfigService } from "@nestjs/config/dist/config.service";
-import { CoreModule } from "./core/core.module";
-import { EnumApiRoute } from "./shared/lib/common/constants";
-import { ExceptionsFilter } from "./shared/filters/exceptions.filter";
-import { IoAdapter } from "@nestjs/platform-socket.io/adapters/io-adapter";
-import { LoggerService } from "./core/logger/logger.service";
-import { NestFactory } from "@nestjs/core";
-import { RedisService } from "./core/redis/redis.service";
-import { RedisStore } from "connect-redis";
-import { SwaggerModule } from "@nestjs/swagger/dist/swagger-module";
-import { ValidationPipe } from "@nestjs/common/pipes/validation.pipe";
-import { getSwaggerConfig } from "./core/config/swagger.config";
-import { ms } from "./shared/lib/common/utils/ms.util";
+import { getSwaggerConfig } from "./core/config/swagger.config"
+import { CoreModule } from "./core/core.module"
+import { LoggerService } from "./core/logger/logger.service"
+import { RedisService } from "./core/redis/redis.service"
+import { ExceptionsFilter } from "./shared/filters/exceptions.filter"
+import { EnumApiRoute } from "./shared/lib/common/constants"
+import { ms } from "./shared/lib/common/utils/ms.util"
 
 async function bootstrap() {
 	const app = await NestFactory.create(CoreModule, {
-		bufferLogs: true,
-	});
+		bufferLogs: true
+	})
 
-	const config = app.get(ConfigService);
-	const redis = app.get(RedisService);
+	const config = app.get(ConfigService)
+	const redis = app.get(RedisService)
 
-	app.setGlobalPrefix("api");
+	app.setGlobalPrefix("api")
 
-	app.use(cookieParser(config.getOrThrow<string>("COOKIES_SECRET")));
+	app.use(cookieParser(config.getOrThrow<string>("COOKIES_SECRET")))
 
-	app.useWebSocketAdapter(new IoAdapter(app));
+	app.useWebSocketAdapter(new IoAdapter(app))
 
-	app.useLogger(new LoggerService());
+	app.useLogger(new LoggerService())
 
-	app.useGlobalPipes(new ValidationPipe({ transform: true }));
-	app.useGlobalFilters(new ExceptionsFilter());
+	app.useGlobalPipes(new ValidationPipe({ transform: true }))
+	app.useGlobalFilters(new ExceptionsFilter())
 
 	app.use(
 		session({
@@ -47,29 +46,34 @@ async function bootstrap() {
 				maxAge: ms("30d"),
 				httpOnly: true,
 				secure: false,
-				sameSite: "lax",
+				sameSite: "lax"
 			},
 			store: new RedisStore({
 				client: redis,
-				prefix: config.getOrThrow<string>("SESSION_FOLDER"),
-			}),
+				prefix: config.getOrThrow<string>("SESSION_FOLDER")
+			})
 		})
-	);
+	)
 
 	app.enableCors({
-		origin: [config.getOrThrow<string>("CLIENT_URL"), "https://accounts.google.com"],
-		credentials: true,
-	});
+		origin: [
+			config.getOrThrow<string>("CLIENT_URL"),
+			"https://accounts.google.com"
+		],
+		credentials: true
+	})
 
-	const swaggerConfig = getSwaggerConfig();
-	const swaggerDoc = SwaggerModule.createDocument(app, swaggerConfig, { autoTagControllers: true });
+	const swaggerConfig = getSwaggerConfig()
+	const swaggerDoc = SwaggerModule.createDocument(app, swaggerConfig, {
+		autoTagControllers: true
+	})
 
 	SwaggerModule.setup(EnumApiRoute.DOCS, app, swaggerDoc, {
 		jsonDocumentUrl: `${EnumApiRoute.DOCS}/openapi.json`,
-		yamlDocumentUrl: `${EnumApiRoute.DOCS}/openapi.yaml`,
-	});
+		yamlDocumentUrl: `${EnumApiRoute.DOCS}/openapi.yaml`
+	})
 
-	await app.listen(config.getOrThrow<number>("SERVER_PORT"));
+	await app.listen(config.getOrThrow<number>("SERVER_PORT"))
 }
 
-bootstrap();
+bootstrap()

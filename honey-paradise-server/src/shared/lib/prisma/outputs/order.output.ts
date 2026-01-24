@@ -1,11 +1,11 @@
 export const ordersDefaultOutput = {
-	id: true,
+  id: true,
 
-	status: true,
-	totalAmount: true,
+  status: true,
+  totalAmount: true,
 
-	items: true,
-	transaction: { select: { status: true } },
+  items: true,
+  transaction: { select: { status: true } },
 
-	createdAt: true,
+  createdAt: true,
 };

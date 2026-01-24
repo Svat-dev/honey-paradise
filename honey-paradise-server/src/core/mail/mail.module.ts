@@ -6,14 +6,14 @@ import { getMailConfig } from "../config/mail.config";
 import { MailService } from "./mail.service";
 
 @Module({
-	imports: [
-		MailerModule.forRootAsync({
-			imports: [ConfigModule],
-			inject: [ConfigService],
-			useFactory: getMailConfig,
-		}),
-	],
-	providers: [MailService],
-	exports: [MailService],
+  imports: [
+    MailerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: getMailConfig,
+    }),
+  ],
+  providers: [MailService],
+  exports: [MailService],
 })
 export class MailModule {}

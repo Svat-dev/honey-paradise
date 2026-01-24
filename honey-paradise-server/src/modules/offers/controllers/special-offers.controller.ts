@@ -6,5 +6,5 @@ import { SpecialOffersService } from "../services/special-offers.service";
 @ApiTags("Special Offers")
 @Controller(EnumApiRoute.SPECIAL_OFFERS)
 export class SpecialOffersController {
-	constructor(private readonly specialOffersService: SpecialOffersService) {}
+  constructor(private readonly specialOffersService: SpecialOffersService) {}
 }

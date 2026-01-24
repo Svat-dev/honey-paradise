@@ -11,19 +11,19 @@ import { VerificationModule } from "../verification/verification.module";
 import { getRecaptchaConfig } from "src/core/config/recaptcha.config";
 
 @Module({
-	imports: [
-		GoogleRecaptchaModule.forRootAsync({
-			imports: [ConfigModule],
-			useFactory: getRecaptchaConfig,
-			inject: [ConfigService],
-		}),
-		ProfileModule,
-		VerificationModule,
-		SessionsModule,
-		NotificationsModule,
-	],
-	controllers: [AccountController],
-	providers: [AccountService],
-	exports: [AccountService],
+  imports: [
+    GoogleRecaptchaModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: getRecaptchaConfig,
+      inject: [ConfigService],
+    }),
+    ProfileModule,
+    VerificationModule,
+    SessionsModule,
+    NotificationsModule,
+  ],
+  controllers: [AccountController],
+  providers: [AccountService],
+  exports: [AccountService],
 })
 export class AccountModule {}

@@ -6,8 +6,8 @@ import { VerificationService } from "./verification.service";
 import { forwardRef } from "@nestjs/common/utils/forward-ref.util";
 
 @Module({
-	imports: [ProfileModule, MailModule, forwardRef(() => NotificationsModule)],
-	providers: [VerificationService],
-	exports: [VerificationService],
+  imports: [ProfileModule, MailModule, forwardRef(() => NotificationsModule)],
+  providers: [VerificationService],
+  exports: [VerificationService],
 })
 export class VerificationModule {}

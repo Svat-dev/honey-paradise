@@ -5,8 +5,8 @@ import { OrderService } from "./order.service";
 import { ProfileModule } from "../auth/profile/profile.module";
 
 @Module({
-	controllers: [OrderController],
-	providers: [OrderService],
-	imports: [ProfileModule, CartModule],
+  controllers: [OrderController],
+  providers: [OrderService],
+  imports: [ProfileModule, CartModule],
 })
 export class OrderModule {}
