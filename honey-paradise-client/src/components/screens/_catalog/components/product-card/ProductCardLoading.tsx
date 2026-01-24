@@ -1,13 +1,10 @@
-import { Skeleton } from "@/components/ui/common";
-import { m } from "motion/react";
+import { m } from 'motion/react';
+
+import { Skeleton } from '@/components/ui/common';
 
 const ProductCardLoading = () => {
 	return (
-		<m.article
-			initial={false}
-			exit={{ opacity: 0, y: -15, display: "none" }}
-			className="relative grid bg-primary rounded-md p-5 pt-4 w-[350px]"
-		>
+		<m.article initial={false} exit={{ opacity: 0, y: -15 }} className="relative grid bg-primary rounded-md p-5 pt-4 w-[350px]">
 			<Skeleton className="h-52 w-full mb-3" />
 			<Skeleton className="h-6 w-1/2 mb-2" />
 
@@ -26,7 +23,7 @@ const ProductCardLoading = () => {
 				<Skeleton className="h-5 w-14" />
 			</div>
 		</m.article>
-	);
-};
+	)
+}
 
-export { ProductCardLoading };
+export { ProductCardLoading }

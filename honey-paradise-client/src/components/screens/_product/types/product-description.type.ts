@@ -1,12 +1,19 @@
-import type { ApiJsonValue, GetMyCartResponseCurrency, GetProductBySlugResponseCategory } from "@/shared/types/server";
+import type {
+	ApiJsonValue,
+	GetMyCartResponseCurrency,
+	GetProductBySlugResponseCategory,
+	GetProductBySlugResponseDiscount,
+} from "@/shared/types/server";
 
 export interface IProductDescriptionPropsData {
 	id: string;
 	description: ApiJsonValue;
 	priceInUsd: number;
+	discounts: GetProductBySlugResponseDiscount[];
 	rating: number;
 	category: GetProductBySlugResponseCategory;
 	reviews: number;
+	isLiked: boolean;
 }
 
 export interface IProductDescriptionProps {
@@ -14,5 +21,4 @@ export interface IProductDescriptionProps {
 	currency: GetMyCartResponseCurrency | undefined;
 	isAccLoading: boolean;
 	isProductLoading: boolean;
-	isLiked: boolean;
 }

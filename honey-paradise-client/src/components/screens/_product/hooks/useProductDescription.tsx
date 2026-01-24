@@ -1,17 +1,18 @@
 import { EnumAppRoute, queryKeys } from "@/shared/lib/constants/routes";
-import type { GetMyCartResponseCurrency } from "@/shared/types/server";
 import { useLocale, useTranslations } from "next-intl";
+import { useState } from "react";
 
 import { errorCatch } from "@/api/api-helper";
 import { useSwitchFavoritesProducts } from "@/services/hooks/products";
 import { useMyCart } from "@/shared/lib/hooks/auth";
 import { useGetPrice } from "@/shared/lib/hooks/useGetPrice";
+import type { GetMyCartResponseCurrency } from "@/shared/types/server";
 import { useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-export const useProductDescription = (id: string, priceInUsd: number, currency: GetMyCartResponseCurrency | undefined) => {
+export const useProductDescription = (id: string, isLikedServer: boolean, currency: GetMyCartResponseCurrency | undefined) => {
 	const t = useTranslations("global.product.content");
 	const locale = useLocale();
 
@@ -22,14 +23,18 @@ export const useProductDescription = (id: string, priceInUsd: number, currency: 
 	const { addCartItem, cart, loading } = useMyCart();
 	const { switchFavoriteProductAsync, isSwitchingFavoritesProduct } = useSwitchFavoritesProducts(queryKeys.getMyAccount);
 
+	const [isLiked, setIsLiked] = useState<boolean | null>(null);
+
 	const isInCart = cart?.cartItems.some(el => el.product.id === id);
 
 	const handleSwitchFavorite = async () => {
 		try {
+			setIsLiked(prev => (prev === null ? !isLikedServer : !prev));
 			await switchFavoriteProductAsync(id);
 		} catch (e) {
 			const { errMsg } = errorCatch(e as AxiosError);
 			toast.error(errMsg);
+			setIsLiked(prev => !prev);
 		}
 	};
 
@@ -41,7 +46,7 @@ export const useProductDescription = (id: string, priceInUsd: number, currency: 
 			toast.success("Товар добавлен в корзину!");
 		};
 
-		addCartItem({ priceInUSD: priceInUsd, productId: id, quantity: 1 }, onSuccess);
+		addCartItem({ productId: id, quantity: 1 }, onSuccess);
 	};
 
 	return {
@@ -49,6 +54,7 @@ export const useProductDescription = (id: string, priceInUsd: number, currency: 
 		handleSwitchFavorite,
 		handleAddToCart,
 		getPrice,
+		isLiked,
 		isInCart,
 		loading,
 		isSwitchingFavoritesProduct,

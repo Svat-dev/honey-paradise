@@ -21,7 +21,7 @@ export const useFavoritesProductCard = (id: string, priceInUsd: number) => {
 		}
 	};
 
-	const handleAddToCart = () => addCartItem({ priceInUSD: priceInUsd, productId: id, quantity: 1 });
+	const handleAddToCart = () => addCartItem({ productId: id, quantity: 1 });
 
 	return {
 		handleDeleteFavorite,

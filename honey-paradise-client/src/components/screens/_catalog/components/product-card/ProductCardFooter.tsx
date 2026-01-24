@@ -6,11 +6,10 @@ import { useProductCardFooter } from "../../hooks/useProductCard";
 
 interface IProps {
 	id: string;
-	priceInUsd: number;
 	isLiked: boolean;
 }
 
-const ProductCardFooter: FC<IProps> = ({ id, priceInUsd, isLiked: isLikedServer }) => {
+const ProductCardFooter: FC<IProps> = ({ id, isLiked: isLikedServer }) => {
 	const { isAddingCartItem, isSwitchingFavoritesProduct, isAuthenticated, t, addToCart, switchFavorites, isLiked } =
 		useProductCardFooter(isLikedServer);
 
@@ -22,7 +21,7 @@ const ProductCardFooter: FC<IProps> = ({ id, priceInUsd, isLiked: isLikedServer 
 				className="py-2 w-full"
 				isLoading={isAddingCartItem}
 				disabled={isAddingCartItem || !isAuthenticated}
-				onClick={() => addToCart(id, priceInUsd)}
+				onClick={() => addToCart(id)}
 			>
 				{t("products.addToCart")}
 			</Button>

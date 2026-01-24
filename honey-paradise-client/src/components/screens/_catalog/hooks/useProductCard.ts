@@ -7,20 +7,19 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-export const useProductCard = (priceInUsd: number) => {
+export const useProductCard = (priceInUsd: number, totalDiscount: number) => {
 	const t = useTranslations("global.home.content");
 	const { locale } = useLanguage(false);
 
 	const { user } = useMyAccount();
 	const { getPrice } = useGetPrice(user?.settings.defaultCurrency);
 
-	const oldPrice = priceInUsd + (priceInUsd / 100) * 10;
+	const totalPrice = priceInUsd - priceInUsd * totalDiscount;
 
 	return {
 		getPrice,
-		oldPrice,
+		totalPrice,
 		locale,
-		likedProducts: user?.likedProductIds,
 		t,
 	};
 };
@@ -34,13 +33,11 @@ export const useProductCardFooter = (isLikedServer: boolean) => {
 
 	const [isLiked, setIsLiked] = useState<boolean>(isLikedServer);
 
-	const addToCart = async (id: string, price: number) =>
-		addCartItem({ productId: id, quantity: 1, priceInUSD: price }, () => toast.success(t("products.toasters.success")));
+	const addToCart = async (id: string) => addCartItem({ productId: id, quantity: 1 }, () => toast.success(t("products.toasters.success")));
 
 	const switchFavorites = async (id: string) => {
 		try {
 			setIsLiked(prev => !prev);
-
 			await switchFavoriteProductAsync(id);
 		} catch (error) {
 			toast.error(t("products.toasters.error.like"));
