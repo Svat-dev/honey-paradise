@@ -1,6 +1,5 @@
-import { cacheLife, cacheTag } from "next/cache"
 import { redirect, RedirectType } from "next/navigation"
-import { type FC, Suspense } from "react"
+import type { FC } from "react"
 
 import { Title } from "@/components/ui/common"
 import { productsService } from "@/services/products.service"
@@ -15,10 +14,6 @@ interface IProductProps {
 }
 
 const Product: FC<IProductProps> = async ({ slug, locale }) => {
-	"use cache"
-	cacheTag("product-data")
-	cacheLife({ stale: 60, revalidate: 180 })
-
 	const initialData = await productsService.getBySlug(slug)
 
 	if (!initialData || Object.keys(initialData).length === 0) {
@@ -31,9 +26,7 @@ const Product: FC<IProductProps> = async ({ slug, locale }) => {
 				{initialData.title[locale as keyof ApiJsonValue]}
 			</Title>
 
-			<Suspense fallback={<>Loading...</>}>
-				<ProductContent initialData={initialData} slug={slug} />
-			</Suspense>
+			<ProductContent initialData={initialData} slug={slug} />
 		</article>
 	)
 }

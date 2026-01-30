@@ -3,7 +3,7 @@
 import { useAuth } from "@hooks/auth"
 import styles from "@styles/modules/toaster.module.scss"
 import { domAnimation, LazyMotion } from "motion/react"
-import { type PropsWithChildren, useId } from "react"
+import { type PropsWithChildren, Suspense, useId } from "react"
 import { type DefaultToastOptions, Toaster } from "react-hot-toast"
 
 import { useFetchCurrencies } from "@/shared/lib/hooks/useFetchCurrencies"
@@ -32,9 +32,10 @@ export function ClientMainProvider({ children, cookie, session }: IProps) {
 
 	return (
 		<>
-			<Toaster position="top-center" toastOptions={mainToastOptions(id)} />
-
-			{cookie !== "true" && <Cookie />}
+			<Suspense fallback={<>Loading...</>}>
+				<Toaster position="top-center" toastOptions={mainToastOptions(id)} />
+				{cookie !== "true" && <Cookie />}
+			</Suspense>
 
 			<LazyMotion features={domAnimation} strict>
 				{children}

@@ -8,7 +8,6 @@ const withMdx = createNextMdxPlugin({})
 const nextConfig: NextConfig = {
 	pageExtensions: ["ts", "tsx", "mdx"],
 	reactStrictMode: true,
-	cacheComponents: true,
 	images: {
 		remotePatterns: [
 			{

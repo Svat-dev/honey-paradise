@@ -42,7 +42,7 @@ export const productsService = {
 			AxiosResponse<GetProductResponse[]>
 		>(EnumApiRoute.GET_POPULAR_PRODUCTS)
 
-		return res
+		return res.data
 	},
 
 	getBySlug: async (slug: string) => {
