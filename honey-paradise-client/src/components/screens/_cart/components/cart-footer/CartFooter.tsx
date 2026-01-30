@@ -1,4 +1,3 @@
-import { TableIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
 import type { FC } from "react"
 
@@ -9,6 +8,7 @@ import type { GetMyCartResponseCurrency } from "@/shared/types/server"
 import { CartFooterInfo } from "./CartFooterInfo"
 import { CartPrint } from "./CartPrint"
 import { CartPromoCode } from "./CartPromoCode"
+import { CartTable } from "./CartTable"
 
 interface IProps {
 	length?: number
@@ -32,14 +32,7 @@ const CartFooter: FC<IProps> = ({ length, ...props }) => {
 				<div className="mb-3 flex items-center justify-between">
 					<CartPrint />
 
-					<Button
-						variant="link"
-						title={t("footer.saveAsTable")}
-						className="flex items-center gap-1 will-change-auto"
-					>
-						<TableIcon size={20} />
-						{t("footer.saveAsTable")}
-					</Button>
+					<CartTable />
 				</div>
 
 				<Button

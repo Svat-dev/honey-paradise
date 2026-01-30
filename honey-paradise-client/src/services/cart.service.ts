@@ -17,6 +17,14 @@ export const cartService = {
 		return res
 	},
 
+	getMyCartTable: async () => {
+		const res = await instance.get(EnumApiRoute.GET_MY_CART_TABLE, {
+			responseType: "blob"
+		})
+
+		return res
+	},
+
 	addToCart: async (dto: AddCartItemDto) => {
 		const res = await instance.post<any, AxiosResponse<boolean>>(
 			EnumApiRoute.ADD_CART_ITEM,
