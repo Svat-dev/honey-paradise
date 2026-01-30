@@ -29,10 +29,13 @@ import { Authorized } from "src/shared/decorators/authorized.decorator"
 import { EnumApiRoute } from "src/shared/lib/common/constants"
 import { ms } from "src/shared/lib/common/utils"
 
+import { CreateCommentDto } from "./dto/create-comment.dto"
 import { CreateReviewsDto } from "./dto/create-review.dto"
 import { GetReviewsQueryDto } from "./dto/get-reviews-query.dto"
 import { ReactToReviewDto } from "./dto/react-to-review.dto"
+import { ReplyToCommentDto } from "./dto/reply-to-comment.dto"
 import { UpdateReviewDto } from "./dto/update-review.dto"
+import { GetCommentsResponse } from "./response/get-comments-by-rid.res"
 import { GetReviewsByPidResponse } from "./response/get-reviews-by-pid.res"
 import { ReviewsService } from "./reviews.service"
 
@@ -51,6 +54,29 @@ export class ReviewsController {
 		return this.reviewsService.getReviewsByProductId(req.session.userId, query)
 	}
 
+	@ApiOperation({ summary: "Get comments by review id", description: "" })
+	@ApiOkResponse({ type: GetCommentsResponse, isArray: true })
+	@ApiParam({ name: "id", type: String, description: "Review ID" })
+	@HttpCode(HttpStatus.OK)
+	@Get("/comments/:id")
+	getCommentsById(@Param("id", ParseUUIDPipe) id: string) {
+		return this.reviewsService.getCommentsById(id)
+	}
+
+	@ApiOperation({ summary: "Create a new comment", description: "" })
+	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiBody({ type: CreateCommentDto })
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
+	@Post("/comments/new")
+	createComment(
+		@Authorized("id") userId: string,
+		@Body() dto: CreateCommentDto
+	) {
+		return this.reviewsService.createComment(userId, dto)
+	}
+
 	@ApiOperation({ summary: "Create a new reviews", description: "" })
 	@ApiOkResponse({ type: Boolean, example: true })
 	@ApiBody({ type: CreateReviewsDto })
@@ -63,6 +89,20 @@ export class ReviewsController {
 		@Body() dto: CreateReviewsDto
 	) {
 		return this.reviewsService.createReview(userId, dto)
+	}
+
+	@ApiOperation({ summary: "Reply to a comment", description: "" })
+	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiBody({ type: ReplyToCommentDto })
+	@Authorization()
+	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
+	@HttpCode(HttpStatus.OK)
+	@Post("/comments/reply")
+	replyToComment(
+		@Authorized("id") userId: string,
+		@Body() dto: ReplyToCommentDto
+	) {
+		return this.reviewsService.replyToComment(userId, dto)
 	}
 
 	@ApiOperation({ summary: "Edit a review", description: "" })

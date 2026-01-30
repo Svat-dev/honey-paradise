@@ -9,10 +9,13 @@ import { ProfileService } from "../auth/profile/profile.service"
 import { NotificationsService } from "../notifications/notifications.service"
 import { ProductsService } from "../products/services/products.service"
 
+import { CreateCommentDto } from "./dto/create-comment.dto"
 import type { CreateReviewsDto } from "./dto/create-review.dto"
 import type { GetReviewsQueryDto } from "./dto/get-reviews-query.dto"
 import { ReactToReviewDto, ReactToReviewType } from "./dto/react-to-review.dto"
+import { ReplyToCommentDto } from "./dto/reply-to-comment.dto"
 import type { UpdateReviewDto } from "./dto/update-review.dto"
+import { GetCommentsResponse } from "./response/get-comments-by-rid.res"
 import type { GetReviewsByPidResponse } from "./response/get-reviews-by-pid.res"
 
 @Injectable()
@@ -53,7 +56,7 @@ export class ReviewsService {
 					array_length(r."dislikes", 1) AS "dislikes",
 					(${userId})::text = ANY(r."likes") AS "isLiked",
 					(${userId})::text = ANY(r."dislikes") AS "isDisliked",
-					ROW_TO_JSON(u_part)::json AS "user",
+					row_to_json(u_part)::json AS "user",
 					-- Добавляем флаги для идентификации
 					CASE WHEN r."id" = (SELECT "id" FROM most_popular)::uuid THEN true END AS "type",
 					CASE WHEN r."id" = (SELECT "id" FROM user_review)::uuid THEN true END AS "userType"
@@ -109,7 +112,50 @@ export class ReviewsService {
 		}
 	}
 
-	async createReview(userId: string, dto: CreateReviewsDto) {
+	async getCommentsById(reviewId: string): Promise<GetCommentsResponse[]> {
+		const replies = await this.prisma.commentary.findMany({
+			where: { reviewId },
+			select: {
+				id: true,
+				text: true,
+				replyToId: true,
+				user: {
+					select: {
+						id: true,
+						username: true,
+						avatarPath: true,
+						framePath: true
+					}
+				}
+			},
+			orderBy: { createdAt: "desc" }
+		})
+
+		return replies
+	}
+
+	async createComment(userId: string, dto: CreateCommentDto): Promise<boolean> {
+		const { reviewId, text } = dto
+
+		const review = await this.prisma.review.findUnique({
+			where: { id: reviewId },
+			select: { id: true, userId: true }
+		})
+
+		if (!review) throw new NotFoundException("Review not found")
+
+		await this.prisma.commentary.create({
+			data: {
+				text,
+				user: { connect: { id: userId } },
+				review: { connect: { id: review.id } }
+			}
+		})
+
+		return true
+	}
+
+	async createReview(userId: string, dto: CreateReviewsDto): Promise<boolean> {
 		const { text, productId, rating } = dto
 
 		const { id: pid } = await this.productsService.getProductsByIds(productId)
@@ -124,6 +170,31 @@ export class ReviewsService {
 		})
 
 		await this.countProductRating(productId)
+
+		return true
+	}
+
+	async replyToComment(
+		userId: string,
+		dto: ReplyToCommentDto
+	): Promise<boolean> {
+		const { commentId, text } = dto
+
+		const comment = await this.prisma.commentary.findUnique({
+			where: { id: commentId },
+			select: { id: true, reviewId: true }
+		})
+
+		if (!comment) throw new NotFoundException("Comment wasn't found!") // TODO translate
+
+		await this.prisma.commentary.create({
+			data: {
+				text,
+				user: { connect: { id: userId } },
+				review: { connect: { id: comment.reviewId } },
+				replyToId: comment.id
+			}
+		})
 
 		return true
 	}

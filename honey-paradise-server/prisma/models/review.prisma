@@ -32,6 +32,8 @@ model Commentary {
   review   Review @relation(fields: [reviewId], references: [id])
   reviewId String @map("review_id") @db.Uuid
 
+  replyToId String? @map("reply_to_id")
+
   user   User   @relation(fields: [userId], references: [id])
   userId String @map("user_id") @db.Uuid
 
