@@ -1,3 +1,5 @@
+import "reflect-metadata"
+
 import { ValidationPipe } from "@nestjs/common/pipes/validation.pipe"
 import { ConfigService } from "@nestjs/config/dist/config.service"
 import { NestFactory } from "@nestjs/core"
@@ -6,7 +8,6 @@ import { SwaggerModule } from "@nestjs/swagger/dist/swagger-module"
 import { RedisStore } from "connect-redis"
 import * as cookieParser from "cookie-parser"
 import * as session from "express-session"
-import "reflect-metadata"
 
 import { getSwaggerConfig } from "./core/config/swagger.config"
 import { CoreModule } from "./core/core.module"

@@ -53,6 +53,7 @@ export class ProfileService {
 			__dirname,
 			"../../../..",
 			"public",
+			"assets",
 			format,
 			"settings"
 		)
@@ -88,6 +89,7 @@ export class ProfileService {
 			__dirname,
 			"../../../..",
 			"public",
+			"assets",
 			fileExtension,
 			"settings"
 		)

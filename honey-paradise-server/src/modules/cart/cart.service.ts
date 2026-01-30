@@ -198,41 +198,36 @@ export class CartService {
 	): Promise<void> {
 		try {
 			const query: CartExcelModelResponse[] = await this.prisma.$queryRaw`
+        WITH "_cartItems" AS (
+          SELECT
+            ci.id,
+            ci.quantity,
+            ci.price_usd AS "priceInUSD",
+            ci.cart_id,
+            json_build_object(
+              'title', p.title,
+              'slug', p.slug,
+              'category', json_build_object(
+                'title', cat.title,
+                'slug', cat.slug
+              )
+            ) AS "product"
+          FROM cart_items ci
+          LEFT JOIN products p ON (ci.product_id)::uuid = (p.id)::uuid
+          LEFT JOIN categories cat ON (p.category_id)::text = (cat.id)::text
+          GROUP BY ci.id, p.title, p.slug, cat.title, cat.slug
+          ORDER BY ci.created_at ASC
+        )
         SELECT
           c.id,
           c.total_price AS "totalPrice",
           u.username,
-          (
-            SELECT COALESCE(json_arrayagg(
-              json_build_object(
-                'id', ci.id,
-                'quantity', ci.quantity,
-                'priceInUSD', ci.price_usd,
-                'product', json_build_object(
-                  'title', p.title,
-                  'slug', p.slug,
-                  'category', json_build_object(
-                    'title', cat.title,
-                    'slug', cat.slug
-                  )
-                )
-              )
-            ), '[]')
-            FROM cart_items ci
-            LEFT JOIN products p ON (ci."productId")::uuid = (p.id)::uuid
-            LEFT JOIN categories cat ON (p.category_id)::text = (cat.id)::text
-            WHERE (ci.cart_id)::uuid = (c.id)::uuid
-            GROUP BY p.slug
-            ORDER BY p.slug ASC
-          ) AS "cartItems",
-          (
-            SELECT COALESCE(COUNT(ci.id), 0) as length
-            FROM cart_items ci
-            WHERE (ci.cart_id)::uuid = (c.id)::uuid
-          ) AS "length"
+          COALESCE(json_agg(ci), '[]') AS "cartItems"
         FROM carts c
         LEFT JOIN users u ON (c.user_id)::uuid = (u.id)::uuid
+        LEFT JOIN "_cartItems" ci ON (c.id)::uuid = (ci.cart_id)::uuid
         WHERE (c.user_id)::uuid = (${userId})::uuid
+        GROUP BY c.id, u.username
       `
 
 			const cart = query[0]
@@ -253,10 +248,12 @@ export class CartService {
 			res.setHeader("Content-type", `application/xlsx`)
 
 			const content = fs.readFileSync(filepath)
+
 			res.status(HttpStatus.OK).send(content)
 
 			fs.unlinkSync(filepath)
 		} catch (error) {
+			console.error(error)
 			throw new InternalServerErrorException("Error while creating table!", {
 				cause: error
 			})

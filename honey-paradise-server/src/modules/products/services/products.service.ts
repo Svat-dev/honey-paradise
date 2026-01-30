@@ -185,7 +185,7 @@ export class ProductsService {
 
 	async getPopularProducts(userId: string): Promise<GetProductResponse[]> {
 		try {
-			const { role, likedProductIds } = userId
+			const user = userId
 				? await this.profileService.getProfile(userId, "id", {
 						likedProductIds: true
 					})
@@ -203,7 +203,11 @@ export class ProductsService {
 				take: 4
 			})
 
-			const products = this.getProductResponse(query, role, likedProductIds)
+			const products = this.getProductResponse(
+				query,
+				user?.role,
+				user?.likedProductIds
+			)
 
 			return products
 		} catch (error) {
@@ -329,7 +333,7 @@ export class ProductsService {
 			return product
 		} else {
 			try {
-				const { role, likedProductIds } = userId
+				const user = userId
 					? await this.profileService.getProfile(userId, "id", {
 							likedProductIds: true
 						})
@@ -343,7 +347,11 @@ export class ProductsService {
 					where: { id: { in: id } }
 				})
 
-				const products = this.getProductResponse(query, role, likedProductIds)
+				const products = this.getProductResponse(
+					query,
+					user?.role,
+					user?.likedProductIds
+				)
 
 				return products
 			} catch (error) {
@@ -386,7 +394,7 @@ export class ProductsService {
 					(EXISTS (
 							SELECT 1
 							FROM "users" u
-							WHERE (${userId})::uuid = u."id" AND (p."id")::text = ANY(u."liked_products")
+							WHERE (${userId})::text = (u."id")::text AND (p."id")::text = ANY(u."liked_products")
 						)
 					) AS "isLiked",
 					COALESCE(

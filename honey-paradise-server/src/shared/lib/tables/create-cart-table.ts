@@ -24,7 +24,7 @@ const style: Record<string, Partial<Style>> = {
 		fill: { type: "pattern", pattern: "solid", fgColor: { argb: "e5ff00" } }
 	},
 	hyperlink: {
-		font: { underline: true, color: { argb: "0000FF" } }
+		font: { underline: true, color: { argb: "0000ff" } }
 	},
 	extra: {
 		border: { bottom: { style: "thin", color: { argb: "000000" } } }
@@ -48,7 +48,7 @@ export function createCartTable(
 	workbook.creator = "Honey Paradise Shop"
 	workbook.created = new Date()
 
-	const worksheet = workbook.addWorksheet()
+	const worksheet = workbook.addWorksheet("Sheet 1")
 
 	worksheet.addRow([
 		"№",
@@ -133,7 +133,7 @@ export function createCartTable(
 		i18n.t("d.tables.cart.total"),
 		"",
 		"",
-		length,
+		1,
 		totalPrice,
 		""
 	]).number
@@ -143,7 +143,7 @@ export function createCartTable(
 
 	worksheet.getCell(`E${footerColNum}`).value = {
 		formula: `=COUNTA(A2:A${footerColNum})-1`,
-		result: length
+		result: 1
 	}
 
 	worksheet.getCell(`F${footerColNum}`).value = {

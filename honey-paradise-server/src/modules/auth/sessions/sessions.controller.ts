@@ -23,6 +23,7 @@ import {
 	SkipThrottle,
 	Throttle
 } from "@nestjs/throttler/dist/throttler.decorator"
+import { Recaptcha } from "@nestlab/google-recaptcha"
 // import { Recaptcha } from "@nestlab/google-recaptcha/decorators/recaptcha";
 
 import type { Request, Response } from "express"
@@ -70,7 +71,7 @@ export class SessionsController {
 	@ApiOperation({ summary: "Login to user account. (Authorization)" })
 	@ApiBody({ type: AuthLoginDto })
 	@HttpCode(HttpStatus.OK)
-	// @Recaptcha()
+	@Recaptcha()
 	@Throttle({ default: { limit: 10, ttl: ms("10min") } })
 	@Post(EnumApiRoute.SIGN_IN)
 	login(
