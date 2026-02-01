@@ -39,6 +39,7 @@ export class ProductsService {
 		userId: string
 	): Promise<GetCatsWithProductsResponse> {
 		const term = searchTerm || ""
+		const convertedTerm = lang === "ru" ? enToRuKeys(term) : ""
 
 		try {
 			const categories: GetAllCatsResponse[] = await this.prisma.$queryRaw`
@@ -88,7 +89,7 @@ export class ProductsService {
 							(p."title"->'ru')::text ILIKE ${`%${term}%`} OR
 							(c."title"->'en')::text ILIKE ${`%${term}%`} OR
 							(c."title"->'ru')::text ILIKE ${`%${term}%`} OR
-							p."slug" ILIKE ${`%${term}%`}
+							(CASE WHEN ${lang} = 'en' THEN ("slug" ILIKE ${`%${term}%`}) ELSE (("title"->'ru')::text ILIKE ${`%${convertedTerm}%`}) END)
 						)
 				)
 				GROUP BY p."id", COALESCE(cm."reviews_count", 0)

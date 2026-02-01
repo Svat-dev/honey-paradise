@@ -161,6 +161,21 @@ export const useCreateReviewDialog = (
 		setSelectionEnd(null)
 	}
 
+	const onKeydown = (e: KeyboardEvent) => {
+		if (selectionEnd === null || selectionStart === null) return
+
+		if (e.ctrlKey && e.key === "b") {
+			e.preventDefault()
+			applyStyle("bold")
+		} else if (e.ctrlKey && e.key === "i") {
+			e.preventDefault()
+			applyStyle("italic")
+		} else if (e.ctrlKey && e.key === "l") {
+			e.preventDefault()
+			applyStyle("link")
+		}
+	}
+
 	useEffect(() => {
 		if (!isScrolling) return
 
@@ -188,6 +203,18 @@ export const useCreateReviewDialog = (
 			JSON.stringify(data)
 		)
 	}, [comment])
+
+	useEffect(() => {
+		window.addEventListener("keydown", onKeydown)
+
+		return () => {
+			try {
+				window.removeEventListener("keydown", onKeydown)
+			} catch (error) {
+				console.error(error)
+			}
+		}
+	})
 
 	useEffect(() => {
 		if (type !== "create") return
