@@ -1,5 +1,7 @@
 export const OPEN_EXCHANGE_RATES_URL =
 	process.env["NEXT_PUBLIC_OPEN_EXCHANGE_RATES_URL"]
+export const YANDEX_TRANSLATION_URL =
+	process.env["NEXT_PUBLIC_YANDEX_TRANSLATION_URL"]
 
 export const CLIENT_URL = process.env["NEXT_PUBLIC_CLIENT_URL"]
 export const SERVER_URL = process.env["NEXT_PUBLIC_SERVER_URL"]

@@ -1,12 +1,13 @@
+import { LanguagesIcon } from "lucide-react"
 import { m } from "motion/react"
-import { useLocale } from "next-intl"
-import { type FC, useMemo, useState } from "react"
+import type { FC } from "react"
 
-import { StarRating } from "@/components/ui/common"
+import { Button, StarRating } from "@/components/ui/common"
 import { Markdown } from "@/components/ui/components/markdown"
 import { cn } from "@/shared/lib/utils/base"
 import type { GetReviewsByPidResponseReview } from "@/shared/types/server"
 
+import { useReviewItem } from "../../../hooks/useReviewItem"
 import { ReviewRatingBadgeWrapper } from "../RatingBadge"
 
 import { ReviewItemFooter } from "./ReviewItemFooter"
@@ -20,7 +21,7 @@ interface IProps extends GetReviewsByPidResponseReview {
 
 const ReviewItem: FC<IProps> = ({
 	id,
-	text,
+	text: propsText,
 	rating,
 	likes,
 	dislikes,
@@ -31,36 +32,21 @@ const ReviewItem: FC<IProps> = ({
 	isMostPopular,
 	isUserReview
 }) => {
-	const locale = useLocale()
-	const [isDeleted, setIsDeleted] = useState<boolean>(false)
-
-	const extraRatingArray = useMemo(
-		() => [
-			{
-				title: "Общая",
-				value: rating.common,
-				isCommon: true
-			},
-			{
-				title: "Вкус",
-				value: rating.taste
-			},
-			{
-				title: "Аромат",
-				value: rating.aroma
-			},
-			{
-				title: "Упаковка",
-				value: rating.packaging
-			}
-		],
-		[locale, rating]
-	)
+	const {
+		extraRatingArray,
+		text,
+		isDeleted,
+		isTranslated,
+		isTranslating,
+		isVisible,
+		setIsDeleted,
+		translate
+	} = useReviewItem({ id, text: propsText, rating })
 
 	return (
 		<m.article
 			key={id}
-			className={cn("rounded-md bg-primary p-4", {
+			className={cn("relative rounded-md bg-primary p-4", {
 				"border-2 border-muted": isMostPopular && likes !== null
 			})}
 			initial={{ opacity: 0, y: 5 }}
@@ -111,9 +97,20 @@ const ReviewItem: FC<IProps> = ({
 				))}
 			</div>
 
-			<div className="mb-4 ml-2">
+			<m.div
+				initial={false}
+				animate={String(isVisible)}
+				variants={{ true: { opacity: 1 }, false: { opacity: 0 } }}
+				transition={{ type: "tween", duration: 0.15 }}
+				className={cn("mb-4 ml-2 flex flex-col", {
+					"select-none !opacity-60": isTranslating
+				})}
+			>
 				<Markdown children={text} />
-			</div>
+				{isTranslated && (
+					<p className="ml-2 self-end text-sm text-muted">Переведено</p>
+				)}
+			</m.div>
 
 			<ReviewItemFooter
 				id={id}
@@ -121,7 +118,19 @@ const ReviewItem: FC<IProps> = ({
 				dislikes={dislikes}
 				isLiked={isLiked}
 				isDisliked={isDisliked}
-			/>
+			>
+				<Button
+					variant="ghost"
+					className={cn("border border-transparent p-1.5 hover:border-muted", {
+						"bg-muted/40": isTranslated
+					})}
+					title={isTranslated ? "Показать оригинал" : "Перевести на ваш язык"}
+					onClick={translate}
+					disabled={isTranslating}
+				>
+					<LanguagesIcon />
+				</Button>
+			</ReviewItemFooter>
 		</m.article>
 	)
 }

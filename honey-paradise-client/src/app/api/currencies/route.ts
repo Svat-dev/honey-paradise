@@ -11,8 +11,6 @@ export async function GET() {
 	} catch (error) {
 		const { errMsg } = errorCatch(error as AxiosError)
 
-		console.error(errMsg)
-
 		return new Response(errMsg, { status: 500, statusText: errMsg })
 	}
 }

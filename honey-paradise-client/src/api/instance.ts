@@ -1,7 +1,8 @@
 import {
 	API_URL,
 	BASE_CURRENCY,
-	OPEN_EXCHANGE_RATES_URL
+	OPEN_EXCHANGE_RATES_URL,
+	YANDEX_TRANSLATION_URL
 } from "@constants/base/base.const"
 import axios, { type CreateAxiosDefaults } from "axios"
 
@@ -22,6 +23,15 @@ const currencyInstanceOptions: CreateAxiosDefaults = {
 	}
 }
 
+const translateInstanceOptions: CreateAxiosDefaults = {
+	baseURL: YANDEX_TRANSLATION_URL,
+	headers: {
+		...getContentType("json"),
+		Authorization: `Api-Key ${process.env.YANDEX_TRANSLATION_API_KEY}`
+	}
+}
+
 export const defaultInstance = axios.create(axiosOptions)
 export const instance = axios.create(axiosOptions)
 export const currencyInstance = axios.create(currencyInstanceOptions)
+export const translateInstance = axios.create(translateInstanceOptions)

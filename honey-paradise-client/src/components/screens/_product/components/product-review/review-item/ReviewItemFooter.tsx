@@ -4,14 +4,14 @@ import {
 	ThumbsDownIcon,
 	ThumbsUpIcon
 } from "lucide-react"
-import type { FC } from "react"
+import type { FC, PropsWithChildren } from "react"
 
 import { Button } from "@/components/ui/common"
 import { cn } from "@/shared/lib/utils/base"
 
 import { useReviewItemFooter } from "../../../hooks/useReviewItemFooter"
 
-interface IReviewItemFooter {
+interface IReviewItemFooter extends PropsWithChildren {
 	id: string
 	likes: number | null
 	dislikes: number | null
@@ -24,7 +24,8 @@ const ReviewItemFooter: FC<IReviewItemFooter> = ({
 	likes,
 	dislikes,
 	isDisliked,
-	isLiked
+	isLiked,
+	children
 }) => {
 	const { isReactingToReview, handleReactToReview } = useReviewItemFooter(id)
 
@@ -75,6 +76,8 @@ const ReviewItemFooter: FC<IReviewItemFooter> = ({
 						dislikes || 0
 					)}
 				</Button>
+
+				{children}
 			</div>
 		</footer>
 	)
