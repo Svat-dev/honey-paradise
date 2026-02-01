@@ -46,9 +46,12 @@ const ReviewItem: FC<IProps> = ({
 	return (
 		<m.article
 			key={id}
-			className={cn("relative rounded-md bg-primary p-4", {
-				"border-2 border-muted": isMostPopular && likes !== null
-			})}
+			className={cn(
+				"relative overflow-hidden rounded-md bg-primary p-4 transition-all",
+				{
+					"border-2 border-muted": isMostPopular && likes !== null
+				}
+			)}
 			initial={{ opacity: 0, y: 5 }}
 			whileInView={
 				isDeleted
