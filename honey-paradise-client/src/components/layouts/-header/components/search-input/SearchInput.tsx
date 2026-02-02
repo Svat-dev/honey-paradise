@@ -3,6 +3,7 @@ import { m } from "motion/react"
 import type { FC } from "react"
 import { FormProvider, type UseFormReturn } from "react-hook-form"
 
+import { VALUES } from "@/shared/lib/constants/base"
 import type { ReactStateHook } from "@/shared/types"
 
 import type { ISearchFormFields } from "../../hooks/types/use-search.type"
@@ -46,7 +47,7 @@ const SearchInput: FC<ISearchInput> = ({
 					}}
 					animate={isOpen ? "opened" : ""}
 					className="h-10 bg-secondary leading-10"
-					maxLength={255}
+					maxLength={VALUES.MAX_SEARCH_LENGTH}
 					spellCheck={false}
 					autoComplete="off"
 					autoCorrect="off"

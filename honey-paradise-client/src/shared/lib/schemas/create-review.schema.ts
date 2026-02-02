@@ -1,5 +1,7 @@
 import { z } from "zod"
 
+import { VALUES } from "../constants/base"
+
 const ratingSchema = z
 	.number({ message: "Поле должно быть числом" })
 	.max(5, "Макс. значение 5")
@@ -7,7 +9,9 @@ const ratingSchema = z
 export const createReviewSchema = z.object({
 	comment: z
 		.string({ message: "Поле должно быть строкой" })
-		.max(500, { message: "Длина комментария не должна превышать 500 символов" })
+		.max(VALUES.MAX_REVIEW_LENGTH, {
+			message: `Длина комментария не должна превышать ${VALUES.MAX_REVIEW_LENGTH} символов`
+		})
 		.nonempty({ message: "Поле комментария не может быть пустым" }),
 	rating: z.object({
 		common: ratingSchema.min(1, "Заполните как минимум общий рейтинг"),

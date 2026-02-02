@@ -14,6 +14,7 @@ import {
 	StarRating
 } from "@/components/ui/common"
 import { FormInput } from "@/components/ui/components/form-input"
+import { VALUES } from "@/shared/lib/constants/base"
 import type { TCreateReviewSchema } from "@/shared/lib/schemas/create-review.schema"
 
 import { useCreateReviewDialog } from "../../hooks/useCreateReviewDialog"
@@ -121,7 +122,7 @@ const CreateReviewDialog: FC<ICreateReviewDialogProps> = ({
 								onSelect: handleSelect,
 								className: "!pl-2 !pr-7 !py-2",
 								rows: 12,
-								maxLength: 500,
+								maxLength: VALUES.MAX_REVIEW_LENGTH,
 								counter: true
 							}}
 						>

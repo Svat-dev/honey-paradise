@@ -2,6 +2,7 @@ import { FormProvider, useForm } from "react-hook-form"
 
 import { Button } from "@/components/ui/common"
 import { FormInput } from "@/components/ui/components/form-input"
+import { VALUES } from "@/shared/lib/constants/base"
 
 const CreateComment = () => {
 	const form = useForm({})
@@ -18,7 +19,7 @@ const CreateComment = () => {
 					textareaProps={{
 						className: "!px-3 !py-2 border border-muted !resize-y",
 						counter: true,
-						maxLength: 200,
+						maxLength: VALUES.MAX_COMMENT_LENGTH,
 						rows: 4
 					}}
 					containerClassName="mb-2"

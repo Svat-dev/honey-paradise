@@ -3,6 +3,7 @@ import { FormProvider } from "react-hook-form"
 
 import { Button, Title } from "@/components/ui/common"
 import { FormInput } from "@/components/ui/components/form-input"
+import { VALUES } from "@/shared/lib/constants/base"
 
 import { useCartPromoCode } from "../../hooks/useCartPromoCode"
 
@@ -24,7 +25,7 @@ const CartPromoCode: FC<IProps> = ({ isLoading }) => {
 					name="promoCode"
 					placeholder={t("footer.promo.placeholder")}
 					containerClassName="mb-2"
-					maxLength={30}
+					maxLength={VALUES.MAX_PROMO_CODE_LENGTH}
 				/>
 
 				<Button
