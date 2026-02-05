@@ -1,5 +1,5 @@
 import { format } from "date-fns"
-import { InfoIcon } from "lucide-react"
+import { CornerUpRightIcon, InfoIcon } from "lucide-react"
 import type { FC } from "react"
 
 import {
@@ -10,14 +10,22 @@ import {
 	Button
 } from "@/components/ui/common"
 import { getAvatarPath, getFramesPath } from "@/shared/lib/utils"
+import { highlightComment } from "@/shared/lib/utils/ui"
 import type { GetReviewsByPidResponseUser } from "@/shared/types/server"
 
 interface IReviewItemHeader {
 	user: GetReviewsByPidResponseUser
 	createdAt: string
+	replyToId?: string
 }
 
-const ReviewItemHeader: FC<IReviewItemHeader> = ({ createdAt, user }) => {
+const ReviewItemHeader: FC<IReviewItemHeader> = ({
+	createdAt,
+	user,
+	replyToId
+}) => {
+	const handleHighlight = () => highlightComment(replyToId)
+
 	return (
 		<header className="mb-4 flex items-center justify-between">
 			<div className="flex items-center gap-2">
@@ -42,6 +50,13 @@ const ReviewItemHeader: FC<IReviewItemHeader> = ({ createdAt, user }) => {
 				</Avatar>
 
 				<span>{user.username}</span>
+
+				{replyToId && (
+					<Button variant="link" onClick={handleHighlight}>
+						<CornerUpRightIcon size={20} className="mb-1 mr-1" />
+						Ответ на комментарий "...начало текста комментария"
+					</Button>
+				)}
 			</div>
 
 			<div className="flex items-center gap-2 text-muted">

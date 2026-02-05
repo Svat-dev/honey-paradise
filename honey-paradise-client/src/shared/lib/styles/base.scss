@@ -28,3 +28,7 @@ ul {
 #search-overlay {
 	@apply fixed inset-0 z-30 bg-black/60;
 }
+
+.review-comment-highlighted {
+	@apply scale-[1.01] rounded-md bg-secondary/70 !important;
+}

@@ -4,13 +4,19 @@ import {
 	ThumbsDownIcon,
 	ThumbsUpIcon
 } from "lucide-react"
+import dynamic from "next/dynamic"
 import type { FC, PropsWithChildren } from "react"
 
 import { Button } from "@/components/ui/common"
 import { cn } from "@/shared/lib/utils/base"
 
 import { useReviewItemFooter } from "../../../hooks/useReviewItemFooter"
-import { ReviewComments } from "../review-comments/ReviewComments"
+
+const DynamicReviewComments = dynamic(
+	() =>
+		import("../review-comments/ReviewComments").then(mod => mod.ReviewComments),
+	{ ssr: false }
+)
 
 interface IReviewItemFooter extends PropsWithChildren {
 	id: string
@@ -35,7 +41,7 @@ const ReviewItemFooter: FC<IReviewItemFooter> = ({
 		<>
 			<footer className="flex items-center justify-between">
 				<Button variant="link" onClick={handleOpen}>
-					Комментировать
+					Комментарии
 					<ChevronDownIcon
 						size={18}
 						className={cn("transition-transform", { "rotate-180": isOpen })}
@@ -87,7 +93,7 @@ const ReviewItemFooter: FC<IReviewItemFooter> = ({
 				</div>
 			</footer>
 
-			{isOpen && <ReviewComments />}
+			{isOpen && <DynamicReviewComments reviewId={id} />}
 		</>
 	)
 }

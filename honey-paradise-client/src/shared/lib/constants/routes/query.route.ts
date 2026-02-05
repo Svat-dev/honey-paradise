@@ -17,6 +17,7 @@ export const queryKeys = {
 	getProductsRating: "get products rating",
 	getProductsReviews: "get products reviews",
 	getProductPage: "get product page data",
+	getReviewComments: "get review's comments",
 
 	recoverPassword: "account recover password",
 	connectTg: "account connect telegram",
@@ -25,6 +26,7 @@ export const queryKeys = {
 	createAccount: "account create",
 	createOrder: "create order",
 	createProductReview: "create product review",
+	createReviewComment: "create review comment",
 
 	sendRecoverPasswordCode: "send password recover code",
 	sendVerificationCode: "send email verification code",
@@ -69,5 +71,7 @@ export const queryKeys = {
 
 	switchFavoritesProducts: "switch user favorites products",
 	reactToReview: "react to a review",
-	usePromoCode: "use promo code"
+	usePromoCode: "use promo code",
+	translateReview: "translate review or comment",
+	replyToComment: "reply to a comment"
 } as const

@@ -96,6 +96,10 @@ export enum EnumApiRoute {
 	EDIT_REVIEW = `${REVIEW}/edit`,
 	DELETE_REVIEW = `${REVIEW}/delete`,
 
+	COMMENTS = `${REVIEW}/comments`,
+	REPLY_TO_COMMENT = `${COMMENTS}/reply`,
+	CREATE_COMMENT = `${COMMENTS}/new`,
+
 	ORDERS = "/orders",
 	CREATE_ORDER = `${ORDERS}/create`,
 	GET_USER_ORDERS = `${ORDERS}/all`,

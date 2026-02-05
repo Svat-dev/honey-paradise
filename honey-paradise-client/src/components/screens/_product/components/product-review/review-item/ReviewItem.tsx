@@ -3,12 +3,13 @@ import { m } from "motion/react"
 import type { FC } from "react"
 
 import { Button, StarRating } from "@/components/ui/common"
-import { Markdown } from "@/components/ui/components/markdown"
 import { cn } from "@/shared/lib/utils/base"
 import type { GetReviewsByPidResponseReview } from "@/shared/types/server"
 
 import { useReviewItem } from "../../../hooks/useReviewItem"
+import { useTranslateReviewText } from "../../../hooks/useTranslateReviewText"
 import { ReviewRatingBadgeWrapper } from "../RatingBadge"
+import { TranslateText } from "../TranslateText"
 
 import { ReviewItemFooter } from "./ReviewItemFooter"
 import { ReviewItemHeader } from "./ReviewItemHeader"
@@ -32,26 +33,19 @@ const ReviewItem: FC<IProps> = ({
 	isMostPopular,
 	isUserReview
 }) => {
-	const {
-		extraRatingArray,
-		text,
-		isDeleted,
-		isTranslated,
-		isTranslating,
-		isVisible,
-		setIsDeleted,
-		translate
-	} = useReviewItem({ id, text: propsText, rating })
+	const { extraRatingArray, isDeleted, setIsDeleted } = useReviewItem(rating)
+
+	const { state, isTranslating, translate } = useTranslateReviewText(
+		id,
+		propsText
+	)
 
 	return (
 		<m.article
 			key={id}
-			className={cn(
-				"relative overflow-hidden rounded-md bg-primary p-4 transition-all",
-				{
-					"border-2 border-muted": isMostPopular && likes !== null
-				}
-			)}
+			className={cn("relative overflow-hidden rounded-md bg-primary p-4", {
+				"border-2 border-muted": isMostPopular && likes !== null
+			})}
 			initial={{ opacity: 0, y: 5 }}
 			whileInView={
 				isDeleted
@@ -68,7 +62,7 @@ const ReviewItem: FC<IProps> = ({
 			{isUserReview && (
 				<UserReviewItem
 					reviewId={id}
-					comment={text}
+					comment={state.text}
 					rating={rating}
 					setIsDeleted={setIsDeleted}
 				/>
@@ -100,20 +94,11 @@ const ReviewItem: FC<IProps> = ({
 				))}
 			</div>
 
-			<m.div
-				initial={false}
-				animate={String(isVisible)}
-				variants={{ true: { opacity: 1 }, false: { opacity: 0 } }}
-				transition={{ type: "tween", duration: 0.15 }}
-				className={cn("mb-4 ml-2 flex flex-col", {
-					"select-none !opacity-60": isTranslating
-				})}
-			>
-				<Markdown children={text} />
-				{isTranslated && (
-					<p className="ml-2 self-end text-sm text-muted">Переведено</p>
-				)}
-			</m.div>
+			<TranslateText
+				type="review"
+				state={state}
+				isTranslating={isTranslating}
+			/>
 
 			<ReviewItemFooter
 				id={id}
@@ -125,9 +110,11 @@ const ReviewItem: FC<IProps> = ({
 				<Button
 					variant="ghost"
 					className={cn("border border-transparent p-1.5 hover:border-muted", {
-						"bg-muted/40": isTranslated
+						"bg-muted/40": state.isTranslated
 					})}
-					title={isTranslated ? "Показать оригинал" : "Перевести на ваш язык"}
+					title={
+						state.isTranslated ? "Показать оригинал" : "Перевести на ваш язык"
+					}
 					onClick={translate}
 					disabled={isTranslating}
 				>
