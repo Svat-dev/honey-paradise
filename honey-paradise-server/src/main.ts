@@ -51,7 +51,8 @@ async function bootstrap() {
 			},
 			store: new RedisStore({
 				client: redis,
-				prefix: config.getOrThrow<string>("SESSION_FOLDER")
+				prefix: config.getOrThrow<string>("SESSION_FOLDER"),
+				ttl: ms("30d") / 1000
 			})
 		})
 	)

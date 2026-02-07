@@ -25,6 +25,7 @@ import {
 	EnumErrorCauses,
 	EnumStorageKeys
 } from "src/shared/types/client/enums.type"
+import type { IRedisSession } from "src/shared/types/redis-values.type"
 import { ISession } from "src/shared/types/session-metadata.type"
 import { NotificationGateway } from "src/shared/websockets/notifications.gateway"
 
@@ -48,7 +49,10 @@ export class SessionsService {
 	) {}
 
 	async findByUser(req: Request): Promise<ISession[]> {
-		const sessions = await this.getAllUserSessions(req)
+		const sessions = await this.getAllUserSessions(
+			req.session.userId,
+			req.session.id
+		)
 
 		return sessions
 	}
@@ -56,26 +60,16 @@ export class SessionsService {
 	async findCurrent(req: Request): Promise<ISession> {
 		const sessionId = req.session.id
 
-		const sessionData = await this.redisService.get(
-			`${this.configService.getOrThrow<string>("SESSION_FOLDER")}${sessionId}`
-		)
+		const session = await this.redisService.getSession(sessionId)
 
-		const session = JSON.parse(sessionData)
-		const { cookie, ..._session } = session
-
-		return {
-			..._session,
-			id: sessionId
-		}
+		return session
 	}
 
 	async remove(req: Request, id: string): Promise<boolean> {
 		if (req.session.id === id)
 			throw new ConflictException("Текущую сессию удалить нельзя")
 
-		await this.redisService.del(
-			`${this.configService.getOrThrow<string>("SESSION_FOLDER")}${id}`
-		)
+		await this.redisService.deleteSession(id)
 
 		this.notificationsSocket.handleRemoveSession({ sid: id })
 
@@ -320,20 +314,15 @@ export class SessionsService {
 	}
 
 	async removeAllSessions(req: Request): Promise<boolean> {
-		const sessions = await this.getAllUserSessions(req)
-		sessions.shift()
+		const sessions = await this.getAllUserSessions(
+			req.session.userId,
+			req.session.id
+		)
+		const sessionIds = sessions.map((item, i) => {
+			if (i !== 0) return item.id
+		})
 
-		for (const session of sessions) {
-			try {
-				await this.redisService.del(
-					`${this.configService.getOrThrow<string>("SESSION_FOLDER")}${session.id}`
-				)
-			} catch (error) {
-				throw new InternalServerErrorException(
-					`Cant delete session with id: ${session.id}`
-				)
-			}
-		}
+		await this.redisService.deleteSession(sessionIds)
 
 		return true
 	}
@@ -344,44 +333,21 @@ export class SessionsService {
 		return true
 	}
 
-	private async getAllUserSessions(req: Request): Promise<ISession[]> {
-		const userId = req.session.userId
+	private async getAllUserSessions(
+		uid: string,
+		sid: string
+	): Promise<ISession[]> {
+		if (!uid) throw new NotFoundException("Пользователь не обнаружен в сессии")
 
-		if (!userId)
-			throw new NotFoundException("Пользователь не обнаружен в сессии")
+		const data = await this.redisService.getDataByFolder<ISession>(
+			this.redisService.sessionFolder
+		)
 
-		const keys = await this.redisService.keys("*")
-		const userSessions = []
-
-		for (const key of keys) {
-			const sessionData = await this.redisService.get(key)
-
-			if (sessionData) {
-				const session = JSON.parse(sessionData)
-
-				if (session.userId === userId) {
-					userSessions.push({
-						...session,
-						id: key.split(":")[1]
-					})
-				}
-			}
-		}
-
-		const filteredSessions = userSessions.map(({ cookie, ...session }) => ({
-			...session
-		}))
-
-		filteredSessions.sort(
+		data.sort(
 			(a, b) =>
 				new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
 		)
-		filteredSessions.sort((a, b) => {
-			if (a.id === req.session.id) return -1
-			if (b.id === req.session.id) return 1
-			return a.id - b.id
-		})
 
-		return filteredSessions
+		return data
 	}
 }
