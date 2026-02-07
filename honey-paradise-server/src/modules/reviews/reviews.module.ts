@@ -5,11 +5,12 @@ import { NotificationsModule } from "../notifications/notifications.module"
 import { ProductsModule } from "../products/products.module"
 
 import { ReviewsController } from "./reviews.controller"
-import { ReviewsService } from "./reviews.service"
+import { CommentaryService } from "./services/commentary.service"
+import { ReviewsService } from "./services/reviews.service"
 
 @Module({
 	controllers: [ReviewsController],
-	providers: [ReviewsService],
+	providers: [ReviewsService, CommentaryService],
 	imports: [ProductsModule, ProfileModule, NotificationsModule]
 })
 export class ReviewsModule {}

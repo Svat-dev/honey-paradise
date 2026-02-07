@@ -37,13 +37,17 @@ import { ReplyToCommentDto } from "./dto/reply-to-comment.dto"
 import { UpdateReviewDto } from "./dto/update-review.dto"
 import { GetCommentsResponse } from "./response/get-comments-by-rid.res"
 import { GetReviewsByPidResponse } from "./response/get-reviews-by-pid.res"
-import { ReviewsService } from "./reviews.service"
+import { CommentaryService } from "./services/commentary.service"
+import { ReviewsService } from "./services/reviews.service"
 
 @ApiTags("Reviews")
 @SkipThrottle({ auth: true })
 @Controller(EnumApiRoute.REVIEWS)
 export class ReviewsController {
-	constructor(private readonly reviewsService: ReviewsService) {}
+	constructor(
+		private readonly reviewsService: ReviewsService,
+		private readonly commentaryService: CommentaryService
+	) {}
 
 	@ApiOperation({ summary: "Get reviews by product id", description: "" })
 	@ApiOkResponse({ type: GetReviewsByPidResponse })
@@ -58,9 +62,9 @@ export class ReviewsController {
 	@ApiOkResponse({ type: GetCommentsResponse, isArray: true })
 	@ApiParam({ name: "id", type: String, description: "Review ID" })
 	@HttpCode(HttpStatus.OK)
-	@Get("/comments/:id")
+	@Get(EnumApiRoute.GET_REVIEW_COMMENTS)
 	getCommentsById(@Param("id", ParseUUIDPipe) id: string) {
-		return this.reviewsService.getCommentsById(id)
+		return this.commentaryService.getCommentsById(id)
 	}
 
 	@ApiOperation({ summary: "Create a new comment", description: "" })
@@ -69,12 +73,12 @@ export class ReviewsController {
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
-	@Post("/comments/new")
+	@Post(EnumApiRoute.CREATE_COMMENT)
 	createComment(
 		@Authorized("id") userId: string,
 		@Body() dto: CreateCommentDto
 	) {
-		return this.reviewsService.createComment(userId, dto)
+		return this.commentaryService.createComment(userId, dto)
 	}
 
 	@ApiOperation({ summary: "Create a new reviews", description: "" })
@@ -97,12 +101,12 @@ export class ReviewsController {
 	@Authorization()
 	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
 	@HttpCode(HttpStatus.OK)
-	@Post("/comments/reply")
+	@Post(EnumApiRoute.REPLY_TO_COMMENT)
 	replyToComment(
 		@Authorized("id") userId: string,
 		@Body() dto: ReplyToCommentDto
 	) {
-		return this.reviewsService.replyToComment(userId, dto)
+		return this.commentaryService.replyToComment(userId, dto)
 	}
 
 	@ApiOperation({ summary: "Edit a review", description: "" })
@@ -145,5 +149,19 @@ export class ReviewsController {
 		@Param("id", new ParseUUIDPipe({ version: "4" })) reviewId: string
 	) {
 		return this.reviewsService.deleteReview(userId, reviewId)
+	}
+
+	@ApiOperation({ summary: "Delete user comment", description: "" })
+	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiParam({ name: "id", type: String, example: "uuid" })
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Throttle({ default: { limit: 5, ttl: ms("3min") } })
+	@Delete(EnumApiRoute.DELETE_COMMENT)
+	deleteComment(
+		@Authorized("id") userId: string,
+		@Param("id", new ParseUUIDPipe({ version: "4" })) reviewId: string
+	) {
+		return this.commentaryService.deleteComment(userId, reviewId)
 	}
 }

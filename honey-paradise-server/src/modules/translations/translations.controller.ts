@@ -40,7 +40,7 @@ export class TranslationsController {
 	@Authorization("ADMIN", "MANAGER", "VIP")
 	@Get("/:id")
 	translate(
-		@Param("id", ParseUUIDPipe) id: string,
+		@Param("id", new ParseUUIDPipe({ version: "4" })) id: string,
 		@Query("model", TranslateModelPipe) model: "review" | "commentary",
 		@I18nLang() lang: string
 	) {
