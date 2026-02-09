@@ -99,6 +99,7 @@ export enum EnumApiRoute {
 	COMMENTS = `${REVIEW}/comments`,
 	REPLY_TO_COMMENT = `${COMMENTS}/reply`,
 	CREATE_COMMENT = `${COMMENTS}/new`,
+	DELETE_COMMENT = `${COMMENTS}/delete`,
 
 	ORDERS = "/orders",
 	CREATE_ORDER = `${ORDERS}/create`,

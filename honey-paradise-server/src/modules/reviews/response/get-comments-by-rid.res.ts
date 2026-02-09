@@ -27,6 +27,9 @@ export class GetCommentsResponse {
 	@ApiProperty({ type: GetReviewsByPidResponseUser })
 	user: GetReviewsByPidResponseUser
 
+	@ApiProperty({ type: "boolean", example: false })
+	isOwner: boolean
+
 	@ApiProperty({ type: Date, example: new Date() })
 	createdAt: Date
 }

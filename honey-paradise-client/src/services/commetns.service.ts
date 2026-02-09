@@ -1,4 +1,5 @@
 import type { AxiosResponse } from "axios"
+import * as path from "path"
 
 import { defaultInstance, instance } from "@/api/instance"
 import { EnumApiRoute } from "@/shared/lib/constants/routes"
@@ -31,6 +32,14 @@ export const commentsService = {
 		const res = await instance.post<any, AxiosResponse<boolean>>(
 			EnumApiRoute.REPLY_TO_COMMENT,
 			dto
+		)
+
+		return res
+	},
+
+	deleteComment: async (id: string) => {
+		const res = await instance.delete<any, AxiosResponse<boolean>>(
+			path.join(EnumApiRoute.DELETE_COMMENT, id)
 		)
 
 		return res

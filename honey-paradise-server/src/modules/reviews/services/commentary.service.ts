@@ -2,7 +2,9 @@ import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { ForbiddenException } from "@nestjs/common/exceptions/forbidden.exception"
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
+import { EnumNotificationType } from "@prisma/client"
 import { PrismaService } from "src/core/prisma/prisma.service"
+import { NotificationsService } from "src/modules/notifications/notifications.service"
 
 import type { CreateCommentDto } from "../dto/create-comment.dto"
 import type { ReplyToCommentDto } from "../dto/reply-to-comment.dto"
@@ -10,9 +12,15 @@ import type { GetCommentsResponse } from "../response/get-comments-by-rid.res"
 
 @Injectable()
 export class CommentaryService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly notificationsService: NotificationsService
+	) {}
 
-	async getCommentsById(reviewId: string): Promise<GetCommentsResponse[]> {
+	async getCommentsById(
+		userId: string,
+		reviewId: string
+	): Promise<GetCommentsResponse[]> {
 		try {
 			const query: GetCommentsResponse[] = await this.prisma.$queryRaw`
         SELECT
@@ -20,6 +28,7 @@ export class CommentaryService {
           cm.text,
           row_to_json(reply_part)::json AS "reply",
           row_to_json(u_part)::json AS "user",
+					CASE WHEN cm."user_id" = (${userId})::uuid THEN true ELSE false END AS "isOwner",
           cm.created_at AS "createdAt"
         FROM commentaries cm
         LEFT JOIN (
@@ -63,14 +72,14 @@ export class CommentaryService {
 	}
 
 	async replyToComment(
-		userId: string,
+		username: string,
 		dto: ReplyToCommentDto
 	): Promise<boolean> {
 		const { commentId, text } = dto
 
 		const comment = await this.prisma.commentary.findUnique({
 			where: { id: commentId },
-			select: { id: true, reviewId: true }
+			select: { id: true, reviewId: true, userId: true }
 		})
 
 		if (!comment) throw new NotFoundException("Comment wasn't found!") // TODO translate
@@ -78,11 +87,17 @@ export class CommentaryService {
 		await this.prisma.commentary.create({
 			data: {
 				text,
-				user: { connect: { id: userId } },
+				user: { connect: { username } },
 				review: { connect: { id: comment.reviewId } },
 				replyToId: comment.id
 			}
 		})
+
+		await this.notificationsService.send(
+			comment.userId,
+			`Пользователь ${username} ответил на ваш комментарий!`,
+			EnumNotificationType.ACCOUNT_STATUS
+		)
 
 		return true
 	}
@@ -98,7 +113,7 @@ export class CommentaryService {
 		if (comment.userId !== userId)
 			throw new ForbiddenException("You can't delete this commentary!") // TODO translate
 
-		await this.prisma.review.delete({
+		await this.prisma.commentary.delete({
 			where: { id: commentId }
 		})
 

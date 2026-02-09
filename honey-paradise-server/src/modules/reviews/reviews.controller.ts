@@ -15,7 +15,7 @@ import {
 } from "@nestjs/common/decorators/http/route-params.decorator"
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum"
 import { ParseUUIDPipe } from "@nestjs/common/pipes/parse-uuid.pipe"
-import { ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger"
+import { ApiParam, ApiTags } from "@nestjs/swagger"
 import { ApiBody } from "@nestjs/swagger/dist/decorators/api-body.decorator"
 import { ApiOperation } from "@nestjs/swagger/dist/decorators/api-operation.decorator"
 import { ApiOkResponse } from "@nestjs/swagger/dist/decorators/api-response.decorator"
@@ -51,7 +51,6 @@ export class ReviewsController {
 
 	@ApiOperation({ summary: "Get reviews by product id", description: "" })
 	@ApiOkResponse({ type: GetReviewsByPidResponse })
-	@ApiQuery({ type: GetReviewsQueryDto })
 	@HttpCode(HttpStatus.OK)
 	@Get(EnumApiRoute.GET_PRODUCT_REVIEWS)
 	getReviews(@Req() req: Request, @Query() query: GetReviewsQueryDto) {
@@ -63,8 +62,8 @@ export class ReviewsController {
 	@ApiParam({ name: "id", type: String, description: "Review ID" })
 	@HttpCode(HttpStatus.OK)
 	@Get(EnumApiRoute.GET_REVIEW_COMMENTS)
-	getCommentsById(@Param("id", ParseUUIDPipe) id: string) {
-		return this.commentaryService.getCommentsById(id)
+	getCommentsById(@Req() req: Request, @Param("id", ParseUUIDPipe) id: string) {
+		return this.commentaryService.getCommentsById(req.session.userId, id)
 	}
 
 	@ApiOperation({ summary: "Create a new comment", description: "" })
@@ -103,10 +102,10 @@ export class ReviewsController {
 	@HttpCode(HttpStatus.OK)
 	@Post(EnumApiRoute.REPLY_TO_COMMENT)
 	replyToComment(
-		@Authorized("id") userId: string,
+		@Authorized("username") username: string,
 		@Body() dto: ReplyToCommentDto
 	) {
-		return this.commentaryService.replyToComment(userId, dto)
+		return this.commentaryService.replyToComment(username, dto)
 	}
 
 	@ApiOperation({ summary: "Edit a review", description: "" })
