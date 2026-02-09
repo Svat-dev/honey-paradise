@@ -16,6 +16,7 @@ import { ReviewItemHeader } from "./ReviewItemHeader"
 import { UserReviewItem } from "./UserReviewItem"
 
 interface IProps extends GetReviewsByPidResponseReview {
+	auth: boolean
 	isMostPopular?: boolean
 	isUserReview?: boolean
 }
@@ -31,7 +32,8 @@ const ReviewItem: FC<IProps> = ({
 	user,
 	createdAt,
 	isMostPopular,
-	isUserReview
+	isUserReview,
+	auth
 }) => {
 	const { extraRatingArray, isDeleted, setIsDeleted } = useReviewItem(rating)
 
@@ -107,19 +109,24 @@ const ReviewItem: FC<IProps> = ({
 				isLiked={isLiked}
 				isDisliked={isDisliked}
 			>
-				<Button
-					variant="ghost"
-					className={cn("border border-transparent p-1.5 hover:border-muted", {
-						"bg-muted/40": state.isTranslated
-					})}
-					title={
-						state.isTranslated ? "Показать оригинал" : "Перевести на ваш язык"
-					}
-					onClick={translate}
-					disabled={isTranslating}
-				>
-					<LanguagesIcon />
-				</Button>
+				{auth && (
+					<Button
+						variant="ghost"
+						className={cn(
+							"border border-transparent p-1.5 hover:border-muted",
+							{
+								"bg-muted/40": state.isTranslated
+							}
+						)}
+						title={
+							state.isTranslated ? "Показать оригинал" : "Перевести на ваш язык"
+						}
+						onClick={() => translate("review")}
+						disabled={isTranslating}
+					>
+						<LanguagesIcon />
+					</Button>
+				)}
 			</ReviewItemFooter>
 		</m.article>
 	)

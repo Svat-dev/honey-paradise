@@ -1,20 +1,21 @@
-import { CLIENT_URL } from "@constants/base"
-import axios, { type AxiosResponse } from "axios"
+import type { AxiosResponse } from "axios"
 
+import { instance } from "@/api/instance"
 import type {
-	IYandexTranslateDto,
-	IYandexTranslateResponse
-} from "@/shared/types"
+	TranslateResponse,
+	TranslationsControllerTranslateParams
+} from "@/shared/types/server"
 
-class YaTranslateServiceClass {
-	async translate(dto: IYandexTranslateDto) {
-		const res = await axios.post<any, AxiosResponse<IYandexTranslateResponse>>(
-			CLIENT_URL! + "/api/translate",
-			dto
+export const yaTranslateService = {
+	translate: async (
+		id: string,
+		query: TranslationsControllerTranslateParams
+	) => {
+		const res = await instance.get<any, AxiosResponse<TranslateResponse>>(
+			`/translate/${id}`,
+			{ params: query }
 		)
 
 		return res.data
 	}
 }
-
-export const yaTranslateService = new YaTranslateServiceClass()

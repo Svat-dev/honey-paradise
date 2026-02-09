@@ -3,6 +3,7 @@ import { type FC, useEffect } from "react"
 
 import { Separator } from "@/components/ui/common"
 import { useGetReviewsS } from "@/services/hooks/products/reviews/useGetReviewsS"
+import { useAuth } from "@/shared/lib/hooks/auth"
 import type { ReactStateHook } from "@/shared/types"
 
 import { ReviewItem } from "./review-item/ReviewItem"
@@ -14,6 +15,7 @@ interface IProps {
 }
 
 const ReviewsSection: FC<IProps> = ({ productId, setIsHasReview }) => {
+	const { isAuthenticated } = useAuth()
 	const { reviewsData, isReviewsLoading } = useGetReviewsS(productId)
 
 	useEffect(
@@ -30,7 +32,11 @@ const ReviewsSection: FC<IProps> = ({ productId, setIsHasReview }) => {
 					<>
 						{reviewsData?.userReview ? (
 							<>
-								<ReviewItem {...reviewsData.userReview} isUserReview />
+								<ReviewItem
+									{...reviewsData.userReview}
+									auth={isAuthenticated}
+									isUserReview
+								/>
 								<Separator orientation="horizontal" className="my-3 w-full" />
 							</>
 						) : (
@@ -38,12 +44,16 @@ const ReviewsSection: FC<IProps> = ({ productId, setIsHasReview }) => {
 						)}
 
 						{reviewsData?.mostPopularReview ? (
-							<ReviewItem {...reviewsData.mostPopularReview} isMostPopular />
+							<ReviewItem
+								{...reviewsData.mostPopularReview}
+								auth={isAuthenticated}
+								isMostPopular
+							/>
 						) : (
 							""
 						)}
 						{reviewsData?.reviews.map(item => (
-							<ReviewItem key={item.id} {...item} />
+							<ReviewItem key={item.id} {...item} auth={isAuthenticated} />
 						))}
 					</>
 				)}

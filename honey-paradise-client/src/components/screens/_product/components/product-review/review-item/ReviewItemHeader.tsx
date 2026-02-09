@@ -11,20 +11,23 @@ import {
 } from "@/components/ui/common"
 import { getAvatarPath, getFramesPath } from "@/shared/lib/utils"
 import { highlightComment } from "@/shared/lib/utils/ui"
-import type { GetReviewsByPidResponseUser } from "@/shared/types/server"
+import type {
+	GetCommentsResponseReply,
+	GetReviewsByPidResponseUser
+} from "@/shared/types/server"
 
 interface IReviewItemHeader {
 	user: GetReviewsByPidResponseUser
 	createdAt: string
-	replyToId?: string
+	reply?: GetCommentsResponseReply
 }
 
 const ReviewItemHeader: FC<IReviewItemHeader> = ({
 	createdAt,
 	user,
-	replyToId
+	reply
 }) => {
-	const handleHighlight = () => highlightComment(replyToId)
+	const handleHighlight = () => highlightComment(reply?.id)
 
 	return (
 		<header className="mb-4 flex items-center justify-between">
@@ -51,10 +54,10 @@ const ReviewItemHeader: FC<IReviewItemHeader> = ({
 
 				<span>{user.username}</span>
 
-				{replyToId && (
+				{reply?.id && (
 					<Button variant="link" onClick={handleHighlight}>
 						<CornerUpRightIcon size={20} className="mb-1 mr-1" />
-						Ответ на комментарий "...начало текста комментария"
+						Ответ на комментарий "{reply.text}..."
 					</Button>
 				)}
 			</div>

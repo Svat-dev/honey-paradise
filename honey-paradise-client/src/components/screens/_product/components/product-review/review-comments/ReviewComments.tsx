@@ -2,6 +2,8 @@ import { m } from "motion/react"
 import { type FC, useState } from "react"
 
 import { useGetCommentsS } from "@/services/hooks/products/reviews/comment/useGetCommentsS"
+import { useAuth } from "@/shared/lib/hooks/auth"
+import { cn } from "@/shared/lib/utils/base"
 
 import { CommentItem } from "./CommentItem"
 import { CreateComment } from "./CreateComment"
@@ -11,8 +13,10 @@ interface IProps {
 }
 
 const ReviewComments: FC<IProps> = ({ reviewId }) => {
-	const [replyId, setReplyId] = useState<string | undefined>(undefined)
+	const { isAuthenticated } = useAuth()
 	const { comments, isCommentsLoading } = useGetCommentsS(reviewId)
+
+	const [replyId, setReplyId] = useState<string | undefined>(undefined)
 
 	const deleteReplyId = () => setReplyId(undefined)
 
@@ -21,13 +25,15 @@ const ReviewComments: FC<IProps> = ({ reviewId }) => {
 			initial={{ height: 0 }}
 			animate={{ height: "auto" }}
 			transition={{ type: "tween", duration: 1 }}
-			className="overflow-hidden"
+			className={cn("overflow-hidden", { "pt-4": !isAuthenticated })}
 		>
-			<CreateComment
-				reviewId={reviewId}
-				replyId={replyId}
-				deleteReplyId={deleteReplyId}
-			/>
+			{isAuthenticated && (
+				<CreateComment
+					reviewId={reviewId}
+					replyId={replyId}
+					deleteReplyId={deleteReplyId}
+				/>
+			)}
 
 			<div className="flex flex-col gap-3">
 				{isCommentsLoading ? (
@@ -36,6 +42,7 @@ const ReviewComments: FC<IProps> = ({ reviewId }) => {
 					comments.map(item => (
 						<CommentItem
 							key={item.id}
+							auth={isAuthenticated}
 							reviewId={reviewId}
 							setReplyId={setReplyId}
 							{...item}

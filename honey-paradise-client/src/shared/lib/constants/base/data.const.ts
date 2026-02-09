@@ -5,7 +5,6 @@ export enum EnumStorageKeys {
 	CURRENT_EMAIL = "current_email",
 	SOCKET_SESSION_TOKEN = "socket_session_token",
 	CURRENCY_DATA = "currency_data",
-	TRANSLATE_DATA = "translate_data",
 	SESSION = "session",
 
 	// LocalStorage

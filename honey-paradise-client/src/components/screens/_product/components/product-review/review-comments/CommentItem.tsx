@@ -11,6 +11,7 @@ import { ReviewItemHeader } from "../review-item/ReviewItemHeader"
 import { TranslateText } from "../TranslateText"
 
 interface ICommentItem extends GetCommentsResponse {
+	auth: boolean
 	setReplyId: ReactStateHook<string | undefined>
 	reviewId: string
 }
@@ -19,7 +20,9 @@ const CommentItem: FC<ICommentItem> = ({
 	id,
 	text,
 	user,
-	replyToId,
+	reply,
+	createdAt,
+	auth,
 	reviewId,
 	setReplyId
 }) => {
@@ -37,8 +40,8 @@ const CommentItem: FC<ICommentItem> = ({
 		>
 			<ReviewItemHeader
 				user={user}
-				replyToId={replyToId ?? undefined}
-				createdAt={new Date().toISOString()}
+				reply={reply ?? undefined}
+				createdAt={createdAt}
 			/>
 
 			<TranslateText
@@ -53,19 +56,24 @@ const CommentItem: FC<ICommentItem> = ({
 					Ответить
 				</Button>
 
-				<Button
-					variant="ghost"
-					className={cn("border border-transparent p-1.5 hover:border-muted", {
-						"bg-muted/40": state.isTranslated
-					})}
-					title={
-						state.isTranslated ? "Показать оригинал" : "Перевести на ваш язык"
-					}
-					onClick={translate}
-					disabled={isTranslating}
-				>
-					<LanguagesIcon />
-				</Button>
+				{auth && (
+					<Button
+						variant="ghost"
+						className={cn(
+							"border border-transparent p-1.5 hover:border-muted",
+							{
+								"bg-muted/40": state.isTranslated
+							}
+						)}
+						title={
+							state.isTranslated ? "Показать оригинал" : "Перевести на ваш язык"
+						}
+						onClick={() => translate("commentary")}
+						disabled={isTranslating}
+					>
+						<LanguagesIcon />
+					</Button>
+				)}
 			</div>
 		</div>
 	)

@@ -15,7 +15,7 @@ export class CommentaryService {
 	async getCommentsById(reviewId: string): Promise<GetCommentsResponse[]> {
 		try {
 			const query: GetCommentsResponse[] = await this.prisma.$queryRaw`
-        SELECT 
+        SELECT
           cm.id,
           cm.text,
           row_to_json(reply_part)::json AS "reply",
@@ -23,7 +23,7 @@ export class CommentaryService {
           cm.created_at AS "createdAt"
         FROM commentaries cm
         LEFT JOIN (
-          SELECT id, LEFT(text, 20)
+          SELECT id, LEFT(text, 20) AS "text"
           FROM commentaries
         ) reply_part ON (cm.reply_to_id)::text = (reply_part.id)::text
         INNER JOIN (

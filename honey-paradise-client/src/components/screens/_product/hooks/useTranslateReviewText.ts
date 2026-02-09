@@ -1,7 +1,10 @@
+import type { AxiosError } from "axios"
 import { useState } from "react"
 import toast from "react-hot-toast"
 
+import { errorCatch } from "@/api/api-helper"
 import { useYaTranslate } from "@/services/hooks/useYaTranslate"
+import type { TranslationsControllerTranslateModel } from "@/shared/types/server"
 
 import type { ITranslateReviewState } from "../types/translate-review.type"
 
@@ -14,7 +17,7 @@ export const useTranslateReviewText = (id: string, defaultText: string) => {
 
 	const { translateAsync, isTranslating } = useYaTranslate(id)
 
-	const translate = async () => {
+	const translate = async (type: TranslationsControllerTranslateModel) => {
 		if (state.isTranslated)
 			return setState(prev => ({
 				...prev,
@@ -23,11 +26,7 @@ export const useTranslateReviewText = (id: string, defaultText: string) => {
 			}))
 
 		try {
-			const { translations } = await translateAsync({
-				text: state.text,
-				reviewId: id
-			})
-			const translated = translations[0]
+			const translated = await translateAsync(type)
 
 			if (translated.text && translated.text.length > 1) {
 				setState(prev => ({ ...prev, isVisible: false }))
@@ -40,9 +39,14 @@ export const useTranslateReviewText = (id: string, defaultText: string) => {
 					}))
 				}, 200)
 			}
-		} catch (error) {
-			toast.error("Не удалось перевести текст!")
-			console.error(error)
+		} catch (e) {
+			const { errMsg, error } = errorCatch(e as AxiosError)
+
+			if (error.status === 403) {
+				toast.error("Для перевода нужно обладать статусом ВИП!")
+			} else {
+				toast.error(errMsg)
+			}
 		}
 	}
 
