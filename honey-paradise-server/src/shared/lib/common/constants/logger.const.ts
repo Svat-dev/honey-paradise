@@ -10,5 +10,5 @@ export const monthsByKeys = {
 	8: "Sept",
 	9: "Oct",
 	10: "Nov",
-	11: "Dec",
-} as const;
+	11: "Dec"
+} as const

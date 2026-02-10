@@ -1,17 +1,31 @@
-import { EnumAppRoute } from "@constants/routes";
-import { getTranslations } from "next-intl/server";
-import Link from "next/dist/client/link";
-import Image from "next/image";
-import styles from "../styles/left-part.module.scss";
+import { EnumAppRoute } from "@constants/routes"
+import { getTranslations } from "next-intl/server"
+import Image from "next/image"
+
+import { Link } from "@/components/ui/common"
+
+import styles from "../styles/left-part.module.scss"
 
 const LeftPart = async () => {
-	const t = await getTranslations("layout.header");
+	const t = await getTranslations("layout.header")
 
 	return (
-		<div className="tw-flex tw-items-center tw-gap-14">
-			<Link href={EnumAppRoute.INDEX} className="tw-inline-flex tw-items-center tw-gap-2 tw-whitespace-nowrap">
-				<Image src="/assets/website-logo.webp" alt={t("logo.alt")} width={40} height={36} className="tw-rounded-full" priority />
-				<p className="tw-uppercase tw-font-bold tw-text-2xl tw-tracking-tighter">{t("logo.title")}</p>
+		<div className="flex items-center gap-14">
+			<Link
+				href={EnumAppRoute.INDEX}
+				className="inline-flex items-center gap-2 whitespace-nowrap"
+			>
+				<Image
+					src="/assets/website-logo.webp"
+					alt={t("logo.alt")}
+					width={40}
+					height={36}
+					className="rounded-full"
+					priority
+				/>
+				<p className="text-2xl font-bold uppercase tracking-tighter">
+					{t("logo.title")}
+				</p>
 			</Link>
 
 			<ul className={styles["list"]}>
@@ -26,7 +40,7 @@ const LeftPart = async () => {
 				</li>
 			</ul>
 		</div>
-	);
-};
+	)
+}
 
-export { LeftPart };
+export { LeftPart }

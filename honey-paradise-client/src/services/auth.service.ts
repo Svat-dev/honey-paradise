@@ -1,47 +1,84 @@
-import { defaultInstance, instance } from "@/api/instance";
-import type { AxiosResponse } from "axios";
-import type { IAuthTfaDto, ICreateAccountDto, ISignInDto } from "./types/auth-service.type";
+import { EnumApiRoute } from "@constants/routes"
+import type { AxiosResponse } from "axios"
 
-import { EnumApiRoute } from "@constants/routes";
+import { defaultInstance, instance } from "@/api/instance"
+import type {
+	AuthLoginDto,
+	AuthTfaDto,
+	CreateUserDto
+} from "@/shared/types/server"
+
+import type { ISignInResponse } from "./types/auth-service.type"
 
 export const authService = {
-	createAccount: async (dto: ICreateAccountDto, recaptcha?: string) => {
-		const headers = recaptcha ? { recaptcha } : undefined;
+	createAccount: async (dto: CreateUserDto, recaptcha?: string) => {
+		const headers = recaptcha ? { recaptcha } : undefined
 
-		const data: ICreateAccountDto = {
+		const data: CreateUserDto = {
 			...dto,
 			username: dto.username || undefined,
-			birthdate: dto.birthdate || undefined,
-		};
+			birthdate: dto.birthdate || undefined
+		}
 
-		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(EnumApiRoute.CREATE_ACCOUNT, data, { headers });
+		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(
+			EnumApiRoute.CREATE_ACCOUNT,
+			data,
+			{ headers }
+		)
 
-		return res.data;
+		return res
 	},
 
-	signIn: async (dto: ISignInDto, recaptcha?: string) => {
-		const headers = recaptcha ? { recaptcha } : undefined;
+	signIn: async (dto: AuthLoginDto, recaptcha?: string) => {
+		const headers = recaptcha ? { recaptcha } : undefined
 
-		const res = await defaultInstance.post<any, AxiosResponse<{ tfa: boolean }>>(EnumApiRoute.SIGN_IN, dto, { headers });
+		const res = await defaultInstance.post<any, AxiosResponse<ISignInResponse>>(
+			EnumApiRoute.SIGN_IN,
+			dto,
+			{ headers }
+		)
 
-		return res.data;
+		return res.data
+	},
+
+	telegramSignIn: async () => {
+		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(
+			EnumApiRoute.TG_TFA_LOGIN
+		)
+
+		return res
+	},
+
+	cancelTelegramSignIn: async () => {
+		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(
+			EnumApiRoute.CANCEL_TG_TFA_LOGIN
+		)
+
+		return res
 	},
 
 	sendTFACode: async () => {
-		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(EnumApiRoute.SEND_TFA_CODE, {});
+		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(
+			EnumApiRoute.SEND_TFA_CODE
+		)
 
-		return res;
+		return res
 	},
 
-	verifyTFACode: async (dto: IAuthTfaDto) => {
-		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(EnumApiRoute.VERIFY_TFA, dto);
+	verifyTFACode: async (dto: AuthTfaDto) => {
+		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(
+			EnumApiRoute.VERIFY_TFA,
+			dto
+		)
 
-		return res;
+		return res
 	},
 
 	logout: async () => {
-		const res = await instance.post<any, AxiosResponse<boolean>>(EnumApiRoute.LOGOUT, {});
+		const res = await instance.post<any, AxiosResponse<boolean>>(
+			EnumApiRoute.LOGOUT
+		)
 
-		return res;
-	},
-};
+		return res
+	}
+}

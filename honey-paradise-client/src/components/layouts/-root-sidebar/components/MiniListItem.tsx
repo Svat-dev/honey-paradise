@@ -1,20 +1,22 @@
-import Link from "next/dist/client/link";
-import { type FC } from "react";
-import type { IListItemContent } from "../types/data.type";
+import type { FC } from "react"
+
+import { Link } from "@/components/ui/common"
+
+import type { IListItemContent } from "../types/data.type"
 
 interface IListItem extends IListItemContent {}
 
 const MiniListItem: FC<IListItem> = data => {
-	const { link, title } = data;
+	const { link, title } = data
 
 	return (
-		<li className="tw-transition-all hover:tw-translate-x-2 hover:tw-text-muted">
-			<Link href={link} className="tw-px-1 tw-py-0.5 tw-flex tw-items-center tw-gap-1">
+		<li className="transition-all hover:translate-x-2 hover:text-muted">
+			<Link href={link} className="flex items-center gap-1 px-1 py-0.5">
 				<data.icon size={20} />
-				<p className="tw-max-w-44 tw-leading-4">{title}</p>
+				<p className="whitespace-nowrap leading-4">{title}</p>
 			</Link>
 		</li>
-	);
-};
+	)
+}
 
-export { MiniListItem };
+export { MiniListItem }

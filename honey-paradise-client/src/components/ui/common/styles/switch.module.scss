@@ -1,43 +1,43 @@
 .switch-ui {
-	@apply tw-relative tw-inline-flex tw-h-6 tw-w-12 tw-shrink-0 tw-cursor-pointer tw-items-center tw-rounded-full tw-border-[3px] tw-border-transparent tw-shadow-md tw-transition-colors;
+	@apply relative inline-flex h-6 w-12 shrink-0 cursor-pointer items-center rounded-full border-[3px] border-transparent shadow-md transition-colors;
 
 	&[data-state="checked"] {
-		@apply tw-bg-primary;
+		@apply bg-primary;
 
 		> svg {
-			@apply tw-left-0;
+			@apply left-0;
 		}
 	}
 
 	&[data-state="unchecked"] {
-		@apply tw-bg-secondary;
+		@apply bg-secondary;
 
 		> svg {
-			@apply tw-right-0;
+			@apply right-0;
 		}
 	}
 
 	&:disabled {
-		@apply tw-cursor-not-allowed tw-opacity-50;
+		@apply cursor-not-allowed opacity-50;
 	}
 
 	&:focus-visible {
-		@apply tw-outline-none tw-ring-2 tw-ring-black tw-ring-offset-2 tw-ring-offset-background;
+		@apply outline-none ring-2 ring-black ring-offset-2 ring-offset-background;
 	}
 }
 
 .switch-loader-ui {
-	@apply tw-absolute tw-animate-spin;
+	@apply absolute animate-spin;
 }
 
 .switch-thumb-ui {
-	@apply tw-pointer-events-none tw-block tw-h-5 tw-w-5 tw-rounded-full tw-bg-background tw-shadow-lg tw-ring-0 tw-transition-transform;
+	@apply pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform;
 
 	&[data-state="checked"] {
-		@apply tw-translate-x-6;
+		@apply translate-x-6;
 	}
 
 	&[data-state="unchecked"] {
-		@apply tw-translate-x-0;
+		@apply translate-x-0;
 	}
 }

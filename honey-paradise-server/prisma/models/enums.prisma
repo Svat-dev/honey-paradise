@@ -12,10 +12,41 @@ enum EnumUserRoles {
   ADMIN
 }
 
+enum EnumDiscountType {
+  SEASON
+  CATEGORY
+  SELLOUT
+  VIP_CLUB
+}
+
 enum EnumTokenTypes {
   EMAIL_VERIFY
   PASSWORD_RECOVERY
   TFA_VERIFY
+  TELEGRAM_CONNECT
+  TELEGRAM_TFA_AUTH
+}
+
+enum EnumPromoTokenTypes {
+  BIRTHDAY
+  SHOP_BIRTHDAY
+  FIRST_ORDER
+  NEW_YEAR
+  PERSONAL
+}
+
+enum EnumPromoTokenDiscountType {
+  ALL
+  FREE_DELIVERY
+  TO_CATEGORY
+  TO_PRODUCTS
+}
+
+enum EnumPromoTokensStatus {
+  DEFAULT
+  APPLIED
+  USED
+  EXPIRED
 }
 
 enum EnumNotificationType {
@@ -23,6 +54,16 @@ enum EnumNotificationType {
   ACCOUNT_STATUS
   SPECIAL_OFFERS
   TELEGRAM
+}
+
+enum EnumSpecialOfferCondition {
+  PRODUCT
+  CART_PRICE
+}
+
+enum EnumSpecialOfferAward {
+  PRODUCT
+  DISCOUNT
 }
 
 enum EnumLanguages {
@@ -39,6 +80,19 @@ enum EnumCurrencies {
   RUBLE
   DOLLAR
   EURO
+}
+
+enum EnumOrderStatus {
+  CANCELED
+  PENDING
+  IN_ROAD
+  DELIVERED
+}
+
+enum EnumTransactionStatus {
+  CANCELED
+  PENDING
+  SUCCEEDED
 }
 
 enum EnumProviderTypes {

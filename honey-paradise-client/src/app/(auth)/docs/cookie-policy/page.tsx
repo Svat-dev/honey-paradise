@@ -1,34 +1,31 @@
-import type { Metadata, NextPage } from "next";
+import { getMetadata } from "@utils/base"
+import type { Metadata, NextPage } from "next"
+import { getTranslations } from "next-intl/server"
 
-import CookiesPolicy from "@/components/screens/_cookies-policy/CookiesPolicy.mdx";
-import { Container } from "@/components/ui/layouts/container";
-import { NO_INDEX_PAGE } from "@constants/base";
-import { getMetadata } from "@utils/base";
-import { getTranslations } from "next-intl/server";
+import CookiesPolicy from "@/components/screens/_cookies-policy/CookiesPolicy.mdx"
+import { Container } from "@/components/ui/layouts/container"
 
 interface IProps {}
 
 export async function generateMetadata({}: IProps): Promise<Metadata> {
-	const t = await getTranslations("global.cookies-policy");
+	const t = await getTranslations("global")
 
 	return {
 		...(await getMetadata({
-			title: t("title"),
-			description: t("description", { title: t("title") }),
-			index: false,
-		})),
-		...NO_INDEX_PAGE,
-	};
+			title: t("cookies-policy.title"),
+			description: t("cookies-policy.description", { title: t("logo") })
+		}))
+	}
 }
 
 const CookiePolicyPage: NextPage<IProps> = async () => {
-	const t = await getTranslations("global.cookies-policy.content");
+	const t = await getTranslations("global.cookies-policy.content")
 
 	return (
-		<Container className="tw-mb-4">
+		<Container className="mb-4">
 			<CookiesPolicy t={t} />
 		</Container>
-	);
-};
+	)
+}
 
-export default CookiePolicyPage;
+export default CookiePolicyPage

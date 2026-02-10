@@ -1,10 +1,12 @@
-import { MenuIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { MenuSheet } from "../sheet";
-import { ProfileBlock } from "./ProfileBlock";
+import { MenuIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
+
+import { MenuSheet } from "../sheet"
+
+import { ProfileBlock } from "./ProfileBlock"
 
 const AuthOnBlock = () => {
-	const t = useTranslations("layout.header");
+	const t = useTranslations("layout.header")
 
 	return (
 		<>
@@ -16,7 +18,7 @@ const AuthOnBlock = () => {
 				</button>
 			</MenuSheet>
 		</>
-	);
-};
+	)
+}
 
-export { AuthOnBlock };
+export { AuthOnBlock }

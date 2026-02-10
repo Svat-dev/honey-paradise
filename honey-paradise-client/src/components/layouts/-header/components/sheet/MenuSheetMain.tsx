@@ -1,34 +1,41 @@
-"use client";
+"use client"
 
-import { Loader2Icon } from "lucide-react";
-import Link from "next/dist/client/link";
-import { useMenuSheetMain } from "../../hooks/useMenuSheetMain";
+import { Loader2Icon } from "lucide-react"
+
+import { Link } from "@/components/ui/common"
+
+import { useMenuSheetMain } from "../../hooks/useMenuSheetMain"
 
 const MenuSheetMain = () => {
-	const { data, unReadLength, isNotificationsLoading } = useMenuSheetMain();
+	const { data, unReadLength, isNotificationsLoading } = useMenuSheetMain()
 
 	return (
-		<ul className="tw-list-none tw-flex tw-flex-col tw-items-end tw-mt-5">
+		<ul className="mt-5 flex list-none flex-col items-end">
 			{data.map(item => (
-				<li className="tw-mt-3 tw-relative tw-transition-all hover:-tw-translate-x-2 hover:tw-text-muted" key={item.title}>
-					<Link href={item.link} className="tw-flex tw-items-center tw-gap-1.5">
+				<li
+					className="relative mt-3 transition-all hover:-translate-x-2 hover:text-muted"
+					key={item.title}
+				>
+					<Link href={item.link} className="flex items-center gap-1.5">
 						<p>{item.title}</p>
 						<item.icon />
 					</Link>
 
 					{item.isNotifications && (
-						<div className="tw-absolute -tw-top-1 -tw-right-1 tw-w-4 tw-h-4 tw-flex tw-items-center tw-justify-center tw-bg-secondary tw-p-0.5 tw-rounded-full tw-text-xs">
+						<div className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-secondary p-0.5 text-xs">
 							{isNotificationsLoading ? (
-								<Loader2Icon className="tw-animate-spin" size={16} />
+								<Loader2Icon className="animate-spin" size={16} />
 							) : (
-								<span className="!tw-text-black">{unReadLength! > 9 ? "9+" : unReadLength}</span>
+								<span className="!text-black">
+									{unReadLength! > 9 ? "9+" : unReadLength}
+								</span>
 							)}
 						</div>
 					)}
 				</li>
 			))}
 		</ul>
-	);
-};
+	)
+}
 
-export { MenuSheetMain };
+export { MenuSheetMain }

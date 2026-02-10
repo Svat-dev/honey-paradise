@@ -1,56 +1,56 @@
 .items-wrapper {
-	@apply tw-flex tw-flex-col tw-gap-4 tw-mb-16 tw-pr-3 tw-max-h-[29rem] tw-overflow-y-scroll;
+	@apply mb-16 flex max-h-[29rem] flex-col gap-4 overflow-y-scroll pr-3;
 }
 
 .not-found {
-	@apply tw-flex tw-items-center tw-gap-5 tw-rounded-md tw-w-fit tw-mt-5 tw-opacity-0 tw-animate-show-effect tw-self-center;
+	@apply mt-5 flex w-fit animate-show-effect items-center gap-5 self-center rounded-md opacity-0;
 
 	> p {
-		@apply tw-leading-7;
+		@apply leading-7;
 	}
 }
 
 .pagination-wrapper {
-	@apply tw-absolute -tw-bottom-6 tw-pb-7 tw-w-full tw-bg-background tw-flex tw-justify-center tw-opacity-0 tw-animate-show-effect;
+	@apply absolute -bottom-6 flex w-full animate-show-effect justify-center bg-background pb-7 opacity-0;
 }
 
 .item {
-	@apply tw-relative tw-overflow-hidden tw-flex tw-items-center tw-justify-between tw-bg-primary tw-rounded-md tw-px-3 tw-py-2 tw-opacity-0 tw-animate-show-effect tw-will-change-auto tw-transition-all;
+	@apply relative flex animate-show-effect items-center justify-between overflow-hidden rounded-md bg-primary px-3 py-2 opacity-0 transition-all will-change-auto;
 
 	&[data-selected="true"] {
-		@apply tw-ring-1 tw-ring-black tw-ring-inset;
+		@apply ring-1 ring-inset ring-black;
 
 		> div[role="none"] {
-			@apply tw-opacity-100;
+			@apply opacity-100;
 		}
 	}
 
 	&[data-select-mode="true"] {
-		@apply tw-cursor-pointer !important;
+		@apply cursor-pointer !important;
 	}
 }
 
 .item-content-wrapper {
 	> div {
-		@apply tw-flex tw-items-center tw-gap-1;
+		@apply flex items-center gap-1;
 
 		> p {
-			@apply tw-text-muted tw-text-sm;
+			@apply text-sm text-muted;
 		}
 		> span {
-			@apply tw-flex tw-items-center tw-text-sm tw-gap-1;
+			@apply flex items-center gap-1 text-sm;
 		}
 	}
 
 	> p {
-		@apply tw-text-muted tw-ml-1;
+		@apply ml-1 text-muted;
 	}
 }
 
 .item-overlay {
-	@apply tw-absolute tw-left-0 tw-w-full tw-h-full tw-bg-muted/30 tw-pointer-events-none tw-opacity-0 tw-transition-opacity tw-will-change-auto;
+	@apply pointer-events-none absolute left-0 h-full w-full bg-muted/30 opacity-0 transition-opacity will-change-auto;
 }
 
 .loader {
-	@apply tw-w-full tw-h-28 tw-rounded-md;
+	@apply h-28 w-full rounded-md;
 }

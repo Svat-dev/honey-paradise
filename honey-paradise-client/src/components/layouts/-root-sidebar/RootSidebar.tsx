@@ -1,36 +1,45 @@
-import { getTranslations } from "next-intl/server";
-import type { FC } from "react";
-import { ChangeThemeButton } from "./components/ChangeThemeButton";
-import { ListItem } from "./components/ListItem";
-import { LogoutButton } from "./components/logout-button/LogoutButton";
-import { getNavListData } from "./data";
+import { getTranslations } from "next-intl/server"
 
-interface IRootSidebarSidebar {}
+import { ChangeThemeButton } from "./components/ChangeThemeButton"
+import { ListItem } from "./components/ListItem"
+import { LogoutButton } from "./components/logout-button/LogoutButton"
+import { getNavListData } from "./data"
 
-const RootSidebar: FC<IRootSidebarSidebar> = async ({}) => {
-	const t = await getTranslations("layout.root-sidebar");
-	const data = await getNavListData();
+const RootSidebar = async () => {
+	const t = await getTranslations("layout.root-sidebar")
+	const data = await getNavListData()
 
 	return (
-		<aside className="tw-w-[270px] tw-h-full tw-bg-primary tw-sticky tw-bottom-0">
-			<div className="tw-px-4 tw-py-4">
-				<nav className="tw-mb-7">
-					<h3 className="tw-text-lg tw-font-medium">{t("list.title")}:</h3>
+		<aside className="sticky top-[3.75rem] h-[calc(100vh-3.75rem)] w-fit bg-primary p-3">
+			<div className="relative h-full px-4 py-2">
+				<nav className="mb-7">
+					<h3 className="text-lg font-medium">{t("list.title")}:</h3>
 
-					<ul className="tw-list-none tw-ml-3 tw-mt-3">
+					<ul className="ml-3 mt-3 list-none">
 						{data.map(item => (
-							<ListItem key={item.topic} content={item.content} topic={item.topic} />
+							<ListItem
+								key={item.topic}
+								content={item.content}
+								topic={item.topic}
+							/>
 						))}
 					</ul>
 				</nav>
 
-				<div>
-					<ChangeThemeButton />
-					<LogoutButton />
-				</div>
+				<footer className="absolute bottom-0">
+					<div className="mb-2 flex gap-4">
+						<ChangeThemeButton />
+						<LogoutButton />
+					</div>
+
+					<p className="text-sm text-muted">Honey Paradise Inc. ©</p>
+					<p className="text-sm text-muted">
+						Все права защищены. {new Date().getFullYear()}
+					</p>
+				</footer>
 			</div>
 		</aside>
-	);
-};
+	)
+}
 
-export { RootSidebar };
+export { RootSidebar }

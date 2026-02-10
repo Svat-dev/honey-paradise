@@ -1,45 +1,69 @@
-import type { Prisma } from "@prisma/client";
-import { notificationSettingsUserOutput } from "./notifications.output";
+import { notificationSettingsUserOutput } from "./notifications.output"
 
-export const userDefaultOutput: Prisma.UserSelect = {
+export const reviewsUserOutput = {
+	id: true,
+	username: true,
+	avatarPath: true,
+	framePath: true
+}
+
+//Prisma.UserSelect
+export const userDefaultOutput = {
 	id: true,
 	role: true,
 
 	username: true,
 	email: true,
 	telegramId: true,
-};
+	phoneNumber: true,
 
-export const userServerOutput: Prisma.UserSelect = {
+	avatarPath: true,
+	framePath: true,
+
+	isTFAEnabled: true
+}
+
+//Prisma.UserSelect
+export const userServerOutput = {
 	...userDefaultOutput,
 	password: true,
-	isTFAEnabled: true,
-	isVerified: true,
-};
+	isVerified: true
+}
 
-export const userSettingsOutput: Prisma.UserSettingsSelect = {
+//Prisma.UserSettingsSelect
+export const userSettingsOutput = {
 	id: true,
 
 	defaultLanguage: true,
 	defaultTheme: true,
+	defaultCurrency: true,
+
 	useFullLogout: true,
+	useTgTfaLogin: true,
 
-	updatedAt: true,
-};
+	updatedAt: true
+}
 
-export const userFullOutput: Prisma.UserSelect = {
+export const userDownloadSettingsOutput = {
+	defaultCurrency: true,
+	defaultLanguage: true,
+	defaultTheme: true,
+	useFullLogout: true,
+	user: { select: { isTFAEnabled: true } }
+}
+
+//Prisma.UserSelect
+export const userFullOutput = {
 	...userDefaultOutput,
-	avatarPath: true,
 	birthdate: true,
 	gender: true,
-	phoneNumber: true,
 
 	settings: { select: userSettingsOutput },
 	notificationSettings: { select: notificationSettingsUserOutput },
-	cart: true,
 
 	isTFAEnabled: true,
 	isVerified: true,
 
 	createdAt: true,
-};
+	updatedAt: true
+}

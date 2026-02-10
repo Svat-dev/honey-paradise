@@ -1,27 +1,23 @@
 .content-wrapper {
-	@apply tw-relative tw-w-full tw-my-6 tw-mx-10;
+	@apply relative mx-10 my-6 w-full;
 }
 
 .content-desc {
-	@apply tw-ml-1 tw-mb-4 tw-text-muted;
+	@apply mb-4 ml-1 text-muted;
 }
 
 .connections-item {
-	@apply tw-w-full tw-bg-primary tw-grid tw-grid-cols-[auto_1fr_min-content] tw-items-center tw-rounded-md tw-px-4 tw-py-5;
+	@apply grid w-full grid-cols-[auto_1fr_min-content] items-center rounded-md bg-primary px-4 py-5;
 
 	> div {
-		@apply tw-ml-4;
+		@apply ml-4;
 
 		> p {
-			@apply tw-text-sm tw-text-muted;
+			@apply text-sm text-muted;
 		}
 	}
 
 	> button {
-		@apply tw-flex tw-items-center tw-gap-2 tw-py-1.5 tw-px-2;
-
-		> svg {
-			@apply tw-opacity-0 tw-animate-show-effect;
-		}
+		@apply flex items-center gap-2 px-2 py-1.5;
 	}
 }

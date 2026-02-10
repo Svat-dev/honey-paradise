@@ -1,19 +1,32 @@
-import { Button, Separator } from "@/components/ui/common";
-import { CheckSquareIcon, FolderDownIcon, Trash2Icon } from "lucide-react";
+import { CheckSquareIcon, FolderDownIcon, Trash2Icon } from "lucide-react"
+import type { FC } from "react"
 
-import type { FC } from "react";
-import { useNotificationsFiltersActions } from "../../hooks/useNotificationsFilters";
-import styles from "../../styles/notifications-filters.module.scss";
+import { Button, Separator } from "@/components/ui/common"
+
+import { useNotificationsFiltersActions } from "../../hooks/useNotificationsFilters"
+import styles from "../../styles/notifications-filters.module.scss"
 
 interface IActionsProps {
-	markAsReadAll: () => Promise<void>;
-	isAllMarkingAsRead: boolean;
-	unReadLength: number;
+	markAsReadAll: () => Promise<void>
+	isAllMarkingAsRead: boolean
+	unReadLength: number
 }
 
-const ActionsWrapper: FC<IActionsProps> = ({ markAsReadAll, isAllMarkingAsRead, unReadLength }) => {
-	const { cancelSelectMode, archiveSelected, deleteSelected, readSelected, isSelectMode, selectedLength, refresh, t } =
-		useNotificationsFiltersActions();
+const ActionsWrapper: FC<IActionsProps> = ({
+	markAsReadAll,
+	isAllMarkingAsRead,
+	unReadLength
+}) => {
+	const {
+		cancelSelectMode,
+		archiveSelected,
+		deleteSelected,
+		readSelected,
+		isSelectMode,
+		selectedLength,
+		refresh,
+		t
+	} = useNotificationsFiltersActions()
 
 	return (
 		<div className={styles["actions-wrapper"]}>
@@ -21,29 +34,52 @@ const ActionsWrapper: FC<IActionsProps> = ({ markAsReadAll, isAllMarkingAsRead, 
 				<div>
 					<p>{t("filters.actions.selectedTxt", { length: selectedLength })}</p>
 
-					<Separator orientation="vertical" className="!tw-h-7 tw-bg-muted tw-mx-3" />
+					<Separator orientation="vertical" className="mx-3 !h-7 bg-muted" />
 
-					<Button variant="ghost" title={t("labels.readSelectedBtn")} disabled={unReadLength === 0} onClick={readSelected}>
+					<Button
+						variant="ghost"
+						title={t("labels.readSelectedBtn")}
+						disabled={unReadLength === 0}
+						onClick={readSelected}
+					>
 						<CheckSquareIcon size={20} />
 					</Button>
 
-					<Button variant="ghost" title={t("labels.archiveSelectedBtn")} onClick={archiveSelected}>
+					<Button
+						variant="ghost"
+						title={t("labels.archiveSelectedBtn")}
+						onClick={archiveSelected}
+					>
 						<FolderDownIcon size={20} />
 					</Button>
 
-					<Button variant="ghost" title={t("labels.deleteSelectedBtn")} className="tw-text-red-500" onClick={deleteSelected}>
+					<Button
+						variant="ghost"
+						title={t("labels.deleteSelectedBtn")}
+						className="text-red-500"
+						onClick={deleteSelected}
+					>
 						<Trash2Icon size={20} />
 					</Button>
 
-					<Separator orientation="vertical" className="!tw-h-7 tw-bg-muted tw-mx-3" />
+					<Separator orientation="vertical" className="mx-3 !h-7 bg-muted" />
 
-					<Button variant="destructive" title={t("labels.cancelBtn")} onClick={cancelSelectMode}>
+					<Button
+						variant="destructive"
+						title={t("labels.cancelBtn")}
+						onClick={cancelSelectMode}
+					>
 						{t("filters.actions.cancelBtn")}
 					</Button>
 				</div>
 			) : (
 				<>
-					<Button variant="secondary" title={t("filters.actions.refresh")} onClick={refresh} disabled={isAllMarkingAsRead}>
+					<Button
+						variant="secondary"
+						title={t("filters.actions.refresh")}
+						onClick={refresh}
+						disabled={isAllMarkingAsRead}
+					>
 						{t("filters.actions.refresh")}
 					</Button>
 					<Button
@@ -58,7 +94,7 @@ const ActionsWrapper: FC<IActionsProps> = ({ markAsReadAll, isAllMarkingAsRead, 
 				</>
 			)}
 		</div>
-	);
-};
+	)
+}
 
-export { ActionsWrapper };
+export { ActionsWrapper }

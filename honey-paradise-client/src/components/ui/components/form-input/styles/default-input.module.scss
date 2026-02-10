@@ -1,67 +1,71 @@
 .wrapper {
-	@apply tw-relative;
+	@apply relative;
 }
 
 .error-txt {
-	@apply tw-absolute -tw-bottom-5 tw-px-1.5 tw-leading-3 tw-text-sm;
+	@apply absolute -bottom-5 px-1.5 text-sm leading-3;
 }
 
 .input-wrapper {
-	@apply tw-relative;
+	@apply relative;
 
 	> input:focus ~ span.label {
-		@apply tw-text-black;
+		@apply text-black;
+	}
+
+	> textarea:focus ~ span.label {
+		@apply text-black;
 	}
 }
 
 .required {
-	@apply tw-text-red-500 tw-text-lg tw-absolute -tw-top-3 -tw-right-1;
+	@apply absolute -right-1 -top-3 text-lg text-red-500;
 }
 
 .label {
-	@apply tw-absolute -tw-top-5 tw-left-1 tw-text-muted tw-text-sm tw-transition-colors;
+	@apply absolute -top-5 left-1 text-sm text-muted transition-colors;
 }
 
 .password-eye {
-	@apply tw-absolute tw-top-1/2 tw-right-1.5 -tw-translate-y-[25%] tw-z-20 tw-p-px;
+	@apply absolute right-1.5 top-1/2 z-20 -translate-y-[25%] p-px;
 
 	> svg {
-		@apply tw-opacity-70 tw-transition-opacity tw-duration-200 tw-will-change-auto;
+		@apply opacity-70 transition-opacity duration-200 will-change-auto;
 	}
 
 	& ~ .clear-btn {
-		@apply tw-right-8;
+		@apply right-8;
 	}
 
 	&:hover > svg {
-		@apply tw-opacity-100;
+		@apply opacity-100;
 	}
 }
 
 .clear-btn {
-	@apply tw-absolute tw-top-1/2 tw-right-1.5 -tw-translate-y-[25%] tw-z-20 tw-p-px tw-opacity-100 tw-scale-100 tw-transition-all tw-will-change-auto;
+	@apply absolute right-1.5 top-1/2 z-20 -translate-y-[25%] scale-100 p-px opacity-100 transition-all will-change-auto;
 
 	> svg {
-		@apply tw-opacity-70 tw-transition-opacity tw-duration-200 tw-will-change-auto;
+		@apply opacity-70 transition-opacity duration-200 will-change-auto;
 	}
 
 	&:hover > svg {
-		@apply tw-opacity-100;
+		@apply opacity-100;
 	}
 }
 
 .loader {
-	@apply tw-absolute tw-left-3 tw-top-1/2 -tw-translate-y-1/2 tw-flex tw-items-center tw-gap-3 tw-opacity-0 tw-animate-show-effect;
+	@apply absolute left-3 top-1/2 flex -translate-y-1/2 animate-show-effect items-center gap-3 opacity-0;
 
 	> div {
-		@apply tw-h-4 tw-w-4 tw-duration-700 !tw-rounded-full;
+		@apply h-4 w-4 !rounded-full duration-700;
 
 		&:nth-of-type(2) {
-			@apply tw-delay-150;
+			@apply delay-150;
 		}
 
 		&:nth-of-type(3) {
-			@apply tw-delay-300;
+			@apply delay-300;
 		}
 	}
 }

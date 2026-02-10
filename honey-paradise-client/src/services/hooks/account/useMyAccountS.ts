@@ -1,30 +1,36 @@
-import { accountService } from "@/services/account.service";
-import { queryKeys } from "@constants/routes";
-import { useAuth } from "@hooks/auth";
-import { type RefetchOptions, useQuery, useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "@constants/routes"
+import { useAuth } from "@hooks/auth"
+import {
+	type RefetchOptions,
+	useQuery,
+	useQueryClient
+} from "@tanstack/react-query"
+import type { AxiosError } from "axios"
 
-export const useMyAccountS = () => {
-	const client = useQueryClient();
-	const { isAuthenticated } = useAuth();
+import { accountService } from "@/services/account.service"
 
-	const queryKey = [queryKeys.getMyAccount];
+export const useMyAccountS = (enabled: boolean = true) => {
+	const client = useQueryClient()
+	const { isAuthenticated } = useAuth()
+
+	const queryKey = [queryKeys.getMyAccount]
 
 	const { error, isLoading, data, isPending, refetch, isSuccess } = useQuery({
 		queryKey,
 		queryFn: () => accountService.getMyAccount(),
-		enabled: isAuthenticated,
-	});
+		enabled: isAuthenticated && enabled
+	})
 
 	const accRefetch = (opts?: RefetchOptions) => {
-		client.invalidateQueries({ queryKey, type: "all" });
-		refetch(opts);
-	};
+		client.invalidateQueries({ queryKey, type: "all" })
+		refetch(opts)
+	}
 
 	return {
-		accError: error,
+		accError: error as AxiosError,
 		isAccLoading: isLoading || isPending,
 		acc: data,
 		accRefetch,
-		isAccSuccess: isSuccess,
-	};
-};
+		isAccSuccess: isSuccess
+	}
+}

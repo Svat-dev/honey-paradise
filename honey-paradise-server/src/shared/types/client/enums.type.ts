@@ -1,11 +1,13 @@
 export enum EnumStorageKeys {
-	LOCALE_LANGUAGE = "HONEY_PARADISE_LOCALE_LANGUAGE",
-	CURRENT_EMAIL = "HONEY_PARADISE_CURRENT_EMAIL",
+	IS_AGREE_WITH_COOKIES = "is_agree_with_cookies",
+	LOCALE_LANGUAGE = "locale_lang",
+	CURRENT_EMAIL = "current_email",
+	SOCKET_SESSION_TOKEN = "socket_session_token"
 }
 
 export enum EnumErrorCauses {
 	EMAIL_TOKEN_EXPIRED = "has_expired",
-	ACCOUNT_NOT_VERIFIED = "account_not_verified",
+	ACCOUNT_NOT_VERIFIED = "account_not_verified"
 }
 
 export enum EnumClientRoutes {
@@ -23,5 +25,10 @@ export enum EnumClientRoutes {
 	SETTINGS = `${ACCOUNT}/settings`,
 	DEVICES = `${SETTINGS}?active_tab=devices`,
 
+	NOTIFICATIONS = `${ACCOUNT}/notifications`,
+
 	CONNECTIONS = `${ACCOUNT}/connections`,
+
+	PRODUCT = "product",
+	CATEGORY = "category"
 }

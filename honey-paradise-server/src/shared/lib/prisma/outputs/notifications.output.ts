@@ -1,6 +1,4 @@
-import type { Prisma } from "@prisma/client";
-
-export const notificationUserOutput: Prisma.NotificationSelect = {
+export const notificationUserOutput = {
 	id: true,
 
 	message: true,
@@ -8,10 +6,10 @@ export const notificationUserOutput: Prisma.NotificationSelect = {
 	isRead: true,
 
 	createdAt: true,
-	updatedAt: true,
-};
+	updatedAt: true
+} // Prisma.NotificationSelect
 
-export const notificationSettingsUserOutput: Prisma.NotificationSettingsSelect = {
+export const notificationSettingsUserOutput = {
 	id: true,
 
 	enabled: true,
@@ -20,5 +18,5 @@ export const notificationSettingsUserOutput: Prisma.NotificationSettingsSelect =
 	siteNotificationsType: true,
 	telegramNotificationsType: true,
 
-	updatedAt: true,
-};
+	updatedAt: true
+} // Prisma.NotificationSettingsSelect

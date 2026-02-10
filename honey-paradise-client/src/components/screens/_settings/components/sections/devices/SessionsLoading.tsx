@@ -1,9 +1,11 @@
-import { Skeleton } from "@/components/ui/common";
-import type { FC } from "react";
-import styles from "../../../styles/devices.module.scss";
+import type { FC } from "react"
+
+import { Skeleton } from "@/components/ui/common"
+
+import styles from "../../../styles/devices.module.scss"
 
 interface IProps {
-	amount: number;
+	amount: number
 }
 
 const SessionsLoading: FC<IProps> = ({ amount }) => {
@@ -13,7 +15,7 @@ const SessionsLoading: FC<IProps> = ({ amount }) => {
 				.fill(0)
 				.map((_, i) => <Skeleton key={i} className={styles["loading-item"]} />)}
 		</>
-	);
-};
+	)
+}
 
-export { SessionsLoading };
+export { SessionsLoading }

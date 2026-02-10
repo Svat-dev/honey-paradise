@@ -1,4 +1,6 @@
-"use client";
+"use client"
+
+import type { FC, PropsWithChildren } from "react"
 
 import {
 	Button,
@@ -8,21 +10,25 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
-} from "@/components/ui/common";
-import { type FC, type PropsWithChildren } from "react";
+	DialogTrigger
+} from "@/components/ui/common"
 
-import { useConfirmModal } from "./hooks/useConfirmModal";
-import styles from "./styles/confirm-modal.module.scss";
+import { useConfirmModal } from "./hooks/useConfirmModal"
+import styles from "./styles/confirm-modal.module.scss"
 
 interface IConfirmModalProps extends PropsWithChildren {
-	heading: string;
-	desc: string;
-	onConfirm: VoidFunction;
+	heading: string
+	desc: string
+	onConfirm: VoidFunction
 }
 
-const ConfirmModal: FC<IConfirmModalProps> = ({ children, heading, desc, onConfirm }) => {
-	const { close, confirm, isOpen, setIsOpen, t } = useConfirmModal(onConfirm);
+const ConfirmModal: FC<IConfirmModalProps> = ({
+	children,
+	heading,
+	desc,
+	onConfirm
+}) => {
+	const { close, confirm, isOpen, setIsOpen, t } = useConfirmModal(onConfirm)
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -31,21 +37,31 @@ const ConfirmModal: FC<IConfirmModalProps> = ({ children, heading, desc, onConfi
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle className={styles["title"]}>{heading}</DialogTitle>
-					<DialogDescription className={styles["description"]}>{desc}</DialogDescription>
+					<DialogDescription className={styles["description"]}>
+						{desc}
+					</DialogDescription>
 				</DialogHeader>
 
 				<DialogFooter className={styles["footer"]}>
-					<Button variant="secondary" title={t("labels.confirm")} onClick={confirm}>
+					<Button
+						variant="secondary"
+						title={t("labels.confirm")}
+						onClick={confirm}
+					>
 						{t("btns.confirm")}
 					</Button>
 
-					<Button variant="secondary" title={t("labels.cancel")} onClick={close}>
+					<Button
+						variant="secondary"
+						title={t("labels.cancel")}
+						onClick={close}
+					>
 						{t("btns.cancel")}
 					</Button>
 				</DialogFooter>
 			</DialogContent>
 		</Dialog>
-	);
-};
+	)
+}
 
-export { ConfirmModal };
+export { ConfirmModal }

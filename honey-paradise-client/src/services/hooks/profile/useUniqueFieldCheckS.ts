@@ -1,22 +1,24 @@
-import { profileService } from "@/services/profile.service";
-import { queryKeys } from "@/shared/lib/constants/routes";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query"
+
+import { profileService } from "@/services/profile.service"
+import { queryKeys } from "@/shared/lib/constants/routes"
 
 interface IDto {
-	fieldValue: string | undefined;
-	field: "email" | "username" | "phone";
+	fieldValue: string | undefined
+	field: "email" | "username" | "phone"
 }
 
 export const useUniqueFieldCheckS = () => {
 	const { mutate, mutateAsync, isPending, data } = useMutation({
 		mutationKey: [queryKeys.getUniqueFiledStatus],
-		mutationFn: (dto: IDto) => profileService.uniqueFieldCheck(dto.fieldValue, dto.field),
-	});
+		mutationFn: (dto: IDto) =>
+			profileService.uniqueFieldCheck(dto.fieldValue, dto.field)
+	})
 
 	return {
 		checkFieldUnique: mutate,
 		checkFieldUniqueAsync: mutateAsync,
 		isCheckingUnique: isPending,
-		isFieldUnique: data?.data,
-	};
-};
+		isFieldUnique: data?.data
+	}
+}

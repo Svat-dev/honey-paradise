@@ -1,12 +1,20 @@
-import { Button, Checkbox, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/common";
-import { CheckIcon, FilterIcon, RotateCwIcon } from "lucide-react";
+import { CheckIcon, FilterIcon, RotateCwIcon } from "lucide-react"
+import type { FC } from "react"
 
-import type { FC } from "react";
-import { useNotificationsFilters } from "../../hooks/useNotificationsFilters";
-import styles from "../../styles/notifications-filters.module.scss";
+import {
+	Button,
+	Checkbox,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger
+} from "@/components/ui/common"
+
+import { useNotificationsFilters } from "../../hooks/useNotificationsFilters"
+import styles from "../../styles/notifications-filters.module.scss"
 
 interface IFiltersWrapperProps {
-	isAllMarkingAsRead: boolean;
+	isAllMarkingAsRead: boolean
 }
 
 const FiltersWrapper: FC<IFiltersWrapperProps> = ({ isAllMarkingAsRead }) => {
@@ -19,14 +27,18 @@ const FiltersWrapper: FC<IFiltersWrapperProps> = ({ isAllMarkingAsRead }) => {
 		onChangeSortType,
 		reset,
 		heading,
-		t,
-	} = useNotificationsFilters();
+		t
+	} = useNotificationsFilters()
 
 	return (
 		<div className={styles["filters-wrapper"]}>
 			<DropdownMenu>
 				<DropdownMenuTrigger disabled={isAllMarkingAsRead} asChild>
-					<Button variant="secondary" title={t("labels.notificationsTypeBtn")} className={styles["dm-trigger"]}>
+					<Button
+						variant="secondary"
+						title={t("labels.notificationsTypeBtn")}
+						className={styles["dm-trigger"]}
+					>
 						<FilterIcon size={16} />
 						{t("filters.notificationsTypeBtn", { length: types?.length || 0 })}
 					</Button>
@@ -37,7 +49,9 @@ const FiltersWrapper: FC<IFiltersWrapperProps> = ({ isAllMarkingAsRead }) => {
 						<Checkbox
 							key={item.type}
 							checked={types?.includes(item.type)}
-							onChange={e => onChangeNotificationsType(e.currentTarget.checked, item.type)}
+							onChange={e =>
+								onChangeNotificationsType(e.currentTarget.checked, item.type)
+							}
 							className={styles["checkbox"]}
 							containerClassName={styles["dm-checkbox-item"]}
 						>
@@ -49,15 +63,23 @@ const FiltersWrapper: FC<IFiltersWrapperProps> = ({ isAllMarkingAsRead }) => {
 
 			<DropdownMenu>
 				<DropdownMenuTrigger disabled={isAllMarkingAsRead} asChild>
-					<Button variant="secondary" title={t("labels.sortTypeBtn")} className={styles["dm-trigger"]}>
-						<SortIcon className="tw-opacity-0 tw-animate-show-effect" />
+					<Button
+						variant="secondary"
+						title={t("labels.sortTypeBtn")}
+						className={styles["dm-trigger"]}
+					>
+						<SortIcon className="animate-show-effect opacity-0" />
 						{t("filters.sortTypeBtn")}
 					</Button>
 				</DropdownMenuTrigger>
 
 				<DropdownMenuContent role="list" className={styles["dm-content"]}>
 					{sortType.map(item => (
-						<DropdownMenuItem key={item.type} className={styles["dm-item"]} onClick={() => onChangeSortType(item.type)}>
+						<DropdownMenuItem
+							key={item.type}
+							className={styles["dm-item"]}
+							onClick={() => onChangeSortType(item.type)}
+						>
 							<div>
 								<item.icon size={20} />
 								{item.label}
@@ -87,7 +109,7 @@ const FiltersWrapper: FC<IFiltersWrapperProps> = ({ isAllMarkingAsRead }) => {
 				<RotateCwIcon size={20} />
 			</Button>
 		</div>
-	);
-};
+	)
+}
 
-export { FiltersWrapper };
+export { FiltersWrapper }

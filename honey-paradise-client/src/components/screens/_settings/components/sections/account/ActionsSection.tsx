@@ -1,20 +1,35 @@
-import { Button, Separator, Title } from "@/components/ui/common";
+import { useTranslations } from "next-intl"
+import slugify from "slugify"
 
-import { useMyAccount } from "@hooks/auth";
-import { useTranslations } from "next-intl";
-import slugify from "slugify";
-import styles from "../../../styles/account.module.scss";
+import { Button, Separator, Title } from "@/components/ui/common"
+import { useMyAccount } from "@/shared/lib/hooks/auth"
+
+import styles from "../../../styles/account.module.scss"
+
+import { DownloadSettings } from "./DownloadSettings"
+import { UploadSettings } from "./UploadSettings"
 
 const ActionsSection = () => {
-	const t = useTranslations("global.settings.content.account.content.actions");
-	const { isAccLoading, logout } = useMyAccount();
+	const t = useTranslations("global.settings.content.account.content.actions")
+	const { isAccLoading, logout } = useMyAccount()
 
 	return (
 		<section className={styles["actions-wrapper"]}>
 			<Title size="sm">
 				{t("title")}
-				<a className="tw-opacity-0 tw-size-0" id={slugify(t("title"), { locale: "en", lower: true })} />
+				<a
+					className="size-0 opacity-0"
+					id={slugify(t("title"), { locale: "en", lower: true })}
+				/>
 			</Title>
+
+			<UploadSettings isLoading={isAccLoading} />
+
+			<Separator orientation="horizontal" />
+
+			<DownloadSettings isLoading={isAccLoading} />
+
+			<Separator orientation="horizontal" />
 
 			<div>
 				<div>
@@ -22,7 +37,12 @@ const ActionsSection = () => {
 					<p>{t("logout.description")}</p>
 				</div>
 
-				<Button variant="destructive" title={t("logout.btn")} isLoading={isAccLoading} onClick={() => logout()}>
+				<Button
+					variant="destructive"
+					title={t("logout.btn")}
+					isLoading={isAccLoading}
+					onClick={() => logout()}
+				>
 					{t("logout.btn")}
 				</Button>
 			</div>
@@ -40,7 +60,7 @@ const ActionsSection = () => {
 				</Button>
 			</div>
 		</section>
-	);
-};
+	)
+}
 
-export { ActionsSection };
+export { ActionsSection }

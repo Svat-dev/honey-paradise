@@ -1,10 +1,10 @@
-import type { HttpStatus } from "@nestjs/common/enums/http-status.enum";
+import type { HttpStatus } from "@nestjs/common/enums/http-status.enum"
 
 export interface IException {
-	message: string;
-	status: HttpStatus;
-	cause?: unknown;
+	message: string
+	status: HttpStatus
+	cause?: unknown
 
-	timestamp?: string;
-	path?: string;
+	timestamp?: string
+	path?: string
 }

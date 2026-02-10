@@ -11,18 +11,29 @@ model User {
   notifications        Notification[]
   notificationSettings NotificationSettings?
 
-  settings  UserSettings?
-  cart      Cart?
-  token     Token[]
-  providers Provider[]
+  settings UserSettings?
+  cart     Cart?
+
+  token        Token[]
+  providers    Provider[]
+  transactions Transaction[]
+
+  reviews       Review[]
+  orders        Order[]
+  commentaries  Commentary[]
+  specialOffers SpecialOffer[] @relation(name: "special_offer_to_user")
+
+  likedProductIds String[] @default([]) @map("liked_products")
 
   username    String  @unique
   telegramId  String? @unique @map("telegram_id")
   phoneNumber String? @unique @map("phone_number")
 
-  avatarPath String?      @map("avatar_path")
-  gender     EnumGenders? @default(OTHER)
-  birthdate  DateTime?
+  avatarPath String? @map("avatar_path")
+  framePath  String? @map("frame_path")
+
+  gender    EnumGenders? @default(OTHER)
+  birthdate DateTime?
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -31,11 +42,14 @@ model User {
 }
 
 model UserSettings {
-  id String @id @default(uuid()) @db.Uuid
+  id String @id @default(nanoid())
 
-  defaultLanguage EnumLanguages? @map("default_language")
-  defaultTheme    EnumThemes?    @map("default_theme")
-  useFullLogout   Boolean?       @default(false) @map("use_full_logout")
+  defaultLanguage EnumLanguages?  @map("default_language")
+  defaultTheme    EnumThemes?     @map("default_theme")
+  defaultCurrency EnumCurrencies? @default(RUBLE) @map("default_currency")
+
+  useFullLogout Boolean? @default(false) @map("use_full_logout")
+  useTgTfaLogin Boolean? @default(false) @map("use_tg_tfa_login")
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique @map("user_id") @db.Uuid

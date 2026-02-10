@@ -1,77 +1,77 @@
 .wrapper {
-	@apply tw-flex tw-flex-col tw-gap-5;
+	@apply flex flex-col gap-5;
 
 	> div {
-		@apply tw-flex tw-items-center tw-gap-4 tw-self-end;
+		@apply flex items-center gap-4 self-end;
 
 		> button:first-of-type {
-			@apply tw-p-1;
+			@apply p-1;
 
 			> svg {
-				@apply tw-transition-all;
+				@apply transition-all;
 			}
 
 			&:hover > svg {
-				@apply tw-rotate-180 tw-text-muted;
+				@apply rotate-180 text-muted;
 			}
 		}
 
 		> button:last-of-type {
-			@apply tw-py-1.5 tw-px-2;
+			@apply px-2 py-1.5;
 		}
 	}
 }
 
 .loading-item {
-	@apply tw-w-full tw-h-[72px];
+	@apply h-[72px] w-full;
 }
 
 .session-item {
-	@apply tw-flex tw-items-center tw-justify-between tw-bg-secondary tw-px-4 tw-py-3 tw-rounded-md tw-border tw-border-muted tw-opacity-0 tw-animate-show-effect;
+	@apply flex items-center justify-between rounded-md border border-muted bg-secondary px-4 py-3;
 
 	> div {
-		@apply tw-flex tw-items-center;
+		@apply flex items-center;
 
 		&:first-of-type {
-			@apply tw-gap-4;
+			@apply gap-4;
 
 			> div:first-of-type {
-				@apply tw-bg-primary tw-p-2.5 tw-rounded-full;
+				@apply rounded-full bg-primary p-2.5;
 			}
 
 			> div:last-of-type {
 				> p {
-					@apply tw-font-medium;
+					@apply font-medium;
 				}
 
 				> div {
-					@apply tw-inline-flex tw-items-center tw-text-sm;
+					@apply inline-flex items-center text-sm;
 				}
 			}
 		}
 
 		&:last-of-type {
-			@apply tw-gap-5;
+			@apply gap-5;
 
 			> button {
-				@apply tw-py-1.5 tw-px-2;
+				@apply px-2 py-1.5;
 			}
 		}
 	}
 }
 
 .current-indicator {
-	@apply tw-inline-flex tw-items-center tw-text-emerald-600;
+	@apply inline-flex items-center text-emerald-600;
 
 	> span {
-		@apply tw-relative tw-mr-2 tw-flex tw-size-2;
+		@apply relative mr-2 flex size-2;
 
 		> span:first-of-type {
-			@apply tw-absolute tw-inline-flex tw-h-full tw-w-full tw-animate-ping tw-rounded-full tw-bg-emerald-400 tw-opacity-75;
+			@apply absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75;
 		}
 
 		> span:last-of-type {
-			@apply tw-relative tw-inline-flex tw-size-2 tw-rounded-full tw-bg-emerald-500;
+			@apply relative inline-flex size-2 rounded-full bg-emerald-500;
 		}
 	}
 }

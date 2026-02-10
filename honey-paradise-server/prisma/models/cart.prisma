@@ -1,8 +1,9 @@
 model Cart {
   id String @id @default(uuid()) @db.Uuid
 
-  totalPrice Float?          @default(0) @map("total_price")
-  currency   EnumCurrencies? @default(RUBLE)
+  totalPrice      Float                 @default(0) @map("total_price")
+  promoTokens     String[]              @default([]) @map("promo_tokens")
+  usedPromoTokens EnumPromoTokenTypes[] @default([]) @map("used_promo_tokens")
 
   cartItems CartItem[]
 
@@ -16,10 +17,16 @@ model Cart {
 }
 
 model CartItem {
-  id Int @id @default(autoincrement())
+  id String @id @default(nanoid())
+
+  quantity   Int   @default(1)
+  priceInUSD Float @map("price_usd")
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String  @map("product_id") @db.Uuid
 
   cart   Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  cartId String @unique @map("cart_id") @db.Uuid
+  cartId String @map("cart_id") @db.Uuid
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

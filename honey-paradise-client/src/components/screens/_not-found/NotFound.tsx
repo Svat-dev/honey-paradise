@@ -1,20 +1,21 @@
-"use client";
+"use client"
 
-import { Button, Title } from "@/components/ui/common";
+import { EnumAppRoute } from "@constants/routes"
+import { MoveLeftIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
+import { useRouter } from "next/dist/client/components/navigation"
+import Image from "next/image"
+import { memo } from "react"
 
-import { EnumAppRoute } from "@constants/routes";
-import { MoveLeftIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useRouter } from "next/dist/client/components/navigation";
-import Image from "next/image";
-import { memo } from "react";
-import styles from "./not-found.module.scss";
+import { Button, Title } from "@/components/ui/common"
+
+import styles from "./not-found.module.scss"
 
 const NotFound = memo(() => {
-	const { refresh, replace } = useRouter();
-	const t = useTranslations("global.notFound.content");
+	const { refresh, replace } = useRouter()
+	const t = useTranslations("global.notFound.content")
 
-	const limit = 8;
+	const limit = 8
 
 	return (
 		<main className={styles["main"]}>
@@ -23,12 +24,20 @@ const NotFound = memo(() => {
 				<p>{t("description")}</p>
 
 				<div className={styles["actions-wrapper"]}>
-					<Button variant="outline" title={t("labels.toIndex")} onClick={() => replace(EnumAppRoute.INDEX)}>
+					<Button
+						variant="outline"
+						title={t("labels.toIndex")}
+						onClick={() => replace(EnumAppRoute.INDEX)}
+					>
 						<MoveLeftIcon />
 						{t("actions.toIndex")}
 					</Button>
 
-					<Button variant="outline" title={t("labels.refresh")} onClick={refresh}>
+					<Button
+						variant="outline"
+						title={t("labels.refresh")}
+						onClick={refresh}
+					>
 						{t("actions.refresh")}
 					</Button>
 				</div>
@@ -43,10 +52,15 @@ const NotFound = memo(() => {
 						</div>
 					))} */}
 
-				<Image src="/assets/not-found.webp" alt={t("labels.image")} width={350} height={362} />
+				<Image
+					src="/assets/not-found.webp"
+					alt={t("labels.image")}
+					width={350}
+					height={362}
+				/>
 			</div>
 		</main>
-	);
-});
+	)
+})
 
-export { NotFound };
+export { NotFound }

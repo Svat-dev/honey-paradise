@@ -1,11 +1,11 @@
 .radio-group {
-	@apply tw-px-3;
+	@apply px-3;
 }
 
 .radio-group-item {
-	@apply tw-flex tw-items-center tw-gap-2;
+	@apply flex items-center gap-2;
 
 	> label {
-		@apply tw-cursor-pointer;
+		@apply cursor-pointer;
 	}
 }

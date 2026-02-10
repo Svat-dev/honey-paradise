@@ -1,22 +1,45 @@
-"use client";
+"use client"
 
-import { Alert, AlertDescription, AlertTitle, Button, Title } from "@/components/ui/common";
+import _styles from "@styles/modules/auth-form-wrapper.module.scss"
+import { cn } from "@utils/base"
+import { CheckCircle2Icon } from "lucide-react"
+import Image from "next/image"
+import { FormProvider } from "react-hook-form"
 
-import { FormInput } from "@/components/ui/components/form-input";
-import _styles from "@styles/modules/auth-form-wrapper.module.scss";
-import { cn } from "@utils/base";
-import { CheckCircle2Icon } from "lucide-react";
-import Image from "next/image";
-import { FormProvider } from "react-hook-form";
-import { useResetPassword } from "../hooks/useResetPassword";
-import styles from "../styles/reset-password.module.scss";
+import {
+	Alert,
+	AlertDescription,
+	AlertTitle,
+	Button,
+	Title
+} from "@/components/ui/common"
+import { FormInput } from "@/components/ui/components/form-input"
+
+import { useResetPassword } from "../hooks/useResetPassword"
+import styles from "../styles/reset-password.module.scss"
 
 const ResetPassword = () => {
-	const { isCodeSending, onSubmit, dataStatus, isSuccess, form, resendCode, cooldown, toAuth, t } = useResetPassword();
+	const {
+		isCodeSending,
+		onSubmit,
+		dataStatus,
+		isSuccess,
+		form,
+		resendCode,
+		cooldown,
+		toAuth,
+		t
+	} = useResetPassword()
 
 	return (
-		<section data-status={dataStatus} className={cn(_styles["wrapper"], styles["wrapper"])}>
-			<span data-status={dataStatus} className={cn(_styles["border-line"], styles["border-line"])} />
+		<section
+			data-status={dataStatus}
+			className={cn(_styles["wrapper"], styles["wrapper"])}
+		>
+			<span
+				data-status={dataStatus}
+				className={cn(_styles["border-line"], styles["border-line"])}
+			/>
 
 			<FormProvider {...form}>
 				<form className={_styles["form"]} onSubmit={onSubmit}>
@@ -26,7 +49,13 @@ const ResetPassword = () => {
 							<p>{t("description")}</p>
 						</div>
 
-						<Image src="/assets/reset-password.webp" alt={t("labels.image")} width={64} height={64} priority />
+						<Image
+							src="/assets/reset-password.webp"
+							alt={t("labels.image")}
+							width={64}
+							height={64}
+							priority
+						/>
 					</div>
 
 					{isSuccess ? (
@@ -38,7 +67,11 @@ const ResetPassword = () => {
 								<AlertDescription>{t("alert.description")}</AlertDescription>
 							</Alert>
 
-							<Button variant="link" className="tw-self-start tw-ml-1" onClick={resendCode}>
+							<Button
+								variant="link"
+								className="ml-1 self-start"
+								onClick={resendCode}
+							>
 								{t("alert.resendBtn")}
 							</Button>
 						</>
@@ -53,12 +86,25 @@ const ResetPassword = () => {
 							/>
 
 							<div className={styles["actions-wrapper"]}>
-								<Button variant="secondary" title={t("labels.toAuthBtn")} onClick={toAuth} disabled={isSuccess || isCodeSending}>
+								<Button
+									variant="secondary"
+									title={t("labels.toAuthBtn")}
+									onClick={toAuth}
+									disabled={isSuccess || isCodeSending}
+								>
 									{t("actions.toAuthBtn")}
 								</Button>
 
-								<Button variant="secondary" title={t("labels.submitBtn")} type="submit" disabled={cooldown !== 0} isLoading={isCodeSending}>
-									{cooldown === 0 ? t("actions.submitBtn") : t("actions.submitBtnCooldown", { cooldown })}
+								<Button
+									variant="secondary"
+									title={t("labels.submitBtn")}
+									type="submit"
+									disabled={cooldown !== 0}
+									isLoading={isCodeSending}
+								>
+									{cooldown === 0
+										? t("actions.submitBtn")
+										: t("actions.submitBtnCooldown", { cooldown })}
 								</Button>
 							</div>
 						</>
@@ -66,7 +112,7 @@ const ResetPassword = () => {
 				</form>
 			</FormProvider>
 		</section>
-	);
-};
+	)
+}
 
-export { ResetPassword };
+export { ResetPassword }

@@ -1,11 +1,11 @@
 .button {
-	@apply tw-relative tw-flex tw-bg-secondary tw-py-1 tw-px-1.5 tw-gap-4 tw-rounded-xl tw-border tw-border-black tw-overflow-hidden tw-mb-2;
+	@apply relative mb-2 flex gap-4 overflow-hidden rounded-xl border border-black bg-secondary px-1.5 py-1;
 
 	> svg {
-		@apply tw-z-20;
+		@apply z-20;
 	}
 }
 
 .indicator {
-	@apply tw-absolute -tw-left-1 tw-right-0 tw-top-0 tw-bg-primary tw-h-full tw-w-1/2 tw-rounded-xl tw-z-10 tw-transition-transform;
+	@apply absolute -left-1 right-0 top-0 z-10 h-full w-1/2 rounded-xl bg-primary transition-transform;
 }

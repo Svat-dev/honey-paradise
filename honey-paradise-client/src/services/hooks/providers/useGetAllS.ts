@@ -1,26 +1,27 @@
-import { providerService } from "@/services/providers.service";
-import { queryKeys } from "@/shared/lib/constants/routes";
-import { useAuth } from "@hooks/auth";
-import { useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { useAuth } from "@hooks/auth"
+import { useQuery } from "@tanstack/react-query"
+import { useMemo } from "react"
+
+import { providerService } from "@/services/providers.service"
+import { queryKeys } from "@/shared/lib/constants/routes"
 
 export const useGetAllS = () => {
-	const { isAuthenticated } = useAuth();
+	const { isAuthenticated } = useAuth()
 
 	const { data, isPending, isLoading, refetch } = useQuery({
 		queryKey: [queryKeys.getAllProviders],
 		queryFn: () => providerService.getAll(),
-		enabled: isAuthenticated,
-	});
+		enabled: isAuthenticated
+	})
 
-	const _isLoading = isLoading || isPending;
+	const _isLoading = isLoading || isPending
 
 	return useMemo(
 		() => ({
 			connections: data?.data,
 			refetchConnections: refetch,
-			isConnectionsLoading: _isLoading,
+			isConnectionsLoading: _isLoading
 		}),
 		[data?.data, _isLoading, refetch]
-	);
-};
+	)
+}

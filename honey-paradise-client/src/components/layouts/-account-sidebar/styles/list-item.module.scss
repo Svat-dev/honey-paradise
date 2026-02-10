@@ -1,9 +1,9 @@
 .wrapper {
-	@apply tw-transition-colors tw-will-change-auto tw-mb-4 tw-rounded-2xl;
+	@apply mb-4 rounded-2xl transition-colors will-change-auto;
 
 	&[data-status="false"] {
 		&:hover {
-			@apply tw-bg-muted/10;
+			@apply bg-muted/10;
 		}
 	}
 
@@ -11,17 +11,17 @@
 		animation: account-sidebar-active-tab-enter 300ms linear forwards;
 
 		&:hover {
-			@apply tw-bg-secondary/80;
+			@apply bg-secondary/80;
 		}
 	}
 }
 
 .link {
-	@apply tw-flex tw-items-center tw-gap-2 tw-py-3 tw-px-4 tw-whitespace-nowrap;
+	@apply flex items-center gap-2 whitespace-nowrap px-4 py-3;
 }
 
 @keyframes account-sidebar-active-tab-enter {
 	to {
-		@apply tw-bg-secondary;
+		@apply bg-secondary;
 	}
 }

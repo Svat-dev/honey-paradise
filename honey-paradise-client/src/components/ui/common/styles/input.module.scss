@@ -1,19 +1,19 @@
 .input-ui {
-	@apply tw-flex tw-w-full tw-rounded-md tw-bg-background/60 tw-px-3 tw-py-2 tw-text-sm tw-transition-all;
+	@apply flex w-full rounded-md bg-background/60 px-3 py-2 text-sm transition-all;
 
 	&[type="file"] {
-		@apply tw-border-0 tw-bg-transparent tw-text-sm tw-font-medium;
+		@apply border-0 bg-transparent text-sm font-medium;
 	}
 
 	&:disabled {
-		@apply tw-cursor-not-allowed tw-opacity-50;
+		@apply cursor-not-allowed opacity-50;
 	}
 
 	&:focus-visible {
-		@apply tw-outline-none;
+		@apply outline-none;
 	}
 
 	&::placeholder {
-		@apply tw-text-muted;
+		@apply text-muted;
 	}
 }

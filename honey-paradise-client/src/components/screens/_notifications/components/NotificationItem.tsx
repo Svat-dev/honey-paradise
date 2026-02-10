@@ -1,19 +1,40 @@
-import { Title } from "@/components/ui/common";
-import type { INotificationUser } from "@/shared/types/models";
-import { cn } from "@utils/base";
-import { DotIcon } from "lucide-react";
-import dynamic from "next/dynamic";
-import type { FC } from "react";
-import { useNotificationItem } from "../hooks/useNotificationItem";
-import styles from "../styles/notifications.module.scss";
+import { cn } from "@utils/base"
+import { DotIcon } from "lucide-react"
+import dynamic from "next/dynamic"
+import type { FC } from "react"
 
-const DynamicNotificationsItemDM = dynamic(() => import("./dropdown/NotificationsDM").then(mod => mod.NotificationsItemDM));
+import { Title } from "@/components/ui/common"
+import type { GetMyNotificationResponse } from "@/shared/types/server"
 
-interface INotificationItem extends Partial<INotificationUser> {}
+import { useNotificationItem } from "../hooks/useNotificationItem"
+import styles from "../styles/notifications.module.scss"
 
-const NotificationItem: FC<INotificationItem> = ({ id, isRead, message, type, createdAt }) => {
-	const { onContextMenu, title, time, isOpen, setIsOpen, isSelected, isSelectMode, onClick, onMouseEnter, onMouseLeave, t } =
-		useNotificationItem(id, type, !!isRead, createdAt);
+const DynamicNotificationsItemDM = dynamic(() =>
+	import("./dropdown/NotificationsDM").then(mod => mod.NotificationsItemDM)
+)
+
+interface INotificationItem extends Partial<GetMyNotificationResponse> {}
+
+const NotificationItem: FC<INotificationItem> = ({
+	id,
+	isRead,
+	message,
+	type,
+	createdAt
+}) => {
+	const {
+		onContextMenu,
+		title,
+		time,
+		isOpen,
+		setIsOpen,
+		isSelected,
+		isSelectMode,
+		onClick,
+		onMouseEnter,
+		onMouseLeave,
+		t
+	} = useNotificationItem(id, type, !!isRead, createdAt)
 
 	return (
 		<article
@@ -28,7 +49,7 @@ const NotificationItem: FC<INotificationItem> = ({ id, isRead, message, type, cr
 			<div className={styles["item-overlay"]} role="none" />
 
 			<div className={styles["item-content-wrapper"]}>
-				<div className={cn({ "tw-italic": !isRead })}>
+				<div className={cn({ italic: !isRead })}>
 					<Title size="sm">{title}</Title>
 
 					<DotIcon size={24} />
@@ -43,9 +64,14 @@ const NotificationItem: FC<INotificationItem> = ({ id, isRead, message, type, cr
 				<p>{message}</p>
 			</div>
 
-			<DynamicNotificationsItemDM nid={id} isRead={isRead} isOpen={isOpen} setIsOpen={setIsOpen} />
+			<DynamicNotificationsItemDM
+				nid={id}
+				isRead={isRead}
+				isOpen={isOpen}
+				setIsOpen={setIsOpen}
+			/>
 		</article>
-	);
-};
+	)
+}
 
-export { NotificationItem };
+export { NotificationItem }

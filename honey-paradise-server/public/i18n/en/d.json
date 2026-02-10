@@ -69,6 +69,58 @@
 			}
 		}
 	},
+	"tg-bot": {
+		"msgs": {
+			"welcome": "<strong>👋 Welcome to Honey Paradise Bot, {username}!</strong>\nTo receive notifications and improve your online store experience, let's link your Telegram account to <a href=\"{link}\">Honey Paradise</a>.\n\n Click on the button below and go to <i>Profile</i> to complete the setup.",
+
+			"help": "Here are all the commands available to you: ",
+
+			"info": "🤖 <strong>Information about the bot</strong>\n\n🔹 <strong>Name:</strong> Honey Paradise Bot\n🔹 <strong>Version:</strong> v1.0.0\n🔹 <strong>Creator:</strong> @swuttik\n🔹 <strong>Description:</strong> The store's bot <a href=\"{link}\">Honey Paradise</a> for easily viewing notifications and managing user settings\n\n✨ Thanks for using it!",
+
+			"me": "<strong>👤 User profile:</strong>\n\n👤 User name: <strong>{username}</strong>\n📧 Email: <strong>{email}</strong>\n📞 Phone number: <strong>+{phone}</strong>\n\nClick on the button below to go to the profile settings.",
+			"not_phone_selected": "Not specified",
+
+			"confirm_auth": "🔑 Confirm login to your account\n\nInformation about the login location:\n🔹 Device: {device}\n🔹 Request location: {location}\n🔹 IP address: {ip}\n🔹 Sign in date: {date}\n\nClick on the button below to confirm sign in\n<strong>(validity period: 10 minutes only)</strong>",
+
+			"disconnect": "To disconnect the bot from your account, select one of the two actions below",
+			"disconnect_cb": "Are you sure you want to unlink telegram?",
+			"new_notification": "🔔You have a new notification!",
+			"2fa_code": "🔑 Your account sign in confirmation code is <strong>{code}</strong>",
+			"email_confirm_code": "📧 Your account verification code: <strong>{code}</strong>"
+		},
+		"toasters": {
+			"success": {
+				"connected": "👍 Telegram has been successfully connected to your account!",
+				"disconnect_no": "✅ Unlink canceled!",
+				"disconnect_yes": "👍 Telegram has been successfully unlinked from your account!",
+				"marked_as_read": "✅ Notification marked as read",
+				"auth_rejected": "✅ Sign in request successfully rejected",
+				"auth_accepted": "✅ Sign in request successfully approved"
+			},
+			"error": {
+				"not_linked": "❌ An error occurred during linking",
+				"not_unlinked": "❌ An error occurred during Telegram unlinking",
+				"not_registered": "❌ You are not registered in the system",
+				"not_registered_to_unlink": "❌ You are not signed in to unlink your account!",
+				"not_read": "❌ An error occurred while reading the notification",
+				"undefined": "❌ Sorry, but I don't understand you",
+				"500": "❌ An error occurred while processing the request"
+			}
+		},
+		"inline_buttons": {
+			"to_settings": "⚙️ Account settings",
+			"to_website": "🌐 To the site",
+			"get_new_link": "➕ Get a new link",
+			"continue_at_website": "⚙️ Continue on the site",
+			"continue_here": "⏩ Disable here",
+			"yes": "✅ Yes",
+			"no": "❌ No",
+			"confirm": "✅ Approve",
+			"reject": "❌ Reject",
+			"mark_as_read": "📃 Mark as Read",
+			"view": "🔗 Go to..."
+		}
+	},
 	"errors": {
 		"auth_to_have_access": "To access this resource, you must be logged in",
 		"not_auth": "Failed authorization. Try again later.",
@@ -108,12 +160,15 @@
 		"account": {
 			"not_found": "There is no account with this email address or username.\nPlease check the entered data again",
 			"not_found_email": "There is no account with this email address or username.\nPlease check the data again",
-			"not_verified": "You have unverified account!\nTo continue, please, verify it now"
+			"not_verified": "You have unverified account!\nTo continue, please, verify it now",
+			"telegram_not_connected": "Telegram is not connected to your account",
+			"not_found_chat_id": "Chat ID not found"
 		},
 		"profile": {
 			"not_found": "User profile not found",
 			"avatar_not_found": "You should have an installed avatar to delete it",
 			"phone_number_is_exist": "Phone number is already occupied by another user",
+			"telegram_id_is_exist": "Telegram ID is already occupied by another user",
 			"settings_not_found": "No user settings found, please contact support"
 		},
 		"files": {
@@ -129,6 +184,31 @@
 			"cant_remove_session": "Couldn't end session, try again later",
 			"cant_save_session": "Couldn't save session, try again later",
 			"user_agent_not_found": "User-agent failed found! Contact support"
+		}
+	},
+	"tables": {
+		"cart": {
+			"title": "User cart workbook",
+			"description": "User cart workbook with all products",
+			"header": {
+				"product": "Product title",
+				"category": "Category",
+				"variation": "Variation",
+				"quantity": "Quantity",
+				"price": "Price, $",
+				"total": "Total price, $"
+			},
+			"weight": {
+				"one": "{count} gram",
+				"other": "{count} grams"
+			},
+			"tooltips": {
+				"product": "Product link",
+				"category": "Category link"
+			},
+			"total": "Total",
+			"user": "User",
+			"date": "Date"
 		}
 	}
 }

@@ -1,3 +1,7 @@
+import { VALUES } from "@constants/base"
+import type { FC, PropsWithChildren } from "react"
+import { FormProvider } from "react-hook-form"
+
 import {
 	Button,
 	Dialog,
@@ -6,19 +10,17 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
-} from "@/components/ui/common";
-import type { FC, PropsWithChildren } from "react";
+	DialogTrigger
+} from "@/components/ui/common"
+import { FormInput } from "@/components/ui/components/form-input"
 
-import { FormInput } from "@/components/ui/components/form-input";
-import { VALUES } from "@constants/base";
-import { FormProvider } from "react-hook-form";
-import { useChangePasswordModal } from "../../../hooks/useSecuritySection";
+import { useChangePasswordModal } from "../../../hooks/useSecuritySection"
 
 interface IProps extends PropsWithChildren {}
 
 const ChangePasswordModal: FC<IProps> = ({ children }) => {
-	const { form, isOpen, isPasswordUpdating, onSubmit, setIsOpen, t } = useChangePasswordModal();
+	const { form, isOpen, isPasswordUpdating, onSubmit, setIsOpen, t } =
+		useChangePasswordModal()
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -26,10 +28,14 @@ const ChangePasswordModal: FC<IProps> = ({ children }) => {
 			<DialogContent>
 				<FormProvider {...form}>
 					<form onSubmit={onSubmit}>
-						<DialogHeader className="tw-mb-7">
-							<DialogTitle>{t("security.changePasswordModal.title")}</DialogTitle>
+						<DialogHeader className="mb-7">
+							<DialogTitle>
+								{t("security.changePasswordModal.title")}
+							</DialogTitle>
 
-							<DialogDescription className="tw-ml-1">{t("security.changePasswordModal.description")}</DialogDescription>
+							<DialogDescription className="ml-1">
+								{t("security.changePasswordModal.description")}
+							</DialogDescription>
 						</DialogHeader>
 
 						<FormInput
@@ -39,7 +45,7 @@ const ChangePasswordModal: FC<IProps> = ({ children }) => {
 							label={t("security.changePasswordModal.placeholders.new")}
 							tabIndex={1}
 							disabled={isPasswordUpdating}
-							containerClassName="tw-mb-12"
+							containerClassName="mb-12"
 							maxLength={VALUES.MAX_PASSWORD_LENGTH}
 							required
 						/>
@@ -51,7 +57,7 @@ const ChangePasswordModal: FC<IProps> = ({ children }) => {
 							label={t("security.changePasswordModal.placeholders.confirmNew")}
 							tabIndex={2}
 							disabled={isPasswordUpdating}
-							containerClassName="tw-mb-10"
+							containerClassName="mb-10"
 							maxLength={VALUES.MAX_PASSWORD_LENGTH}
 							required
 						/>
@@ -62,7 +68,7 @@ const ChangePasswordModal: FC<IProps> = ({ children }) => {
 								type="submit"
 								title={t("labels.changePasswordBtn")}
 								tabIndex={3}
-								className="tw-py-1.5 tw-px-2 tw-border tw-border-muted"
+								className="border border-muted px-2 py-1.5"
 								isLoading={isPasswordUpdating}
 							>
 								{t("security.changePasswordModal.confirmBtn")}
@@ -72,7 +78,7 @@ const ChangePasswordModal: FC<IProps> = ({ children }) => {
 				</FormProvider>
 			</DialogContent>
 		</Dialog>
-	);
-};
+	)
+}
 
-export { ChangePasswordModal };
+export { ChangePasswordModal }

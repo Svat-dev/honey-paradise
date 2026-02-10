@@ -1,67 +1,67 @@
 .sheet-overlay-ui {
-	@apply tw-fixed tw-inset-0 tw-z-50;
+	@apply fixed inset-0 z-50;
 }
 
 .sheet-content-ui {
-	@apply tw-fixed tw-z-50 tw-gap-4 tw-p-6 tw-transition tw-ease-in-out;
+	@apply fixed z-50 gap-4 p-6 transition ease-in-out;
 }
 
 .sheet-content-ui-side-top {
-	@apply tw-inset-x-0 tw-top-0 tw-border-b;
+	@apply inset-x-0 top-0 border-b;
 
 	&[data-state="closed"] {
-		@apply tw-slide-out-to-top;
+		@apply slide-out-to-top;
 	}
 
 	&[data-state="open"] {
-		@apply tw-slide-in-from-top;
+		@apply slide-in-from-top;
 	}
 }
 
 .sheet-content-ui-side-bottom {
-	@apply tw-inset-x-0 tw-bottom-0 tw-border-t;
+	@apply inset-x-0 bottom-0 border-t;
 
 	&[data-state="closed"] {
-		@apply tw-slide-out-to-bottom;
+		@apply slide-out-to-bottom;
 	}
 
 	&[data-state="open"] {
-		@apply tw-slide-in-from-bottom;
+		@apply slide-in-from-bottom;
 	}
 }
 
 .sheet-content-ui-side-left {
-	@apply tw-inset-y-0 tw-left-0 tw-h-full tw-w-3/4 tw-border-r sm:tw-max-w-sm;
+	@apply inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm;
 
 	&[data-state="closed"] {
-		@apply tw-slide-out-to-left;
+		@apply slide-out-to-left;
 	}
 
 	&[data-state="open"] {
-		@apply tw-slide-in-from-left;
+		@apply slide-in-from-left;
 	}
 }
 
 .sheet-content-ui-side-right {
-	@apply tw-inset-y-0 tw-right-0 tw-h-full tw-w-3/4 tw-border-l sm:tw-max-w-sm;
+	@apply inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm;
 
 	&[data-state="closed"] {
-		@apply tw-slide-out-to-right;
+		@apply slide-out-to-right;
 	}
 
 	&[data-state="open"] {
-		@apply tw-slide-in-from-right;
+		@apply slide-in-from-right;
 	}
 }
 
 .sheet-close-btn-ui {
-	@apply tw-absolute tw-right-4 tw-top-4 tw-bg-none tw-text-muted tw-transition-all;
+	@apply absolute right-4 top-4 bg-none text-muted transition-all;
 
 	&:hover {
-		@apply tw-text-black tw-rotate-180;
+		@apply rotate-180 text-black;
 	}
 }
 
 .sheet-title-ui {
-	@apply tw-text-lg tw-font-semibold tw-text-black;
+	@apply text-lg font-semibold text-black;
 }

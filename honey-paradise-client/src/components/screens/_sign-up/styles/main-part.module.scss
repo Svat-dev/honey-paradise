@@ -1,5 +1,5 @@
 .section {
-	@apply tw-translate-x-0;
+	@apply translate-x-0;
 
 	&[data-status="false"] {
 		animation: animate-show-out 300ms linear forwards;
@@ -7,21 +7,21 @@
 }
 
 .footer {
-	@apply tw-flex tw-w-full tw-items-center tw-justify-between tw-px-2;
+	@apply flex w-full items-center justify-between px-2;
 
 	> button {
-		@apply tw-py-1.5 tw-px-2 tw-border-2 tw-border-muted;
+		@apply border-2 border-muted px-2 py-1.5;
 	}
 }
 
 @keyframes animate-show-in {
 	to {
-		@apply tw-translate-x-0;
+		@apply translate-x-0;
 	}
 }
 
 @keyframes animate-show-out {
 	to {
-		@apply -tw-translate-x-[150%];
+		@apply -translate-x-[150%];
 	}
 }

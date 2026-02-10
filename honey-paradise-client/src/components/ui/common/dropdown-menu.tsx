@@ -1,18 +1,23 @@
-"use client";
+"use client"
 
-import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
+import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
+import { cn } from "@utils/base"
+import {
+	type ComponentPropsWithoutRef,
+	type ComponentRef,
+	forwardRef,
+	type HTMLAttributes
+} from "react"
 
-import { cn } from "@utils/base";
-import { type ComponentPropsWithoutRef, type ComponentRef, forwardRef, type HTMLAttributes } from "react";
-import styles from "./styles/dropdown-menu.module.scss";
+import styles from "./styles/dropdown-menu.module.scss"
 
-const DropdownMenu = DropdownMenuPrimitive.Root;
+const DropdownMenu = DropdownMenuPrimitive.Root
 
-const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
+const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
 
-const DropdownMenuGroup = DropdownMenuPrimitive.Group;
+const DropdownMenuGroup = DropdownMenuPrimitive.Group
 
-const DropdownMenuPortal = DropdownMenuPrimitive.Portal;
+const DropdownMenuPortal = DropdownMenuPrimitive.Portal
 
 const DropdownMenuContent = forwardRef<
 	ComponentRef<typeof DropdownMenuPrimitive.Content>,
@@ -24,39 +29,55 @@ const DropdownMenuContent = forwardRef<
 			sideOffset={sideOffset}
 			className={cn(
 				styles["dropdown-menu-content-ui"],
-				"data-[state=open]:tw-animate-in data-[state=closed]:tw-animate-out data-[state=closed]:tw-fade-out-0 data-[state=open]:tw-fade-in-0 data-[state=closed]:tw-zoom-out-95 data-[state=open]:tw-zoom-in-95",
+				"data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
 				className
 			)}
 			{...props}
 		/>
 	</DropdownMenuPrimitive.Portal>
-));
-DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
+))
+DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName
 
 const DropdownMenuItem = forwardRef<
 	ComponentRef<typeof DropdownMenuPrimitive.Item>,
 	ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
-		inset?: boolean;
+		inset?: boolean
 	}
 >(({ className, inset, ...props }, ref) => (
-	<DropdownMenuPrimitive.Item ref={ref} className={cn(styles["dropdown-menu-item-ui"], inset && "tw-pl-8", className)} {...props} />
-));
-DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
+	<DropdownMenuPrimitive.Item
+		ref={ref}
+		className={cn(styles["dropdown-menu-item-ui"], inset && "pl-8", className)}
+		{...props}
+	/>
+))
+DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName
 
-const DropdownMenuShortcut = ({ className, ...props }: HTMLAttributes<HTMLSpanElement>) => {
-	return <span className={cn(styles["dropdown-menu-shortcut-ui"], className)} {...props} />;
-};
-DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
+const DropdownMenuShortcut = ({
+	className,
+	...props
+}: HTMLAttributes<HTMLSpanElement>) => {
+	return (
+		<span
+			className={cn(styles["dropdown-menu-shortcut-ui"], className)}
+			{...props}
+		/>
+	)
+}
+DropdownMenuShortcut.displayName = "DropdownMenuShortcut"
 
 const DropdownMenuLabel = forwardRef<
 	ComponentRef<typeof DropdownMenuPrimitive.Label>,
 	ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Label> & {
-		inset?: boolean;
+		inset?: boolean
 	}
 >(({ className, inset, ...props }, ref) => (
-	<DropdownMenuPrimitive.Label ref={ref} className={cn(styles["dropdown-menu-label-ui"], inset && "tw-pl-8", className)} {...props} />
-));
-DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
+	<DropdownMenuPrimitive.Label
+		ref={ref}
+		className={cn(styles["dropdown-menu-label-ui"], inset && "pl-8", className)}
+		{...props}
+	/>
+))
+DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName
 
 export {
 	DropdownMenu,
@@ -66,5 +87,5 @@ export {
 	DropdownMenuLabel,
 	DropdownMenuPortal,
 	DropdownMenuShortcut,
-	DropdownMenuTrigger,
-};
+	DropdownMenuTrigger
+}

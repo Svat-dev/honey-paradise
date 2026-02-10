@@ -1,28 +1,28 @@
-import { IsEnum, IsOptional, IsString } from "class-validator";
+import { IsEnum, IsOptional, IsString } from "class-validator"
 
 export enum EnumNotificationsSort {
 	OLDEST = "OLDEST",
-	NEWEST = "NEWEST",
+	NEWEST = "NEWEST"
 }
 
 export class GetAllQueryDto {
-	@IsOptional({ message: "" })
+	@IsOptional()
 	@IsEnum(EnumNotificationsSort, { message: "" })
-	sort?: EnumNotificationsSort;
+	sort?: EnumNotificationsSort
 
-	@IsOptional({ message: "" })
+	@IsOptional()
 	@IsString({ message: "" })
-	is_read?: string;
+	is_read?: string
 
-	@IsOptional({ message: "" })
+	@IsOptional()
 	@IsString({ message: "" })
-	types?: string;
+	types?: string
 
-	@IsOptional({ message: "" })
+	@IsOptional()
 	@IsString({ message: "" })
-	page?: string;
+	page?: string
 
-	@IsOptional({ message: "" })
+	@IsOptional()
 	@IsString({ message: "" })
-	per_page?: string;
+	per_page?: string
 }

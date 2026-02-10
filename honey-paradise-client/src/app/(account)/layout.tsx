@@ -1,20 +1,26 @@
-import { AccountSidebar } from "@/components/layouts/-account-sidebar/AccountSidebar";
-import { Header } from "@/components/layouts/-header/Header";
-import { EnumAppRoute } from "@constants/routes";
-import { getViewport } from "@utils/base";
-import type { Viewport } from "next";
-import type { ReactNode } from "react";
+import { EnumAppRoute } from "@constants/routes"
+import { getViewport } from "@utils/base"
+import type { Viewport } from "next"
+import type { ReactNode } from "react"
 
-export const viewport: Viewport = getViewport(false, 1);
+import { AccountSidebar } from "@/components/layouts/-account-sidebar/AccountSidebar"
+import { Header } from "@/components/layouts/-header/Header"
+import { Container } from "@/components/ui/layouts"
 
-export default function AccountLayout({ children }: Readonly<{ children: ReactNode }>) {
+export const viewport: Viewport = getViewport(false, 1)
+
+export default function AccountLayout({
+	children
+}: Readonly<{ children: ReactNode }>) {
 	return (
 		<>
 			<Header route={EnumAppRoute.ACCOUNT} />
-			<main className="tw-flex tw-relative">
-				<AccountSidebar />
-				{children}
+			<main>
+				<Container className="relative flex">
+					<AccountSidebar />
+					{children}
+				</Container>
 			</main>
 		</>
-	);
+	)
 }

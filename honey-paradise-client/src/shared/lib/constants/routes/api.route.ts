@@ -21,6 +21,12 @@ export enum EnumApiRoute {
 	MY_ACCOUNT = `${ACCOUNT}/me`,
 	CREATE_ACCOUNT = `${ACCOUNT}/create`,
 
+	TELEGRAM = `${ACCOUNT}/tg`,
+	CONNECT_TG = `${TELEGRAM}/connect`,
+	DISCONNECT_TG = `${TELEGRAM}/disconnect`,
+	TG_TFA_LOGIN = `${AUTH}/tg/2fa-login`,
+	CANCEL_TG_TFA_LOGIN = `${AUTH}/tg/cancel-2fa-login`,
+
 	PASSWORD = `${ACCOUNT}/password`,
 	RESET_PASSWORD = `${PASSWORD}/reset`,
 	RECOVER_PASSWORD = `${PASSWORD}/recover`,
@@ -32,6 +38,8 @@ export enum EnumApiRoute {
 	VERIFY_EMAIL = `${ACCOUNT_EMAIL}/verify`,
 
 	PROFILE = "/profile",
+	DOWNLOAD_PROFILE_SETTINGS = `${PROFILE}/download-settings`,
+	UPLOAD_PROFILE_SETTINGS = `${PROFILE}/upload-settings`,
 	UPDATE_PROFILE = `${PROFILE}/update`,
 	CHECK_UNIQUE = `${PROFILE}/check-unique`,
 
@@ -42,6 +50,7 @@ export enum EnumApiRoute {
 	AVATAR = `${PROFILE}/avatar`,
 	UPDATE_AVATAR = `${AVATAR}/update`,
 	DELETE_AVATAR = `${AVATAR}/delete`,
+	UPDATE_AVATAR_FRAME = `${AVATAR}/update-frame`,
 
 	NOTIFICATIONS = "/notifications",
 	NOTIFICATIONS_GET_ALL = `${NOTIFICATIONS}/all`,
@@ -55,4 +64,62 @@ export enum EnumApiRoute {
 	UPDATE_SETTINGS = `${SETTINGS}/update`,
 	UPDATE_PROFILE_SETTINGS = `${PROFILE}${UPDATE_SETTINGS}`,
 	UPDATE_NOTIFICATIONS_SETTINGS = `${NOTIFICATIONS}${UPDATE_SETTINGS}`,
+
+	CARTS = "/carts",
+	GET_MY_CART = `${CARTS}/my`,
+	GET_MY_CART_TABLE = `${GET_MY_CART}/table`,
+	ADD_CART_ITEM = `${CARTS}/add-item`,
+	ADD_FAVORITES_TO_CART = `${CARTS}/add-favorites`,
+	DELETE_CART_ITEM = `${CARTS}/remove-item`,
+	UPDATE_CART_ITEM_QUANTITY = `${CARTS}/update-quantity`,
+	CLEAR_CART = `${CARTS}/clear`,
+
+	PRODUCTS = "/products",
+	PRODUCTS_CATEGORY = `${PRODUCTS}/cat`,
+
+	GET_PRESEARCH_DATA = `${PRODUCTS}/presearch`,
+	GET_ALL_PRODUCTS = `${PRODUCTS}/all`,
+	GET_POPULAR_PRODUCTS = `${PRODUCTS}/popular`,
+	GET_PRODUCT_BY_SLUG = `${PRODUCTS}/by-slug`,
+	GET_PRODUCTS_BY_IDS = `${PRODUCTS}/by-ids`,
+	GET_PRODUCT_RATING = `${PRODUCTS}/rating`,
+
+	CREATE_NEW_PRODUCT = `${PRODUCTS}/new`,
+	FAVORITES_PRODUCTS = `${PRODUCTS}/favorites`,
+	SWITCH_FAVORITES_PRODUCTS = `${FAVORITES_PRODUCTS}/switch`,
+	CLEAR_FAVORITES_PRODUCTS = `${FAVORITES_PRODUCTS}/clear`,
+
+	REVIEW = "/reviews",
+	GET_PRODUCTS_REVIEW = `${REVIEW}/product`,
+	CREATE_REVIEW = `${REVIEW}/new`,
+	REACT_TO_REVIEW = `${REVIEW}/react`,
+	EDIT_REVIEW = `${REVIEW}/edit`,
+	DELETE_REVIEW = `${REVIEW}/delete`,
+
+	COMMENTS = `${REVIEW}/comments`,
+	REPLY_TO_COMMENT = `${COMMENTS}/reply`,
+	CREATE_COMMENT = `${COMMENTS}/new`,
+	DELETE_COMMENT = `${COMMENTS}/delete`,
+
+	ORDERS = "/orders",
+	CREATE_ORDER = `${ORDERS}/create`,
+	GET_USER_ORDERS = `${ORDERS}/all`,
+
+	PROMO_CODES = "/promo-codes",
+	USE_PROMO_CODE = `${PROMO_CODES}/use`
+}
+
+export enum EnumStaticRoute {
+	STATIC = "/static",
+
+	ASSETS = "/assets",
+	CATEGORY_ASSETS = `${ASSETS}/categories`,
+	PRODUCT_ASSETS = `${ASSETS}/products`,
+
+	AVATARS = "/avatars",
+	DEFAULT_AVATAR = `${AVATARS}/default.webp`,
+	UPLOADS_AVATARS = `${AVATARS}/uploads`,
+
+	FRAMES = "/frames",
+	ANIMATED_FRAMES = `${FRAMES}/animated`
 }

@@ -1,23 +1,23 @@
 .logout-btn-dmt {
-	@apply tw-text-red-600 tw-font-medium tw-flex tw-gap-1 tw-items-center tw-transition-transform tw-p-1;
+	@apply -mt-2 flex items-center gap-1 font-medium text-red-600 transition-transform;
 }
 
 .logout-btn-dmc {
-	@apply tw-mx-2;
+	@apply mx-2;
 }
 
 .logout-btn-dmi {
-	@apply tw-justify-between tw-cursor-default;
+	@apply cursor-default justify-between;
 
 	> p {
-		@apply tw-cursor-pointer tw-transition-colors hover:tw-text-muted;
+		@apply cursor-pointer transition-colors hover:text-muted;
 	}
 
 	> svg {
-		@apply tw-cursor-pointer;
+		@apply cursor-pointer;
 	}
 
 	> div {
-		@apply tw-bg-secondary tw-text-secondary-foreground tw-text-xs tw-absolute -tw-right-40 tw-max-w-44 tw-p-1 tw-rounded-sm tw-opacity-0 tw-transition-opacity tw-pointer-events-none;
+		@apply pointer-events-none absolute -right-40 max-w-44 rounded-sm bg-secondary p-1 text-xs text-secondary-foreground opacity-0 transition-opacity;
 	}
 }

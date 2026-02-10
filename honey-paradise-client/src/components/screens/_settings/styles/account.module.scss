@@ -1,60 +1,60 @@
 .email-wrapper {
-	@apply tw-relative tw-w-full tw-bg-primary tw-rounded-lg tw-p-3 tw-mb-5;
+	@apply relative mb-5 w-full rounded-lg bg-primary p-3;
 
 	> form {
-		@apply tw-flex tw-flex-col tw-px-1 tw-mt-2 tw-mb-4;
+		@apply mb-4 mt-2 flex flex-col px-1;
 
 		> div:nth-of-type(1) {
-			@apply tw-flex tw-items-center tw-justify-between;
+			@apply flex items-center justify-between;
 
 			> div {
-				@apply tw-inline-flex tw-items-center tw-gap-3;
+				@apply inline-flex items-center gap-3;
 
 				> h4 {
-					@apply tw-font-medium;
+					@apply font-medium;
 				}
 
 				> div {
-					@apply tw-w-28 tw-h-6 tw-rounded-full;
+					@apply h-6 w-28 rounded-full;
 				}
 
 				> span {
-					@apply tw-ring-1 tw-ring-inset tw-rounded-full tw-px-1.5 tw-py-0.5 tw-text-sm;
+					@apply rounded-full px-1.5 py-0.5 text-sm ring-1 ring-inset;
 
 					&[data-verified="true"] {
-						@apply tw-ring-green-700 tw-bg-green-400 tw-text-green-950;
+						@apply bg-green-400 text-green-950 ring-green-700;
 					}
 
 					&[data-verified="false"] {
-						@apply tw-ring-red-800 tw-bg-red-400 tw-text-red-950;
+						@apply bg-red-400 text-red-950 ring-red-800;
 					}
 				}
 			}
 
 			> button {
 				&:hover > svg {
-					@apply tw-rotate-180 tw-text-muted;
+					@apply rotate-180 text-muted;
 				}
 
 				> svg {
-					@apply tw-transition-all;
+					@apply transition-all;
 				}
 			}
 		}
 
 		> div:nth-of-type(3) {
 			> div:first-of-type {
-				@apply tw-absolute tw-left-0;
+				@apply absolute left-0;
 			}
 
 			> div:last-of-type {
-				@apply tw-flex tw-items-center tw-justify-between tw-mt-4;
+				@apply mt-4 flex items-center justify-between;
 
 				> button {
-					@apply tw-py-1.5 tw-px-2;
+					@apply px-2 py-1.5;
 
 					&:last-of-type {
-						@apply tw-border tw-border-muted;
+						@apply border border-muted;
 					}
 				}
 			}
@@ -63,66 +63,66 @@
 }
 
 .security-wrapper {
-	@apply tw-relative tw-flex tw-flex-col tw-w-full tw-bg-primary tw-rounded-lg tw-px-4 tw-pt-5 tw-pb-3 tw-mb-5;
+	@apply relative mb-5 flex w-full flex-col rounded-lg bg-primary px-4 pb-3 pt-5;
 
 	> h4 {
-		@apply tw-font-medium tw-mb-2;
+		@apply mb-2 font-medium;
 	}
 
 	> div:nth-of-type(2n) {
-		@apply tw-my-4;
+		@apply my-4;
 	}
 
 	> div:nth-of-type(2n - 1) {
-		@apply tw-grid tw-items-center tw-gap-4 tw-px-2 tw-py-1;
+		@apply grid items-center gap-4 px-2 py-1;
 		grid-template-columns: auto 1fr min-content;
 
 		> div {
 			&:first-of-type {
-				@apply tw-flex tw-items-center tw-justify-center tw-bg-secondary tw-p-2 tw-rounded-full;
+				@apply flex items-center justify-center rounded-full bg-secondary p-2;
 			}
 
 			> p:first-of-type {
-				@apply tw-font-medium;
+				@apply font-medium;
 			}
 
 			> p:last-of-type {
-				@apply tw-text-muted tw-text-sm tw-ml-0.5;
+				@apply ml-0.5 text-sm text-muted;
 			}
 		}
 
 		> :last-child {
-			@apply tw-justify-self-end;
+			@apply justify-self-end;
 		}
 	}
 }
 
 .actions-wrapper {
-	@apply tw-w-full tw-rounded-lg tw-px-4 tw-py-3 tw-mb-5 tw-border-2 tw-border-red-500;
+	@apply mb-5 w-full rounded-lg border-2 border-red-500 px-4 py-3;
 
 	> h4 {
-		@apply tw-font-medium tw-mb-1;
+		@apply mb-1 font-medium;
 	}
 
 	> div:nth-of-type(2n) {
-		@apply tw-bg-red-500 tw-h-[2px] tw-my-4 !important;
+		@apply my-4 h-[2px] bg-red-500 !important;
 	}
 
 	> div:nth-of-type(2n - 1) {
-		@apply tw-flex tw-items-center tw-justify-between tw-px-1;
+		@apply flex items-center justify-between px-1;
 
 		> div {
 			> p:first-of-type {
-				@apply tw-font-medium;
+				@apply font-medium;
 			}
 
 			> p:last-of-type {
-				@apply tw-text-muted tw-text-sm;
+				@apply text-sm text-muted;
 			}
 		}
 
 		> button {
-			@apply tw-px-2 tw-py-1.5;
+			@apply px-2 py-1.5;
 		}
 	}
 }

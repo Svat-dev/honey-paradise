@@ -1,7 +1,37 @@
 {
 	"global": {
 		"logo": "Honey Paradise",
-		"home": { "title": "Home", "description": "The main page of the online store {title}" },
+		"home": {
+			"title": "Home",
+			"description": "The main page of the online store {title}",
+			"content": {
+				"products": {
+					"comments": "{count, plural, =0 {No commentaries} =1 {One commentary} other {# commentaries}}",
+					"addToCart": "Add to cart",
+					"labels": {
+						"addToCart": "Add product to cart",
+						"like": "{isLiked, select, true {Delete from liked} false {To liked products} other {}}"
+					},
+					"toasters": {
+						"success": "Product has successfully added to the cart!",
+						"error": {
+							"addToCart": "Error when adding product to the cart. {e}",
+							"like": "Error when adding product to the favorites list. {e}"
+						}
+					}
+				}
+			}
+		},
+		"catalog": {
+			"title": "{params, select, false {Catalog} true {Category catalog} other {Results to \"{params}\"}}",
+			"description": "{params, select, false {Catalog of products} true {Catalog by product's category} other {Results to searching \"{params}\"}} in the online store {title}",
+			"content": {}
+		},
+		"product": {
+			"title": "Product {name}",
+			"description": "Product {name} in the online store {title}",
+			"content": {}
+		},
 		"notFound": {
 			"title": "Page not found",
 			"content": {
@@ -181,8 +211,14 @@
 					"error": "You may be a robot! Go through reCAPTCHA again",
 					"socialAuth": "Sign in using social networks"
 				},
+				"alert": {
+					"title": "Waiting for a response from the server",
+					"description": "We have sent a confirmation message in Telegram. Please check it and confirm the sign in.",
+					"cancelBtn": "Cancel sign in"
+				},
 				"toasters": {
 					"success": "You have successfully signed in to your account!",
+					"checkTg": "Check Telegram and confirm sign in",
 					"error": "Error when logging in to account!\n{e}",
 					"2fa": "You will now be redirected to the account sign in confirmation page"
 				},
@@ -444,6 +480,22 @@
 						"title": "Profile Picture",
 						"updateBtn": "Update image",
 						"uploadRules": "Supported formats: JPG, JPEG, PNG, WEBP or GIF. Max. size: {file_size} MB.",
+						"frame": {
+							"title": "Changing the avatar frame",
+							"description": "Change the avatar frame to whatever you want",
+							"preview": "Preview",
+							"static": "Static frames",
+							"animated": "Animated frames",
+							"actions": {
+								"btn": "Change the avatar frame",
+								"saveBtn": "Save"
+							},
+							"labels": {
+								"static": "Static {i}",
+								"animated": "Animated {i}",
+								"nothing": "Empty"
+							}
+						},
 						"toasters": {
 							"update": {
 								"success": "You have successfully updated the profile picture",
@@ -452,7 +504,8 @@
 							"delete": {
 								"success": "You have successfully deleted the profile picture",
 								"error": "Error when deleting the image:\n{e}"
-							}
+							},
+							"frame": "Avatar frame was saved"
 						}
 					},
 					"personal-info": {
@@ -495,6 +548,12 @@
 							"light": "Light",
 							"dark": "Dark"
 						},
+						"currency": {
+							"title": "Basic account currency",
+							"ruble": "₽ Ruble",
+							"dollar": "$ USA Dollar",
+							"euro": "€ Euro"
+						},
 						"submitBtn": "Save changes",
 						"toasters": {
 							"success": "You have successfully updated the design settings",
@@ -502,13 +561,35 @@
 						}
 					},
 					"telegram-linking": {
-						"title": "Привязка Телеграм-аккаунта",
-						"description": "Привяжите свой телеграм-аккаунт, чтобы получать уведомления о безопасности и специальных акциях"
+						"title": "Telegram profile",
+						"description": "Link your telegram account to receive notifications about security and special promotions",
+						"status": "Connected status: <text>{sts, select, true {Connected} false {Not connected} other {}}</text>",
+						"tgId": "Your telegram ID: <text>{id}</text>",
+						"tgUse": "Your telegram username: <link>@{username}</link>",
+						"actions": {
+							"connect": "Connect telegram",
+							"disconnect": "Disconnect telegram",
+							"telegramBot": "Telegram bot"
+						},
+						"labels": {
+							"connectBtn": "Connect telegram account",
+							"disconnectBtn": "Disconnect telegram account"
+						}
 					},
 					"modals": {
 						"avatarDelete": {
 							"heading": "Removing an avatar",
 							"description": "Are you sure you want to delete your avatar? Once deleted, it cannot be restored. Default avatar will be set instead deleted avatar"
+						},
+						"telegramConnect": {
+							"heading": "Confirmation of binding",
+							"description": "To apply, you need to click on the button below, it will redirect you to our telegram bot.\nPlease be aware that the link is active for 30 minutes only!",
+							"submitBtn": "Continue in Telegram",
+							"cancelBtn": "Cancel"
+						},
+						"telegramDisconnect": {
+							"heading": "Are you sure you want to unlink telegram",
+							"description": "You definitely want to unlink the telegram account from your account, you will lose the opportunity to receive notifications in our bot"
 						}
 					},
 					"labels": {
@@ -522,6 +603,10 @@
 						"theme": {
 							"choose": "Select a theme",
 							"clear": "Delete the base theme"
+						},
+						"currency": {
+							"choose": "Select a currency",
+							"clear": "Delete the base currency"
 						}
 					}
 				},
@@ -555,6 +640,10 @@
 								"title": "Use full account logout",
 								"description": "By fully logging out of your account, you clear the cache and delete all cookies-files related to the design of the site."
 							},
+							"tg2fa": {
+								"title": "Use authorization via Telegram",
+								"description": "Enable sign in via telegram to increase the security of your account (you need to connect a Telegram bot, two-factor authentication and enable notifications in Telegram)"
+							},
 							"changePasswordModal": {
 								"title": "Password change",
 								"description": "Change your password to whatever you want, if you have two-factor auth enabled, you will need to sign in to your account again after the change",
@@ -581,13 +670,30 @@
 								"title": "Deleting an account",
 								"description": "Deleting an account will lead to its complete destruction without the possibility of refund",
 								"btn": "Delete account"
+							},
+							"saveFile": {
+								"title": "Save settings to a file",
+								"description": "Download the settings file in the format .json or .yml. You can share this file with your friends",
+								"opts": {
+									"json": "Json format (.json)",
+									"yaml": "Yaml format (.yml)"
+								},
+								"btn": "Save settings to a file"
+							},
+							"uploadFile": {
+								"title": "Use settings from file",
+								"description": "Upload file with settings in the format .json or .yml to use these settings",
+								"btn": "Upload settings file"
 							}
 						},
 						"labels": {
 							"resetFieldBtn": "Reset input field",
 							"confirmEmailBtn": "Save an email",
 							"changeEmailBtn": "Save email changes",
-							"changePasswordBtn": "Change password"
+							"changePasswordBtn": "Change password",
+							"saveFileBtn": "Select an extension to load",
+							"saveFileYaml": "Download in Json format",
+							"saveFileJson": "Download in Yaml format"
 						},
 						"toasters": {
 							"email": { "success": "You have successfully changed your email address" },
@@ -689,6 +795,94 @@
 				"title": "Linked Accounts",
 				"description": "Linked accounts that you can use to sign in are displayed here"
 			}
+		},
+		"transactions": {
+			"title": "Transactions",
+			"description": "User's transactions in the online store {title}",
+			"content": {
+				"title": "My transactions"
+			}
+		},
+		"orders": {
+			"title": "Orders",
+			"description": "User's orders in the online store {title}",
+			"content": {
+				"title": "My orders"
+			}
+		},
+		"cart": {
+			"title": "Shopping cart",
+			"description": "User's shopping cart in the online store {title}",
+			"content": {
+				"title": "My shopping cart",
+				"description": "All products that you added to the cart are stored here",
+				"counter": {
+					"+": "Add 1",
+					"-": "Remove 1"
+				},
+				"footer": {
+					"title": "Order details",
+					"amount": "<title>Total:</title> <txt1>{isLoading, select, true {<loader1></loader1>} other {{length}}} {length, plural, =1 {product} other {products}}</txt1> <txt2>by price:</txt2> <txt3>{isLoading, select, true {<loader2></loader2>} other {{total}}}</txt3>",
+					"discount": "<title>Total discount:</title> <txt></txt>",
+					"promo": {
+						"label": "Enter the promo code:",
+						"placeholder": "Promo code"
+					},
+					"print": {
+						"opt1": "Print",
+						"opt2": "Save to .pdf",
+						"labels": {
+							"opt1": "Print without saving",
+							"opt2": "Save file as .pdf"
+						}
+					},
+					"saveAsTable": "Download the table"
+				},
+				"empty": {
+					"title": "Your shopping cart is empty yet",
+					"text": "Select something in the catalog or search in the search. <br></br> You can also add items from favorites to the cart",
+					"toCatalog": "Go to catalog",
+					"toFavorites": "View favorites"
+				},
+				"actions": {
+					"deleteAll": "Delete all",
+					"delete": "Delete",
+					"usePromo": "Apply",
+					"confirmOrder": "Place an order"
+				},
+				"labels": {
+					"deleteAll": "Delete all products",
+					"delete": "Delete the product",
+					"usePromo": "Apply promo code",
+					"refresh": "Refresh the cart"
+				}
+			}
+		},
+		"favorites": {
+			"title": "Favorite products",
+			"description": "User's favorite products in the online store {title}",
+			"content": {
+				"title": "Favorite products",
+				"description": "Products that you liked are stored here",
+				"amount": "<txt1>{isLoading, select, true {<loader1></loader1>} other {{length}}} {length, plural, =1 {product} other {products}}</txt1> <space></space> <txt2>in the amount of:</txt2> <space></space> <txt3>{isLoading, select, true {<loader2></loader2>} other {{total}}}</txt3>",
+				"empty": {
+					"p1": "You don't have any favorites yet",
+					"p2": "Select something in the catalog or search for it",
+					"toCatalog": "To catalog",
+					"toHome": "Home page"
+				},
+				"actions": {
+					"allToCart": "Add all to cart",
+					"clear": "Clear cart"
+				},
+				"labels": {
+					"addToCart": "Add to cart",
+					"delete": "Remove from favorites",
+					"clear": "Delete all products",
+					"toCatalog": "Go to the catalog",
+					"toHome": "Go to the home page"
+				}
+			}
 		}
 	},
 	"layout": {
@@ -720,9 +914,8 @@
 				"signUp": "Sign up"
 			},
 			"labels": {
-				"search": "Search",
-				"close": "Close",
-				"found": "Find",
+				"searchBtn": "{isOpen, select, true {Search} false {Close} other {}}",
+				"findBtn": "Find in catalog",
 				"menu": "Menu",
 				"clear": "Clear",
 				"watchCart": "View the cart",
@@ -793,9 +986,11 @@
 		"account-sidebar": {
 			"links": {
 				"settings": "Settings",
-				"notifications": "Notifications",
-				"cart": "My cart",
 				"connections": "Linked accounts",
+				"notifications": "My notifications",
+				"transactions": "My payments",
+				"deferred": "Favorite products",
+				"cart": "My cart",
 				"orders": "My orders"
 			}
 		},
@@ -829,6 +1024,10 @@
 				"check": "View"
 			},
 			"sessionDeleted": "Someone just kicked you out of your account. Sign in again"
+		},
+		"auth": {
+			"reqAccepted": "The entry has been approved.\nYou will now be redirected",
+			"error": "Server response could not be processed"
 		}
 	},
 	"shared": {
@@ -836,7 +1035,8 @@
 			"notSpecified": {
 				"gender": "Not specified",
 				"language": "Not specified. Current - {current}",
-				"theme": "Not specified. Current - {current}"
+				"theme": "Not specified. Current - {current}",
+				"currency": "Not specified. Default - Dollar USA"
 			},
 			"methods": {
 				"google": "Google",
@@ -861,18 +1061,10 @@
 		"time": {
 			"now": "just now",
 			"week": "more than {weeks, plural, =1 {# week} other {# weeks}} ago",
-			"minute": {
-				"default": "{minutes, plural, =1 {minute} other {# minutes}} ago"
-			},
-			"hour": {
-				"default": "{hours, plural, =1 {hour} other {# hours}} ago"
-			},
-			"day": {
-				"default": "{days, plural, =1 {day} other {# days}} ago"
-			},
-			"month": {
-				"default": "{months, plural, =1 {month} other {# months}} ago"
-			},
+			"minute": "{minutes, plural, =1 {minute} other {# minutes}} ago",
+			"hour": "{hours, plural, =1 {hour} other {# hours}} ago",
+			"day": "{days, plural, =1 {day} other {# days}} ago",
+			"month": "{months, plural, =1 {month} other {# months}} ago",
 			"yesterday": {
 				"midnight": "yesterday at midnight",
 				"midday": "yesterday at noon",

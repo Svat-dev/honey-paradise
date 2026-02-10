@@ -1,16 +1,16 @@
-import type { Dispatch, SetStateAction } from "react";
+import type { RefetchOptions } from "@tanstack/react-query"
+import type { Dispatch, SetStateAction } from "react"
 
-import type { RefetchOptions } from "@tanstack/react-query";
+export type Nullable<T> = { [P in keyof T]: T[P] | null }
+export type ReactStateHook<T> = Dispatch<SetStateAction<T>>
 
-export type ReactStateHook<T> = Dispatch<SetStateAction<T>>;
-
-export type TRefetchFunction = (opts?: RefetchOptions) => void;
+export type TRefetchFunction = (opts?: RefetchOptions) => void
 
 export interface ICNProps {
-	className?: string;
+	className?: string
 }
 
-export type TThemes = "light" | "dark";
+export type TThemes = "light" | "dark"
 
-export type TSearchParams = Record<string, string | string[] | undefined>;
-export type TParams = { slug: string };
+export type TSearchParams = Record<string, string | string[] | undefined>
+export type TParams = { slug: string }

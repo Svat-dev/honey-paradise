@@ -4,11 +4,15 @@ export const VALUES = {
 	MAX_ID_LENGTH: 20,
 	MIN_ID_LENGTH: 3,
 	MIN_PHONE_LENGTH: 18,
-} as const;
+	MAX_SEARCH_LENGTH: 255,
+	MAX_REVIEW_LENGTH: 500,
+	MAX_COMMENT_LENGTH: 200,
+	MAX_PROMO_CODE_LENGTH: 30
+} as const
 
 export const errorCauses = {
 	ACCOUNT_NOT_VERIFIED: "account_not_verified",
-	VERIFICATION_TOKEN_EXPIRED: "has_expired",
-} as const;
+	VERIFICATION_TOKEN_EXPIRED: "has_expired"
+} as const
 
-export const PHONE_MASK_PATTERN = "+{7} (000) 000-00-00" as const;
+export const PHONE_MASK_PATTERN = "+{7} (000) 000-00-00" as const

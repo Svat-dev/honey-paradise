@@ -1,2 +1,2 @@
-export * from "./useGetAllS";
-export * from "./useRemoveProviderS";
+export * from "./useGetAllS"
+export * from "./useRemoveProviderS"

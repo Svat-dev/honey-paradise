@@ -1,20 +1,22 @@
-import { Title } from "@/components/ui/common";
-import type { TSearchParams } from "@/shared/types";
-import { getTranslations } from "next-intl/server";
-import type { FC } from "react";
-import { SettingsContent } from "./components/SettingsContent";
-import styles from "./styles/settings.module.scss";
+import { getTranslations } from "next-intl/server"
+import type { FC } from "react"
+
+import { Title } from "@/components/ui/common"
+import type { TSearchParams } from "@/shared/types"
+
+import { SettingsContent } from "./components/SettingsContent"
+import styles from "./styles/settings.module.scss"
 
 interface IProps {
-	searchParams: TSearchParams;
+	searchParams: TSearchParams
 }
 
 const Settings: FC<IProps> = async ({ searchParams }) => {
-	const t = await getTranslations("global.settings.content");
+	const t = await getTranslations("global.settings.content")
 
 	return (
 		<article className={styles["content-wrapper"]}>
-			<Title size="lg" className="tw-font-bold">
+			<Title size="lg" className="font-bold">
 				{t("title")}
 			</Title>
 
@@ -22,7 +24,7 @@ const Settings: FC<IProps> = async ({ searchParams }) => {
 
 			<SettingsContent activeTabServer={searchParams.active_tab} />
 		</article>
-	);
-};
+	)
+}
 
-export { Settings };
+export { Settings }

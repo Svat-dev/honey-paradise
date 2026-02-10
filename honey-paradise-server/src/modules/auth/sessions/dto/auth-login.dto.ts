@@ -1,15 +1,26 @@
-import { IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
-
-import { VALUES } from "src/shared/lib/common/constants";
+import { ApiProperty } from "@nestjs/swagger"
+import { IsNotEmpty, IsString, Length } from "class-validator"
+import { VALUES } from "src/shared/lib/common/constants"
 
 export class AuthLoginDto {
+	@ApiProperty({
+		type: "string",
+		description: "Email address or username",
+		example: "john@example.com || john_doe52"
+	})
 	@IsString({ message: "" })
 	@IsNotEmpty()
-	id: string;
+	id: string
 
+	@ApiProperty({
+		type: "string",
+		description: "",
+		example: "strong&password1234"
+	})
 	@IsString({ message: "" })
 	@IsNotEmpty({ message: "" })
-	@MinLength(VALUES.MIN_PASSWORD_LENGTH, { message: "" })
-	@MaxLength(VALUES.MAX_PASSWORD_LENGTH, { message: "" })
-	password: string;
+	@Length(VALUES.MIN_PASSWORD_LENGTH, VALUES.MAX_PASSWORD_LENGTH, {
+		message: ""
+	})
+	password: string
 }

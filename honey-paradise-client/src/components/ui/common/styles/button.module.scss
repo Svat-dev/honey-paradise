@@ -1,71 +1,71 @@
 .button-ui {
-	@apply tw-relative tw-inline-flex tw-items-center tw-justify-center tw-whitespace-nowrap tw-rounded-md tw-text-sm tw-font-medium tw-transition-all tw-will-change-auto;
+	@apply relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all will-change-auto;
 
 	&:disabled {
-		@apply tw-cursor-not-allowed tw-opacity-50;
+		@apply cursor-not-allowed opacity-50;
 	}
 
 	&[data-loading="true"] {
-		@apply tw-cursor-wait;
+		@apply cursor-wait;
 	}
 
 	& svg {
-		@apply tw-pointer-events-none tw-select-none;
+		@apply pointer-events-none select-none;
 	}
 }
 
 .button-ui-default {
-	@apply tw-bg-primary tw-text-primary-foreground tw-shadow;
+	@apply bg-primary text-primary-foreground shadow;
 
 	&:hover {
-		@apply tw-bg-primary/90;
+		@apply bg-primary/90;
 	}
 }
 
 .button-ui-outline {
-	@apply tw-border tw-border-black tw-text-black tw-py-1.5 tw-px-2 tw-gap-1;
+	@apply gap-1 border border-black px-2 py-1.5 text-black;
 
 	&:hover {
-		@apply tw-bg-secondary/40;
+		@apply bg-secondary/40;
 	}
 }
 
 .button-ui-secondary {
-	@apply tw-bg-secondary tw-text-secondary-foreground tw-shadow-sm;
+	@apply bg-secondary text-secondary-foreground shadow-sm;
 
 	&:hover {
-		@apply tw-bg-secondary/80;
+		@apply bg-secondary/80;
 	}
 }
 
 .button-ui-ghost {
-	@apply hover:tw-bg-accent hover:tw-text-accent-foreground;
+	@apply hover:bg-accent hover:text-accent-foreground;
 }
 
 .button-ui-link {
-	@apply tw-text-black tw-underline-offset-4;
+	@apply text-black underline-offset-4;
 
 	&:hover {
-		@apply tw-underline;
+		@apply underline;
 	}
 }
 
 .button-ui-loader {
-	@apply tw-w-5 tw-h-5 tw-animate-spin;
+	@apply h-5 w-5 animate-spin;
 }
 
 .button-ui-destructive {
-	@apply tw-bg-red-600 tw-text-white;
+	@apply bg-red-600 text-white;
 
 	&:hover {
-		@apply tw-bg-red-500;
+		@apply bg-red-500;
 	}
 }
 
 .button-ui-destructive-outline {
-	@apply tw-bg-transparent tw-border tw-border-red-600;
+	@apply border border-red-600 bg-transparent;
 
 	&:hover {
-		@apply tw-bg-secondary/40;
+		@apply bg-secondary/40;
 	}
 }

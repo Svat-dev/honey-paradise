@@ -1,21 +1,24 @@
-import { Index } from "@/components/screens/_index/Index";
-import { getMetadata } from "@utils/base";
-import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getMetadata } from "@utils/base"
+import type { Metadata, NextPage } from "next"
+import { getTranslations } from "next-intl/server"
+
+import { Index } from "@/components/screens/_index/Index"
 
 interface IProps {}
 
 export async function generateMetadata({}: IProps): Promise<Metadata> {
-	const t = await getTranslations("global.home");
+	const t = await getTranslations("global")
 
 	return {
 		...(await getMetadata({
-			title: t("title"),
-			description: t("description", { title: t("title") }),
-		})),
-	};
+			title: t("home.title"),
+			description: t("home.description", { title: t("logo") })
+		}))
+	}
 }
 
-export default async function IndexPage({}: IProps) {
-	return <Index />;
+const IndexPage: NextPage<IProps> = props => {
+	return <Index />
 }
+
+export default IndexPage

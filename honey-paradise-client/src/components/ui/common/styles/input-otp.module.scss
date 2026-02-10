@@ -1,43 +1,43 @@
 .input-otp-ui {
-	@apply tw-relative;
+	@apply relative;
 
 	&:disabled {
-		@apply tw-cursor-not-allowed;
+		@apply cursor-not-allowed;
 	}
 }
 
 .input-otp-ui-container {
-	@apply tw-flex tw-items-center tw-gap-2;
+	@apply flex items-center gap-2;
 
 	&:has(:disabled) {
-		@apply tw-opacity-50;
+		@apply opacity-50;
 	}
 }
 
 .input-otp-group-ui {
-	@apply tw-flex tw-items-center;
+	@apply flex items-center;
 }
 
 .input-otp-slot-ui {
-	@apply tw-relative tw-bg-secondary tw-flex tw-h-9 tw-w-9 tw-items-center tw-justify-center tw-border-y tw-border-r tw-border-muted tw-text-sm tw-shadow-sm tw-transition-all;
+	@apply relative flex h-9 w-9 items-center justify-center border-y border-r border-muted bg-secondary text-sm shadow-sm transition-all;
 
 	&:first-child {
-		@apply tw-rounded-l-md tw-border-l;
+		@apply rounded-l-md border-l;
 	}
 
 	&:last-child {
-		@apply tw-rounded-r-md;
+		@apply rounded-r-md;
 	}
 }
 
 .input-otp-slot-ui-active {
-	@apply tw-z-10 tw-ring-1 tw-ring-muted-darker;
+	@apply z-10 ring-1 ring-muted-darker;
 }
 
 .input-otp-slot-caret-ui {
-	@apply tw-h-5 tw-w-px tw-bg-muted tw-animate-caret-blink;
+	@apply h-5 w-px animate-caret-blink bg-muted;
 }
 
 .input-otp-slot-caret-container-ui {
-	@apply tw-pointer-events-none tw-absolute tw-inset-0 tw-flex tw-items-center tw-justify-center;
+	@apply pointer-events-none absolute inset-0 flex items-center justify-center;
 }

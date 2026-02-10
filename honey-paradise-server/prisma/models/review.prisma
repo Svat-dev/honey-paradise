@@ -1,0 +1,44 @@
+model Review {
+  id String @id @default(uuid()) @db.Uuid
+
+  text String
+
+  likes      String[] @default([])
+  likesCount Int      @default(0) @map("likes_count")
+  dislikes   String[] @default([])
+
+  rating Json @default("{\"common\": 0, \"taste\": 0, \"aroma\": 0, \"packaging\": 0}")
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String  @map("product_id") @db.Uuid
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @map("user_id") @db.Uuid
+
+  commentaries Commentary[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([productId, userId])
+  @@map("reviews")
+}
+
+model Commentary {
+  id String @id @default(uuid()) @db.Uuid
+
+  text String
+
+  review   Review @relation(fields: [reviewId], references: [id])
+  reviewId String @map("review_id") @db.Uuid
+
+  replyToId String? @map("reply_to_id")
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @map("user_id") @db.Uuid
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("commentaries")
+}

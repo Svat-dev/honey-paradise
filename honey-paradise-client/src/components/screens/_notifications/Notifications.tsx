@@ -1,21 +1,23 @@
-import { Title } from "@/components/ui/common";
-import { getTranslations } from "next-intl/server";
-import { NotificationsContent } from "./components/NotificationsContent";
+import { getTranslations } from "next-intl/server"
+
+import { Title } from "@/components/ui/common"
+
+import { NotificationsContent } from "./components/NotificationsContent"
 
 const Notifications = async () => {
-	const t = await getTranslations("global.notifications.content");
+	const t = await getTranslations("global.notifications.content")
 
 	return (
-		<article className="tw-relative tw-w-full tw-my-6 tw-mx-10">
-			<Title size="lg" className="tw-font-bold">
+		<article className="relative mx-10 my-6 w-full">
+			<Title size="lg" className="font-bold">
 				{t("title")}
 			</Title>
 
-			<p className="tw-ml-1 tw-mb-4 tw-text-muted">{t("description")}</p>
+			<p className="mb-4 ml-1 text-muted">{t("description")}</p>
 
 			<NotificationsContent />
 		</article>
-	);
-};
+	)
+}
 
-export { Notifications };
+export { Notifications }

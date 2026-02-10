@@ -1,15 +1,15 @@
-import type { EnumGenders } from "@/shared/types/models";
+import type { GetMeResponseGender } from "@/shared/types/server"
 
 export interface IIsActive {
-	main: boolean;
-	optional: boolean;
+	main: boolean
+	optional: boolean
 }
 
 export interface IGenderRadioGroupData {
-	id: string;
-	value: EnumGenders;
-	label: string;
+	id: string
+	value: GetMeResponseGender
+	label: string
 }
 
-export type TCurrentPart = "main" | "optional";
-export type TDataStatus = "good" | "error" | "default";
+export type TCurrentPart = "main" | "optional"
+export type TDataStatus = "good" | "error" | "default"

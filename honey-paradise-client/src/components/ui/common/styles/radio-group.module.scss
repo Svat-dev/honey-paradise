@@ -1,23 +1,23 @@
 .radio-group-ui {
-	@apply tw-grid tw-gap-2;
+	@apply grid gap-2;
 }
 
 .radio-group-item-ui {
-	@apply tw-relative tw-aspect-square tw-h-4 tw-w-4 tw-rounded-full tw-border tw-border-black tw-bg-secondary tw-shadow;
+	@apply relative aspect-square h-4 w-4 rounded-full border border-black bg-secondary shadow;
 
 	&:focus {
-		@apply tw-outline-none;
+		@apply outline-none;
 	}
 
 	&:disabled {
-		@apply tw-cursor-not-allowed tw-opacity-50;
+		@apply cursor-not-allowed opacity-50;
 	}
 }
 
 .radio-group-item-indicator-ui {
-	@apply tw-absolute tw-top-1/2 tw-left-1/2 -tw-translate-y-1/2 -tw-translate-x-1/2 tw-opacity-0 tw-animate-show-effect tw-duration-200;
+	@apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-show-effect opacity-0 duration-200;
 
 	> svg {
-		@apply tw-h-3 tw-w-3 tw-fill-black;
+		@apply h-3 w-3 fill-black;
 	}
 }

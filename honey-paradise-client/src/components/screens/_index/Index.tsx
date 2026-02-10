@@ -1,5 +1,14 @@
-const Index = () => {
-	return <>Index Page</>;
-};
+import { PopularSection } from "./components/popular/PopularSection"
+import { RecentSection } from "./components/recent/RecentSection"
 
-export { Index };
+const Index = () => {
+	return (
+		<div>
+			<PopularSection />
+
+			<RecentSection />
+		</div>
+	)
+}
+
+export { Index }

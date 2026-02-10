@@ -16,7 +16,7 @@ model Notification {
 }
 
 model NotificationSettings {
-  id Int @id @default(autoincrement())
+  id String @id @default(nanoid())
 
   enabled   Boolean? @default(true)
   withSound Boolean? @default(false) @map("with_sound")

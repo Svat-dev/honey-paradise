@@ -1,57 +1,58 @@
-import { type ChangeEvent, useRef } from "react";
+import type { AxiosError } from "axios"
+import { useTranslations } from "next-intl"
+import { type ChangeEvent, useRef } from "react"
+import { toast } from "react-hot-toast"
 
-import { errorCatch } from "@/api/api-helper";
-import { useUpdateAvatarS } from "@/services/hooks/profile";
-import type { AxiosError } from "axios";
-import { useTranslations } from "next-intl";
-import { toast } from "react-hot-toast";
+import { errorCatch } from "@/api/api-helper"
+import { useUpdateAvatarS } from "@/services/hooks/profile"
 
 export const useAvatar = () => {
-	const t = useTranslations("global.settings.content.profile");
+	const t = useTranslations("global.settings.content.profile")
 
-	const inputRef = useRef<HTMLInputElement>(null);
+	const inputRef = useRef<HTMLInputElement>(null)
 
-	const { isAvatarUpdating, updateAvatarAsync, removeAvatarAsync } = useUpdateAvatarS();
+	const { isAvatarUpdating, updateAvatarAsync, removeAvatarAsync } =
+		useUpdateAvatarS()
 
 	const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files?.[0];
+		const file = e.target.files?.[0]
 
-		if (!file) return false;
+		if (!file) return false
 
 		try {
-			const formData = new FormData();
-			formData.append("avatar", file);
+			const formData = new FormData()
+			formData.append("avatar", file)
 
-			await updateAvatarAsync(formData);
+			await updateAvatarAsync(formData)
 
-			toast.success(t("avatar.toasters.update.success"));
+			toast.success(t("avatar.toasters.update.success"))
 		} catch (err) {
-			const { errMsg } = errorCatch(err as AxiosError);
-			const msg = t("avatar.toasters.update.error", { e: errMsg });
-			toast.error(msg);
+			const { errMsg } = errorCatch(err as AxiosError)
+			const msg = t("avatar.toasters.update.error", { e: errMsg })
+			toast.error(msg)
 		}
-	};
+	}
 
-	const handleUpdate = () => inputRef.current?.click();
+	const handleUpdate = () => inputRef.current?.click()
 
 	const handleOnDelete = async () => {
 		try {
-			await removeAvatarAsync();
+			await removeAvatarAsync()
 
-			toast.success(t("avatar.toasters.delete.success"));
+			toast.success(t("avatar.toasters.delete.success"))
 		} catch (err) {
-			const { errMsg } = errorCatch(err as AxiosError);
-			const msg = t("avatar.toasters.delete.error", { e: errMsg });
-			toast.error(msg);
+			const { errMsg } = errorCatch(err as AxiosError)
+			const msg = t("avatar.toasters.delete.error", { e: errMsg })
+			toast.error(msg)
 		}
-	};
+	}
 
 	const isCanDelete = (avatarPath: string | undefined): boolean => {
-		if (!avatarPath) return false;
-		if (avatarPath.includes("/default.webp")) return false;
+		if (!avatarPath) return false
+		if (avatarPath.includes("/default.webp")) return false
 
-		return true;
-	};
+		return true
+	}
 
 	return {
 		isAvatarUpdating,
@@ -60,6 +61,6 @@ export const useAvatar = () => {
 		handleOnDelete,
 		inputRef,
 		isCanDelete,
-		t,
-	};
-};
+		t
+	}
+}

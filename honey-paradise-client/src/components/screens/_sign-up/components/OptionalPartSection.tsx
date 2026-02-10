@@ -1,22 +1,22 @@
-import type { FC, PropsWithChildren } from "react";
+import { cn } from "@utils/base"
+import type { FC, PropsWithChildren } from "react"
 
-import { Title } from "@/components/ui/common";
-import { cn } from "@utils/base";
+import { Title } from "@/components/ui/common"
 
 interface IProps extends PropsWithChildren {
-	title: string;
-	className?: string;
+	title: string
+	className?: string
 }
 
 const OptionalPartSection: FC<IProps> = ({ className, title, children }) => {
 	return (
-		<div className={cn("tw-mb-5 tw-px-6", className)}>
-			<Title size="md" className="tw-text-[20px]">
+		<div className={cn("mb-5 px-6", className)}>
+			<Title size="md" className="text-[20px]">
 				{title}
 			</Title>
 			{children}
 		</div>
-	);
-};
+	)
+}
 
-export { OptionalPartSection };
+export { OptionalPartSection }

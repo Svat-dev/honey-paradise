@@ -1,0 +1,17 @@
+import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
+import type {
+	ArgumentMetadata,
+	PipeTransform
+} from "@nestjs/common/interfaces/features/pipe-transform.interface"
+
+export class TranslateModelPipe implements PipeTransform {
+	transform(value: any, metadata: ArgumentMetadata) {
+		const fields = ["review", "commentary"]
+
+		if (fields.includes(value)) return value
+		else
+			throw new NotFoundException(
+				`Not Found ${metadata.data} with value ${value}`
+			)
+	}
+}

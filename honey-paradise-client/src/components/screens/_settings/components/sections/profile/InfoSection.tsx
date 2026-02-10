@@ -1,30 +1,48 @@
-import { Button, Separator } from "@/components/ui/common";
-import { LoaderIcon, XIcon } from "lucide-react";
-import { CheckmarkIcon, ErrorIcon } from "react-hot-toast";
+import { VALUES } from "@constants/base"
+import { LoaderIcon, XIcon } from "lucide-react"
+import type { FC } from "react"
+import { FormProvider } from "react-hook-form"
+import { CheckmarkIcon, ErrorIcon } from "react-hot-toast"
 
-import { FormInput } from "@/components/ui/components/form-input";
-import type { EnumGenders } from "@/shared/types/models";
-import { VALUES } from "@constants/base";
-import type { FC } from "react";
-import { FormProvider } from "react-hook-form";
-import { useInfoSection } from "../../../hooks/useInfoSection";
-import styles from "../../../styles/profile.module.scss";
-import _styles from "../../../styles/settings.module.scss";
-import { ProfileSettingSection } from "./ProfileSettingSection";
+import { Button, Separator } from "@/components/ui/common"
+import { FormInput } from "@/components/ui/components/form-input"
+import { GetMeResponseGender } from "@/shared/types/server"
+
+import { useInfoSection } from "../../../hooks/useInfoSection"
+import styles from "../../../styles/profile.module.scss"
+import _styles from "../../../styles/settings.module.scss"
+
+import { ProfileSettingSection } from "./ProfileSettingSection"
 
 interface IProps {
-	gender: EnumGenders | undefined;
-	birthdate: string | undefined;
-	username: string | undefined;
-	phone: string | undefined;
-	isLoading: boolean;
+	gender: GetMeResponseGender | undefined
+	birthdate: string | undefined
+	username: string | undefined
+	phone: string | undefined
+	isLoading: boolean
 }
 
-const InfoSection: FC<IProps> = ({ birthdate, gender, phone, username, isLoading }) => {
-	const { data, form, isDisabled, onSubmit, setMask, isProfileUpdating, t, clearBirthdate, uniqueFields, isCheckingUnique } =
-		useInfoSection(gender, birthdate, username, phone);
+const InfoSection: FC<IProps> = ({
+	birthdate,
+	gender,
+	phone,
+	username,
+	isLoading
+}) => {
+	const {
+		data,
+		form,
+		isDisabled,
+		onSubmit,
+		setMask,
+		isProfileUpdating,
+		t,
+		clearBirthdate,
+		uniqueFields,
+		isCheckingUnique
+	} = useInfoSection(gender, birthdate, username, phone)
 
-	const _isLoading = isLoading || isProfileUpdating;
+	const _isLoading = isLoading || isProfileUpdating
 
 	return (
 		<ProfileSettingSection title={t("title")}>
@@ -35,7 +53,7 @@ const InfoSection: FC<IProps> = ({ birthdate, gender, phone, username, isLoading
 						<FormInput
 							name="username"
 							placeholder={t("username.placeholder")}
-							errorClassName="!-tw-bottom-4"
+							errorClassName="!-bottom-4"
 							tabIndex={1}
 							isLoading={_isLoading}
 							maxLength={VALUES.MAX_ID_LENGTH}
@@ -45,7 +63,10 @@ const InfoSection: FC<IProps> = ({ birthdate, gender, phone, username, isLoading
 							) : uniqueFields.username === false ? (
 								<ErrorIcon className={_styles["unique-status-icon"]} />
 							) : uniqueFields.username === "loading" ? (
-								<LoaderIcon size={20} className={_styles["unique-status-loading-icon"]} />
+								<LoaderIcon
+									size={20}
+									className={_styles["unique-status-loading-icon"]}
+								/>
 							) : undefined}
 						</FormInput>
 					</div>
@@ -58,14 +79,17 @@ const InfoSection: FC<IProps> = ({ birthdate, gender, phone, username, isLoading
 							setMask={setMask}
 							tabIndex={2}
 							isLoading={_isLoading}
-							errorClassName="!-tw-bottom-4"
+							errorClassName="!-bottom-4"
 						>
 							{uniqueFields.phone === true ? (
 								<CheckmarkIcon className={_styles["unique-status-icon"]} />
 							) : uniqueFields.phone === false ? (
 								<ErrorIcon className={_styles["unique-status-icon"]} />
 							) : uniqueFields.phone === "loading" ? (
-								<LoaderIcon size={20} className={_styles["unique-status-loading-icon"]} />
+								<LoaderIcon
+									size={20}
+									className={_styles["unique-status-loading-icon"]}
+								/>
 							) : undefined}
 						</FormInput>
 					</div>
@@ -74,18 +98,30 @@ const InfoSection: FC<IProps> = ({ birthdate, gender, phone, username, isLoading
 						<p>{t("birthdate.title")}</p>
 						<FormInput
 							name="birthdate"
-							containerClassName="tw-mr-2"
-							dateConfig={{ dateMax: new Date().getTime() - 14 * 365 * 24 * 60 * 60 * 1000 }}
+							containerClassName="mr-2"
+							dateConfig={{
+								dateMax: new Date().getTime() - 14 * 365 * 24 * 60 * 60 * 1000
+							}}
 							isLoading={_isLoading}
 						/>
-						<Button variant="secondary" onClick={clearBirthdate} disabled={_isLoading || !!!form.getValues("birthdate")}>
+						<Button
+							variant="secondary"
+							onClick={clearBirthdate}
+							disabled={_isLoading || !!!form.getValues("birthdate")}
+						>
 							<XIcon size={20} />
 						</Button>
 					</div>
 
 					<div>
 						<p>{t("gender.title")}</p>
-						<FormInput name="gender" genderType="dropdown" title={t("gender.label")} data={data} isLoading={_isLoading} />
+						<FormInput
+							name="gender"
+							genderType="dropdown"
+							title={t("gender.label")}
+							data={data}
+							isLoading={_isLoading}
+						/>
 					</div>
 
 					<div>
@@ -103,7 +139,7 @@ const InfoSection: FC<IProps> = ({ birthdate, gender, phone, username, isLoading
 				</form>
 			</FormProvider>
 		</ProfileSettingSection>
-	);
-};
+	)
+}
 
-export { InfoSection };
+export { InfoSection }

@@ -1,27 +1,32 @@
-import { cn } from "@utils/base/cn";
-import { createElement, type FC } from "react";
-import type { TypeProps } from "./types/title.type";
+import { cn } from "@utils/base/cn"
+import { createElement, type FC } from "react"
 
-const Title: FC<TypeProps> = ({ children, size = "sm", className }) => {
+import type { TypeProps } from "./types/title.type"
+
+const Title: FC<TypeProps> = ({ id, children, size = "sm", className }) => {
 	const mapTagBySize = {
-		xs: "h5",
-		sm: "h4",
-		md: "h3",
-		lg: "h2",
-		xl: "h1",
 		"2xl": "h1",
-	} as const;
+		xl: "h1",
+		lg: "h2",
+		md: "h3",
+		sm: "h4",
+		xs: "h5"
+	} as const
 
 	const mapClassNameBySize = {
-		xs: "tw-text-[16px]",
-		sm: "tw-text-[20px]",
-		md: "tw-text-[22px]",
-		lg: "tw-text-[26px]",
-		xl: "tw-text-[35px]",
-		"2xl": "tw-text-[48px]",
-	} as const;
+		xs: "text-[16px]",
+		sm: "text-[20px]",
+		md: "text-[22px]",
+		lg: "text-[26px]",
+		xl: "text-[35px]",
+		"2xl": "text-[48px]"
+	} as const
 
-	return createElement(mapTagBySize[size], { className: cn(mapClassNameBySize[size], className) }, children);
-};
+	return createElement(
+		mapTagBySize[size],
+		{ className: cn(mapClassNameBySize[size], className), id },
+		children
+	)
+}
 
-export { Title };
+export { Title }

@@ -1,25 +1,46 @@
-import { useEffect, useMemo } from "react";
+import { useRouter } from "next/navigation"
+import { useEffect, useMemo } from "react"
+import toast from "react-hot-toast"
 
-import { useMyAccountS } from "@/services/hooks/account";
-import { useLogoutS } from "@/services/hooks/auth";
-import { useClearSessionS } from "@/services/hooks/session";
-import { useAuth } from "./useAuth";
+import { useMyAccountS } from "@/services/hooks/account"
+import { useLogoutS } from "@/services/hooks/auth"
+import { useClearSessionS } from "@/services/hooks/session"
 
-export const useMyAccount = () => {
-	const { isAuthenticated, exit, auth } = useAuth();
+import { useAuth } from "./useAuth"
 
-	const { acc, accError, accRefetch, isAccLoading, isAccSuccess } = useMyAccountS();
-	const { logout, isLogoutLoading } = useLogoutS();
-	const { clearSession } = useClearSessionS();
+export const useMyAccount = (enabled: boolean = true) => {
+	const { isAuthenticated, exit, auth } = useAuth()
+	const { refresh } = useRouter()
+
+	const { acc, accError, accRefetch, isAccLoading, isAccSuccess } =
+		useMyAccountS(enabled)
+	const { logoutAsync, isLogoutLoading } = useLogoutS()
+	const { clearSession } = useClearSessionS()
+
+	const logout = async () => {
+		try {
+			await logoutAsync()
+
+			exit()
+			refresh()
+		} catch (error) {
+			toast.error("Не удалось выйти из аккаунта!")
+		}
+	}
 
 	useEffect(() => {
 		if (accError) {
-			if (isAuthenticated) clearSession();
-			return exit();
+			if (String(accError.code) === "429") return
+			if (String(accError.code) === "404") return clearSession()
+
+			return exit()
 		}
 
-		if (!isAuthenticated && !accError) auth();
-	}, [isAuthenticated, acc?.data, accError]);
+		if (!isAuthenticated && !accError) {
+			accRefetch()
+			if (isAccSuccess) auth()
+		}
+	}, [isAuthenticated, acc?.data, accError, isAccSuccess])
 
 	return useMemo(
 		() => ({
@@ -28,8 +49,16 @@ export const useMyAccount = () => {
 			accRefetch,
 			logout,
 			accError,
-			isAccSuccess,
+			isAccSuccess
 		}),
-		[acc?.data, isAccLoading, isLogoutLoading, accError, accRefetch, isAccSuccess, isAuthenticated]
-	);
-};
+		[
+			acc?.data,
+			isAccLoading,
+			isLogoutLoading,
+			accError,
+			accRefetch,
+			isAccSuccess,
+			isAuthenticated
+		]
+	)
+}

@@ -1,17 +1,19 @@
-import { EnumProviderTypes } from "@/shared/types/models";
+import { GetAllConnectionsResponseType } from "@/shared/types/server"
 
-export function getProviderName(provider: keyof typeof EnumProviderTypes) {
+export function getProviderName(
+	provider: keyof typeof GetAllConnectionsResponseType
+) {
 	switch (provider) {
 		case "GOOGLE":
-			return "Google";
+			return "Google"
 		case "GITHUB":
-			return "Github";
+			return "Github"
 		case "VK":
-			return "VKontakte";
+			return "VKontakte"
 		case "YANDEX":
-			return "Yandex";
+			return "Yandex"
 
 		default:
-			return "";
+			return ""
 	}
 }

@@ -1,11 +1,11 @@
-import type { ICreateAccountDto, ISignInDto } from "../auth-service.type";
+import type { AuthLoginDto, CreateUserDto } from "@/shared/types/server"
 
 export interface ISignInMutateData {
-	dto: ISignInDto;
-	recaptcha: any;
+	dto: AuthLoginDto
+	recaptcha: any
 }
 
 export interface ICreateAccountMutateData {
-	dto: ICreateAccountDto;
-	recaptcha: any;
+	dto: CreateUserDto
+	recaptcha: any
 }

@@ -1,37 +1,70 @@
-"use client";
+"use client"
 
-import * as AvatarPrimitive from "@radix-ui/react-avatar";
+import * as AvatarPrimitive from "@radix-ui/react-avatar"
+import { cn } from "@utils/base"
+import Image from "next/image"
+import {
+	type ComponentPropsWithoutRef,
+	type ComponentRef,
+	forwardRef
+} from "react"
 
-import { cn } from "@utils/base";
-import { type ComponentPropsWithoutRef, type ComponentRef, forwardRef } from "react";
+const Avatar = forwardRef<
+	ComponentRef<typeof AvatarPrimitive.Root>,
+	ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
+>(({ className, ...props }, ref) => (
+	<AvatarPrimitive.Root
+		ref={ref}
+		className={cn(
+			"relative flex h-10 w-10 touch-none select-none items-center justify-center rounded-full",
+			className
+		)}
+		{...props}
+	/>
+))
+Avatar.displayName = AvatarPrimitive.Root.displayName
 
-const Avatar = forwardRef<ComponentRef<typeof AvatarPrimitive.Root>, ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>>(
-	({ className, ...props }, ref) => (
-		<AvatarPrimitive.Root
+const AvatarImage = forwardRef<
+	ComponentRef<typeof AvatarPrimitive.Image>,
+	ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
+>(({ className, ...props }, ref) => (
+	<AvatarPrimitive.Image
+		ref={ref}
+		className={cn("aspect-square h-[90%] w-[90%] rounded-full", className)}
+		{...props}
+	/>
+))
+AvatarImage.displayName = AvatarPrimitive.Image.displayName
+
+const AvatarFrame: typeof Image = forwardRef(
+	({ src, alt, width = 40, height = 40, className, ...props }, ref) => (
+		<Image
 			ref={ref}
-			className={cn("tw-relative tw-flex tw-h-10 tw-w-10 tw-shrink-0 tw-overflow-hidden tw-rounded-full", className)}
+			src={src}
+			alt={alt}
+			width={width}
+			height={height}
+			className={cn("absolute aspect-square h-full w-full", className)}
+			aria-hidden
 			{...props}
 		/>
 	)
-);
-Avatar.displayName = AvatarPrimitive.Root.displayName;
+)
+AvatarFrame.displayName = "AvatarFrame"
 
-const AvatarImage = forwardRef<ComponentRef<typeof AvatarPrimitive.Image>, ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>>(
-	({ className, ...props }, ref) => (
-		<AvatarPrimitive.Image ref={ref} className={cn("tw-aspect-square tw-h-full tw-w-full", className)} {...props} />
-	)
-);
-AvatarImage.displayName = AvatarPrimitive.Image.displayName;
+const AvatarFallback = forwardRef<
+	ComponentRef<typeof AvatarPrimitive.Fallback>,
+	ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
+>(({ className, ...props }, ref) => (
+	<AvatarPrimitive.Fallback
+		ref={ref}
+		className={cn(
+			"flex h-full w-full items-center justify-center rounded-full bg-secondary",
+			className
+		)}
+		{...props}
+	/>
+))
+AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
 
-const AvatarFallback = forwardRef<ComponentRef<typeof AvatarPrimitive.Fallback>, ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>>(
-	({ className, ...props }, ref) => (
-		<AvatarPrimitive.Fallback
-			ref={ref}
-			className={cn("tw-flex tw-h-full tw-w-full tw-items-center tw-justify-center tw-rounded-full tw-bg-secondary", className)}
-			{...props}
-		/>
-	)
-);
-AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
-
-export { Avatar, AvatarFallback, AvatarImage };
+export { Avatar, AvatarFallback, AvatarFrame, AvatarImage }

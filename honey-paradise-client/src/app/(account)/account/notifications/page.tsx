@@ -1,29 +1,30 @@
-import type { Metadata, NextPage } from "next";
+import { NO_INDEX_PAGE } from "@constants/base"
+import { getMetadata } from "@utils/base"
+import type { Metadata, NextPage } from "next"
+import { getTranslations } from "next-intl/server"
 
-import { Notifications } from "@/components/screens/_notifications/Notifications";
-import type { TSearchParams } from "@/shared/types";
-import { NO_INDEX_PAGE } from "@constants/base";
-import { getMetadata } from "@utils/base";
-import { getTranslations } from "next-intl/server";
+import { Notifications } from "@/components/screens/_notifications/Notifications"
+import type { TSearchParams } from "@/shared/types"
 
 interface IProps {
-	searchParams: Promise<TSearchParams>;
+	searchParams: Promise<TSearchParams>
 }
 
 export async function generateMetadata({}: IProps): Promise<Metadata> {
-	const t = await getTranslations("global.notifications");
+	const t = await getTranslations("global")
 
 	return {
 		...(await getMetadata({
-			title: t("title"),
-			description: t("description", { title: t("title") }),
+			title: t("notifications.title"),
+			description: t("notifications.description", { title: t("logo") }),
+			index: false
 		})),
-		...NO_INDEX_PAGE,
-	};
+		...NO_INDEX_PAGE
+	}
 }
 
 const NotificationsPage: NextPage<IProps> = async props => {
-	return <Notifications />;
-};
+	return <Notifications />
+}
 
-export default NotificationsPage;
+export default NotificationsPage

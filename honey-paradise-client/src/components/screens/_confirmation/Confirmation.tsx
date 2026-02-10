@@ -1,21 +1,26 @@
-import { EnumAppRoute, EnumConfirmationTypes } from "@constants/routes";
+import { EnumAppRoute, EnumConfirmationTypes } from "@constants/routes"
+import { redirect } from "next/navigation"
+import type { FC } from "react"
 
-import type { TSearchParams } from "@/shared/types";
-import { redirect } from "next/navigation";
-import type { FC } from "react";
-import { EmailConfirmation } from "./components/EmailConfirmation";
-import { SignInConfirmation } from "./components/SignInConfirmation";
+import type { TSearchParams } from "@/shared/types"
+
+import { EmailConfirmation } from "./components/EmailConfirmation"
+import { SignInConfirmation } from "./components/SignInConfirmation"
 
 interface IConfirmation {
-	searchParams: TSearchParams;
+	searchParams: TSearchParams
 }
 
 const Confirmation: FC<IConfirmation> = ({ searchParams }) => {
-	const type = searchParams.type as EnumConfirmationTypes;
-	const utm_source = searchParams.utm_source as EnumAppRoute;
+	const type = searchParams.type as EnumConfirmationTypes
+	const utm_source = searchParams.utm_source as EnumAppRoute
 
-	if (type !== EnumConfirmationTypes.EMAIL && type !== EnumConfirmationTypes.PHONE && type !== EnumConfirmationTypes.SIGN_IN)
-		return redirect(EnumAppRoute.NOT_FOUND);
+	if (
+		type !== EnumConfirmationTypes.EMAIL &&
+		type !== EnumConfirmationTypes.PHONE &&
+		type !== EnumConfirmationTypes.SIGN_IN
+	)
+		return redirect(EnumAppRoute.NOT_FOUND)
 
 	return (
 		<>
@@ -27,7 +32,7 @@ const Confirmation: FC<IConfirmation> = ({ searchParams }) => {
 				""
 			) : undefined}
 		</>
-	);
-};
+	)
+}
 
-export { Confirmation };
+export { Confirmation }
