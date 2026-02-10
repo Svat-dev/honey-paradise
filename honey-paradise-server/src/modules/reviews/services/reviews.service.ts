@@ -4,6 +4,7 @@ import { InternalServerErrorException } from "@nestjs/common/exceptions/internal
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
 import { EnumNotificationType } from "@prisma/client"
 import { PrismaService } from "src/core/prisma/prisma.service"
+import { RedisService } from "src/core/redis/redis.service"
 
 import { ProfileService } from "../../auth/profile/profile.service"
 import { NotificationsService } from "../../notifications/notifications.service"
@@ -20,7 +21,8 @@ export class ReviewsService {
 		private readonly prisma: PrismaService,
 		private readonly productsService: ProductsService,
 		private readonly profileService: ProfileService,
-		private readonly notificationsService: NotificationsService
+		private readonly notificationsService: NotificationsService,
+		private readonly redisService: RedisService
 	) {}
 
 	async getReviewsByProductId(
@@ -149,6 +151,8 @@ export class ReviewsService {
 		})
 
 		await this.countProductRating(review.productId)
+
+		await this.redisService.deleteTranslateCache(reviewId)
 
 		return true
 	}

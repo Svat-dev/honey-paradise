@@ -2,7 +2,8 @@ import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
 import { ConfigService } from "@nestjs/config/dist/config.service"
-import Redis from "ioredis"
+import { EnumLanguages } from "@prisma/client"
+import Redis, { type RedisKey } from "ioredis"
 import { ms } from "src/shared/lib/common/utils"
 import type {
 	IRedisSession,
@@ -65,8 +66,18 @@ export class RedisService extends Redis {
 			this.translateFolder + `${locale}:` + id,
 			JSON.stringify(data),
 			"EX",
-			ms("24h") / 1000
+			ms("7d") / 1000
 		)
+
+		return true
+	}
+
+	async deleteTranslateCache(id: string): Promise<boolean> {
+		const keys: RedisKey[] = Object.values(EnumLanguages).map(
+			lang => this.translateFolder + `${lang}:` + id
+		)
+
+		await this.del(keys)
 
 		return true
 	}
