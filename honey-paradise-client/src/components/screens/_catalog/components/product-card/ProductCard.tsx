@@ -15,7 +15,6 @@ interface IProps extends GetProductResponse, PropsWithChildren {}
 const ProductCard: FC<IProps> = ({
 	id,
 	_count,
-	description,
 	priceInUsd,
 	totalDiscount,
 	rating,
@@ -42,12 +41,6 @@ const ProductCard: FC<IProps> = ({
 			<Title size="md" className="mb-1 font-medium">
 				{title[locale as keyof ApiJsonValue]}
 			</Title>
-
-			{description && (
-				<p className="mb-4 text-muted">
-					{description[locale as keyof ApiJsonValue]}
-				</p>
-			)}
 
 			{totalDiscount > 0 && (
 				<span className="absolute right-5 top-4 z-10 select-none rounded-lg bg-secondary px-1 py-0.5 shadow-md">

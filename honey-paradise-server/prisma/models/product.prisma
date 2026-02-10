@@ -6,13 +6,13 @@ model Product {
   description Json?
   images      String[] @map("image_urls")
 
-  priceInUsd  Float @map("price_usd")
   rating      Float @default(0.0)
   extraRating Json  @default("{\"taste\": 0.0, \"aroma\": 0.0, \"packaging\": 0.0}") @map("extra_rating")
 
   reviews   Review[]
   cartItems CartItem[]
-  discounts Discount[] @relation(name: "discount_to_product")
+  variants  ProductVariant[]
+  discounts Discount[]       @relation(name: "discount_to_product")
 
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String   @map("category_id")
@@ -21,4 +21,20 @@ model Product {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("products")
+}
+
+model ProductVariant {
+  id  String @id @default(nanoid())
+  art Int    @unique @default(autoincrement())
+
+  weight     Float
+  priceInUsd Float @map("price_usd")
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String  @map("product_id") @db.Uuid
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("product_variants")
 }
