@@ -1,5 +1,10 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { type Discount, EnumDiscountType, type Product } from "@prisma/client"
+import {
+	type Discount,
+	EnumDiscountType,
+	type Product,
+	type ProductVariant
+} from "@prisma/client"
 import type { JsonValue } from "@prisma/client/runtime/library"
 import { ApiJsonValue } from "src/shared/types/swagger.type"
 
@@ -69,9 +74,32 @@ export class GetProductBySlugResponseDiscount implements Partial<Discount> {
 	discount: number
 }
 
+export class GetProductBySlugResponseVariant implements Partial<ProductVariant> {
+	@ApiProperty({
+		type: "string",
+		description: "Product variant Nano ID",
+		example: "nanoid"
+	})
+	id: string
+
+	@ApiProperty({
+		type: "string",
+		description: "Product variant article",
+		example: 111
+	})
+	article: number
+
+	@ApiProperty({
+		type: "number",
+		description: "Product variant weight in grams",
+		example: 250
+	})
+	weight: number
+}
+
 export class GetProductBySlugResponse implements Omit<
 	GetProductResponse,
-	"totalDiscount"
+	"totalDiscount" | "priceInUsd"
 > {
 	@ApiProperty({ type: GetProductBySlugResponseCategory })
 	category: GetProductBySlugResponseCategory
@@ -96,14 +124,14 @@ export class GetProductBySlugResponse implements Omit<
 	})
 	images: string[]
 
-	@ApiProperty({ type: "number", description: "", example: 10 })
-	priceInUsd: number
-
 	@ApiProperty({ type: "number", description: "", example: 9.3 })
 	rating: number
 
 	@ApiProperty({ type: GetProductBySlugResponseDiscount, isArray: true })
 	discounts: GetProductBySlugResponseDiscount[]
+
+	@ApiProperty({ type: GetProductBySlugResponseVariant, isArray: true })
+	variants: GetProductBySlugResponseVariant[]
 
 	@ApiProperty({
 		type: "object",

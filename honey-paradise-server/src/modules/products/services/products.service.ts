@@ -54,7 +54,7 @@ export class ProductsService {
 					p."title",
 					p."slug",
 					p."description",
-					p."price_usd" AS "priceInUsd",
+					MIN(pv.price_usd) AS "priceInUsd",
 					p."rating",
 					p."image_urls" AS images,
 					p."category_id",
@@ -62,7 +62,7 @@ export class ProductsService {
 					(EXISTS (
 							SELECT 1
 							FROM "users" u
-							WHERE (${userId})::uuid = u."id" AND (p."id")::text = ANY(u."liked_products")
+							WHERE u.id = (${userId})::uuid AND (p."id")::text = ANY(u."liked_products")
 						)
 					) AS "isLiked",
 					SUM(
@@ -70,8 +70,8 @@ export class ProductsService {
 							WHEN d."type" != 'VIP_CLUB' THEN d."discount"
 							WHEN d."type" = 'VIP_CLUB' AND EXISTS (
 								SELECT 1
-								FROM "users"
-								WHERE "id" = (${userId})::uuid AND ("role")::text = ${EnumUserRoles.VIP}
+								FROM "users" u
+								WHERE u.id = (${userId})::uuid AND ("role")::text = ${EnumUserRoles.VIP}
 							) THEN d."discount"
 							ELSE 0
 						END
@@ -80,6 +80,7 @@ export class ProductsService {
 				LEFT JOIN "product_reviews" cm ON p."id" = cm."product_id"
 				LEFT JOIN "_discount_to_product" dtp ON p."id" = dtp."B"
 				LEFT JOIN "discounts" d ON dtp."A" = d."id"
+				LEFT JOIN "product_variants" pv ON pv.product_id = p.id
 				WHERE EXISTS (
 					SELECT 1
 					FROM "categories" c
@@ -154,7 +155,7 @@ export class ProductsService {
 		const convertedTerm = lang === "ru" ? enToRuKeys(term) : ""
 
 		const products: any[] = await this.prisma.$queryRaw`
-			SELECT "id", "title", "slug", "image_urls" AS "images", "price_usd" AS "priceInUsd"
+			SELECT "id", "title", "slug", "image_urls" AS "images", MIN(pv.price_usd) AS "priceInUsd"
 			FROM "products"
 			WHERE
 				("title"->'en')::text ILIKE ${`%${term}%`} OR
@@ -167,6 +168,7 @@ export class ProductsService {
 						("title"->'ru')::text ILIKE ${`%${term}%`} OR
 						(CASE WHEN ${lang} = 'en' THEN ("slug" ILIKE ${`%${term}%`}) ELSE (("title"->'ru')::text ILIKE ${`%${convertedTerm}%`}) END)
 				)
+			LEFT JOIN "product_variants" pv ON pv.product_id = p.id
 			ORDER BY "title"->${`${lang}`} ASC, "slug" ASC
 			LIMIT 6
 		`
@@ -195,7 +197,8 @@ export class ProductsService {
 			const query = await this.prisma.product.findMany({
 				select: {
 					...productOutput.select,
-					discounts: { select: discountProductOutput }
+					discounts: { select: discountProductOutput },
+					variants: { select: { priceInUsd: true } }
 				},
 				where: {
 					AND: [{ rating: { gte: 4.5 } }, { rating: { lte: 5.0 } }]
@@ -204,8 +207,16 @@ export class ProductsService {
 				take: 4
 			})
 
+			const refactoredQuery = query.map(i => {
+				const { variants, ...other } = i
+				const priceInUsd = variants
+					.map(i => i.priceInUsd)
+					.sort((a, b) => b - a)[0]
+				return { ...other, priceInUsd }
+			})
+
 			const products = this.getProductResponse(
-				query,
+				refactoredQuery,
 				user?.role,
 				user?.likedProductIds
 			)
@@ -234,7 +245,7 @@ export class ProductsService {
 					p."title",
 					p."slug",
 					p."description",
-					p."price_usd" AS "priceInUsd",
+					MIN(pv.price_usd) AS "priceInUsd",
 					p."rating",
 					p."image_urls" AS images,
 					p."category_id",
@@ -260,6 +271,7 @@ export class ProductsService {
 				LEFT JOIN "product_reviews" cm ON p."id" = cm."product_id"
 				LEFT JOIN "_discount_to_product" dtp ON p."id" = dtp."B"
 				LEFT JOIN "discounts" d ON dtp."A" = d."id"
+				LEFT JOIN "product_variants" pv ON pv.product_id = p.id
 				WHERE EXISTS (
 					SELECT 1
 					FROM "categories" c
@@ -318,20 +330,25 @@ export class ProductsService {
 	async getProductsByIds(
 		id: string | string[],
 		userId?: string
-	): Promise<{ id: string } | GetProductResponse[]> {
+	): Promise<IGetProductByIdsResponse | GetProductResponse[]> {
 		if (!Array.isArray(id)) {
 			const product = await this.prisma.product.findUnique({
 				where: { id },
 				select: {
 					id: true,
-					priceInUsd: true,
+					variants: { select: { priceInUsd: true } },
 					discounts: { select: discountProductOutput }
 				}
 			})
 
 			if (!product) throw new NotFoundException("Product not found") // TODO: add error message
 
-			return product
+			const { variants, ...other } = product
+
+			return {
+				...other,
+				priceInUsd: variants.map(i => i.priceInUsd).sort((a, b) => b - a)[0]
+			}
 		} else {
 			try {
 				const user = userId
@@ -343,13 +360,22 @@ export class ProductsService {
 				const query = await this.prisma.product.findMany({
 					select: {
 						...productOutput.select,
-						discounts: { select: discountProductOutput }
+						discounts: { select: discountProductOutput },
+						variants: { select: { priceInUsd: true } }
 					},
 					where: { id: { in: id } }
 				})
 
+				const refactoredQuery = query.map(i => {
+					const { variants, ...other } = i
+					const priceInUsd = variants
+						.map(i => i.priceInUsd)
+						.sort((a, b) => b - a)[0]
+					return { ...other, priceInUsd }
+				})
+
 				const products = this.getProductResponse(
-					query,
+					refactoredQuery,
 					user?.role,
 					user?.likedProductIds
 				)
@@ -388,7 +414,6 @@ export class ProductsService {
 					p."title",
 					p."slug",
 					p."description",
-					p."price_usd" AS "priceInUsd",
 					p."rating",
 					p."extra_rating" AS "extraRating",
 					p."image_urls" AS images,
@@ -404,12 +429,19 @@ export class ProductsService {
 						) FILTER (WHERE d."id" IS NOT NULL),
 						'[]'
 					) AS "discounts",
+					COALESCE(
+						json_agg(
+							json_build_object('id', pv.id, 'article', pv.art, 'weight', pv.weight, 'priceInUsd', pv.price_usd)
+						) FILTER (WHERE pv.id IS NOT NULL),
+						'[]'
+					) AS "variants",
 					json_build_object('id', c."id", 'title', c."title", 'slug', c."slug") AS "category",
 					json_build_object('reviews', COALESCE(cm."reviews_count", 0)) AS "_count"
 				FROM "products" p
 				LEFT JOIN "product_reviews" cm ON p."id" = cm."product_id"
 				LEFT JOIN "_discount_to_product" dtp ON p."id" = dtp."B"
 				LEFT JOIN "categories" c ON p."category_id" = c."id"
+				LEFT JOIN "product_variants" pv ON p.id = pv.product_id
 				LEFT JOIN "discounts" d ON dtp."A" = d."id" AND (d."type")::text = ANY(${allowedType})
 				WHERE p."slug" = ${`${slug}`}
 				GROUP BY p."id", c."id", COALESCE(cm."reviews_count", 0)

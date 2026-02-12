@@ -72,7 +72,7 @@ export class ProductsController {
 		@Req() req: Request,
 		@I18nLang() lang: "en" | "ru"
 	) {
-		const userId = req.session?.userId || ""
+		const userId = req.session.userId
 		return this.productsService.getAllCatsWithProducts(query.q, lang, userId)
 	}
 
@@ -102,7 +102,7 @@ export class ProductsController {
 	@HttpCode(HttpStatus.OK)
 	@Get(EnumApiRoute.GET_POPULAR_PRODUCTS)
 	getPopular(@Req() req: Request) {
-		const userId = req.session?.userId || ""
+		const userId = req.session.userId
 
 		return this.productsService.getPopularProducts(userId)
 	}
@@ -115,7 +115,7 @@ export class ProductsController {
 	@HttpCode(HttpStatus.OK)
 	@Get(EnumApiRoute.GET_PRODUCT_BY_SLUG)
 	getBySlug(@Param("slug") slug: string, @Req() req: Request) {
-		const userId = req.session?.userId || ""
+		const userId = req.session.userId
 
 		return this.productsService.getProductBySlug(slug, userId)
 	}
@@ -131,7 +131,7 @@ export class ProductsController {
 		@Query("ids", ProductsIdsParserPipe) ids: string[],
 		@Req() req: Request
 	) {
-		const userId = req.session?.userId || ""
+		const userId = req.session.userId
 
 		return this.productsService.getProductsByIds(ids, userId)
 	}
@@ -145,7 +145,7 @@ export class ProductsController {
 		@I18nLang() lang: "en" | "ru",
 		@Req() req: Request
 	) {
-		const userId = req.session?.userId || ""
+		const userId = req.session.userId
 		return this.productsService.getProductsByCategorySlug(slug, lang, userId)
 	}
 
