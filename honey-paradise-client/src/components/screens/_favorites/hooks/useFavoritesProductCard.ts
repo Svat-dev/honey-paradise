@@ -7,8 +7,9 @@ import { useSwitchFavoritesProducts } from "@/services/hooks/products"
 import { useMyCart } from "@/shared/lib/hooks/auth"
 import { useLanguage } from "@/shared/lib/i18n/hooks"
 
-export const useFavoritesProductCard = (id: string, priceInUsd: number) => {
+export const useFavoritesProductCard = (id: string) => {
 	const t = useTranslations("global.favorites.content")
+
 	const { addCartItem, loading } = useMyCart()
 	const { switchFavoriteProductAsync, isSwitchingFavoritesProduct } =
 		useSwitchFavoritesProducts()
@@ -23,7 +24,7 @@ export const useFavoritesProductCard = (id: string, priceInUsd: number) => {
 		}
 	}
 
-	const handleAddToCart = () => addCartItem({ productId: id, quantity: 1 })
+	const handleAddToCart = () => addCartItem({ variantId: id, quantity: 1 })
 
 	return {
 		handleDeleteFavorite,

@@ -14,5 +14,6 @@ export enum EnumStorageKeys {
 
 export enum EnumSessionStorageKeys {
 	CHANGE_PASSWORD_MODAL = "change_password_modal_q",
-	CREATE_REVIEW_MODAL = "create_review_modal_comment"
+	CREATE_REVIEW_MODAL = "create_review_modal_comment",
+	PRODUCT_VARIANT_ID = "pv_id"
 }

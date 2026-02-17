@@ -10,9 +10,6 @@ export class GetMyCartProductResponse {
 	@ApiProperty({ type: ApiJsonValue, description: "" })
 	title: JsonValue
 
-	@ApiProperty({ type: "string", description: "", example: "slugged-value" })
-	slug: string
-
 	@ApiProperty({
 		type: "string",
 		description: "",
@@ -22,12 +19,26 @@ export class GetMyCartProductResponse {
 	images: string[]
 }
 
+export class GetMyCartProductVariantResponse {
+	@ApiProperty({ type: "string", description: "", example: "nanoid" })
+	id: string
+
+	@ApiProperty({ type: "number", description: "", example: 1 })
+	art: number
+
+	@ApiProperty({ type: "number", description: "", example: 500 })
+	weight: number
+
+	@ApiProperty({ type: GetMyCartProductResponse })
+	product: GetMyCartProductResponse
+}
+
 export class GetMyCartItemsResponse implements Partial<CartItem> {
 	@ApiProperty({ type: "string", description: "", example: "nanoid" })
 	id: string
 
-	@ApiProperty({ type: GetMyCartProductResponse, description: "" })
-	product: GetMyCartProductResponse
+	@ApiProperty({ type: GetMyCartProductVariantResponse, description: "" })
+	productVariant: GetMyCartProductVariantResponse
 
 	@ApiProperty({
 		type: "number",

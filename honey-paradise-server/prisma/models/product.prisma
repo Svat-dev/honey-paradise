@@ -10,7 +10,6 @@ model Product {
   extraRating Json  @default("{\"taste\": 0.0, \"aroma\": 0.0, \"packaging\": 0.0}") @map("extra_rating")
 
   reviews   Review[]
-  cartItems CartItem[]
   variants  ProductVariant[]
   discounts Discount[]       @relation(name: "discount_to_product")
 
@@ -29,6 +28,8 @@ model ProductVariant {
 
   weight     Float
   priceInUsd Float @map("price_usd")
+
+  cartItems CartItem[]
 
   product   Product @relation(fields: [productId], references: [id])
   productId String  @map("product_id") @db.Uuid

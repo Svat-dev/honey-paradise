@@ -45,16 +45,18 @@ export class TelegramService implements OnModuleInit {
 		if (isOffline(this.config))
 			throw new InternalServerErrorException("Offline mode")
 
-		this.bot = new BotApi(
-			this.config.getOrThrow<string>("TELEGRAM_BOT_TOKEN"),
-			{ polling: true }
-		)
+		// this.bot = new BotApi(
+		// 	this.config.getOrThrow<string>("TELEGRAM_BOT_TOKEN"),
+		// 	{ polling: true }
+		// )
 		this.clientUrl = !isDev(this.config)
 			? "https://www.google.com"
 			: this.config.getOrThrow<string>("CLIENT_URL")
 	}
 
 	async onModuleInit() {
+		if (true) return "Offline mode"
+
 		await this.setBotConfig(false)
 
 		this.bot.on("text", async msg => {

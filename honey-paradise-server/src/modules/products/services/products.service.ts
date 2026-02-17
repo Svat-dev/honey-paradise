@@ -155,21 +155,22 @@ export class ProductsService {
 		const convertedTerm = lang === "ru" ? enToRuKeys(term) : ""
 
 		const products: any[] = await this.prisma.$queryRaw`
-			SELECT "id", "title", "slug", "image_urls" AS "images", MIN(pv.price_usd) AS "priceInUsd"
-			FROM "products"
+			SELECT p."id", p."title", p."slug", p."image_urls" AS "images", MIN(pv.price_usd) AS "priceInUsd"
+			FROM "products" p
+			LEFT JOIN "product_variants" pv ON pv.product_id = p.id
 			WHERE
-				("title"->'en')::text ILIKE ${`%${term}%`} OR
-				("title"->'ru')::text ILIKE ${`%${term}%`} OR
-				(CASE WHEN ${lang} = 'en' THEN ("slug" ILIKE ${`%${term}%`}) ELSE (("title"->'ru')::text ILIKE ${`%${convertedTerm}%`}) END) OR
+				(p."title"->'en')::text ILIKE ${`%${term}%`} OR
+				(p."title"->'ru')::text ILIKE ${`%${term}%`} OR
+				(CASE WHEN ${lang} = 'en' THEN (p."slug" ILIKE ${`%${term}%`}) ELSE ((p."title"->'ru')::text ILIKE ${`%${convertedTerm}%`}) END) OR
 				"category_id" IN (
 					SELECT "id" FROM "categories"
 					WHERE
-						("title"->'en')::text ILIKE ${`%${term}%`} OR
-						("title"->'ru')::text ILIKE ${`%${term}%`} OR
-						(CASE WHEN ${lang} = 'en' THEN ("slug" ILIKE ${`%${term}%`}) ELSE (("title"->'ru')::text ILIKE ${`%${convertedTerm}%`}) END)
+						(p."title"->'en')::text ILIKE ${`%${term}%`} OR
+						(p."title"->'ru')::text ILIKE ${`%${term}%`} OR
+						(CASE WHEN ${lang} = 'en' THEN (p."slug" ILIKE ${`%${term}%`}) ELSE ((p."title"->'ru')::text ILIKE ${`%${convertedTerm}%`}) END)
 				)
-			LEFT JOIN "product_variants" pv ON pv.product_id = p.id
-			ORDER BY "title"->${`${lang}`} ASC, "slug" ASC
+			GROUP BY p."id"
+			ORDER BY p."title"->${`${lang}`} ASC, p."slug" ASC
 			LIMIT 6
 		`
 
@@ -207,6 +208,8 @@ export class ProductsService {
 				take: 4
 			})
 
+			console.log(query)
+
 			const refactoredQuery = query.map(i => {
 				const { variants, ...other } = i
 				const priceInUsd = variants
@@ -214,6 +217,8 @@ export class ProductsService {
 					.sort((a, b) => b - a)[0]
 				return { ...other, priceInUsd }
 			})
+
+			console.log(refactoredQuery)
 
 			const products = this.getProductResponse(
 				refactoredQuery,
@@ -403,11 +408,25 @@ export class ProductsService {
 			if (user?.role === EnumUserRoles.VIP)
 				allowedType.push(EnumDiscountType.VIP_CLUB)
 
+			const splitted = slug.split("-")
+			let searchSlug: string = slug
+			let slug_art: number = -1
+
+			if (!isNaN(Number(splitted[splitted.length - 1]))) {
+				searchSlug = splitted.slice(0, splitted.length - 1).join("-")
+				slug_art = Number(splitted[splitted.length - 1])
+			}
+
 			const query: any = await this.prisma.$queryRaw`
 				WITH "product_reviews" AS (
 					SELECT "product_id", COUNT(*) AS reviews_count
 					FROM "reviews"
 					GROUP BY "product_id"
+				),
+				"_product_variants" AS (
+				  SELECT id, art AS "article", weight, price_usd AS "priceInUsd", product_id
+					FROM "product_variants"
+					ORDER BY price_usd ASC
 				)
 				SELECT
 					p."id",
@@ -420,7 +439,7 @@ export class ProductsService {
 					(EXISTS (
 							SELECT 1
 							FROM "users" u
-							WHERE (${userId})::text = (u."id")::text AND (p."id")::text = ANY(u."liked_products")
+							WHERE (${user?.id})::uuid = (u."id")::uuid AND (p."id")::text = ANY(u."liked_products")
 						)
 					) AS "isLiked",
 					COALESCE(
@@ -429,27 +448,22 @@ export class ProductsService {
 						) FILTER (WHERE d."id" IS NOT NULL),
 						'[]'
 					) AS "discounts",
-					COALESCE(
-						json_agg(
-							json_build_object('id', pv.id, 'article', pv.art, 'weight', pv.weight, 'priceInUsd', pv.price_usd)
-						) FILTER (WHERE pv.id IS NOT NULL),
-						'[]'
-					) AS "variants",
+					COALESCE(json_agg(pv) FILTER (WHERE pv.id IS NOT NULL), '[]') AS "variants",
 					json_build_object('id', c."id", 'title', c."title", 'slug', c."slug") AS "category",
 					json_build_object('reviews', COALESCE(cm."reviews_count", 0)) AS "_count"
 				FROM "products" p
 				LEFT JOIN "product_reviews" cm ON p."id" = cm."product_id"
 				LEFT JOIN "_discount_to_product" dtp ON p."id" = dtp."B"
 				LEFT JOIN "categories" c ON p."category_id" = c."id"
-				LEFT JOIN "product_variants" pv ON p.id = pv.product_id
+				LEFT JOIN "_product_variants" pv ON p.id = pv.product_id
 				LEFT JOIN "discounts" d ON dtp."A" = d."id" AND (d."type")::text = ANY(${allowedType})
-				WHERE p."slug" = ${`${slug}`}
-				GROUP BY p."id", c."id", COALESCE(cm."reviews_count", 0)
+				WHERE p."slug" = ${`${searchSlug}`}
+				GROUP BY p."id", c."id", COALESCE(cm."reviews_count", 0), pv.product_id
 			`
 
-			const { ...product } = query[0]
+			const product = query[0]
 
-			return product
+			return { ...product, slug_art }
 		} catch (error) {
 			console.log(error)
 		}

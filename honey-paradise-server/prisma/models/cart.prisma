@@ -21,9 +21,10 @@ model CartItem {
 
   quantity   Int   @default(1)
   priceInUSD Float @map("price_usd")
+  weight     Float
 
-  product   Product @relation(fields: [productId], references: [id])
-  productId String  @map("product_id") @db.Uuid
+  productVariant ProductVariant @relation(fields: [productVariantId], references: [id])
+  productVariantId String @map("product_variant_id")
 
   cart   Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
   cartId String @map("cart_id") @db.Uuid
@@ -31,5 +32,6 @@ model CartItem {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@unique([cartId, productVariantId])
   @@map("cart_items")
 }

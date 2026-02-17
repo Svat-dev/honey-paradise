@@ -83,7 +83,7 @@ export class GetProductBySlugResponseVariant implements Partial<ProductVariant> 
 	id: string
 
 	@ApiProperty({
-		type: "string",
+		type: "number",
 		description: "Product variant article",
 		example: 111
 	})
@@ -95,6 +95,13 @@ export class GetProductBySlugResponseVariant implements Partial<ProductVariant> 
 		example: 250
 	})
 	weight: number
+
+	@ApiProperty({
+		type: "number",
+		description: "Product variant price in USD",
+		example: 100
+	})
+	priceInUsd: number
 }
 
 export class GetProductBySlugResponse implements Omit<
@@ -143,6 +150,9 @@ export class GetProductBySlugResponse implements Omit<
 		reviews: number
 	}
 
-	@ApiProperty({ type: "boolean", description: "" })
+	@ApiProperty({ type: "boolean", description: "", example: false })
 	isLiked: boolean
+
+	@ApiProperty({ type: "number", description: "", example: 10 })
+	slug_art: number
 }

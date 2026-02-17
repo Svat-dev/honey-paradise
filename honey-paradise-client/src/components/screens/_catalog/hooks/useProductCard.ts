@@ -35,7 +35,7 @@ export const useProductCardFooter = (isLikedServer: boolean) => {
 	const [isLiked, setIsLiked] = useState<boolean>(isLikedServer)
 
 	const addToCart = async (id: string) =>
-		addCartItem({ productId: id, quantity: 1 }, () =>
+		addCartItem({ variantId: id, quantity: 1 }, () =>
 			toast.success(t("products.toasters.success"))
 		)
 

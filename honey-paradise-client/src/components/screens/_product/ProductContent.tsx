@@ -3,58 +3,80 @@
 import { useQuery } from "@tanstack/react-query"
 import type { FC } from "react"
 
+import { ProductContextProvider } from "@/components/providers/ProductPageContext"
+import { Separator } from "@/components/ui/common"
 import { productsService } from "@/services/products.service"
 import { queryKeys } from "@/shared/lib/constants/routes"
 import type { GetProductBySlugResponse } from "@/shared/types/server"
 
 import { ProductReviewsWrapper } from "./components/product-review/ProductReviewsWrapper"
-import { ProductDescription } from "./components/ProductDescription"
+import { ProductDescriptionText } from "./components/ProductDescriptionText"
 import { ProductImage } from "./components/ProductImage"
+import { ProductPrice } from "./components/ProductPrice"
 import { ProductShareDM } from "./components/ProductShareDM"
-import { useProduct } from "./hooks/useProduct"
-import type { IProductDescriptionPropsData } from "./types/product-description.type"
+import { ProductVariants } from "./components/ProductVariants"
 
 interface IProductContent {
 	initialData: GetProductBySlugResponse
+	currentArticle: number
+	locale: string
 	slug: string
 }
 
-const ProductContent: FC<IProductContent> = ({ initialData, slug }) => {
+const ProductContent: FC<IProductContent> = ({
+	initialData,
+	currentArticle,
+	locale,
+	slug
+}) => {
 	const { data, isLoading: isProductLoading } = useQuery({
 		queryKey: [queryKeys.getProductPage, slug],
 		queryFn: () => productsService.getBySlug(slug),
 		initialData
 	})
 
-	const { user, isAccLoading } = useProduct(data.id)
+	const variantId = data.variants.find(i => i.article === currentArticle)?.id
 
-	const props: IProductDescriptionPropsData = {
-		id: data?.id,
-		description: data?.description,
-		priceInUsd: data?.priceInUsd,
-		discounts: data?.discounts,
-		rating: data?.rating,
-		category: data?.category,
-		reviews: data?._count?.reviews || 0,
-		isLiked: data?.isLiked || false
-	}
+	const totalDiscount = data.discounts.reduce(
+		(acc, curr) => acc + curr.discount,
+		0
+	)
 
 	return (
 		<>
 			<article className="relative mb-3 grid h-fit grid-cols-2 overflow-hidden rounded-md bg-primary">
-				<ProductImage
-					isLoading={isProductLoading || isAccLoading}
-					images={data.images}
-				/>
+				<ProductContextProvider
+					id={data.id}
+					variantId={variantId || ""}
+					isLikedServer={!!data.isLiked}
+				>
+					<ProductImage isLoading={isProductLoading} images={data.images} />
 
-				<ProductShareDM slug={slug} isLoading={isAccLoading} />
+					<ProductShareDM slug={slug} art={currentArticle} />
 
-				<ProductDescription
-					data={props}
-					currency={user?.settings.defaultCurrency}
-					isAccLoading={isAccLoading}
-					isProductLoading={isProductLoading}
-				/>
+					<section className="flex flex-col gap-2 bg-secondary p-6">
+						<ProductDescriptionText
+							description={data.description}
+							rating={data.rating}
+							reviews={data._count.reviews || 0}
+							category={data.category}
+							locale={locale}
+						/>
+
+						<Separator orientation="horizontal" className="my-3 h-px w-full" />
+
+						<ProductVariants variants={data.variants} />
+
+						<Separator orientation="horizontal" className="my-3 h-px w-full" />
+
+						<ProductPrice
+							discounts={data.discounts}
+							variants={data.variants}
+							totalDiscount={totalDiscount}
+							isProductLoading={isProductLoading}
+						/>
+					</section>
+				</ProductContextProvider>
 			</article>
 
 			<ProductReviewsWrapper

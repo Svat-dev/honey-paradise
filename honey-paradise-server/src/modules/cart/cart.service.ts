@@ -1,4 +1,8 @@
-import { HttpStatus } from "@nestjs/common"
+import {
+	ConflictException,
+	HttpStatus,
+	ServiceUnavailableException
+} from "@nestjs/common"
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception"
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
@@ -13,7 +17,7 @@ import { PrismaService } from "src/core/prisma/prisma.service"
 import {
 	cartDefaultOutput,
 	cartItemDefaultOutput,
-	cartItemProductOutput
+	cartItemProductVariantOutput
 } from "src/shared/lib/prisma/outputs/cart.output"
 import { createCartTable } from "src/shared/lib/tables/create-cart-table"
 
@@ -28,6 +32,11 @@ import {
 } from "./dto/update-quantity.dto"
 import type { GetMyCartResponse } from "./response/get-my-cart.res"
 import type { CartExcelModelResponse } from "./types/cart-excel-model.type"
+
+interface ICountTotalPriceResponse {
+	price: number
+	weight: number
+}
 
 @Injectable()
 export class CartService {
@@ -52,7 +61,9 @@ export class CartService {
 							cartItems: {
 								select: {
 									...cartItemDefaultOutput,
-									product: { select: cartItemProductOutput }
+									productVariant: {
+										select: cartItemProductVariantOutput
+									}
 								},
 								orderBy: { createdAt: "desc" }
 							}
@@ -79,49 +90,83 @@ export class CartService {
 	}
 
 	async addCartItem(userId: string, dto: AddCartItemDto): Promise<boolean> {
-		const { id: cartId, user } = await this.getCartByUId(userId)
-		const {
-			id: productId,
-			priceInUsd,
-			discounts
-		} = await this.productService.getProductsByIds(dto.productId)
+		try {
+			const { id: cartId, user } = await this.getCartByUId(userId)
 
-		const allowedRoles = [
-			EnumUserRoles.ADMIN,
-			EnumUserRoles.VIP
-		] as EnumUserRoles[]
-		const totalDiscount = discounts.reduce((acc, { discount, type }) => {
-			if (type === EnumDiscountType.VIP_CLUB) {
-				if (!allowedRoles.includes(user.role)) return acc
-			}
-			return acc + discount
-		}, 0)
+			const cartItem = await this.prisma.cartItem.findFirst({
+				where: { cartId, productVariantId: dto.variantId },
+				select: { id: true }
+			})
 
-		await this.prisma.cartItem.create({
-			data: {
-				product: { connect: { id: productId } },
-				quantity: dto.quantity,
-				priceInUSD: priceInUsd - priceInUsd * totalDiscount,
-				cart: { connect: { id: cartId } }
-			}
-		})
+			if (cartItem)
+				throw new ConflictException(
+					"Cart item with this product variant is already exists"
+				)
 
-		return this.countTotalPrice(cartId)
+			const {
+				id,
+				product: { discounts },
+				priceInUsd,
+				weight
+			} = await this.prisma.productVariant.findUnique({
+				where: { id: dto.variantId },
+				select: {
+					id: true,
+					priceInUsd: true,
+					weight: true,
+					product: {
+						select: {
+							id: true,
+							discounts: { select: { discount: true, type: true } }
+						}
+					}
+				}
+			})
+
+			const allowedRoles = [
+				EnumUserRoles.ADMIN,
+				EnumUserRoles.VIP
+			] as EnumUserRoles[]
+
+			const totalDiscount = discounts.reduce((acc, { discount, type }) => {
+				if (type === EnumDiscountType.VIP_CLUB) {
+					if (!allowedRoles.includes(user.role)) return acc
+				}
+				return acc + discount
+			}, 0)
+
+			await this.prisma.cartItem.create({
+				data: {
+					productVariant: { connect: { id } },
+					cart: { connect: { id: cartId } },
+					quantity: dto.quantity,
+					priceInUSD: priceInUsd - priceInUsd * totalDiscount,
+					weight
+				}
+			})
+
+			return this.countTotalPrice(cartId)
+		} catch (error) {
+			console.log(error)
+			throw new InternalServerErrorException("Failed to add cart item")
+		}
 	}
 
 	async addFavoritesToCart(userId: string): Promise<boolean> {
+		throw new ServiceUnavailableException("Service now not working!")
+
 		const favorites =
 			await this.productFavoritesService.getFavoritesProducts(userId)
 
 		if (favorites.products.length === 0)
 			throw new BadRequestException("No products in favorites") // TODO translation
 
-		for (const { id, priceInUsd } of favorites.products) {
-			await this.addCartItem(userId, {
-				productId: id,
-				quantity: 1
-			})
-		}
+		// for (const { id, priceInUsd } of favorites.products) {
+		// 	await this.addCartItem(userId, {
+		// 		productId: id,
+		// 		quantity: 1
+		// 	})
+		// }
 
 		return true
 	}
@@ -203,6 +248,7 @@ export class CartService {
             ci.id,
             ci.quantity,
             ci.price_usd AS "priceInUSD",
+						ci.weight,
             ci.cart_id,
             json_build_object(
               'title', p.title,
@@ -276,10 +322,12 @@ export class CartService {
 	}
 
 	private async countTotalPrice(cartId: string): Promise<boolean> {
-		const total: { price: number }[] = await this.prisma.$queryRaw`
- 			SELECT COALESCE(SUM("price_usd" * "quantity"), 0) AS "price"
+		const total: ICountTotalPriceResponse[] = await this.prisma.$queryRaw`
+			SELECT
+				COALESCE(SUM(price_usd * quantity), 0) AS "price",
+				COALESCE(SUM(weight * quantity), 0) AS "weight"
 			FROM "cart_items"
-			WHERE ("cart_id")::text LIKE ${cartId}
+			WHERE (cart_id)::text = ${cartId}
 			LIMIT 1;
 		`
 

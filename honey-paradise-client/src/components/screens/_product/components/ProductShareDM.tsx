@@ -15,14 +15,18 @@ import { EnumAppRoute } from "@/shared/lib/constants/routes"
 
 interface IProps {
 	slug: string
-	isLoading: boolean
+	art: number
 }
 
-const ProductShareDM: FC<IProps> = ({ slug, isLoading }) => {
+const ProductShareDM: FC<IProps> = ({ slug, art }) => {
 	const handleGoToVk = () => {
 		try {
 			const shareUrl =
-				VK_SHARE_URL + CLIENT_URL + EnumAppRoute.PRODUCT + `/${slug}`
+				VK_SHARE_URL +
+				CLIENT_URL +
+				EnumAppRoute.PRODUCT +
+				`/${slug}` +
+				`-${art}`
 
 			const heightHalf = Math.round(window.innerHeight / 2) - 300
 			const widthHalf = Math.round(window.innerWidth / 2)
@@ -39,7 +43,7 @@ const ProductShareDM: FC<IProps> = ({ slug, isLoading }) => {
 
 	const handleCopyLink = async () => {
 		try {
-			const url = CLIENT_URL + EnumAppRoute.PRODUCT + `/${slug}`
+			const url = CLIENT_URL + EnumAppRoute.PRODUCT + `/${slug}` + `-${art}`
 
 			await navigator.clipboard.writeText(url)
 
@@ -56,7 +60,6 @@ const ProductShareDM: FC<IProps> = ({ slug, isLoading }) => {
 					variant="default"
 					title="Поделиться"
 					className="!absolute right-3 top-3 !bg-primary/40 p-2.5"
-					disabled={isLoading}
 				>
 					<Share2Icon size={22} />
 				</Button>

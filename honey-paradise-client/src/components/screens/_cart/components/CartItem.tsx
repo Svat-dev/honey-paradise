@@ -3,6 +3,7 @@ import Image from "next/image"
 import type { FC } from "react"
 
 import { Button, Title } from "@/components/ui/common"
+import { CartCounter } from "@/components/ui/components/cart-counter/CartCounter"
 import { getAssetsPath } from "@/shared/lib/utils"
 import type {
 	GetMyCartItemsResponse,
@@ -19,7 +20,7 @@ interface ICartItem extends GetMyCartItemsResponse {
 const CartItem: FC<ICartItem> = ({
 	id,
 	priceInUSD,
-	product,
+	productVariant,
 	quantity,
 	locale,
 	currency
@@ -49,39 +50,19 @@ const CartItem: FC<ICartItem> = ({
 			className="flex items-center gap-5 rounded-md bg-primary p-3 shadow-md print:justify-between"
 		>
 			<Image
-				src={getAssetsPath(product.images[0])}
-				alt={product.title[locale]}
+				src={getAssetsPath(productVariant.product.images[0])}
+				alt={productVariant.product.title[locale]}
 				width={100}
 				height={100}
 			/>
 
 			<Title size="sm" className="text-xl">
-				{product.title[locale]}
+				{productVariant.product.title[locale]}
 			</Title>
 
-			<div className="flex items-center gap-2">
-				<Button
-					variant="secondary"
-					className="px-4 py-3 print:!hidden"
-					title={t("counter.-")}
-					disabled={isLoading || amount <= 1}
-					onClick={() => changeQuantity("decrease", id)}
-				>
-					-
-				</Button>
+			<CartCounter id={id} quantity={quantity} />
 
-				<span>{amount}</span>
-
-				<Button
-					variant="secondary"
-					className="px-4 py-3 print:!hidden"
-					title={t("counter.+")}
-					disabled={isLoading}
-					onClick={() => changeQuantity("increase", id)}
-				>
-					+
-				</Button>
-			</div>
+			<span>{productVariant.weight / 1000} кг</span>
 
 			<span>{getPrice(priceInUSD, true, true)}</span>
 

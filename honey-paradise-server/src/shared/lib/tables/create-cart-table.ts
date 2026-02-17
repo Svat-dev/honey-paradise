@@ -76,7 +76,9 @@ export function createCartTable(
 			slug,
 			category: { title: categoryTitle, slug: categorySlug }
 		} = item.product
+
 		const totalItemPrice = item.quantity * item.priceInUSD
+		const totalItemWeight = item.quantity * item.weight
 
 		const hyperlink_1 = path.join(clientUrl, EnumClientRoutes.PRODUCT, slug)
 		const hyperlink_2 = path.join(
@@ -89,7 +91,7 @@ export function createCartTable(
 			i - 1,
 			"undefined",
 			"undefined",
-			i18n.t("d.tables.cart.weight", { args: { count: 300 } }),
+			i18n.t("d.tables.cart.weight", { args: { count: totalItemWeight } }),
 			item.quantity,
 			item.priceInUSD,
 			totalItemPrice

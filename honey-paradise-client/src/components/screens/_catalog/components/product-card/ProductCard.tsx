@@ -57,7 +57,9 @@ const ProductCard: FC<IProps> = ({
 			</div>
 
 			<div className="mb-3 flex items-center">
-				<span className="mr-3 text-lg">{getPrice(totalPrice, true, true)}</span>
+				<span className="mr-3 text-lg">
+					от {getPrice(totalPrice, true, true)}
+				</span>
 				{totalDiscount > 0 && (
 					<span className="pt-1 text-base text-muted line-through">
 						{getPrice(priceInUsd, true, false)}

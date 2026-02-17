@@ -12,6 +12,7 @@ interface CartItemExcelModel {
 	id: string
 	quantity: number
 	priceInUSD: number
+	weight: number
 	product: ProductExcelModel
 }
 
