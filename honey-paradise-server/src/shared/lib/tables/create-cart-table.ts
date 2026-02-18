@@ -39,7 +39,12 @@ export function createCartTable(
 	lang: string,
 	data: CartExcelModelResponse
 ): Workbook {
-	const { cartItems, totalPrice, username, length } = data
+	const {
+		cartItems,
+		totalPrice,
+		user: { username },
+		_count: { cartItems: length }
+	} = data
 
 	const workbook = new Workbook()
 
@@ -75,12 +80,16 @@ export function createCartTable(
 			title,
 			slug,
 			category: { title: categoryTitle, slug: categorySlug }
-		} = item.product
+		} = item.productVariant.product
 
 		const totalItemPrice = item.quantity * item.priceInUSD
 		const totalItemWeight = item.quantity * item.weight
 
-		const hyperlink_1 = path.join(clientUrl, EnumClientRoutes.PRODUCT, slug)
+		const hyperlink_1 = path.join(
+			clientUrl,
+			EnumClientRoutes.PRODUCT,
+			slug + `-${item.productVariant.art}`
+		)
 		const hyperlink_2 = path.join(
 			clientUrl,
 			EnumClientRoutes.CATEGORY,
@@ -145,7 +154,7 @@ export function createCartTable(
 
 	worksheet.getCell(`E${footerColNum}`).value = {
 		formula: `=COUNTA(A2:A${footerColNum})-1`,
-		result: 1
+		result: length
 	}
 
 	worksheet.getCell(`F${footerColNum}`).value = {

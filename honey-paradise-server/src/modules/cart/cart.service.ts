@@ -242,42 +242,47 @@ export class CartService {
 		lang: string
 	): Promise<void> {
 		try {
-			const query: CartExcelModelResponse[] = await this.prisma.$queryRaw`
-        WITH "_cartItems" AS (
-          SELECT
-            ci.id,
-            ci.quantity,
-            ci.price_usd AS "priceInUSD",
-						ci.weight,
-            ci.cart_id,
-            json_build_object(
-              'title', p.title,
-              'slug', p.slug,
-              'category', json_build_object(
-                'title', cat.title,
-                'slug', cat.slug
-              )
-            ) AS "product"
-          FROM cart_items ci
-          LEFT JOIN products p ON (ci.product_id)::uuid = (p.id)::uuid
-          LEFT JOIN categories cat ON (p.category_id)::text = (cat.id)::text
-          GROUP BY ci.id, p.title, p.slug, cat.title, cat.slug
-          ORDER BY ci.created_at ASC
-        )
-        SELECT
-          c.id,
-          c.total_price AS "totalPrice",
-          u.username,
-          COALESCE(json_agg(ci), '[]') AS "cartItems"
-        FROM carts c
-        LEFT JOIN users u ON (c.user_id)::uuid = (u.id)::uuid
-        LEFT JOIN "_cartItems" ci ON (c.id)::uuid = (ci.cart_id)::uuid
-        WHERE (c.user_id)::uuid = (${userId})::uuid
-        GROUP BY c.id, u.username
-      `
-
-			const cart = query[0]
-			cart.length = Number(cart.length)
+			const cart: CartExcelModelResponse = await this.prisma.cart.findUnique({
+				where: { userId },
+				select: {
+					id: true,
+					totalPrice: true,
+					user: { select: { username: true } },
+					cartItems: {
+						select: {
+							id: true,
+							quantity: true,
+							priceInUSD: true,
+							weight: true,
+							productVariant: {
+								select: {
+									art: true,
+									product: {
+										select: {
+											title: true,
+											slug: true,
+											category: {
+												select: {
+													title: true,
+													slug: true
+												}
+											}
+										}
+									}
+								}
+							}
+						},
+						orderBy: {
+							productVariant: { product: { slug: "asc" } }
+						}
+					},
+					_count: {
+						select: {
+							cartItems: true
+						}
+					}
+				}
+			})
 
 			const clientUrl = this.config.get("CLIENT_URL") || ""
 			const workbook = createCartTable(clientUrl, this.i18n, lang, cart)

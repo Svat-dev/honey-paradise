@@ -3,9 +3,9 @@ import type { JsonValue } from "@prisma/client/runtime/library"
 export interface CartExcelModelResponse {
 	id: string
 	totalPrice: number
-	username: string
+	user: { username: string }
 	cartItems: CartItemExcelModel[]
-	length: number
+	_count: { cartItems: number }
 }
 
 interface CartItemExcelModel {
@@ -13,6 +13,11 @@ interface CartItemExcelModel {
 	quantity: number
 	priceInUSD: number
 	weight: number
+	productVariant: ProductVariantExcelModel
+}
+
+interface ProductVariantExcelModel {
+	art: number
 	product: ProductExcelModel
 }
 
@@ -20,7 +25,6 @@ interface ProductExcelModel {
 	title: JsonValue
 	slug: string
 	category: CategoryExcelModel
-	description: JsonValue
 }
 
 interface CategoryExcelModel {
