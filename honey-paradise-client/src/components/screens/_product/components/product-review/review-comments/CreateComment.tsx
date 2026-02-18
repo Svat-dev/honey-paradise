@@ -16,7 +16,7 @@ interface IProps {
 }
 
 const CreateComment: FC<IProps> = ({ reviewId, replyId, deleteReplyId }) => {
-	const { form, onSubmit, handleHighlight, isLoading } = useCreateComment(
+	const { t, form, onSubmit, handleHighlight, isLoading } = useCreateComment(
 		reviewId,
 		replyId
 	)
@@ -53,15 +53,17 @@ const CreateComment: FC<IProps> = ({ reviewId, replyId, deleteReplyId }) => {
 							>
 								<Button
 									variant="secondary"
+									title={t("comments.reply.default")}
 									className="rounded-xl p-1"
 									onClick={handleHighlight}
 								>
 									<ReplyIcon size={20} className="mb-1 mr-1" />
-									Ответ на комментарий
+									{t("comments.reply.default")}
 								</Button>
 
 								<Button
 									variant="ghost"
+									title={t("comments.reply.delete")}
 									className="p-1 hover:rotate-180"
 									onClick={deleteReplyId}
 								>
@@ -75,11 +77,12 @@ const CreateComment: FC<IProps> = ({ reviewId, replyId, deleteReplyId }) => {
 
 					<Button
 						variant="secondary"
+						title={t("comments.create")}
 						type="submit"
 						className="self-end px-2 py-1.5"
 						isLoading={isLoading}
 					>
-						Оставить комментарий
+						{t("comments.create")}
 					</Button>
 				</div>
 			</form>

@@ -1,4 +1,5 @@
 import type { AxiosError } from "axios"
+import { useTranslations } from "next-intl"
 import toast from "react-hot-toast"
 
 import { errorCatch } from "@/api/api-helper"
@@ -7,6 +8,8 @@ import { useDeleteCommentS } from "@/services/hooks/products/reviews/comment/use
 import { useTranslateReviewText } from "./useTranslateReviewText"
 
 export const useCommentItem = (id: string, text: string) => {
+	const t = useTranslations("global.product.content.reviews.item")
+
 	const { deleteCommentAsync, isCommentDeleting } = useDeleteCommentS()
 	const { state, isTranslating, translate } = useTranslateReviewText(id, text)
 
@@ -17,12 +20,12 @@ export const useCommentItem = (id: string, text: string) => {
 			toast.success("Комментарий удален!")
 		} catch (error) {
 			const { errMsg } = errorCatch(error as AxiosError)
-
 			toast.error(errMsg)
 		}
 	}
 
 	return {
+		t,
 		state,
 		isTranslating,
 		isCommentDeleting,

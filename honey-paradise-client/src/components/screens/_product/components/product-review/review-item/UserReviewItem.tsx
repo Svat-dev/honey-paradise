@@ -1,4 +1,5 @@
 import styles from "@styles/modules/toaster.module.scss"
+import { useTranslations } from "next-intl"
 import dynamic from "next/dynamic"
 import type { FC } from "react"
 import toast from "react-hot-toast"
@@ -27,6 +28,7 @@ const UserReviewItem: FC<IProps> = ({
 	rating,
 	setIsDeleted
 }) => {
+	const t = useTranslations("global.product.content.reviews")
 	const toastId = crypto.randomUUID()
 
 	const handleDelete = () => {
@@ -52,7 +54,7 @@ const UserReviewItem: FC<IProps> = ({
 
 	return (
 		<div className="mb-4 flex items-center justify-between">
-			<p className="text-xl font-medium">Ваш отзыв</p>
+			<p className="text-xl font-medium">{t("item.userReview")}</p>
 
 			<div className="flex items-center gap-3">
 				<DynamicCreateReviewDialog
@@ -61,13 +63,23 @@ const UserReviewItem: FC<IProps> = ({
 					reviewId={reviewId}
 					defaultValue={{ comment, rating }}
 				>
-					<Button variant="secondary" className="p-2">
-						Редактировать
+					<Button
+						variant="secondary"
+						title={t("item.actions.edit")}
+						className="p-2"
+					>
+						{t("item.actions.edit")}
 					</Button>
 				</DynamicCreateReviewDialog>
+				{}
 
-				<Button variant="destructive" className="p-2" onClick={handleDelete}>
-					Удалить
+				<Button
+					variant="destructive"
+					title={t("item.actions.delete")}
+					className="p-2"
+					onClick={handleDelete}
+				>
+					{t("item.actions.delete")}
 				</Button>
 			</div>
 		</div>

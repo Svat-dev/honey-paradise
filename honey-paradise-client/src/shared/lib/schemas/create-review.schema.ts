@@ -2,35 +2,36 @@ import { z } from "zod"
 
 import { VALUES } from "../constants/base"
 
-const ratingSchema = z
-	.number({ message: "Поле должно быть числом" })
-	.max(5, "Макс. значение 5")
+const ratingSchema = (t: any) =>
+	z.number({ message: t("rating.number") }).max(5, t("rating.max"))
 
-const commentSchema = (max: number) =>
+const commentSchema = (max: number, t: any) =>
 	z
-		.string({ message: "Поле должно быть строкой" })
+		.string({ message: t("comment.string") })
 		.max(max, {
-			message: `Длина комментария не должна превышать ${max} символов`
+			message: t("comment.max", { max })
 		})
-		.nonempty({ message: "Поле комментария не может быть пустым" })
+		.nonempty({ message: t("comment.empty") })
 
-export const createReviewSchema = z.object({
-	comment: commentSchema(VALUES.MAX_REVIEW_LENGTH),
-	rating: z.object({
-		common: ratingSchema.min(1, "Заполните как минимум общий рейтинг"),
-		taste: ratingSchema,
-		aroma: ratingSchema,
-		packaging: ratingSchema
+export const createReviewSchema = (t: any) =>
+	z.object({
+		comment: commentSchema(VALUES.MAX_REVIEW_LENGTH, t),
+		rating: z.object({
+			common: ratingSchema(t).min(1, t("rating.min")),
+			taste: ratingSchema(t),
+			aroma: ratingSchema(t),
+			packaging: ratingSchema(t)
+		})
 	})
-})
 
-export const createCommentSchema = z.object({
-	comment: commentSchema(VALUES.MAX_COMMENT_LENGTH),
-	replyId: z
-		.string({ message: "ID должен быть строкой!" })
-		.uuid({ message: "ID должен быть правильным UUID 4 версии!" })
-		.optional()
-})
+export const createCommentSchema = (t: any) =>
+	z.object({
+		comment: commentSchema(VALUES.MAX_COMMENT_LENGTH, t),
+		replyId: z
+			.string({ message: t("reviewId.string") })
+			.uuid({ message: t("reviewId.uuid") })
+			.optional()
+	})
 
 export type TCreateReviewSchema = {
 	comment: string

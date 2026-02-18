@@ -1,9 +1,10 @@
-import { useLocale } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { useMemo, useState } from "react"
 
 import type { GetReviewsByPidResponseRating } from "@/shared/types/server"
 
 export const useReviewItem = (rating: GetReviewsByPidResponseRating) => {
+	const t = useTranslations("global.product.content.reviews")
 	const locale = useLocale()
 
 	const [isDeleted, setIsDeleted] = useState<boolean>(false)
@@ -11,20 +12,20 @@ export const useReviewItem = (rating: GetReviewsByPidResponseRating) => {
 	const extraRatingArray = useMemo(
 		() => [
 			{
-				title: "Общая",
+				title: t("badge.common"),
 				value: rating.common,
 				isCommon: true
 			},
 			{
-				title: "Вкус",
+				title: t("badge.taste"),
 				value: rating.taste
 			},
 			{
-				title: "Аромат",
+				title: t("badge.aroma"),
 				value: rating.aroma
 			},
 			{
-				title: "Упаковка",
+				title: t("badge.packaging"),
 				value: rating.packaging
 			}
 		],
@@ -32,6 +33,7 @@ export const useReviewItem = (rating: GetReviewsByPidResponseRating) => {
 	)
 
 	return {
+		t,
 		isDeleted,
 		setIsDeleted,
 		extraRatingArray

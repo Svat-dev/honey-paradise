@@ -35,7 +35,7 @@ const ReviewItem: FC<IProps> = ({
 	isUserReview,
 	auth
 }) => {
-	const { extraRatingArray, isDeleted, setIsDeleted } = useReviewItem(rating)
+	const { t, extraRatingArray, isDeleted, setIsDeleted } = useReviewItem(rating)
 
 	const { state, isTranslating, translate } = useTranslateReviewText(
 		id,
@@ -58,7 +58,7 @@ const ReviewItem: FC<IProps> = ({
 			viewport={{ once: true, amount: "some" }}
 		>
 			{isMostPopular && likes !== null && (
-				<p className="mb-3 text-2xl font-medium">Самый популярный отзыв</p>
+				<p className="mb-3 text-2xl font-medium">{t("item.mostPopular")}</p>
 			)}
 
 			{isUserReview && (
@@ -90,7 +90,7 @@ const ReviewItem: FC<IProps> = ({
 								readOnly
 							/>
 						) : (
-							<span>{value === 0 ? "Нет оценки" : value}</span>
+							<span>{value === 0 ? t("item.noRating") : value}</span>
 						)}
 					</ReviewRatingBadgeWrapper>
 				))}
@@ -118,9 +118,9 @@ const ReviewItem: FC<IProps> = ({
 								"bg-muted/40": state.isTranslated
 							}
 						)}
-						title={
-							state.isTranslated ? "Показать оригинал" : "Перевести на ваш язык"
-						}
+						title={t("item.translate", {
+							isTranslated: String(state.isTranslated)
+						})}
 						onClick={() => translate("review")}
 						disabled={isTranslating}
 					>

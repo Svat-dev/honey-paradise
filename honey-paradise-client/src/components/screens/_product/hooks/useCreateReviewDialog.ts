@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import type { AxiosError } from "axios"
-import { useLocale } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import {
 	type PointerEvent,
 	type SyntheticEvent,
@@ -30,13 +30,16 @@ export const useCreateReviewDialog = (
 	type: "create" | "edit",
 	defaultValue?: Partial<TCreateReviewSchema>
 ) => {
+	const t = useTranslations("global.product.content.reviews.item.createDialog")
+	const st = useTranslations("global.product.content.schema")
 	const locale = useLocale()
+
 	const { createProductReviewAsync, isCreatingProductReview } =
 		useCreateProductReviewS()
 	const { editReviewAsync, isEditingReview } = useEditReviewS()
 
 	const form = useForm<TCreateReviewSchema>({
-		resolver: zodResolver(createReviewSchema),
+		resolver: zodResolver(createReviewSchema(st)),
 		mode: "onChange",
 		defaultValues:
 			type === "create"
@@ -57,19 +60,19 @@ export const useCreateReviewDialog = (
 	const ratingListData: IRatingListData[] = useMemo(
 		() => [
 			{
-				text: "Общая оценка товара",
+				text: t("rating.common"),
 				field: "common"
 			},
 			{
-				text: "Оценка вкуса",
+				text: t("rating.aroma"),
 				field: "taste"
 			},
 			{
-				text: "Оценка аромата",
+				text: t("rating.taste"),
 				field: "aroma"
 			},
 			{
-				text: "Оценка упаковки",
+				text: t("rating.packaging"),
 				field: "packaging"
 			}
 		],
@@ -227,6 +230,7 @@ export const useCreateReviewDialog = (
 	}, [])
 
 	return {
+		t,
 		form,
 		isOpen,
 		setIsOpen,

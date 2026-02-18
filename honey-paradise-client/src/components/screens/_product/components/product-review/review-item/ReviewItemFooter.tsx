@@ -34,14 +34,18 @@ const ReviewItemFooter: FC<IReviewItemFooter> = ({
 	isLiked,
 	children
 }) => {
-	const { isReactingToReview, isOpen, handleReactToReview, handleOpen } =
+	const { t, isReactingToReview, isOpen, handleReactToReview, handleOpen } =
 		useReviewItemFooter(id)
 
 	return (
 		<>
 			<footer className="flex items-center justify-between">
-				<Button variant="link" onClick={handleOpen}>
-					Комментарии
+				<Button
+					variant="link"
+					title={t("labels.commentsBtn")}
+					onClick={handleOpen}
+				>
+					{t("reviews.item.comments.title")}
 					<ChevronDownIcon
 						size={18}
 						className={cn("transition-transform", { "rotate-180": isOpen })}
@@ -51,6 +55,7 @@ const ReviewItemFooter: FC<IReviewItemFooter> = ({
 				<div className="flex items-center gap-3">
 					<Button
 						variant="outline"
+						title={t("labels.like")}
 						className={cn("!border-green-500 hover:!bg-green-500/40", {
 							"!bg-green-500/30": isLiked
 						})}
@@ -71,6 +76,7 @@ const ReviewItemFooter: FC<IReviewItemFooter> = ({
 
 					<Button
 						variant="outline"
+						title={t("labels.dislike")}
 						className={cn("!border-red-500 hover:!bg-red-500/40", {
 							"!bg-red-500/30": isDisliked
 						})}

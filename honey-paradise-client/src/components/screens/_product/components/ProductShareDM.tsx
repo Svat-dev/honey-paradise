@@ -1,4 +1,5 @@
 import { LinkIcon, Share2Icon } from "lucide-react"
+import { useTranslations } from "next-intl"
 import Image from "next/image"
 import type { FC } from "react"
 import toast from "react-hot-toast"
@@ -19,6 +20,8 @@ interface IProps {
 }
 
 const ProductShareDM: FC<IProps> = ({ slug, art }) => {
+	const t = useTranslations("global.product.content")
+
 	const handleGoToVk = () => {
 		try {
 			const shareUrl =
@@ -58,7 +61,7 @@ const ProductShareDM: FC<IProps> = ({ slug, art }) => {
 			<DropdownMenuTrigger asChild>
 				<Button
 					variant="default"
-					title="Поделиться"
+					title={t("labels.shareBtn")}
 					className="!absolute right-3 top-3 !bg-primary/40 p-2.5"
 				>
 					<Share2Icon size={22} />
@@ -69,16 +72,16 @@ const ProductShareDM: FC<IProps> = ({ slug, art }) => {
 				<DropdownMenuItem onClick={handleGoToVk}>
 					<Image
 						src="/icons/providers/vk.svg"
-						alt={"VK icon"}
+						alt={t("labels.vk")}
 						width={20}
 						height={20}
 					/>
-					Вконтакте
+					{t("shareDM.vk")}
 				</DropdownMenuItem>
 
 				<DropdownMenuItem onClick={handleCopyLink}>
 					<LinkIcon size={26} />
-					Скопировать ссылку
+					{t("shareDM.copy")}
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

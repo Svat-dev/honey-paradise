@@ -1,3 +1,4 @@
+import { useLocale, useTranslations } from "next-intl"
 import { useMemo, useState } from "react"
 
 import { useGetProductsRatingS } from "@/services/hooks/products"
@@ -8,6 +9,9 @@ import type {
 } from "@/shared/types/server"
 
 export const useProductReviewsWrapper = (slug: string) => {
+	const t = useTranslations("global.product.content.reviews")
+	const locale = useLocale()
+
 	const { isAuthenticated } = useAuth()
 	const { rating, isRatingLoading } = useGetProductsRatingS(slug)
 
@@ -24,11 +28,12 @@ export const useProductReviewsWrapper = (slug: string) => {
 	for (const key in rating?.extraRating) {
 		const value =
 			rating?.extraRating[key as keyof GetProductsRatingResponseExtra] || 0
-		extraRatingArray.push([key, value])
+		extraRatingArray.push([t(`badge.${key}` as any), value])
 	}
 
 	return useMemo(
 		() => ({
+			t,
 			isHasReview,
 			isAuthenticated,
 			isRatingLoading,
@@ -42,7 +47,8 @@ export const useProductReviewsWrapper = (slug: string) => {
 			isHasReview,
 			rating?.rating,
 			reviewsArray,
-			extraRatingArray
+			extraRatingArray,
+			locale
 		]
 	)
 }

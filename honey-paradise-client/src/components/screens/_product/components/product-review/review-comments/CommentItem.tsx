@@ -32,8 +32,14 @@ const CommentItem: FC<ICommentItem> = ({
 		document.getElementById(`comment-input-${reviewId}`)?.scrollIntoView()
 	}
 
-	const { state, isTranslating, isCommentDeleting, translate, deleteComment } =
-		useCommentItem(id, text)
+	const {
+		t,
+		state,
+		isTranslating,
+		isCommentDeleting,
+		translate,
+		deleteComment
+	} = useCommentItem(id, text)
 
 	return (
 		<div
@@ -55,9 +61,13 @@ const CommentItem: FC<ICommentItem> = ({
 			/>
 
 			<div className="flex items-center justify-between px-2">
-				<Button variant="link" onClick={replyToComment}>
+				<Button
+					variant="link"
+					title={t("comments.reply.btn")}
+					onClick={replyToComment}
+				>
 					<ReplyIcon size={20} className="mb-1 mr-1" />
-					Ответить
+					{t("comments.reply.btn")}
 				</Button>
 
 				<div className="flex items-center gap-3">
@@ -70,11 +80,9 @@ const CommentItem: FC<ICommentItem> = ({
 									"bg-muted/40": state.isTranslated
 								}
 							)}
-							title={
-								state.isTranslated
-									? "Показать оригинал"
-									: "Перевести на ваш язык"
-							}
+							title={t("translate", {
+								isTranslated: String(state.isTranslated)
+							})}
 							onClick={() => translate("commentary")}
 							disabled={isTranslating || isCommentDeleting}
 						>
@@ -85,6 +93,7 @@ const CommentItem: FC<ICommentItem> = ({
 					{isOwner && (
 						<Button
 							variant="destructive-outline"
+							title={t("comments.delete")}
 							className="p-1 text-red-500"
 							onClick={deleteComment}
 							isLoading={isCommentDeleting}

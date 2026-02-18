@@ -1,4 +1,5 @@
 import { HeartIcon, InfoIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
 import dynamic from "next/dynamic"
 import type { FC } from "react"
 
@@ -40,6 +41,7 @@ const ProductPrice: FC<IProps> = ({
 		handleAddToCart
 	} = useProductContext()
 
+	const t = useTranslations("global.product.content")
 	const { getPrice } = useGetPrice(currency)
 
 	const currentIndex = variants.findIndex(i => i.id === variantId) || 0
@@ -76,6 +78,7 @@ const ProductPrice: FC<IProps> = ({
 				>
 					<Button
 						variant="ghost"
+						title={t("labels.priceInfo")}
 						className="animate-show-effect text-muted opacity-0 hover:text-black"
 					>
 						<InfoIcon size={24} />
@@ -85,7 +88,7 @@ const ProductPrice: FC<IProps> = ({
 
 			<Button
 				variant="default"
-				title="Switch favorite"
+				title={t("labels.favorite", { isLiked: String(isLiked) })}
 				className="!bg-primary/40 p-3 !text-red-500"
 				disabled={loading.default || loading.favorite}
 				onClick={handleSwitchFavorite}
@@ -106,12 +109,12 @@ const ProductPrice: FC<IProps> = ({
 			) : (
 				<Button
 					variant="default"
-					title={"Добавить в корзину"}
+					title={t("labels.addToCart")}
 					className="!p-3"
 					isLoading={loading.cart || loading.default || isProductLoading}
 					onClick={handleAddToCart}
 				>
-					{"В корзину"}
+					{t("price.addToCart")}
 				</Button>
 			)}
 		</div>

@@ -38,17 +38,33 @@ const StarRating: FC<IStartRatingProps> = ({
 				>
 					{Array(starCount)
 						.fill(0)
-						.map((_, i) => (
-							<StarIcon
-								key={i}
-								className={cn("inline-block", { "cursor-pointer": !readOnly })}
-								stroke="currentColor"
-								fill="currentColor"
-								strokeWidth={0}
-								size={size}
-								onClick={() => handleChange(i + 1)}
-							/>
-						))}
+						.map((_, i) =>
+							!readOnly ? (
+								<button
+									key={i}
+									type="button"
+									className="inline-block cursor-pointer"
+									title={`${i + 1}⭐`}
+									onClick={() => handleChange(i + 1)}
+								>
+									<StarIcon
+										stroke="currentColor"
+										fill="currentColor"
+										strokeWidth={0}
+										size={size}
+									/>
+								</button>
+							) : (
+								<StarIcon
+									key={i}
+									className="inline-block"
+									stroke="currentColor"
+									fill="currentColor"
+									strokeWidth={0}
+									size={size}
+								/>
+							)
+						)}
 				</div>
 
 				<m.div

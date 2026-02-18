@@ -1,4 +1,5 @@
 import { AxiosError } from "axios"
+import { useTranslations } from "next-intl"
 import { useState } from "react"
 import toast from "react-hot-toast"
 
@@ -7,6 +8,8 @@ import { useReactToReviewS } from "@/services/hooks/products"
 import type { ReactToReviewDtoType } from "@/shared/types/server"
 
 export const useReviewItemFooter = (id: string) => {
+	const t = useTranslations("global.product.content")
+
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 
 	const { reactToReviewAsync, isReactingToReview } = useReactToReviewS()
@@ -21,6 +24,7 @@ export const useReviewItemFooter = (id: string) => {
 	}
 
 	return {
+		t,
 		isReactingToReview,
 		isOpen,
 		handleReactToReview,

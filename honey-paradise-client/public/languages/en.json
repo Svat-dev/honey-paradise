@@ -30,7 +30,127 @@
 		"product": {
 			"title": "Product {name}",
 			"description": "Product {name} in the online store {title}",
-			"content": {}
+			"content": {
+				"description": {
+					"category": "Categories",
+					"text": {
+						"name": "Description",
+						"noDesc": "no data"
+					},
+					"rating": {
+						"name": "Rating",
+						"value": "{rating} out of 5"
+					},
+					"comment": "Reviews count"
+				},
+				"shareDM": {
+					"vk": "VKontakte",
+					"copy": "Copy link"
+				},
+				"weight": "{weight} kg",
+				"price": {
+					"addToCart": "Add to cart",
+					"info": "Product price information",
+					"fullPrice": "Full price of the product",
+					"discounts": {
+						"category": "Category discount",
+						"season": "Seasonal discount",
+						"sellout": "Sale",
+						"vip_club": "VIP club discount",
+						"default": "Discount"
+					},
+					"total": "Total"
+				},
+				"reviews": {
+					"title": "Product reviews",
+					"count": "{count, plural, =0 {no reviews} =1 {# review} other {# reviews}}",
+					"badge": {
+						"common": "General",
+						"aroma": "Fragrance",
+						"taste": "Taste",
+						"packaging": "Packaging"
+					},
+					"createOffer": {
+						"title": "Would you like to share your opinion?",
+						"description": "Rate the product, your feedback will be useful",
+						"createBtn": "Add a review"
+					},
+					"item": {
+						"mostPopular": "The most popular review",
+						"userReview": "Your review",
+						"noRating": "No rating",
+						"actions": {
+							"edit": "Edit",
+							"delete": "Delete"
+						},
+						"deleteToaster": {
+							"title": "Your review will be deleted",
+							"ok": "Ok",
+							"cancel": "Cancel"
+						},
+						"translated": "Translated",
+						"translate": "{isTranslated, select, true {Show original} false {Translate into your language} other {}}",
+						"createDialog": {
+							"title": "{state, select, true {Add review} false {Edit review} other {}}",
+							"description": "{state, select, true {Leave a review so that other users will know about your experience} false {Edit your review however you want!} other {}}",
+							"placeholder": "Your comment",
+							"fontStyle": {
+								"bold": "Bold text",
+								"italic": "Italic text",
+								"link": "Wrap the link"
+							},
+							"rating": {
+								"delete": "Clear",
+								"common": "Overall rating",
+								"aroma": "Fragrance rating",
+								"taste": "Taste rating",
+								"packaging": "Packaging rating"
+							},
+							"publish": "{state, select, true {Publish review} false {Save changes} other {}}",
+							"preview": "Text preview"
+						},
+						"comments": {
+							"title": "Commentaries",
+							"empty": "There are no comments here yet...",
+							"reply": {
+								"default": "Reply to a comment",
+								"delete": "Delete the response",
+								"text": "Reply to a comment \"{reply}...\"",
+								"btn": "Reply"
+							},
+							"delete": "Delete",
+							"create": "Leave a comment"
+						}
+					}
+				},
+				"schema": {
+					"comment": {
+						"string": "The field must be a string",
+						"max": "The length of the comment must not exceed {max} characters",
+						"empty": "The comment field cannot be empty"
+					},
+					"reviewId": {
+						"string": "ID must be a string!",
+						"uuid": "ID must be the correct version 4 UUID!"
+					},
+					"rating": {
+						"number": "The field must be a number",
+						"max": "Max. value 5",
+						"min": "Fill in at least the overall rating"
+					}
+				},
+				"labels": {
+					"vk": "VK icon",
+					"shareBtn": "Share",
+					"variant": "Variation {count}",
+					"priceInfo": "More information about the price",
+					"favorite": "{isLiked, select, true {Remove} false {Add} other {}}",
+					"addToCart": "Add to cart",
+					"commentsBtn": "Expand comments",
+					"like": "Like",
+					"dislike": "Dislike"
+				}
+			}
 		},
 		"notFound": {
 			"title": "Page not found",
@@ -510,8 +630,14 @@
 					},
 					"personal-info": {
 						"title": "Personal information",
-						"username": { "title": "Username", "placeholder": "Enter an username" },
-						"phone": { "title": "Phone number", "placeholder": "Enter a phone number" },
+						"username": {
+							"title": "Username",
+							"placeholder": "Enter an username"
+						},
+						"phone": {
+							"title": "Phone number",
+							"placeholder": "Enter a phone number"
+						},
 						"birthdate": { "title": "Date of birth" },
 						"gender": {
 							"title": "Your gender",
@@ -696,9 +822,15 @@
 							"saveFileJson": "Download in Yaml format"
 						},
 						"toasters": {
-							"email": { "success": "You have successfully changed your email address" },
-							"security": { "success": "Changed information has successfully saved" },
-							"changePasswordModal": { "success": "You have successfully changed your password" }
+							"email": {
+								"success": "You have successfully changed your email address"
+							},
+							"security": {
+								"success": "Changed information has successfully saved"
+							},
+							"changePasswordModal": {
+								"success": "You have successfully changed your password"
+							}
 						}
 					}
 				},

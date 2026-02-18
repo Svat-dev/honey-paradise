@@ -1,5 +1,6 @@
 import { format } from "date-fns"
 import { CornerUpRightIcon, InfoIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
 import type { FC } from "react"
 
 import {
@@ -27,6 +28,7 @@ const ReviewItemHeader: FC<IReviewItemHeader> = ({
 	user,
 	reply
 }) => {
+	const t = useTranslations("global.product.content.reviews.item.comments")
 	const handleHighlight = () => highlightComment(reply?.id)
 
 	return (
@@ -57,7 +59,7 @@ const ReviewItemHeader: FC<IReviewItemHeader> = ({
 				{reply?.id && (
 					<Button variant="link" onClick={handleHighlight}>
 						<CornerUpRightIcon size={20} className="mb-1 mr-1" />
-						Ответ на комментарий "{reply.text}..."
+						{t("reply.text", { reply: reply.text })}
 					</Button>
 				)}
 			</div>

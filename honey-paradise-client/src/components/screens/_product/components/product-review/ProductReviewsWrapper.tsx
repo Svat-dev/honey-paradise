@@ -22,6 +22,7 @@ const ProductReviewsWrapper: FC<IProps> = ({
 	reviewsLength
 }) => {
 	const {
+		t,
 		isAuthenticated,
 		isHasReview,
 		isRatingLoading,
@@ -34,7 +35,7 @@ const ProductReviewsWrapper: FC<IProps> = ({
 	return (
 		<article>
 			<Title size="md" id="product-reviews" className="text-2xl font-semibold">
-				Отзывы о продукте
+				{t("title")}
 			</Title>
 
 			<div className="flex gap-14">
@@ -50,7 +51,7 @@ const ProductReviewsWrapper: FC<IProps> = ({
 								color="#ffd700"
 								readOnly
 							/>
-							<p>{reviewsLength} отзывов</p>
+							<p>{t("count", { count: reviewsLength })}</p>
 						</div>
 					</div>
 

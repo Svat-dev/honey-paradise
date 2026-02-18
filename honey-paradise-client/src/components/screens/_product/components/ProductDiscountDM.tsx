@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl"
 import type { FC, PropsWithChildren } from "react"
 
 import {
@@ -7,10 +8,7 @@ import {
 	Separator,
 	Title
 } from "@/components/ui/common"
-import {
-	type GetProductBySlugResponseDiscount,
-	GetProductBySlugResponseDiscountType
-} from "@/shared/types/server"
+import type { GetProductBySlugResponseDiscount } from "@/shared/types/server"
 
 interface IProps extends PropsWithChildren {
 	discounts: GetProductBySlugResponseDiscount[]
@@ -26,20 +24,7 @@ const ProductDiscountDM: FC<IProps> = ({
 	discounts,
 	getPrice
 }) => {
-	const getType = (type: GetProductBySlugResponseDiscountType) => {
-		switch (type) {
-			case "CATEGORY":
-				return "Скидка категории"
-			case "SEASON":
-				return "Сезонная скидка"
-			case "SELLOUT":
-				return "Распродажа"
-			case "VIP_CLUB":
-				return "Скидка вип-клуба"
-			default:
-				return "Скидка"
-		}
-	}
+	const t = useTranslations("global.product.content.price")
 
 	return (
 		<DropdownMenu>
@@ -47,11 +32,11 @@ const ProductDiscountDM: FC<IProps> = ({
 
 			<DropdownMenuContent className="!p-2">
 				<Title size="xs" className="mb-2 font-medium">
-					Информация о цене товара
+					{t("info")}
 				</Title>
 
 				<div className="mb-0.5 flex items-center gap-3">
-					<span>Полная цена товара:</span>
+					<span>{t("fullPrice")}:</span>
 					{getPrice(priceInUsd)}
 				</div>
 
@@ -60,7 +45,9 @@ const ProductDiscountDM: FC<IProps> = ({
 						key={id}
 						className="mb-0.5 flex w-full items-center justify-between"
 					>
-						<span className="whitespace-nowrap">{getType(type)}</span>
+						<span className="whitespace-nowrap">
+							{t(`discounts.${type.toLowerCase()}` as any)}
+						</span>
 						<span className="text-muted">
 							-{getPrice(priceInUsd * discount).slice(1)}
 						</span>
@@ -70,7 +57,7 @@ const ProductDiscountDM: FC<IProps> = ({
 				<Separator orientation="horizontal" className="my-2" />
 
 				<p>
-					<span className="font-medium">Итого:</span>
+					<span className="font-medium">{t("total")}:</span>
 					&nbsp;{getPrice(totalPrice)}
 				</p>
 			</DropdownMenuContent>

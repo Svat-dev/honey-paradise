@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import type { AxiosError } from "axios"
+import { useTranslations } from "next-intl"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
@@ -19,11 +20,14 @@ export const useCreateComment = (
 	reviewId: string,
 	replyId: string | undefined
 ) => {
+	const t = useTranslations("global.product.content.reviews.item")
+	const st = useTranslations("global.product.content.schema")
+
 	const { createCommentAsync, isCreatingComment } = useCreateCommentS()
 	const { replyToCommentAsync, isReplyingToComment } = useReplyToCommentS()
 
 	const form = useForm<TCreateCommentSchema>({
-		resolver: zodResolver(createCommentSchema),
+		resolver: zodResolver(createCommentSchema(st)),
 		mode: "onSubmit",
 		defaultValues: { comment: "" }
 	})
@@ -54,6 +58,7 @@ export const useCreateComment = (
 	}, [replyId])
 
 	return {
+		t,
 		form,
 		onSubmit: form.handleSubmit(onSubmit),
 		handleHighlight,

@@ -15,25 +15,26 @@ const DeleteReviewToaster: FC<IProps> = ({
 	setNotDeleted,
 	reviewId
 }) => {
-	const { cancelDeleting, agreeWithDeleting, progressWidth } =
+	const { t, cancelDeleting, agreeWithDeleting, progressWidth } =
 		useDeleteReviewToaster(setNotDeleted, removeToast, reviewId)
 
 	return (
 		<div className="flex items-center gap-3">
-			<p>Ваш отзыв будет удален</p>
+			<p>{t("title")}</p>
 
 			<Separator orientation="vertical" className="mx-3 h-full" />
 
-			<Button variant="outline" onClick={cancelDeleting}>
-				Отменить
+			<Button variant="outline" title={t("cancel")} onClick={cancelDeleting}>
+				{t("cancel")}
 			</Button>
 
 			<Button
 				variant="destructive"
+				title={t("ok")}
 				onClick={agreeWithDeleting}
 				className="p-1.5 px-2.5"
 			>
-				Ок
+				{t("ok")}
 			</Button>
 
 			<div className="absolute bottom-0 left-0 h-1 w-full overflow-hidden rounded-full bg-gray-400">

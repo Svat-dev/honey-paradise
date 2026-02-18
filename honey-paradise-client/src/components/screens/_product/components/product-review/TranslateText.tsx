@@ -1,4 +1,5 @@
 import { m } from "motion/react"
+import { useTranslations } from "next-intl"
 import type { FC } from "react"
 
 import { Markdown } from "@/components/ui/components/markdown"
@@ -17,6 +18,8 @@ const TranslateText: FC<ITranslateText> = ({
 	state: { isTranslated, isVisible, text },
 	isTranslating
 }) => {
+	const t = useTranslations("global.product.content.reviews.item")
+
 	return (
 		<m.div
 			initial={false}
@@ -29,7 +32,7 @@ const TranslateText: FC<ITranslateText> = ({
 		>
 			{type === "review" ? <Markdown children={text} /> : <p>{text}</p>}
 			{isTranslated && (
-				<p className="ml-2 self-end text-sm text-muted">Переведено</p>
+				<p className="ml-2 self-end text-sm text-muted">{t("translated")}</p>
 			)}
 		</m.div>
 	)

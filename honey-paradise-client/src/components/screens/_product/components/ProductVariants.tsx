@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl"
 import type { FC } from "react"
 
 import { Button, Skeleton } from "@/components/ui/common"
@@ -11,15 +12,18 @@ interface IProductVariants {
 }
 
 const ProductVariants: FC<IProductVariants> = ({ variants }) => {
+	const t = useTranslations("global.product.content")
+
 	const { variantId, setVariantId, currency, loading } = useProductContext()
 	const { getPrice } = useGetPrice(currency)
 
 	return (
 		<div className="flex w-full flex-wrap items-center gap-5 px-1">
-			{variants.map(item => (
+			{variants.map((item, i) => (
 				<Button
-					variant="default"
 					key={item.id}
+					variant="default"
+					title={t("labels.variant", { count: i + 1 })}
 					className={cn("px-2 py-1.5 hover:!bg-black/25", {
 						"bg-black/25 ring-1 ring-black": variantId === item.id
 					})}
@@ -28,7 +32,7 @@ const ProductVariants: FC<IProductVariants> = ({ variants }) => {
 					{loading.default ? (
 						<Skeleton className="h-5 w-10" />
 					) : (
-						<p>{item.weight / 1000} кг</p>
+						<p>{t("weight", { weight: item.weight / 1000 })}</p>
 					)}
 					&nbsp;|&nbsp;
 					{loading.default ? (

@@ -42,6 +42,7 @@ const CreateReviewDialog: FC<ICreateReviewDialogProps> = ({
 	defaultValue
 }) => {
 	const {
+		t,
 		form,
 		rating,
 		comment,
@@ -66,14 +67,10 @@ const CreateReviewDialog: FC<ICreateReviewDialogProps> = ({
 			<DialogTrigger asChild>{children}</DialogTrigger>
 
 			<DialogContent className="!max-w-[40rem]">
-				<DialogTitle>
-					{isCreate ? "Добавление отзыва" : "Редактирование отзыва"}
-				</DialogTitle>
+				<DialogTitle>{t("title", { state: String(isCreate) })}</DialogTitle>
 
 				<DialogDescription className="mb-2">
-					{isCreate
-						? "Оставьте отзыв, чтобы другие пользователи узнали о вашем опыте"
-						: "Отредактируйте свой отзыв как захотите!"}
+					{t("description", { state: String(isCreate) })}
 				</DialogDescription>
 
 				<FormProvider {...form}>
@@ -93,6 +90,7 @@ const CreateReviewDialog: FC<ICreateReviewDialogProps> = ({
 										{field !== "common" && (
 											<Button
 												variant="ghost"
+												title={t("rating.delete")}
 												className="hover:!text-muted"
 												onClick={() => handleChangeRating(0, field)}
 												disabled={rating[field] === 0}
@@ -116,7 +114,7 @@ const CreateReviewDialog: FC<ICreateReviewDialogProps> = ({
 
 						<FormInput
 							name="comment"
-							label="Ваш комментарий"
+							label={t("placeholder")}
 							containerClassName="mb-12"
 							textareaProps={{
 								onSelect: handleSelect,
@@ -130,7 +128,7 @@ const CreateReviewDialog: FC<ICreateReviewDialogProps> = ({
 								<Button
 									variant="ghost"
 									className="!p-2 hover:!bg-muted/30"
-									title="Жирный текст"
+									title={t("fontStyle.bold")}
 									onClick={() => applyStyle("bold")}
 								>
 									<BoldIcon size={20} />
@@ -139,7 +137,7 @@ const CreateReviewDialog: FC<ICreateReviewDialogProps> = ({
 								<Button
 									variant="ghost"
 									className="!p-2 hover:!bg-muted/30"
-									title="Курсивный текст"
+									title={t("fontStyle.italic")}
 									onClick={() => applyStyle("italic")}
 								>
 									<ItalicIcon size={20} />
@@ -148,7 +146,7 @@ const CreateReviewDialog: FC<ICreateReviewDialogProps> = ({
 								<Button
 									variant="ghost"
 									className="!p-2 hover:!bg-muted/30"
-									title="Сделать текст ссылкой"
+									title={t("fontStyle.link")}
 									onClick={() => applyStyle("link")}
 								>
 									<Link2 size={20} />
@@ -160,11 +158,12 @@ const CreateReviewDialog: FC<ICreateReviewDialogProps> = ({
 
 						<Button
 							variant="secondary"
+							title={t("publish", { state: String(isCreate) })}
 							type="submit"
 							className="p-3"
 							isLoading={isCreatingProductReview || isEditingReview}
 						>
-							{isCreate ? "Опубликовать отзыв" : "Сохранить изменения"}
+							{t("publish", { state: String(isCreate) })}
 						</Button>
 
 						<AnimatePresence>

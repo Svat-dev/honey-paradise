@@ -1,4 +1,5 @@
 import { m } from "motion/react"
+import { useTranslations } from "next-intl"
 import { type FC, useState } from "react"
 
 import { useGetCommentsS } from "@/services/hooks/products/reviews/comment/useGetCommentsS"
@@ -13,6 +14,8 @@ interface IProps {
 }
 
 const ReviewComments: FC<IProps> = ({ reviewId }) => {
+	const t = useTranslations("global.product.content.reviews")
+
 	const { isAuthenticated } = useAuth()
 	const { comments, isCommentsLoading } = useGetCommentsS(reviewId)
 
@@ -49,7 +52,7 @@ const ReviewComments: FC<IProps> = ({ reviewId }) => {
 						/>
 					))
 				) : (
-					<>No Comments</>
+					<p className="font-medium italic">{t("item.comments.empty")}</p>
 				)}
 			</div>
 		</m.section>

@@ -1,4 +1,5 @@
 import type { AxiosError } from "axios"
+import { useTranslations } from "next-intl"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 
@@ -10,6 +11,8 @@ export const useDeleteReviewToaster = (
 	removeToast: VoidFunction,
 	reviewId: string
 ) => {
+	const t = useTranslations("global.product.content.reviews.item.deleteToaster")
+
 	const { deleteReviewAsync } = useDeleteReviewS()
 	const [timer, setTimer] = useState<number>(10)
 
@@ -50,6 +53,7 @@ export const useDeleteReviewToaster = (
 	const progressWidth = (timer / 10) * 100
 
 	return {
+		t,
 		cancelDeleting,
 		progressWidth,
 		agreeWithDeleting
