@@ -13,3 +13,11 @@ export type TTranslateCache = Record<
 	"en" | "ru",
 	Record<string, ITranslateCacheData>
 >
+
+export type TRedisBans = Record<string, IRedisBanData[]>
+
+export interface IRedisBanData {
+	tgId: number
+	reason: string
+	expiresAt: number
+}

@@ -6,6 +6,7 @@ import { EnumLanguages } from "@prisma/client"
 import Redis, { type RedisKey } from "ioredis"
 import { ms } from "src/shared/lib/common/utils"
 import type {
+	IRedisBanData,
 	IRedisSession,
 	ITranslateCacheData
 } from "src/shared/types/redis-values.type"
@@ -19,6 +20,7 @@ export class RedisService extends Redis {
 
 	sessionFolder = this.configService.get<string>("SESSION_FOLDER")
 	translateFolder = this.configService.get<string>("TRANSLATE_FOLDER")
+	banFolder = this.configService.get<string>("BAN_FOLDER")
 
 	async getSession(id: string): Promise<ISession> {
 		const sessionData = await this.get(this.sessionFolder + id)
@@ -78,6 +80,68 @@ export class RedisService extends Redis {
 		)
 
 		await this.del(keys)
+
+		return true
+	}
+
+	async createIpTgBan(ip: string, tgId: number): Promise<boolean> {
+		const data = await this.get(this.banFolder + ip)
+
+		const newRaw = {
+			tgId,
+			reason: "Because you are a bad person",
+			expiresAt: new Date().getTime() + ms("1min")
+		} as IRedisBanData
+
+		if (!data) {
+			await this.set(this.banFolder + ip, JSON.stringify([newRaw]))
+			return true
+		}
+
+		const existingData = JSON.parse(data) as IRedisBanData[]
+		const existingBan = existingData.find(ban => ban.tgId === tgId)
+
+		if (!existingBan) {
+			await this.set(
+				this.banFolder + ip,
+				JSON.stringify([...existingData, newRaw])
+			)
+			return true
+		}
+
+		return false
+	}
+
+	async deleteIpTgBan(ip: string, tgId: number): Promise<boolean> {
+		const data = await this.get(this.banFolder + ip)
+
+		if (!data) return false
+
+		const existingData = JSON.parse(data) as IRedisBanData[]
+		const existingBan = existingData.find(ban => ban.tgId === tgId)
+
+		if (!existingBan) return false
+
+		const newData = existingData.filter(ban => ban.tgId !== tgId)
+
+		await this.set(this.banFolder + ip, JSON.stringify(newData))
+
+		return true
+	}
+
+	async checkIpTgBan(ip: string, tgId: number): Promise<boolean> {
+		const bannedInfo = await this.get(this.banFolder + ip)
+
+		if (!bannedInfo) return false
+
+		const data = JSON.parse(bannedInfo) as IRedisBanData[]
+		const existingBan = data.find(ban => ban.tgId === tgId)
+
+		if (existingBan.expiresAt <= Date.now()) {
+			await this.deleteIpTgBan(ip, tgId)
+
+			return false
+		}
 
 		return true
 	}

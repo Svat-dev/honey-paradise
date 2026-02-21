@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception"
+import { ForbiddenException } from "@nestjs/common/exceptions/forbidden.exception"
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
 import type { OnModuleInit } from "@nestjs/common/interfaces/hooks/on-init.interface"
@@ -7,12 +8,12 @@ import { Logger } from "@nestjs/common/services/logger.service"
 import { ConfigService } from "@nestjs/config/dist/config.service"
 import { EnumTokenTypes } from "@prisma/client"
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service"
-import * as BotApi from "node-telegram-bot-api"
 import type {
 	CallbackQuery,
 	InlineKeyboardButton,
 	Message
 } from "node-telegram-bot-api"
+import * as BotApi from "node-telegram-bot-api"
 import { ProfileService } from "src/modules/auth/profile/profile.service"
 import { VerificationService } from "src/modules/auth/verification/verification.service"
 import { isDev } from "src/shared/lib/common/utils"
@@ -23,6 +24,7 @@ import type { SessionMetadata } from "src/shared/types/session-metadata.type"
 import { SessionsGateway } from "src/shared/websockets/sessions.gateway"
 
 import { PrismaService } from "../prisma/prisma.service"
+import { RedisService } from "../redis/redis.service"
 
 import { BotCallbacks } from "./data/callbacks"
 import { BotCommands, getCommandList } from "./data/commands"
@@ -37,6 +39,7 @@ export class TelegramService implements OnModuleInit {
 	constructor(
 		private readonly config: ConfigService,
 		private readonly prisma: PrismaService,
+		private readonly redisService: RedisService,
 		private readonly i18n: I18nService,
 		private readonly sessionsSocket: SessionsGateway,
 		private readonly profileService: ProfileService,
@@ -45,17 +48,17 @@ export class TelegramService implements OnModuleInit {
 		if (isOffline(this.config))
 			throw new InternalServerErrorException("Offline mode")
 
-		// this.bot = new BotApi(
-		// 	this.config.getOrThrow<string>("TELEGRAM_BOT_TOKEN"),
-		// 	{ polling: true }
-		// )
+		this.bot = new BotApi(
+			this.config.getOrThrow<string>("TELEGRAM_BOT_TOKEN"),
+			{ polling: true }
+		)
 		this.clientUrl = !isDev(this.config)
 			? "https://www.google.com"
 			: this.config.getOrThrow<string>("CLIENT_URL")
 	}
 
 	async onModuleInit() {
-		if (true) return "Offline mode"
+		// if (true) return "Offline mode"
 
 		await this.setBotConfig(false)
 
@@ -600,6 +603,13 @@ export class TelegramService implements OnModuleInit {
 		date: string
 	) {
 		try {
+			const isBanned = await this.redisService.checkIpTgBan(metadata.ip, chatId)
+
+			if (isBanned) {
+				await this.bot.sendMessage(chatId, "You are banned!")
+				throw new ForbiddenException("Fuck you!")
+			}
+
 			const text = this.i18n.t("d.tg-bot.msgs.confirm_auth", {
 				args: {
 					device: `${capitalize(metadata.device.browser)}, ${capitalize(metadata.device.os)}`,
