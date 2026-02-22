@@ -5,6 +5,6 @@ export const BotCallbacks = {
 
 	READ_NOTIFICATION: "read_notification_cb",
 
-	ACCEPT_AUTH: "2faacb",
+	ACCEPT_AUTH: "accept_2fa_auth",
 	REJECT_AUTH: "reject_2fa_auth"
 } as const

@@ -1,4 +1,5 @@
 import { UseGuards } from "@nestjs/common/decorators/core/use-guards.decorator"
+import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception"
 import { JwtService } from "@nestjs/jwt/dist/jwt.service"
 import { MessageBody, SubscribeMessage } from "@nestjs/websockets"
 import { WebSocketServer } from "@nestjs/websockets/decorators/gateway-server.decorator"
@@ -27,14 +28,18 @@ export class SessionsGateway
 	constructor(private readonly jwtService: JwtService) {}
 
 	async handleConnection(client: Socket) {
-		const token = await client.handshake.auth.token
-		const payload = token
-			? this.jwtService.verify<{ room: string; token: string }>(token)
-			: null
+		try {
+			const token = await client.handshake.auth.token
+			const payload = token
+				? this.jwtService.verify<{ room: string; token: string }>(token)
+				: null
 
-		if (payload?.room) await client.join(payload.room)
+			if (payload?.room) await client.join(payload.room)
 
-		return true
+			return true
+		} catch (error) {
+			throw new BadRequestException("Invalid Jwt token!")
+		}
 	}
 
 	async handleDisconnect(client: Socket) {

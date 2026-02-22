@@ -8,6 +8,7 @@ import type {
 } from "@nestjs/common/interfaces/hooks"
 import { Logger } from "@nestjs/common/services/logger.service"
 import { ConfigService } from "@nestjs/config/dist/config.service"
+import { JwtService } from "@nestjs/jwt/dist/jwt.service"
 import { EnumTokenTypes } from "@prisma/client"
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service"
 import { ProfileService } from "src/modules/auth/profile/profile.service"
@@ -25,6 +26,7 @@ import type {
 	CallbackQuery,
 	InlineKeyboardButton
 } from "telegraf/typings/core/types/typegram"
+import { v6 as uuidv6 } from "uuid"
 
 import { PrismaService } from "../prisma/prisma.service"
 import { RedisService } from "../redis/redis.service"
@@ -32,6 +34,7 @@ import { RedisService } from "../redis/redis.service"
 import { BotCallbacks } from "./data/callbacks"
 import { BotCommands, getCommandList } from "./data/commands"
 import { MemoryStorage } from "./memory-storage"
+import type { IJwtTokenPayload } from "./types/auth.type"
 import type { IBotContext } from "./types/bot.type"
 
 type TCallbackQuery = KeyedDistinct<CallbackQuery, "data">
@@ -49,6 +52,7 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
 		private readonly prisma: PrismaService,
 		private readonly redisService: RedisService,
 		private readonly i18n: I18nService,
+		private readonly jwtService: JwtService,
 		private readonly sessionsSocket: SessionsGateway,
 		private readonly profileService: ProfileService,
 		private readonly verificationService: VerificationService
@@ -488,8 +492,17 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
 		const msgId = query.message.message_id
 		const lang = query.from.language_code
 
+		const jwt_token = ctx.session.jwt_token || ""
+		const payload = this.jwtService.verify<IJwtTokenPayload>(jwt_token)
+
 		try {
-			this.sessionsSocket.handleRejectTgLogin({ room })
+			this.sessionsSocket.handleRejectTgLogin({ room: payload.room })
+
+			ctx.session = {}
+
+			await this.prisma.token.deleteMany({
+				where: { token: payload.token, type: EnumTokenTypes.TELEGRAM_TFA_AUTH }
+			})
 
 			await this.bot.telegram.deleteMessage(chatId, msgId)
 			await this.bot.telegram.sendMessage(
@@ -518,11 +531,11 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
 		const msgId = query.message.message_id
 		const lang = query.from.language_code
 
-		const token = query.data.split(":")[1] as string
-		const room = query.data.split(":")[2] as string
+		const jwt_token = ctx.session.jwt_token || ""
+		const payload = this.jwtService.verify<IJwtTokenPayload>(jwt_token)
 
 		const existingToken = this.prisma.token.findFirst({
-			where: { token, type: EnumTokenTypes.TELEGRAM_TFA_AUTH }
+			where: { token: payload.token, type: EnumTokenTypes.TELEGRAM_TFA_AUTH }
 		})
 		if (!existingToken)
 			return await this.bot.telegram.sendMessage(
@@ -531,10 +544,12 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
 			) //TODO translate
 
 		try {
-			this.sessionsSocket.handleAcceptTgLogin({ token, room })
+			this.sessionsSocket.handleAcceptTgLogin(payload)
 
-			await this.bot.deleteMessage(chatId, msgId)
-			await this.bot.sendMessage(
+			ctx.session = {}
+
+			await this.bot.telegram.deleteMessage(chatId, msgId)
+			await this.bot.telegram.sendMessage(
 				chatId,
 				this.i18n.t("d.tg-bot.toasters.success.auth_accepted", { lang })
 			)
@@ -620,9 +635,7 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
 
 	async sendConfirmAuth(
 		chatId: number,
-		metadata: SessionMetadata,
-		date: string
-	) {
+		metadata: SessionMetadata
 		try {
 			const isBanned = await this.redisService.checkIpTgBan(metadata.ip, chatId)
 
@@ -636,12 +649,19 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
 					device: `${capitalize(metadata.device.browser)}, ${capitalize(metadata.device.os)}`,
 					location: `${capitalize(metadata.location.country)}, ${capitalize(metadata.location.city)}`,
 					ip: metadata.ip,
-					date
+					date: new Date().toISOString()
 				}
 			})
 
 			const token = await this.verificationService.sendTelegramAuthToken(chatId)
-			const socket_room = new Date().getTime()
+			const room = uuidv6()
+
+			const jwt_token = this.jwtService.sign(
+				{ room, token, ip: metadata.ip } as IJwtTokenPayload,
+				{ expiresIn: "10min" }
+			)
+
+			this.store.set(chatId, { jwt_token })
 
 			await this.bot.telegram.sendMessage(chatId, text, {
 				parse_mode: "HTML",
@@ -650,21 +670,20 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
 						[
 							{
 								text: this.i18n.t("d.tg-bot.inline_buttons.confirm"),
-								callback_data:
-									BotCallbacks.ACCEPT_AUTH + ":" + token + ":" + socket_room
+								callback_data: BotCallbacks.ACCEPT_AUTH
 							}
 						],
 						[
 							{
 								text: this.i18n.t("d.tg-bot.inline_buttons.reject"),
-								callback_data: BotCallbacks.REJECT_AUTH + ":" + socket_room
+								callback_data: BotCallbacks.REJECT_AUTH
 							}
 						]
 					]
 				}
 			})
 
-			return { room: socket_room, token }
+			return [true, jwt_token]
 		} catch (error) {
 			throw new InternalServerErrorException(
 				this.i18n.t("d.errors.500.default")
