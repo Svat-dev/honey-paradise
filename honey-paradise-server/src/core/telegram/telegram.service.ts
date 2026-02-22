@@ -497,6 +497,7 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
 
 		try {
 			this.sessionsSocket.handleRejectTgLogin({ room: payload.room })
+			this.redisService.createIpTgBan(payload.ip, chatId)
 
 			ctx.session = {}
 
@@ -636,12 +637,12 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
 	async sendConfirmAuth(
 		chatId: number,
 		metadata: SessionMetadata
+	): Promise<[boolean, string]> {
 		try {
 			const isBanned = await this.redisService.checkIpTgBan(metadata.ip, chatId)
 
 			if (isBanned) {
-				await this.bot.sendMessage(chatId, "You are banned!")
-				throw new ForbiddenException("Fuck you!")
+				return [false, "You've made too many login attempts.\nTry again later"]
 			}
 
 			const text = this.i18n.t("d.tg-bot.msgs.confirm_auth", {

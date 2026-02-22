@@ -18,9 +18,9 @@ export class RedisService extends Redis {
 		super(configService.getOrThrow<string>("REDIS_URI"))
 	}
 
-	sessionFolder = this.configService.get<string>("SESSION_FOLDER")
-	translateFolder = this.configService.get<string>("TRANSLATE_FOLDER")
-	banFolder = this.configService.get<string>("BAN_FOLDER")
+	readonly sessionFolder = this.configService.get<string>("SESSION_FOLDER")
+	readonly translateFolder = this.configService.get<string>("TRANSLATE_FOLDER")
+	readonly banFolder = this.configService.get<string>("BAN_FOLDER")
 
 	async getSession(id: string): Promise<ISession> {
 		const sessionData = await this.get(this.sessionFolder + id)
@@ -90,7 +90,8 @@ export class RedisService extends Redis {
 		const newRaw = {
 			tgId,
 			reason: "Because you are a bad person",
-			expiresAt: new Date().getTime() + ms("1min")
+			streak: 1,
+			ttl: new Date().getTime() + ms("10min")
 		} as IRedisBanData
 
 		if (!data) {
@@ -101,15 +102,49 @@ export class RedisService extends Redis {
 		const existingData = JSON.parse(data) as IRedisBanData[]
 		const existingBan = existingData.find(ban => ban.tgId === tgId)
 
-		if (!existingBan) {
+		if (!existingBan)
 			await this.set(
 				this.banFolder + ip,
 				JSON.stringify([...existingData, newRaw])
 			)
-			return true
+		else {
+			const n = existingBan.streak
+			const q = 3
+			const base = ms("10min")
+
+			await this.set(
+				this.banFolder + ip,
+				JSON.stringify([
+					...existingData.filter(i => i.tgId !== existingBan.tgId),
+					{
+						...existingBan,
+						streak: n + 1,
+						ttl: new Date().getTime() + base * Math.pow(q, n)
+					} as IRedisBanData
+				])
+			)
 		}
 
-		return false
+		return true
+	}
+
+	async updateBanStreak(
+		ip: string,
+		tgId: number,
+		streak: number
+	): Promise<boolean> {
+		const data = await this.get(this.banFolder + ip)
+		const existingData = JSON.parse(data) as IRedisBanData[]
+		const existingBan = existingData.find(ban => ban.tgId === tgId)
+
+		if (!existingBan) return false
+
+		const newRaw = { ...existingBan, streak } as IRedisBanData
+		const newData = [...existingData, newRaw]
+
+		await this.set(this.banFolder + ip, JSON.stringify(newData))
+
+		return true
 	}
 
 	async deleteIpTgBan(ip: string, tgId: number): Promise<boolean> {
@@ -137,13 +172,11 @@ export class RedisService extends Redis {
 		const data = JSON.parse(bannedInfo) as IRedisBanData[]
 		const existingBan = data.find(ban => ban.tgId === tgId)
 
-		if (existingBan.expiresAt <= Date.now()) {
-			await this.deleteIpTgBan(ip, tgId)
-
-			return false
+		if (existingBan) {
+			if (existingBan.ttl > new Date().getTime()) return true
 		}
 
-		return true
+		return false
 	}
 
 	async getDataByFolder<T = any>(folder: string): Promise<T[]> {
@@ -161,13 +194,15 @@ export class RedisService extends Redis {
 
 				result.push(
 					...values.map((value, index) => {
-						const { cookie, ...other } = JSON.parse(value)
+						const parsed = JSON.parse(value)
 						const keyParts = keys[index].split(":")
 						const id = keyParts[keyParts.length - 1]
 
-						return {
-							id,
-							...other
+						if (Array.isArray(parsed)) {
+							return { id, data: parsed }
+						} else {
+							const { cookie, ...other } = parsed
+							return { id, ...other }
 						}
 					})
 				)

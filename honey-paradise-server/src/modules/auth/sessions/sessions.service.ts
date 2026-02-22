@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { ConflictException } from "@nestjs/common/exceptions/conflict.exception"
-import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
+import { ForbiddenException } from "@nestjs/common/exceptions/forbidden.exception"
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
 import { UnauthorizedException } from "@nestjs/common/exceptions/unauthorized.exception"
 import { ConfigService } from "@nestjs/config/dist/config.service"
@@ -25,7 +25,6 @@ import {
 	EnumErrorCauses,
 	EnumStorageKeys
 } from "src/shared/types/client/enums.type"
-import type { IRedisSession } from "src/shared/types/redis-values.type"
 import { ISession } from "src/shared/types/session-metadata.type"
 import { NotificationGateway } from "src/shared/websockets/notifications.gateway"
 
@@ -123,21 +122,14 @@ export class SessionsService {
 			if (user.settings.useTgTfaLogin && user.telegramId) {
 				const metadata = getSessionMetadata(req, userAgent)
 
-				const { room, token } = await this.telegramService.sendConfirmAuth(
+				const [success, response] = await this.telegramService.sendConfirmAuth(
 					Number(user.telegramId),
-					metadata,
-					new Date().toISOString()
+					metadata
 				)
 
-				const jwt_payload: { room: string; token: string } = {
-					room: String(room),
-					token
-				}
-				const jwt_token = this.jwtService.sign(jwt_payload, {
-					expiresIn: "10min"
-				})
+				if (!success) throw new ForbiddenException(response)
 
-				res.cookie(EnumStorageKeys.SOCKET_SESSION_TOKEN, jwt_token, {
+				res.cookie(EnumStorageKeys.SOCKET_SESSION_TOKEN, response, {
 					sameSite: "lax",
 					maxAge: ms("10min"),
 					domain: this.configService.getOrThrow<string>("DOMAIN"),
