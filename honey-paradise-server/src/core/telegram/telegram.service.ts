@@ -31,6 +31,7 @@ import { RedisService } from "../redis/redis.service"
 
 import { BotCallbacks } from "./data/callbacks"
 import { BotCommands, getCommandList } from "./data/commands"
+import { MemoryStorage } from "./memory-storage"
 import type { IBotContext } from "./types/bot.type"
 
 type TCallbackQuery = KeyedDistinct<CallbackQuery, "data">
@@ -40,6 +41,7 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
 	private readonly logger = new Logger("Telegram Service")
 
 	private readonly bot: Telegraf<IBotContext>
+	private readonly store: MemoryStorage = new MemoryStorage()
 	private readonly clientUrl: string
 
 	constructor(
@@ -57,6 +59,15 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
 		this.bot = new Telegraf<IBotContext>(
 			this.config.getOrThrow<string>("TELEGRAM_BOT_TOKEN")
 		)
+
+		this.bot.use(
+			session({
+				store: {
+					get: async name => this.store.get(name),
+					delete: async name => this.store.delete(name),
+					set: async (name, value) => this.store.set(name, value)
+				}
+			})
 		)
 
 		this.clientUrl = !isDev(this.config)
