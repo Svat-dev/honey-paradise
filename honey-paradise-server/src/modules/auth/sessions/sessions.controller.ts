@@ -88,8 +88,12 @@ export class SessionsController {
 	@HttpCode(HttpStatus.OK)
 	@Throttle({ default: { limit: 10, ttl: ms("10min") } })
 	@Post(EnumApiRoute.TG_TFA_LOGIN)
-	tfaTgLogin(@Req() req: Request, @UserAgent() userAgent: string) {
-		return this.sessionsService.verifyTelegramTFAToken(req, userAgent)
+	tfaTgLogin(
+		@Body() dto: AuthTfaDto,
+		@Req() req: Request,
+		@UserAgent() userAgent: string
+	) {
+		return this.sessionsService.verifyTelegramTFAToken(dto, req, userAgent)
 	}
 
 	@ApiOperation({ summary: "Cancel auth via telegram bot" })

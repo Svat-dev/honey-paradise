@@ -684,7 +684,7 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
 				}
 			})
 
-			return [true, jwt_token]
+			return [true, room]
 		} catch (error) {
 			throw new InternalServerErrorException(
 				this.i18n.t("d.errors.500.default")

@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
+import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception"
 import { ConflictException } from "@nestjs/common/exceptions/conflict.exception"
 import { ForbiddenException } from "@nestjs/common/exceptions/forbidden.exception"
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
@@ -7,6 +8,7 @@ import { ConfigService } from "@nestjs/config/dist/config.service"
 import { JwtService } from "@nestjs/jwt/dist/jwt.service"
 import { EnumNotificationType, EnumTokenTypes } from "@prisma/client"
 import { verify } from "argon2"
+import { isUUID } from "class-validator"
 import type { Request, Response } from "express"
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service"
 import { PrismaService } from "src/core/prisma/prisma.service"
@@ -176,7 +178,7 @@ export class SessionsService {
 
 	async cancelTgTfaLogin(req: Request, res: Response): Promise<boolean> {
 		if (!req.cookies[EnumStorageKeys.SOCKET_SESSION_TOKEN])
-			throw new NotFoundException("JWT Токен не найден в куках")
+			throw new NotFoundException("Токен комнаты не найден в куках")
 
 		const payload = this.jwtService.verify<{ token: string; roomId: string }>(
 			req.cookies[EnumStorageKeys.SOCKET_SESSION_TOKEN]
@@ -216,15 +218,15 @@ export class SessionsService {
 	}
 
 	async verifyTelegramTFAToken(
+		dto: AuthTfaDto,
 		req: Request,
 		userAgent: string
 	): Promise<boolean> {
-		const cookie = req.cookies[EnumStorageKeys.SOCKET_SESSION_TOKEN]
-		const token = this.jwtService.verify<{ token: string; roomId: string }>(
-			cookie
-		)
+		const room = req.cookies[EnumStorageKeys.SOCKET_SESSION_TOKEN]
 
-		const user = await this.verificationService.verifyTelegramAuthToken(token)
+		if (!isUUID(room, 6)) throw new BadRequestException("Invalid room ID")
+
+		const user = await this.verificationService.verifyTelegramAuthToken(dto)
 
 		const metadata = getSessionMetadata(req, userAgent)
 

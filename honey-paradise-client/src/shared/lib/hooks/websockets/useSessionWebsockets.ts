@@ -15,17 +15,17 @@ export const useSessionWebsockets = (onError: (msg: string) => void) => {
 
 	const [socket, setSocket] = useState<Socket | null>(null)
 
-	const jwt_token = Cookies.get(EnumStorageKeys.SOCKET_SESSION_TOKEN)
+	const room_token = Cookies.get(EnumStorageKeys.SOCKET_SESSION_TOKEN)
 
 	const connectSocket = useCallback(() => {
 		const session_socket = io(process.env.NEXT_PUBLIC_SERVER_URL, {
 			withCredentials: true,
 			path: EnumWSPaths.SESSIONS,
-			auth: { token: jwt_token }
+			auth: { token: room_token }
 		})
 
 		setSocket(session_socket)
-	}, [jwt_token])
+	}, [room_token])
 
 	useEffect(() => {
 		if (socket) {
@@ -44,11 +44,11 @@ export const useSessionWebsockets = (onError: (msg: string) => void) => {
 	}, [socket])
 
 	useEffect(() => {
-		if (!jwt_token && socket)
+		if (!room_token && socket)
 			return () => {
 				socket.disconnect()
 			}
-	}, [socket, jwt_token])
+	}, [socket, room_token])
 
 	return {
 		connectSocket,

@@ -32,8 +32,8 @@ export const useWSTelegramAuth = () => {
 		if (!result.success) return false
 
 		try {
-			const msg = result.data
-			await tgSignIn()
+			const token = result.data.token
+			await tgSignIn(token)
 
 			toast.success(t("reqAccepted"), { duration: 3000 })
 			prefetch(EnumAppRoute.SETTINGS)

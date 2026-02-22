@@ -28,27 +28,17 @@ export class SessionsGateway
 	constructor(private readonly jwtService: JwtService) {}
 
 	async handleConnection(client: Socket) {
-		try {
-			const token = await client.handshake.auth.token
-			const payload = token
-				? this.jwtService.verify<{ room: string; token: string }>(token)
-				: null
+		const token = await client.handshake.auth.token
 
-			if (payload?.room) await client.join(payload.room)
+		if (token) await client.join(token)
 
-			return true
-		} catch (error) {
-			throw new BadRequestException("Invalid Jwt token!")
-		}
+		return true
 	}
 
 	async handleDisconnect(client: Socket) {
 		const token = await client.handshake.auth.token
-		const payload = token
-			? this.jwtService.verify<{ room: string; token: string }>(token)
-			: null
 
-		if (payload?.room) await client.leave(payload.room)
+		if (token) await client.leave(token)
 
 		return true
 	}

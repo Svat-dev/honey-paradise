@@ -109,8 +109,8 @@ export class RedisService extends Redis {
 			)
 		else {
 			const n = existingBan.streak
-			const q = 3
-			const base = ms("10min")
+			const q = 2
+			const base = ms("15min")
 
 			await this.set(
 				this.banFolder + ip,
