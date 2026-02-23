@@ -5,8 +5,7 @@ import { ForbiddenException } from "@nestjs/common/exceptions/forbidden.exceptio
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
 import { UnauthorizedException } from "@nestjs/common/exceptions/unauthorized.exception"
 import { ConfigService } from "@nestjs/config/dist/config.service"
-import { JwtService } from "@nestjs/jwt/dist/jwt.service"
-import { EnumNotificationType, EnumTokenTypes } from "@prisma/client"
+import { EnumNotificationType } from "@prisma/client"
 import { verify } from "argon2"
 import { isUUID } from "class-validator"
 import type { Request, Response } from "express"
@@ -45,7 +44,6 @@ export class SessionsService {
 		private readonly notificationsService: NotificationsService,
 		private readonly telegramService: TelegramService,
 		private readonly notificationsSocket: NotificationGateway,
-		private readonly jwtService: JwtService,
 		private readonly i18n: I18nService
 	) {}
 
@@ -180,37 +178,9 @@ export class SessionsService {
 		if (!req.cookies[EnumStorageKeys.SOCKET_SESSION_TOKEN])
 			throw new NotFoundException("Токен комнаты не найден в куках")
 
-		const payload = this.jwtService.verify<{ token: string; roomId: string }>(
-			req.cookies[EnumStorageKeys.SOCKET_SESSION_TOKEN]
-		)
+		const roomId = req.cookies[EnumStorageKeys.SOCKET_SESSION_TOKEN]
 
-		const existingTokens = await this.prisma.token.findMany({
-			where: { type: EnumTokenTypes.TELEGRAM_TFA_AUTH },
-			select: { id: true, token: true }
-		})
-
-		let tokenId = null
-
-		for (const token of existingTokens) {
-			if (await verify(token.token, payload.token)) {
-				tokenId = token.id
-				break
-			}
-		}
-
-		if (!tokenId) throw new NotFoundException("Токен не найден")
-
-		const existingToken = await this.prisma.token.findUnique({
-			where: { id: tokenId },
-			select: { id: true, user: { select: { telegramId: true } } }
-		})
-
-		await this.prisma.token.delete({ where: { id: existingToken.id } })
-
-		await this.telegramService.sendCancelAuth(
-			existingToken.user.telegramId,
-			payload.roomId
-		)
+		await this.telegramService.sendCancelAuth(roomId)
 
 		res.clearCookie(EnumStorageKeys.SOCKET_SESSION_TOKEN)
 

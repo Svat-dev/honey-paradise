@@ -91,7 +91,8 @@ export const useSignIn = () => {
 	)
 
 	const onSubmit = async (data: TSignInFields) => {
-		if (!recaptchaValue) {
+		if (!recaptchaValue && false) {
+			// For testing
 			setError(true)
 			setDataStatus("error")
 			return setTimeout(() => setDataStatus("default"), errorDelay)

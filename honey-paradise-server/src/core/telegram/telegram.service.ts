@@ -1,5 +1,4 @@
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
-import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception"
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
 import type {
@@ -659,12 +658,10 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
 
 			const jwt_token = this.jwtService.sign(
 				{ room, token, ip: metadata.ip } as IJwtTokenPayload,
-				{ expiresIn: "10min" }
+				{ expiresIn: "15min" }
 			)
 
-			this.store.set(chatId, { jwt_token })
-
-			await this.bot.telegram.sendMessage(chatId, text, {
+			const { message_id } = await this.bot.telegram.sendMessage(chatId, text, {
 				parse_mode: "HTML",
 				reply_markup: {
 					inline_keyboard: [
@@ -684,6 +681,8 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
 				}
 			})
 
+			this.store.set(chatId, { jwt_token, last_auth_msg_id: message_id })
+
 			return [true, room]
 		} catch (error) {
 			throw new InternalServerErrorException(
@@ -692,17 +691,7 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
 		}
 	}
 
-	async sendCancelAuth(tgId: string, room: string) {
-		if (isNaN(Number(tgId)))
-			throw new BadRequestException("Invalid telegram chat id!")
-
-		const chatId = Number(tgId)
-
-		await this.bot.telegram.sendMessage(
-			chatId,
-			"❌ Авторизация была отменена инициатором!"
-		)
-
+	async sendCancelAuth(room: string) {
 		this.sessionsSocket.handleDisconnectRoom(room)
 
 		return true
@@ -710,15 +699,28 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
 
 	async sendTelegramAuthCodeExpired(chatId: number) {
 		const chat = await this.bot.telegram.getChat(chatId)
+
 		if (!chat)
 			throw new NotFoundException(
 				this.i18n.t("d.errors.account.not_found_chat_id")
 			)
 
-		await this.bot.telegram.sendMessage(
-			chatId,
-			"⏳ Ваше время подтверждения закончилось!"
+		const storeData = this.store.get(chatId)
+		const payload = this.jwtService.verify<IJwtTokenPayload>(
+			storeData.jwt_token || ""
 		)
+
+		this.store.delete(chatId)
+
+		const res = this.sessionsSocket.handleCodeLifetimeExpired({
+			room: payload.room
+		})
+		const msg = res
+			? "⏳ Ваше время подтверждения закончилось!"
+			: "❌ Авторизация была отменена инициатором!"
+
+		await this.bot.telegram.deleteMessage(chatId, storeData.last_auth_msg_id)
+		await this.bot.telegram.sendMessage(chatId, msg)
 
 		return true
 	}
