@@ -12,10 +12,12 @@ import type { Request, Response } from "express"
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service"
 import { PrismaService } from "src/core/prisma/prisma.service"
 import { NotificationsService } from "src/modules/notifications/notifications.service"
+import { success } from "src/shared/lib/common/utils"
 import { capitalize } from "src/shared/lib/common/utils/capitalize.util"
 import { getSessionMetadata } from "src/shared/lib/common/utils/session-metadat.util"
 import { saveSession } from "src/shared/lib/common/utils/session.util"
 import { providerDefaultOutput } from "src/shared/lib/prisma/outputs/providers.output"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 import { EnumClientRoutes } from "src/shared/types/client/enums.type"
 import type { IException } from "src/shared/types/exception.type"
 import type { IProviderUser } from "src/shared/types/providers.type"
@@ -126,7 +128,10 @@ export class ProvidersService {
 		return providers
 	}
 
-	async deleteUserProvider(userId: string, id: string): Promise<boolean> {
+	async deleteUserProvider(
+		userId: string,
+		id: string
+	): Promise<DefaultResponse> {
 		const provider = await this.prisma.provider.findUnique({
 			where: { id, userId }
 		})
@@ -141,7 +146,7 @@ export class ProvidersService {
 			EnumNotificationType.ACCOUNT_STATUS
 		)
 
-		return true
+		return success()
 	}
 
 	private async connectUserToProvider(

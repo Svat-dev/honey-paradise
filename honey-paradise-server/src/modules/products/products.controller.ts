@@ -23,10 +23,12 @@ import {
 } from "@nestjs/throttler/dist/throttler.decorator"
 import type { Request } from "express"
 import { I18nLang } from "nestjs-i18n"
+import { type } from "os"
 import { Authorization } from "src/shared/decorators/auth.decorator"
 import { Authorized } from "src/shared/decorators/authorized.decorator"
 import { EnumApiRoute } from "src/shared/lib/common/constants"
 import { ms } from "src/shared/lib/common/utils"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 import { ProductsIdsParserPipe } from "src/shared/pipes/products-ids-parser.pipe"
 
 import { CreateProductDto } from "./dto/create-product.dto"
@@ -167,7 +169,7 @@ export class ProductsController {
 	}
 
 	@ApiOperation({ summary: "Create a new product", description: "" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@ApiBody({ type: CreateProductDto })
 	@HttpCode(HttpStatus.OK)
 	@Authorization("ADMIN")
@@ -181,7 +183,7 @@ export class ProductsController {
 		summary: "Add/delete products in favorites",
 		description: ""
 	})
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Patch(`${EnumApiRoute.SWITCH_FAVORITES_PRODUCTS}/:productId`)
@@ -193,7 +195,7 @@ export class ProductsController {
 	}
 
 	@ApiOperation({ summary: "Clear all favorites products", description: "" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Patch(EnumApiRoute.CLEAR_FAVORITES_PRODUCTS)

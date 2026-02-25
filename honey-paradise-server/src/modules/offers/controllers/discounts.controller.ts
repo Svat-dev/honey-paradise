@@ -9,6 +9,7 @@ import { HttpStatus } from "@nestjs/common/enums/http-status.enum"
 import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger"
 import { Authorization } from "src/shared/decorators/auth.decorator"
 import { EnumApiRoute } from "src/shared/lib/common/constants"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 
 import { CreateDiscountDto } from "../dto/create-discount.dto"
 import { DeleteDiscountsDto } from "../dto/delete-discounts.dto"
@@ -23,7 +24,7 @@ export class DiscountsController {
 		summary: "Create discount method. Auth only",
 		description: ""
 	})
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@ApiBody({ type: CreateDiscountDto })
 	@HttpCode(HttpStatus.OK)
 	@Authorization("ADMIN", "MANAGER")
@@ -36,7 +37,7 @@ export class DiscountsController {
 		summary: "Delete discounts method. Auth only",
 		description: ""
 	})
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@ApiBody({ type: DeleteDiscountsDto })
 	@HttpCode(HttpStatus.OK)
 	@Authorization("ADMIN", "MANAGER")

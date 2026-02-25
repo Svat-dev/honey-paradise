@@ -5,6 +5,8 @@ import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception
 import { EnumNotificationType } from "@prisma/client"
 import { PrismaService } from "src/core/prisma/prisma.service"
 import { NotificationsService } from "src/modules/notifications/notifications.service"
+import { success } from "src/shared/lib/common/utils"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 
 import type { CreateCommentDto } from "../dto/create-comment.dto"
 import type { ReplyToCommentDto } from "../dto/reply-to-comment.dto"
@@ -50,7 +52,10 @@ export class CommentaryService {
 		}
 	}
 
-	async createComment(userId: string, dto: CreateCommentDto): Promise<boolean> {
+	async createComment(
+		userId: string,
+		dto: CreateCommentDto
+	): Promise<DefaultResponse> {
 		const { reviewId, text } = dto
 
 		const review = await this.prisma.review.findUnique({
@@ -68,13 +73,13 @@ export class CommentaryService {
 			}
 		})
 
-		return true
+		return success()
 	}
 
 	async replyToComment(
 		username: string,
 		dto: ReplyToCommentDto
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const { commentId, text } = dto
 
 		const comment = await this.prisma.commentary.findUnique({
@@ -99,10 +104,13 @@ export class CommentaryService {
 			EnumNotificationType.ACCOUNT_STATUS
 		)
 
-		return true
+		return success()
 	}
 
-	async deleteComment(userId: string, commentId: string): Promise<boolean> {
+	async deleteComment(
+		userId: string,
+		commentId: string
+	): Promise<DefaultResponse> {
 		const comment = await this.prisma.commentary.findUnique({
 			where: { id: commentId },
 			select: { userId: true }
@@ -117,6 +125,6 @@ export class CommentaryService {
 			where: { id: commentId }
 		})
 
-		return true
+		return success()
 	}
 }

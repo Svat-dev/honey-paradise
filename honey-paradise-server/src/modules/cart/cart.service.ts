@@ -14,11 +14,13 @@ import * as fs from "fs"
 import { I18nService } from "nestjs-i18n"
 import * as path from "path"
 import { PrismaService } from "src/core/prisma/prisma.service"
+import { response, success } from "src/shared/lib/common/utils"
 import {
 	cartDefaultOutput,
 	cartItemDefaultOutput,
 	cartItemProductVariantOutput
 } from "src/shared/lib/prisma/outputs/cart.output"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 import { createCartTable } from "src/shared/lib/tables/create-cart-table"
 
 import { FavoritesProductsService } from "../products/services/favorites-products.service"
@@ -89,7 +91,10 @@ export class CartService {
 		}
 	}
 
-	async addCartItem(userId: string, dto: AddCartItemDto): Promise<boolean> {
+	async addCartItem(
+		userId: string,
+		dto: AddCartItemDto
+	): Promise<DefaultResponse> {
 		try {
 			const { id: cartId, user } = await this.getCartByUId(userId)
 
@@ -152,7 +157,7 @@ export class CartService {
 		}
 	}
 
-	async addFavoritesToCart(userId: string): Promise<boolean> {
+	async addFavoritesToCart(userId: string): Promise<DefaultResponse> {
 		throw new ServiceUnavailableException("Service now not working!")
 
 		const favorites =
@@ -168,10 +173,10 @@ export class CartService {
 		// 	})
 		// }
 
-		return true
+		return success()
 	}
 
-	async updateCartItem(dto: UpdateQuantityDto): Promise<boolean> {
+	async updateCartItem(dto: UpdateQuantityDto): Promise<DefaultResponse> {
 		const { cartItemId, type } = dto
 
 		const cartItem = await this.prisma.cartItem.findUnique({
@@ -198,7 +203,7 @@ export class CartService {
 		return this.countTotalPrice(cartId)
 	}
 
-	async removeCartItem(id: string): Promise<boolean> {
+	async removeCartItem(id: string): Promise<DefaultResponse> {
 		const { id: itemId } = await this.prisma.cartItem.findUnique({
 			where: { id },
 			select: { id: true }
@@ -217,7 +222,7 @@ export class CartService {
 	async clearCartByUId(
 		userId: string,
 		fromOrder: boolean = false
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const { id: cartId, promoTokens } = await this.getCartByUId(userId)
 
 		if (fromOrder)
@@ -233,7 +238,7 @@ export class CartService {
 			select: { promoTokens: true }
 		})
 
-		return true
+		return success()
 	}
 
 	async getCartExcelTable(
@@ -326,7 +331,7 @@ export class CartService {
 		return cart
 	}
 
-	private async countTotalPrice(cartId: string): Promise<boolean> {
+	private async countTotalPrice(cartId: string): Promise<DefaultResponse> {
 		const total: ICountTotalPriceResponse[] = await this.prisma.$queryRaw`
 			SELECT
 				COALESCE(SUM(price_usd * quantity), 0) AS "price",
@@ -341,8 +346,8 @@ export class CartService {
 				where: { id: cartId },
 				data: { totalPrice: parseFloat(String(total[0].price)) }
 			})
-		} else return false
+		} else return response(HttpStatus.I_AM_A_TEAPOT)
 
-		return true
+		return success()
 	}
 }

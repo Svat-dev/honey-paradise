@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
+import { HttpStatus } from "@nestjs/common/enums/http-status.enum"
 import { ConflictException } from "@nestjs/common/exceptions/conflict.exception"
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
 import {
@@ -9,8 +10,10 @@ import {
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service"
 import { PrismaService } from "src/core/prisma/prisma.service"
 import { TelegramService } from "src/core/telegram/telegram.service"
+import { response, success } from "src/shared/lib/common/utils"
 import { getPagination } from "src/shared/lib/common/utils/get-pagination.util"
 import { notificationUserOutput } from "src/shared/lib/prisma/outputs/notifications.output"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 
 import { NotificationGateway } from "../../shared/websockets/notifications.gateway"
 import { ProfileService } from "../auth/profile/profile.service"
@@ -66,7 +69,7 @@ export class NotificationsService {
 		userId: string,
 		msg: string,
 		type: EnumNotificationType
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const user = await this.prisma.user.findUnique({
 			where: { id: userId },
 			select: { notificationSettings: true, id: true, telegramId: true }
@@ -74,7 +77,7 @@ export class NotificationsService {
 		if (!user)
 			throw new NotFoundException(this.i18n.t("d.errors.profile.not_found"))
 
-		if (!user.notificationSettings.enabled) return false
+		if (!user.notificationSettings.enabled) return response(HttpStatus.CONFLICT)
 
 		const { id } = await this.prisma.notification.create({
 			data: {
@@ -95,10 +98,10 @@ export class NotificationsService {
 				msg
 			)
 
-		return true
+		return success()
 	}
 
-	async markAsRead(dto: NotificationsIdsDto): Promise<boolean> {
+	async markAsRead(dto: NotificationsIdsDto): Promise<DefaultResponse> {
 		const { ids, single } = dto
 		const notifications = await this.getAllNotificationsByIds(ids)
 
@@ -114,10 +117,10 @@ export class NotificationsService {
 			})
 		}
 
-		return true
+		return success()
 	}
 
-	async markAsReadAll(userId: string): Promise<boolean> {
+	async markAsReadAll(userId: string): Promise<DefaultResponse> {
 		const notifications = await this.prisma.notification.findMany({
 			where: { userId }
 		})
@@ -130,10 +133,10 @@ export class NotificationsService {
 				})
 		}
 
-		return true
+		return success()
 	}
 
-	async markAsArchived(dto: NotificationsIdsDto): Promise<boolean> {
+	async markAsArchived(dto: NotificationsIdsDto): Promise<DefaultResponse> {
 		const { ids, single } = dto
 		const notifications = await this.getAllNotificationsByIds(ids)
 
@@ -157,10 +160,10 @@ export class NotificationsService {
 			})
 		}
 
-		return true
+		return success()
 	}
 
-	async delete(dto: NotificationsIdsDto): Promise<boolean> {
+	async delete(dto: NotificationsIdsDto): Promise<DefaultResponse> {
 		const { ids } = dto
 		const notifications = await this.getAllNotificationsByIds(ids)
 
@@ -168,13 +171,13 @@ export class NotificationsService {
 			await this.prisma.notification.delete({ where: { id } })
 		}
 
-		return true
+		return success()
 	}
 
 	async updateSettings(
 		userId: string,
 		dto: UpdateNotificationsSettingsDto
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const user = await this.profileService.getProfile(userId, "id")
 
 		if (!user)
@@ -205,7 +208,7 @@ export class NotificationsService {
 			})
 		}
 
-		return true
+		return success()
 	}
 
 	private async getAllNotificationsByIds(

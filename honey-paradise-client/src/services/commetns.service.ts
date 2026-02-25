@@ -5,6 +5,7 @@ import { defaultInstance, instance } from "@/api/instance"
 import { EnumApiRoute } from "@/shared/lib/constants/routes"
 import type {
 	CreateCommentDto,
+	DefaultResponse,
 	GetCommentsResponse,
 	ReplyToCommentDto
 } from "@/shared/types/server"
@@ -20,7 +21,7 @@ export const commentsService = {
 	},
 
 	createComment: async (dto: CreateCommentDto) => {
-		const res = await instance.post<any, AxiosResponse<boolean>>(
+		const res = await instance.post<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.CREATE_COMMENT,
 			dto
 		)
@@ -29,7 +30,7 @@ export const commentsService = {
 	},
 
 	replyToComment: async (dto: ReplyToCommentDto) => {
-		const res = await instance.post<any, AxiosResponse<boolean>>(
+		const res = await instance.post<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.REPLY_TO_COMMENT,
 			dto
 		)
@@ -38,7 +39,7 @@ export const commentsService = {
 	},
 
 	deleteComment: async (id: string) => {
-		const res = await instance.delete<any, AxiosResponse<boolean>>(
+		const res = await instance.delete<any, AxiosResponse<DefaultResponse>>(
 			path.join(EnumApiRoute.DELETE_COMMENT, id)
 		)
 

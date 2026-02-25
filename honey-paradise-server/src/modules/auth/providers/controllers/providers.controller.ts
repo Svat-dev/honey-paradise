@@ -11,6 +11,7 @@ import { SkipThrottle } from "@nestjs/throttler/dist/throttler.decorator"
 import { Authorization } from "src/shared/decorators/auth.decorator"
 import { Authorized } from "src/shared/decorators/authorized.decorator"
 import { EnumApiRoute } from "src/shared/lib/common/constants"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 
 import { DeleteProviderDto } from "../dto/delete-provider.dto"
 import { ProvidersService } from "../providers.service"
@@ -39,7 +40,7 @@ export class ProvidersController {
 			"Disconnect connection (provider) from user account. Authorized only"
 	})
 	@ApiBody({ type: DeleteProviderDto })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Patch(EnumApiRoute.DISCONNECT)

@@ -1,10 +1,12 @@
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
+import { HttpStatus } from "@nestjs/common/enums/http-status.enum"
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
 import { ConfigService } from "@nestjs/config/dist/config.service"
 import { EnumLanguages } from "@prisma/client"
 import Redis, { type RedisKey } from "ioredis"
-import { ms } from "src/shared/lib/common/utils"
+import { ms, response, success } from "src/shared/lib/common/utils"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 import type {
 	IRedisBanData,
 	IRedisSession,
@@ -33,7 +35,7 @@ export class RedisService extends Redis {
 		return other
 	}
 
-	async deleteSession(id: string | string[]): Promise<boolean> {
+	async deleteSession(id: string | string[]): Promise<DefaultResponse> {
 		try {
 			if (Array.isArray(id)) {
 				await Promise.all(id.map(id => this.del(this.sessionFolder + id)))
@@ -41,7 +43,7 @@ export class RedisService extends Redis {
 				await this.del(this.sessionFolder + id)
 			}
 
-			return true
+			return success()
 		} catch (error) {
 			throw new InternalServerErrorException(`Failed to delete session: ${id}`)
 		}
@@ -63,7 +65,7 @@ export class RedisService extends Redis {
 		id: string,
 		locale: string,
 		data: ITranslateCacheData
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		await this.set(
 			this.translateFolder + `${locale}:` + id,
 			JSON.stringify(data),
@@ -71,20 +73,20 @@ export class RedisService extends Redis {
 			ms("7d") / 1000
 		)
 
-		return true
+		return success()
 	}
 
-	async deleteTranslateCache(id: string): Promise<boolean> {
+	async deleteTranslateCache(id: string): Promise<DefaultResponse> {
 		const keys: RedisKey[] = Object.values(EnumLanguages).map(
 			lang => this.translateFolder + `${lang}:` + id
 		)
 
 		await this.del(keys)
 
-		return true
+		return success()
 	}
 
-	async createIpTgBan(ip: string, tgId: number): Promise<boolean> {
+	async createIpTgBan(ip: string, tgId: number): Promise<DefaultResponse> {
 		const data = await this.get(this.banFolder + ip)
 
 		const newRaw = {
@@ -96,7 +98,7 @@ export class RedisService extends Redis {
 
 		if (!data) {
 			await this.set(this.banFolder + ip, JSON.stringify([newRaw]))
-			return true
+			return success()
 		}
 
 		const existingData = JSON.parse(data) as IRedisBanData[]
@@ -125,43 +127,43 @@ export class RedisService extends Redis {
 			)
 		}
 
-		return true
+		return success()
 	}
 
 	async updateBanStreak(
 		ip: string,
 		tgId: number,
 		streak: number
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const data = await this.get(this.banFolder + ip)
 		const existingData = JSON.parse(data) as IRedisBanData[]
 		const existingBan = existingData.find(ban => ban.tgId === tgId)
 
-		if (!existingBan) return false
+		if (!existingBan) return response(HttpStatus.NOT_FOUND)
 
 		const newRaw = { ...existingBan, streak } as IRedisBanData
 		const newData = [...existingData, newRaw]
 
 		await this.set(this.banFolder + ip, JSON.stringify(newData))
 
-		return true
+		return success()
 	}
 
-	async deleteIpTgBan(ip: string, tgId: number): Promise<boolean> {
+	async deleteIpTgBan(ip: string, tgId: number): Promise<DefaultResponse> {
 		const data = await this.get(this.banFolder + ip)
 
-		if (!data) return false
+		if (!data) return response(HttpStatus.NOT_FOUND)
 
 		const existingData = JSON.parse(data) as IRedisBanData[]
 		const existingBan = existingData.find(ban => ban.tgId === tgId)
 
-		if (!existingBan) return false
+		if (!existingBan) return response(HttpStatus.NOT_FOUND)
 
 		const newData = existingData.filter(ban => ban.tgId !== tgId)
 
 		await this.set(this.banFolder + ip, JSON.stringify(newData))
 
-		return true
+		return success()
 	}
 
 	async checkIpTgBan(ip: string, tgId: number): Promise<boolean> {

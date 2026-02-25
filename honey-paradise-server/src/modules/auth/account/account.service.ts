@@ -16,12 +16,13 @@ import { PrismaService } from "src/core/prisma/prisma.service"
 import { TelegramService } from "src/core/telegram/telegram.service"
 import { NotificationsService } from "src/modules/notifications/notifications.service"
 import { DEFAULT_AVATAR_PATH } from "src/shared/lib/common/constants"
-import { ms } from "src/shared/lib/common/utils"
+import { ms, success } from "src/shared/lib/common/utils"
 import { getEmailUsername } from "src/shared/lib/common/utils/get-email-username.util"
 import {
 	userFullOutput,
 	userServerOutput
 } from "src/shared/lib/prisma/outputs/user.output"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 import {
 	EnumClientRoutes,
 	EnumStorageKeys
@@ -77,7 +78,7 @@ export class AccountService {
 		}
 	}
 
-	async disconnectTelegram(userId: string): Promise<boolean> {
+	async disconnectTelegram(userId: string): Promise<DefaultResponse> {
 		const user = await this.profileService.getProfile(userId, "id")
 
 		if (!user.telegramId)
@@ -98,7 +99,7 @@ export class AccountService {
 			EnumNotificationType.ACCOUNT_STATUS
 		)
 
-		return true
+		return success()
 	}
 
 	async create(
@@ -106,7 +107,7 @@ export class AccountService {
 		req: Request,
 		res: Response,
 		userAgent: string
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const { email } = dto
 
 		const isEmailExist = await this.profileService.getProfile(email, "email")
@@ -127,7 +128,7 @@ export class AccountService {
 
 		await this.verificationService.sendVerificationEmail(req, userAgent, user)
 
-		return true
+		return success()
 	}
 
 	async createNew(dto: Partial<User & Provider>, isRegister: boolean = false) {
@@ -187,7 +188,7 @@ export class AccountService {
 		req: Request,
 		userAgent: string,
 		_email?: string
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const email = _email || (await req.cookies[EnumStorageKeys.CURRENT_EMAIL])
 		const user = await this.prisma.user.findUnique({
 			where: { email },
@@ -219,10 +220,10 @@ export class AccountService {
 			)
 		}
 
-		return true
+		return success()
 	}
 
-	async changeEmail(id: string, email: string): Promise<boolean> {
+	async changeEmail(id: string, email: string): Promise<DefaultResponse> {
 		const existingUser = await this.profileService.getProfile(email, "email")
 
 		if (existingUser)
@@ -245,7 +246,7 @@ export class AccountService {
 			EnumNotificationType.ACCOUNT_STATUS
 		)
 
-		return true
+		return success()
 	}
 
 	async updatePassword(id: string, password: string, req: Request) {
@@ -264,10 +265,10 @@ export class AccountService {
 			await this.sessionsService.logout(req)
 
 			return { res: "redirect/logout" }
-		} else return true
+		} else return success()
 	}
 
-	async recoverPassword(dto: UpdatePasswordDto): Promise<boolean> {
+	async recoverPassword(dto: UpdatePasswordDto): Promise<DefaultResponse> {
 		const { id } = await this.verificationService.recoverPassword(dto)
 
 		await this.notificationsService.send(
@@ -276,7 +277,7 @@ export class AccountService {
 			EnumNotificationType.ACCOUNT_STATUS
 		)
 
-		return true
+		return success()
 	}
 
 	private async getUsernameFromEmail(email: string): Promise<string> {

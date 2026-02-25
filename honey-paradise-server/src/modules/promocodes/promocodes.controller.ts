@@ -21,6 +21,7 @@ import { SkipThrottle } from "@nestjs/throttler/dist/throttler.decorator"
 import { Authorization } from "src/shared/decorators/auth.decorator"
 import { Authorized } from "src/shared/decorators/authorized.decorator"
 import { EnumApiRoute } from "src/shared/lib/common/constants"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 
 import { CreatePromoCodeDto } from "./dto/create-promocode.dto"
 import { UsePromoCodeDto } from "./dto/use-promocode.dto"
@@ -33,7 +34,7 @@ export class PromoCodesController {
 	constructor(private readonly promoCodesService: PromoCodesService) {}
 
 	@ApiOperation({ summary: "Use promo code to user's cart", description: "" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@ApiBody({ type: UsePromoCodeDto })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
@@ -43,7 +44,7 @@ export class PromoCodesController {
 	}
 
 	@ApiOperation({ summary: "Create promo code. Admin only", description: "" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@ApiBody({ type: CreatePromoCodeDto })
 	@HttpCode(HttpStatus.OK)
 	@Authorization("ADMIN")
@@ -53,7 +54,7 @@ export class PromoCodesController {
 	}
 
 	@ApiOperation({ summary: "Delete promo code. Admin only", description: "" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@ApiParam({ name: "id", type: String, example: "uuid" })
 	@HttpCode(HttpStatus.OK)
 	@Authorization("ADMIN")

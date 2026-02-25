@@ -5,7 +5,8 @@ import { defaultInstance, instance } from "@/api/instance"
 import type {
 	AuthLoginDto,
 	AuthTfaDto,
-	CreateUserDto
+	CreateUserDto,
+	DefaultResponse
 } from "@/shared/types/server"
 
 import type { ISignInResponse } from "./types/auth-service.type"
@@ -20,7 +21,7 @@ export const authService = {
 			birthdate: dto.birthdate || undefined
 		}
 
-		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(
+		const res = await defaultInstance.post<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.CREATE_ACCOUNT,
 			data,
 			{ headers }
@@ -42,7 +43,7 @@ export const authService = {
 	},
 
 	telegramSignIn: async (token: string) => {
-		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(
+		const res = await defaultInstance.post<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.TG_TFA_LOGIN,
 			{ token } as AuthTfaDto
 		)
@@ -51,7 +52,7 @@ export const authService = {
 	},
 
 	cancelTelegramSignIn: async () => {
-		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(
+		const res = await defaultInstance.post<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.CANCEL_TG_TFA_LOGIN
 		)
 
@@ -59,7 +60,7 @@ export const authService = {
 	},
 
 	sendTFACode: async () => {
-		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(
+		const res = await defaultInstance.post<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.SEND_TFA_CODE
 		)
 
@@ -67,7 +68,7 @@ export const authService = {
 	},
 
 	verifyTFACode: async (dto: AuthTfaDto) => {
-		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(
+		const res = await defaultInstance.post<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.VERIFY_TFA,
 			dto
 		)
@@ -76,7 +77,7 @@ export const authService = {
 	},
 
 	logout: async () => {
-		const res = await instance.post<any, AxiosResponse<boolean>>(
+		const res = await instance.post<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.LOGOUT
 		)
 

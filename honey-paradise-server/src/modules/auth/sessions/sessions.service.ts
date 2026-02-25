@@ -14,13 +14,14 @@ import { PrismaService } from "src/core/prisma/prisma.service"
 import { RedisService } from "src/core/redis/redis.service"
 import { TelegramService } from "src/core/telegram/telegram.service"
 import { NotificationsService } from "src/modules/notifications/notifications.service"
-import { ms } from "src/shared/lib/common/utils"
+import { ms, success } from "src/shared/lib/common/utils"
 import { getSessionMetadata } from "src/shared/lib/common/utils/session-metadat.util"
 import {
 	destroySession,
 	saveSession
 } from "src/shared/lib/common/utils/session.util"
 import { userServerOutput } from "src/shared/lib/prisma/outputs/user.output"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 import {
 	EnumClientRoutes,
 	EnumErrorCauses,
@@ -64,7 +65,7 @@ export class SessionsService {
 		return session
 	}
 
-	async remove(req: Request, id: string): Promise<boolean> {
+	async remove(req: Request, id: string): Promise<DefaultResponse> {
 		if (req.session.id === id)
 			throw new ConflictException("Текущую сессию удалить нельзя")
 
@@ -72,7 +73,7 @@ export class SessionsService {
 
 		this.notificationsSocket.handleRemoveSession({ sid: id })
 
-		return true
+		return success()
 	}
 
 	async login(
@@ -174,7 +175,10 @@ export class SessionsService {
 		return saveSession(req, _user, metadata, this.i18n)
 	}
 
-	async cancelTgTfaLogin(req: Request, res: Response): Promise<boolean> {
+	async cancelTgTfaLogin(
+		req: Request,
+		res: Response
+	): Promise<DefaultResponse> {
 		if (!req.cookies[EnumStorageKeys.SOCKET_SESSION_TOKEN])
 			throw new NotFoundException("Токен комнаты не найден в куках")
 
@@ -184,14 +188,14 @@ export class SessionsService {
 
 		res.clearCookie(EnumStorageKeys.SOCKET_SESSION_TOKEN)
 
-		return true
+		return success()
 	}
 
 	async verifyTelegramTFAToken(
 		dto: AuthTfaDto,
 		req: Request,
 		userAgent: string
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const room = req.cookies[EnumStorageKeys.SOCKET_SESSION_TOKEN]
 
 		if (!isUUID(room, 6)) throw new BadRequestException("Invalid room ID")
@@ -208,7 +212,7 @@ export class SessionsService {
 
 		await saveSession(req, user, metadata, this.i18n)
 
-		return true
+		return success()
 	}
 
 	async verifyTFAToken(
@@ -216,7 +220,7 @@ export class SessionsService {
 		req: Request,
 		res: Response,
 		userAgent: string
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const user = await this.verificationService.verifyTFA(res, dto)
 
 		const metadata = getSessionMetadata(req, userAgent)
@@ -229,14 +233,14 @@ export class SessionsService {
 
 		await saveSession(req, user, metadata, this.i18n)
 
-		return true
+		return success()
 	}
 
 	async sendTFACode(
 		req: Request,
 		userAgent: string,
 		_email?: string
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const email = _email || (await req.cookies[EnumStorageKeys.CURRENT_EMAIL])
 		const user = await this.prisma.user.findUnique({
 			where: { email },
@@ -268,16 +272,16 @@ export class SessionsService {
 			await this.telegramService.sendTFAuthCode(Number(user.telegramId), token)
 		}
 
-		return true
+		return success()
 	}
 
-	async logout(req: Request): Promise<boolean> {
+	async logout(req: Request): Promise<DefaultResponse> {
 		await destroySession(req, this.configService, this.i18n)
 
-		return true
+		return success()
 	}
 
-	async removeAllSessions(req: Request): Promise<boolean> {
+	async removeAllSessions(req: Request): Promise<DefaultResponse> {
 		const sessions = await this.getAllUserSessions(
 			req.session.userId,
 			req.session.id
@@ -288,13 +292,13 @@ export class SessionsService {
 
 		await this.redisService.deleteSession(sessionIds)
 
-		return true
+		return success()
 	}
 
-	async clearSession(req: Request): Promise<boolean> {
+	async clearSession(req: Request): Promise<DefaultResponse> {
 		req.res.clearCookie(this.configService.getOrThrow<string>("SESSION_NAME"))
 
-		return true
+		return success()
 	}
 
 	private async getAllUserSessions(

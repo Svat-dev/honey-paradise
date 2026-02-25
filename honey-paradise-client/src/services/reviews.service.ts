@@ -4,6 +4,7 @@ import { instance } from "@/api/instance"
 import { EnumApiRoute } from "@/shared/lib/constants/routes"
 import type {
 	CreateReviewsDto,
+	DefaultResponse,
 	GetReviewsByPidResponse,
 	ReactToReviewDto,
 	UpdateReviewDto
@@ -22,7 +23,7 @@ export const reviewService = {
 	},
 
 	createProductReview: async (dto: CreateReviewsDto) => {
-		const res = await instance.post<any, AxiosResponse<boolean>>(
+		const res = await instance.post<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.CREATE_REVIEW,
 			dto
 		)
@@ -31,7 +32,7 @@ export const reviewService = {
 	},
 
 	reactToReview: async (dto: ReactToReviewDto) => {
-		const res = await instance.patch<any, AxiosResponse<boolean>>(
+		const res = await instance.patch<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.REACT_TO_REVIEW,
 			dto
 		)
@@ -40,7 +41,7 @@ export const reviewService = {
 	},
 
 	editReview: async (dto: UpdateReviewDto) => {
-		const res = await instance.put<any, AxiosResponse<boolean>>(
+		const res = await instance.put<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.EDIT_REVIEW,
 			dto
 		)
@@ -49,7 +50,7 @@ export const reviewService = {
 	},
 
 	deleteReview: async (id: string) => {
-		const res = await instance.delete<any, AxiosResponse<boolean>>(
+		const res = await instance.delete<any, AxiosResponse<DefaultResponse>>(
 			`${EnumApiRoute.DELETE_REVIEW}/${id}`
 		)
 

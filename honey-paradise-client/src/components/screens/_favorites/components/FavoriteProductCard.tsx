@@ -30,7 +30,7 @@ const FavoriteProductCard: FC<IProps> = ({
 		loading,
 		locale,
 		t
-	} = useFavoritesProductCard(id, priceInUsd)
+	} = useFavoritesProductCard(id)
 
 	const _title = title[locale as keyof ApiJsonValue]
 

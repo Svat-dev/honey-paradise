@@ -3,6 +3,7 @@ import type { AxiosResponse } from "axios"
 
 import { instance } from "@/api/instance"
 import type {
+	DefaultResponse,
 	GetAllNotificationsResponse,
 	NotificationsIdsDto,
 	UpdateNotificationsSettingsDto
@@ -23,7 +24,7 @@ export const notificationsService = {
 	},
 
 	updateSettings: async (dto: UpdateNotificationsSettingsDto) => {
-		const res = await instance.put<any, AxiosResponse<boolean>>(
+		const res = await instance.put<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.UPDATE_NOTIFICATIONS_SETTINGS,
 			dto
 		)
@@ -32,7 +33,7 @@ export const notificationsService = {
 	},
 
 	markAsRead: async (dto: NotificationsIdsDto) => {
-		const res = await instance.patch<any, AxiosResponse<boolean>>(
+		const res = await instance.patch<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.MARK_AS_READ,
 			dto
 		)
@@ -41,7 +42,7 @@ export const notificationsService = {
 	},
 
 	markAsReadAll: async () => {
-		const res = await instance.patch<any, AxiosResponse<boolean>>(
+		const res = await instance.patch<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.MARK_AS_READ_ALL
 		)
 
@@ -49,7 +50,7 @@ export const notificationsService = {
 	},
 
 	markAsArchived: async (dto: NotificationsIdsDto) => {
-		const res = await instance.patch<any, AxiosResponse<boolean>>(
+		const res = await instance.patch<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.MARK_AS_ARCHIVED,
 			dto
 		)
@@ -58,7 +59,7 @@ export const notificationsService = {
 	},
 
 	delete: async (ids: string[]) => {
-		const res = await instance.delete<any, AxiosResponse<boolean>>(
+		const res = await instance.delete<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.DELETE_NOTIFICATIONS,
 			{ data: { ids } }
 		)

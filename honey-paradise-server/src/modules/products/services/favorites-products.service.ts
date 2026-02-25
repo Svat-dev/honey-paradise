@@ -2,6 +2,8 @@ import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
 import { PrismaService } from "src/core/prisma/prisma.service"
 import { ProfileService } from "src/modules/auth/profile/profile.service"
+import { success } from "src/shared/lib/common/utils"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 
 import type { GetFavoriteProductsResponse } from "../response/get-favorite-products.res"
 
@@ -44,7 +46,7 @@ export class FavoritesProductsService {
 	async switchFavoritesProducts(
 		productId: string,
 		userId: string
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const product = await this.productsService.getProductsByIds(productId)
 
 		if (!product) throw new NotFoundException("Product not found!") // TODO: translate
@@ -60,10 +62,10 @@ export class FavoritesProductsService {
 			WHERE "id" = (${userId})::uuid
 		`
 
-		return true
+		return success()
 	}
 
-	async clearFavoritesProducts(userId: string): Promise<boolean> {
+	async clearFavoritesProducts(userId: string): Promise<DefaultResponse> {
 		const user = await this.profileService.getProfile(userId, "id")
 
 		await this.prisma.user.update({
@@ -71,6 +73,6 @@ export class FavoritesProductsService {
 			data: { likedProductIds: { set: [] } }
 		})
 
-		return true
+		return success()
 	}
 }

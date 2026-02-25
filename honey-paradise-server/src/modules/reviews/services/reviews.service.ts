@@ -5,6 +5,8 @@ import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception
 import { EnumNotificationType } from "@prisma/client"
 import { PrismaService } from "src/core/prisma/prisma.service"
 import { RedisService } from "src/core/redis/redis.service"
+import { success } from "src/shared/lib/common/utils"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 
 import { ProfileService } from "../../auth/profile/profile.service"
 import { NotificationsService } from "../../notifications/notifications.service"
@@ -110,7 +112,10 @@ export class ReviewsService {
 		}
 	}
 
-	async createReview(userId: string, dto: CreateReviewsDto): Promise<boolean> {
+	async createReview(
+		userId: string,
+		dto: CreateReviewsDto
+	): Promise<DefaultResponse> {
 		const { text, productId, rating } = dto
 
 		const { id: pid } = await this.productsService.getProductsByIds(productId)
@@ -126,10 +131,13 @@ export class ReviewsService {
 
 		await this.countProductRating(productId)
 
-		return true
+		return success()
 	}
 
-	async editReview(userId: string, dto: UpdateReviewDto): Promise<boolean> {
+	async editReview(
+		userId: string,
+		dto: UpdateReviewDto
+	): Promise<DefaultResponse> {
 		const { reviewId, rating, text } = dto
 
 		const review = await this.prisma.review.findUnique({
@@ -154,10 +162,13 @@ export class ReviewsService {
 
 		await this.redisService.deleteTranslateCache(reviewId)
 
-		return true
+		return success()
 	}
 
-	async reactToReview(userId: string, dto: ReactToReviewDto): Promise<boolean> {
+	async reactToReview(
+		userId: string,
+		dto: ReactToReviewDto
+	): Promise<DefaultResponse> {
 		let review = await this.prisma.review.findUnique({
 			where: { id: dto.reviewId },
 			select: { id: true, userId: true, likes: true, dislikes: true }
@@ -203,10 +214,13 @@ export class ReviewsService {
 			data: { likesCount: review.likes.length - review.dislikes.length }
 		})
 
-		return true
+		return success()
 	}
 
-	async deleteReview(userId: string, reviewId: string): Promise<boolean> {
+	async deleteReview(
+		userId: string,
+		reviewId: string
+	): Promise<DefaultResponse> {
 		const review = await this.prisma.review.findUnique({
 			where: { id: reviewId },
 			select: { userId: true, productId: true }
@@ -223,7 +237,7 @@ export class ReviewsService {
 
 		await this.countProductRating(review.productId)
 
-		return true
+		return success()
 	}
 
 	private async countProductRating(productId: string) {
@@ -275,6 +289,6 @@ export class ReviewsService {
 			}
 		})
 
-		return true
+		return success()
 	}
 }

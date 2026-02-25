@@ -4,6 +4,7 @@ import type { AxiosResponse } from "axios"
 import { defaultInstance, instance } from "@/api/instance"
 import type {
 	ConnectTelegramResponse,
+	DefaultResponse,
 	EmailVerifyDto,
 	GetMeResponse,
 	GetTgInfoResponse,
@@ -32,7 +33,7 @@ export const accountService = {
 	},
 
 	updateEmail: async (dto: UpdateEmailDto) => {
-		const res = await instance.patch<any, AxiosResponse<boolean>>(
+		const res = await instance.patch<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.UPDATE_EMAIL,
 			dto
 		)
@@ -50,7 +51,7 @@ export const accountService = {
 	},
 
 	disconnectTelegram: async () => {
-		const res = await instance.post<any, AxiosResponse<boolean>>(
+		const res = await instance.post<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.DISCONNECT_TG
 		)
 
@@ -67,16 +68,16 @@ export const accountService = {
 	},
 
 	recoverPassword: async (dto: UpdatePasswordDto) => {
-		const res = await defaultInstance.patch<any, AxiosResponse<boolean>>(
-			EnumApiRoute.RECOVER_PASSWORD,
-			dto
-		)
+		const res = await defaultInstance.patch<
+			any,
+			AxiosResponse<DefaultResponse>
+		>(EnumApiRoute.RECOVER_PASSWORD, dto)
 
 		return res
 	},
 
 	sendVerificationCode: async () => {
-		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(
+		const res = await defaultInstance.post<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.SEND_EMAIL_VERIFICATION_CODE
 		)
 
@@ -84,7 +85,7 @@ export const accountService = {
 	},
 
 	sendPasswordRecoverCode: async () => {
-		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(
+		const res = await defaultInstance.post<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.RESET_PASSWORD
 		)
 
@@ -92,7 +93,7 @@ export const accountService = {
 	},
 
 	verifyEmail: async (dto: EmailVerifyDto) => {
-		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(
+		const res = await defaultInstance.post<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.VERIFY_EMAIL,
 			dto
 		)
