@@ -24,6 +24,7 @@ import { EnumNotificationType } from "@prisma/client"
 import { Authorization } from "src/shared/decorators/auth.decorator"
 import { Authorized } from "src/shared/decorators/authorized.decorator"
 import { EnumApiRoute } from "src/shared/lib/common/constants"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 
 import type { GetAllQueryDto } from "./dto/get-all.dto"
 import { NotificationsIdsDto } from "./dto/mark-as.dto"
@@ -52,7 +53,7 @@ export class NotificationsController {
 		summary: "Update user's notifications settings. Authorized only"
 	})
 	@ApiBody({ type: UpdateNotificationsSettingsDto })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Put(EnumApiRoute.UPDATE_SETTINGS)
@@ -67,7 +68,7 @@ export class NotificationsController {
 		summary: "Mark as read a list of notifications. Authorized only"
 	})
 	@ApiBody({ type: NotificationsIdsDto })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Patch(EnumApiRoute.MARK_AS_READ)
@@ -78,7 +79,7 @@ export class NotificationsController {
 	@ApiOperation({
 		summary: "Mark as read all user's notifications. Authorized only"
 	})
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Patch(EnumApiRoute.MARK_AS_READ_ALL)
@@ -90,7 +91,7 @@ export class NotificationsController {
 		summary: "Mark as archived a list of notifications. Authorized only"
 	})
 	@ApiBody({ type: NotificationsIdsDto })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Patch(EnumApiRoute.MARK_AS_ARCHIVED)

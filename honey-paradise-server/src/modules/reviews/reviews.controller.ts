@@ -24,10 +24,12 @@ import {
 	Throttle
 } from "@nestjs/throttler/dist/throttler.decorator"
 import type { Request } from "express"
+import { type } from "os"
 import { Authorization } from "src/shared/decorators/auth.decorator"
 import { Authorized } from "src/shared/decorators/authorized.decorator"
 import { EnumApiRoute } from "src/shared/lib/common/constants"
 import { ms } from "src/shared/lib/common/utils"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 
 import { CreateCommentDto } from "./dto/create-comment.dto"
 import { CreateReviewsDto } from "./dto/create-review.dto"
@@ -67,7 +69,7 @@ export class ReviewsController {
 	}
 
 	@ApiOperation({ summary: "Create a new comment", description: "" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@ApiBody({ type: CreateCommentDto })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
@@ -81,7 +83,7 @@ export class ReviewsController {
 	}
 
 	@ApiOperation({ summary: "Create a new reviews", description: "" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@ApiBody({ type: CreateReviewsDto })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
@@ -95,7 +97,7 @@ export class ReviewsController {
 	}
 
 	@ApiOperation({ summary: "Reply to a comment", description: "" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@ApiBody({ type: ReplyToCommentDto })
 	@Authorization()
 	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
@@ -109,7 +111,7 @@ export class ReviewsController {
 	}
 
 	@ApiOperation({ summary: "Edit a review", description: "" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@ApiBody({ type: UpdateReviewDto })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
@@ -123,7 +125,7 @@ export class ReviewsController {
 		summary: "React to a reviews. Like or dislike",
 		description: ""
 	})
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@ApiBody({ type: ReactToReviewDto })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
@@ -137,7 +139,7 @@ export class ReviewsController {
 	}
 
 	@ApiOperation({ summary: "Delete user review", description: "" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@ApiParam({ name: "id", type: String, example: "uuid" })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
@@ -151,7 +153,7 @@ export class ReviewsController {
 	}
 
 	@ApiOperation({ summary: "Delete user comment", description: "" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@ApiParam({ name: "id", type: String, example: "uuid" })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()

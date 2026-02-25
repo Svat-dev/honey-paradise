@@ -34,6 +34,7 @@ import { Authorization } from "src/shared/decorators/auth.decorator"
 import { Authorized } from "src/shared/decorators/authorized.decorator"
 import { EnumApiRoute } from "src/shared/lib/common/constants"
 import { ms } from "src/shared/lib/common/utils"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 import { AvatarFileValidationPipe } from "src/shared/pipes/avatar-validation.pipe"
 import { SettingsFileFormatPipe } from "src/shared/pipes/settings-file-format.pipe"
 import { UniqueFieldCheckPipe } from "src/shared/pipes/unique-field-check.pipe"
@@ -95,7 +96,7 @@ export class ProfileController {
 		example: "email"
 	})
 	@ApiBody({ type: UniqueFieldCheckDto })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Post(`${EnumApiRoute.CHECK_UNIQUE}/:field`)
@@ -107,7 +108,7 @@ export class ProfileController {
 	}
 
 	@ApiOperation({ summary: "Update user's profile photo. Authorized only" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
@@ -122,7 +123,7 @@ export class ProfileController {
 
 	@ApiOperation({ summary: "Update user's profile photo. Authorized only" })
 	@ApiBody({ type: UpdateAvatarFrameDto })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Throttle({ default: { limit: 15, ttl: ms("5min") } })
@@ -135,7 +136,7 @@ export class ProfileController {
 	}
 
 	@ApiOperation({ summary: "Delete user's profile photo. Authorized only" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
@@ -148,7 +149,7 @@ export class ProfileController {
 		summary: "Update basic profile information. Authorized only"
 	})
 	@ApiBody({ type: UpdateUserDto })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Put(EnumApiRoute.UPDATE_PROFILE)
@@ -158,7 +159,7 @@ export class ProfileController {
 
 	@ApiOperation({ summary: "Update user's settings. Authorized only" })
 	@ApiBody({ type: UpdateUserSettingsDto })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Put(EnumApiRoute.UPDATE_SETTINGS)

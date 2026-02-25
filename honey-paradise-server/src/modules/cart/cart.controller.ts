@@ -25,6 +25,7 @@ import { I18nLang } from "nestjs-i18n"
 import { Authorization } from "src/shared/decorators/auth.decorator"
 import { Authorized } from "src/shared/decorators/authorized.decorator"
 import { EnumApiRoute } from "src/shared/lib/common/constants"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 
 import { CartService } from "./cart.service"
 import { AddCartItemDto } from "./dto/add-cart-item.dto"
@@ -63,7 +64,7 @@ export class CartController {
 
 	@ApiOperation({ summary: "Add item to cart", description: "" })
 	@ApiBody({ type: AddCartItemDto })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Post(EnumApiRoute.ADD_CART_ITEM)
@@ -75,7 +76,7 @@ export class CartController {
 		summary: "Add favorites products to user's cart",
 		description: ""
 	})
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Post(EnumApiRoute.ADD_FAVORITES_TO_CART)
@@ -85,7 +86,7 @@ export class CartController {
 
 	@ApiOperation({ summary: "Update cart item's quantity", description: "" })
 	@ApiBody({ type: UpdateQuantityDto })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Put(EnumApiRoute.UPDATE_QUANTITY)
@@ -95,7 +96,7 @@ export class CartController {
 
 	@ApiOperation({ summary: "Remove item from cart", description: "" })
 	@ApiParam({ name: "id", type: String, example: "id" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Delete(`${EnumApiRoute.REMOVE_CART_ITEM}/:id`)
@@ -104,7 +105,7 @@ export class CartController {
 	}
 
 	@ApiOperation({ summary: "Clear all cart by id", description: "" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Delete(EnumApiRoute.CLEAR_CART)

@@ -23,13 +23,13 @@ import {
 	SkipThrottle,
 	Throttle
 } from "@nestjs/throttler/dist/throttler.decorator"
-// import { Recaptcha } from "@nestlab/google-recaptcha/decorators/recaptcha";
-
 import type { Request, Response } from "express"
 import { Authorization } from "src/shared/decorators/auth.decorator"
 import { UserAgent } from "src/shared/decorators/user-agent.decorator"
 import { EnumApiRoute } from "src/shared/lib/common/constants"
 import { ms } from "src/shared/lib/common/utils"
+// import { Recaptcha } from "@nestlab/google-recaptcha/decorators/recaptcha";
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 
 import { AuthLoginDto } from "./dto/auth-login.dto"
 import { AuthTfaDto } from "./dto/auth-tfa.dto"
@@ -60,7 +60,7 @@ export class SessionsController {
 	}
 
 	@ApiOperation({ summary: "Clear current session cookie" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Post(EnumApiRoute.CLEAR_SESSION)
 	clearSession(@Req() req: Request) {
@@ -83,7 +83,7 @@ export class SessionsController {
 	}
 
 	@ApiOperation({ summary: "Method to login via telegram bot" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Throttle({ default: { limit: 10, ttl: ms("10min") } })
 	@Post(EnumApiRoute.TG_TFA_LOGIN)
@@ -96,7 +96,7 @@ export class SessionsController {
 	}
 
 	@ApiOperation({ summary: "Cancel auth via telegram bot" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Throttle({ default: { limit: 10, ttl: ms("10min") } })
 	@Post(EnumApiRoute.CANCEL_TG_TFA_LOGIN)
@@ -108,7 +108,7 @@ export class SessionsController {
 	}
 
 	@ApiOperation({ summary: "Send a mail with confirm login code (xxxx)" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Post(EnumApiRoute.SEND_TFA_CODE)
 	sendTfaCode(@Req() req: Request, @UserAgent() userAgent: string) {
@@ -117,7 +117,7 @@ export class SessionsController {
 
 	@ApiOperation({ summary: "Check entered user's code to valid" })
 	@ApiBody({ type: AuthTfaDto })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Post(EnumApiRoute.VERIFY_TFA)
 	verifyTfa(
@@ -130,7 +130,7 @@ export class SessionsController {
 	}
 
 	@ApiOperation({ summary: "Logout from current account. Authorized only" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Post(EnumApiRoute.LOGOUT)
@@ -140,7 +140,7 @@ export class SessionsController {
 
 	@ApiOperation({ summary: "Remove session by its id. Authorized only" })
 	@ApiParam({ name: "sid", type: String })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Delete(`${EnumApiRoute.REMOVE_SESSION}/:sid`)
@@ -149,7 +149,7 @@ export class SessionsController {
 	}
 
 	@ApiOperation({ summary: "Remove all user's sessions. Authorized only" })
-	@ApiOkResponse({ type: Boolean, example: true })
+	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Delete(EnumApiRoute.REMOVE_ALL_SESSIONS)
