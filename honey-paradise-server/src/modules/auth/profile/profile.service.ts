@@ -21,6 +21,7 @@ import {
 	userDefaultOutput,
 	userDownloadSettingsOutput
 } from "src/shared/lib/prisma/outputs/user.output"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 import * as yamljs from "yamljs"
 
 import type { UpdateAvatarFrameDto } from "./dto/update-avatar-frame.dto"
@@ -134,7 +135,10 @@ export class ProfileService {
 		}
 	}
 
-	async deleteAvatar(userId: string, exact: boolean = false): Promise<boolean> {
+	async deleteAvatar(
+		userId: string,
+		exact: boolean = false
+	): Promise<DefaultResponse> {
 		const user = await this.getProfile(userId, "id")
 		const avatarPath = user.avatarPath
 
@@ -176,7 +180,7 @@ export class ProfileService {
 	async updateAvatar(
 		userId: string,
 		file: Express.Multer.File
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const uploadDir = path.join(
 			__dirname,
 			"../../../..",
@@ -222,7 +226,7 @@ export class ProfileService {
 		return true
 	}
 
-	async deleteAvatarFrame(userId: string): Promise<boolean> {
+	async deleteAvatarFrame(userId: string): Promise<DefaultResponse> {
 		await this.prisma.user.update({
 			where: { id: userId },
 			data: { framePath: null }
@@ -234,7 +238,7 @@ export class ProfileService {
 	async updateAvatarFrame(
 		userId: string,
 		dto: UpdateAvatarFrameDto
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const { id, role } = await this.getProfile(userId, "id")
 		const { framePath } = dto
 
@@ -308,7 +312,7 @@ export class ProfileService {
 	async checkUnique(
 		id: string,
 		type: "email" | "username" | "phone"
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const existingUser = await this.prisma.user.findFirst({
 			where: {
 				OR: [
@@ -328,7 +332,7 @@ export class ProfileService {
 	async updateProfile(
 		id: string,
 		dto: Prisma.UserUpdateInput
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		if (dto.username) {
 			const isExists = await this.getProfile(dto.username as string, "username")
 			if (isExists)
@@ -359,7 +363,7 @@ export class ProfileService {
 	async updateSettings(
 		userId: string,
 		dto: UpdateUserSettingsDto
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const settings = await this.prisma.userSettings.findUnique({
 			where: { userId }
 		})
@@ -418,7 +422,7 @@ export class ProfileService {
 		return user
 	}
 
-	async updateProfileVerified(id: string): Promise<boolean> {
+	async updateProfileVerified(id: string): Promise<DefaultResponse> {
 		await this.prisma.user.update({
 			where: { id },
 			data: { isVerified: true }

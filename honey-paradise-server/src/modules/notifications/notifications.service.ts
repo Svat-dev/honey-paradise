@@ -11,6 +11,7 @@ import { PrismaService } from "src/core/prisma/prisma.service"
 import { TelegramService } from "src/core/telegram/telegram.service"
 import { getPagination } from "src/shared/lib/common/utils/get-pagination.util"
 import { notificationUserOutput } from "src/shared/lib/prisma/outputs/notifications.output"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 
 import { NotificationGateway } from "../../shared/websockets/notifications.gateway"
 import { ProfileService } from "../auth/profile/profile.service"
@@ -66,7 +67,7 @@ export class NotificationsService {
 		userId: string,
 		msg: string,
 		type: EnumNotificationType
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const user = await this.prisma.user.findUnique({
 			where: { id: userId },
 			select: { notificationSettings: true, id: true, telegramId: true }
@@ -98,7 +99,7 @@ export class NotificationsService {
 		return true
 	}
 
-	async markAsRead(dto: NotificationsIdsDto): Promise<boolean> {
+	async markAsRead(dto: NotificationsIdsDto): Promise<DefaultResponse> {
 		const { ids, single } = dto
 		const notifications = await this.getAllNotificationsByIds(ids)
 
@@ -117,7 +118,7 @@ export class NotificationsService {
 		return true
 	}
 
-	async markAsReadAll(userId: string): Promise<boolean> {
+	async markAsReadAll(userId: string): Promise<DefaultResponse> {
 		const notifications = await this.prisma.notification.findMany({
 			where: { userId }
 		})
@@ -133,7 +134,7 @@ export class NotificationsService {
 		return true
 	}
 
-	async markAsArchived(dto: NotificationsIdsDto): Promise<boolean> {
+	async markAsArchived(dto: NotificationsIdsDto): Promise<DefaultResponse> {
 		const { ids, single } = dto
 		const notifications = await this.getAllNotificationsByIds(ids)
 
@@ -160,7 +161,7 @@ export class NotificationsService {
 		return true
 	}
 
-	async delete(dto: NotificationsIdsDto): Promise<boolean> {
+	async delete(dto: NotificationsIdsDto): Promise<DefaultResponse> {
 		const { ids } = dto
 		const notifications = await this.getAllNotificationsByIds(ids)
 
@@ -174,7 +175,7 @@ export class NotificationsService {
 	async updateSettings(
 		userId: string,
 		dto: UpdateNotificationsSettingsDto
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const user = await this.profileService.getProfile(userId, "id")
 
 		if (!user)

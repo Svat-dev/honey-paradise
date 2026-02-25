@@ -3,6 +3,7 @@ import { InternalServerErrorException } from "@nestjs/common/exceptions/internal
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
 import { PrismaService } from "src/core/prisma/prisma.service"
 import { discountDefaultOutput } from "src/shared/lib/prisma/outputs/discount.output"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 
 import type { CreateDiscountDto } from "../dto/create-discount.dto"
 import type { GetAllDiscountsResponse } from "../response/get-all-discounts.res"
@@ -21,7 +22,7 @@ export class DiscountsService {
 		return discounts
 	}
 
-	async deleteByIds(ids: string[]): Promise<boolean> {
+	async deleteByIds(ids: string[]): Promise<DefaultResponse> {
 		const discount = await this.prisma.discount.findMany({
 			where: { id: { in: ids } },
 			select: { id: true }
@@ -36,7 +37,7 @@ export class DiscountsService {
 		return true
 	}
 
-	async create(dto: CreateDiscountDto): Promise<boolean> {
+	async create(dto: CreateDiscountDto): Promise<DefaultResponse> {
 		const { discount, type, productIds } = dto
 
 		try {

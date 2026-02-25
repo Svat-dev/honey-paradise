@@ -5,6 +5,7 @@ import { ConfigService } from "@nestjs/config/dist/config.service"
 import { EnumLanguages } from "@prisma/client"
 import Redis, { type RedisKey } from "ioredis"
 import { ms } from "src/shared/lib/common/utils"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 import type {
 	IRedisBanData,
 	IRedisSession,
@@ -33,7 +34,7 @@ export class RedisService extends Redis {
 		return other
 	}
 
-	async deleteSession(id: string | string[]): Promise<boolean> {
+	async deleteSession(id: string | string[]): Promise<DefaultResponse> {
 		try {
 			if (Array.isArray(id)) {
 				await Promise.all(id.map(id => this.del(this.sessionFolder + id)))
@@ -63,7 +64,7 @@ export class RedisService extends Redis {
 		id: string,
 		locale: string,
 		data: ITranslateCacheData
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		await this.set(
 			this.translateFolder + `${locale}:` + id,
 			JSON.stringify(data),
@@ -74,7 +75,7 @@ export class RedisService extends Redis {
 		return true
 	}
 
-	async deleteTranslateCache(id: string): Promise<boolean> {
+	async deleteTranslateCache(id: string): Promise<DefaultResponse> {
 		const keys: RedisKey[] = Object.values(EnumLanguages).map(
 			lang => this.translateFolder + `${lang}:` + id
 		)
@@ -84,7 +85,7 @@ export class RedisService extends Redis {
 		return true
 	}
 
-	async createIpTgBan(ip: string, tgId: number): Promise<boolean> {
+	async createIpTgBan(ip: string, tgId: number): Promise<DefaultResponse> {
 		const data = await this.get(this.banFolder + ip)
 
 		const newRaw = {
@@ -132,7 +133,7 @@ export class RedisService extends Redis {
 		ip: string,
 		tgId: number,
 		streak: number
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const data = await this.get(this.banFolder + ip)
 		const existingData = JSON.parse(data) as IRedisBanData[]
 		const existingBan = existingData.find(ban => ban.tgId === tgId)
@@ -147,7 +148,7 @@ export class RedisService extends Redis {
 		return true
 	}
 
-	async deleteIpTgBan(ip: string, tgId: number): Promise<boolean> {
+	async deleteIpTgBan(ip: string, tgId: number): Promise<DefaultResponse> {
 		const data = await this.get(this.banFolder + ip)
 
 		if (!data) return false
@@ -164,7 +165,7 @@ export class RedisService extends Redis {
 		return true
 	}
 
-	async checkIpTgBan(ip: string, tgId: number): Promise<boolean> {
+	async checkIpTgBan(ip: string, tgId: number): Promise<DefaultResponse> {
 		const bannedInfo = await this.get(this.banFolder + ip)
 
 		if (!bannedInfo) return false

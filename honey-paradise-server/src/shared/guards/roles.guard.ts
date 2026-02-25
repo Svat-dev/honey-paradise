@@ -12,7 +12,9 @@ import { ROLES_KEY } from "../decorators/roles.decorator"
 export class RolesGuard implements CanActivate {
 	public constructor(private readonly reflector: Reflector) {}
 
-	public async canActivate(context: ExecutionContext): Promise<boolean> {
+	public async canActivate(
+		context: ExecutionContext
+	): Promise<DefaultResponse> {
 		const request = context.switchToHttp().getRequest()
 		const i18n = I18nContext.current(context)
 

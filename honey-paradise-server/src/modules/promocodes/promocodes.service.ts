@@ -5,6 +5,7 @@ import { InternalServerErrorException } from "@nestjs/common/exceptions/internal
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
 import { EnumPromoTokensStatus, EnumPromoTokenTypes } from "@prisma/client"
 import { PrismaService } from "src/core/prisma/prisma.service"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 
 import { CreatePromoCodeDto } from "./dto/create-promocode.dto"
 import type { UsePromoCodeDto } from "./dto/use-promocode.dto"
@@ -13,7 +14,7 @@ import type { UsePromoCodeDto } from "./dto/use-promocode.dto"
 export class PromoCodesService {
 	constructor(private readonly prisma: PrismaService) {}
 
-	async createPromoCode(dto: CreatePromoCodeDto): Promise<boolean> {
+	async createPromoCode(dto: CreatePromoCodeDto): Promise<DefaultResponse> {
 		if (new Date(dto.expiresAt) < new Date())
 			throw new BadRequestException("Expires at must be in the future") // TODO: translation
 
@@ -35,7 +36,10 @@ export class PromoCodesService {
 		return true
 	}
 
-	async usePromoCode(userId: string, dto: UsePromoCodeDto): Promise<boolean> {
+	async usePromoCode(
+		userId: string,
+		dto: UsePromoCodeDto
+	): Promise<DefaultResponse> {
 		const { birthdate, _count, cart } = await this.prisma.user.findUnique({
 			where: { id: userId },
 			select: {
@@ -121,7 +125,7 @@ export class PromoCodesService {
 		return true
 	}
 
-	async deletePromoCode(id: string): Promise<boolean> {
+	async deletePromoCode(id: string): Promise<DefaultResponse> {
 		const token = await this.prisma.promoToken.findUnique({ where: { id } })
 
 		if (!token) throw new NotFoundException("Promo token not found") // TODO: translation
@@ -171,7 +175,7 @@ export class PromoCodesService {
 	async setStatusToIds(
 		ids: string[],
 		status: EnumPromoTokensStatus
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const data = await this.prisma.promoToken.findMany({
 			where: { id: { in: ids } },
 			select: { id: true }

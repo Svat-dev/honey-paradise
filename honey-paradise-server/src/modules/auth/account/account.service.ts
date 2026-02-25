@@ -35,6 +35,7 @@ import { VerificationService } from "../verification/verification.service"
 import type { CreateUserDto } from "./dto/create-user.dto"
 import type { UpdatePasswordDto } from "./dto/password-recover.dto"
 import type { IGetTelegramInfoResponse } from "./type"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 
 @Injectable()
 export class AccountService {
@@ -77,7 +78,7 @@ export class AccountService {
 		}
 	}
 
-	async disconnectTelegram(userId: string): Promise<boolean> {
+	async disconnectTelegram(userId: string): Promise<DefaultResponse> {
 		const user = await this.profileService.getProfile(userId, "id")
 
 		if (!user.telegramId)
@@ -106,7 +107,7 @@ export class AccountService {
 		req: Request,
 		res: Response,
 		userAgent: string
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const { email } = dto
 
 		const isEmailExist = await this.profileService.getProfile(email, "email")
@@ -187,7 +188,7 @@ export class AccountService {
 		req: Request,
 		userAgent: string,
 		_email?: string
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const email = _email || (await req.cookies[EnumStorageKeys.CURRENT_EMAIL])
 		const user = await this.prisma.user.findUnique({
 			where: { email },
@@ -222,7 +223,7 @@ export class AccountService {
 		return true
 	}
 
-	async changeEmail(id: string, email: string): Promise<boolean> {
+	async changeEmail(id: string, email: string): Promise<DefaultResponse> {
 		const existingUser = await this.profileService.getProfile(email, "email")
 
 		if (existingUser)
@@ -267,7 +268,7 @@ export class AccountService {
 		} else return true
 	}
 
-	async recoverPassword(dto: UpdatePasswordDto): Promise<boolean> {
+	async recoverPassword(dto: UpdatePasswordDto): Promise<DefaultResponse> {
 		const { id } = await this.verificationService.recoverPassword(dto)
 
 		await this.notificationsService.send(

@@ -21,6 +21,7 @@ import {
 	saveSession
 } from "src/shared/lib/common/utils/session.util"
 import { userServerOutput } from "src/shared/lib/prisma/outputs/user.output"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 import {
 	EnumClientRoutes,
 	EnumErrorCauses,
@@ -64,7 +65,7 @@ export class SessionsService {
 		return session
 	}
 
-	async remove(req: Request, id: string): Promise<boolean> {
+	async remove(req: Request, id: string): Promise<DefaultResponse> {
 		if (req.session.id === id)
 			throw new ConflictException("Текущую сессию удалить нельзя")
 
@@ -174,7 +175,10 @@ export class SessionsService {
 		return saveSession(req, _user, metadata, this.i18n)
 	}
 
-	async cancelTgTfaLogin(req: Request, res: Response): Promise<boolean> {
+	async cancelTgTfaLogin(
+		req: Request,
+		res: Response
+	): Promise<DefaultResponse> {
 		if (!req.cookies[EnumStorageKeys.SOCKET_SESSION_TOKEN])
 			throw new NotFoundException("Токен комнаты не найден в куках")
 
@@ -191,7 +195,7 @@ export class SessionsService {
 		dto: AuthTfaDto,
 		req: Request,
 		userAgent: string
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const room = req.cookies[EnumStorageKeys.SOCKET_SESSION_TOKEN]
 
 		if (!isUUID(room, 6)) throw new BadRequestException("Invalid room ID")
@@ -216,7 +220,7 @@ export class SessionsService {
 		req: Request,
 		res: Response,
 		userAgent: string
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const user = await this.verificationService.verifyTFA(res, dto)
 
 		const metadata = getSessionMetadata(req, userAgent)
@@ -236,7 +240,7 @@ export class SessionsService {
 		req: Request,
 		userAgent: string,
 		_email?: string
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const email = _email || (await req.cookies[EnumStorageKeys.CURRENT_EMAIL])
 		const user = await this.prisma.user.findUnique({
 			where: { email },
@@ -271,13 +275,13 @@ export class SessionsService {
 		return true
 	}
 
-	async logout(req: Request): Promise<boolean> {
+	async logout(req: Request): Promise<DefaultResponse> {
 		await destroySession(req, this.configService, this.i18n)
 
 		return true
 	}
 
-	async removeAllSessions(req: Request): Promise<boolean> {
+	async removeAllSessions(req: Request): Promise<DefaultResponse> {
 		const sessions = await this.getAllUserSessions(
 			req.session.userId,
 			req.session.id
@@ -291,7 +295,7 @@ export class SessionsService {
 		return true
 	}
 
-	async clearSession(req: Request): Promise<boolean> {
+	async clearSession(req: Request): Promise<DefaultResponse> {
 		req.res.clearCookie(this.configService.getOrThrow<string>("SESSION_NAME"))
 
 		return true

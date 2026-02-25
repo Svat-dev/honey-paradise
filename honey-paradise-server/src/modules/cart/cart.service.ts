@@ -19,6 +19,7 @@ import {
 	cartItemDefaultOutput,
 	cartItemProductVariantOutput
 } from "src/shared/lib/prisma/outputs/cart.output"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 import { createCartTable } from "src/shared/lib/tables/create-cart-table"
 
 import { FavoritesProductsService } from "../products/services/favorites-products.service"
@@ -89,7 +90,10 @@ export class CartService {
 		}
 	}
 
-	async addCartItem(userId: string, dto: AddCartItemDto): Promise<boolean> {
+	async addCartItem(
+		userId: string,
+		dto: AddCartItemDto
+	): Promise<DefaultResponse> {
 		try {
 			const { id: cartId, user } = await this.getCartByUId(userId)
 
@@ -152,7 +156,7 @@ export class CartService {
 		}
 	}
 
-	async addFavoritesToCart(userId: string): Promise<boolean> {
+	async addFavoritesToCart(userId: string): Promise<DefaultResponse> {
 		throw new ServiceUnavailableException("Service now not working!")
 
 		const favorites =
@@ -171,7 +175,7 @@ export class CartService {
 		return true
 	}
 
-	async updateCartItem(dto: UpdateQuantityDto): Promise<boolean> {
+	async updateCartItem(dto: UpdateQuantityDto): Promise<DefaultResponse> {
 		const { cartItemId, type } = dto
 
 		const cartItem = await this.prisma.cartItem.findUnique({
@@ -198,7 +202,7 @@ export class CartService {
 		return this.countTotalPrice(cartId)
 	}
 
-	async removeCartItem(id: string): Promise<boolean> {
+	async removeCartItem(id: string): Promise<DefaultResponse> {
 		const { id: itemId } = await this.prisma.cartItem.findUnique({
 			where: { id },
 			select: { id: true }
@@ -217,7 +221,7 @@ export class CartService {
 	async clearCartByUId(
 		userId: string,
 		fromOrder: boolean = false
-	): Promise<boolean> {
+	): Promise<DefaultResponse> {
 		const { id: cartId, promoTokens } = await this.getCartByUId(userId)
 
 		if (fromOrder)
@@ -326,7 +330,7 @@ export class CartService {
 		return cart
 	}
 
-	private async countTotalPrice(cartId: string): Promise<boolean> {
+	private async countTotalPrice(cartId: string): Promise<DefaultResponse> {
 		const total: ICountTotalPriceResponse[] = await this.prisma.$queryRaw`
 			SELECT
 				COALESCE(SUM(price_usd * quantity), 0) AS "price",
