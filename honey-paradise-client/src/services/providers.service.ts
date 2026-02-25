@@ -2,7 +2,10 @@ import { EnumApiRoute } from "@constants/routes"
 import type { AxiosResponse } from "axios"
 
 import { instance } from "@/api/instance"
-import type { GetAllConnectionsResponse } from "@/shared/types/server"
+import type {
+	DefaultResponse,
+	GetAllConnectionsResponse
+} from "@/shared/types/server"
 
 export const providerService = {
 	getAll: async () => {
@@ -15,7 +18,7 @@ export const providerService = {
 	},
 
 	delete: async (pid: string) => {
-		const res = await instance.patch<any, AxiosResponse<boolean>>(
+		const res = await instance.patch<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.DISCONNECT,
 			{ pid }
 		)

@@ -4,6 +4,7 @@ import type { AxiosResponse } from "axios"
 import { instance } from "@/api/instance"
 import type {
 	AddCartItemDto,
+	DefaultResponse,
 	GetMyCartResponse,
 	UpdateQuantityDto
 } from "@/shared/types/server"
@@ -26,7 +27,7 @@ export const cartService = {
 	},
 
 	addToCart: async (dto: AddCartItemDto) => {
-		const res = await instance.post<any, AxiosResponse<boolean>>(
+		const res = await instance.post<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.ADD_CART_ITEM,
 			dto
 		)
@@ -35,7 +36,7 @@ export const cartService = {
 	},
 
 	updateQuantity: async (dto: UpdateQuantityDto) => {
-		const res = await instance.put<any, AxiosResponse<boolean>>(
+		const res = await instance.put<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.UPDATE_CART_ITEM_QUANTITY,
 			dto
 		)
@@ -44,7 +45,7 @@ export const cartService = {
 	},
 
 	deleteFromCart: async (id: string) => {
-		const res = await instance.delete<any, AxiosResponse<boolean>>(
+		const res = await instance.delete<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.DELETE_CART_ITEM + `/${id}`
 		)
 
@@ -52,7 +53,7 @@ export const cartService = {
 	},
 
 	clearAllCart: async () => {
-		const res = await instance.delete<any, AxiosResponse<boolean>>(
+		const res = await instance.delete<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.CLEAR_CART
 		)
 

@@ -5,6 +5,7 @@ import { getContentType } from "@/api/api-helper"
 import { instance } from "@/api/instance"
 import type { Nullable } from "@/shared/types"
 import {
+	DefaultResponse,
 	UpdateAvatarFrameDto,
 	UpdateUserDto,
 	UpdateUserSettingsDto,
@@ -37,7 +38,7 @@ export const profileService = {
 		fieldValue: string | undefined,
 		field: "email" | "username" | "phone"
 	) => {
-		const res = await instance.post<any, AxiosResponse<boolean>>(
+		const res = await instance.post<any, AxiosResponse<DefaultResponse>>(
 			`${EnumApiRoute.CHECK_UNIQUE}/${field}`,
 			{ fieldValue }
 		)
@@ -46,7 +47,7 @@ export const profileService = {
 	},
 
 	updateProfile: async (dto: Nullable<UpdateUserDto>) => {
-		const res = await instance.put<any, AxiosResponse<boolean>>(
+		const res = await instance.put<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.UPDATE_PROFILE,
 			dto
 		)
@@ -55,7 +56,7 @@ export const profileService = {
 	},
 
 	updateSettings: async (dto: Nullable<UpdateUserSettingsDto>) => {
-		const res = await instance.put<any, AxiosResponse<boolean>>(
+		const res = await instance.put<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.UPDATE_PROFILE_SETTINGS,
 			dto
 		)
@@ -64,7 +65,7 @@ export const profileService = {
 	},
 
 	updateAvatar: async (dto: FormData) => {
-		const res = await instance.patch<any, AxiosResponse<boolean>>(
+		const res = await instance.patch<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.UPDATE_AVATAR,
 			dto,
 			{
@@ -76,7 +77,7 @@ export const profileService = {
 	},
 
 	updateAvatarFrame: async (dto: UpdateAvatarFrameDto) => {
-		const res = await instance.patch<any, AxiosResponse<boolean>>(
+		const res = await instance.patch<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.UPDATE_AVATAR_FRAME,
 			dto
 		)
@@ -85,7 +86,7 @@ export const profileService = {
 	},
 
 	deleteAvatar: async () => {
-		const res = await instance.delete<any, AxiosResponse<boolean>>(
+		const res = await instance.delete<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.DELETE_AVATAR
 		)
 

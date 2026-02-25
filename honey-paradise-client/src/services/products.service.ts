@@ -4,6 +4,7 @@ import type { AxiosResponse } from "axios"
 import { defaultInstance, instance } from "@/api/instance"
 import type {
 	CreateProductDto,
+	DefaultResponse,
 	GetAllCatsResponse,
 	GetCatsWithProductsResponse,
 	GetFavoriteProductsResponse,
@@ -93,7 +94,7 @@ export const productsService = {
 	},
 
 	createProduct: async (dto: CreateProductDto) => {
-		const res = await instance.post<any, AxiosResponse<boolean>>(
+		const res = await instance.post<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.CREATE_NEW_PRODUCT,
 			dto
 		)
@@ -102,7 +103,7 @@ export const productsService = {
 	},
 
 	addFavoritesToCart: async () => {
-		const res = await instance.post<any, AxiosResponse<boolean>>(
+		const res = await instance.post<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.ADD_FAVORITES_TO_CART
 		)
 
@@ -110,7 +111,7 @@ export const productsService = {
 	},
 
 	switchFavoritesProduct: async (productId: string) => {
-		const res = await instance.patch<any, AxiosResponse<boolean>>(
+		const res = await instance.patch<any, AxiosResponse<DefaultResponse>>(
 			`${EnumApiRoute.SWITCH_FAVORITES_PRODUCTS}/${productId}`
 		)
 
@@ -118,7 +119,7 @@ export const productsService = {
 	},
 
 	clearAllFavoritesProducts: async () => {
-		const res = await instance.patch<any, AxiosResponse<boolean>>(
+		const res = await instance.patch<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.CLEAR_FAVORITES_PRODUCTS
 		)
 

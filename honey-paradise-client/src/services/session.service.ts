@@ -3,10 +3,11 @@ import type { AxiosResponse } from "axios"
 
 import { defaultInstance, instance } from "@/api/instance"
 import type { ISession } from "@/shared/types/models/session.type"
+import { DefaultResponse } from "@/shared/types/server"
 
 export const sessionService = {
 	clearSession: async () => {
-		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(
+		const res = await defaultInstance.post<any, AxiosResponse<DefaultResponse>>(
 			EnumApiRoute.CLEAR_SESSION
 		)
 
