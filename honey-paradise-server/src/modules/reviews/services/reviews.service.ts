@@ -5,6 +5,7 @@ import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception
 import { EnumNotificationType } from "@prisma/client"
 import { PrismaService } from "src/core/prisma/prisma.service"
 import { RedisService } from "src/core/redis/redis.service"
+import { success } from "src/shared/lib/common/utils"
 import { DefaultResponse } from "src/shared/lib/response/default.res"
 
 import { ProfileService } from "../../auth/profile/profile.service"
@@ -130,7 +131,7 @@ export class ReviewsService {
 
 		await this.countProductRating(productId)
 
-		return true
+		return success()
 	}
 
 	async editReview(
@@ -161,7 +162,7 @@ export class ReviewsService {
 
 		await this.redisService.deleteTranslateCache(reviewId)
 
-		return true
+		return success()
 	}
 
 	async reactToReview(
@@ -213,7 +214,7 @@ export class ReviewsService {
 			data: { likesCount: review.likes.length - review.dislikes.length }
 		})
 
-		return true
+		return success()
 	}
 
 	async deleteReview(
@@ -236,7 +237,7 @@ export class ReviewsService {
 
 		await this.countProductRating(review.productId)
 
-		return true
+		return success()
 	}
 
 	private async countProductRating(productId: string) {
@@ -288,6 +289,6 @@ export class ReviewsService {
 			}
 		})
 
-		return true
+		return success()
 	}
 }

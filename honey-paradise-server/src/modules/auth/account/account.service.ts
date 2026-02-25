@@ -16,12 +16,13 @@ import { PrismaService } from "src/core/prisma/prisma.service"
 import { TelegramService } from "src/core/telegram/telegram.service"
 import { NotificationsService } from "src/modules/notifications/notifications.service"
 import { DEFAULT_AVATAR_PATH } from "src/shared/lib/common/constants"
-import { ms } from "src/shared/lib/common/utils"
+import { ms, success } from "src/shared/lib/common/utils"
 import { getEmailUsername } from "src/shared/lib/common/utils/get-email-username.util"
 import {
 	userFullOutput,
 	userServerOutput
 } from "src/shared/lib/prisma/outputs/user.output"
+import { DefaultResponse } from "src/shared/lib/response/default.res"
 import {
 	EnumClientRoutes,
 	EnumStorageKeys
@@ -35,7 +36,6 @@ import { VerificationService } from "../verification/verification.service"
 import type { CreateUserDto } from "./dto/create-user.dto"
 import type { UpdatePasswordDto } from "./dto/password-recover.dto"
 import type { IGetTelegramInfoResponse } from "./type"
-import { DefaultResponse } from "src/shared/lib/response/default.res"
 
 @Injectable()
 export class AccountService {
@@ -99,7 +99,7 @@ export class AccountService {
 			EnumNotificationType.ACCOUNT_STATUS
 		)
 
-		return true
+		return success()
 	}
 
 	async create(
@@ -128,7 +128,7 @@ export class AccountService {
 
 		await this.verificationService.sendVerificationEmail(req, userAgent, user)
 
-		return true
+		return success()
 	}
 
 	async createNew(dto: Partial<User & Provider>, isRegister: boolean = false) {
@@ -220,7 +220,7 @@ export class AccountService {
 			)
 		}
 
-		return true
+		return success()
 	}
 
 	async changeEmail(id: string, email: string): Promise<DefaultResponse> {
@@ -246,7 +246,7 @@ export class AccountService {
 			EnumNotificationType.ACCOUNT_STATUS
 		)
 
-		return true
+		return success()
 	}
 
 	async updatePassword(id: string, password: string, req: Request) {
@@ -265,7 +265,7 @@ export class AccountService {
 			await this.sessionsService.logout(req)
 
 			return { res: "redirect/logout" }
-		} else return true
+		} else return success()
 	}
 
 	async recoverPassword(dto: UpdatePasswordDto): Promise<DefaultResponse> {
@@ -277,7 +277,7 @@ export class AccountService {
 			EnumNotificationType.ACCOUNT_STATUS
 		)
 
-		return true
+		return success()
 	}
 
 	private async getUsernameFromEmail(email: string): Promise<string> {

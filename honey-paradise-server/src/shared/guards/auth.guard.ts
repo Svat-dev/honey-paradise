@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
 
 	public async canActivate(
 		context: ExecutionContext
-	): Promise<DefaultResponse> {
+	): Promise<boolean> {
 		const request = context.switchToHttp().getRequest()
 
 		if (typeof request.session.userId === "undefined")

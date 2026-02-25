@@ -14,7 +14,7 @@ import { PrismaService } from "src/core/prisma/prisma.service"
 import { RedisService } from "src/core/redis/redis.service"
 import { TelegramService } from "src/core/telegram/telegram.service"
 import { NotificationsService } from "src/modules/notifications/notifications.service"
-import { ms } from "src/shared/lib/common/utils"
+import { ms, success } from "src/shared/lib/common/utils"
 import { getSessionMetadata } from "src/shared/lib/common/utils/session-metadat.util"
 import {
 	destroySession,
@@ -73,7 +73,7 @@ export class SessionsService {
 
 		this.notificationsSocket.handleRemoveSession({ sid: id })
 
-		return true
+		return success()
 	}
 
 	async login(
@@ -188,7 +188,7 @@ export class SessionsService {
 
 		res.clearCookie(EnumStorageKeys.SOCKET_SESSION_TOKEN)
 
-		return true
+		return success()
 	}
 
 	async verifyTelegramTFAToken(
@@ -212,7 +212,7 @@ export class SessionsService {
 
 		await saveSession(req, user, metadata, this.i18n)
 
-		return true
+		return success()
 	}
 
 	async verifyTFAToken(
@@ -233,7 +233,7 @@ export class SessionsService {
 
 		await saveSession(req, user, metadata, this.i18n)
 
-		return true
+		return success()
 	}
 
 	async sendTFACode(
@@ -272,13 +272,13 @@ export class SessionsService {
 			await this.telegramService.sendTFAuthCode(Number(user.telegramId), token)
 		}
 
-		return true
+		return success()
 	}
 
 	async logout(req: Request): Promise<DefaultResponse> {
 		await destroySession(req, this.configService, this.i18n)
 
-		return true
+		return success()
 	}
 
 	async removeAllSessions(req: Request): Promise<DefaultResponse> {
@@ -292,13 +292,13 @@ export class SessionsService {
 
 		await this.redisService.deleteSession(sessionIds)
 
-		return true
+		return success()
 	}
 
 	async clearSession(req: Request): Promise<DefaultResponse> {
 		req.res.clearCookie(this.configService.getOrThrow<string>("SESSION_NAME"))
 
-		return true
+		return success()
 	}
 
 	private async getAllUserSessions(

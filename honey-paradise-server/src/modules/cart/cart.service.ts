@@ -14,6 +14,7 @@ import * as fs from "fs"
 import { I18nService } from "nestjs-i18n"
 import * as path from "path"
 import { PrismaService } from "src/core/prisma/prisma.service"
+import { response, success } from "src/shared/lib/common/utils"
 import {
 	cartDefaultOutput,
 	cartItemDefaultOutput,
@@ -172,7 +173,7 @@ export class CartService {
 		// 	})
 		// }
 
-		return true
+		return success()
 	}
 
 	async updateCartItem(dto: UpdateQuantityDto): Promise<DefaultResponse> {
@@ -237,7 +238,7 @@ export class CartService {
 			select: { promoTokens: true }
 		})
 
-		return true
+		return success()
 	}
 
 	async getCartExcelTable(
@@ -345,8 +346,8 @@ export class CartService {
 				where: { id: cartId },
 				data: { totalPrice: parseFloat(String(total[0].price)) }
 			})
-		} else return false
+		} else return response(HttpStatus.I_AM_A_TEAPOT)
 
-		return true
+		return success()
 	}
 }

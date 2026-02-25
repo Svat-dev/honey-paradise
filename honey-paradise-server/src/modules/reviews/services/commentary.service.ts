@@ -5,6 +5,7 @@ import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception
 import { EnumNotificationType } from "@prisma/client"
 import { PrismaService } from "src/core/prisma/prisma.service"
 import { NotificationsService } from "src/modules/notifications/notifications.service"
+import { success } from "src/shared/lib/common/utils"
 import { DefaultResponse } from "src/shared/lib/response/default.res"
 
 import type { CreateCommentDto } from "../dto/create-comment.dto"
@@ -72,7 +73,7 @@ export class CommentaryService {
 			}
 		})
 
-		return true
+		return success()
 	}
 
 	async replyToComment(
@@ -103,7 +104,7 @@ export class CommentaryService {
 			EnumNotificationType.ACCOUNT_STATUS
 		)
 
-		return true
+		return success()
 	}
 
 	async deleteComment(
@@ -124,6 +125,6 @@ export class CommentaryService {
 			where: { id: commentId }
 		})
 
-		return true
+		return success()
 	}
 }

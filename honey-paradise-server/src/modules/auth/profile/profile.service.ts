@@ -17,6 +17,7 @@ import {
 	DEFAULT_AVATAR_PATH,
 	EnumApiRoute
 } from "src/shared/lib/common/constants"
+import { success } from "src/shared/lib/common/utils"
 import {
 	userDefaultOutput,
 	userDownloadSettingsOutput
@@ -138,7 +139,7 @@ export class ProfileService {
 	async deleteAvatar(
 		userId: string,
 		exact: boolean = false
-	): Promise<DefaultResponse> {
+	): Promise<DefaultResponse | false> {
 		const user = await this.getProfile(userId, "id")
 		const avatarPath = user.avatarPath
 
@@ -160,14 +161,14 @@ export class ProfileService {
 		if (fs.existsSync(filepath)) {
 			fs.unlinkSync(filepath)
 
-			if (exact) return true
+			if (exact) return success()
 
 			await this.prisma.user.update({
 				where: { id: userId },
 				data: { avatarPath: DEFAULT_AVATAR_PATH }
 			})
 
-			return true
+			return success()
 		} else {
 			if (!exact)
 				throw new BadRequestException(
@@ -223,7 +224,7 @@ export class ProfileService {
 			data: { avatarPath: `${EnumApiRoute.UPLOAD_AVATARS}/${filename}` }
 		})
 
-		return true
+		return success()
 	}
 
 	async deleteAvatarFrame(userId: string): Promise<DefaultResponse> {
@@ -232,7 +233,7 @@ export class ProfileService {
 			data: { framePath: null }
 		})
 
-		return true
+		return success()
 	}
 
 	async updateAvatarFrame(
@@ -261,7 +262,7 @@ export class ProfileService {
 			data: { framePath }
 		})
 
-		return true
+		return success()
 	}
 
 	async getProfile(
@@ -326,7 +327,7 @@ export class ProfileService {
 		if (existingUser)
 			throw new BadRequestException(this.i18n.t(`d.errors.${type}.is_exist`))
 
-		return true
+		return success()
 	}
 
 	async updateProfile(
@@ -357,7 +358,7 @@ export class ProfileService {
 
 		await this.prisma.user.update({ where: { id }, data: { ...dto } })
 
-		return true
+		return success()
 	}
 
 	async updateSettings(
@@ -405,7 +406,7 @@ export class ProfileService {
 			})
 		}
 
-		return true
+		return success()
 	}
 
 	async updatePassword(userId: string, password: string) {
@@ -428,6 +429,6 @@ export class ProfileService {
 			data: { isVerified: true }
 		})
 
-		return true
+		return success()
 	}
 }

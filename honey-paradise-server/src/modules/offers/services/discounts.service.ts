@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
 import { PrismaService } from "src/core/prisma/prisma.service"
+import { success } from "src/shared/lib/common/utils"
 import { discountDefaultOutput } from "src/shared/lib/prisma/outputs/discount.output"
 import { DefaultResponse } from "src/shared/lib/response/default.res"
 
@@ -34,7 +35,7 @@ export class DiscountsService {
 			where: { id: { in: discount.map(({ id }) => id) } }
 		})
 
-		return true
+		return success()
 	}
 
 	async create(dto: CreateDiscountDto): Promise<DefaultResponse> {
@@ -49,7 +50,7 @@ export class DiscountsService {
 				}
 			})
 
-			return true
+			return success()
 		} catch (error) {
 			throw new InternalServerErrorException(error)
 		}

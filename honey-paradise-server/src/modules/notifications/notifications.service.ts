@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
+import { HttpStatus } from "@nestjs/common/enums/http-status.enum"
 import { ConflictException } from "@nestjs/common/exceptions/conflict.exception"
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
 import {
@@ -9,6 +10,7 @@ import {
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service"
 import { PrismaService } from "src/core/prisma/prisma.service"
 import { TelegramService } from "src/core/telegram/telegram.service"
+import { response, success } from "src/shared/lib/common/utils"
 import { getPagination } from "src/shared/lib/common/utils/get-pagination.util"
 import { notificationUserOutput } from "src/shared/lib/prisma/outputs/notifications.output"
 import { DefaultResponse } from "src/shared/lib/response/default.res"
@@ -75,7 +77,7 @@ export class NotificationsService {
 		if (!user)
 			throw new NotFoundException(this.i18n.t("d.errors.profile.not_found"))
 
-		if (!user.notificationSettings.enabled) return false
+		if (!user.notificationSettings.enabled) return response(HttpStatus.CONFLICT)
 
 		const { id } = await this.prisma.notification.create({
 			data: {
@@ -96,7 +98,7 @@ export class NotificationsService {
 				msg
 			)
 
-		return true
+		return success()
 	}
 
 	async markAsRead(dto: NotificationsIdsDto): Promise<DefaultResponse> {
@@ -115,7 +117,7 @@ export class NotificationsService {
 			})
 		}
 
-		return true
+		return success()
 	}
 
 	async markAsReadAll(userId: string): Promise<DefaultResponse> {
@@ -131,7 +133,7 @@ export class NotificationsService {
 				})
 		}
 
-		return true
+		return success()
 	}
 
 	async markAsArchived(dto: NotificationsIdsDto): Promise<DefaultResponse> {
@@ -158,7 +160,7 @@ export class NotificationsService {
 			})
 		}
 
-		return true
+		return success()
 	}
 
 	async delete(dto: NotificationsIdsDto): Promise<DefaultResponse> {
@@ -169,7 +171,7 @@ export class NotificationsService {
 			await this.prisma.notification.delete({ where: { id } })
 		}
 
-		return true
+		return success()
 	}
 
 	async updateSettings(
@@ -206,7 +208,7 @@ export class NotificationsService {
 			})
 		}
 
-		return true
+		return success()
 	}
 
 	private async getAllNotificationsByIds(

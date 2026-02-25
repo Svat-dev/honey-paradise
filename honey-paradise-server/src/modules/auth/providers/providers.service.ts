@@ -12,6 +12,7 @@ import type { Request, Response } from "express"
 import { I18nService } from "nestjs-i18n/dist/services/i18n.service"
 import { PrismaService } from "src/core/prisma/prisma.service"
 import { NotificationsService } from "src/modules/notifications/notifications.service"
+import { success } from "src/shared/lib/common/utils"
 import { capitalize } from "src/shared/lib/common/utils/capitalize.util"
 import { getSessionMetadata } from "src/shared/lib/common/utils/session-metadat.util"
 import { saveSession } from "src/shared/lib/common/utils/session.util"
@@ -145,7 +146,7 @@ export class ProvidersService {
 			EnumNotificationType.ACCOUNT_STATUS
 		)
 
-		return true
+		return success()
 	}
 
 	private async connectUserToProvider(

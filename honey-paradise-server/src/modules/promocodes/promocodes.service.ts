@@ -5,6 +5,7 @@ import { InternalServerErrorException } from "@nestjs/common/exceptions/internal
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
 import { EnumPromoTokensStatus, EnumPromoTokenTypes } from "@prisma/client"
 import { PrismaService } from "src/core/prisma/prisma.service"
+import { success } from "src/shared/lib/common/utils"
 import { DefaultResponse } from "src/shared/lib/response/default.res"
 
 import { CreatePromoCodeDto } from "./dto/create-promocode.dto"
@@ -33,7 +34,7 @@ export class PromoCodesService {
 			}
 		})
 
-		return true
+		return success()
 	}
 
 	async usePromoCode(
@@ -122,7 +123,7 @@ export class PromoCodesService {
 				data: { status: EnumPromoTokensStatus.APPLIED }
 			})
 
-		return true
+		return success()
 	}
 
 	async deletePromoCode(id: string): Promise<DefaultResponse> {
@@ -132,7 +133,7 @@ export class PromoCodesService {
 
 		await this.prisma.promoToken.delete({ where: { id } })
 
-		return true
+		return success()
 	}
 
 	async countDiscounts(
@@ -186,6 +187,6 @@ export class PromoCodesService {
 			data: { status }
 		})
 
-		return true
+		return success()
 	}
 }
