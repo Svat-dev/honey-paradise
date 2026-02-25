@@ -1,11 +1,11 @@
-import type { BotCommand } from "node-telegram-bot-api"
+import type { BotCommand } from "telegraf/typings/core/types/typegram"
 
 export const BotCommands = {
-	START: "/start",
-	INFO: "/info",
-	HELP: "/help",
-	ME: "/me",
-	DISCONNECT: "/disconnect"
+	START: "start",
+	INFO: "info",
+	HELP: "help",
+	ME: "me",
+	DISCONNECT: "disconnect"
 } as const
 
 type TLocale = "ru" | "en"
@@ -43,7 +43,7 @@ export const getCommandList = (auth: boolean): TReturnCommands => {
 			for (const key in commands) {
 				if (auth)
 					returnCommands[l_key].push({
-						command: BotCommands[key],
+						command: `/${BotCommands[key]}`,
 						description: commands[key]
 					})
 				else {
@@ -53,7 +53,7 @@ export const getCommandList = (auth: boolean): TReturnCommands => {
 					)
 						continue
 					returnCommands[l_key].push({
-						command: BotCommands[key],
+						command: `/${BotCommands[key]}`,
 						description: commands[key]
 					})
 				}

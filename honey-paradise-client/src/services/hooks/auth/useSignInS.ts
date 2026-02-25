@@ -21,7 +21,7 @@ export const useSignInS = () => {
 export const useTelegramSignInS = () => {
 	const { mutateAsync, isPending } = useMutation({
 		mutationKey: [queryKeys.telegramSignIn],
-		mutationFn: () => authService.telegramSignIn()
+		mutationFn: (token: string) => authService.telegramSignIn(token)
 	})
 
 	return {

@@ -23,7 +23,6 @@ import {
 	SkipThrottle,
 	Throttle
 } from "@nestjs/throttler/dist/throttler.decorator"
-import { Recaptcha } from "@nestlab/google-recaptcha"
 // import { Recaptcha } from "@nestlab/google-recaptcha/decorators/recaptcha";
 
 import type { Request, Response } from "express"
@@ -71,7 +70,7 @@ export class SessionsController {
 	@ApiOperation({ summary: "Login to user account. (Authorization)" })
 	@ApiBody({ type: AuthLoginDto })
 	@HttpCode(HttpStatus.OK)
-	@Recaptcha()
+	// @Recaptcha()
 	@Throttle({ default: { limit: 10, ttl: ms("10min") } })
 	@Post(EnumApiRoute.SIGN_IN)
 	login(
@@ -88,8 +87,12 @@ export class SessionsController {
 	@HttpCode(HttpStatus.OK)
 	@Throttle({ default: { limit: 10, ttl: ms("10min") } })
 	@Post(EnumApiRoute.TG_TFA_LOGIN)
-	tfaTgLogin(@Req() req: Request, @UserAgent() userAgent: string) {
-		return this.sessionsService.verifyTelegramTFAToken(req, userAgent)
+	tfaTgLogin(
+		@Body() dto: AuthTfaDto,
+		@Req() req: Request,
+		@UserAgent() userAgent: string
+	) {
+		return this.sessionsService.verifyTelegramTFAToken(dto, req, userAgent)
 	}
 
 	@ApiOperation({ summary: "Cancel auth via telegram bot" })

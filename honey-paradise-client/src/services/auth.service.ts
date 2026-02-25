@@ -41,9 +41,10 @@ export const authService = {
 		return res.data
 	},
 
-	telegramSignIn: async () => {
+	telegramSignIn: async (token: string) => {
 		const res = await defaultInstance.post<any, AxiosResponse<boolean>>(
-			EnumApiRoute.TG_TFA_LOGIN
+			EnumApiRoute.TG_TFA_LOGIN,
+			{ token } as AuthTfaDto
 		)
 
 		return res

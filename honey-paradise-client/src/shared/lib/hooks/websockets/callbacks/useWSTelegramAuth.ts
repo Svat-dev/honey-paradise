@@ -1,6 +1,7 @@
 import { EnumAppRoute } from "@constants/routes"
 import { useAuth } from "@hooks/auth"
 import type { AxiosError } from "axios"
+import Cookie from "js-cookie"
 import { useTranslations } from "next-intl"
 import { usePathname, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
@@ -8,6 +9,7 @@ import { z } from "zod"
 
 import { errorCatch } from "@/api/api-helper"
 import { useTelegramSignInS } from "@/services/hooks/auth"
+import { EnumStorageKeys } from "@/shared/lib/constants/base"
 
 export const useWSTelegramAuth = () => {
 	const { auth } = useAuth()
@@ -32,8 +34,8 @@ export const useWSTelegramAuth = () => {
 		if (!result.success) return false
 
 		try {
-			const msg = result.data
-			await tgSignIn()
+			const token = result.data.token
+			await tgSignIn(token)
 
 			toast.success(t("reqAccepted"), { duration: 3000 })
 			prefetch(EnumAppRoute.SETTINGS)
@@ -64,6 +66,8 @@ export const useWSTelegramAuth = () => {
 		onError(msg)
 		replace(pathname + "?waiting=false")
 
+		Cookie.remove(EnumStorageKeys.SOCKET_SESSION_TOKEN)
+
 		return true
 	}
 
@@ -80,6 +84,8 @@ export const useWSTelegramAuth = () => {
 
 		onError(msg)
 		replace(pathname + "?waiting=false")
+
+		Cookie.remove(EnumStorageKeys.SOCKET_SESSION_TOKEN)
 
 		return true
 	}

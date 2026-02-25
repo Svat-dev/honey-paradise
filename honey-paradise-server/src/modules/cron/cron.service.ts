@@ -7,10 +7,10 @@ import {
 	EnumTokenTypes
 } from "@prisma/client"
 import { PrismaService } from "src/core/prisma/prisma.service"
+import { RedisService } from "src/core/redis/redis.service"
 import { TelegramService } from "src/core/telegram/telegram.service"
 import { ms } from "src/shared/lib/common/utils"
-
-// import { CronExpression } from "@nestjs/schedule/dist/enums/cron-expression.enum";
+import type { IRedisBanData } from "src/shared/types/redis-values.type"
 
 @Injectable()
 export class CronService {
@@ -18,9 +18,11 @@ export class CronService {
 
 	constructor(
 		private readonly prisma: PrismaService,
+		private readonly redisService: RedisService,
 		private readonly telegramService: TelegramService
 	) {}
 
+	// Every Monday at midnight (00:00)
 	@Cron("0 0 0 * * 1", { timeZone: "UTC" })
 	async manageExpiredNotifications() {
 		const readNotifications = await this.prisma.notification.findMany({
@@ -47,6 +49,7 @@ export class CronService {
 		return true
 	}
 
+	// Every January 1st at midnight (00:00)
 	@Cron("0 0 1 1 *", { timeZone: "UTC" })
 	async manageUsedCommonPromoTokens() {
 		this.logger.log(`Happy ${new Date().getUTCFullYear()} year!`)
@@ -57,6 +60,7 @@ export class CronService {
 		})
 	}
 
+	// Every day at midnight (00:00)
 	@Cron("0 0 * * *")
 	async managePromoTokens() {
 		const commonTypes = [
@@ -82,6 +86,30 @@ export class CronService {
 		})
 	}
 
+	// Every day at midnight (00:00)
+	@Cron("0 0 * * *")
+	async updateBanStreak() {
+		const banFolder = this.redisService.banFolder
+		const query = await this.redisService.getDataByFolder<{
+			id: string
+			data: IRedisBanData[]
+		}>(banFolder)
+
+		for (const { id: ip, data } of query) {
+			const filteredData = data.filter(i => i.ttl < new Date().getTime())
+			for (const { streak, tgId } of filteredData) {
+				if (streak <= 1) {
+					await this.redisService.deleteIpTgBan(ip, tgId)
+					continue
+				} else {
+					await this.redisService.updateBanStreak(ip, tgId, streak - 1)
+					continue
+				}
+			}
+		}
+	}
+
+	// Every minute
 	@Cron("*/1 * * * *")
 	async deleteExpiredTokens() {
 		const expiredTokens = await this.prisma.token.findMany({

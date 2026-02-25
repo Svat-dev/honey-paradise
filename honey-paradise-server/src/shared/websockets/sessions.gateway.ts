@@ -1,5 +1,4 @@
 import { UseGuards } from "@nestjs/common/decorators/core/use-guards.decorator"
-import { JwtService } from "@nestjs/jwt/dist/jwt.service"
 import { MessageBody, SubscribeMessage } from "@nestjs/websockets"
 import { WebSocketServer } from "@nestjs/websockets/decorators/gateway-server.decorator"
 import { WebSocketGateway } from "@nestjs/websockets/decorators/socket-gateway.decorator"
@@ -24,26 +23,18 @@ export class SessionsGateway
 {
 	@WebSocketServer() private server: Server
 
-	constructor(private readonly jwtService: JwtService) {}
-
 	async handleConnection(client: Socket) {
 		const token = await client.handshake.auth.token
-		const payload = token
-			? this.jwtService.verify<{ room: string; token: string }>(token)
-			: null
 
-		if (payload?.room) await client.join(payload.room)
+		if (token) await client.join(token)
 
 		return true
 	}
 
 	async handleDisconnect(client: Socket) {
 		const token = await client.handshake.auth.token
-		const payload = token
-			? this.jwtService.verify<{ room: string; token: string }>(token)
-			: null
 
-		if (payload?.room) await client.leave(payload.room)
+		if (token) await client.leave(token)
 
 		return true
 	}
@@ -85,21 +76,18 @@ export class SessionsGateway
 	}
 
 	@SubscribeMessage(EnumWSRoutes.TG_CODE_LIFETIME_EXPIRED)
-	handleCodeLifetimeExpired(@MessageBody() payload: { jwt_token: string }) {
-		const token_payload = this.jwtService.verify<{
-			room: string
-			token: string
-		}>(payload.jwt_token)
-
-		this.server
-			.to(token_payload.room)
-			.emit(EnumWSRoutes.TG_CODE_LIFETIME_EXPIRED, {
+	handleCodeLifetimeExpired(@MessageBody() payload: { room: string }) {
+		try {
+			this.server.to(payload.room).emit(EnumWSRoutes.TG_CODE_LIFETIME_EXPIRED, {
 				error: true,
 				message: "Ваше время входа закончилось!"
 			})
 
-		this.server.in(token_payload.room).disconnectSockets(true)
+			this.server.in(payload.room).disconnectSockets(true)
 
-		return true
+			return true
+		} catch (error) {
+			return false
+		}
 	}
 }
