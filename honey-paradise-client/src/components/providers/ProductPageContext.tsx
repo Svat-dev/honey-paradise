@@ -1,3 +1,5 @@
+import { EnumSessionStorageKeys } from "@constants/base"
+import { EnumAppRoute, queryKeys } from "@constants/routes"
 import { useQueryClient } from "@tanstack/react-query"
 import { AxiosError } from "axios"
 import { usePathname, useRouter } from "next/navigation"
@@ -13,7 +15,6 @@ import toast from "react-hot-toast"
 
 import { errorCatch } from "@/api/api-helper"
 import { useSwitchFavoritesProducts } from "@/services/hooks/products"
-import { EnumAppRoute, queryKeys } from "@/shared/lib/constants/routes"
 import { useMyAccount, useMyCart } from "@/shared/lib/hooks/auth"
 
 import type {
@@ -87,9 +88,13 @@ const ProductContextProvider: FC<IProps> = ({
 		addCartItem({ variantId: ctx.variantId, quantity: 1 }, onSuccess)
 	}
 
-	const setVariantId = (id: string) => {
-		setContext(prev => ({ ...prev, variantId: id }))
-		sessionStorage.setItem("pv_id", id)
+	const setVariantId = (variantId: string) => {
+		setContext(prev => ({ ...prev, variantId }))
+
+		sessionStorage.setItem(
+			EnumSessionStorageKeys.PRODUCT_VARIANT_ID + ":" + id,
+			variantId
+		)
 	}
 
 	const values: TProductContext = useMemo(
@@ -134,7 +139,9 @@ const ProductContextProvider: FC<IProps> = ({
 			setVariantId(variantId)
 			replace(splitted.slice(0, splitted.length - 1).join("-"))
 		} else {
-			const pv_id = sessionStorage.getItem("pv_id")
+			const pv_id = sessionStorage.getItem(
+				EnumSessionStorageKeys.PRODUCT_VARIANT_ID + ":" + id
+			)
 			setVariantId(pv_id || variantId)
 		}
 	}, [])
