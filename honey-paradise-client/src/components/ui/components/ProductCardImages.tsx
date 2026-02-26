@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import * as path from "path"
 import { type FC, useState } from "react"
 
 import { EnumAppRoute } from "@/shared/lib/constants/routes"
@@ -23,7 +24,7 @@ const ProductCardImages: FC<IProps> = ({
 }) => {
 	const [photoIndex, setPhotoIndex] = useState<number>(0)
 
-	const link = EnumAppRoute.PRODUCT + "/" + slug
+	const link = path.join(EnumAppRoute.PRODUCT, slug)
 
 	return (
 		<Link

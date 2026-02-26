@@ -33,7 +33,7 @@ const FavoritesContent = () => {
 					) : (
 						favoriteProducts?.data.products.map(item => (
 							<FavoriteProductCard
-								key={item.id}
+								key={item.variantId}
 								price={getPrice(item.priceInUsd, true, true)}
 								{...item}
 							/>

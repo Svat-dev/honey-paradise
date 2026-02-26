@@ -1005,7 +1005,7 @@
 				},
 				"actions": {
 					"allToCart": "Add all to cart",
-					"clear": "Clear cart"
+					"clear": "Clear favorites"
 				},
 				"labels": {
 					"addToCart": "Add to cart",

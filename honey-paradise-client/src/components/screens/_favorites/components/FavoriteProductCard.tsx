@@ -6,12 +6,12 @@ import { Button, Title } from "@/components/ui/common"
 import { ProductCardImages } from "@/components/ui/components/ProductCardImages"
 import type {
 	ApiJsonValue,
-	GetShortProductsResponse
+	GetFavoriteProductsResponseProduct
 } from "@/shared/types/server"
 
 import { useFavoritesProductCard } from "../hooks/useFavoritesProductCard"
 
-interface IProps extends GetShortProductsResponse {
+interface IProps extends GetFavoriteProductsResponseProduct {
 	price: string
 }
 
@@ -20,8 +20,9 @@ const FavoriteProductCard: FC<IProps> = ({
 	slug,
 	title,
 	price,
-	id,
-	priceInUsd
+	weight,
+	article,
+	variantId
 }) => {
 	const {
 		handleAddToCart,
@@ -30,7 +31,7 @@ const FavoriteProductCard: FC<IProps> = ({
 		loading,
 		locale,
 		t
-	} = useFavoritesProductCard(id)
+	} = useFavoritesProductCard(variantId)
 
 	const _title = title[locale as keyof ApiJsonValue]
 
@@ -47,7 +48,7 @@ const FavoriteProductCard: FC<IProps> = ({
 		>
 			<ProductCardImages
 				images={images}
-				slug={slug}
+				slug={`${slug}-${article}`}
 				width={160}
 				height={112}
 				className="h-28 w-40 rounded-md border border-muted"
@@ -57,7 +58,10 @@ const FavoriteProductCard: FC<IProps> = ({
 				<Title size="sm" className="text-[22px]">
 					{_title}
 				</Title>
-				<p>{price}</p>
+
+				<span>
+					{price} / {weight} гр.
+				</span>
 			</div>
 
 			<div className="flex flex-col gap-2">
