@@ -48,7 +48,7 @@ const ProductContent: FC<IProductContent> = ({
 				<ProductContextProvider
 					id={data.id}
 					variantId={variantId || ""}
-					isLikedServer={!!data.isLiked}
+					isLikedServer={data.isLiked}
 				>
 					<ProductImage isLoading={isProductLoading} images={data.images} />
 

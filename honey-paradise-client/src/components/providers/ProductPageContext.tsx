@@ -16,6 +16,7 @@ import toast from "react-hot-toast"
 import { errorCatch } from "@/api/api-helper"
 import { useSwitchFavoritesProducts } from "@/services/hooks/products"
 import { useMyAccount, useMyCart } from "@/shared/lib/hooks/auth"
+import type { GetProductBySlugResponseIsLiked } from "@/shared/types/server"
 
 import type {
 	IProductContextValues,
@@ -25,13 +26,13 @@ import type {
 interface IProps extends PropsWithChildren {
 	id: string
 	variantId: string
-	isLikedServer: boolean
+	isLikedServer: GetProductBySlugResponseIsLiked
 }
 
 const ProductContext = createContext<TProductContext>({
 	variantId: "",
 	cartId: "",
-	isLiked: false,
+	isLiked: null,
 
 	loading: { default: false, cart: false, favorite: false },
 	currency: undefined,
@@ -67,13 +68,25 @@ const ProductContextProvider: FC<IProps> = ({
 		try {
 			setContext(prev => ({
 				...prev,
-				isLiked: prev.isLiked === null ? !isLikedServer : !prev.isLiked
+				isLiked:
+					prev.isLiked === null
+						? {
+								...isLikedServer,
+								[ctx.variantId]: !isLikedServer[ctx.variantId]
+							}
+						: { ...prev.isLiked, [ctx.variantId]: prev.isLiked[ctx.variantId] }
 			}))
-			await switchFavoriteProductAsync(id)
+			await switchFavoriteProductAsync(ctx.variantId)
 		} catch (e) {
 			const { errMsg } = errorCatch(e as AxiosError)
 			toast.error(errMsg)
-			setContext(prev => ({ ...prev, isLiked: !prev.isLiked }))
+			setContext(prev => ({
+				...prev,
+				isLiked: {
+					...prev.isLiked,
+					[ctx.variantId]: !prev.isLiked?.[ctx.variantId]
+				}
+			}))
 		}
 	}
 
@@ -100,7 +113,10 @@ const ProductContextProvider: FC<IProps> = ({
 	const values: TProductContext = useMemo(
 		() => ({
 			...ctx,
-			isLiked: ctx.isLiked === null ? isLikedServer : ctx.isLiked,
+			isLiked:
+				ctx.isLiked === null
+					? !!isLikedServer[ctx.variantId]
+					: !!ctx.isLiked[ctx.variantId],
 			handleSwitchFavorite,
 			handleAddToCart,
 			setVariantId,

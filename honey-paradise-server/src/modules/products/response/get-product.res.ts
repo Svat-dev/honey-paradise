@@ -48,8 +48,8 @@ export class GetProductResponse implements Partial<Product> {
 		reviews: number
 	}
 
-	@ApiProperty({ type: "boolean", description: "" })
-	isLiked: boolean
+	@ApiProperty({ type: "boolean", description: "", isArray: true })
+	isLiked: boolean[]
 }
 
 class GetProductBySlugResponseCategory {
@@ -106,7 +106,7 @@ export class GetProductBySlugResponseVariant implements Partial<ProductVariant> 
 
 export class GetProductBySlugResponse implements Omit<
 	GetProductResponse,
-	"totalDiscount" | "priceInUsd"
+	"totalDiscount" | "priceInUsd" | "isLiked"
 > {
 	@ApiProperty({ type: GetProductBySlugResponseCategory })
 	category: GetProductBySlugResponseCategory
@@ -150,8 +150,14 @@ export class GetProductBySlugResponse implements Omit<
 		reviews: number
 	}
 
-	@ApiProperty({ type: "boolean", description: "", example: false })
-	isLiked: boolean
+	@ApiProperty({
+		type: "object",
+		additionalProperties: { type: "boolean" },
+		description:
+			"Dynamic key-value pairs where keys are strings and values are booleans",
+		example: { nanoid: false }
+	})
+	isLiked: Record<string, boolean>
 
 	@ApiProperty({ type: "number", description: "", example: 10 })
 	slug_art: number

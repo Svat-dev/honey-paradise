@@ -1,14 +1,18 @@
-import type { GetMyCartResponseCurrency } from "@/shared/types/server"
+import type {
+	GetMyCartResponseCurrency,
+	GetProductBySlugResponseIsLiked
+} from "@/shared/types/server"
 
 export type TProductContext = {
 	currency: GetMyCartResponseCurrency | undefined
+	isLiked: boolean | null
 	loading: ILoading
-} & IProductContextValues &
+} & Omit<IProductContextValues, "isLiked"> &
 	IActions
 
 export interface IProductContextValues {
 	variantId: string
-	isLiked: boolean | null
+	isLiked: GetProductBySlugResponseIsLiked | null
 	cartId: string | null
 }
 

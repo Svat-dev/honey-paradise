@@ -59,12 +59,7 @@ export class ProductsService {
 					p."image_urls" AS images,
 					p."category_id",
 					COALESCE(cm."reviews_count", 0) AS reviews,
-					(EXISTS (
-							SELECT 1
-							FROM "users" u
-							WHERE u.id = (${userId})::uuid AND (p."id")::text = ANY(u."liked_products")
-						)
-					) AS "isLiked",
+					json_agg((pv."id")::text = ANY(u."liked_products")) AS "isLiked",
 					SUM(
 						CASE
 							WHEN d."type" != 'VIP_CLUB' THEN d."discount"
@@ -81,6 +76,7 @@ export class ProductsService {
 				LEFT JOIN "_discount_to_product" dtp ON p."id" = dtp."B"
 				LEFT JOIN "discounts" d ON dtp."A" = d."id"
 				LEFT JOIN "product_variants" pv ON pv.product_id = p.id
+				LEFT JOIN "users" u ON (${userId})::uuid = u."id"
 				WHERE EXISTS (
 					SELECT 1
 					FROM "categories" c
@@ -255,12 +251,7 @@ export class ProductsService {
 					p."image_urls" AS images,
 					p."category_id",
 					COALESCE(cm."reviews_count", 0) AS reviews,
-					(EXISTS (
-							SELECT 1
-							FROM "users" u
-							WHERE (${userId})::uuid = u."id" AND (p."id")::text = ANY(u."liked_products")
-						)
-					) AS "isLiked",
+					json_agg((pv."id")::text = ANY(u."liked_products")) AS "isLiked",
 					SUM(
 						CASE
 							WHEN d."type" != 'VIP_CLUB' THEN d."discount"
@@ -277,6 +268,7 @@ export class ProductsService {
 				LEFT JOIN "_discount_to_product" dtp ON p."id" = dtp."B"
 				LEFT JOIN "discounts" d ON dtp."A" = d."id"
 				LEFT JOIN "product_variants" pv ON pv.product_id = p.id
+				LEFT JOIN "users" u ON (${userId})::uuid = u."id"
 				WHERE EXISTS (
 					SELECT 1
 					FROM "categories" c
@@ -424,7 +416,7 @@ export class ProductsService {
 					GROUP BY "product_id"
 				),
 				"_product_variants" AS (
-				  SELECT id, art AS "article", weight, price_usd AS "priceInUsd", product_id
+					SELECT id, art AS "article", weight, price_usd AS "priceInUsd", product_id
 					FROM "product_variants"
 					ORDER BY price_usd ASC
 				)
@@ -436,12 +428,7 @@ export class ProductsService {
 					p."rating",
 					p."extra_rating" AS "extraRating",
 					p."image_urls" AS images,
-					(EXISTS (
-							SELECT 1
-							FROM "users" u
-							WHERE (${user?.id})::uuid = (u."id")::uuid AND (p."id")::text = ANY(u."liked_products")
-						)
-					) AS "isLiked",
+					json_agg(json_build_object('id', pv.id, 'state', pv.id = ANY(u.liked_products))) AS "isLiked",
 					COALESCE(
 						json_agg(
 							json_build_object('id', d."id", 'type', d."type", 'discount', d."discount")
@@ -457,6 +444,7 @@ export class ProductsService {
 				LEFT JOIN "categories" c ON p."category_id" = c."id"
 				LEFT JOIN "_product_variants" pv ON p.id = pv.product_id
 				LEFT JOIN "discounts" d ON dtp."A" = d."id" AND (d."type")::text = ANY(${allowedType})
+				LEFT JOIN "users" u ON (${userId})::uuid = u."id"
 				WHERE p."slug" = ${`${searchSlug}`}
 				GROUP BY p."id", c."id", COALESCE(cm."reviews_count", 0), pv.product_id
 			`
@@ -472,7 +460,12 @@ export class ProductsService {
 				ids.add(discount.id)
 			}
 
-			return { ...product, discounts: newDiscounts, slug_art }
+			const isLiked = {}
+			for (const { id, state } of product.isLiked) {
+				isLiked[id] = state
+			}
+
+			return { ...product, isLiked, discounts: newDiscounts, slug_art }
 		} catch (error) {
 			console.log(error)
 		}

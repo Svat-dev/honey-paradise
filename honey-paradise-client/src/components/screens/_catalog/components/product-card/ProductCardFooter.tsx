@@ -8,7 +8,7 @@ import { useProductCardFooter } from "../../hooks/useProductCard"
 
 interface IProps {
 	id: string
-	isLiked: boolean
+	isLiked: boolean[]
 }
 
 const ProductCardFooter: FC<IProps> = ({ id, isLiked: isLikedServer }) => {
@@ -20,7 +20,7 @@ const ProductCardFooter: FC<IProps> = ({ id, isLiked: isLikedServer }) => {
 		addToCart,
 		switchFavorites,
 		isLiked
-	} = useProductCardFooter(isLikedServer)
+	} = useProductCardFooter(id, isLikedServer)
 
 	return (
 		<div className="flex items-center gap-3">
@@ -30,7 +30,7 @@ const ProductCardFooter: FC<IProps> = ({ id, isLiked: isLikedServer }) => {
 				className="w-full py-2"
 				isLoading={isAddingCartItem}
 				disabled={isAddingCartItem || !isAuthenticated}
-				onClick={() => addToCart(id)}
+				onClick={addToCart}
 			>
 				{t("products.addToCart")}
 			</Button>
@@ -38,8 +38,8 @@ const ProductCardFooter: FC<IProps> = ({ id, isLiked: isLikedServer }) => {
 				<Button
 					variant="ghost"
 					title={t("products.labels.like", { isLiked: String(isLiked) })}
-					onClick={() => switchFavorites(id)}
-					disabled={isSwitchingFavoritesProduct}
+					onClick={switchFavorites}
+					disabled={isSwitchingFavoritesProduct || isLiked}
 					className={cn("relative p-1 [&_>_svg]:hover:fill-red-500", {
 						"[&_>_div]:hover:w-10": isLiked
 					})}

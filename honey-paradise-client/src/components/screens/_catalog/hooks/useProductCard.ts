@@ -24,7 +24,7 @@ export const useProductCard = (priceInUsd: number, totalDiscount: number) => {
 	}
 }
 
-export const useProductCardFooter = (isLikedServer: boolean) => {
+export const useProductCardFooter = (id: string, isLikedServer: boolean[]) => {
 	const t = useTranslations("global.home.content")
 
 	const { isAuthenticated } = useAuth()
@@ -32,14 +32,14 @@ export const useProductCardFooter = (isLikedServer: boolean) => {
 		useSwitchFavoritesProducts()
 	const { addCartItem, loading } = useMyCart()
 
-	const [isLiked, setIsLiked] = useState<boolean>(isLikedServer)
+	const [isLiked, setIsLiked] = useState<boolean>(isLikedServer[0])
 
-	const addToCart = async (id: string) =>
+	const addToCart = async () =>
 		addCartItem({ variantId: id, quantity: 1 }, () =>
 			toast.success(t("products.toasters.success"))
 		)
 
-	const switchFavorites = async (id: string) => {
+	const switchFavorites = async () => {
 		try {
 			setIsLiked(prev => !prev)
 			await switchFavoriteProductAsync(id)
