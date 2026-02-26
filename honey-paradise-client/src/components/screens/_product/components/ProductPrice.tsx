@@ -105,6 +105,7 @@ const ProductPrice: FC<IProps> = ({
 				<CartCounter
 					id={cartId}
 					className="rounded-md bg-primary/40 [&_>_button]:bg-transparent"
+					canDelete
 				/>
 			) : (
 				<Button

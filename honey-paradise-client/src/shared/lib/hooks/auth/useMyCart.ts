@@ -46,12 +46,17 @@ export const useMyCart = () => {
 		}
 	}
 
-	const updateQuantity = async (dto: UpdateQuantityDto, fn?: Function) => {
+	const updateQuantity = async (
+		dto: UpdateQuantityDto,
+		fn?: Function,
+		errorFn?: Function
+	) => {
 		try {
 			await updateQuantityAsync(dto, { onSuccess: () => fn?.() })
 		} catch (e) {
 			const { errMsg } = errorCatch(e as AxiosError)
 			toast.error(errMsg)
+			errorFn?.()
 		} finally {
 			refetchCart()
 		}

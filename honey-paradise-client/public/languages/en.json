@@ -949,8 +949,8 @@
 				"title": "My shopping cart",
 				"description": "All products that you added to the cart are stored here",
 				"counter": {
-					"+": "Add 1",
-					"-": "Remove 1"
+					"+": "Add 1 product",
+					"-": "{state, select, true {Remove product} false {Remove 1 product} other {}}"
 				},
 				"footer": {
 					"title": "Order details",
