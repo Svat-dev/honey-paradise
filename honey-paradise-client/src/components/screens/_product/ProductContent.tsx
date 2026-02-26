@@ -1,12 +1,9 @@
 "use client"
 
-import { useQuery } from "@tanstack/react-query"
 import type { FC } from "react"
 
 import { ProductContextProvider } from "@/components/providers/ProductPageContext"
 import { Separator } from "@/components/ui/common"
-import { productsService } from "@/services/products.service"
-import { queryKeys } from "@/shared/lib/constants/routes"
 import type { GetProductBySlugResponse } from "@/shared/types/server"
 
 import { ProductReviewsWrapper } from "./components/product-review/ProductReviewsWrapper"
@@ -15,6 +12,7 @@ import { ProductImage } from "./components/ProductImage"
 import { ProductPrice } from "./components/ProductPrice"
 import { ProductShareDM } from "./components/ProductShareDM"
 import { ProductVariants } from "./components/ProductVariants"
+import { useProduct } from "./hooks/useProduct"
 
 interface IProductContent {
 	initialData: GetProductBySlugResponse
@@ -29,17 +27,10 @@ const ProductContent: FC<IProductContent> = ({
 	locale,
 	slug
 }) => {
-	const { data, isLoading: isProductLoading } = useQuery({
-		queryKey: [queryKeys.getProductPage, slug],
-		queryFn: () => productsService.getBySlug(slug),
-		initialData
-	})
-
-	const variantId = data.variants.find(i => i.article === currentArticle)?.id
-
-	const totalDiscount = data.discounts.reduce(
-		(acc, curr) => acc + curr.discount,
-		0
+	const { data, totalDiscount, variantId, isProductLoading } = useProduct(
+		initialData,
+		currentArticle,
+		slug
 	)
 
 	return (

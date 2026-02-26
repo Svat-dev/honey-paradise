@@ -1,14 +1,11 @@
-import {
-	ConflictException,
-	HttpStatus,
-	ServiceUnavailableException
-} from "@nestjs/common"
+import { HttpStatus } from "@nestjs/common"
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception"
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
 import { ConfigService } from "@nestjs/config/dist/config.service"
 import { EnumCurrencies, EnumDiscountType, EnumUserRoles } from "@prisma/client"
+import { isUUID } from "class-validator"
 import type { Response } from "express"
 import * as fs from "fs"
 import { I18nService } from "nestjs-i18n"
@@ -104,17 +101,20 @@ export class CartService {
 			})
 
 			if (cartItem)
-				throw new ConflictException(
-					"Cart item with this product variant is already exists"
-				)
+				return this.updateCartItem({
+					cartItemId: cartItem.id,
+					type: UpdateQuantityType.increase
+				})
 
 			const {
 				id,
 				product: { discounts },
 				priceInUsd,
 				weight
-			} = await this.prisma.productVariant.findUnique({
-				where: { id: dto.variantId },
+			} = await this.prisma.productVariant.findFirst({
+				where: isUUID(dto.variantId, 4)
+					? { productId: dto.variantId }
+					: { id: dto.variantId },
 				select: {
 					id: true,
 					priceInUsd: true,
@@ -125,7 +125,8 @@ export class CartService {
 							discounts: { select: { discount: true, type: true } }
 						}
 					}
-				}
+				},
+				orderBy: { art: "asc" }
 			})
 
 			const allowedRoles = [
@@ -158,20 +159,18 @@ export class CartService {
 	}
 
 	async addFavoritesToCart(userId: string): Promise<DefaultResponse> {
-		throw new ServiceUnavailableException("Service now not working!")
-
 		const favorites =
 			await this.productFavoritesService.getFavoritesProducts(userId)
 
-		if (favorites.products.length === 0)
+		if (favorites.length === 0)
 			throw new BadRequestException("No products in favorites") // TODO translation
 
-		// for (const { id, priceInUsd } of favorites.products) {
-		// 	await this.addCartItem(userId, {
-		// 		productId: id,
-		// 		quantity: 1
-		// 	})
-		// }
+		for (const { variantId } of favorites.products) {
+			await this.addCartItem(userId, {
+				variantId,
+				quantity: 1
+			})
+		}
 
 		return success()
 	}
@@ -232,7 +231,7 @@ export class CartService {
 			where: { id: cartId },
 			data: {
 				totalPrice: 0,
-				cartItems: { set: [] },
+				cartItems: { deleteMany: { cartId } },
 				promoTokens: fromOrder ? [] : undefined
 			},
 			select: { promoTokens: true }

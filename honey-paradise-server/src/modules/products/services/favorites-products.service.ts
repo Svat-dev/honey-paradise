@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
+import { isUUID } from "class-validator"
 import { PrismaService } from "src/core/prisma/prisma.service"
 import { ProfileService } from "src/modules/auth/profile/profile.service"
 import { success } from "src/shared/lib/common/utils"
@@ -58,9 +59,12 @@ export class FavoritesProductsService {
 		variantId: string,
 		userId: string
 	): Promise<DefaultResponse> {
-		const variant = await this.prisma.productVariant.findUnique({
-			where: { id: variantId },
-			select: { id: true }
+		const variant = await this.prisma.productVariant.findFirst({
+			where: isUUID(variantId, 4)
+				? { productId: variantId }
+				: { id: variantId },
+			select: { id: true },
+			orderBy: { art: "asc" }
 		})
 
 		if (!variant) throw new NotFoundException("Variant not found!") // TODO: translate

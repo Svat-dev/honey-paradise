@@ -39,7 +39,7 @@ const ProductCardFooter: FC<IProps> = ({ id, isLiked: isLikedServer }) => {
 					variant="ghost"
 					title={t("products.labels.like", { isLiked: String(isLiked) })}
 					onClick={switchFavorites}
-					disabled={isSwitchingFavoritesProduct || isLiked}
+					disabled={isSwitchingFavoritesProduct}
 					className={cn("relative p-1 [&_>_svg]:hover:fill-red-500", {
 						"[&_>_div]:hover:w-10": isLiked
 					})}

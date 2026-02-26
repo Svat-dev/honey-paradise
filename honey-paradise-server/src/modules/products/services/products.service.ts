@@ -365,10 +365,9 @@ export class ProductsService {
 
 				const refactoredQuery = query.map(i => {
 					const { variants, ...other } = i
-					const priceInUsd = variants
-						.map(i => i.priceInUsd)
-						.sort((a, b) => b - a)[0]
-					return { ...other, priceInUsd }
+					const prices = variants.map(i => i.priceInUsd)
+
+					return { ...other, priceInUsd: Math.min(...prices) }
 				})
 
 				const products = this.getProductResponse(
