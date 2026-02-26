@@ -465,7 +465,7 @@ export class ProductsService {
 
 			const ids = new Set()
 			const newDiscounts = []
-			for (const discount of product.discounts as GetProductBySlugResponseDiscount[]) {
+			for (const discount of product?.discounts as GetProductBySlugResponseDiscount[]) {
 				if (ids.has(discount.id)) continue
 
 				newDiscounts.push(discount)

@@ -1,4 +1,3 @@
-import { ParseUUIDPipe } from "@nestjs/common"
 import { Controller } from "@nestjs/common/decorators/core/controller.decorator"
 import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator"
 import {
@@ -23,13 +22,13 @@ import {
 } from "@nestjs/throttler/dist/throttler.decorator"
 import type { Request } from "express"
 import { I18nLang } from "nestjs-i18n"
-import { type } from "os"
 import { Authorization } from "src/shared/decorators/auth.decorator"
 import { Authorized } from "src/shared/decorators/authorized.decorator"
 import { EnumApiRoute } from "src/shared/lib/common/constants"
 import { ms } from "src/shared/lib/common/utils"
 import { DefaultResponse } from "src/shared/lib/response/default.res"
 import { ProductsIdsParserPipe } from "src/shared/pipes/products-ids-parser.pipe"
+import { ProductVariantIdParserPipe } from "src/shared/pipes/variant-id.parser.pipe"
 
 import { CreateProductDto } from "./dto/create-product.dto"
 import {
@@ -180,18 +179,18 @@ export class ProductsController {
 	}
 
 	@ApiOperation({
-		summary: "Add/delete products in favorites",
+		summary: "Add/delete product (variant) in favorites",
 		description: ""
 	})
 	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
-	@Patch(`${EnumApiRoute.SWITCH_FAVORITES_PRODUCTS}/:productId`)
+	@Patch(`${EnumApiRoute.SWITCH_FAVORITES_PRODUCTS}/:variantId`)
 	switchFavoritesProducts(
 		@Authorized("id") userId: string,
-		@Param("productId", new ParseUUIDPipe({ version: "4" })) productId: string
+		@Param("variantId", ProductVariantIdParserPipe) variantId: string
 	) {
-		return this.favoritesService.switchFavoritesProducts(productId, userId)
+		return this.favoritesService.switchFavoritesProducts(variantId, userId)
 	}
 
 	@ApiOperation({ summary: "Clear all favorites products", description: "" })

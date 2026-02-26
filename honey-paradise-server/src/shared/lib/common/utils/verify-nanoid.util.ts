@@ -1,6 +1,4 @@
-export function verifyNanoid(id: any) {
-	if (!(id instanceof String)) return false
-
+export function verifyNanoid(id: string) {
 	// We want to know what characters are being used...
 	let legalCharacters =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-"

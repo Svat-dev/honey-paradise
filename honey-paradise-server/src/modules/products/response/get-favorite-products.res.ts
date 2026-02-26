@@ -1,6 +1,37 @@
 import { ApiProperty } from "@nestjs/swagger"
+import { JsonValue } from "@prisma/client/runtime/library"
+import { ApiJsonValue } from "src/shared/types/swagger.type"
 
-import { GetShortProductsResponse } from "./get-short-products.res"
+class GetFavoriteProductsResponseProduct {
+	@ApiProperty({ type: "string", description: "", example: "uuid" })
+	id: string
+
+	@ApiProperty({ type: ApiJsonValue, description: "" })
+	title: JsonValue
+
+	@ApiProperty({ type: "string", description: "", example: "slugged-value" })
+	slug: string
+
+	@ApiProperty({
+		type: "string",
+		description: "",
+		example: ["image1", "image2"],
+		isArray: true
+	})
+	images: string[]
+
+	@ApiProperty({ type: "number", description: "", example: 19.99 })
+	priceInUsd: number
+
+	@ApiProperty({ type: "string", description: "", example: "nanoid" })
+	variantId: string
+
+	@ApiProperty({ type: "number", description: "", example: 10 })
+	article: number
+
+	@ApiProperty({ type: "number", description: "", example: 500 })
+	weight: number
+}
 
 export class GetFavoriteProductsResponse {
 	@ApiProperty({
@@ -18,9 +49,9 @@ export class GetFavoriteProductsResponse {
 	length: number
 
 	@ApiProperty({
-		type: GetShortProductsResponse,
+		type: GetFavoriteProductsResponseProduct,
 		description: "List of favorite products",
 		isArray: true
 	})
-	products: GetShortProductsResponse[]
+	products: GetFavoriteProductsResponseProduct[]
 }
