@@ -1,41 +1,19 @@
 import { useTranslations } from "next-intl"
-import { useEffect, useState } from "react"
 
 import { useMyCart } from "@/shared/lib/hooks/auth"
 import { useGetPrice } from "@/shared/lib/hooks/useGetPrice"
-import type {
-	GetMyCartResponseCurrency,
-	UpdateQuantityDtoType
-} from "@/shared/types/server"
+import type { GetMyCartResponseCurrency } from "@/shared/types/server"
 
-export const useCartItem = (
-	currency: GetMyCartResponseCurrency,
-	quantity: number
-) => {
+export const useCartItem = (currency: GetMyCartResponseCurrency) => {
 	const t = useTranslations("global.cart.content")
-	const { loading, deleteCartItem, updateQuantity } = useMyCart()
+
+	const { loading, deleteCartItem } = useMyCart()
 	const { getPrice } = useGetPrice(currency)
 
-	const [amount, setAmount] = useState<number>(quantity)
-
-	const changeQuantity = (type: UpdateQuantityDtoType, cartItemId: string) => {
-		updateQuantity({ type, cartItemId })
-		setAmount(prev => (type === "increase" ? prev + 1 : prev - 1))
-	}
-
-	useEffect(() => {
-		if (quantity !== amount) setAmount(quantity)
-	}, [quantity])
-
-	const isDeleting = loading.delete
-	const isLoading = isDeleting || loading.update
-
 	return {
-		amount,
-		changeQuantity,
 		deleteCartItem,
-		isLoading,
-		isDeleting,
+		isDeleting: loading.delete,
+		isLoading: loading.delete || loading.update,
 		getPrice,
 		t
 	}

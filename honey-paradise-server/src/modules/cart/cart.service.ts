@@ -21,7 +21,6 @@ import { DefaultResponse } from "src/shared/lib/response/default.res"
 import { createCartTable } from "src/shared/lib/tables/create-cart-table"
 
 import { FavoritesProductsService } from "../products/services/favorites-products.service"
-import { ProductsService } from "../products/services/products.service"
 import { PromoCodesService } from "../promocodes/promocodes.service"
 
 import type { AddCartItemDto } from "./dto/add-cart-item.dto"
@@ -43,7 +42,6 @@ export class CartService {
 		private readonly config: ConfigService,
 		private readonly prisma: PrismaService,
 		private readonly i18n: I18nService,
-		private readonly productService: ProductsService,
 		private readonly productFavoritesService: FavoritesProductsService,
 		private readonly promoCodesService: PromoCodesService
 	) {}

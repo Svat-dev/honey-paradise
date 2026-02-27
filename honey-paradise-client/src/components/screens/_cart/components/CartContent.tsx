@@ -48,7 +48,7 @@ const CartContent = () => {
 			<section className="relative flex h-[34rem] flex-col gap-7 overflow-y-scroll print:h-fit print:overflow-y-visible">
 				<AnimatePresence mode="sync">
 					{loading.default ? (
-						<CartLoading limit={5} />
+						<CartLoading limit={4} />
 					) : cart?.length === 0 ? (
 						<CartEmpty />
 					) : (

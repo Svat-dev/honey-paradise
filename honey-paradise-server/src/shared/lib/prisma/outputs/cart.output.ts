@@ -1,14 +1,14 @@
 export const cartItemProductVariantOutput = {
 	id: true,
 	art: true,
-	weight: true,
-	product: { select: { id: true, title: true, images: true } }
+	product: { select: { id: true, title: true, images: true, slug: true } }
 }
 
 export const cartItemDefaultOutput = {
 	id: true,
 
 	priceInUSD: true,
+	weight: true,
 	quantity: true,
 
 	createdAt: true

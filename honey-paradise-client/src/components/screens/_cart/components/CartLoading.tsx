@@ -12,7 +12,7 @@ const CartLoading: FC<ICartLoading> = ({ limit }) => {
 	return (
 		<>
 			{items.map(num => (
-				<Skeleton key={num} className="h-28 w-full" />
+				<Skeleton key={num} className="h-32 w-full" />
 			))}
 		</>
 	)

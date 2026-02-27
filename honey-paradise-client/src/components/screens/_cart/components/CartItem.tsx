@@ -1,10 +1,10 @@
+import { EqualIcon, TrashIcon, XIcon } from "lucide-react"
 import { m } from "motion/react"
-import Image from "next/image"
 import type { FC } from "react"
 
 import { Button, Title } from "@/components/ui/common"
 import { CartCounter } from "@/components/ui/components/cart-counter/CartCounter"
-import { getAssetsPath } from "@/shared/lib/utils"
+import { ProductCardImages } from "@/components/ui/components/ProductCardImages"
 import type {
 	GetMyCartItemsResponse,
 	GetMyCartResponseCurrency
@@ -21,19 +21,18 @@ const CartItem: FC<ICartItem> = ({
 	id,
 	priceInUSD,
 	productVariant,
+	weight,
 	quantity,
 	locale,
 	currency
 }) => {
 	const {
-		amount,
-		changeQuantity,
-		deleteCartItem,
-		isLoading,
-		isDeleting,
-		getPrice,
-		t
-	} = useCartItem(currency, quantity)
+		product: { slug, title, images },
+		art
+	} = productVariant
+
+	const { deleteCartItem, getPrice, isDeleting, isLoading, t } =
+		useCartItem(currency)
 
 	return (
 		<m.div
@@ -47,35 +46,53 @@ const CartItem: FC<ICartItem> = ({
 			whileInView={"default"}
 			viewport={{ once: true, amount: 0.5 }}
 			transition={{ duration: 0.4, type: "tween" }}
-			className="flex items-center gap-5 rounded-md bg-primary p-3 shadow-md print:justify-between"
+			className="grid grid-cols-[auto_1fr_min-content] items-center gap-5 overflow-hidden bg-primary p-3 shadow-md print:justify-between"
 		>
-			<Image
-				src={getAssetsPath(productVariant.product.images[0])}
-				alt={productVariant.product.title[locale]}
-				width={100}
-				height={100}
+			<ProductCardImages
+				images={images}
+				slug={`${slug}-${art}`}
+				width={160}
+				height={112}
+				className="h-28 w-40 rounded-md border border-muted"
 			/>
 
-			<Title size="sm" className="text-xl">
-				{productVariant.product.title[locale]}
-			</Title>
+			<div className="flex flex-col gap-0.5">
+				<Title size="sm" className="text-[22px]">
+					{title[locale]}
+				</Title>
 
-			<CartCounter id={id} quantity={quantity} />
+				<p className="flex items-center">
+					{getPrice(priceInUSD, true, true)}&nbsp;
+					<XIcon size={16} />
+					&nbsp;{quantity} шт.&nbsp;
+					<EqualIcon size={16} />
+					&nbsp;
+					{getPrice(priceInUSD * quantity, true, true)}
+				</p>
 
-			<span>{productVariant.weight / 1000} кг</span>
+				<p>
+					Общий вес:&nbsp;
+					<span className="font-medium">{(weight * quantity) / 1000} кг</span>
+				</p>
+			</div>
 
-			<span>{getPrice(priceInUSD, true, true)}</span>
+			<div className="flex flex-col items-end gap-3">
+				<CartCounter id={id} size={14} quantity={quantity} />
 
-			<Button
-				variant="secondary"
-				className="px-2 py-1.5 print:!hidden"
-				title={t("labels.delete")}
-				disabled={isLoading}
-				isLoading={isDeleting}
-				onClick={() => deleteCartItem(id)}
-			>
-				{t("actions.delete")}
-			</Button>
+				<Button
+					variant="destructive"
+					className="group w-[35%] justify-start gap-2 overflow-hidden px-2 py-1.5 will-change-auto hover:w-full print:!hidden"
+					title={t("labels.delete")}
+					disabled={isLoading}
+					isLoading={isDeleting}
+					onClick={() => deleteCartItem(id)}
+				>
+					<TrashIcon size={20} />
+					<span className="hidden animate-show-effect opacity-0 will-change-auto group-hover:inline">
+						{t("actions.delete")}
+					</span>
+				</Button>
+			</div>
 		</m.div>
 	)
 }
