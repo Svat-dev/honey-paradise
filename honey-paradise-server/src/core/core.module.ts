@@ -32,6 +32,7 @@ import { MailModule } from "./mail/mail.module"
 import { PrismaModule } from "./prisma/prisma.module"
 import { RedisModule } from "./redis/redis.module"
 import { TelegramModule } from "./telegram/telegram.module"
+import { PaymentsModule } from "src/modules/payments/payments.module"
 
 @Module({
 	imports: [
@@ -85,7 +86,8 @@ import { TelegramModule } from "./telegram/telegram.module"
 		OrderModule,
 		ReviewsModule,
 		OffersModule,
-		TranslationsModule
+		TranslationsModule,
+		PaymentsModule
 	],
 	providers: [
 		{

@@ -24,19 +24,18 @@ export class OrderService {
 	}
 
 	async createOrder(userId: string): Promise<CreateOrderResponse> {
-		const cart = await this.cartService.getMyCart(userId)
+		const { cartItems, totalPrice, deliveryPrice, discount } =
+			await this.cartService.getMyCart(userId)
 
-		const items = cart.cartItems.map(
-			({ quantity, priceInUSD, productVariant }) => ({
-				quantity,
-				price: priceInUSD,
-				productId: productVariant.product.id
-			})
-		)
+		const items = cartItems.map(({ quantity, priceInUSD, productVariant }) => ({
+			quantity,
+			price: priceInUSD,
+			variantId: productVariant.product.id
+		}))
 
 		const { id, totalAmount } = await this.prisma.order.create({
 			data: {
-				totalAmount: cart.totalPrice,
+				totalAmount: totalPrice * (1 - discount) + deliveryPrice,
 				items: { toJSON: () => items },
 				user: { connect: { id: userId } }
 			},
