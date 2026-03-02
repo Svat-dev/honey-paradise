@@ -1,16 +1,22 @@
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
 import { ConfigService } from "@nestjs/config/dist/config.service"
-import type { CreatePaymentRequest } from "nestjs-yookassa"
+import type {
+	CreatePaymentRequest,
+	PaymentNotificationEvent
+} from "nestjs-yookassa"
 import {
 	ConfirmationEnum,
 	CurrencyEnum,
 	LocaleEnum,
+	NotificationEventEnum,
 	PaymentMethodsEnum
 } from "nestjs-yookassa"
 import { YookassaService } from "nestjs-yookassa/dist/yookassa.service"
 import * as path from "path"
 import { PrismaService } from "src/core/prisma/prisma.service"
+import { success } from "src/shared/lib/common/utils"
+import type { DefaultResponse } from "src/shared/lib/response/default.res"
 import { EnumClientRoutes } from "src/shared/types/client/enums.type"
 
 @Injectable()
@@ -64,5 +70,32 @@ export class PaymentsService {
 		if (!transaction) throw new InternalServerErrorException("Payment failed!")
 
 		return transaction
+	}
+
+	async notification(dto: PaymentNotificationEvent): Promise<DefaultResponse> {
+		const {
+			object: { id: externalId, metadata },
+			event
+		} = dto
+
+		if (event === NotificationEventEnum.PAYMENT_WAITING_FOR_CAPTURE) {
+			await this.yookassaService.payments.capture(externalId)
+
+			return success()
+		} else if (event === NotificationEventEnum.PAYMENT_SUCCEEDED) {
+			await this.prisma.transaction.update({
+				where: { id: metadata.payment_id },
+				data: { externalId, status: "SUCCEEDED" }
+			})
+
+			return success()
+		} else {
+			await this.prisma.transaction.update({
+				where: { id: metadata.payment_id },
+				data: { externalId, status: "CANCELED" }
+			})
+
+			return success()
+		}
 	}
 }
