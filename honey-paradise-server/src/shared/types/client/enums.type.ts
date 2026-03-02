@@ -25,6 +25,9 @@ export enum EnumClientRoutes {
 	SETTINGS = `${ACCOUNT}/settings`,
 	DEVICES = `${SETTINGS}?active_tab=devices`,
 
+	ORDERS = `${ACCOUNT}/orders`,
+	PAID_ORDER = `${ORDERS}?paid=true`,
+
 	NOTIFICATIONS = `${ACCOUNT}/notifications`,
 
 	CONNECTIONS = `${ACCOUNT}/connections`,

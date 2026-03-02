@@ -3,6 +3,7 @@ import { PrismaService } from "src/core/prisma/prisma.service"
 import { ordersDefaultOutput } from "src/shared/lib/prisma/outputs/order.output"
 
 import { CartService } from "../cart/cart.service"
+import { PaymentsService } from "../payments/payments.service"
 
 import type { CreateOrderResponse } from "./response/create-order.res"
 
@@ -10,7 +11,8 @@ import type { CreateOrderResponse } from "./response/create-order.res"
 export class OrderService {
 	constructor(
 		private readonly prisma: PrismaService,
-		private readonly cartService: CartService
+		private readonly cartService: CartService,
+		private readonly paymentService: PaymentsService
 	) {}
 
 	async getAllOrders(userId: string): Promise<any> {
@@ -23,7 +25,10 @@ export class OrderService {
 		return orders
 	}
 
-	async createOrder(userId: string): Promise<CreateOrderResponse> {
+	async createOrder(
+		userId: string,
+		locale: string
+	): Promise<CreateOrderResponse> {
 		const { cartItems, totalPrice, deliveryPrice, discount } =
 			await this.cartService.getMyCart(userId)
 
@@ -41,6 +46,8 @@ export class OrderService {
 			},
 			select: { id: true, totalAmount: true }
 		})
+
+		await this.paymentService.createPayment(userId, id, totalAmount, locale)
 
 		await this.cartService.clearCartByUId(userId, true)
 
