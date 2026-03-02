@@ -47,10 +47,15 @@ export class OrderService {
 			select: { id: true, totalAmount: true }
 		})
 
-		await this.paymentService.createPayment(userId, id, totalAmount, locale)
+		const confirmation_url = await this.paymentService.createPayment(
+			userId,
+			id,
+			totalAmount,
+			locale
+		)
 
 		await this.cartService.clearCartByUId(userId, true)
 
-		return { orderId: id, totalAmount }
+		return { orderId: id, totalAmount, confirmation_url }
 	}
 }

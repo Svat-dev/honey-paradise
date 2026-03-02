@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
 import { ConfigService } from "@nestjs/config/dist/config.service"
 import type {
+	ConfirmationRedirectResponse,
 	CreatePaymentRequest,
 	PaymentNotificationEvent
 } from "nestjs-yookassa"
@@ -18,13 +19,15 @@ import { PrismaService } from "src/core/prisma/prisma.service"
 import { success } from "src/shared/lib/common/utils"
 import type { DefaultResponse } from "src/shared/lib/response/default.res"
 import { EnumClientRoutes } from "src/shared/types/client/enums.type"
+import { NotificationGateway } from "src/shared/websockets/notifications.gateway"
 
 @Injectable()
 export class PaymentsService {
 	constructor(
 		private readonly prisma: PrismaService,
 		private readonly config: ConfigService,
-		private readonly yookassaService: YookassaService
+		private readonly yookassaService: YookassaService,
+		private readonly notificationSocket: NotificationGateway
 	) {}
 
 	async createPayment(
@@ -32,7 +35,7 @@ export class PaymentsService {
 		orderId: string,
 		amount: number,
 		locale: string
-	) {
+	): Promise<string> {
 		const payment = await this.prisma.transaction.create({
 			data: {
 				amount,
@@ -69,7 +72,8 @@ export class PaymentsService {
 
 		if (!transaction) throw new InternalServerErrorException("Payment failed!")
 
-		return transaction
+		return (transaction.confirmation as ConfirmationRedirectResponse)
+			.confirmation_url
 	}
 
 	async notification(dto: PaymentNotificationEvent): Promise<DefaultResponse> {
@@ -83,17 +87,23 @@ export class PaymentsService {
 
 			return success()
 		} else if (event === NotificationEventEnum.PAYMENT_SUCCEEDED) {
-			await this.prisma.transaction.update({
+			const payment = await this.prisma.transaction.update({
 				where: { id: metadata.payment_id },
-				data: { externalId, status: "SUCCEEDED" }
+				data: { externalId, status: "SUCCEEDED" },
+				select: { status: true, userId: true }
 			})
+
+			this.notificationSocket.handlePaymentUpdated(payment)
 
 			return success()
 		} else {
-			await this.prisma.transaction.update({
+			const payment = await this.prisma.transaction.update({
 				where: { id: metadata.payment_id },
-				data: { externalId, status: "CANCELED" }
+				data: { externalId, status: "CANCELED" },
+				select: { status: true, userId: true }
 			})
+
+			this.notificationSocket.handlePaymentUpdated(payment)
 
 			return success()
 		}

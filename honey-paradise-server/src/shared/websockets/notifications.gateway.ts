@@ -5,6 +5,7 @@ import { WebSocketGateway } from "@nestjs/websockets/decorators/socket-gateway.d
 import { SubscribeMessage } from "@nestjs/websockets/decorators/subscribe-message.decorator"
 import type { OnGatewayConnection } from "@nestjs/websockets/interfaces/hooks/on-gateway-connection.interface"
 import type { OnGatewayDisconnect } from "@nestjs/websockets/interfaces/hooks/on-gateway-disconnect.interface"
+import type { EnumTransactionStatus } from "@prisma/client"
 import type { Server, Socket } from "socket.io"
 import { WsAuthGuard } from "src/shared/guards/ws-auth.guard"
 import { EnumWSPaths, EnumWSRoutes } from "src/shared/lib/common/constants"
@@ -68,6 +69,19 @@ export class NotificationGateway
 		this.server.to(payload.userId).emit(EnumWSRoutes.NEW_NOTIFICATION, {
 			message: "notifications/refresh",
 			nid: payload.nid,
+			timestamp: new Date().toISOString()
+		})
+
+		return true
+	}
+
+	@SubscribeMessage(EnumWSRoutes.PAYMENT_UPDATED)
+	handlePaymentUpdated(
+		@MessageBody() payload: { userId: string; status: EnumTransactionStatus }
+	) {
+		this.server.to(payload.userId).emit(EnumWSRoutes.NEW_NOTIFICATION, {
+			message: "payments/refresh",
+			status: payload.status,
 			timestamp: new Date().toISOString()
 		})
 
