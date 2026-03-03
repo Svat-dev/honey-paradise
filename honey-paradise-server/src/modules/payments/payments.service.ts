@@ -31,24 +31,23 @@ export class PaymentsService {
 	) {}
 
 	async createPayment(
-		userId: string,
-		orderId: string,
-		amount: number,
+		id: { order: string; user: string },
+		amount: { usd: number; rub: number },
 		locale: string
 	): Promise<string> {
 		const payment = await this.prisma.transaction.create({
 			data: {
-				amount,
-				order: { connect: { id: orderId } },
-				user: { connect: { id: userId } }
+				amount: amount.usd,
+				order: { connect: { id: id.order } },
+				user: { connect: { id: id.user } }
 			},
 			select: { id: true }
 		})
 
 		const paymentData: CreatePaymentRequest = {
 			amount: {
-				value: amount,
-				currency: CurrencyEnum.USD
+				value: amount.rub,
+				currency: CurrencyEnum.RUB
 			},
 			capture: true,
 			description: "Оплата заказа на сайте Honey Paradise",
