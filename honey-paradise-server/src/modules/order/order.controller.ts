@@ -4,11 +4,15 @@ import {
 	Get,
 	Post
 } from "@nestjs/common/decorators/http/request-mapping.decorator"
+import { Req } from "@nestjs/common/decorators/http/route-params.decorator"
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum"
 import { ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger"
+import type { Request } from "express"
+import { I18nLang } from "nestjs-i18n"
 import { Authorization } from "src/shared/decorators/auth.decorator"
 import { Authorized } from "src/shared/decorators/authorized.decorator"
 import { EnumApiRoute } from "src/shared/lib/common/constants"
+import { EnumStorageKeys } from "src/shared/types/client/enums.type"
 
 import { OrderService } from "./order.service"
 import { CreateOrderResponse } from "./response/create-order.res"
@@ -33,7 +37,15 @@ export class OrderController {
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Post(EnumApiRoute.CREATE_ORDER)
-	createOrder(@Authorized("id") userId: string) {
-		return this.orderService.createOrder(userId)
+	createOrder(
+		@Authorized("id") userId: string,
+		@Req() req: Request,
+		@I18nLang() lang: string
+	) {
+		return this.orderService.createOrder(
+			userId,
+			req.cookies[EnumStorageKeys.CURRENCY_DATA],
+			lang
+		)
 	}
 }

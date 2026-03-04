@@ -76,7 +76,7 @@ export class CartService {
 
 			return {
 				...cart,
-				deliveryPrice: freeDelivery ? 0 : 100,
+				deliveryPrice: freeDelivery ? 0 : 5,
 				discount,
 				length: cart._count.cartItems,
 				currency: settings.defaultCurrency || EnumCurrencies.DOLLAR

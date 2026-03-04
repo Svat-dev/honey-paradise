@@ -1,8 +1,11 @@
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
+import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception"
+import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
 import { PrismaService } from "src/core/prisma/prisma.service"
 import { ordersDefaultOutput } from "src/shared/lib/prisma/outputs/order.output"
 
 import { CartService } from "../cart/cart.service"
+import { PaymentsService } from "../payments/payments.service"
 
 import type { CreateOrderResponse } from "./response/create-order.res"
 
@@ -10,7 +13,8 @@ import type { CreateOrderResponse } from "./response/create-order.res"
 export class OrderService {
 	constructor(
 		private readonly prisma: PrismaService,
-		private readonly cartService: CartService
+		private readonly cartService: CartService,
+		private readonly paymentService: PaymentsService
 	) {}
 
 	async getAllOrders(userId: string): Promise<any> {
@@ -23,28 +27,49 @@ export class OrderService {
 		return orders
 	}
 
-	async createOrder(userId: string): Promise<CreateOrderResponse> {
-		const cart = await this.cartService.getMyCart(userId)
+	async createOrder(
+		userId: string,
+		currencies: string,
+		locale: string
+	): Promise<CreateOrderResponse> {
+		try {
+			const parsed: Record<string, any> = JSON.parse(currencies || "{}")
 
-		const items = cart.cartItems.map(
-			({ quantity, priceInUSD, productVariant }) => ({
-				quantity,
-				price: priceInUSD,
-				productId: productVariant.product.id
+			const { cartItems, totalPrice, deliveryPrice, discount } =
+				await this.cartService.getMyCart(userId)
+
+			const items = cartItems.map(
+				({ quantity, priceInUSD, productVariant }) => ({
+					quantity,
+					price: priceInUSD,
+					variantId: productVariant.product.id
+				})
+			)
+
+			const { id, totalAmount } = await this.prisma.order.create({
+				data: {
+					totalAmount: totalPrice * (1 - discount) + deliveryPrice,
+					items: { toJSON: () => items },
+					user: { connect: { id: userId } }
+				},
+				select: { id: true, totalAmount: true }
 			})
-		)
 
-		const { id, totalAmount } = await this.prisma.order.create({
-			data: {
-				totalAmount: cart.totalPrice,
-				items: { toJSON: () => items },
-				user: { connect: { id: userId } }
-			},
-			select: { id: true, totalAmount: true }
-		})
+			if (!parsed?.rates?.["RUB"])
+				throw new BadRequestException("No currency in cookie found!")
 
-		await this.cartService.clearCartByUId(userId, true)
+			const confirmation_url = await this.paymentService.createPayment(
+				{ order: id, user: userId },
+				{ usd: totalAmount, rub: totalAmount * parsed.rates["RUB"] },
+				locale
+			)
 
-		return { orderId: id, totalAmount }
+			await this.cartService.clearCartByUId(userId, true)
+
+			return { totalAmount, confirmation_url }
+		} catch (error) {
+			console.log(error)
+			throw new InternalServerErrorException("Error!")
+		}
 	}
 }

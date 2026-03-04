@@ -1,0 +1,115 @@
+import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
+import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
+import { ConfigService } from "@nestjs/config/dist/config.service"
+import type {
+	ConfirmationRedirectResponse,
+	CreatePaymentRequest,
+	PaymentNotificationEvent
+} from "nestjs-yookassa"
+import {
+	ConfirmationEnum,
+	CurrencyEnum,
+	LocaleEnum,
+	NotificationEventEnum,
+	NotificationTypeEnum,
+	PaymentMethodsEnum
+} from "nestjs-yookassa"
+import { YookassaService } from "nestjs-yookassa/dist/yookassa.service"
+import { PrismaService } from "src/core/prisma/prisma.service"
+import { isDev, success } from "src/shared/lib/common/utils"
+import type { DefaultResponse } from "src/shared/lib/response/default.res"
+import { EnumClientRoutes } from "src/shared/types/client/enums.type"
+import { NotificationGateway } from "src/shared/websockets/notifications.gateway"
+
+@Injectable()
+export class PaymentsService {
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly config: ConfigService,
+		private readonly yookassaService: YookassaService,
+		private readonly notificationSocket: NotificationGateway
+	) {}
+
+	async createPayment(
+		id: { order: string; user: string },
+		amount: { usd: number; rub: number },
+		locale: string
+	): Promise<string> {
+		const payment = await this.prisma.transaction.create({
+			data: {
+				amount: amount.usd,
+				order: { connect: { id: id.order } },
+				user: { connect: { id: id.user } }
+			},
+			select: { id: true }
+		})
+
+		const paymentData: CreatePaymentRequest = {
+			amount: {
+				value: amount.rub,
+				currency: CurrencyEnum.RUB
+			},
+			capture: true,
+			description: "Оплата заказа на сайте Honey Paradise",
+			metadata: {
+				payment_id: payment.id
+			},
+			payment_method_data: {
+				type: PaymentMethodsEnum.BANK_CARD
+			},
+			confirmation: {
+				type: ConfirmationEnum.REDIRECT,
+				locale: locale === "ru" ? LocaleEnum.ru_RU : LocaleEnum.en_US,
+				return_url:
+					this.config.get<string>("CLIENT_URL") + EnumClientRoutes.PAID_ORDER
+			}
+		}
+
+		const transaction = await this.yookassaService.payments.create(paymentData)
+
+		if (!transaction) throw new InternalServerErrorException("Payment failed!")
+
+		if (isDev(this.config))
+			await this.notification({
+				event: NotificationEventEnum.PAYMENT_SUCCEEDED,
+				object: transaction,
+				type: NotificationTypeEnum.NOTIFICATION
+			})
+
+		return (transaction.confirmation as ConfirmationRedirectResponse)
+			.confirmation_url
+	}
+
+	async notification(dto: PaymentNotificationEvent): Promise<DefaultResponse> {
+		const {
+			object: { id: externalId, metadata },
+			event
+		} = dto
+
+		if (event === NotificationEventEnum.PAYMENT_WAITING_FOR_CAPTURE) {
+			await this.yookassaService.payments.capture(externalId)
+
+			return success()
+		} else if (event === NotificationEventEnum.PAYMENT_SUCCEEDED) {
+			const payment = await this.prisma.transaction.update({
+				where: { id: metadata.payment_id },
+				data: { externalId, status: "SUCCEEDED" },
+				select: { status: true, userId: true }
+			})
+
+			this.notificationSocket.handlePaymentUpdated(payment)
+
+			return success()
+		} else {
+			const payment = await this.prisma.transaction.update({
+				where: { id: metadata.payment_id },
+				data: { externalId, status: "CANCELED" },
+				select: { status: true, userId: true }
+			})
+
+			this.notificationSocket.handlePaymentUpdated(payment)
+
+			return success()
+		}
+	}
+}

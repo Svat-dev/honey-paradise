@@ -1,18 +1,17 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query"
 import toast from "react-hot-toast"
 
 import { orderService } from "@/services/order.service"
 import { queryKeys } from "@/shared/lib/constants/routes"
 import type { CreateOrderResponse } from "@/shared/types/server"
 
-export const useCreateOrderS = () => {
-	const client = useQueryClient()
+import { CreateOrderToaster } from "./CreateOrderToaster"
 
+export const useCreateOrderS = () => {
 	const onSuccess = (data: CreateOrderResponse) => {
-		toast.success(
-			`Order ${data.orderId} on ${data.totalAmount} USD created successfully!`
-		)
-		client.refetchQueries({ queryKey: [queryKeys.getMyCart] })
+		toast.success(() => <CreateOrderToaster {...data} />, {
+			duration: 4000
+		})
 	}
 
 	const { mutateAsync, isPending } = useMutation({
