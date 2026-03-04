@@ -73,7 +73,7 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
 			})
 		)
 
-		this.clientUrl = !isDev(this.config)
+		this.clientUrl = isDev(this.config)
 			? "https://www.google.com"
 			: this.config.getOrThrow<string>("CLIENT_URL")
 	}

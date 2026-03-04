@@ -11,12 +11,12 @@ import {
 	CurrencyEnum,
 	LocaleEnum,
 	NotificationEventEnum,
+	NotificationTypeEnum,
 	PaymentMethodsEnum
 } from "nestjs-yookassa"
 import { YookassaService } from "nestjs-yookassa/dist/yookassa.service"
-import * as path from "path"
 import { PrismaService } from "src/core/prisma/prisma.service"
-import { success } from "src/shared/lib/common/utils"
+import { isDev, success } from "src/shared/lib/common/utils"
 import type { DefaultResponse } from "src/shared/lib/response/default.res"
 import { EnumClientRoutes } from "src/shared/types/client/enums.type"
 import { NotificationGateway } from "src/shared/websockets/notifications.gateway"
@@ -60,16 +60,21 @@ export class PaymentsService {
 			confirmation: {
 				type: ConfirmationEnum.REDIRECT,
 				locale: locale === "ru" ? LocaleEnum.ru_RU : LocaleEnum.en_US,
-				return_url: path.join(
-					this.config.get<string>("CLIENT_URL"),
-					EnumClientRoutes.PAID_ORDER
-				)
+				return_url:
+					this.config.get<string>("CLIENT_URL") + EnumClientRoutes.PAID_ORDER
 			}
 		}
 
 		const transaction = await this.yookassaService.payments.create(paymentData)
 
 		if (!transaction) throw new InternalServerErrorException("Payment failed!")
+
+		if (isDev(this.config))
+			await this.notification({
+				event: NotificationEventEnum.PAYMENT_SUCCEEDED,
+				object: transaction,
+				type: NotificationTypeEnum.NOTIFICATION
+			})
 
 		return (transaction.confirmation as ConfirmationRedirectResponse)
 			.confirmation_url

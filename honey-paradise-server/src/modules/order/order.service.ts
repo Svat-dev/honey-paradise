@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception"
+import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
 import { PrismaService } from "src/core/prisma/prisma.service"
 import { ordersDefaultOutput } from "src/shared/lib/prisma/outputs/order.output"
 
@@ -31,37 +32,44 @@ export class OrderService {
 		currencies: string,
 		locale: string
 	): Promise<CreateOrderResponse> {
-		const parsed: Record<string, any> = JSON.parse(currencies || "{}")
+		try {
+			const parsed: Record<string, any> = JSON.parse(currencies || "{}")
 
-		const { cartItems, totalPrice, deliveryPrice, discount } =
-			await this.cartService.getMyCart(userId)
+			const { cartItems, totalPrice, deliveryPrice, discount } =
+				await this.cartService.getMyCart(userId)
 
-		const items = cartItems.map(({ quantity, priceInUSD, productVariant }) => ({
-			quantity,
-			price: priceInUSD,
-			variantId: productVariant.product.id
-		}))
+			const items = cartItems.map(
+				({ quantity, priceInUSD, productVariant }) => ({
+					quantity,
+					price: priceInUSD,
+					variantId: productVariant.product.id
+				})
+			)
 
-		const { id, totalAmount } = await this.prisma.order.create({
-			data: {
-				totalAmount: totalPrice * (1 - discount) + deliveryPrice,
-				items: { toJSON: () => items },
-				user: { connect: { id: userId } }
-			},
-			select: { id: true, totalAmount: true }
-		})
+			const { id, totalAmount } = await this.prisma.order.create({
+				data: {
+					totalAmount: totalPrice * (1 - discount) + deliveryPrice,
+					items: { toJSON: () => items },
+					user: { connect: { id: userId } }
+				},
+				select: { id: true, totalAmount: true }
+			})
 
-		if (!parsed?.rates?.["RUB"])
-			throw new BadRequestException("No currency in cookie found!")
+			if (!parsed?.rates?.["RUB"])
+				throw new BadRequestException("No currency in cookie found!")
 
-		const confirmation_url = await this.paymentService.createPayment(
-			{ order: id, user: userId },
-			{ usd: totalAmount, rub: totalAmount * parsed.rates["RUB"] },
-			locale
-		)
+			const confirmation_url = await this.paymentService.createPayment(
+				{ order: id, user: userId },
+				{ usd: totalAmount, rub: totalAmount * parsed.rates["RUB"] },
+				locale
+			)
 
-		await this.cartService.clearCartByUId(userId, true)
+			await this.cartService.clearCartByUId(userId, true)
 
-		return { totalAmount, confirmation_url }
+			return { totalAmount, confirmation_url }
+		} catch (error) {
+			console.log(error)
+			throw new InternalServerErrorException("Error!")
+		}
 	}
 }
