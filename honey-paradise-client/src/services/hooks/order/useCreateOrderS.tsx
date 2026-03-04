@@ -1,17 +1,17 @@
 import { useMutation } from "@tanstack/react-query"
-import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 
 import { orderService } from "@/services/order.service"
 import { queryKeys } from "@/shared/lib/constants/routes"
 import type { CreateOrderResponse } from "@/shared/types/server"
 
-export const useCreateOrderS = () => {
-	const { push } = useRouter()
+import { CreateOrderToaster } from "./CreateOrderToaster"
 
+export const useCreateOrderS = () => {
 	const onSuccess = (data: CreateOrderResponse) => {
-		toast.success(`Order on ${data.totalAmount} USD created successfully!`)
-		push(data.confirmation_url)
+		toast.success(() => <CreateOrderToaster {...data} />, {
+			duration: 4000
+		})
 	}
 
 	const { mutateAsync, isPending } = useMutation({

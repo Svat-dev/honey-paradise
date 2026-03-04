@@ -46,7 +46,7 @@ const CartItem: FC<ICartItem> = ({
 			whileInView={"default"}
 			viewport={{ once: true, amount: 0.5 }}
 			transition={{ duration: 0.4, type: "tween" }}
-			className="grid grid-cols-[auto_1fr_min-content] items-center gap-5 overflow-hidden bg-primary p-3 shadow-md print:justify-between"
+			className="grid grid-cols-[auto_1fr_min-content] items-center gap-5 bg-primary p-3 shadow-md print:justify-between"
 		>
 			<ProductCardImages
 				images={images}

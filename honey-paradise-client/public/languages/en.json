@@ -939,7 +939,8 @@
 			"title": "Orders",
 			"description": "User's orders in the online store {title}",
 			"content": {
-				"title": "My orders"
+				"title": "My orders",
+				"paid": "Order has successfully paid!"
 			}
 		},
 		"cart": {
