@@ -62,6 +62,6 @@ export class OrderService {
 
 		await this.cartService.clearCartByUId(userId, true)
 
-		return { totalAmount, confirmation_url: "" }
+		return { totalAmount, confirmation_url }
 	}
 }
