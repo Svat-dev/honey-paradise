@@ -4,8 +4,11 @@ import { getTranslations } from "next-intl/server"
 import { Orders } from "@/components/screens/_orders/Orders"
 import { NO_INDEX_PAGE } from "@/shared/lib/constants/base"
 import { getMetadata } from "@/shared/lib/utils/base"
+import type { TSearchParams } from "@/shared/types"
 
-interface IProps {}
+interface IProps {
+	searchParams: Promise<TSearchParams>
+}
 
 export async function generateMetadata(): Promise<Metadata> {
 	const t = await getTranslations("global")
@@ -20,8 +23,10 @@ export async function generateMetadata(): Promise<Metadata> {
 	}
 }
 
-const OrdersPage: NextPage<IProps> = () => {
-	return <Orders />
+const OrdersPage: NextPage<IProps> = async props => {
+	const searchParams = await props.searchParams
+
+	return <Orders searchParams={searchParams} />
 }
 
 export default OrdersPage
