@@ -73,11 +73,9 @@ const ProductReviewsWrapper: FC<IProps> = ({
 					/>
 
 					{isRatingLoading
-						? new Array(3)
-								.fill(0)
-								.map((_, i) => (
-									<Skeleton key={i} className="ml-3 inline-block h-16 w-20" />
-								))
+						? ["a", "b", "c"].map(id => (
+								<Skeleton key={id} className="ml-3 inline-block h-16 w-20" />
+							))
 						: extraRatingArray.map(([name, value]) => (
 								<RatingBadge key={name} name={capitalize(name)} value={value} />
 							))}

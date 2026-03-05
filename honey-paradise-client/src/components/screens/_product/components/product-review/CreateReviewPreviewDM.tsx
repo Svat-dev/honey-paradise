@@ -31,7 +31,7 @@ const CreateReviewPreviewDM: FC<IProps> = ({ comment }) => {
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent side="top" className="w-[30rem]">
-				<Markdown children={comment} />
+				<Markdown>{comment}</Markdown>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	)

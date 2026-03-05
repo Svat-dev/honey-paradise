@@ -30,7 +30,7 @@ const TranslateText: FC<ITranslateText> = ({
 				"select-none !opacity-60": isTranslating
 			})}
 		>
-			{type === "review" ? <Markdown children={text} /> : <p>{text}</p>}
+			{type === "review" ? <Markdown>{text}</Markdown> : <p>{text}</p>}
 			{isTranslated && (
 				<p className="ml-2 self-end text-sm text-muted">{t("translated")}</p>
 			)}

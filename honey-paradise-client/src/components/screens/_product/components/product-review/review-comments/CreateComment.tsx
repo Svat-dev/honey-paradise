@@ -24,7 +24,7 @@ const CreateComment: FC<IProps> = ({ reviewId, replyId, deleteReplyId }) => {
 	return (
 		<FormProvider {...form}>
 			<form onSubmit={onSubmit} className="my-4 flex flex-col">
-				<a id={`comment-input-${reviewId}`} />
+				<span id={`comment-input-${reviewId}`} />
 
 				<FormInput
 					name="comment"
