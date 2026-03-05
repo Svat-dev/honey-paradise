@@ -932,7 +932,8 @@
 			"title": "Transactions",
 			"description": "User's transactions in the online store {title}",
 			"content": {
-				"title": "My transactions"
+				"title": "My transactions",
+				"description": "Transactions for products and premium subscriptions are displayed here"
 			}
 		},
 		"orders": {
