@@ -18,6 +18,8 @@ export const queryKeys = {
 	getProductsReviews: "get products reviews",
 	getProductPage: "get product page data",
 	getReviewComments: "get review's comments",
+	getAllPayments: "get all user's payments",
+	getPaymentExtraInfo: "get payment extra info",
 
 	recoverPassword: "account recover password",
 	connectTg: "account connect telegram",

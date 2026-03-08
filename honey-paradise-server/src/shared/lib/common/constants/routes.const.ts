@@ -117,6 +117,11 @@ export enum EnumApiRoute {
 	CREATE_ORDER = "/create",
 	GET_USER_ORDERS = "/all",
 
+	PAYMENTS = "/payments",
+	GET_USER_PAYMENTS = "/all",
+	GET_PAYMENT_EXTRA = "/extra/:paymentId",
+	YOOKASSA_WEBHOOK = "/notification",
+
 	PROMO_CODES = "/promo-codes",
 	USE_PROMO_CODE = "/use",
 	CREATE_PROMO_CODE = "/create",
