@@ -3,7 +3,8 @@ import { enUS, ru } from "date-fns/locale"
 import type { FC } from "react"
 
 import { TableCell, TableRow } from "@/components/ui/common"
-import { getPaymentCardIcon } from "@/shared/lib/utils/get-card-icon"
+import { getPaymentCardIcon } from "@/shared/lib/utils/payments/get-card-icon"
+import { getPaymentStatusIcon } from "@/shared/lib/utils/payments/get-pay-status-icon"
 import type { GetAllPaymentsResponse } from "@/shared/types/server"
 
 interface ITransactionItem extends Omit<GetAllPaymentsResponse, "amount"> {
@@ -20,6 +21,7 @@ const TransactionItem: FC<ITransactionItem> = ({
 	locale
 }) => {
 	const CardIcon = getPaymentCardIcon(card.type)
+	const StatusIcon = getPaymentStatusIcon(status)
 	const fnsLocale = locale === "ru" ? ru : enUS
 
 	const statusText =
@@ -36,7 +38,7 @@ const TransactionItem: FC<ITransactionItem> = ({
 			: status === "CANCELED"
 				? "red"
 				: status === "PENDING"
-					? "yellow"
+					? "zinc"
 					: "black"
 
 	return (
@@ -46,7 +48,10 @@ const TransactionItem: FC<ITransactionItem> = ({
 					{format(createdAt, `d MMM yyyy HH:mm:ss`, { locale: fnsLocale })}
 				</time>
 			</TableCell>
-			<TableCell className={`text-${statusColor}-500 font-medium`}>
+			<TableCell
+				className={`text-${statusColor}-600 flex items-center gap-1.5 font-semibold`}
+			>
+				<StatusIcon size={18} />
 				{statusText}
 			</TableCell>
 			<TableCell>{amount}</TableCell>
