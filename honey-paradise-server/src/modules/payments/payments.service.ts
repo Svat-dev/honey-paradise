@@ -33,37 +33,45 @@ export class PaymentsService {
 	) {}
 
 	async getPaymentsByUser(userId: string): Promise<GetAllPaymentsResponse[]> {
-		const payments = await this.prisma.transaction.findMany({
-			where: { userId },
-			select: {
-				id: true,
-				externalId: true,
-				amount: true,
-				status: true,
-				createdAt: true
-			},
-			orderBy: { createdAt: "desc" }
-		})
-
-		const result = []
-		for (const { externalId, ...item } of payments) {
-			const extra = await this.getMorePaymentInfo(externalId)
-
-			result.push({
-				...item,
-				...extra
+		try {
+			const payments = await this.prisma.transaction.findMany({
+				where: { userId },
+				select: {
+					id: true,
+					externalId: true,
+					amount: true,
+					status: true,
+					createdAt: true
+				},
+				orderBy: { createdAt: "desc" }
 			})
-		}
 
-		return result
+			const result = []
+			for (const { externalId, ...item } of payments) {
+				const extra = await this.getMorePaymentInfo(externalId)
+
+				result.push({
+					...item,
+					...extra
+				})
+			}
+
+			return result
+		} catch (error) {
+			throw new InternalServerErrorException(
+				"Error while getting all payments!"
+			)
+			console.log(error)
+		}
 	}
 
 	async getMorePaymentInfo(
-		externalId
+		externalId: string
 	): Promise<
 		Pick<GetAllPaymentsResponse, "capturedAt" | "description" | "method">
 	> {
 		const extraData = await this.yookassaService.payments.getById(externalId)
+		const card = extraData.payment_method["card"]
 
 		return {
 			capturedAt: extraData.captured_at,
@@ -74,7 +82,7 @@ export class PaymentsService {
 					extraData.payment_method.type === PaymentMethodsEnum.BANK_CARD
 						? {
 								type: extraData.payment_method.card["card_type"],
-								number: extraData.payment_method.card["last4"]
+								number: `${card["first6"]}******${card["last4"]}`
 							}
 						: null
 			}

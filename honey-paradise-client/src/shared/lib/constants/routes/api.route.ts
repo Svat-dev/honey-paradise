@@ -107,7 +107,6 @@ export enum EnumApiRoute {
 
 	PAYMENTS = "/payments",
 	GET_ALL_PAYMENTS = `${PAYMENTS}/all`,
-	GET_PAYMENT_EXTRA = `${PAYMENTS}/extra`,
 
 	PROMO_CODES = "/promo-codes",
 	USE_PROMO_CODE = `${PROMO_CODES}/use`
