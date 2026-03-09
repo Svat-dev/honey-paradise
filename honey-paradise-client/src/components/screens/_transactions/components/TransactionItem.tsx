@@ -3,6 +3,7 @@ import { enUS, ru } from "date-fns/locale"
 import type { FC } from "react"
 
 import { TableCell, TableRow } from "@/components/ui/common"
+import { getPaymentCardIcon } from "@/shared/lib/utils/get-card-icon"
 import type { GetAllPaymentsResponse } from "@/shared/types/server"
 
 interface ITransactionItem extends Omit<GetAllPaymentsResponse, "amount"> {
@@ -13,10 +14,12 @@ interface ITransactionItem extends Omit<GetAllPaymentsResponse, "amount"> {
 const TransactionItem: FC<ITransactionItem> = ({
 	amount,
 	status,
+	method: { card },
 	capturedAt,
 	createdAt,
 	locale
 }) => {
+	const CardIcon = getPaymentCardIcon(card.type)
 	const fnsLocale = locale === "ru" ? ru : enUS
 
 	const statusText =
@@ -48,6 +51,7 @@ const TransactionItem: FC<ITransactionItem> = ({
 			</TableCell>
 			<TableCell>{amount}</TableCell>
 			<TableCell className="flex select-none items-center gap-2">
+				<CardIcon />
 				{card.number
 					.split("")
 					.map((l, i) => `${l}${(i + 1) % 4 === 0 ? " " : ""}`)
