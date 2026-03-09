@@ -21,6 +21,8 @@ import type { DefaultResponse } from "src/shared/lib/response/default.res"
 import { EnumClientRoutes } from "src/shared/types/client/enums.type"
 import { NotificationGateway } from "src/shared/websockets/notifications.gateway"
 
+import type { GetAllPaymentsResponse } from "./response/get-all-payments.res"
+
 @Injectable()
 export class PaymentsService {
 	constructor(
@@ -29,6 +31,55 @@ export class PaymentsService {
 		private readonly yookassaService: YookassaService,
 		private readonly notificationSocket: NotificationGateway
 	) {}
+
+	async getPaymentsByUser(userId: string): Promise<GetAllPaymentsResponse[]> {
+		const payments = await this.prisma.transaction.findMany({
+			where: { userId },
+			select: {
+				id: true,
+				externalId: true,
+				amount: true,
+				status: true,
+				createdAt: true
+			},
+			orderBy: { createdAt: "desc" }
+		})
+
+		const result = []
+		for (const { externalId, ...item } of payments) {
+			const extra = await this.getMorePaymentInfo(externalId)
+
+			result.push({
+				...item,
+				...extra
+			})
+		}
+
+		return result
+	}
+
+	async getMorePaymentInfo(
+		externalId
+	): Promise<
+		Pick<GetAllPaymentsResponse, "capturedAt" | "description" | "method">
+	> {
+		const extraData = await this.yookassaService.payments.getById(externalId)
+
+		return {
+			capturedAt: extraData.captured_at,
+			description: extraData.description,
+			method: {
+				type: extraData.payment_method.type,
+				card:
+					extraData.payment_method.type === PaymentMethodsEnum.BANK_CARD
+						? {
+								type: extraData.payment_method.card["card_type"],
+								number: extraData.payment_method.card["last4"]
+							}
+						: null
+			}
+		}
+	}
 
 	async createPayment(
 		id: { order: string; user: string },
