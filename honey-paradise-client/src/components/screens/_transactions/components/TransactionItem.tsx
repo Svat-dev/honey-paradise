@@ -8,11 +8,13 @@ import { getPaymentStatusIcon } from "@/shared/lib/utils/payments/get-pay-status
 import type { GetAllPaymentsResponse } from "@/shared/types/server"
 
 interface ITransactionItem extends Omit<GetAllPaymentsResponse, "amount"> {
+	i: number
 	locale: string
 	amount: string
 }
 
 const TransactionItem: FC<ITransactionItem> = ({
+	i,
 	amount,
 	status,
 	method: { card },
@@ -22,7 +24,13 @@ const TransactionItem: FC<ITransactionItem> = ({
 }) => {
 	const CardIcon = getPaymentCardIcon(card.type)
 	const StatusIcon = getPaymentStatusIcon(status)
+
 	const fnsLocale = locale === "ru" ? ru : enUS
+
+	const cartNumber = card.number
+		.split("")
+		.map((l, i) => `${l}${(i + 1) % 4 === 0 ? " " : ""}`)
+		.join("")
 
 	const statusText =
 		status === "SUCCEEDED"
@@ -34,33 +42,32 @@ const TransactionItem: FC<ITransactionItem> = ({
 					: ""
 	const statusColor =
 		status === "SUCCEEDED"
-			? "green"
+			? "green-500"
 			: status === "CANCELED"
-				? "red"
+				? "red-500"
 				: status === "PENDING"
-					? "zinc"
+					? "muted"
 					: "black"
 
 	return (
-		<TableRow>
+		<TableRow
+			initial={{ opacity: 0, x: -30 }}
+			animate={{ opacity: 1, x: 0 }}
+			transition={{ type: "tween", duration: 0.4, delay: 0.13 * i }}
+		>
 			<TableCell>
 				<time dateTime={createdAt}>
 					{format(createdAt, `d MMM yyyy HH:mm:ss`, { locale: fnsLocale })}
 				</time>
 			</TableCell>
-			<TableCell
-				className={`text-${statusColor}-600 flex items-center gap-1.5 font-semibold`}
-			>
-				<StatusIcon size={18} />
-				{statusText}
+			<TableCell className={`text-${statusColor} font-semibold`}>
+				<StatusIcon size={18} className="inline-block" />
+				<span className="ml-2">{statusText}</span>
 			</TableCell>
 			<TableCell>{amount}</TableCell>
-			<TableCell className="flex select-none items-center gap-2">
-				<CardIcon />
-				{card.number
-					.split("")
-					.map((l, i) => `${l}${(i + 1) % 4 === 0 ? " " : ""}`)
-					.join("")}
+			<TableCell className="select-none">
+				<CardIcon className="inline-block max-h-6" />
+				<span className="ml-2">{cartNumber}</span>
 			</TableCell>
 			<TableCell>
 				<time dateTime={capturedAt}>

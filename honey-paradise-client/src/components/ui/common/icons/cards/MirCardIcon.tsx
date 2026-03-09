@@ -1,11 +1,14 @@
 import type { LucideProps } from "lucide-react"
 import type { FC } from "react"
 
+import { cn } from "@/shared/lib/utils/base"
+
 const MirCardIcon: FC<LucideProps> = ({
 	size = 32,
 	strokeWidth = 0,
 	stroke = "currentColor",
 	fill = "#000000",
+	className,
 	...props
 }) => {
 	const { height, width, viewBox } = props
@@ -16,9 +19,10 @@ const MirCardIcon: FC<LucideProps> = ({
 			fill={fill}
 			strokeWidth={strokeWidth}
 			viewBox={viewBox ?? "0 0 780 500"}
-			height={height ? height : typeof size === "number" ? size - 2 : size}
+			height={height ? height : size}
 			width={width ? width : size}
 			xmlns="http://www.w3.org/2000/svg"
+			className={cn("-ml-0.5", className)}
 			{...props}
 		>
 			<title>Mir</title>

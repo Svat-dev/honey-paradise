@@ -1,3 +1,4 @@
+import { m, MotionProps } from "motion/react"
 import {
 	forwardRef,
 	type HTMLAttributes,
@@ -61,10 +62,11 @@ TableFooter.displayName = "TableFooter"
 
 const TableRow = forwardRef<
 	HTMLTableRowElement,
-	HTMLAttributes<HTMLTableRowElement>
+	HTMLAttributes<HTMLTableRowElement> & MotionProps
 >(({ className, ...props }, ref) => (
-	<tr
+	<m.tr
 		ref={ref}
+		initial={false}
 		className={cn(
 			"border-b border-muted/30 transition-colors hover:bg-muted/10 data-[state=selected]:bg-muted",
 			className

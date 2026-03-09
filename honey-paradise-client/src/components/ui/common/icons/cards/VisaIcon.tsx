@@ -1,12 +1,15 @@
 import type { LucideProps } from "lucide-react"
 import type { FC } from "react"
 
+import { cn } from "@/shared/lib/utils/base"
+
 const VisaIcon: FC<LucideProps> = ({
 	size = 32,
 	strokeWidth = 0,
 	color = "#1a1f71",
 	stroke = "currentColor",
 	fill = "currentColor",
+	className,
 	...props
 }) => {
 	const { height, width, viewBox } = props
@@ -18,9 +21,10 @@ const VisaIcon: FC<LucideProps> = ({
 			color={color}
 			strokeWidth={strokeWidth}
 			viewBox={viewBox ?? "0 0 24 24"}
-			height={height ? height : typeof size === "number" ? size - 2 : size}
+			height={height ? height : size}
 			width={width ? width : size}
 			xmlns="http://www.w3.org/2000/svg"
+			className={cn("-ml-1 scale-[1.15]", className)}
 			{...props}
 		>
 			<title>Visa</title>

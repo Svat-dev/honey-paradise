@@ -1,5 +1,6 @@
 "use client"
 
+import { AnimatePresence } from "motion/react"
 import { useLocale } from "next-intl"
 
 import {
@@ -14,6 +15,7 @@ import { useMyAccount } from "@/shared/lib/hooks/auth"
 import { useGetPrice } from "@/shared/lib/hooks/useGetPrice"
 
 import { TransactionItem } from "./TransactionItem"
+import { TransactionLoadingItem } from "./TransactionLoadingItem"
 
 const TransactionsContent = () => {
 	const locale = useLocale()
@@ -40,14 +42,21 @@ const TransactionsContent = () => {
 					</TableHeader>
 
 					<TableBody className="bg-secondary">
-						{payments?.map(item => (
-							<TransactionItem
-								key={item.id}
-								locale={locale}
-								{...item}
-								amount={getPrice(item.amount, true, false)}
-							/>
-						))}
+						<AnimatePresence mode="wait">
+							{isPaymentsLoading || isAccLoading
+								? ["a", "b", "c", "d", "e"].map(key => (
+										<TransactionLoadingItem key={key} />
+									))
+								: payments?.map((item, i) => (
+										<TransactionItem
+											key={item.id}
+											i={i + 1}
+											locale={locale}
+											{...item}
+											amount={getPrice(item.amount, true, false)}
+										/>
+									))}
+						</AnimatePresence>
 					</TableBody>
 				</Table>
 			</section>
