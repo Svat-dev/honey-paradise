@@ -11,7 +11,7 @@ const Transactions: FC<IProps> = async () => {
 	const t = await getTranslations("global.transactions.content")
 
 	return (
-		<article className="relative mx-10 my-6 w-full">
+		<article className="relative my-6 ml-10 w-full">
 			<Title size="lg" className="font-bold">
 				{t("title")}
 			</Title>
