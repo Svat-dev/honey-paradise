@@ -14,6 +14,7 @@ import { useGetAllPaymentsS } from "@/services/hooks/payments"
 import { useMyAccount } from "@/shared/lib/hooks/auth"
 import { useGetPrice } from "@/shared/lib/hooks/useGetPrice"
 
+import { TransactionEmpty } from "./TransactionEmpty"
 import { TransactionItem } from "./TransactionItem"
 import { TransactionLoadingItem } from "./TransactionLoadingItem"
 
@@ -43,19 +44,23 @@ const TransactionsContent = () => {
 
 					<TableBody className="bg-secondary">
 						<AnimatePresence mode="wait">
-							{isPaymentsLoading || isAccLoading
-								? ["a", "b", "c", "d", "e"].map(key => (
-										<TransactionLoadingItem key={key} />
-									))
-								: payments?.map((item, i) => (
-										<TransactionItem
-											key={item.id}
-											i={i + 1}
-											locale={locale}
-											{...item}
-											amount={getPrice(item.amount, true, false)}
-										/>
-									))}
+							{isPaymentsLoading || isAccLoading ? (
+								["a", "b", "c", "d", "e", "f"].map(key => (
+									<TransactionLoadingItem key={key} />
+								))
+							) : payments && payments.length > 0 ? (
+								payments?.map((item, i) => (
+									<TransactionItem
+										key={item.id}
+										i={i + 1}
+										locale={locale}
+										{...item}
+										amount={getPrice(item.amount, true, false)}
+									/>
+								))
+							) : (
+								<TransactionEmpty />
+							)}
 						</AnimatePresence>
 					</TableBody>
 				</Table>
