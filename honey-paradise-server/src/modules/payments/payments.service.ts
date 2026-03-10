@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
 import { ConfigService } from "@nestjs/config/dist/config.service"
+import { EnumTransactionStatus } from "@prisma/client"
 import type {
 	ConfirmationRedirectResponse,
 	CreatePaymentRequest,
@@ -21,6 +22,7 @@ import type { DefaultResponse } from "src/shared/lib/response/default.res"
 import { EnumClientRoutes } from "src/shared/types/client/enums.type"
 import { NotificationGateway } from "src/shared/websockets/notifications.gateway"
 
+import type { GetAllPaymentsQueryDto } from "./dto/get-all-payments.dto"
 import type { GetAllPaymentsResponse } from "./response/get-all-payments.res"
 
 @Injectable()
@@ -32,10 +34,18 @@ export class PaymentsService {
 		private readonly notificationSocket: NotificationGateway
 	) {}
 
-	async getPaymentsByUser(userId: string): Promise<GetAllPaymentsResponse[]> {
+	async getPaymentsByUser(
+		userId: string,
+		query: GetAllPaymentsQueryDto
+	): Promise<GetAllPaymentsResponse[]> {
 		try {
+			const { type, field, status, q } = query
+
+			const enumStatuses = Object.values(EnumTransactionStatus)
+			const statuses = status.split(",").map(i => enumStatuses[i] ?? undefined)
+
 			const payments = await this.prisma.transaction.findMany({
-				where: { userId },
+				where: { userId, status: { in: statuses } },
 				select: {
 					id: true,
 					externalId: true,
@@ -43,12 +53,14 @@ export class PaymentsService {
 					status: true,
 					createdAt: true
 				},
-				orderBy: { createdAt: "desc" }
+				orderBy: { [field]: type }
 			})
 
 			const result = []
 			for (const { externalId, ...item } of payments) {
 				const extra = await this.getMorePaymentInfo(externalId)
+
+				if (!extra.description.includes(q)) continue
 
 				result.push({
 					...item,
@@ -58,10 +70,10 @@ export class PaymentsService {
 
 			return result
 		} catch (error) {
+			console.log(error)
 			throw new InternalServerErrorException(
 				"Error while getting all payments!"
 			)
-			console.log(error)
 		}
 	}
 
