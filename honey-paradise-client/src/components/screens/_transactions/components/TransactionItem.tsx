@@ -1,11 +1,10 @@
 import { format } from "date-fns"
-import { enUS, ru } from "date-fns/locale"
 import type { FC } from "react"
 
 import { TableCell, TableRow } from "@/components/ui/common"
-import { getPaymentCardIcon } from "@/shared/lib/utils/payments/get-card-icon"
-import { getPaymentStatusIcon } from "@/shared/lib/utils/payments/get-pay-status-icon"
 import type { GetAllPaymentsResponse } from "@/shared/types/server"
+
+import { useTransactionItem } from "../hooks/useTransactionItem"
 
 interface ITransactionItem extends Omit<GetAllPaymentsResponse, "amount"> {
 	i: number
@@ -22,15 +21,8 @@ const TransactionItem: FC<ITransactionItem> = ({
 	createdAt,
 	locale
 }) => {
-	const CardIcon = getPaymentCardIcon(card.type)
-	const StatusIcon = getPaymentStatusIcon(status)
-
-	const fnsLocale = locale === "ru" ? ru : enUS
-
-	const cartNumber = card.number
-		.split("")
-		.map((l, i) => `${l}${(i + 1) % 4 === 0 ? " " : ""}`)
-		.join("")
+	const { t, CardIcon, StatusIcon, cardNumber, fnsLocale, statusColor } =
+		useTransactionItem(status, card, locale)
 
 	const statusText =
 		status === "SUCCEEDED"
@@ -40,14 +32,6 @@ const TransactionItem: FC<ITransactionItem> = ({
 				: status === "PENDING"
 					? "В ожидании"
 					: ""
-	const statusColor =
-		status === "SUCCEEDED"
-			? "green-500"
-			: status === "CANCELED"
-				? "red-500"
-				: status === "PENDING"
-					? "muted"
-					: "black"
 
 	return (
 		<TableRow
@@ -67,7 +51,7 @@ const TransactionItem: FC<ITransactionItem> = ({
 			<TableCell>{amount}</TableCell>
 			<TableCell className="select-none">
 				<CardIcon className="inline-block max-h-6" />
-				<span className="ml-2">{cartNumber}</span>
+				<span className="ml-2">{cardNumber}</span>
 			</TableCell>
 			<TableCell>
 				<time dateTime={capturedAt}>
