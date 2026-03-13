@@ -26,7 +26,11 @@ const TransactionsContent = () => {
 
 	return (
 		<>
-			<section>Here will be filters!</section>
+			<section className="mb-4 flex w-full items-center justify-between rounded-md bg-primary px-3 py-4">
+				<LeftSideFilters isLoading={isLoading} />
+
+				<RightSideFilters isLoading={isLoading} refetch={refetchPayments} />
+			</section>
 
 			<section>
 				<Table className="w-full rounded-md bg-primary/80">
