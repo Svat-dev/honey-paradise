@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl"
 import type { FC } from "react"
 
 import { Button } from "@/components/ui/common"
@@ -8,15 +9,18 @@ interface IProps {
 }
 
 const RightSideFilters: FC<IProps> = ({ isLoading, refetch }) => {
+	const t = useTranslations("global.transactions.content.filters")
+
 	return (
 		<div>
 			<Button
 				variant="secondary"
+				title={t("refresh")}
 				className="px-2 py-1.5"
 				onClick={refetch}
 				isLoading={isLoading}
 			>
-				Обновить
+				{t("refresh")}
 			</Button>
 		</div>
 	)

@@ -19,17 +19,14 @@ interface IProps {
 }
 
 const LeftSideFilters: FC<IProps> = ({ isLoading }) => {
-	const { queryParams, isFilterUpdated, searchForm, updateQueryParams, reset } =
-		useTransactionsQuery()
-
-	const statusText = (status: string) =>
-		status === "SUCCEEDED"
-			? "Успешно"
-			: status === "CANCELED"
-				? "Отклонено"
-				: status === "PENDING"
-					? "В ожидании"
-					: ""
+	const {
+		t,
+		queryParams,
+		isFilterUpdated,
+		searchForm,
+		updateQueryParams,
+		reset
+	} = useTransactionsQuery()
 
 	return (
 		<div className="flex items-center gap-5">
@@ -39,12 +36,12 @@ const LeftSideFilters: FC<IProps> = ({ isLoading }) => {
 				<DropdownMenuTrigger asChild>
 					<Button
 						variant="secondary"
-						title={"Выбрать видимые статусы"}
+						title={t("labels.statusChooseBtn")}
 						className="px-3 py-2 text-sm font-medium"
 						disabled={isLoading}
 					>
 						<FilterIcon size={16} className="mr-2" />
-						{`Выбрано ${queryParams.status.length}`}
+						{t("filters.chooseStatus", { length: queryParams.status.length })}
 					</Button>
 				</DropdownMenuTrigger>
 
@@ -57,7 +54,7 @@ const LeftSideFilters: FC<IProps> = ({ isLoading }) => {
 							className="!size-6"
 							containerClassName="my-1.5 px-2"
 						>
-							{statusText(status)}
+							{t("status", { status })}
 						</Checkbox>
 					))}
 				</DropdownMenuContent>
@@ -65,6 +62,7 @@ const LeftSideFilters: FC<IProps> = ({ isLoading }) => {
 
 			<Button
 				variant="ghost"
+				title={t("labels.resetBtn")}
 				className="[&_>_svg]:hover:rotate-[360deg]"
 				onClick={reset}
 				disabled={!isFilterUpdated || isLoading}

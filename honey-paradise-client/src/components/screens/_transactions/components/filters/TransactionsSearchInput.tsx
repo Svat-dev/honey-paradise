@@ -1,4 +1,5 @@
 import { SearchIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
 import type { ChangeEvent, FC } from "react"
 import { FormProvider, UseFormReturn } from "react-hook-form"
 
@@ -12,6 +13,8 @@ interface IProps {
 }
 
 const TransactionsSearchInput: FC<IProps> = ({ form }) => {
+	const t = useTranslations("global.transactions.content.labels")
+
 	const onInput = (e: ChangeEvent<HTMLInputElement>) => {
 		const el = e.currentTarget
 		return onInputRuleWithSpaces(el)
@@ -27,7 +30,7 @@ const TransactionsSearchInput: FC<IProps> = ({ form }) => {
 					spellCheck={false}
 					autoComplete="off"
 					autoCorrect="off"
-					placeholder="Поиск по описанию, номеру карты и т.д."
+					placeholder={t("inputPlaceholder")}
 					onInput={onInput}
 					{...form.register("q", {
 						pattern: { value: /^[a-zA-Zа-яА-Я0-9_(). ,-]*$/, message: "" }

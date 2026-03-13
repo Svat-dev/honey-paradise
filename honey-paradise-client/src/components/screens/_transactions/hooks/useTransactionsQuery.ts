@@ -1,3 +1,4 @@
+import { useLocale, useTranslations } from "next-intl"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useMemo } from "react"
 import { useForm } from "react-hook-form"
@@ -12,6 +13,9 @@ import {
 } from "@/shared/types/server"
 
 export const useTransactionsQuery = () => {
+	const t = useTranslations("global.transactions.content")
+	const locale = useLocale()
+
 	const pathname = usePathname()
 	const searchParams = useSearchParams()
 	const { replace } = useRouter()
@@ -81,12 +85,13 @@ export const useTransactionsQuery = () => {
 
 	return useMemo(
 		() => ({
+			t,
 			queryParams,
 			isFilterUpdated,
 			searchForm,
 			updateQueryParams,
 			reset
 		}),
-		[queryParams, isFilterUpdated, updateQueryParams, reset]
+		[locale, queryParams, isFilterUpdated, updateQueryParams, reset]
 	)
 }

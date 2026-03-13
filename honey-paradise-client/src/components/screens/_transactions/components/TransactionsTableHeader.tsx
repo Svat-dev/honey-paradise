@@ -14,6 +14,7 @@ interface IProps {
 
 const TransactionsTableHeader: FC<IProps> = ({ colIndex, setColIndex }) => {
 	const {
+		t,
 		titles,
 		handleClick,
 		queryParams: { field, type }
@@ -29,6 +30,9 @@ const TransactionsTableHeader: FC<IProps> = ({ colIndex, setColIndex }) => {
 							"bg-muted/10": i === colIndex,
 							"cursor-pointer": i_field !== ""
 						})}
+						title={
+							i_field !== "" ? t("labels.sortTypeBtn", { type }) : undefined
+						}
 						onMouseEnter={() => setColIndex(i)}
 						onMouseLeave={() => setColIndex(-1)}
 						onClick={() => handleClick(i_field)}

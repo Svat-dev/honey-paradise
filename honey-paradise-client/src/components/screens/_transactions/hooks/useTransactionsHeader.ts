@@ -9,11 +9,11 @@ export const useTransactionsHeader = () => {
 	const { queryParams, updateQueryParams } = useTransactionsQuery()
 
 	const titles: [string, PaymentsControllerGetAllByUserField | ""][] = [
-		["Дата создания", "createdAt"],
-		["Статус", ""],
-		["Сумма", "amount"],
-		["Способ оплаты", ""],
-		["Дата подтверждения", "updatedAt"]
+		[t("table.createdAt"), "createdAt"],
+		[t("table.status"), ""],
+		[t("table.amount"), "amount"],
+		[t("table.method"), ""],
+		[t("table.capturedAt"), "updatedAt"]
 	]
 
 	const handleClick = (field: PaymentsControllerGetAllByUserField | "") => {
@@ -28,6 +28,7 @@ export const useTransactionsHeader = () => {
 	}
 
 	return {
+		t,
 		titles,
 		handleClick,
 		queryParams: { field: queryParams.field, type: queryParams.type }

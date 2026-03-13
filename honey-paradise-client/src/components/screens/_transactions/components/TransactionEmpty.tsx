@@ -1,8 +1,11 @@
+import { useTranslations } from "next-intl"
 import Image from "next/image"
 
 import { TableCell, TableRow } from "@/components/ui/common"
 
 const TransactionEmpty = () => {
+	const t = useTranslations("global.transactions.content")
+
 	return (
 		<TableRow
 			initial={{ opacity: 0 }}
@@ -13,14 +16,13 @@ const TransactionEmpty = () => {
 				<div className="my-3 flex flex-col items-center justify-center">
 					<Image
 						src="/assets/not-found-notifications.webp"
-						alt="Payments not found"
+						alt={t("labels.notFoundImage")}
 						width={250}
 						height={155}
 						loading="lazy"
 					/>
 					<p className="text-center text-base leading-7">
-						Ваши платежи не найдены <br />
-						Когда вы проведете первые оплаты, они здесь появятся
+						{t.rich("empty", { bt: () => <br /> })}
 					</p>
 				</div>
 			</TableCell>

@@ -30,15 +30,6 @@ const TransactionItem: FC<ITransactionItem> = ({
 	const className = (i: number, _class: string = "") =>
 		cn(_class, { "bg-muted/10": colIndex === i })
 
-	const statusText =
-		status === "SUCCEEDED"
-			? "Успешно"
-			: status === "CANCELED"
-				? "Отклонено"
-				: status === "PENDING"
-					? "В ожидании"
-					: ""
-
 	return (
 		<TableRow
 			initial={{ opacity: 0, x: -30 }}
@@ -53,7 +44,7 @@ const TransactionItem: FC<ITransactionItem> = ({
 
 			<TableCell className={className(1, `text-${statusColor} font-semibold`)}>
 				<StatusIcon size={18} className="inline-block" />
-				<span className="ml-2">{statusText}</span>
+				<span className="ml-2">{t("content.status", { status })}</span>
 			</TableCell>
 
 			<TableCell className={className(2)}>{amount}</TableCell>
