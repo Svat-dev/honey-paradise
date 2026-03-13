@@ -56,8 +56,10 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
 		private readonly profileService: ProfileService,
 		private readonly verificationService: VerificationService
 	) {
-		if (isOffline(this.config))
-			throw new InternalServerErrorException("Offline mode")
+		if (isOffline(this.config)) {
+			this.logger.warn("Offline mode")
+			return
+		}
 
 		this.bot = new Telegraf<IBotContext>(
 			this.config.getOrThrow<string>("TELEGRAM_BOT_TOKEN")
@@ -80,7 +82,7 @@ export class TelegramService implements OnModuleInit, OnModuleDestroy {
 
 	// Config
 	async onModuleInit() {
-		// if (true) return "Offline mode"
+		if (isOffline(this.config)) return false
 
 		await this.setBotConfig(false)
 

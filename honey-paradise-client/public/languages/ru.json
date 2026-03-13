@@ -926,7 +926,28 @@
 			"title": "Списания",
 			"description": "Списания пользователя в интернет-магазине {title}",
 			"content": {
-				"title": "Мои списания"
+				"title": "Мои списания",
+				"description": "Здесь будут расположены ваши списания за покупки товаров и премиум-подписки",
+				"filters": {
+					"chooseStatus": "Выбрано {length}",
+					"refresh": "Обновить"
+				},
+				"table": {
+					"createdAt": "Дата создания",
+					"status": "Статус",
+					"amount": "Сумма",
+					"method": "Способ оплаты",
+					"capturedAt": "Дата подтверждения"
+				},
+				"status": "{status, select, SUCCEEDED {Успешно} CANCELED {Отклонено} PENDING {В ожидании} other {}}",
+				"empty": "Ваши платежи не найдены <br></br> Когда вы проведете первые оплаты, они здесь появятся",
+				"labels": {
+					"statusChooseBtn": "Выбрать видимые статусы",
+					"resetBtn": "Очистить фильтры",
+					"sortTypeBtn": "Сортировать по {type, select, asc {возрастанию} desc {убыванию} other {}}",
+					"notFoundImage": "Фото: Не найдено",
+					"inputPlaceholder": "Поиск по описанию, номеру карты и т.д."
+				}
 			}
 		},
 		"orders": {

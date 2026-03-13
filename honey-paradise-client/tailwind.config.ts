@@ -9,10 +9,7 @@ export default {
 	theme: {
 		container: {
 			center: true,
-			padding: "2rem",
-			screens: {
-				"2xl": "1400px"
-			}
+			padding: "2rem"
 		},
 		extend: {
 			colors: {
@@ -74,6 +71,9 @@ export default {
 			},
 			fontFamily: {
 				rubik: "var(--font-rubik)"
+			},
+			screens: {
+				"3xl": "1640px"
 			}
 		}
 	},

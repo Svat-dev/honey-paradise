@@ -932,7 +932,28 @@
 			"title": "Transactions",
 			"description": "User's transactions in the online store {title}",
 			"content": {
-				"title": "My transactions"
+				"title": "My transactions",
+				"description": "Transactions for products and premium subscriptions are displayed here",
+				"filters": {
+					"chooseStatus": "Selected {length}",
+					"refresh": "Refresh"
+				},
+				"table": {
+					"createdAt": "Date of creation",
+					"status": "Status",
+					"amount": "Amount",
+					"method": "Pay method",
+					"capturedAt": "Confirmation date"
+				},
+				"status": "{status, select, SUCCEEDED {Successful} CANCELED {Rejected} PENDING {Pending} other {}}",
+				"empty": "Your payments were not found <br></br> When you make the first payments, they will appear here",
+				"labels": {
+					"statusChooseBtn": "Select visible statuses",
+					"resetBtn": "Clear filters",
+					"sortTypeBtn": "Sort by {type, select, asc {ascending} desc {descending} other {}}",
+					"notFoundImage": "Photo: Not found",
+					"inputPlaceholder": "Search by description, card number, etc."
+				}
 			}
 		},
 		"orders": {

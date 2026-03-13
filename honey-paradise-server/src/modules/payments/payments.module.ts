@@ -5,6 +5,8 @@ import { YookassaModule } from "nestjs-yookassa/dist/yookassa.module"
 import { getYookassaConfig } from "src/core/config/yookassa.config"
 import { NotificationGateway } from "src/shared/websockets/notifications.gateway"
 
+import { ProfileModule } from "../auth/profile/profile.module"
+
 import { PaymentsController } from "./payments.controller"
 import { PaymentsService } from "./payments.service"
 
@@ -14,7 +16,8 @@ import { PaymentsService } from "./payments.service"
 			imports: [ConfigModule],
 			useFactory: getYookassaConfig,
 			inject: [ConfigService]
-		})
+		}),
+		ProfileModule
 	],
 	controllers: [PaymentsController],
 	providers: [PaymentsService, NotificationGateway],

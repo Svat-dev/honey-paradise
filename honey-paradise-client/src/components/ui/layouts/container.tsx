@@ -9,7 +9,7 @@ const Container: FC<PropsWithChildren<ICNProps>> = ({
 }) => {
 	return (
 		<div
-			className={cn("mx-auto max-w-screen-2xl print:max-w-full", className)}
+			className={cn("max-w-screen-3xl mx-auto print:max-w-full", className)}
 			aria-hidden
 		>
 			{children}

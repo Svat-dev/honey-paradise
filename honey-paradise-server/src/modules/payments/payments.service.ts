@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
 import { ConfigService } from "@nestjs/config/dist/config.service"
+import { EnumTransactionStatus } from "@prisma/client"
 import type {
 	ConfirmationRedirectResponse,
 	CreatePaymentRequest,
@@ -21,6 +22,12 @@ import type { DefaultResponse } from "src/shared/lib/response/default.res"
 import { EnumClientRoutes } from "src/shared/types/client/enums.type"
 import { NotificationGateway } from "src/shared/websockets/notifications.gateway"
 
+import {
+	defaultPaymentsQuery,
+	type GetAllPaymentsQueryDto
+} from "./dto/get-all-payments.dto"
+import type { GetAllPaymentsResponse } from "./response/get-all-payments.res"
+
 @Injectable()
 export class PaymentsService {
 	constructor(
@@ -29,6 +36,82 @@ export class PaymentsService {
 		private readonly yookassaService: YookassaService,
 		private readonly notificationSocket: NotificationGateway
 	) {}
+
+	async getPaymentsByUser(
+		userId: string,
+		query: GetAllPaymentsQueryDto
+	): Promise<GetAllPaymentsResponse[]> {
+		try {
+			const { type, field, status, page, q } = {
+				...defaultPaymentsQuery,
+				...query
+			}
+
+			const enumStatuses = Object.values(EnumTransactionStatus)
+			const statuses = status.split(",").map(i => enumStatuses[i] ?? undefined)
+
+			const payments = await this.prisma.transaction.findMany({
+				where: { userId, status: { in: statuses } },
+				select: {
+					id: true,
+					externalId: true,
+					amount: true,
+					status: true,
+					createdAt: true
+				},
+				orderBy: { [field]: type },
+				skip: (page - 1) * 30,
+				take: 30
+			})
+
+			const result = []
+			for (const { externalId, ...item } of payments) {
+				const extra = await this.getMorePaymentInfo(externalId)
+
+				if (
+					!extra.description.toLowerCase().includes(q) &&
+					!extra.method.card?.number?.includes(q)
+				)
+					continue
+
+				result.push({
+					...item,
+					...extra
+				})
+			}
+
+			return result
+		} catch (error) {
+			console.log(error)
+			throw new InternalServerErrorException(
+				"Error while getting all payments!"
+			)
+		}
+	}
+
+	async getMorePaymentInfo(
+		externalId: string
+	): Promise<
+		Pick<GetAllPaymentsResponse, "capturedAt" | "description" | "method">
+	> {
+		const extraData = await this.yookassaService.payments.getById(externalId)
+		const card = extraData.payment_method["card"]
+
+		return {
+			capturedAt: extraData.captured_at,
+			description: extraData.description,
+			method: {
+				type: extraData.payment_method.type,
+				card:
+					extraData.payment_method.type === PaymentMethodsEnum.BANK_CARD
+						? {
+								type: extraData.payment_method.card["card_type"],
+								number: `${card["first6"]}******${card["last4"]}`
+							}
+						: null
+			}
+		}
+	}
 
 	async createPayment(
 		id: { order: string; user: string },
