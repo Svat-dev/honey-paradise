@@ -2,22 +2,27 @@
 
 import { AnimatePresence } from "motion/react"
 
-import {
-	Table,
-	TableBody,
-	TableHead,
-	TableHeader,
-	TableRow
-} from "@/components/ui/common"
+import { Table, TableBody } from "@/components/ui/common"
 
 import { useTransactionContent } from "../hooks/useTransactionContent"
 
+import { LeftSideFilters } from "./filters/LeftSideFilters"
+import { RightSideFilters } from "./filters/RightSideFilters"
 import { TransactionEmpty } from "./TransactionEmpty"
 import { TransactionItem } from "./TransactionItem"
 import { TransactionLoadingItem } from "./TransactionLoadingItem"
+import { TransactionsTableHeader } from "./TransactionsTableHeader"
 
 const TransactionsContent = () => {
-	const { locale, payments, isLoading, getPrice } = useTransactionContent()
+	const {
+		locale,
+		colIndex,
+		payments,
+		isLoading,
+		setColIndex,
+		getPrice,
+		refetchPayments
+	} = useTransactionContent()
 
 	return (
 		<>
@@ -47,6 +52,7 @@ const TransactionsContent = () => {
 										key={item.id}
 										i={i + 1}
 										locale={locale}
+										colIndex={colIndex}
 										{...item}
 										amount={getPrice(item.amount, true, false)}
 									/>
