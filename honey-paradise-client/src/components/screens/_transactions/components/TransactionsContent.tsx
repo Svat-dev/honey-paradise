@@ -33,16 +33,11 @@ const TransactionsContent = () => {
 			</section>
 
 			<section>
-				<Table className="w-full rounded-md bg-primary/80">
-					<TableHeader>
-						<TableRow>
-							<TableHead>Дата создания</TableHead>
-							<TableHead>Статус</TableHead>
-							<TableHead>Сумма</TableHead>
-							<TableHead>Способ оплаты</TableHead>
-							<TableHead>Дата подтверждения</TableHead>
-						</TableRow>
-					</TableHeader>
+				<Table className="w-full overflow-hidden rounded-md">
+					<TransactionsTableHeader
+						colIndex={colIndex}
+						setColIndex={setColIndex}
+					/>
 
 					<TableBody className="bg-secondary">
 						<AnimatePresence mode="wait">
