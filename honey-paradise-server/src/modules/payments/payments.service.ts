@@ -22,7 +22,10 @@ import type { DefaultResponse } from "src/shared/lib/response/default.res"
 import { EnumClientRoutes } from "src/shared/types/client/enums.type"
 import { NotificationGateway } from "src/shared/websockets/notifications.gateway"
 
-import type { GetAllPaymentsQueryDto } from "./dto/get-all-payments.dto"
+import {
+	defaultPaymentsQuery,
+	type GetAllPaymentsQueryDto
+} from "./dto/get-all-payments.dto"
 import type { GetAllPaymentsResponse } from "./response/get-all-payments.res"
 
 @Injectable()
@@ -39,7 +42,10 @@ export class PaymentsService {
 		query: GetAllPaymentsQueryDto
 	): Promise<GetAllPaymentsResponse[]> {
 		try {
-			const { type, field, status, q } = query
+			const { type, field, status, page, q } = {
+				...defaultPaymentsQuery,
+				...query
+			}
 
 			const enumStatuses = Object.values(EnumTransactionStatus)
 			const statuses = status.split(",").map(i => enumStatuses[i] ?? undefined)
@@ -53,7 +59,9 @@ export class PaymentsService {
 					status: true,
 					createdAt: true
 				},
-				orderBy: { [field]: type }
+				orderBy: { [field]: type },
+				skip: (page - 1) * 30,
+				take: 30
 			})
 
 			const result = []

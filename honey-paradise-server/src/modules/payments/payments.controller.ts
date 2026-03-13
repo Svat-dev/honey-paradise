@@ -9,17 +9,14 @@ import {
 	Query
 } from "@nestjs/common/decorators/http/route-params.decorator"
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum"
-import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger"
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger"
 import { SkipThrottle } from "@nestjs/throttler/dist/throttler.decorator"
 import { type PaymentNotificationEvent, YookassaWebhook } from "nestjs-yookassa"
 import { Authorization } from "src/shared/decorators/auth.decorator"
 import { Authorized } from "src/shared/decorators/authorized.decorator"
 import { EnumApiRoute } from "src/shared/lib/common/constants"
 
-import {
-	defaultPaymentsQuery,
-	GetAllPaymentsQueryDto
-} from "./dto/get-all-payments.dto"
+import { GetAllPaymentsQueryDto } from "./dto/get-all-payments.dto"
 import { PaymentsService } from "./payments.service"
 import { GetAllPaymentsResponse } from "./response/get-all-payments.res"
 
@@ -31,13 +28,12 @@ export class PaymentsController {
 
 	@ApiOperation({ summary: "Get all payments by user" })
 	@ApiResponse({ type: GetAllPaymentsResponse, isArray: true })
-	@ApiQuery({ type: GetAllPaymentsQueryDto })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Get(EnumApiRoute.GET_USER_PAYMENTS)
 	getAllByUser(
 		@Authorized("id") userId: string,
-		@Query() query: GetAllPaymentsQueryDto = defaultPaymentsQuery
+		@Query() query: GetAllPaymentsQueryDto
 	) {
 		return this.paymentsService.getPaymentsByUser(userId, query)
 	}

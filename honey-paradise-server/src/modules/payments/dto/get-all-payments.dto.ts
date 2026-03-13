@@ -1,5 +1,10 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsEnum, IsOptional, IsString, MaxLength } from "class-validator"
+import {
+	IsEnum,
+	IsOptional,
+	IsString,
+	MaxLength
+} from "class-validator"
 
 export const PaymentSortType = {
 	ASC: "asc",
@@ -16,29 +21,29 @@ type PaymentSortType = (typeof PaymentSortType)[keyof typeof PaymentSortType]
 type PaymentSortField = (typeof PaymentSortField)[keyof typeof PaymentSortField]
 
 export class GetAllPaymentsQueryDto {
+	@ApiProperty({ enum: PaymentSortType, example: PaymentSortType.DESC })
 	@IsEnum(PaymentSortType, { message: "Invalid sort type" })
 	@IsOptional()
-	@ApiProperty({ enum: PaymentSortType, example: PaymentSortType.DESC })
 	type?: PaymentSortType
 
+	@ApiProperty({ enum: PaymentSortField, example: PaymentSortField.CREATED_AT })
 	@IsEnum(PaymentSortField, { message: "Invalid sort field" })
 	@IsOptional()
-	@ApiProperty({ enum: PaymentSortField, example: PaymentSortField.CREATED_AT })
 	field?: PaymentSortField
 
-	@IsString({ message: "Visible statuses must be a string" })
-	@IsOptional()
 	@ApiProperty({
 		type: "string",
 		description: "Visible statuses split by comma",
 		example: "0,1,2"
 	})
+	@IsString({ message: "Visible statuses must be a string" })
+	@IsOptional()
 	status?: string
 
+	@ApiProperty({ type: "string", description: "Search query", example: "" })
 	@IsString({ message: "Search query must be a string" })
 	@MaxLength(128, { message: "Search query must be less than 128 characters" })
 	@IsOptional()
-	@ApiProperty({ type: "string", description: "Search query", example: "" })
 	q?: string
 }
 
