@@ -21,6 +21,13 @@ export const useTransactionsQuery = () => {
 	const reset_store = paymentsFilterStore(state => state.reset)
 	const update = paymentsFilterStore(state => state.update)
 
+	const searchForm = useForm<ISearchFormFields>({
+		defaultValues: { q: "" },
+		mode: "onChange"
+	})
+
+	const term = searchForm.watch("q")
+
 	function updateQueryParams(key: "status" | "page", value: number): void
 	function updateQueryParams(key: "q", value: string): void
 	function updateQueryParams(
@@ -64,6 +71,8 @@ export const useTransactionsQuery = () => {
 		replace(pathname)
 	}
 
+	useDebounce(() => updateQueryParams("q", term), 300, [term])
+
 	useEffect(() => {
 		searchParams.forEach((value, key: any) => {
 			updateQueryParams(key, value)
@@ -74,6 +83,7 @@ export const useTransactionsQuery = () => {
 		() => ({
 			queryParams,
 			isFilterUpdated,
+			searchForm,
 			updateQueryParams,
 			reset
 		}),

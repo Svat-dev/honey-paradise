@@ -68,7 +68,11 @@ export class PaymentsService {
 			for (const { externalId, ...item } of payments) {
 				const extra = await this.getMorePaymentInfo(externalId)
 
-				if (!extra.description.includes(q)) continue
+				if (
+					!extra.description.toLowerCase().includes(q) &&
+					!extra.method.card?.number?.includes(q)
+				)
+					continue
 
 				result.push({
 					...item,

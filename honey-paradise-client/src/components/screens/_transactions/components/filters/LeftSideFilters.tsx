@@ -33,6 +33,8 @@ const LeftSideFilters: FC<IProps> = ({ isLoading }) => {
 
 	return (
 		<div className="flex items-center gap-5">
+			<TransactionsSearchInput form={searchForm} />
+
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<Button

@@ -1,6 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger"
+import { Transform } from "class-transformer"
 import {
 	IsEnum,
+	IsNumber,
 	IsOptional,
 	IsString,
 	MaxLength
@@ -45,11 +47,18 @@ export class GetAllPaymentsQueryDto {
 	@MaxLength(128, { message: "Search query must be less than 128 characters" })
 	@IsOptional()
 	q?: string
+
+	@ApiProperty({ type: "number", description: "Page number", example: 1 })
+	@IsNumber({}, { message: "Page must be a number" })
+	@Transform(({ value }) => parseInt(value, 10))
+	@IsOptional()
+	page?: number
 }
 
 export const defaultPaymentsQuery: GetAllPaymentsQueryDto = {
 	type: PaymentSortType.DESC,
 	field: PaymentSortField.CREATED_AT,
 	status: "0,1,2",
+	page: 1,
 	q: ""
 }
