@@ -26,7 +26,7 @@ export const useTransactionsQuery = () => {
 	const update = paymentsFilterStore(state => state.update)
 
 	const searchForm = useForm<ISearchFormFields>({
-		defaultValues: { q: "" },
+		defaultValues: { q: queryParams.q },
 		mode: "onChange"
 	})
 
@@ -71,6 +71,7 @@ export const useTransactionsQuery = () => {
 	const reset = () => {
 		if (!isFilterUpdated) return
 
+		searchForm.reset()
 		reset_store()
 		replace(pathname)
 	}
@@ -79,6 +80,8 @@ export const useTransactionsQuery = () => {
 
 	useEffect(() => {
 		searchParams.forEach((value, key: any) => {
+			if (key === "q") searchForm.setValue("q", value)
+
 			updateQueryParams(key, value)
 		})
 	}, [])

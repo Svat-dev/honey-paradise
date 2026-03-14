@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
 import { ConfigService } from "@nestjs/config/dist/config.service"
 import { EnumTransactionStatus } from "@prisma/client"
+import { isUUID } from "class-validator"
 import type {
 	ConfirmationRedirectResponse,
 	CreatePaymentRequest,
@@ -49,9 +50,14 @@ export class PaymentsService {
 
 			const enumStatuses = Object.values(EnumTransactionStatus)
 			const statuses = status.split(",").map(i => enumStatuses[i] ?? undefined)
+			const id = isUUID(q, 4) ? q : undefined
 
 			const payments = await this.prisma.transaction.findMany({
-				where: { userId, status: { in: statuses } },
+				where: {
+					id,
+					userId,
+					status: { in: statuses }
+				},
 				select: {
 					id: true,
 					externalId: true,
@@ -70,7 +76,8 @@ export class PaymentsService {
 
 				if (
 					!extra.description.toLowerCase().includes(q) &&
-					!extra.method.card?.number?.includes(q)
+					!extra.method.card?.number?.includes(q) &&
+					!id
 				)
 					continue
 
