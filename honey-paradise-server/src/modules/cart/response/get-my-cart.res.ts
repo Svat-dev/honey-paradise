@@ -23,6 +23,9 @@ export class GetMyCartProductResponse {
 }
 
 export class GetMyCartProductVariantResponse {
+	@ApiProperty({ type: "string", description: "", example: "nanoid" })
+	id: string
+
 	@ApiProperty({ type: "number", description: "", example: 1 })
 	art: number
 

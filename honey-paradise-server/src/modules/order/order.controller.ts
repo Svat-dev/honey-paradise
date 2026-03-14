@@ -1,10 +1,14 @@
+import { ParseUUIDPipe } from "@nestjs/common"
 import { Controller } from "@nestjs/common/decorators/core/controller.decorator"
 import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator"
 import {
 	Get,
 	Post
 } from "@nestjs/common/decorators/http/request-mapping.decorator"
-import { Req } from "@nestjs/common/decorators/http/route-params.decorator"
+import {
+	Param,
+	Req
+} from "@nestjs/common/decorators/http/route-params.decorator"
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum"
 import { ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger"
 import type { Request } from "express"
@@ -17,6 +21,7 @@ import { EnumStorageKeys } from "src/shared/types/client/enums.type"
 import { OrderService } from "./order.service"
 import { CreateOrderResponse } from "./response/create-order.res"
 import { GetAllOrdersResponse } from "./response/get-all-orders.res"
+import { GetExtraOrderInfo } from "./response/get-extra-info.res"
 
 @ApiTags("Order")
 @Controller(EnumApiRoute.ORDERS)
@@ -30,6 +35,17 @@ export class OrderController {
 	@Get(EnumApiRoute.GET_USER_ORDERS)
 	getAllOrders(@Authorized("id") userId: string) {
 		return this.orderService.getAllOrders(userId)
+	}
+
+	@ApiOperation({ summary: "Get order's extra information", description: "" })
+	@ApiOkResponse({ type: GetExtraOrderInfo })
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Get(EnumApiRoute.GET_EXTRA_ORDER)
+	getExtraOrderInfo(
+		@Param("orderId", new ParseUUIDPipe({ version: "4" })) orderId: string
+	) {
+		return this.orderService.getExtraInfo(orderId)
 	}
 
 	@ApiOperation({ summary: "Create new order", description: "" })

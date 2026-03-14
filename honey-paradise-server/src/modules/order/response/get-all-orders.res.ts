@@ -1,8 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { EnumOrderStatus, type Order } from "@prisma/client"
 
-class OrderItem {}
-
 export class GetAllOrdersResponse implements Partial<Order> {
 	@ApiProperty({ type: "string", description: "", example: "uuid" })
 	id: string
