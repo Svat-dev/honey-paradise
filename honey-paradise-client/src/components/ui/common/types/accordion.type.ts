@@ -1,5 +1,7 @@
 import type { PropsWithChildren } from "react"
 
+import type { ICNProps } from "@/shared/types"
+
 export interface IAccordionProps extends PropsWithChildren {
 	multiple?: boolean
 	activeIndex?: number
@@ -8,7 +10,7 @@ export interface IAccordionProps extends PropsWithChildren {
 
 export interface IAccordionItemProps extends PropsWithChildren {}
 
-export interface IAccordionHeaderProps extends PropsWithChildren {}
+export interface IAccordionHeaderProps extends PropsWithChildren, ICNProps {}
 
 export interface IAccordionPanelProps extends PropsWithChildren {}
 

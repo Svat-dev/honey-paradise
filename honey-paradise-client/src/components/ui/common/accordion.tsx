@@ -1,5 +1,6 @@
 "use client"
 
+import { ChevronDownIcon } from "lucide-react"
 import { AnimatePresence, m } from "motion/react"
 import {
 	Children,
@@ -84,18 +85,32 @@ const AccordionItem: FC<IAccordionItemProps> = ({ children }) => {
 }
 AccordionItem.displayName = "AccordionItem"
 
-const AccordionHeader: FC<IAccordionHeaderProps> = ({ children }) => {
+const AccordionHeader: FC<IAccordionHeaderProps> = ({
+	children,
+	className
+}) => {
 	const { isActive, index, handleChangeIndex } = useAccordion()
 
 	return (
 		<m.div
 			className={cn(
-				"cursor-pointer select-none p-5 transition-colors hover:bg-primary",
+				"relative cursor-pointer select-none p-5 transition-colors hover:bg-primary",
+				className,
 				{ "bg-primary": isActive }
 			)}
 			onClick={() => handleChangeIndex(index)}
 		>
 			{children}
+
+			<ChevronDownIcon
+				size={30}
+				className={cn(
+					"absolute right-6 top-1/2 -translate-y-1/2 transition-transform will-change-auto",
+					{
+						"rotate-180": isActive
+					}
+				)}
+			/>
 		</m.div>
 	)
 }

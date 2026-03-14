@@ -3,17 +3,20 @@
 import { AnimatePresence } from "motion/react"
 import type { FC } from "react"
 
+import { Accordion } from "@/components/ui/common"
+
 import { useOrdersContent } from "../hooks/useOrdersContent"
 
-import { OrderItem } from "./OrderItem"
+import { OrderItem } from "./order-item/OrderItem"
 import { OrdersEmpty } from "./OrdersEmpty"
 import { OrdersLoading } from "./OrdersLoading"
 
 interface IProps {
 	paid: boolean
+	locale: string
 }
 
-const OrdersContent: FC<IProps> = ({ paid }) => {
+const OrdersContent: FC<IProps> = ({ paid, locale }) => {
 	const { orders, isOrdersLoading } = useOrdersContent(paid)
 
 	return (
@@ -22,7 +25,11 @@ const OrdersContent: FC<IProps> = ({ paid }) => {
 				{isOrdersLoading ? (
 					<OrdersLoading />
 				) : orders && orders.length > 0 ? (
-					orders?.map(item => <OrderItem key={item.id} {...item} />)
+					<Accordion>
+						{orders?.map(item => (
+							<OrderItem key={item.id} locale={locale} {...item} />
+						))}
+					</Accordion>
 				) : (
 					<OrdersEmpty />
 				)}
