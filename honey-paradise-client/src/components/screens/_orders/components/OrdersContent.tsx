@@ -1,48 +1,33 @@
 "use client"
 
-import { useTranslations } from "next-intl"
-import { usePathname, useRouter } from "next/navigation"
-import { type FC, useEffect } from "react"
-import toast from "react-hot-toast"
+import { AnimatePresence } from "motion/react"
+import type { FC } from "react"
 
-import { Title } from "@/components/ui/common"
-import { useGetMyOrdersS } from "@/services/hooks/order/useGetMyOrdersS"
+import { useOrdersContent } from "../hooks/useOrdersContent"
+
+import { OrderItem } from "./OrderItem"
+import { OrdersEmpty } from "./OrdersEmpty"
+import { OrdersLoading } from "./OrdersLoading"
 
 interface IProps {
 	paid: boolean
 }
 
 const OrdersContent: FC<IProps> = ({ paid }) => {
-	const t = useTranslations("global.orders.content")
-
-	const { push } = useRouter()
-	const pathname = usePathname()
-
-	const { orders, isOrdersLoading } = useGetMyOrdersS()
-
-	useEffect(() => {
-		if (paid) {
-			toast.success(t("paid"))
-			push(pathname)
-		}
-	}, [paid])
+	const { orders, isOrdersLoading } = useOrdersContent(paid)
 
 	return (
-		<>
-			{isOrdersLoading ? (
-				<p>Loading...</p>
-			) : (
-				orders?.map(item => (
-					<div key={item.id}>
-						<Title size="md">Order {item.id}</Title>
-						<p>
-							{item.items.length} on price {item.totalAmount}
-						</p>
-						<p>Status: {item.status}</p>
-					</div>
-				))
-			)}
-		</>
+		<div className="flex flex-col gap-6">
+			<AnimatePresence mode="sync">
+				{isOrdersLoading ? (
+					<OrdersLoading />
+				) : orders && orders.length > 0 ? (
+					orders?.map(item => <OrderItem key={item.id} {...item} />)
+				) : (
+					<OrdersEmpty />
+				)}
+			</AnimatePresence>
+		</div>
 	)
 }
 

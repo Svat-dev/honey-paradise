@@ -961,6 +961,7 @@
 			"description": "User's orders in the online store {title}",
 			"content": {
 				"title": "My orders",
+				"description": "All the orders that you have ever made are displayed here",
 				"paid": "Order has successfully paid!"
 			}
 		},

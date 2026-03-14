@@ -19,7 +19,7 @@ const Orders: FC<IProps> = async ({ searchParams }) => {
 				{t("title")}
 			</Title>
 
-			{/* <p className="ml-1 mb-4 text-muted">{t("description")}</p> */}
+			<p className="mb-4 ml-1 text-muted">{t("description")}</p>
 
 			<OrdersContent paid={Boolean(searchParams?.["paid"])} />
 		</article>
