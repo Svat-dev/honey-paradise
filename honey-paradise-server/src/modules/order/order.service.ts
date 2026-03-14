@@ -46,20 +46,27 @@ export class OrderService {
 				})
 			)
 
-			const { id, totalAmount } = await this.prisma.order.create({
+			const { index: prevIndex } = await this.prisma.order.findFirst({
+				where: { userId },
+				select: { index: true },
+				orderBy: { createdAt: "desc" }
+			})
+
+			const { id, index, totalAmount } = await this.prisma.order.create({
 				data: {
+					index: prevIndex + 1,
 					totalAmount: totalPrice * (1 - discount) + deliveryPrice,
 					items: { toJSON: () => items },
 					user: { connect: { id: userId } }
 				},
-				select: { id: true, totalAmount: true }
+				select: { id: true, index: true, totalAmount: true }
 			})
 
 			if (!parsed?.rates?.["RUB"])
 				throw new BadRequestException("No currency in cookie found!")
 
 			const confirmation_url = await this.paymentService.createPayment(
-				{ order: id, user: userId },
+				{ order: id, index, user: userId },
 				{ usd: totalAmount, rub: totalAmount * parsed.rates["RUB"] },
 				locale
 			)

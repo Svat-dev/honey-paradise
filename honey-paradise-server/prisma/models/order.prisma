@@ -1,5 +1,6 @@
 model Order {
-  id String @id @default(uuid()) @db.Uuid
+  id    String @id @default(uuid()) @db.Uuid
+  index Int
 
   totalAmount Float           @default(0) @map("total_amount_in_usd")
   status      EnumOrderStatus @default(PENDING)
@@ -14,5 +15,6 @@ model Order {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@unique([index, userId])
   @@map("orders")
 }

@@ -114,7 +114,7 @@ export class PaymentsService {
 	}
 
 	async createPayment(
-		id: { order: string; user: string },
+		id: { order: string; index: number; user: string },
 		amount: { usd: number; rub: number },
 		locale: string
 	): Promise<string> {
@@ -133,7 +133,7 @@ export class PaymentsService {
 				currency: CurrencyEnum.RUB
 			},
 			capture: true,
-			description: "Оплата заказа на сайте Honey Paradise",
+			description: `Оплата заказа #${id.index} на сайте Honey Paradise`,
 			metadata: {
 				payment_id: payment.id
 			},
