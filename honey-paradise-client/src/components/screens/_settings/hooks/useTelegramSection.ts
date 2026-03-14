@@ -16,6 +16,7 @@ export const useTelegramSection = () => {
 	const dt = useTranslations("global.settings.content.profile.modals")
 
 	const [isOpen, setIsOpen] = useState<boolean>(false)
+	const [tgId, setTgId] = useState<string | null>(null)
 	const [redirectUrl, setRedirectUrl] = useState<string | null>(null)
 
 	const { push } = useRouter()
@@ -53,6 +54,9 @@ export const useTelegramSection = () => {
 		}
 	}
 
+	const handleIdClick = () =>
+		setTgId(prev => (prev === null ? telegramInfo?.tgId || "" : null))
+
 	const onCancel = () => {
 		setRedirectUrl(null)
 		setIsOpen(false)
@@ -73,7 +77,8 @@ export const useTelegramSection = () => {
 		dt,
 		isTgConnecting,
 		onComplete,
-		telegramInfo,
+		telegramInfo: { ...telegramInfo, tgId },
+		handleIdClick,
 		telegramRefetch,
 		isTgDisconnecting
 	}

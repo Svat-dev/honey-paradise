@@ -13,6 +13,7 @@ import {
 	Skeleton
 } from "@/components/ui/common"
 import { ConfirmModal } from "@/components/ui/components/ConfirmModal"
+import { cn } from "@/shared/lib/utils/base"
 
 import { useTelegramSection } from "../../../hooks/useTelegramSection"
 import styles from "../../../styles/profile.module.scss"
@@ -38,6 +39,7 @@ const TelegramSection = () => {
 		isTgConnecting,
 		onComplete,
 		telegramInfo,
+		handleIdClick,
 		isTgDisconnecting,
 		telegramRefetch
 	} = useTelegramSection()
@@ -64,7 +66,9 @@ const TelegramSection = () => {
 									text: chunks => (
 										<span
 											className={
-												!telegramInfo?.tgId ? "text-red-500" : "text-green-500"
+												telegramInfo?.connected
+													? "text-green-500"
+													: "text-red-500"
 											}
 										>
 											{chunks}
@@ -77,8 +81,18 @@ const TelegramSection = () => {
 								<>
 									<p>
 										{t.rich("tgId", {
-											id: String(telegramInfo?.tgId),
-											text: chunks => <span>{chunks}</span>
+											id: String(telegramInfo.tgId || "⚫⚫⚫⚫⚫⚫⚫⚫"),
+											text: chunks => (
+												<span
+													title="Показать"
+													className={cn("cursor-pointer", {
+														"text-xs !no-underline": !telegramInfo.tgId
+													})}
+													onClick={handleIdClick}
+												>
+													{chunks}
+												</span>
+											)
 										})}
 									</p>
 									<p>
