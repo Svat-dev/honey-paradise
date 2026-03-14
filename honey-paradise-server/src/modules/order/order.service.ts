@@ -8,6 +8,7 @@ import { CartService } from "../cart/cart.service"
 import { PaymentsService } from "../payments/payments.service"
 
 import type { CreateOrderResponse } from "./response/create-order.res"
+import type { GetAllOrdersResponse } from "./response/get-all-orders.res"
 
 @Injectable()
 export class OrderService {
@@ -17,11 +18,12 @@ export class OrderService {
 		private readonly paymentService: PaymentsService
 	) {}
 
-	async getAllOrders(userId: string): Promise<any> {
+	async getAllOrders(userId: string): Promise<GetAllOrdersResponse[]> {
 		const orders = await this.prisma.order.findMany({
 			where: { userId },
 			select: ordersDefaultOutput,
-			take: 5
+			orderBy: { createdAt: "desc" },
+			take: 10
 		})
 
 		return orders
