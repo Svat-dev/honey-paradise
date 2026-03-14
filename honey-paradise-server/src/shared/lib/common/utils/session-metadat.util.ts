@@ -32,9 +32,9 @@ export function getSessionMetadata(
 			longitude: location?.ll[1] || 0
 		},
 		device: {
-			browser: device.client?.name,
-			os: device.os?.name,
-			type: device.device?.type
+			browser: device.client?.name || "Неизвестно",
+			os: device.os?.name || "Неизвестно",
+			type: device.device?.type || "Неизвестно"
 		},
 		method,
 		ip

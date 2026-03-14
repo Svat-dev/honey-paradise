@@ -51,7 +51,7 @@ const SessionItem: FC<IProps> = ({
 
 				<div>
 					<p>
-						{capitalize(browser)}, {capitalize(os)}
+						{capitalize(browser || "")}, {capitalize(os || "")}
 					</p>
 
 					{isCurrent ? (
