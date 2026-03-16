@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception"
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
+import type { JsonValue } from "@prisma/client/runtime/library"
 import { PrismaService } from "src/core/prisma/prisma.service"
 import {
 	orderItemVariantOutput,
@@ -30,11 +31,19 @@ export class OrderService {
 	) {}
 
 	async getAllOrders(userId: string): Promise<GetAllOrdersResponse[]> {
-		const orders = await this.prisma.order.findMany({
+		const query = await this.prisma.order.findMany({
 			where: { userId },
 			select: ordersDefaultOutput,
 			orderBy: { createdAt: "desc" },
 			take: 10
+		})
+
+		const orders = query.map(order => {
+			const { items, ...rest } = order
+			return {
+				...rest,
+				length: (items as JsonValue[]).length || 0
+			}
 		})
 
 		return orders
@@ -92,7 +101,7 @@ export class OrderService {
 
 			const { id, index, totalAmount } = await this.prisma.order.create({
 				data: {
-					index: prevOrder?.index || 0 + 1,
+					index: (prevOrder?.index || 0) + 1,
 					totalAmount: totalPrice * (1 - discount) + deliveryPrice,
 					items: { toJSON: () => items },
 					user: { connect: { id: userId } }

@@ -11,6 +11,7 @@ import {
 } from "@nestjs/common/decorators/http/route-params.decorator"
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum"
 import { ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger"
+import { SkipThrottle } from "@nestjs/throttler/dist/throttler.decorator"
 import type { Request } from "express"
 import { I18nLang } from "nestjs-i18n"
 import { Authorization } from "src/shared/decorators/auth.decorator"
@@ -23,7 +24,8 @@ import { CreateOrderResponse } from "./response/create-order.res"
 import { GetAllOrdersResponse } from "./response/get-all-orders.res"
 import { GetExtraOrderInfo } from "./response/get-extra-info.res"
 
-@ApiTags("Order")
+@ApiTags("Orders")
+@SkipThrottle({ auth: true })
 @Controller(EnumApiRoute.ORDERS)
 export class OrderController {
 	constructor(private readonly orderService: OrderService) {}

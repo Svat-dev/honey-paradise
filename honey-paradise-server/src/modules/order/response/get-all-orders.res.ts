@@ -19,6 +19,9 @@ export class GetAllOrdersResponse implements Partial<Order> {
 	})
 	status: EnumOrderStatus
 
+	@ApiProperty({ type: "number", description: "", example: 1 })
+	length: number
+
 	@ApiProperty({ description: "", example: new Date() })
 	createdAt: Date
 }

@@ -9,13 +9,28 @@ import {
 	Title
 } from "@/components/ui/common"
 import { cn } from "@/shared/lib/utils/base"
-import { GetAllOrdersResponse } from "@/shared/types/server"
+import { getOrderStatusClassName } from "@/shared/lib/utils/payments"
+import type {
+	GetAllOrdersResponse,
+	GetMyCartResponseCurrency
+} from "@/shared/types/server"
+
+import { OrderItemPanel } from "./OrderItemPanel"
 
 interface IOrderItem extends GetAllOrdersResponse {
 	locale: string
+	currency: GetMyCartResponseCurrency | undefined
 }
 
-const OrderItem: FC<IOrderItem> = ({ locale, index, status, createdAt }) => {
+const OrderItem: FC<IOrderItem> = ({
+	locale,
+	currency,
+	id,
+	index,
+	status,
+	length,
+	createdAt
+}) => {
 	const fnsLocale = locale === "ru" ? ru : enUS
 
 	const statusTxt =
@@ -29,26 +44,19 @@ const OrderItem: FC<IOrderItem> = ({ locale, index, status, createdAt }) => {
 						? "В дороге"
 						: ""
 
-	const statusCn =
-		status === "DELIVERED"
-			? "text-green-700 bg-green-400/50"
-			: status === "CANCELED"
-				? "text-red-700 bg-red-400/50"
-				: status === "PENDING"
-					? "text-black bg-muted/30"
-					: status === "IN_ROAD"
-						? "text-lime-700 bg-lime-400/50"
-						: ""
+	const statusCn = getOrderStatusClassName(status)
 
 	return (
 		<AccordionItem>
 			<AccordionHeader className="flex items-center justify-between">
-				<div className="flex items-center gap-6">
-					<Title size="md" className="font-medium">
+				<div className="flex items-center">
+					<Title size="md" className="text-2xl font-semibold">
 						Заказ #{index}
 					</Title>
 
-					<time className="text-muted" dateTime={createdAt}>
+					<p className="ml-3 font-medium">на {length} товаров</p>
+
+					<time className="ml-5 text-muted" dateTime={createdAt}>
 						{format(createdAt, `d MMMM yyyy, HH:mm`, { locale: fnsLocale })}
 					</time>
 				</div>
@@ -58,7 +66,16 @@ const OrderItem: FC<IOrderItem> = ({ locale, index, status, createdAt }) => {
 				</span>
 			</AccordionHeader>
 
-			<AccordionPanel>Some text</AccordionPanel>
+			<AccordionPanel
+				className="flex flex-col gap-10"
+				items={{
+					height: 90 + 40,
+					length,
+					additional: 80
+				}}
+			>
+				<OrderItemPanel orderId={id} length={length} currency={currency} />
+			</AccordionPanel>
 		</AccordionItem>
 	)
 }

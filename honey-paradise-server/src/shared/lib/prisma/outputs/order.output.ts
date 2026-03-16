@@ -3,6 +3,7 @@ export const ordersDefaultOutput = {
 	index: true,
 
 	status: true,
+	items: true,
 
 	createdAt: true
 }
