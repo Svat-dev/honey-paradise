@@ -10,7 +10,7 @@
 					"addToCart": "Добавить в корзину",
 					"labels": {
 						"addToCart": "Добавить товар в корзину",
-						"like": "{isLiked, select  active,{Удалить из избранного} false {В избранное} other {}}"
+						"like": "{isLiked, select, true {Удалить из избранного} false {В избранное} other {}}"
 					},
 					"toasters": {
 						"success": "Товар добавлен в корзину!",
@@ -23,8 +23,8 @@
 			}
 		},
 		"catalog": {
-			"title": "{params, select  active,{Каталог товаров} true {Товары по категории} other {Результаты поиска \"{params}\"}}",
-			"description": "{params, select  active,{Каталог товаров} true {Товары по категории} other {Результаты поиска по запросу \"{params}\"}} интернет-магазина {title}",
+			"title": "{params, select, false {Каталог товаров} true {Товары по категории} other {Результаты поиска \"{params}\"}}",
+			"description": "{params, select, false {Каталог товаров} true {Товары по категории} other {Результаты поиска по запросу \"{params}\"}} интернет-магазина {title}",
 			"content": {}
 		},
 		"product": {

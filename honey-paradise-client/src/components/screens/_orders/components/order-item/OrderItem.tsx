@@ -19,11 +19,13 @@ import type {
 import { OrderItemPanel } from "./OrderItemPanel"
 
 interface IOrderItem extends GetAllOrdersResponse {
+	i: number
 	locale: string
 	currency: GetMyCartResponseCurrency | undefined
 }
 
 const OrderItem: FC<IOrderItem> = ({
+	i,
 	locale,
 	currency,
 	id,
@@ -39,7 +41,7 @@ const OrderItem: FC<IOrderItem> = ({
 	const statusCn = getOrderStatusClassName(status)
 
 	return (
-		<AccordionItem>
+		<AccordionItem animate={true} index={i}>
 			<AccordionHeader className="flex items-center justify-between">
 				<div className="flex items-center">
 					<Title size="md" className="text-2xl font-semibold">

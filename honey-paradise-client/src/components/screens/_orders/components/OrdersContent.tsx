@@ -21,14 +21,19 @@ const OrdersContent: FC<IProps> = ({ paid, locale }) => {
 
 	return (
 		<div className="flex flex-col gap-4">
+			<div className="sr-only bg-green-400/50 text-green-700 ring-1 ring-green-700" />
+			<div className="sr-only bg-red-400/50 text-red-700 ring-1 ring-red-700" />
+			<div className="sr-only bg-lime-400/50 text-lime-700 ring-1 ring-lime-700" />
+
 			<AnimatePresence mode="sync">
 				{isOrdersLoading ? (
 					<OrdersLoading />
 				) : orders && orders.length > 0 ? (
 					<Accordion>
-						{orders?.map(item => (
+						{orders?.map((item, i) => (
 							<OrderItem
 								key={item.id}
+								i={i}
 								locale={locale}
 								currency={currency}
 								{...item}

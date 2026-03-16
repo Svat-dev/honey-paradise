@@ -77,11 +77,24 @@ const Accordion: FC<IAccordionProps> = ({
 	})
 }
 
-const AccordionItem: FC<IAccordionItemProps> = ({ children }) => {
+const AccordionItem: FC<IAccordionItemProps> = ({
+	children,
+	index = 0,
+	animate = false
+}) => {
 	return (
-		<div className="mb-5 overflow-hidden rounded-md bg-secondary">
+		<m.div
+			initial={animate ? { opacity: 0, y: -10 } : false}
+			animate={animate ? { opacity: 1, y: 0 } : false}
+			transition={
+				animate
+					? { type: "tween", duration: 0.3, delay: 0.3 * index }
+					: undefined
+			}
+			className="mb-5 overflow-hidden rounded-md bg-secondary"
+		>
 			{children}
-		</div>
+		</m.div>
 	)
 }
 AccordionItem.displayName = "AccordionItem"

@@ -8,7 +8,10 @@ export interface IAccordionProps extends PropsWithChildren {
 	onChangeIndex?: (index: number | number[]) => void
 }
 
-export interface IAccordionItemProps extends PropsWithChildren {}
+export interface IAccordionItemProps extends PropsWithChildren {
+	index?: number
+	animate?: boolean
+}
 
 export interface IAccordionHeaderProps extends PropsWithChildren, ICNProps {
 	isLoading?: boolean
