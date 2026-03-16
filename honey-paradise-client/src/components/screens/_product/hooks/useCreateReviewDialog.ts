@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import type { AxiosError } from "axios"
-import { useLocale, useTranslations } from "next-intl"
+import { useTranslations } from "next-intl"
 import {
 	type PointerEvent,
 	type SyntheticEvent,
@@ -16,6 +16,7 @@ import { useCreateProductReviewS } from "@/services/hooks/products/reviews/useCr
 import { useEditReviewS } from "@/services/hooks/products/reviews/useEditReviewS"
 import { EnumSessionStorageKeys } from "@/shared/lib/constants/base"
 import { useDebounce } from "@/shared/lib/hooks/base"
+import { useLanguage } from "@/shared/lib/i18n/hooks"
 import {
 	createReviewSchema,
 	type TCreateReviewSchema
@@ -32,7 +33,8 @@ export const useCreateReviewDialog = (
 ) => {
 	const t = useTranslations("global.product.content.reviews.item.createDialog")
 	const st = useTranslations("global.product.content.schema")
-	const locale = useLocale()
+
+	const { locale } = useLanguage()
 
 	const { createProductReviewAsync, isCreatingProductReview } =
 		useCreateProductReviewS()
