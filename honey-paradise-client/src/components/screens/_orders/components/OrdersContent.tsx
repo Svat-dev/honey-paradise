@@ -17,17 +17,22 @@ interface IProps {
 }
 
 const OrdersContent: FC<IProps> = ({ paid, locale }) => {
-	const { orders, isOrdersLoading } = useOrdersContent(paid)
+	const { orders, currency, isOrdersLoading } = useOrdersContent(paid)
 
 	return (
-		<div className="flex flex-col gap-6">
+		<div className="flex flex-col gap-4">
 			<AnimatePresence mode="sync">
 				{isOrdersLoading ? (
 					<OrdersLoading />
 				) : orders && orders.length > 0 ? (
 					<Accordion>
 						{orders?.map(item => (
-							<OrderItem key={item.id} locale={locale} {...item} />
+							<OrderItem
+								key={item.id}
+								locale={locale}
+								currency={currency}
+								{...item}
+							/>
 						))}
 					</Accordion>
 				) : (
