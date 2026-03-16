@@ -4,6 +4,7 @@ import { useEffect } from "react"
 import toast from "react-hot-toast"
 
 import { useGetMyOrdersS } from "@/services/hooks/order/useGetMyOrdersS"
+import { useMyCart } from "@/shared/lib/hooks/auth"
 
 export const useOrdersContent = (paid: boolean) => {
 	const t = useTranslations("global.orders.content")
@@ -11,6 +12,7 @@ export const useOrdersContent = (paid: boolean) => {
 	const { push } = useRouter()
 	const pathname = usePathname()
 
+	const { cart } = useMyCart()
 	const { orders, isOrdersLoading } = useGetMyOrdersS()
 
 	useEffect(() => {
@@ -22,6 +24,7 @@ export const useOrdersContent = (paid: boolean) => {
 
 	return {
 		orders,
+		currency: cart?.currency,
 		isOrdersLoading
 	}
 }

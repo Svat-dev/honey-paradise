@@ -5,6 +5,8 @@ export interface ICurrencyResponseRates {
 
 export type TCurrenciesCodes = "USD" | "EUR" | "RUB"
 
+export type TCurrenciesSigns = "$" | "€" | "₽"
+
 export interface ICurrencyResponse {
 	disclaimer: string
 	license: string

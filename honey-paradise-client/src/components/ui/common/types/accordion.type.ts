@@ -10,9 +10,17 @@ export interface IAccordionProps extends PropsWithChildren {
 
 export interface IAccordionItemProps extends PropsWithChildren {}
 
-export interface IAccordionHeaderProps extends PropsWithChildren, ICNProps {}
+export interface IAccordionHeaderProps extends PropsWithChildren, ICNProps {
+	isLoading?: boolean
+}
 
-export interface IAccordionPanelProps extends PropsWithChildren {}
+export interface IAccordionPanelProps extends PropsWithChildren, ICNProps {
+	items?: {
+		length: number
+		height: number
+		additional: number
+	}
+}
 
 export interface IAccordionContext {
 	isActive: boolean

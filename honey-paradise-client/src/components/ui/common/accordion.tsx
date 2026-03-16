@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronDownIcon } from "lucide-react"
+import { ChevronDownIcon, Loader2Icon } from "lucide-react"
 import { AnimatePresence, m } from "motion/react"
 import {
 	Children,
@@ -87,25 +87,36 @@ AccordionItem.displayName = "AccordionItem"
 
 const AccordionHeader: FC<IAccordionHeaderProps> = ({
 	children,
-	className
+	className,
+	isLoading
 }) => {
 	const { isActive, index, handleChangeIndex } = useAccordion()
 
 	return (
 		<m.div
 			className={cn(
-				"relative cursor-pointer select-none p-5 transition-colors hover:bg-primary",
+				"relative cursor-pointer select-none p-5 transition-all hover:bg-primary",
 				className,
-				{ "bg-primary": isActive }
+				{
+					"bg-primary": isActive,
+					"cursor-wait opacity-60": isLoading
+				}
 			)}
 			onClick={() => handleChangeIndex(index)}
 		>
 			{children}
 
+			{isLoading && (
+				<Loader2Icon
+					size={20}
+					className="absolute right-2 top-2 animate-spin text-muted"
+				/>
+			)}
+
 			<ChevronDownIcon
 				size={30}
 				className={cn(
-					"absolute right-6 top-1/2 -translate-y-1/2 transition-transform will-change-auto",
+					"absolute right-8 top-1/2 -translate-y-1/2 transition-transform will-change-auto",
 					{
 						"rotate-180": isActive
 					}
@@ -116,7 +127,11 @@ const AccordionHeader: FC<IAccordionHeaderProps> = ({
 }
 AccordionHeader.displayName = "AccordionHeader"
 
-const AccordionPanel: FC<IAccordionPanelProps> = ({ children }) => {
+const AccordionPanel: FC<IAccordionPanelProps> = ({
+	children,
+	className,
+	items
+}) => {
 	const { isActive } = useAccordion()
 
 	return (
@@ -124,11 +139,17 @@ const AccordionPanel: FC<IAccordionPanelProps> = ({ children }) => {
 			{isActive && (
 				<m.div
 					initial={{ height: 0 }}
-					animate={{ height: isActive ? "auto" : 0 }}
+					animate={{
+						height: isActive
+							? items?.length
+								? items.height * items.length + (items.additional || 0)
+								: "auto"
+							: 0
+					}}
 					exit={{ height: 0 }}
 					transition={{ type: "spring", duration: 0.4, bounce: 0 }}
 				>
-					<div className="p-5">{children}</div>
+					<div className={cn("p-5", className)}>{children}</div>
 				</m.div>
 			)}
 		</AnimatePresence>

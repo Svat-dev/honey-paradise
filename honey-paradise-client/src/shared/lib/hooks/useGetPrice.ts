@@ -1,4 +1,7 @@
-import type { TCurrenciesCodes } from "@/services/types/currency-service.type"
+import type {
+	TCurrenciesCodes,
+	TCurrenciesSigns
+} from "@/services/types/currency-service.type"
 import { currenciesFetchStore } from "@/shared/store/currencies-fetch.store"
 import type { GetMyCartResponseCurrency } from "@/shared/types/server"
 
@@ -8,7 +11,7 @@ import { convertPrice, getCurrencyFromSettings } from "../utils"
  * Функция для получения цены в нужной валюте
  * @param priceInUsd цена в долларах США
  * @param userCurrency валюта пользователя из настроек
- * @returns объект с валютой и функцией получения цены
+ * @returns объект с знаком валюты, кодом валюты и функцией получения цены
  */
 export const useGetPrice = (userCurrency?: GetMyCartResponseCurrency) => {
 	const rates = currenciesFetchStore(state => state.rates)
@@ -16,6 +19,9 @@ export const useGetPrice = (userCurrency?: GetMyCartResponseCurrency) => {
 	const currency: TCurrenciesCodes = userCurrency
 		? getCurrencyFromSettings(userCurrency)
 		: "USD"
+
+	const sign: TCurrenciesSigns =
+		currency === "EUR" ? "€" : currency === "RUB" ? "₽" : "$"
 
 	function getPrice(priceInUsd: number): number
 	function getPrice(
@@ -34,9 +40,9 @@ export const useGetPrice = (userCurrency?: GetMyCartResponseCurrency) => {
 		return convert
 			? convertPrice(price, currency, round)
 			: round
-				? Math.round(price)
+				? price.toFixed(2)
 				: price
 	}
 
-	return { getPrice, currency }
+	return { getPrice, code: currency, sign }
 }
