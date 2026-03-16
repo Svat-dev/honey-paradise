@@ -2,6 +2,7 @@
 
 import { ChevronDownIcon, Loader2Icon } from "lucide-react"
 import { AnimatePresence, m } from "motion/react"
+import { useTranslations } from "next-intl"
 import {
 	Children,
 	createContext,
@@ -90,10 +91,13 @@ const AccordionHeader: FC<IAccordionHeaderProps> = ({
 	className,
 	isLoading
 }) => {
+	const t = useTranslations("shared.ui.accordion")
+
 	const { isActive, index, handleChangeIndex } = useAccordion()
 
 	return (
 		<m.div
+			title={t("button", { active: String(isActive) })}
 			className={cn(
 				"relative cursor-pointer select-none p-5 transition-all hover:bg-primary",
 				className,
@@ -155,6 +159,6 @@ const AccordionPanel: FC<IAccordionPanelProps> = ({
 		</AnimatePresence>
 	)
 }
-AccordionHeader.displayName = "AccordionPanel"
+AccordionPanel.displayName = "AccordionPanel"
 
 export { Accordion, AccordionHeader, AccordionItem, AccordionPanel }

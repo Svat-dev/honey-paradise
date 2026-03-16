@@ -19,6 +19,7 @@ interface IOrderItemPanel {
 }
 
 const OrderItemPanel: FC<IOrderItemPanel> = ({ orderId, length, currency }) => {
+	const t = useTranslations("global.orders.content")
 	const tt = useTranslations("global.transactions.content")
 
 	const { extraData, isOrdersExtraLoading } = useGetOrderExtraS(orderId)
@@ -44,7 +45,7 @@ const OrderItemPanel: FC<IOrderItemPanel> = ({ orderId, length, currency }) => {
 			<footer className="flex items-center justify-between px-2">
 				<div className="mb-1 flex items-center gap-2">
 					<span className="text-xl">
-						Итого:&nbsp;
+						{t("item.total")}:&nbsp;
 						<strong>
 							{getPrice(extraData?.transaction.amount || 0, true, false)}
 						</strong>
@@ -60,7 +61,7 @@ const OrderItemPanel: FC<IOrderItemPanel> = ({ orderId, length, currency }) => {
 					className="block italic text-muted underline"
 					isOutside
 				>
-					Платеж от&nbsp;
+					{t("item.payment")}&nbsp;
 					<time dateTime={extraData?.transaction.createdAt!}>
 						{format(
 							extraData?.transaction.createdAt || new Date(),

@@ -1,4 +1,5 @@
 import { m } from "motion/react"
+import { useTranslations } from "next-intl"
 import Image from "next/image"
 import Link from "next/link"
 import * as path from "path"
@@ -20,6 +21,8 @@ const OrderItemProduct: FC<IOrderItemProduct> = ({
 	weight,
 	product: { images, slug, title }
 }) => {
+	const t = useTranslations("global.orders.content")
+
 	const imageUrl = getAssetsPath(images[0])
 	const link = path.join(EnumAppRoute.PRODUCT, `${slug}-${art}`)
 
@@ -36,7 +39,7 @@ const OrderItemProduct: FC<IOrderItemProduct> = ({
 			>
 				<Image
 					src={imageUrl}
-					alt={`Product ${slug} photo!`}
+					alt=""
 					width={120}
 					height={90}
 					className="h-[90px] w-32 rounded-md border border-muted bg-white"
@@ -46,12 +49,12 @@ const OrderItemProduct: FC<IOrderItemProduct> = ({
 
 				<div>
 					<Title size="sm">{title["ru"]}</Title>
-					<span className="text-muted">{weight} граммов</span>
+					<span className="text-muted">{t("item.weight", { weight })}</span>
 				</div>
 
-				<div className="text-end">
+				<div className="text-nowrap text-end">
 					<p className="font-medium">{price}</p>
-					<span className="text-muted">{quantity} шт.</span>
+					<span className="text-muted">{t("item.quantity", { quantity })}</span>
 				</div>
 			</Link>
 		</m.div>

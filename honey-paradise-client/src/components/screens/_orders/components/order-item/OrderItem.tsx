@@ -1,5 +1,6 @@
 import { format } from "date-fns"
 import { enUS, ru } from "date-fns/locale"
+import { useTranslations } from "next-intl"
 import type { FC } from "react"
 
 import {
@@ -31,18 +32,9 @@ const OrderItem: FC<IOrderItem> = ({
 	length,
 	createdAt
 }) => {
-	const fnsLocale = locale === "ru" ? ru : enUS
+	const t = useTranslations("global.orders.content")
 
-	const statusTxt =
-		status === "DELIVERED"
-			? "Доставлен"
-			: status === "CANCELED"
-				? "Отменён"
-				: status === "PENDING"
-					? "В ожидании"
-					: status === "IN_ROAD"
-						? "В дороге"
-						: ""
+	const fnsLocale = locale === "ru" ? ru : enUS
 
 	const statusCn = getOrderStatusClassName(status)
 
@@ -51,10 +43,10 @@ const OrderItem: FC<IOrderItem> = ({
 			<AccordionHeader className="flex items-center justify-between">
 				<div className="flex items-center">
 					<Title size="md" className="text-2xl font-semibold">
-						Заказ #{index}
+						{t("item.order", { index })}
 					</Title>
 
-					<p className="ml-3 font-medium">на {length} товаров</p>
+					<p className="ml-3 font-medium">{t("item.length", { length })}</p>
 
 					<time className="ml-5 text-muted" dateTime={createdAt}>
 						{format(createdAt, `d MMMM yyyy, HH:mm`, { locale: fnsLocale })}
@@ -62,7 +54,7 @@ const OrderItem: FC<IOrderItem> = ({
 				</div>
 
 				<span className={cn("mr-14 rounded-full px-3 py-2 text-sm", statusCn)}>
-					{statusTxt}
+					{t("status", { status })}
 				</span>
 			</AccordionHeader>
 

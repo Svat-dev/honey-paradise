@@ -10,7 +10,7 @@
 					"addToCart": "Добавить в корзину",
 					"labels": {
 						"addToCart": "Добавить товар в корзину",
-						"like": "{isLiked, select, true {Удалить из избранного} false {В избранное} other {}}"
+						"like": "{isLiked, select  active,{Удалить из избранного} false {В избранное} other {}}"
 					},
 					"toasters": {
 						"success": "Товар добавлен в корзину!",
@@ -23,8 +23,8 @@
 			}
 		},
 		"catalog": {
-			"title": "{params, select, false {Каталог товаров} true {Товары по категории} other {Результаты поиска \"{params}\"}}",
-			"description": "{params, select, false {Каталог товаров} true {Товары по категории} other {Результаты поиска по запросу \"{params}\"}} интернет-магазина {title}",
+			"title": "{params, select  active,{Каталог товаров} true {Товары по категории} other {Результаты поиска \"{params}\"}}",
+			"description": "{params, select  active,{Каталог товаров} true {Товары по категории} other {Результаты поиска по запросу \"{params}\"}} интернет-магазина {title}",
 			"content": {}
 		},
 		"product": {
@@ -956,7 +956,16 @@
 			"content": {
 				"title": "Мои заказы",
 				"description": "Здесь отображаются все заказы, которые вы когда либо совершали",
-				"paid": "Заказ успешно оплачен!"
+				"paid": "Заказ успешно оплачен!",
+				"status": "{status, select, DELIVERED {Доставлен} CANCELED {Отменён} PENDING {В ожидании} IN_ROAD {В дороге} other {}}",
+				"item": {
+					"order": "Заказ #{index}",
+					"length": "на {length, plural, one {# товар} few {# товара} other {# товаров}}",
+					"payment": "Платеж от",
+					"weight": "{weight, plural, one {# грамм} few {# грамма} other {# граммов}}",
+					"quantity": "{quantity, plural, one {# штука} few {# штуки} other {# штук}}",
+					"total": "Итого"
+				}
 			}
 		},
 		"cart": {
@@ -1205,6 +1214,9 @@
 			"switch": {
 				"enable": "Включить{txt}",
 				"disable": "Отключить{txt}"
+			},
+			"accordion": {
+				"button": "{active, select, true {Свернуть} false {Развернуть} other {}}"
 			}
 		},
 		"time": {
