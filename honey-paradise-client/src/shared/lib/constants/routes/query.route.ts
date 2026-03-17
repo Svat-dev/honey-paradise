@@ -20,6 +20,7 @@ export const queryKeys = {
 	getReviewComments: "get review's comments",
 	getAllPayments: "get all user's payments",
 	getPaymentExtraInfo: "get payment extra info",
+	getOrderExtraInfo: "get order extra info",
 
 	recoverPassword: "account recover password",
 	connectTg: "account connect telegram",

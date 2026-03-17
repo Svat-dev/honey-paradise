@@ -58,22 +58,25 @@ const ProductCardImages: FC<IProps> = ({
 					</div>
 				))}
 			</div>
-			<ul
-				className="absolute bottom-0 left-0 z-10 flex w-full justify-center rounded-b-md bg-muted/30 py-1"
-				aria-hidden="true"
-			>
-				{images.map((_, i) => (
-					<li
-						key={_}
-						className={cn(
-							"mx-1 block h-2 w-2 rounded-full bg-secondary shadow-lg transition-colors will-change-auto",
-							{
-								"!bg-primary": i === photoIndex
-							}
-						)}
-					></li>
-				))}
-			</ul>
+
+			{images.length > 1 && (
+				<ul
+					className="absolute bottom-0 left-0 z-10 flex w-full justify-center rounded-b-md bg-muted/30 py-1"
+					aria-hidden="true"
+				>
+					{images.map((_, i) => (
+						<li
+							key={_}
+							className={cn(
+								"mx-1 block h-2 w-2 rounded-full bg-secondary shadow-lg transition-colors will-change-auto",
+								{
+									"!bg-primary": i === photoIndex
+								}
+							)}
+						></li>
+					))}
+				</ul>
+			)}
 		</Link>
 	)
 }

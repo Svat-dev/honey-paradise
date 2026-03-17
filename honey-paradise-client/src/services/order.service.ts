@@ -4,13 +4,22 @@ import { instance } from "@/api/instance"
 import { EnumApiRoute } from "@/shared/lib/constants/routes"
 import type {
 	CreateOrderResponse,
-	GetAllOrdersResponse
+	GetAllOrdersResponse,
+	GetExtraOrderInfo
 } from "@/shared/types/server"
 
 export const orderService = {
 	getAll: async () => {
 		const res = await instance.get<any, AxiosResponse<GetAllOrdersResponse[]>>(
 			EnumApiRoute.GET_USER_ORDERS
+		)
+
+		return res
+	},
+
+	getExtraInfo: async (orderId: string) => {
+		const res = await instance.get<any, AxiosResponse<GetExtraOrderInfo>>(
+			EnumApiRoute.GET_ORDER_EXTRA + "/" + orderId
 		)
 
 		return res

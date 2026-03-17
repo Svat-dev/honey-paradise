@@ -116,6 +116,7 @@ export enum EnumApiRoute {
 	ORDERS = "/orders",
 	CREATE_ORDER = "/create",
 	GET_USER_ORDERS = "/all",
+	GET_EXTRA_ORDER = "/extra/:orderId",
 
 	PAYMENTS = "/payments",
 	GET_USER_PAYMENTS = "/all",

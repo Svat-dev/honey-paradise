@@ -955,7 +955,18 @@
 			"description": "Заказы пользователя в интернет-магазине {title}",
 			"content": {
 				"title": "Мои заказы",
-				"paid": "Заказ успешно оплачен!"
+				"description": "Здесь отображаются все заказы, которые вы когда либо совершали",
+				"paid": "Заказ успешно оплачен!",
+				"status": "{status, select, DELIVERED {Доставлен} CANCELED {Отменён} PENDING {В ожидании} IN_ROAD {В дороге} other {}}",
+				"notFound": "Ваши заказы не найдены <br></br> Когда вы совершите первые заказы, они здесь появятся",
+				"item": {
+					"order": "Заказ #{index}",
+					"length": "на {length, plural, one {# товар} few {# товара} other {# товаров}}",
+					"payment": "Платеж от",
+					"weight": "{weight, plural, one {# грамм} few {# грамма} other {# граммов}}",
+					"quantity": "{quantity, plural, one {# штука} few {# штуки} other {# штук}}",
+					"total": "Итого"
+				}
 			}
 		},
 		"cart": {
@@ -1204,6 +1215,9 @@
 			"switch": {
 				"enable": "Включить{txt}",
 				"disable": "Отключить{txt}"
+			},
+			"accordion": {
+				"button": "{active, select, true {Свернуть} false {Развернуть} other {}}"
 			}
 		},
 		"time": {

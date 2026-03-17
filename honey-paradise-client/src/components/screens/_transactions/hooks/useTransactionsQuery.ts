@@ -1,10 +1,11 @@
-import { useLocale, useTranslations } from "next-intl"
+import { useTranslations } from "next-intl"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useMemo } from "react"
 import { useForm } from "react-hook-form"
 
 import { ISearchFormFields } from "@/components/layouts/-header/hooks/types/use-search.type"
 import { useDebounce } from "@/shared/lib/hooks/base"
+import { useLanguage } from "@/shared/lib/i18n/hooks"
 import { paymentsFilterStore } from "@/shared/store/payments-filter.store"
 import { IPaymentFilterStore } from "@/shared/store/types/payments-filter-store.type"
 import {
@@ -14,7 +15,7 @@ import {
 
 export const useTransactionsQuery = () => {
 	const t = useTranslations("global.transactions.content")
-	const locale = useLocale()
+	const { locale } = useLanguage()
 
 	const pathname = usePathname()
 	const searchParams = useSearchParams()
@@ -26,7 +27,7 @@ export const useTransactionsQuery = () => {
 	const update = paymentsFilterStore(state => state.update)
 
 	const searchForm = useForm<ISearchFormFields>({
-		defaultValues: { q: "" },
+		defaultValues: { q: queryParams.q },
 		mode: "onChange"
 	})
 
@@ -71,6 +72,7 @@ export const useTransactionsQuery = () => {
 	const reset = () => {
 		if (!isFilterUpdated) return
 
+		searchForm.reset()
 		reset_store()
 		replace(pathname)
 	}
@@ -79,6 +81,8 @@ export const useTransactionsQuery = () => {
 
 	useEffect(() => {
 		searchParams.forEach((value, key: any) => {
+			if (key === "q") searchForm.setValue("q", value)
+
 			updateQueryParams(key, value)
 		})
 	}, [])

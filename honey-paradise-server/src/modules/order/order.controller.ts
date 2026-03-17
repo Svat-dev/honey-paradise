@@ -1,12 +1,17 @@
+import { ParseUUIDPipe } from "@nestjs/common"
 import { Controller } from "@nestjs/common/decorators/core/controller.decorator"
 import { HttpCode } from "@nestjs/common/decorators/http/http-code.decorator"
 import {
 	Get,
 	Post
 } from "@nestjs/common/decorators/http/request-mapping.decorator"
-import { Req } from "@nestjs/common/decorators/http/route-params.decorator"
+import {
+	Param,
+	Req
+} from "@nestjs/common/decorators/http/route-params.decorator"
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum"
 import { ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger"
+import { SkipThrottle } from "@nestjs/throttler/dist/throttler.decorator"
 import type { Request } from "express"
 import { I18nLang } from "nestjs-i18n"
 import { Authorization } from "src/shared/decorators/auth.decorator"
@@ -17,8 +22,10 @@ import { EnumStorageKeys } from "src/shared/types/client/enums.type"
 import { OrderService } from "./order.service"
 import { CreateOrderResponse } from "./response/create-order.res"
 import { GetAllOrdersResponse } from "./response/get-all-orders.res"
+import { GetExtraOrderInfo } from "./response/get-extra-info.res"
 
-@ApiTags("Order")
+@ApiTags("Orders")
+@SkipThrottle({ auth: true })
 @Controller(EnumApiRoute.ORDERS)
 export class OrderController {
 	constructor(private readonly orderService: OrderService) {}
@@ -30,6 +37,17 @@ export class OrderController {
 	@Get(EnumApiRoute.GET_USER_ORDERS)
 	getAllOrders(@Authorized("id") userId: string) {
 		return this.orderService.getAllOrders(userId)
+	}
+
+	@ApiOperation({ summary: "Get order's extra information", description: "" })
+	@ApiOkResponse({ type: GetExtraOrderInfo })
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Get(EnumApiRoute.GET_EXTRA_ORDER)
+	getExtraOrderInfo(
+		@Param("orderId", new ParseUUIDPipe({ version: "4" })) orderId: string
+	) {
+		return this.orderService.getExtraInfo(orderId)
 	}
 
 	@ApiOperation({ summary: "Create new order", description: "" })

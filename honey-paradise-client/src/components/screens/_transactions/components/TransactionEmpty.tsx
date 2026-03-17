@@ -22,7 +22,7 @@ const TransactionEmpty = () => {
 						loading="lazy"
 					/>
 					<p className="text-center text-base leading-7">
-						{t.rich("empty", { bt: () => <br /> })}
+						{t.rich("empty", { br: () => <br /> })}
 					</p>
 				</div>
 			</TableCell>

@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server"
+import { getLocale, getTranslations } from "next-intl/server"
 import type { FC } from "react"
 
 import { Title } from "@/components/ui/common"
@@ -12,6 +12,7 @@ interface IProps {
 
 const Orders: FC<IProps> = async ({ searchParams }) => {
 	const t = await getTranslations("global.orders.content")
+	const locale = await getLocale()
 
 	return (
 		<article className="relative mx-10 my-6 w-full">
@@ -19,9 +20,9 @@ const Orders: FC<IProps> = async ({ searchParams }) => {
 				{t("title")}
 			</Title>
 
-			{/* <p className="ml-1 mb-4 text-muted">{t("description")}</p> */}
+			<p className="mb-4 ml-1 text-muted">{t("description")}</p>
 
-			<OrdersContent paid={Boolean(searchParams?.["paid"])} />
+			<OrdersContent paid={Boolean(searchParams?.["paid"])} locale={locale} />
 		</article>
 	)
 }

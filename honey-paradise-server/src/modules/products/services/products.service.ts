@@ -204,8 +204,6 @@ export class ProductsService {
 				take: 4
 			})
 
-			console.log(query)
-
 			const refactoredQuery = query.map(i => {
 				const { variants, ...other } = i
 				const priceInUsd = variants
@@ -213,8 +211,6 @@ export class ProductsService {
 					.sort((a, b) => b - a)[0]
 				return { ...other, priceInUsd }
 			})
-
-			console.log(refactoredQuery)
 
 			const products = this.getProductResponse(
 				refactoredQuery,

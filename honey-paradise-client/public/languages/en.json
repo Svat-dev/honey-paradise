@@ -961,7 +961,18 @@
 			"description": "User's orders in the online store {title}",
 			"content": {
 				"title": "My orders",
-				"paid": "Order has successfully paid!"
+				"description": "All the orders that you have ever made are displayed here",
+				"paid": "Order has successfully paid!",
+				"status": "{status, select, DELIVERED {Delivered} CANCELED {Rejected} PENDING {Pending} IN_ROAD {In road} other {}}",
+				"notFound": "Your orders were not found <br></br> When you make the first orders, they will appear here",
+				"item": {
+					"order": "Order #{index}",
+					"length": "for {length, plural, =1 {# product} other {# products}}",
+					"payment": "Payment from",
+					"weight": "{weight, plural, =1 {# gram} other {# grams}}",
+					"quantity": "{quantity, plural, =1 {# item} other {# items}}",
+					"total": "Total"
+				}
 			}
 		},
 		"cart": {
@@ -1210,6 +1221,9 @@
 			"switch": {
 				"enable": "Enable{txt}",
 				"disable": "Disable{txt}"
+			},
+			"accordion": {
+				"button": "{active, select, true {Collapse} false {Expand} other {}}"
 			}
 		},
 		"time": {

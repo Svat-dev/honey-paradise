@@ -1,12 +1,12 @@
-import { useLocale } from "next-intl"
 import { useMemo, useState } from "react"
 
 import { useGetAllPaymentsS } from "@/services/hooks/payments"
 import { useMyAccount } from "@/shared/lib/hooks/auth"
 import { useGetPrice } from "@/shared/lib/hooks/useGetPrice"
+import { useLanguage } from "@/shared/lib/i18n/hooks"
 
 export const useTransactionContent = () => {
-	const locale = useLocale()
+	const { locale } = useLanguage()
 
 	const { user, isAccLoading } = useMyAccount()
 	const { payments, isPaymentsLoading, refetchPayments } = useGetAllPaymentsS()

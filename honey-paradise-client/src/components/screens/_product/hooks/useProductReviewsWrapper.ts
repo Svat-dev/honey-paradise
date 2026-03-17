@@ -1,8 +1,9 @@
-import { useLocale, useTranslations } from "next-intl"
+import { useTranslations } from "next-intl"
 import { useMemo, useState } from "react"
 
 import { useGetProductsRatingS } from "@/services/hooks/products"
 import { useAuth } from "@/shared/lib/hooks/auth"
+import { useLanguage } from "@/shared/lib/i18n/hooks"
 import type {
 	GetProductsRatingResponseCount,
 	GetProductsRatingResponseExtra
@@ -10,9 +11,9 @@ import type {
 
 export const useProductReviewsWrapper = (slug: string) => {
 	const t = useTranslations("global.product.content.reviews")
-	const locale = useLocale()
 
 	const { isAuthenticated } = useAuth()
+	const { locale } = useLanguage()
 	const { rating, isRatingLoading } = useGetProductsRatingS(slug)
 
 	const [isHasReview, setIsHasReview] = useState<boolean>(false)

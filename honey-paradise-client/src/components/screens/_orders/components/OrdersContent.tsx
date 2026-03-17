@@ -1,48 +1,59 @@
 "use client"
 
-import { useTranslations } from "next-intl"
-import { usePathname, useRouter } from "next/navigation"
-import { type FC, useEffect } from "react"
-import toast from "react-hot-toast"
+import { AnimatePresence } from "motion/react"
+import type { FC } from "react"
 
-import { Title } from "@/components/ui/common"
-import { useGetMyOrdersS } from "@/services/hooks/order/useGetMyOrdersS"
+import { Accordion } from "@/components/ui/common"
+
+import { useOrdersContent } from "../hooks/useOrdersContent"
+
+import { OrderItem } from "./order-item/OrderItem"
+import { OrdersEmpty } from "./OrdersEmpty"
+import { OrdersLoading } from "./OrdersLoading"
 
 interface IProps {
 	paid: boolean
+	locale: string
 }
 
-const OrdersContent: FC<IProps> = ({ paid }) => {
-	const t = useTranslations("global.orders.content")
-
-	const { push } = useRouter()
-	const pathname = usePathname()
-
-	const { orders, isOrdersLoading } = useGetMyOrdersS()
-
-	useEffect(() => {
-		if (paid) {
-			toast.success(t("paid"))
-			push(pathname)
-		}
-	}, [paid])
+const OrdersContent: FC<IProps> = ({ paid, locale }) => {
+	const { orders, currency, isOrdersLoading } = useOrdersContent(paid)
 
 	return (
-		<>
-			{isOrdersLoading ? (
-				<p>Loading...</p>
-			) : (
-				orders?.map(item => (
-					<div key={item.id}>
-						<Title size="md">Order {item.id}</Title>
-						<p>
-							{item.items.length} on price {item.totalAmount}
-						</p>
-						<p>Status: {item.status}</p>
-					</div>
-				))
-			)}
-		</>
+		<div className="flex flex-col gap-4">
+			<div
+				className="sr-only bg-green-400/50 text-green-700 ring-1 ring-green-700"
+				aria-hidden
+			/>
+			<div
+				className="sr-only bg-red-400/50 text-red-700 ring-1 ring-red-700"
+				aria-hidden
+			/>
+			<div
+				className="sr-only bg-lime-400/50 text-lime-700 ring-1 ring-lime-700"
+				aria-hidden
+			/>
+
+			<AnimatePresence mode="sync">
+				{isOrdersLoading ? (
+					<OrdersLoading />
+				) : orders && orders.length > 0 ? (
+					<Accordion>
+						{orders?.map((item, i) => (
+							<OrderItem
+								key={item.id}
+								i={i}
+								locale={locale}
+								currency={currency}
+								{...item}
+							/>
+						))}
+					</Accordion>
+				) : (
+					<OrdersEmpty />
+				)}
+			</AnimatePresence>
+		</div>
 	)
 }
 

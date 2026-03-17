@@ -1,32 +1,16 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { EnumOrderStatus, EnumTransactionStatus } from "@prisma/client"
+import { EnumOrderStatus, type Order } from "@prisma/client"
 
-class TransactionStatus {
-	@ApiProperty({
-		enum: EnumTransactionStatus,
-		description: "",
-		example: EnumTransactionStatus.SUCCEEDED
-	})
-	status: EnumTransactionStatus
-}
-
-class OrderItem {
-	@ApiProperty({ type: "string", description: "", example: "uuid" })
-	pid: string
-
-	@ApiProperty({ type: "number", description: "", example: 2 })
-	quantity: number
-
-	@ApiProperty({ type: "number", description: "", example: 10 })
-	priceInUsd: number
-}
-
-export class GetAllOrdersResponse {
+export class GetAllOrdersResponse implements Partial<Order> {
 	@ApiProperty({ type: "string", description: "", example: "uuid" })
 	id: string
 
-	@ApiProperty({ type: "number", description: "", example: 1000 })
-	totalAmount: number
+	@ApiProperty({
+		type: "number",
+		description: "Index of an order, count is only for user. Not global",
+		example: 1
+	})
+	index: number
 
 	@ApiProperty({
 		enum: EnumOrderStatus,
@@ -35,12 +19,9 @@ export class GetAllOrdersResponse {
 	})
 	status: EnumOrderStatus
 
-	@ApiProperty({ type: OrderItem, description: "", isArray: true })
-	items: OrderItem[]
+	@ApiProperty({ type: "number", description: "", example: 1 })
+	length: number
 
-	@ApiProperty({ type: TransactionStatus, description: "" })
-	transaction: TransactionStatus
-
-	@ApiProperty({ type: Date, description: "", example: new Date() })
+	@ApiProperty({ description: "", example: new Date() })
 	createdAt: Date
 }
