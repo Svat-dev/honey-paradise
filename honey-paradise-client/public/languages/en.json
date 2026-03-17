@@ -964,6 +964,7 @@
 				"description": "All the orders that you have ever made are displayed here",
 				"paid": "Order has successfully paid!",
 				"status": "{status, select, DELIVERED {Delivered} CANCELED {Rejected} PENDING {Pending} IN_ROAD {In road} other {}}",
+				"notFound": "Your orders were not found <br></br> When you make the first orders, they will appear here",
 				"item": {
 					"order": "Order #{index}",
 					"length": "for {length, plural, =1 {# product} other {# products}}",

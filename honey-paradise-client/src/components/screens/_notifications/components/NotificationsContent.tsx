@@ -1,7 +1,5 @@
 "use client"
 
-import Image from "next/image"
-
 import { NotificationsContextProvider } from "@/components/providers/NotificationsContext"
 import { Pagination, PaginationContent } from "@/components/ui/common"
 
@@ -9,6 +7,7 @@ import { useNotificationsContent } from "../hooks/useNotificationsContent"
 import styles from "../styles/notifications.module.scss"
 
 import { NotificationsFilters } from "./filters/NotificationsFiltersWrapper"
+import { NotificationEmpty } from "./NotificationEmpty"
 import { NotificationItem } from "./NotificationItem"
 import { NotificationsLoading } from "./NotificationsLoading"
 
@@ -19,8 +18,7 @@ const NotificationsContent = () => {
 		notificationsLength,
 		updateQueryParams,
 		queryParams,
-		unReadLength,
-		t
+		unReadLength
 	} = useNotificationsContent()
 
 	const limit = 6
@@ -40,16 +38,7 @@ const NotificationsContent = () => {
 						))}
 					</>
 				) : (
-					<div className={styles["not-found"]}>
-						<Image
-							src="/assets/not-found-notifications.webp"
-							alt={t("labels.notFoundImage")}
-							width={250}
-							height={155}
-							loading="lazy"
-						/>
-						<p>{t.rich("notFound", { br: () => <br /> })}</p>
-					</div>
+					<NotificationEmpty />
 				)}
 
 				<div className={styles["pagination-wrapper"]}>

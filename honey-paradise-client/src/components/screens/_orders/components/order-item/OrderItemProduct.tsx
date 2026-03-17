@@ -1,5 +1,5 @@
 import { m } from "motion/react"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import Image from "next/image"
 import Link from "next/link"
 import * as path from "path"
@@ -8,7 +8,7 @@ import type { FC } from "react"
 import { Title } from "@/components/ui/common"
 import { EnumAppRoute } from "@/shared/lib/constants/routes"
 import { getAssetsPath } from "@/shared/lib/utils"
-import type { GetExtraOrderInfoItem } from "@/shared/types/server"
+import type { ApiJsonValue, GetExtraOrderInfoItem } from "@/shared/types/server"
 
 interface IOrderItemProduct extends Omit<GetExtraOrderInfoItem, "price"> {
 	price: string
@@ -21,6 +21,8 @@ const OrderItemProduct: FC<IOrderItemProduct> = ({
 	weight,
 	product: { images, slug, title }
 }) => {
+	const locale = useLocale()
+
 	const t = useTranslations("global.orders.content")
 
 	const imageUrl = getAssetsPath(images[0])
@@ -48,7 +50,7 @@ const OrderItemProduct: FC<IOrderItemProduct> = ({
 				/>
 
 				<div>
-					<Title size="sm">{title["ru"]}</Title>
+					<Title size="sm">{title[locale as keyof ApiJsonValue]}</Title>
 					<span className="text-muted">{t("item.weight", { weight })}</span>
 				</div>
 
