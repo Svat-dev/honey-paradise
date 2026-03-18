@@ -34,7 +34,7 @@ export class OrderController {
 	@ApiOkResponse({ type: GetAllOrdersResponse, isArray: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
-	@Get(EnumApiRoute.GET_USER_ORDERS)
+	@Get(EnumApiRoute.ALL)
 	getAllOrders(@Authorized("id") userId: string) {
 		return this.orderService.getAllOrders(userId)
 	}
@@ -54,7 +54,7 @@ export class OrderController {
 	@ApiOkResponse({ type: CreateOrderResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
-	@Post(EnumApiRoute.CREATE_ORDER)
+	@Post(EnumApiRoute.CREATE)
 	createOrder(
 		@Authorized("id") userId: string,
 		@Req() req: Request,

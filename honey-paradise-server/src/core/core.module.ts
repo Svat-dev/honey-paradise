@@ -9,6 +9,7 @@ import { ThrottlerModule } from "@nestjs/throttler/dist/throttler.module"
 import { CookieResolver, I18nModule } from "nestjs-i18n"
 import * as path from "path"
 import { AccountModule } from "src/modules/auth/account/account.module"
+import { AuthModule } from "src/modules/auth/auth.module"
 import { ProfileModule } from "src/modules/auth/profile/profile.module"
 import { ProvidersModule } from "src/modules/auth/providers/providers.module"
 import { SessionsModule } from "src/modules/auth/sessions/sessions.module"
@@ -18,6 +19,7 @@ import { CronModule } from "src/modules/cron/cron.module"
 import { NotificationsModule } from "src/modules/notifications/notifications.module"
 import { OffersModule } from "src/modules/offers/offers.module"
 import { OrderModule } from "src/modules/order/order.module"
+import { PaymentsModule } from "src/modules/payments/payments.module"
 import { ProductsModule } from "src/modules/products/products.module"
 import { ReviewsModule } from "src/modules/reviews/reviews.module"
 import { TranslationsModule } from "src/modules/translations/translations.module"
@@ -32,7 +34,6 @@ import { MailModule } from "./mail/mail.module"
 import { PrismaModule } from "./prisma/prisma.module"
 import { RedisModule } from "./redis/redis.module"
 import { TelegramModule } from "./telegram/telegram.module"
-import { PaymentsModule } from "src/modules/payments/payments.module"
 
 @Module({
 	imports: [
@@ -78,6 +79,7 @@ import { PaymentsModule } from "src/modules/payments/payments.module"
 		AccountModule,
 		ProfileModule,
 		SessionsModule,
+		AuthModule,
 		ProvidersModule,
 		VerificationModule,
 		NotificationsModule,

@@ -28,7 +28,7 @@ export class DiscountsController {
 	@ApiBody({ type: CreateDiscountDto })
 	@HttpCode(HttpStatus.OK)
 	@Authorization("ADMIN", "MANAGER")
-	@Post(EnumApiRoute.CREATE_DISCOUNT)
+	@Post(EnumApiRoute.CREATE)
 	async createDiscount(@Body() dto: CreateDiscountDto) {
 		return this.discountService.create(dto)
 	}
@@ -41,7 +41,7 @@ export class DiscountsController {
 	@ApiBody({ type: DeleteDiscountsDto })
 	@HttpCode(HttpStatus.OK)
 	@Authorization("ADMIN", "MANAGER")
-	@Delete(EnumApiRoute.DELETE_DISCOUNT)
+	@Delete(EnumApiRoute.DELETE)
 	async deleteDiscounts(@Body() dto: DeleteDiscountsDto) {
 		return this.discountService.deleteByIds(dto.ids)
 	}

@@ -24,7 +24,6 @@ import {
 	Throttle
 } from "@nestjs/throttler/dist/throttler.decorator"
 import type { Request } from "express"
-import { type } from "os"
 import { Authorization } from "src/shared/decorators/auth.decorator"
 import { Authorized } from "src/shared/decorators/authorized.decorator"
 import { EnumApiRoute } from "src/shared/lib/common/constants"
@@ -42,7 +41,7 @@ import { GetReviewsByPidResponse } from "./response/get-reviews-by-pid.res"
 import { CommentaryService } from "./services/commentary.service"
 import { ReviewsService } from "./services/reviews.service"
 
-@ApiTags("Reviews")
+@ApiTags("Reviews and commentaries")
 @SkipThrottle({ auth: true })
 @Controller(EnumApiRoute.REVIEWS)
 export class ReviewsController {
@@ -51,35 +50,32 @@ export class ReviewsController {
 		private readonly commentaryService: CommentaryService
 	) {}
 
+	@ApiOperation({
+		summary: "Get reviews by user. Authorized only",
+		description: ""
+	})
+	@Authorization()
+	@HttpCode(HttpStatus.OK)
+	@Get(EnumApiRoute.GET_USER_REVIEWS)
+	getReviewsByUser(@Authorized("id") userId: string) {
+		return this.reviewsService.getReviewsByUserId(userId)
+	}
+
 	@ApiOperation({ summary: "Get reviews by product id", description: "" })
+	@ApiParam({ name: "pid", type: String, description: "Product ID" })
 	@ApiOkResponse({ type: GetReviewsByPidResponse })
 	@HttpCode(HttpStatus.OK)
 	@Get(EnumApiRoute.GET_PRODUCT_REVIEWS)
-	getReviews(@Req() req: Request, @Query() query: GetReviewsQueryDto) {
-		return this.reviewsService.getReviewsByProductId(req.session.userId, query)
-	}
-
-	@ApiOperation({ summary: "Get comments by review id", description: "" })
-	@ApiOkResponse({ type: GetCommentsResponse, isArray: true })
-	@ApiParam({ name: "id", type: String, description: "Review ID" })
-	@HttpCode(HttpStatus.OK)
-	@Get(EnumApiRoute.GET_REVIEW_COMMENTS)
-	getCommentsById(@Req() req: Request, @Param("id", ParseUUIDPipe) id: string) {
-		return this.commentaryService.getCommentsById(req.session.userId, id)
-	}
-
-	@ApiOperation({ summary: "Create a new comment", description: "" })
-	@ApiOkResponse({ type: DefaultResponse })
-	@ApiBody({ type: CreateCommentDto })
-	@HttpCode(HttpStatus.OK)
-	@Authorization()
-	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
-	@Post(EnumApiRoute.CREATE_COMMENT)
-	createComment(
-		@Authorized("id") userId: string,
-		@Body() dto: CreateCommentDto
+	getReviews(
+		@Req() req: Request,
+		@Param("pid", new ParseUUIDPipe({ version: "4" })) productId: string,
+		@Query() query: GetReviewsQueryDto
 	) {
-		return this.commentaryService.createComment(userId, dto)
+		return this.reviewsService.getReviewsByProductId(
+			req.session.userId,
+			productId,
+			query
+		)
 	}
 
 	@ApiOperation({ summary: "Create a new reviews", description: "" })
@@ -88,26 +84,12 @@ export class ReviewsController {
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Throttle({ default: { limit: 3, ttl: ms("10min") } })
-	@Post(EnumApiRoute.CREATE_NEW_PRODUCT)
+	@Post(EnumApiRoute.CREATE)
 	createReviews(
 		@Authorized("id") userId: string,
 		@Body() dto: CreateReviewsDto
 	) {
 		return this.reviewsService.createReview(userId, dto)
-	}
-
-	@ApiOperation({ summary: "Reply to a comment", description: "" })
-	@ApiOkResponse({ type: DefaultResponse })
-	@ApiBody({ type: ReplyToCommentDto })
-	@Authorization()
-	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
-	@HttpCode(HttpStatus.OK)
-	@Post(EnumApiRoute.REPLY_TO_COMMENT)
-	replyToComment(
-		@Authorized("username") username: string,
-		@Body() dto: ReplyToCommentDto
-	) {
-		return this.commentaryService.replyToComment(username, dto)
 	}
 
 	@ApiOperation({ summary: "Edit a review", description: "" })
@@ -144,12 +126,49 @@ export class ReviewsController {
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Throttle({ default: { limit: 5, ttl: ms("3min") } })
-	@Delete(EnumApiRoute.DELETE_REVIEW)
+	@Delete(EnumApiRoute.DELETE)
 	deleteReview(
 		@Authorized("id") userId: string,
 		@Param("id", new ParseUUIDPipe({ version: "4" })) reviewId: string
 	) {
 		return this.reviewsService.deleteReview(userId, reviewId)
+	}
+
+	@ApiOperation({ summary: "Get comments by review id", description: "" })
+	@ApiOkResponse({ type: GetCommentsResponse, isArray: true })
+	@ApiParam({ name: "id", type: String, description: "Review ID" })
+	@HttpCode(HttpStatus.OK)
+	@Get(EnumApiRoute.GET_REVIEW_COMMENTS)
+	getCommentsById(@Req() req: Request, @Param("id", ParseUUIDPipe) id: string) {
+		return this.commentaryService.getCommentsById(req.session.userId, id)
+	}
+
+	@ApiOperation({ summary: "Create a new comment", description: "" })
+	@ApiOkResponse({ type: DefaultResponse })
+	@ApiBody({ type: CreateCommentDto })
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
+	@Post(EnumApiRoute.CREATE_COMMENT)
+	createComment(
+		@Authorized("id") userId: string,
+		@Body() dto: CreateCommentDto
+	) {
+		return this.commentaryService.createComment(userId, dto)
+	}
+
+	@ApiOperation({ summary: "Reply to a comment", description: "" })
+	@ApiOkResponse({ type: DefaultResponse })
+	@ApiBody({ type: ReplyToCommentDto })
+	@Authorization()
+	@Throttle({ default: { limit: 5, ttl: ms("5min") } })
+	@HttpCode(HttpStatus.OK)
+	@Post(EnumApiRoute.REPLY_TO_COMMENT)
+	replyToComment(
+		@Authorized("username") username: string,
+		@Body() dto: ReplyToCommentDto
+	) {
+		return this.commentaryService.replyToComment(username, dto)
 	}
 
 	@ApiOperation({ summary: "Delete user comment", description: "" })

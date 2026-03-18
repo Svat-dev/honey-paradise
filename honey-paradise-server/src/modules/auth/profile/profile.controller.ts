@@ -53,40 +53,6 @@ import { UploadSettingsResponse } from "./response/upload-settings.res"
 export class ProfileController {
 	constructor(private readonly profileService: ProfileService) {}
 
-	@ApiOperation({ summary: "Download user settings as json. Authorized only" })
-	@ApiResponse({
-		status: HttpStatus.OK,
-		description: "File successfully sended"
-	})
-	@ApiParam({ name: "format", enum: ["json", "yml"], example: "json" })
-	@HttpCode(HttpStatus.OK)
-	@Authorization()
-	@Throttle({ default: { limit: 3, ttl: ms("5min") } })
-	@Get(EnumApiRoute.DOWNLOAD_SETTINGS)
-	async downloadSettings(
-		@Authorized("id") userId: string,
-		@Query("format", SettingsFileFormatPipe) format: "json" | "yml",
-		@Res() res: Response
-	) {
-		return this.profileService.downloadSettings(userId, format, res)
-	}
-
-	@ApiOperation({
-		summary: "Upload user settings as json to use it. Authorized only"
-	})
-	@ApiOkResponse({ type: UploadSettingsResponse })
-	@HttpCode(HttpStatus.OK)
-	@Authorization()
-	@Throttle({ default: { limit: 3, ttl: ms("5min") } })
-	@UseInterceptors(FileInterceptor("settings"))
-	@Post(EnumApiRoute.UPLOAD_SETTINGS)
-	async uploadSettings(
-		@Authorized("id") userId: string,
-		@UploadedFile(UserSettingsFileValidationPipe) file: Express.Multer.File
-	) {
-		return this.profileService.uploadSettings(userId, file)
-	}
-
 	@ApiOperation({
 		summary: "Check filed on unique value. email or username or phone"
 	})
@@ -99,12 +65,24 @@ export class ProfileController {
 	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
-	@Post(`${EnumApiRoute.CHECK_UNIQUE}/:field`)
+	@Post(EnumApiRoute.CHECK_UNIQUE)
 	checkFieldUnique(
 		@Param("field", UniqueFieldCheckPipe) field: "email" | "username" | "phone",
 		@Body() dto: UniqueFieldCheckDto
 	) {
 		return this.profileService.checkUnique(dto.fieldValue, field)
+	}
+
+	@ApiOperation({
+		summary: "Update basic profile information. Authorized only"
+	})
+	@ApiBody({ type: UpdateUserDto })
+	@ApiOkResponse({ type: DefaultResponse })
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Put(EnumApiRoute.UPDATE)
+	updateUserinfo(@Authorized("id") userId: string, @Body() dto: UpdateUserDto) {
+		return this.profileService.updateProfile(userId, dto)
 	}
 
 	@ApiOperation({ summary: "Update user's profile photo. Authorized only" })
@@ -145,18 +123,6 @@ export class ProfileController {
 		return this.profileService.deleteAvatar(userId)
 	}
 
-	@ApiOperation({
-		summary: "Update basic profile information. Authorized only"
-	})
-	@ApiBody({ type: UpdateUserDto })
-	@ApiOkResponse({ type: DefaultResponse })
-	@HttpCode(HttpStatus.OK)
-	@Authorization()
-	@Put(EnumApiRoute.UPDATE_PROFILE)
-	updateUserinfo(@Authorized("id") userId: string, @Body() dto: UpdateUserDto) {
-		return this.profileService.updateProfile(userId, dto)
-	}
-
 	@ApiOperation({ summary: "Update user's settings. Authorized only" })
 	@ApiBody({ type: UpdateUserSettingsDto })
 	@ApiOkResponse({ type: DefaultResponse })
@@ -168,5 +134,39 @@ export class ProfileController {
 		@Body() dto: UpdateUserSettingsDto
 	) {
 		return this.profileService.updateSettings(userId, dto)
+	}
+
+	@ApiOperation({ summary: "Download user settings as json. Authorized only" })
+	@ApiResponse({
+		status: HttpStatus.OK,
+		description: "File successfully sended"
+	})
+	@ApiParam({ name: "format", enum: ["json", "yml"], example: "json" })
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Throttle({ default: { limit: 3, ttl: ms("5min") } })
+	@Get(EnumApiRoute.DOWNLOAD_SETTINGS)
+	downloadSettings(
+		@Authorized("id") userId: string,
+		@Query("format", SettingsFileFormatPipe) format: "json" | "yml",
+		@Res() res: Response
+	) {
+		return this.profileService.downloadSettings(userId, format, res)
+	}
+
+	@ApiOperation({
+		summary: "Upload user settings as json to use it. Authorized only"
+	})
+	@ApiOkResponse({ type: UploadSettingsResponse })
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Throttle({ default: { limit: 3, ttl: ms("5min") } })
+	@UseInterceptors(FileInterceptor("settings"))
+	@Post(EnumApiRoute.UPLOAD_SETTINGS)
+	uploadSettings(
+		@Authorized("id") userId: string,
+		@UploadedFile(UserSettingsFileValidationPipe) file: Express.Multer.File
+	) {
+		return this.profileService.uploadSettings(userId, file)
 	}
 }

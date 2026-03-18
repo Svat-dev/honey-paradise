@@ -48,7 +48,7 @@ export class PromoCodesController {
 	@ApiBody({ type: CreatePromoCodeDto })
 	@HttpCode(HttpStatus.OK)
 	@Authorization("ADMIN")
-	@Post(EnumApiRoute.CREATE_PROMO_CODE)
+	@Post(EnumApiRoute.CREATE)
 	createPromoCode(@Body() dto: CreatePromoCodeDto) {
 		return this.promoCodesService.createPromoCode(dto)
 	}
@@ -58,7 +58,7 @@ export class PromoCodesController {
 	@ApiParam({ name: "id", type: String, example: "uuid" })
 	@HttpCode(HttpStatus.OK)
 	@Authorization("ADMIN")
-	@Delete(EnumApiRoute.DELETE_PROMO_CODE)
+	@Delete(`${EnumApiRoute.DELETE}/:id`)
 	deletePromoCode(@Param("id", ParseUUIDPipe) id: string) {
 		return this.promoCodesService.deletePromoCode(id)
 	}

@@ -44,7 +44,7 @@ export class NotificationsController {
 	@ApiResponse({ type: GetAllNotificationsResponse, isArray: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
-	@Get(EnumApiRoute.NOTIFICATIONS_GET_ALL)
+	@Get(EnumApiRoute.ALL)
 	getAll(@Authorized("id") userId: string, @Query() query: GetAllQueryDto) {
 		return this.notificationsService.getAllByUser(userId, query)
 	}
@@ -104,7 +104,7 @@ export class NotificationsController {
 	@ApiResponse({ type: Boolean, example: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
-	@Delete(EnumApiRoute.DELETE_NOTIFICATIONS)
+	@Delete(EnumApiRoute.DELETE)
 	delete(@Body() dto: NotificationsIdsDto) {
 		return this.notificationsService.delete(dto)
 	}

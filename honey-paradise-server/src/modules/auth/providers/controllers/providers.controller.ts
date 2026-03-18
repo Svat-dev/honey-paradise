@@ -17,7 +17,7 @@ import { DeleteProviderDto } from "../dto/delete-provider.dto"
 import { ProvidersService } from "../providers.service"
 import { GetAllConnectionsResponse } from "../response/get-all-connections.res"
 
-@ApiTags("Providers")
+@ApiTags("Providers (Connections)")
 @Controller(EnumApiRoute.CONNECTIONS)
 export class ProvidersController {
 	constructor(private readonly providersService: ProvidersService) {}
@@ -30,7 +30,7 @@ export class ProvidersController {
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@SkipThrottle({ auth: true })
-	@Get(EnumApiRoute.ALL_CONNECTIONS)
+	@Get(EnumApiRoute.ALL)
 	getAllConnections(@Authorized("id") userId: string) {
 		return this.providersService.getProvidersByUser(userId)
 	}

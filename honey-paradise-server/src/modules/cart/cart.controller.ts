@@ -42,7 +42,7 @@ export class CartController {
 	@ApiOkResponse({ type: GetMyCartResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
-	@Get(EnumApiRoute.GET_MY_CART)
+	@Get(EnumApiRoute.MY)
 	getMyCart(@Authorized("id") userId: string) {
 		return this.cartService.getMyCart(userId)
 	}
@@ -67,21 +67,9 @@ export class CartController {
 	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
-	@Post(EnumApiRoute.ADD_CART_ITEM)
+	@Post(`${EnumApiRoute.ITEM}${EnumApiRoute.CREATE}`)
 	addCartItem(@Authorized("id") userId: string, @Body() dto: AddCartItemDto) {
 		return this.cartService.addCartItem(userId, dto)
-	}
-
-	@ApiOperation({
-		summary: "Add favorites products to user's cart",
-		description: ""
-	})
-	@ApiOkResponse({ type: DefaultResponse })
-	@HttpCode(HttpStatus.OK)
-	@Authorization()
-	@Post(EnumApiRoute.ADD_FAVORITES_TO_CART)
-	addFavoritesToCart(@Authorized("id") userId: string) {
-		return this.cartService.addFavoritesToCart(userId)
 	}
 
 	@ApiOperation({ summary: "Update cart item's quantity", description: "" })
@@ -89,7 +77,7 @@ export class CartController {
 	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
-	@Put(EnumApiRoute.UPDATE_QUANTITY)
+	@Put(`${EnumApiRoute.ITEM}${EnumApiRoute.UPDATE}`)
 	updateQuantity(@Body() dto: UpdateQuantityDto) {
 		return this.cartService.updateCartItem(dto)
 	}
@@ -99,16 +87,28 @@ export class CartController {
 	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
-	@Delete(`${EnumApiRoute.REMOVE_CART_ITEM}/:id`)
+	@Delete(`${EnumApiRoute.ITEM}${EnumApiRoute.DELETE}/:id`)
 	removeCartItem(@Param("id") itemId: string) {
 		return this.cartService.removeCartItem(itemId)
+	}
+
+	@ApiOperation({
+		summary: "Add favorites products to user's cart",
+		description: ""
+	})
+	@ApiOkResponse({ type: DefaultResponse })
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Post(EnumApiRoute.CART_TO_FAVORITE)
+	addFavoritesToCart(@Authorized("id") userId: string) {
+		return this.cartService.addFavoritesToCart(userId)
 	}
 
 	@ApiOperation({ summary: "Clear all cart by id", description: "" })
 	@ApiOkResponse({ type: DefaultResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
-	@Delete(EnumApiRoute.CLEAR_CART)
+	@Delete(EnumApiRoute.CLEAR)
 	cleatCart(@Authorized("id") userId: string) {
 		return this.cartService.clearCartByUId(userId)
 	}

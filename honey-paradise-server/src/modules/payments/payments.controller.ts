@@ -30,7 +30,7 @@ export class PaymentsController {
 	@ApiResponse({ type: GetAllPaymentsResponse, isArray: true })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
-	@Get(EnumApiRoute.GET_USER_PAYMENTS)
+	@Get(EnumApiRoute.ALL)
 	getAllByUser(
 		@Authorized("id") userId: string,
 		@Query() query: GetAllPaymentsQueryDto

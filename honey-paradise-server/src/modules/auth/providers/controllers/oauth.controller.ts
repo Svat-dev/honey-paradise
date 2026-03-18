@@ -21,25 +21,25 @@ export class OAuthController {
 	@ApiOperation({ summary: "OAuth with google provider" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.GOOGLE))
-	@Get(`${EnumApiRoute.OAUTH_CONNECT}/google`)
+	@Get(`${EnumApiRoute.CONNECT}/google`)
 	connectGoogleProvider() {}
 
 	@ApiOperation({ summary: "OAuth with github provider" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.GITHUB))
-	@Get(`${EnumApiRoute.OAUTH_CONNECT}/github`)
+	@Get(`${EnumApiRoute.CONNECT}/github`)
 	connectGithubProvider() {}
 
 	@ApiOperation({ summary: "OAuth with yandex provider" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.YANDEX))
-	@Get(`${EnumApiRoute.OAUTH_CONNECT}/yandex`)
+	@Get(`${EnumApiRoute.CONNECT}/yandex`)
 	connectYandexProvider() {}
 
 	@ApiOperation({ summary: "OAuth with vk provider" })
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(AuthGuard(EnumProviderTypes.VK))
-	@Get(`${EnumApiRoute.OAUTH_CONNECT}/vk`)
+	@Get(`${EnumApiRoute.CONNECT}/vk`)
 	connectVkProvider() {}
 
 	@ApiOperation({ summary: "OAuth with google callback catcher" })

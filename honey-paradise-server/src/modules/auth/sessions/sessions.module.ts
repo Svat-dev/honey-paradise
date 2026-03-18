@@ -10,7 +10,7 @@ import { NotificationGateway } from "src/shared/websockets/notifications.gateway
 import { ProfileModule } from "../profile/profile.module"
 import { VerificationModule } from "../verification/verification.module"
 
-import { SessionsController } from "./sessions.controller"
+import { SessionsController } from "./controllers/sessions.controller"
 import { SessionsService } from "./sessions.service"
 
 @Module({

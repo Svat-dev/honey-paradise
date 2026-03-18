@@ -25,20 +25,15 @@ import { EnumApiRoute } from "src/shared/lib/common/constants"
 import { ms } from "src/shared/lib/common/utils"
 import { DefaultResponse } from "src/shared/lib/response/default.res"
 
-import { VerificationService } from "../verification/verification.service"
-
-import { AccountService } from "./account.service"
-import { CreateUserDto } from "./dto/create-user.dto"
-import { EmailVerifyDto, UpdateEmailDto } from "./dto/email-verification.dto"
+import { VerificationService } from "../../verification/verification.service"
+import { AccountService } from "../account.service"
+import { CreateUserDto } from "../dto/create-user.dto"
+import { EmailVerifyDto, UpdateEmailDto } from "../dto/email-verification.dto"
 import {
 	UpdatePasswordAuthDto,
 	UpdatePasswordDto
-} from "./dto/password-recover.dto"
-import { GetMeResponse } from "./response/get-my-account.res"
-import {
-	ConnectTelegramResponse,
-	GetTgInfoResponse
-} from "./response/get-tg-info.res"
+} from "../dto/password-recover.dto"
+import { GetMeResponse } from "../response/get-my-account.res"
 
 @ApiTags("Account")
 @Controller(EnumApiRoute.ACCOUNT)
@@ -53,30 +48,9 @@ export class AccountController {
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@SkipThrottle({ auth: true })
-	@Get(EnumApiRoute.ME)
+	@Get(EnumApiRoute.MY)
 	getMe(@Authorized("id") id: string) {
 		return this.accountService.me(id)
-	}
-
-	@ApiOperation({ summary: "Get telegram info about current user" })
-	@ApiOkResponse({ type: GetTgInfoResponse })
-	@HttpCode(HttpStatus.OK)
-	@Authorization()
-	@SkipThrottle({ auth: true })
-	@Get(EnumApiRoute.TELEGRAM)
-	getTgInfo(@Authorized("id") id: string) {
-		return this.accountService.getTelegramInfo(id)
-	}
-
-	@ApiOperation({
-		summary: "Disconnect telegram from an account. Authorized only"
-	})
-	@ApiOkResponse({ type: DefaultResponse })
-	@HttpCode(HttpStatus.OK)
-	@Authorization()
-	@Post(EnumApiRoute.DISCONNECT_TG)
-	disconnectTg(@Authorized("id") id: string) {
-		return this.accountService.disconnectTelegram(id)
 	}
 
 	@ApiOperation({ summary: "Creates a new account. (Registration)" })
@@ -129,17 +103,6 @@ export class AccountController {
 		@UserAgent() userAgent: string
 	) {
 		return this.verificationService.verifyEmail(req, res, dto, userAgent)
-	}
-
-	@ApiOperation({
-		summary: "Connect telegram to user's account. Authorized only"
-	})
-	@ApiOkResponse({ type: ConnectTelegramResponse })
-	@HttpCode(HttpStatus.OK)
-	@Authorization()
-	@Post(EnumApiRoute.CONNECT_TG)
-	connectTelegram(@Authorized("id") id: string) {
-		return this.verificationService.connectTelegram(id)
 	}
 
 	@ApiOperation({

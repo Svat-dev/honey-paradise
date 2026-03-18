@@ -27,8 +27,28 @@ export class ReviewsService {
 		private readonly redisService: RedisService
 	) {}
 
+	async getReviewsByUserId(userId: string) {
+		const query = await this.prisma.review.findMany({
+			where: { userId },
+			select: {
+				id: true,
+				text: true,
+				productId: true,
+				rating: true,
+				createdAt: true
+			},
+			orderBy: { createdAt: "desc" }
+		})
+
+		return {
+			reviews: query,
+			length: query.length
+		}
+	}
+
 	async getReviewsByProductId(
 		userId: string,
+		productId: string,
 		query: GetReviewsQueryDto
 	): Promise<GetReviewsByPidResponse> {
 		try {
@@ -36,14 +56,14 @@ export class ReviewsService {
 				WITH most_popular AS (
 					SELECT "id", "user_id", "text", "rating", "likes", "dislikes", "created_at"
 					FROM "reviews"
-					WHERE "product_id" = (${query.pid})::uuid
+					WHERE "product_id" = (${productId})::uuid
 					ORDER BY "likes_count" DESC
 					LIMIT 1
 				),
 				user_review AS (
 					SELECT "id", "user_id", "text", "rating", "likes", "dislikes", "created_at"
 					FROM "reviews"
-					WHERE "user_id" = (${userId})::uuid AND "product_id" = (${query.pid})::uuid
+					WHERE "user_id" = (${userId})::uuid AND "product_id" = (${productId})::uuid
 					LIMIT 1
 				)
 				SELECT
@@ -65,7 +85,7 @@ export class ReviewsService {
 					SELECT "id", "username", "avatar_path" AS "avatarPath", "frame_path" AS "framePath"
 					FROM "users"
 				) u_part ON r."user_id" = u_part."id"
-				WHERE r."product_id" = (${query.pid})::uuid
+				WHERE r."product_id" = (${productId})::uuid
 					-- AND (r."rating"->'common')::text ILIKE (${query.rating ? query.rating : "%"})::text -- убран так как из-за этого mostPopular и userReview не появляется
 				ORDER BY
 					CASE

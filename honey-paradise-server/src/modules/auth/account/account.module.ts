@@ -9,8 +9,9 @@ import { ProfileModule } from "../profile/profile.module"
 import { SessionsModule } from "../sessions/sessions.module"
 import { VerificationModule } from "../verification/verification.module"
 
-import { AccountController } from "./account.controller"
 import { AccountService } from "./account.service"
+import { AccountController } from "./controllers/account.controller"
+import { TelegramController } from "./controllers/telegram.controller"
 
 @Module({
 	imports: [
@@ -24,7 +25,7 @@ import { AccountService } from "./account.service"
 		SessionsModule,
 		NotificationsModule
 	],
-	controllers: [AccountController],
+	controllers: [AccountController, TelegramController],
 	providers: [AccountService],
 	exports: [AccountService]
 })
