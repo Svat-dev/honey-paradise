@@ -7,6 +7,7 @@ import {
 	IsString,
 	MaxLength
 } from "class-validator"
+import { IsNumberArrayString } from "src/shared/decorators/is-number-array-string.decorator"
 
 export const PaymentSortType = {
 	ASC: "asc",
@@ -18,6 +19,8 @@ export const PaymentSortField = {
 	UPDATED_AT: "updatedAt",
 	CREATED_AT: "createdAt"
 } as const
+
+const statuses = ["0", "1", "2"]
 
 type PaymentSortType = (typeof PaymentSortType)[keyof typeof PaymentSortType]
 type PaymentSortField = (typeof PaymentSortField)[keyof typeof PaymentSortField]
@@ -39,8 +42,9 @@ export class GetAllPaymentsQueryDto {
 		example: "0,1,2"
 	})
 	@IsString({ message: "Visible statuses must be a string" })
+	@IsNumberArrayString({ allowedValues: statuses, unique: true })
 	@IsOptional()
-	status?: string
+	status?: number[]
 
 	@ApiProperty({ type: "string", description: "Search query", example: "" })
 	@IsString({ message: "Search query must be a string" })
@@ -58,7 +62,7 @@ export class GetAllPaymentsQueryDto {
 export const defaultPaymentsQuery: GetAllPaymentsQueryDto = {
 	type: PaymentSortType.DESC,
 	field: PaymentSortField.CREATED_AT,
-	status: "0,1,2",
+	status: statuses.map(Number),
 	page: 1,
 	q: ""
 }

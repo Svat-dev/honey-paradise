@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { ForbiddenException } from "@nestjs/common/exceptions/forbidden.exception"
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
-import { EnumNotificationType } from "@prisma/client"
+import { EnumNotificationType, Prisma } from "@prisma/client"
 import { PrismaService } from "src/core/prisma/prisma.service"
 import { RedisService } from "src/core/redis/redis.service"
 import { success } from "src/shared/lib/common/utils"
@@ -12,7 +12,11 @@ import { ProfileService } from "../../auth/profile/profile.service"
 import { NotificationsService } from "../../notifications/notifications.service"
 import { ProductsService } from "../../products/services/products.service"
 import type { CreateReviewsDto } from "../dto/create-review.dto"
-import type { GetReviewsQueryDto } from "../dto/get-reviews-query.dto"
+import {
+	defaultReviewsQueryDto,
+	EnumReviewsSortType,
+	type GetReviewsQueryDto
+} from "../dto/get-reviews-query.dto"
 import { ReactToReviewDto, ReactToReviewType } from "../dto/react-to-review.dto"
 import type { UpdateReviewDto } from "../dto/update-review.dto"
 import type { GetReviewsByPidResponse } from "../response/get-reviews-by-pid.res"
@@ -51,7 +55,19 @@ export class ReviewsService {
 		productId: string,
 		query: GetReviewsQueryDto
 	): Promise<GetReviewsByPidResponse> {
+		const { q, rating, sort } = {
+			...defaultReviewsQueryDto,
+			...query
+		}
+
 		try {
+			const sortCondition =
+				sort === EnumReviewsSortType.RATING
+					? Prisma.sql`r."likes_count" DESC`
+					: sort === EnumReviewsSortType.OLDEST
+						? Prisma.sql`r."created_at" ASC`
+						: Prisma.sql`r."created_at" DESC`
+
 			const data: any = await this.prisma.$queryRaw`
 				WITH most_popular AS (
 					SELECT "id", "user_id", "text", "rating", "likes", "dislikes", "created_at"
@@ -86,17 +102,9 @@ export class ReviewsService {
 					FROM "users"
 				) u_part ON r."user_id" = u_part."id"
 				WHERE r."product_id" = (${productId})::uuid
-					-- AND (r."rating"->'common')::text ILIKE (${query.rating ? query.rating : "%"})::text -- убран так как из-за этого mostPopular и userReview не появляется
-				ORDER BY
-					CASE
-						WHEN (${query.sort})::text = 'oldest' THEN r."created_at"
-					END ASC,
-					CASE
-						WHEN (${query.sort})::text = 'rating' THEN r."likes_count"
-					END DESC,
-					CASE
-						WHEN (${query.sort})::text NOT IN ('oldest', 'rating') OR (${query.sort})::text IS NULL THEN r."created_at"
-					END DESC
+				  AND (r."rating"->'common')::integer = ANY((${rating})::integer[])
+					AND r."text" ILIKE ${`%${q}%`}
+				ORDER BY ${sortCondition}
 				LIMIT 5;
 			`
 
@@ -119,11 +127,13 @@ export class ReviewsService {
 					user: review.user
 				}
 
-				if (review.type) returnData.mostPopularReview = item
+				returnData.reviews.push(item)
 
-				if (review.userType) returnData.userReview = item
+				// if (review.type) returnData.mostPopularReview = item
 
-				if (!review.type && !review.userType) returnData.reviews.push(item)
+				// if (review.userType) returnData.userReview = item
+
+				// if (!review.type && !review.userType) returnData.reviews.push(item)
 			}
 
 			return returnData

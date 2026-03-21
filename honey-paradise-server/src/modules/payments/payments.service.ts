@@ -49,7 +49,7 @@ export class PaymentsService {
 			}
 
 			const enumStatuses = Object.values(EnumTransactionStatus)
-			const statuses = status.split(",").map(i => enumStatuses[i] ?? undefined)
+			const statuses = status.map(i => enumStatuses[i] ?? undefined)
 			const id = isUUID(q, 4) ? q : undefined
 
 			const payments = await this.prisma.transaction.findMany({
