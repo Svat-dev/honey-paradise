@@ -11,6 +11,7 @@ import { ProfileModule } from "../profile/profile.module"
 import { VerificationModule } from "../verification/verification.module"
 
 import { SessionsController } from "./controllers/sessions.controller"
+import { TwoFactorAuthController } from "./controllers/tfa.controller"
 import { SessionsService } from "./sessions.service"
 
 @Module({
@@ -25,7 +26,7 @@ import { SessionsService } from "./sessions.service"
 		VerificationModule,
 		NotificationsModule
 	],
-	controllers: [SessionsController],
+	controllers: [SessionsController, TwoFactorAuthController],
 	providers: [SessionsService, NotificationGateway],
 	exports: [SessionsService]
 })

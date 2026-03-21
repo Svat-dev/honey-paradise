@@ -1,117 +1,140 @@
-export enum EnumApiRoute {
-	AUTH = "/auth",
-	SIGN_IN = `${AUTH}/sign-in`,
-	LOGOUT = `${AUTH}/logout`,
+class EnumApiRouteClass {
+	PROFILE = "/profile"
+	AVATAR = `${this.PROFILE}/avatar`
+	SETTINGS = `${this.PROFILE}/settings`
 
-	OAUTH = `${AUTH}/oauth`,
-	OAUTH_CONNECT = `${OAUTH}/connect`,
+	CHECK_UNIQUE = (data: string) => `${this.PROFILE}/check-unique/${data}`
+	UPDATE_PROFILE = `${this.PROFILE}/update`
+	UPDATE_AVATAR = `${this.AVATAR}/update`
+	UPDATE_FRAME = `${this.AVATAR}/update-frame`
+	DELETE_AVATAR = `${this.AVATAR}/delete`
+	UPDATE_SETTINGS = `${this.SETTINGS}/update`
+	DOWNLOAD_SETTINGS = `${this.SETTINGS}/download`
+	UPLOAD_SETTINGS = `${this.SETTINGS}/upload`
 
-	TFA = `${AUTH}/tfa`,
-	VERIFY_TFA = `${TFA}/verify`,
-	SEND_TFA_CODE = `${TFA}/send-code`,
+	NOTIFICATIONS = "/notifications"
+	NOTIFICATIONS_MARK = `${this.NOTIFICATIONS}/mark`
 
-	SESSION = `${AUTH}/session`,
-	CLEAR_SESSION = `${SESSION}/clear`,
-	CURRENT_SESSION = `${SESSION}/current`,
-	REMOVE_SESSION = `${SESSION}/remove`,
-	REMOVE_ALL_SESSIONS = `${SESSION}/remove-all`,
-	GET_SESSION_BY_USER = `${SESSION}/by-user`,
+	GET_NOTIFICATIONS = `${this.NOTIFICATIONS}/all`
+	UPDATE_NOTIFICATIONS = `${this.NOTIFICATIONS}/settings/update`
+	MARK_AS_READ = `${this.NOTIFICATIONS_MARK}/as-read`
+	MARK_AS_READ_ALL = `${this.MARK_AS_READ}/all`
+	MARK_AS_ARCHIVED = `${this.NOTIFICATIONS_MARK}/as-archived`
+	DELETE_NOTIFICATION = `${this.NOTIFICATIONS}/delete`
+	SEND_NOTIFICATION = `${this.NOTIFICATIONS}/send`
 
-	ACCOUNT = `${AUTH}/account`,
-	MY_ACCOUNT = `${ACCOUNT}/me`,
-	CREATE_ACCOUNT = `${ACCOUNT}/create`,
+	AUTH = "/auth"
+	ACCOUNT = `${this.AUTH}/account`
+	TELEGRAM = `${this.AUTH}/telegram`
+	SESSIONS = `${this.AUTH}/sessions`
+	TFA = `${this.AUTH}/tfa`
+	PROVIDERS = `${this.AUTH}/connections`
+	OAUTH = `${this.AUTH}/oauth`
 
-	TELEGRAM = `${ACCOUNT}/tg`,
-	CONNECT_TG = `${TELEGRAM}/connect`,
-	DISCONNECT_TG = `${TELEGRAM}/disconnect`,
-	TG_TFA_LOGIN = `${AUTH}/tg/2fa-login`,
-	CANCEL_TG_TFA_LOGIN = `${AUTH}/tg/cancel-2fa-login`,
+	EMAIL = `${this.ACCOUNT}/email`
+	PASSWORD = `${this.ACCOUNT}/password`
 
-	PASSWORD = `${ACCOUNT}/password`,
-	RESET_PASSWORD = `${PASSWORD}/reset`,
-	RECOVER_PASSWORD = `${PASSWORD}/recover`,
-	UPDATE_PASSWORD = `${PASSWORD}/update`,
+	SIGN_IN = `${this.AUTH}/sign-in`
+	LOGOUT = `${this.AUTH}/logout`
 
-	ACCOUNT_EMAIL = `${ACCOUNT}/email`,
-	UPDATE_EMAIL = `${ACCOUNT_EMAIL}/update`,
-	SEND_EMAIL_VERIFICATION_CODE = `${ACCOUNT_EMAIL}/send-code`,
-	VERIFY_EMAIL = `${ACCOUNT_EMAIL}/verify`,
+	GET_MY_ACCOUNT = `${this.ACCOUNT}/my`
+	CREATE_ACCOUNT = `${this.ACCOUNT}/create`
 
-	PROFILE = "/profile",
-	DOWNLOAD_PROFILE_SETTINGS = `${PROFILE}/download-settings`,
-	UPLOAD_PROFILE_SETTINGS = `${PROFILE}/upload-settings`,
-	UPDATE_PROFILE = `${PROFILE}/update`,
-	CHECK_UNIQUE = `${PROFILE}/check-unique`,
+	SEND_EMAIL_CODE = `${this.EMAIL}/send-code`
+	VERIFY_EMAIL_CODE = `${this.EMAIL}/verify`
+	UPDATE_EMAIL = `${this.EMAIL}/update`
 
-	CONNECTIONS = `${AUTH}/connections`,
-	DISCONNECT = `${CONNECTIONS}/disconnect`,
-	ALL_CONNECTIONS = `${CONNECTIONS}/all`,
+	RESET_PASSWORD = `${this.PASSWORD}/reset`
+	UPDATE_PASSWORD = `${this.PASSWORD}/update`
+	RECOVER_PASSWORD = `${this.PASSWORD}/recover`
 
-	AVATAR = `${PROFILE}/avatar`,
-	UPDATE_AVATAR = `${AVATAR}/update`,
-	DELETE_AVATAR = `${AVATAR}/delete`,
-	UPDATE_AVATAR_FRAME = `${AVATAR}/update-frame`,
+	GET_TELEGRAM_INFO = `${this.TELEGRAM}/by-user`
+	CONNECT_TELEGRAM = `${this.TELEGRAM}/connect`
+	DISCONNECT_TELEGRAM = `${this.TELEGRAM}/disconnect`
 
-	NOTIFICATIONS = "/notifications",
-	NOTIFICATIONS_GET_ALL = `${NOTIFICATIONS}/all`,
-	NOTIFICATIONS_MARK_AS = `${NOTIFICATIONS}/mark`,
-	MARK_AS_READ = `${NOTIFICATIONS_MARK_AS}/as-read`,
-	MARK_AS_READ_ALL = `${MARK_AS_READ}/all`,
-	MARK_AS_ARCHIVED = `${NOTIFICATIONS_MARK_AS}/as-archived`,
-	DELETE_NOTIFICATIONS = `${NOTIFICATIONS}/delete`,
+	GET_ALL_SESSIONS = `${this.SESSIONS}/all`
+	GET_CURRENT_SESSION = `${this.SESSIONS}/current`
+	CLEAR_CURRENT_SESSION = `${this.SESSIONS}/clear`
+	DELETE_SESSION = (sid: string) => `${this.SESSIONS}/delete/${sid}`
+	DELETE_ALL_SESSIONS = `${this.SESSIONS}/delete/all`
 
-	SETTINGS = "/settings",
-	UPDATE_SETTINGS = `${SETTINGS}/update`,
-	UPDATE_PROFILE_SETTINGS = `${PROFILE}${UPDATE_SETTINGS}`,
-	UPDATE_NOTIFICATIONS_SETTINGS = `${NOTIFICATIONS}${UPDATE_SETTINGS}`,
+	SEND_TFA_CODE = `${this.TFA}/send-code`
+	VERIFY_TFA_CODE = `${this.TFA}/verify`
+	TG_TFA_SIGN_IN = `${this.TFA}/tg/sign-in`
+	TG_TFA_CANCEL = `${this.TFA}/tg/cancel`
 
-	CARTS = "/carts",
-	GET_MY_CART = `${CARTS}/my`,
-	GET_MY_CART_TABLE = `${GET_MY_CART}/table`,
-	ADD_CART_ITEM = `${CARTS}/add-item`,
-	ADD_FAVORITES_TO_CART = `${CARTS}/add-favorites`,
-	DELETE_CART_ITEM = `${CARTS}/remove-item`,
-	UPDATE_CART_ITEM_QUANTITY = `${CARTS}/update-quantity`,
-	CLEAR_CART = `${CARTS}/clear`,
+	GET_ALL_PROVIDERS = `${this.PROVIDERS}/all`
+	DISCONNECT_PROVIDER = `${this.PROVIDERS}/disconnect`
+	CONNECT_PROVIDER = (provider: string) => `${this.OAUTH}/connect/${provider}`
 
-	PRODUCTS = "/products",
-	PRODUCTS_CATEGORY = `${PRODUCTS}/cat`,
+	CARTS = "/carts"
+	CART_ITEM = `${this.CARTS}/item`
 
-	GET_PRESEARCH_DATA = `${PRODUCTS}/presearch`,
-	GET_ALL_PRODUCTS = `${PRODUCTS}/all`,
-	GET_POPULAR_PRODUCTS = `${PRODUCTS}/popular`,
-	GET_PRODUCT_BY_SLUG = `${PRODUCTS}/by-slug`,
-	GET_PRODUCTS_BY_IDS = `${PRODUCTS}/by-ids`,
-	GET_PRODUCT_RATING = `${PRODUCTS}/rating`,
+	GET_MY_CART = `${this.CARTS}/my`
+	GET_MY_CART_TABLE = `${this.CARTS}/my/table`
+	CART_TO_FAVORITES = `${this.CARTS}/to-favorites`
+	CLEAR_CART = `${this.CARTS}/clear`
 
-	CREATE_NEW_PRODUCT = `${PRODUCTS}/new`,
-	FAVORITES_PRODUCTS = `${PRODUCTS}/favorites`,
-	SWITCH_FAVORITES_PRODUCTS = `${FAVORITES_PRODUCTS}/switch`,
-	CLEAR_FAVORITES_PRODUCTS = `${FAVORITES_PRODUCTS}/clear`,
+	CREATE_CART_ITEM = `${this.CART_ITEM}/create`
+	UPDATE_CART_ITEM = `${this.CART_ITEM}/update`
+	DELETE_CART_ITEM = (id: string) => `${this.CART_ITEM}/delete/${id}`
 
-	REVIEW = "/reviews",
-	GET_PRODUCTS_REVIEW = `${REVIEW}/product`,
-	CREATE_REVIEW = `${REVIEW}/new`,
-	REACT_TO_REVIEW = `${REVIEW}/react`,
-	EDIT_REVIEW = `${REVIEW}/edit`,
-	DELETE_REVIEW = `${REVIEW}/delete`,
+	PRODUCTS = "/products"
+	PRODUCT_CATEGORY = `${this.PRODUCTS}/category`
+	FAVORITES = `${this.PRODUCTS}/favorites`
 
-	COMMENTS = `${REVIEW}/comments`,
-	REPLY_TO_COMMENT = `${COMMENTS}/reply`,
-	CREATE_COMMENT = `${COMMENTS}/new`,
-	DELETE_COMMENT = `${COMMENTS}/delete`,
+	GET_ALL_PRODUCTS = `${this.PRODUCTS}/all`
+	GET_PRESEARCH_INFO = `${this.PRODUCTS}/presearch`
+	GET_POPULAR_PRODUCTS = `${this.PRODUCTS}/popular`
+	GET_PRODUCTS_BY_ID = `${this.PRODUCTS}/by-ids`
+	CREATE_PRODUCT = `${this.PRODUCTS}/create`
 
-	ORDERS = "/orders",
-	CREATE_ORDER = `${ORDERS}/create`,
-	GET_USER_ORDERS = `${ORDERS}/all`,
-	GET_ORDER_EXTRA = `${ORDERS}/extra`,
+	GET_PRODUCT_BY_SLUG = (slug: string) => `${this.PRODUCTS}/${slug}/base`
+	GET_PRODUCT_RATING_BY_SLUG = (slug: string) =>
+		`${this.PRODUCTS}/${slug}/rating`
 
-	PAYMENTS = "/payments",
-	GET_ALL_PAYMENTS = `${PAYMENTS}/all`,
+	GET_CATEGORY_BY_SLUG = (slug: string) => `${this.PRODUCT_CATEGORY}/${slug}`
 
-	PROMO_CODES = "/promo-codes",
-	USE_PROMO_CODE = `${PROMO_CODES}/use`
+	GET_ALL_FAVORITES = this.FAVORITES
+	SWITCH_FAVORITE = (vid: string) => `${this.FAVORITES}/switch/${vid}`
+	CLEAR_FAVORITES = `${this.FAVORITES}/clear`
+
+	PROMO_CODES = "/promo-codes"
+
+	USE_PROMO_CODE = `${this.PROMO_CODES}/use`
+	CREATE_PROMO_CODE = `${this.PROMO_CODES}/create`
+	DELETE_PROMO_CODE = (id: string) => `${this.PROMO_CODES}/delete/${id}`
+
+	ORDERS = "/orders"
+
+	GET_ALL_ORDERS = `${this.ORDERS}/all`
+	GET_ORDER_EXTRA_INFO = (orderId: string) => `${this.ORDERS}/extra/${orderId}`
+	CREATE_ORDER = `${this.ORDERS}/create`
+
+	PAYMENTS = "/payments"
+	GET_ALL_PAYMENTS = `${this.PAYMENTS}/all`
+
+	REVIEWS = "/reviews"
+	COMMENTS = `${this.REVIEWS}/comments`
+
+	GET_REVIEWS_BY_USER = `${this.REVIEWS}/by-user`
+	GET_REVIEWS_BY_PID = (pid: string) => `${this.REVIEWS}/by-pid/${pid}`
+	CREATE_REVIEW = `${this.REVIEWS}/create`
+	EDIT_REVIEW = `${this.REVIEWS}/edit`
+	REACT_TO_REVIEW = `${this.REVIEWS}/react`
+	DELETE_REVIEW = (id: string) => `${this.REVIEWS}/delete/${id}`
+
+	GET_COMMENTS_BY_REVIEW = (id: string) => `${this.COMMENTS}/${id}`
+	CREATE_COMMENT = `${this.COMMENTS}/create`
+	REPLY_COMMENT = `${this.COMMENTS}/reply`
+	DELETE_COMMENT = (id: string) => `${this.COMMENTS}/delete/${id}`
+
+	TRANSLATE = (id: string) => `/translate/${id}`
 }
+
+export const EnumApiRoute = new EnumApiRouteClass()
+
+type EnumApiRoute = Readonly<EnumApiRouteClass>
 
 export enum EnumStaticRoute {
 	STATIC = "/static",

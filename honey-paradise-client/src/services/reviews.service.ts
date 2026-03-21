@@ -13,7 +13,7 @@ import type {
 export const reviewService = {
 	getProductsReviews: async (query: { pid: string }) => {
 		const res = await instance.get<any, AxiosResponse<GetReviewsByPidResponse>>(
-			EnumApiRoute.GET_PRODUCTS_REVIEW,
+			EnumApiRoute.GET_REVIEWS_BY_PID(query.pid),
 			{
 				params: query
 			}
@@ -51,7 +51,7 @@ export const reviewService = {
 
 	deleteReview: async (id: string) => {
 		const res = await instance.delete<any, AxiosResponse<DefaultResponse>>(
-			`${EnumApiRoute.DELETE_REVIEW}/${id}`
+			EnumApiRoute.DELETE_REVIEW(id)
 		)
 
 		return res

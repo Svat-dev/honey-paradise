@@ -28,7 +28,7 @@ export const cartService = {
 
 	addToCart: async (dto: AddCartItemDto) => {
 		const res = await instance.post<any, AxiosResponse<DefaultResponse>>(
-			EnumApiRoute.ADD_CART_ITEM,
+			EnumApiRoute.CREATE_CART_ITEM,
 			dto
 		)
 
@@ -37,7 +37,7 @@ export const cartService = {
 
 	updateQuantity: async (dto: UpdateQuantityDto) => {
 		const res = await instance.put<any, AxiosResponse<DefaultResponse>>(
-			EnumApiRoute.UPDATE_CART_ITEM_QUANTITY,
+			EnumApiRoute.UPDATE_CART_ITEM,
 			dto
 		)
 
@@ -46,7 +46,7 @@ export const cartService = {
 
 	deleteFromCart: async (id: string) => {
 		const res = await instance.delete<any, AxiosResponse<DefaultResponse>>(
-			EnumApiRoute.DELETE_CART_ITEM + `/${id}`
+			EnumApiRoute.DELETE_CART_ITEM(id)
 		)
 
 		return res

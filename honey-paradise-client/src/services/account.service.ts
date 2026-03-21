@@ -18,7 +18,7 @@ import type { TUpdatePasswordResponse } from "./types/account-service.type"
 export const accountService = {
 	getMyAccount: async () => {
 		const res = await instance.get<any, AxiosResponse<GetMeResponse>>(
-			EnumApiRoute.MY_ACCOUNT
+			EnumApiRoute.GET_MY_ACCOUNT
 		)
 
 		return res
@@ -26,7 +26,7 @@ export const accountService = {
 
 	getTelegramInfo: async () => {
 		const res = await instance.get<any, AxiosResponse<GetTgInfoResponse>>(
-			EnumApiRoute.TELEGRAM
+			EnumApiRoute.GET_TELEGRAM_INFO
 		)
 
 		return res
@@ -45,14 +45,14 @@ export const accountService = {
 		const res = await instance.post<
 			any,
 			AxiosResponse<ConnectTelegramResponse>
-		>(EnumApiRoute.CONNECT_TG)
+		>(EnumApiRoute.CONNECT_TELEGRAM)
 
 		return res.data
 	},
 
 	disconnectTelegram: async () => {
 		const res = await instance.post<any, AxiosResponse<DefaultResponse>>(
-			EnumApiRoute.DISCONNECT_TG
+			EnumApiRoute.DISCONNECT_TELEGRAM
 		)
 
 		return res
@@ -78,7 +78,7 @@ export const accountService = {
 
 	sendVerificationCode: async () => {
 		const res = await defaultInstance.post<any, AxiosResponse<DefaultResponse>>(
-			EnumApiRoute.SEND_EMAIL_VERIFICATION_CODE
+			EnumApiRoute.SEND_EMAIL_CODE
 		)
 
 		return res
@@ -94,7 +94,7 @@ export const accountService = {
 
 	verifyEmail: async (dto: EmailVerifyDto) => {
 		const res = await defaultInstance.post<any, AxiosResponse<DefaultResponse>>(
-			EnumApiRoute.VERIFY_EMAIL,
+			EnumApiRoute.VERIFY_EMAIL_CODE,
 			dto
 		)
 

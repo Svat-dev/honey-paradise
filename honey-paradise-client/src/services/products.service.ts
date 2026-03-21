@@ -30,7 +30,7 @@ export const productsService = {
 		const res = await defaultInstance.get<
 			any,
 			AxiosResponse<GetPresearchDataResponse>
-		>(EnumApiRoute.GET_PRESEARCH_DATA, {
+		>(EnumApiRoute.GET_PRESEARCH_INFO, {
 			params: { q: searchTerm }
 		})
 
@@ -50,7 +50,7 @@ export const productsService = {
 		const res = await defaultInstance.get<
 			any,
 			AxiosResponse<GetProductBySlugResponse>
-		>(`${EnumApiRoute.GET_PRODUCT_BY_SLUG}/${slug}`)
+		>(EnumApiRoute.GET_PRODUCT_BY_SLUG(slug))
 
 		return res.data
 	},
@@ -59,7 +59,7 @@ export const productsService = {
 		const res = await defaultInstance.get<
 			any,
 			AxiosResponse<GetProductsRatingResponse>
-		>(`${EnumApiRoute.GET_PRODUCT_RATING}/${slug}`)
+		>(EnumApiRoute.GET_PRODUCT_RATING_BY_SLUG(slug))
 
 		return res
 	},
@@ -68,7 +68,7 @@ export const productsService = {
 		const res = await defaultInstance.get<
 			any,
 			AxiosResponse<GetProductResponse[]>
-		>(EnumApiRoute.GET_PRODUCTS_BY_IDS, {
+		>(EnumApiRoute.GET_PRODUCTS_BY_ID, {
 			params: { ids: ids.join(",") }
 		})
 
@@ -79,7 +79,7 @@ export const productsService = {
 		const res = await defaultInstance.get<
 			any,
 			AxiosResponse<GetAllCatsResponse>
-		>(`${EnumApiRoute.PRODUCTS_CATEGORY}/${slug}`)
+		>(EnumApiRoute.GET_CATEGORY_BY_SLUG(slug))
 
 		return res
 	},
@@ -88,14 +88,14 @@ export const productsService = {
 		const res = await instance.get<
 			any,
 			AxiosResponse<GetFavoriteProductsResponse>
-		>(EnumApiRoute.FAVORITES_PRODUCTS)
+		>(EnumApiRoute.GET_ALL_FAVORITES)
 
 		return res
 	},
 
 	createProduct: async (dto: CreateProductDto) => {
 		const res = await instance.post<any, AxiosResponse<DefaultResponse>>(
-			EnumApiRoute.CREATE_NEW_PRODUCT,
+			EnumApiRoute.CREATE_PRODUCT,
 			dto
 		)
 
@@ -104,15 +104,15 @@ export const productsService = {
 
 	addFavoritesToCart: async () => {
 		const res = await instance.post<any, AxiosResponse<DefaultResponse>>(
-			EnumApiRoute.ADD_FAVORITES_TO_CART
+			EnumApiRoute.CART_TO_FAVORITES
 		)
 
 		return res
 	},
 
-	switchFavoritesProduct: async (productId: string) => {
+	switchFavoritesProduct: async (variantId: string) => {
 		const res = await instance.patch<any, AxiosResponse<DefaultResponse>>(
-			`${EnumApiRoute.SWITCH_FAVORITES_PRODUCTS}/${productId}`
+			EnumApiRoute.SWITCH_FAVORITE(variantId)
 		)
 
 		return res
@@ -120,7 +120,7 @@ export const productsService = {
 
 	clearAllFavoritesProducts: async () => {
 		const res = await instance.patch<any, AxiosResponse<DefaultResponse>>(
-			EnumApiRoute.CLEAR_FAVORITES_PRODUCTS
+			EnumApiRoute.CLEAR_FAVORITES
 		)
 
 		return res

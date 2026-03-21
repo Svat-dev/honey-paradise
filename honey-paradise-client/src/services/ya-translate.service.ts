@@ -1,6 +1,7 @@
 import type { AxiosResponse } from "axios"
 
 import { instance } from "@/api/instance"
+import { EnumApiRoute } from "@/shared/lib/constants/routes"
 import type {
 	TranslateResponse,
 	TranslationsControllerTranslateParams
@@ -12,7 +13,7 @@ export const yaTranslateService = {
 		query: TranslationsControllerTranslateParams
 	) => {
 		const res = await instance.get<any, AxiosResponse<TranslateResponse>>(
-			`/translate/${id}`,
+			EnumApiRoute.TRANSLATE(id),
 			{ params: query }
 		)
 

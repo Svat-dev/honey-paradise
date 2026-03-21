@@ -44,7 +44,7 @@ export const authService = {
 
 	telegramSignIn: async (token: string) => {
 		const res = await defaultInstance.post<any, AxiosResponse<DefaultResponse>>(
-			EnumApiRoute.TG_TFA_LOGIN,
+			EnumApiRoute.TG_TFA_SIGN_IN,
 			{ token } as AuthTfaDto
 		)
 
@@ -53,7 +53,7 @@ export const authService = {
 
 	cancelTelegramSignIn: async () => {
 		const res = await defaultInstance.post<any, AxiosResponse<DefaultResponse>>(
-			EnumApiRoute.CANCEL_TG_TFA_LOGIN
+			EnumApiRoute.TG_TFA_CANCEL
 		)
 
 		return res
@@ -69,7 +69,7 @@ export const authService = {
 
 	verifyTFACode: async (dto: AuthTfaDto) => {
 		const res = await defaultInstance.post<any, AxiosResponse<DefaultResponse>>(
-			EnumApiRoute.VERIFY_TFA,
+			EnumApiRoute.VERIFY_TFA_CODE,
 			dto
 		)
 

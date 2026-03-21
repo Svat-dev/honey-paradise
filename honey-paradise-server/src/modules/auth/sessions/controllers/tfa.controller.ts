@@ -20,7 +20,7 @@ import { SessionsService } from "../sessions.service"
 
 @ApiTags("Two-factor Authentication")
 @Controller(EnumApiRoute.AUTH)
-export class SessionsController {
+export class TwoFactorAuthController {
 	constructor(private readonly sessionService: SessionsService) {}
 
 	@ApiOperation({ summary: "Send a mail with confirm login code (xxxx)" })

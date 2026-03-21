@@ -16,7 +16,7 @@ export const notificationsService = {
 		const res = await instance.get<
 			any,
 			AxiosResponse<GetAllNotificationsResponse>
-		>(EnumApiRoute.NOTIFICATIONS_GET_ALL, {
+		>(EnumApiRoute.GET_NOTIFICATIONS, {
 			params: { ...queryData, types: queryData.types?.join(",") }
 		})
 
@@ -25,7 +25,7 @@ export const notificationsService = {
 
 	updateSettings: async (dto: UpdateNotificationsSettingsDto) => {
 		const res = await instance.put<any, AxiosResponse<DefaultResponse>>(
-			EnumApiRoute.UPDATE_NOTIFICATIONS_SETTINGS,
+			EnumApiRoute.UPDATE_NOTIFICATIONS,
 			dto
 		)
 
@@ -60,7 +60,7 @@ export const notificationsService = {
 
 	delete: async (ids: string[]) => {
 		const res = await instance.delete<any, AxiosResponse<DefaultResponse>>(
-			EnumApiRoute.DELETE_NOTIFICATIONS,
+			EnumApiRoute.DELETE_NOTIFICATION,
 			{ data: { ids } }
 		)
 

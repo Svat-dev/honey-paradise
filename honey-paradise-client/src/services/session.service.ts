@@ -8,27 +8,27 @@ import { DefaultResponse } from "@/shared/types/server"
 export const sessionService = {
 	clearSession: async () => {
 		const res = await defaultInstance.post<any, AxiosResponse<DefaultResponse>>(
-			EnumApiRoute.CLEAR_SESSION
+			EnumApiRoute.CLEAR_CURRENT_SESSION
 		)
 
 		return res
 	},
 
 	getByUser: async () => {
-		const res = await instance.get<ISession[]>(EnumApiRoute.GET_SESSION_BY_USER)
+		const res = await instance.get<ISession[]>(EnumApiRoute.GET_ALL_SESSIONS)
 
 		return res
 	},
 
 	getCurrent: async () => {
-		const res = await instance.get<ISession>(EnumApiRoute.CURRENT_SESSION)
+		const res = await instance.get<ISession>(EnumApiRoute.GET_CURRENT_SESSION)
 
 		return res
 	},
 
 	removeSession: async (sessionId: string) => {
 		const res = await instance.delete<AxiosResponse<any, boolean>>(
-			`${EnumApiRoute.REMOVE_SESSION}/${sessionId}`
+			EnumApiRoute.DELETE_SESSION(sessionId)
 		)
 
 		return res
@@ -36,7 +36,7 @@ export const sessionService = {
 
 	removeAllSessions: async () => {
 		const res = await instance.delete<AxiosResponse<any, boolean>>(
-			EnumApiRoute.REMOVE_ALL_SESSIONS
+			EnumApiRoute.DELETE_ALL_SESSIONS
 		)
 
 		return res

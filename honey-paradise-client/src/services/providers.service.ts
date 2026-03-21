@@ -12,14 +12,14 @@ export const providerService = {
 		const res = await instance.get<
 			any,
 			AxiosResponse<GetAllConnectionsResponse[]>
-		>(EnumApiRoute.ALL_CONNECTIONS)
+		>(EnumApiRoute.GET_ALL_PROVIDERS)
 
 		return res
 	},
 
 	delete: async (pid: string) => {
 		const res = await instance.patch<any, AxiosResponse<DefaultResponse>>(
-			EnumApiRoute.DISCONNECT,
+			EnumApiRoute.DISCONNECT_PROVIDER,
 			{ pid }
 		)
 

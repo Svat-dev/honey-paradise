@@ -18,10 +18,10 @@ interface IFooter {
 }
 
 const Footer: FC<IFooter> = ({ isError, isLoading, status, t, locale }) => {
-	const googleLink = API_URL + EnumApiRoute.OAUTH_CONNECT + "/google"
-	const githubLink = API_URL + EnumApiRoute.OAUTH_CONNECT + "/github"
-	const yandexLink = API_URL + EnumApiRoute.OAUTH_CONNECT + "/yandex"
-	const vkLink = API_URL + EnumApiRoute.OAUTH_CONNECT + "/vk"
+	const googleLink = API_URL + EnumApiRoute.CONNECT_PROVIDER("google")
+	const githubLink = API_URL + EnumApiRoute.CONNECT_PROVIDER("github")
+	const yandexLink = API_URL + EnumApiRoute.CONNECT_PROVIDER("yandex")
+	const vkLink = API_URL + EnumApiRoute.CONNECT_PROVIDER("vk")
 
 	return (
 		<>

@@ -58,8 +58,7 @@ export const useConnectionsContent = (oauth: string, connect: string) => {
 				const { errMsg } = errorCatch(error as AxiosError)
 				toast.error(errMsg)
 			}
-		} else
-			replace(API_URL + EnumApiRoute.OAUTH_CONNECT + `/${type.toLowerCase()}`)
+		} else replace(API_URL + EnumApiRoute.CONNECT_PROVIDER(type.toLowerCase()))
 	}
 
 	useEffect(() => {

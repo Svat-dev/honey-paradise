@@ -11,7 +11,7 @@ import type {
 export const orderService = {
 	getAll: async () => {
 		const res = await instance.get<any, AxiosResponse<GetAllOrdersResponse[]>>(
-			EnumApiRoute.GET_USER_ORDERS
+			EnumApiRoute.GET_ALL_ORDERS
 		)
 
 		return res
@@ -19,7 +19,7 @@ export const orderService = {
 
 	getExtraInfo: async (orderId: string) => {
 		const res = await instance.get<any, AxiosResponse<GetExtraOrderInfo>>(
-			EnumApiRoute.GET_ORDER_EXTRA + "/" + orderId
+			EnumApiRoute.GET_ORDER_EXTRA_INFO(orderId)
 		)
 
 		return res

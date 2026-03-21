@@ -14,7 +14,7 @@ import {
 
 export const profileService = {
 	downloadSettings: async (format: "yml" | "json") => {
-		const res = await instance.get(EnumApiRoute.DOWNLOAD_PROFILE_SETTINGS, {
+		const res = await instance.get(EnumApiRoute.DOWNLOAD_SETTINGS, {
 			responseType: "blob",
 			params: { format }
 		})
@@ -24,7 +24,7 @@ export const profileService = {
 
 	uploadSettings: async (dto: FormData) => {
 		const res = await instance.post<any, AxiosResponse<UploadSettingsResponse>>(
-			EnumApiRoute.UPLOAD_PROFILE_SETTINGS,
+			EnumApiRoute.UPLOAD_SETTINGS,
 			dto,
 			{
 				headers: getContentType("form-data")
@@ -39,7 +39,7 @@ export const profileService = {
 		field: "email" | "username" | "phone"
 	) => {
 		const res = await instance.post<any, AxiosResponse<DefaultResponse>>(
-			`${EnumApiRoute.CHECK_UNIQUE}/${field}`,
+			EnumApiRoute.CHECK_UNIQUE(field),
 			{ fieldValue }
 		)
 
@@ -57,7 +57,7 @@ export const profileService = {
 
 	updateSettings: async (dto: Nullable<UpdateUserSettingsDto>) => {
 		const res = await instance.put<any, AxiosResponse<DefaultResponse>>(
-			EnumApiRoute.UPDATE_PROFILE_SETTINGS,
+			EnumApiRoute.UPDATE_SETTINGS,
 			dto
 		)
 
@@ -78,7 +78,7 @@ export const profileService = {
 
 	updateAvatarFrame: async (dto: UpdateAvatarFrameDto) => {
 		const res = await instance.patch<any, AxiosResponse<DefaultResponse>>(
-			EnumApiRoute.UPDATE_AVATAR_FRAME,
+			EnumApiRoute.UPDATE_FRAME,
 			dto
 		)
 
