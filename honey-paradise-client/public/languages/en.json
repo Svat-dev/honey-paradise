@@ -936,6 +936,8 @@
 				"description": "Transactions for products and premium subscriptions are displayed here",
 				"filters": {
 					"chooseStatus": "Selected {length}",
+					"choosePerPage": "Elements count {count}",
+					"perPageItem": "{count} elements",
 					"refresh": "Refresh"
 				},
 				"table": {
@@ -949,6 +951,7 @@
 				"empty": "Your payments were not found <br></br> When you make the first payments, they will appear here",
 				"labels": {
 					"statusChooseBtn": "Select visible statuses",
+					"perPageChooseBtn": "Select count of visible elements",
 					"resetBtn": "Clear filters",
 					"sortTypeBtn": "Sort by {type, select, asc {ascending} desc {descending} other {}}",
 					"notFoundImage": "Photo: Not found",

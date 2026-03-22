@@ -43,14 +43,13 @@ export class PaymentsService {
 		query: GetAllPaymentsQueryDto
 	): Promise<GetAllPaymentsResponse[]> {
 		try {
-			const { type, field, status, page, q } = {
+			const { type, field, status, page, per_page, q } = {
 				...defaultPaymentsQuery,
 				...query
 			}
 
-			const perPage = 30
-			const limit = page * perPage
-			const offset = (page - 1) * perPage
+			const limit = page * per_page
+			const offset = (page - 1) * per_page
 
 			const enumStatuses = Object.values(EnumTransactionStatus)
 			const statuses = status.map(i => enumStatuses[i] ?? undefined)
@@ -76,7 +75,11 @@ export class PaymentsService {
 
 			const result = []
 			for (const { externalId, ...item } of payments) {
-				const extra = await this.getMorePaymentInfo(externalId)
+				// const extra = await this.getMorePaymentInfo(externalId) TODO Remove (test only)
+				const extra = {
+					description: "Payment",
+					method: { card: { number: "**** **** **** ****" } }
+				}
 
 				if (
 					!extra.description.toLowerCase().includes(q) &&

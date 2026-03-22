@@ -33,7 +33,10 @@ export const useTransactionsQuery = () => {
 
 	const term = searchForm.watch("q")
 
-	function updateQueryParams(key: "status" | "page", value: number): void
+	function updateQueryParams(
+		key: "status" | "page" | "per_page",
+		value: number
+	): void
 	function updateQueryParams(key: "q", value: string): void
 	function updateQueryParams(
 		key: "type",

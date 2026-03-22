@@ -57,6 +57,12 @@ export class GetAllPaymentsQueryDto {
 	@Transform(({ value }) => parseInt(value, 10))
 	@IsOptional()
 	page?: number
+
+	@ApiProperty({ type: "number", description: "Items per page", example: 1 })
+	@IsNumber({}, { message: "Per page must be a number" })
+	@Transform(({ value }) => parseInt(value, 10))
+	@IsOptional()
+	per_page?: number
 }
 
 export const defaultPaymentsQuery: GetAllPaymentsQueryDto = {
@@ -64,5 +70,6 @@ export const defaultPaymentsQuery: GetAllPaymentsQueryDto = {
 	field: PaymentSortField.CREATED_AT,
 	status: statuses.map(Number),
 	page: 1,
+	per_page: 15,
 	q: ""
 }

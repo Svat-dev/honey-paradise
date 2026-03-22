@@ -1,17 +1,12 @@
-import { FilterIcon, RotateCwIcon } from "lucide-react"
+import { RotateCwIcon } from "lucide-react"
 import type { FC } from "react"
 
-import {
-	Button,
-	Checkbox,
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuTrigger
-} from "@/components/ui/common"
-import { GetAllPaymentsResponseStatus } from "@/shared/types/server"
+import { Button } from "@/components/ui/common"
 
 import { useTransactionsQuery } from "../../hooks/useTransactionsQuery"
 
+import { TransactionChoosePerPageDM } from "./TransactionChoosePerPageDM"
+import { TransactionChooseStatusDM } from "./TransactionChooseStatusDM"
 import { TransactionsSearchInput } from "./TransactionsSearchInput"
 
 interface IProps {
@@ -32,33 +27,17 @@ const LeftSideFilters: FC<IProps> = ({ isLoading }) => {
 		<div className="flex items-center gap-5">
 			<TransactionsSearchInput form={searchForm} />
 
-			<DropdownMenu>
-				<DropdownMenuTrigger asChild>
-					<Button
-						variant="secondary"
-						title={t("labels.statusChooseBtn")}
-						className="px-3 py-2 text-sm font-medium"
-						disabled={isLoading}
-					>
-						<FilterIcon size={16} className="mr-2" />
-						{t("filters.chooseStatus", { length: queryParams.status.length })}
-					</Button>
-				</DropdownMenuTrigger>
+			<TransactionChoosePerPageDM
+				perPage={queryParams.per_page}
+				update={data => updateQueryParams("per_page", data)}
+				isLoading={isLoading}
+			/>
 
-				<DropdownMenuContent role="list" className="flex flex-col">
-					{Object.values(GetAllPaymentsResponseStatus).map((status, i) => (
-						<Checkbox
-							key={status}
-							checked={queryParams.status.includes(i)}
-							onChange={() => updateQueryParams("status", i)}
-							className="!size-6"
-							containerClassName="my-1.5 px-2"
-						>
-							{t("status", { status })}
-						</Checkbox>
-					))}
-				</DropdownMenuContent>
-			</DropdownMenu>
+			<TransactionChooseStatusDM
+				statuses={queryParams.status}
+				update={data => updateQueryParams("status", data)}
+				isLoading={isLoading}
+			/>
 
 			<Button
 				variant="ghost"

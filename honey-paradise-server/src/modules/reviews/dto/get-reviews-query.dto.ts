@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
+import { Transform } from "class-transformer"
 import {
 	IsEnum,
 	IsNumber,
@@ -43,7 +44,8 @@ export class GetReviewsQueryDto {
 	sort?: EnumReviewsSortType
 
 	@ApiProperty({ type: "number", description: "Page number", example: 1 })
-	@IsNumber()
+	@IsNumber({}, { message: "Page must be a number" })
+	@Transform(({ value }) => parseInt(value, 10))
 	@IsOptional()
 	page?: number
 }

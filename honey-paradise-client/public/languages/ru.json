@@ -930,6 +930,8 @@
 				"description": "Здесь будут расположены ваши списания за покупки товаров и премиум-подписки",
 				"filters": {
 					"chooseStatus": "Выбрано {length}",
+					"choosePerPage": "Кол-во элементов {count}",
+					"perPageItem": "{count} элементов",
 					"refresh": "Обновить"
 				},
 				"table": {
@@ -943,6 +945,7 @@
 				"empty": "Ваши платежи не найдены <br></br> Когда вы проведете первые оплаты, они здесь появятся",
 				"labels": {
 					"statusChooseBtn": "Выбрать видимые статусы",
+					"perPageChooseBtn": "Выбрать кол-во элементов на странице",
 					"resetBtn": "Очистить фильтры",
 					"sortTypeBtn": "Сортировать по {type, select, asc {возрастанию} desc {убыванию} other {}}",
 					"notFoundImage": "Фото: Не найдено",

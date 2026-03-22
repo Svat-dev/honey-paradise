@@ -1,6 +1,7 @@
 "use client"
 
 import { AnimatePresence } from "motion/react"
+import { useMemo } from "react"
 
 import { Table, TableBody } from "@/components/ui/common"
 
@@ -8,9 +9,7 @@ import { useTransactionContent } from "../hooks/useTransactionContent"
 
 import { LeftSideFilters } from "./filters/LeftSideFilters"
 import { RightSideFilters } from "./filters/RightSideFilters"
-import { TransactionEmpty } from "./TransactionEmpty"
 import { TransactionItem } from "./TransactionItem"
-import { TransactionLoadingItem } from "./TransactionLoadingItem"
 import { TransactionsTableHeader } from "./TransactionsTableHeader"
 
 const TransactionsContent = () => {
@@ -23,6 +22,8 @@ const TransactionsContent = () => {
 		getPrice,
 		refetchPayments
 	} = useTransactionContent()
+
+	const date = useMemo(() => new Date().toISOString(), [])
 
 	return (
 		<>
@@ -41,7 +42,36 @@ const TransactionsContent = () => {
 
 					<TableBody className="bg-secondary">
 						<AnimatePresence mode="wait">
-							{isLoading ? (
+							{new Array(15).fill(0).map((_, i) => (
+								<TransactionItem
+									key={i}
+									i={i + 1}
+									locale={locale}
+									colIndex={colIndex}
+									capturedAt={date}
+									createdAt={date}
+									description="Description"
+									id={String(i + 1)}
+									method={{
+										type: "bank_card",
+										card: {
+											type:
+												i % 2 == 0 ? "MasterCard" : i % 3 == 0 ? "Visa" : "Mir",
+											number: "123456******7890"
+										}
+									}}
+									status={
+										i % 2 == 0
+											? "SUCCEEDED"
+											: i % 3 == 0
+												? "PENDING"
+												: "CANCELED"
+									}
+									amount={getPrice(99.99, true, false)}
+								/>
+							))}
+							{/*
+								{isLoading ? (
 								["a", "b", "c", "d", "e", "f"].map(key => (
 									<TransactionLoadingItem key={key} />
 								))
@@ -59,6 +89,7 @@ const TransactionsContent = () => {
 							) : (
 								<TransactionEmpty />
 							)}
+							*/}
 						</AnimatePresence>
 					</TableBody>
 				</Table>

@@ -7,6 +7,7 @@ const initialQS: Omit<IPaymentFilterStore, "reset" | "update"> = {
 		field: "createdAt",
 		type: "desc",
 		page: 1,
+		per_page: 15,
 		status: [0, 1, 2],
 		q: ""
 	},
