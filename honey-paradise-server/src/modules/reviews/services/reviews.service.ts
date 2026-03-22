@@ -55,12 +55,16 @@ export class ReviewsService {
 		productId: string,
 		query: GetReviewsQueryDto
 	): Promise<GetReviewsByPidResponse> {
-		const { q, rating, sort } = {
+		const { q, page, rating, sort } = {
 			...defaultReviewsQueryDto,
 			...query
 		}
 
 		try {
+			const perPage = 5
+			const limit = page * perPage
+			const offset = (page - 1) * perPage
+
 			const sortCondition =
 				sort === EnumReviewsSortType.RATING
 					? Prisma.sql`r."likes_count" DESC`
@@ -105,7 +109,8 @@ export class ReviewsService {
 				  AND (r."rating"->'common')::integer = ANY((${rating})::integer[])
 					AND r."text" ILIKE ${`%${q}%`}
 				ORDER BY ${sortCondition}
-				LIMIT 5;
+				LIMIT ${limit}
+				OFFSET ${offset};
 			`
 
 			let returnData: GetReviewsByPidResponse = {

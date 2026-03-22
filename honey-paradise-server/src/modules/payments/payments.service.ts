@@ -48,6 +48,10 @@ export class PaymentsService {
 				...query
 			}
 
+			const perPage = 30
+			const limit = page * perPage
+			const offset = (page - 1) * perPage
+
 			const enumStatuses = Object.values(EnumTransactionStatus)
 			const statuses = status.map(i => enumStatuses[i] ?? undefined)
 			const id = isUUID(q, 4) ? q : undefined
@@ -66,8 +70,8 @@ export class PaymentsService {
 					createdAt: true
 				},
 				orderBy: { [field]: type },
-				skip: (page - 1) * 30,
-				take: 30
+				skip: offset,
+				take: limit
 			})
 
 			const result = []

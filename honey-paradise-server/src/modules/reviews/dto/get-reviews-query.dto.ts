@@ -1,5 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsEnum, IsOptional, IsString, MaxLength } from "class-validator"
+import {
+	IsEnum,
+	IsNumber,
+	IsOptional,
+	IsString,
+	MaxLength
+} from "class-validator"
 import { IsNumberArrayString } from "src/shared/decorators/is-number-array-string.decorator"
 
 export enum EnumReviewsSortType {
@@ -35,10 +41,16 @@ export class GetReviewsQueryDto {
 	@IsEnum(EnumReviewsSortType, { message: "" })
 	@IsOptional()
 	sort?: EnumReviewsSortType
+
+	@ApiProperty({ type: "number", description: "Page number", example: 1 })
+	@IsNumber()
+	@IsOptional()
+	page?: number
 }
 
 export const defaultReviewsQueryDto: GetReviewsQueryDto = {
 	q: "",
+	page: 1,
 	rating: ratings.map(Number),
 	sort: EnumReviewsSortType.RATING
 }

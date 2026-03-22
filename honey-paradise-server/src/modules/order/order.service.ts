@@ -34,8 +34,7 @@ export class OrderService {
 		const query = await this.prisma.order.findMany({
 			where: { userId },
 			select: ordersDefaultOutput,
-			orderBy: { createdAt: "desc" },
-			take: 10
+			orderBy: { createdAt: "desc" }
 		})
 
 		const orders = query.map(order => {
