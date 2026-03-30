@@ -3,11 +3,14 @@ import type { FC } from "react"
 
 import { TableCell, TableRow } from "@/components/ui/common"
 import { cn } from "@/shared/lib/utils/base"
-import type { GetAllPaymentsResponse } from "@/shared/types/server"
+import type { GetAllPaymentsResponsePayment } from "@/shared/types/server"
 
 import { useTransactionItem } from "../hooks/useTransactionItem"
 
-interface ITransactionItem extends Omit<GetAllPaymentsResponse, "amount"> {
+interface ITransactionItem extends Omit<
+	GetAllPaymentsResponsePayment,
+	"amount"
+> {
 	i: number
 	colIndex: number
 	locale: string

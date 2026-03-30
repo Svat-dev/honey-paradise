@@ -24,6 +24,7 @@ export const useTransactionsQuery = () => {
 	const queryParams = paymentsFilterStore(state => state.params)
 	const isFilterUpdated = paymentsFilterStore(state => state.isFilterUpdated)
 	const reset_store = paymentsFilterStore(state => state.reset)
+	const updatePagination = paymentsFilterStore(state => state.updatePagination)
 	const update = paymentsFilterStore(state => state.update)
 
 	const searchForm = useForm<ISearchFormFields>({
@@ -97,6 +98,7 @@ export const useTransactionsQuery = () => {
 			isFilterUpdated,
 			searchForm,
 			updateQueryParams,
+			updatePagination,
 			reset
 		}),
 		[locale, queryParams, isFilterUpdated, updateQueryParams, reset]

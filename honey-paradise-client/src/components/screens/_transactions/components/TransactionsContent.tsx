@@ -1,7 +1,6 @@
 "use client"
 
 import { AnimatePresence } from "motion/react"
-import { useMemo } from "react"
 
 import { Table, TableBody } from "@/components/ui/common"
 
@@ -9,7 +8,10 @@ import { useTransactionContent } from "../hooks/useTransactionContent"
 
 import { LeftSideFilters } from "./filters/LeftSideFilters"
 import { RightSideFilters } from "./filters/RightSideFilters"
+import { TransactionEmpty } from "./TransactionEmpty"
 import { TransactionItem } from "./TransactionItem"
+import { TransactionLoadingItem } from "./TransactionLoadingItem"
+import { TransactionsFooter } from "./TransactionsFooter"
 import { TransactionsTableHeader } from "./TransactionsTableHeader"
 
 const TransactionsContent = () => {
@@ -23,8 +25,6 @@ const TransactionsContent = () => {
 		refetchPayments
 	} = useTransactionContent()
 
-	const date = useMemo(() => new Date().toISOString(), [])
-
 	return (
 		<>
 			<section className="mb-4 flex w-full items-center justify-between rounded-md bg-primary px-3 py-4">
@@ -34,7 +34,7 @@ const TransactionsContent = () => {
 			</section>
 
 			<section>
-				<Table className="w-full overflow-hidden rounded-md">
+				<Table className="mb-5 w-full overflow-hidden rounded-md">
 					<TransactionsTableHeader
 						colIndex={colIndex}
 						setColIndex={setColIndex}
@@ -42,41 +42,12 @@ const TransactionsContent = () => {
 
 					<TableBody className="bg-secondary">
 						<AnimatePresence mode="wait">
-							{new Array(15).fill(0).map((_, i) => (
-								<TransactionItem
-									key={i}
-									i={i + 1}
-									locale={locale}
-									colIndex={colIndex}
-									capturedAt={date}
-									createdAt={date}
-									description="Description"
-									id={String(i + 1)}
-									method={{
-										type: "bank_card",
-										card: {
-											type:
-												i % 2 == 0 ? "MasterCard" : i % 3 == 0 ? "Visa" : "Mir",
-											number: "123456******7890"
-										}
-									}}
-									status={
-										i % 2 == 0
-											? "SUCCEEDED"
-											: i % 3 == 0
-												? "PENDING"
-												: "CANCELED"
-									}
-									amount={getPrice(99.99, true, false)}
-								/>
-							))}
-							{/*
-								{isLoading ? (
+							{isLoading ? (
 								["a", "b", "c", "d", "e", "f"].map(key => (
 									<TransactionLoadingItem key={key} />
 								))
 							) : payments && payments.length > 0 ? (
-								payments?.map((item, i) => (
+								payments?.payments.map((item, i) => (
 									<TransactionItem
 										key={item.id}
 										i={i + 1}
@@ -89,10 +60,11 @@ const TransactionsContent = () => {
 							) : (
 								<TransactionEmpty />
 							)}
-							*/}
 						</AnimatePresence>
 					</TableBody>
 				</Table>
+
+				<TransactionsFooter isLoading={isLoading} />
 			</section>
 		</>
 	)

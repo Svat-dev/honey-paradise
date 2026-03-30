@@ -27,7 +27,10 @@ import {
 	defaultPaymentsQuery,
 	type GetAllPaymentsQueryDto
 } from "./dto/get-all-payments.dto"
-import type { GetAllPaymentsResponse } from "./response/get-all-payments.res"
+import type {
+	GetAllPaymentsResponse,
+	GetAllPaymentsResponsePayment
+} from "./response/get-all-payments.res"
 
 @Injectable()
 export class PaymentsService {
@@ -41,7 +44,7 @@ export class PaymentsService {
 	async getPaymentsByUser(
 		userId: string,
 		query: GetAllPaymentsQueryDto
-	): Promise<GetAllPaymentsResponse[]> {
+	): Promise<GetAllPaymentsResponse> {
 		try {
 			const { type, field, status, page, per_page, q } = {
 				...defaultPaymentsQuery,
@@ -77,6 +80,7 @@ export class PaymentsService {
 			for (const { externalId, ...item } of payments) {
 				// const extra = await this.getMorePaymentInfo(externalId) TODO Remove (test only)
 				const extra = {
+					capturedAt: new Date().toISOString(),
 					description: "Payment",
 					method: { card: { number: "**** **** **** ****" } }
 				}
@@ -94,7 +98,10 @@ export class PaymentsService {
 				})
 			}
 
-			return result
+			return {
+				payments: result,
+				length: result.length
+			}
 		} catch (error) {
 			console.log(error)
 			throw new InternalServerErrorException(
@@ -106,7 +113,7 @@ export class PaymentsService {
 	async getMorePaymentInfo(
 		externalId: string
 	): Promise<
-		Pick<GetAllPaymentsResponse, "capturedAt" | "description" | "method">
+		Pick<GetAllPaymentsResponsePayment, "capturedAt" | "description" | "method">
 	> {
 		const extraData = await this.yookassaService.payments.getById(externalId)
 		const card = extraData.payment_method["card"]

@@ -27,7 +27,7 @@ export class PaymentsController {
 	constructor(private readonly paymentsService: PaymentsService) {}
 
 	@ApiOperation({ summary: "Get all payments by user" })
-	@ApiResponse({ type: GetAllPaymentsResponse, isArray: true })
+	@ApiResponse({ type: GetAllPaymentsResponse })
 	@HttpCode(HttpStatus.OK)
 	@Authorization()
 	@Get(EnumApiRoute.ALL)

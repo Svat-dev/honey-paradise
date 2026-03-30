@@ -25,7 +25,7 @@ class GetAllPaymentsResponseMethod {
 	card: GetAllPaymentsResponseMethodCard
 }
 
-export class GetAllPaymentsResponse {
+export class GetAllPaymentsResponsePayment {
 	@ApiProperty({ type: "string", description: "Payment's id", example: "uuid" })
 	id: string
 
@@ -53,4 +53,16 @@ export class GetAllPaymentsResponse {
 
 	@ApiProperty({ type: "string", description: "", example: new Date() })
 	createdAt: string
+}
+
+export class GetAllPaymentsResponse {
+	@ApiProperty({ type: GetAllPaymentsResponsePayment, isArray: true })
+	payments: GetAllPaymentsResponsePayment[]
+
+	@ApiProperty({
+		type: "number",
+		description: "Total length of payments",
+		example: 100
+	})
+	length: number
 }

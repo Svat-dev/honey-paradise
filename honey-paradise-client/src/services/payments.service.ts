@@ -9,10 +9,10 @@ import {
 
 export const paymentsService = {
 	getAll: async (query: Partial<PaymentsControllerGetAllByUserParams>) => {
-		const res = await instance.get<
-			any,
-			AxiosResponse<GetAllPaymentsResponse[]>
-		>(EnumApiRoute.GET_ALL_PAYMENTS, { params: query })
+		const res = await instance.get<any, AxiosResponse<GetAllPaymentsResponse>>(
+			EnumApiRoute.GET_ALL_PAYMENTS,
+			{ params: query }
+		)
 
 		return res.data
 	}
