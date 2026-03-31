@@ -13,11 +13,18 @@ import { OrdersLoading } from "./OrdersLoading"
 
 interface IProps {
 	paid: boolean
+
+	/* Dev only */
+	paymentId: string | undefined
+
 	locale: string
 }
 
-const OrdersContent: FC<IProps> = ({ paid, locale }) => {
-	const { orders, currency, isOrdersLoading } = useOrdersContent(paid)
+const OrdersContent: FC<IProps> = ({ paid, paymentId, locale }) => {
+	const { orders, currency, isOrdersLoading } = useOrdersContent(
+		paid,
+		paymentId
+	)
 
 	return (
 		<div className="flex flex-col gap-4">

@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common/decorators/core/injectable.decorator"
 import { InternalServerErrorException } from "@nestjs/common/exceptions/internal-server-error.exception"
+import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception"
 import { ConfigService } from "@nestjs/config/dist/config.service"
 import { EnumTransactionStatus } from "@prisma/client"
 import { isUUID } from "class-validator"
@@ -126,7 +127,7 @@ export class PaymentsService {
 				card:
 					extraData.payment_method.type === PaymentMethodsEnum.BANK_CARD
 						? {
-								type: extraData.payment_method.card["card_type"],
+								type: card["card_type"],
 								number: `${card["first6"]}******${card["last4"]}`
 							}
 						: null
@@ -165,7 +166,10 @@ export class PaymentsService {
 				type: ConfirmationEnum.REDIRECT,
 				locale: locale === "ru" ? LocaleEnum.ru_RU : LocaleEnum.en_US,
 				return_url:
-					this.config.get<string>("CLIENT_URL") + EnumClientRoutes.PAID_ORDER
+					// this.config.get<string>("CLIENT_URL") + EnumClientRoutes.PAID_ORDER // If Yookassa hook works
+					this.config.get<string>("CLIENT_URL") +
+					EnumClientRoutes.PAID_ORDER +
+					`&id=${payment.id}`
 			}
 		}
 
@@ -174,10 +178,9 @@ export class PaymentsService {
 		if (!transaction) throw new InternalServerErrorException("Payment failed!")
 
 		if (isDev(this.config))
-			await this.notification({
-				event: NotificationEventEnum.PAYMENT_SUCCEEDED,
-				object: transaction,
-				type: NotificationTypeEnum.NOTIFICATION
+			await this.prisma.transaction.update({
+				where: { id: payment.id },
+				data: { externalId: transaction.id }
 			})
 
 		return (transaction.confirmation as ConfirmationRedirectResponse)
@@ -186,7 +189,7 @@ export class PaymentsService {
 
 	async notification(dto: PaymentNotificationEvent): Promise<DefaultResponse> {
 		const {
-			object: { id: externalId, metadata },
+			object: { id: externalId, metadata, payment_method },
 			event
 		} = dto
 
@@ -194,26 +197,56 @@ export class PaymentsService {
 			await this.yookassaService.payments.capture(externalId)
 
 			return success()
-		} else if (event === NotificationEventEnum.PAYMENT_SUCCEEDED) {
-			const payment = await this.prisma.transaction.update({
-				where: { id: metadata.payment_id },
-				data: { externalId, status: "SUCCEEDED" },
-				select: { status: true, userId: true }
-			})
-
-			this.notificationSocket.handlePaymentUpdated(payment)
-
-			return success()
-		} else {
-			const payment = await this.prisma.transaction.update({
-				where: { id: metadata.payment_id },
-				data: { externalId, status: "CANCELED" },
-				select: { status: true, userId: true }
-			})
-
-			this.notificationSocket.handlePaymentUpdated(payment)
-
-			return success()
 		}
+
+		const payment = await this.prisma.transaction.update({
+			where: { id: metadata.payment_id },
+			data: {
+				externalId,
+				status:
+					event === NotificationEventEnum.PAYMENT_SUCCEEDED
+						? "SUCCEEDED"
+						: "CANCELED",
+				method: payment_method.type,
+				...(payment_method.type === PaymentMethodsEnum.BANK_CARD
+					? {
+							cardType: payment_method.card["card_type"],
+							cardF6: payment_method.card["first6"],
+							cardL4: payment_method.card["last4"]
+						}
+					: {})
+			},
+			select: { status: true, userId: true }
+		})
+
+		this.notificationSocket.handlePaymentUpdated(payment)
+
+		return success()
+	}
+
+	// ! Only for development
+	async capturePayment(id: string): Promise<DefaultResponse> {
+		const payment = await this.prisma.transaction.findUnique({
+			where: { id },
+			select: { externalId: true }
+		})
+
+		if (!payment?.externalId)
+			throw new NotFoundException("Payment wasn't found!") // TODO translate
+
+		const transaction = await this.yookassaService.payments.getById(
+			payment.externalId
+		)
+
+		if (!transaction)
+			throw new NotFoundException("Yookassa transaction wasn't found!") // TODO translate
+
+		await this.notification({
+			event: NotificationEventEnum.PAYMENT_SUCCEEDED,
+			object: transaction,
+			type: NotificationTypeEnum.NOTIFICATION
+		})
+
+		return success()
 	}
 }

@@ -81,6 +81,9 @@ export class OrderService {
 		try {
 			const parsed: Record<string, any> = JSON.parse(currencies || "{}")
 
+			if (!parsed?.rates?.["RUB"])
+				throw new BadRequestException("No currency in cookie found!")
+
 			const { cartItems, totalPrice, deliveryPrice, discount } =
 				await this.cartService.getMyCart(userId)
 
@@ -107,9 +110,6 @@ export class OrderService {
 				},
 				select: { id: true, index: true, totalAmount: true }
 			})
-
-			if (!parsed?.rates?.["RUB"])
-				throw new BadRequestException("No currency in cookie found!")
 
 			const confirmation_url = await this.paymentService.createPayment(
 				{ order: id, index, user: userId },

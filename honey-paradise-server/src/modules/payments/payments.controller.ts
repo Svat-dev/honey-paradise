@@ -6,9 +6,11 @@ import {
 } from "@nestjs/common/decorators/http/request-mapping.decorator"
 import {
 	Body,
+	Param,
 	Query
 } from "@nestjs/common/decorators/http/route-params.decorator"
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum"
+import { ParseUUIDPipe } from "@nestjs/common/pipes/parse-uuid.pipe"
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger"
 import { SkipThrottle } from "@nestjs/throttler/dist/throttler.decorator"
 import { type PaymentNotificationEvent, YookassaWebhook } from "nestjs-yookassa"
@@ -43,5 +45,13 @@ export class PaymentsController {
 	@Post(EnumApiRoute.YOOKASSA_WEBHOOK)
 	paymentNotification(@Body() dto: PaymentNotificationEvent) {
 		return this.paymentsService.notification(dto)
+	}
+
+	// ! Only for development
+	@HttpCode(HttpStatus.OK)
+	@Authorization()
+	@Post("/capture/:id")
+	capturePayment(@Param("id", new ParseUUIDPipe({ version: "4" })) id: string) {
+		return this.paymentsService.capturePayment(id)
 	}
 }
