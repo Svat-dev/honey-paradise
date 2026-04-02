@@ -10,7 +10,7 @@ const TransactionEmpty = () => {
 		<TableRow
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
-			className="hover:bg-transparent"
+			className="animate-show-effect opacity-0 hover:bg-transparent"
 		>
 			<TableCell className="w-full" colSpan={5}>
 				<div className="my-3 flex flex-col items-center justify-center">

@@ -13,7 +13,7 @@ export const useTransactionsHeader = () => {
 		[t("table.status"), ""],
 		[t("table.amount"), "amount"],
 		[t("table.method"), ""],
-		[t("table.capturedAt"), "updatedAt"]
+		[t("table.capturedAt"), "capturedAt"]
 	]
 
 	const handleClick = (field: PaymentsControllerGetAllByUserField | "") => {

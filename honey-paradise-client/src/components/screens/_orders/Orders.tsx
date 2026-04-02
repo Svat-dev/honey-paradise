@@ -22,7 +22,11 @@ const Orders: FC<IProps> = async ({ searchParams }) => {
 
 			<p className="mb-4 ml-1 text-muted">{t("description")}</p>
 
-			<OrdersContent paid={Boolean(searchParams?.["paid"])} locale={locale} />
+			<OrdersContent
+				paid={Boolean(searchParams?.["paid"])}
+				paymentId={String(searchParams?.["id"] || "")}
+				locale={locale}
+			/>
 		</article>
 	)
 }

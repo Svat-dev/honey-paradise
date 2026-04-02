@@ -1,7 +1,5 @@
 "use client"
 
-import { AnimatePresence } from "motion/react"
-
 import { Table, TableBody } from "@/components/ui/common"
 
 import { useTransactionContent } from "../hooks/useTransactionContent"
@@ -10,7 +8,7 @@ import { LeftSideFilters } from "./filters/LeftSideFilters"
 import { RightSideFilters } from "./filters/RightSideFilters"
 import { TransactionEmpty } from "./TransactionEmpty"
 import { TransactionItem } from "./TransactionItem"
-import { TransactionLoadingItem } from "./TransactionLoadingItem"
+import { TransactionLoading } from "./TransactionLoading"
 import { TransactionsFooter } from "./TransactionsFooter"
 import { TransactionsTableHeader } from "./TransactionsTableHeader"
 
@@ -41,26 +39,25 @@ const TransactionsContent = () => {
 					/>
 
 					<TableBody className="bg-secondary">
-						<AnimatePresence mode="wait">
-							{isLoading ? (
-								["a", "b", "c", "d", "e", "f"].map(key => (
-									<TransactionLoadingItem key={key} />
-								))
-							) : payments && payments.length > 0 ? (
-								payments?.payments.map((item, i) => (
-									<TransactionItem
-										key={item.id}
-										i={i + 1}
-										locale={locale}
-										colIndex={colIndex}
-										{...item}
-										amount={getPrice(item.amount, true, false)}
-									/>
-								))
-							) : (
-								<TransactionEmpty />
-							)}
-						</AnimatePresence>
+						{isLoading ? (
+							<TransactionLoading length={payments.length} />
+						) : payments &&
+						  Array.isArray(payments.payments) &&
+						  payments.length &&
+						  payments.length > 0 ? (
+							payments?.payments.map((item, i) => (
+								<TransactionItem
+									key={item.id}
+									i={i + 1}
+									locale={locale}
+									colIndex={colIndex}
+									{...item}
+									amount={getPrice(item.amount, true, false)}
+								/>
+							))
+						) : (
+							<TransactionEmpty />
+						)}
 					</TableBody>
 				</Table>
 

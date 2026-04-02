@@ -20,6 +20,7 @@ import {
 import { YookassaService } from "nestjs-yookassa/dist/yookassa.service"
 import { PrismaService } from "src/core/prisma/prisma.service"
 import { isDev, success } from "src/shared/lib/common/utils"
+import { fullPaymentOutput } from "src/shared/lib/prisma/outputs/payments.outputs"
 import type { DefaultResponse } from "src/shared/lib/response/default.res"
 import { EnumClientRoutes } from "src/shared/types/client/enums.type"
 import { NotificationGateway } from "src/shared/websockets/notifications.gateway"
@@ -28,10 +29,7 @@ import {
 	defaultPaymentsQuery,
 	type GetAllPaymentsQueryDto
 } from "./dto/get-all-payments.dto"
-import type {
-	GetAllPaymentsResponse,
-	GetAllPaymentsResponsePayment
-} from "./response/get-all-payments.res"
+import type { GetAllPaymentsResponse } from "./response/get-all-payments.res"
 
 @Injectable()
 export class PaymentsService {
@@ -57,47 +55,39 @@ export class PaymentsService {
 
 			const enumStatuses = Object.values(EnumTransactionStatus)
 			const statuses = status.map(i => enumStatuses[i] ?? undefined)
-			const id = isUUID(q, 4) ? q : undefined
 
 			const payments = await this.prisma.transaction.findMany({
 				where: {
-					id,
 					userId,
-					status: { in: statuses }
+					OR: [
+						{ id: isUUID(q, 4) ? q : undefined },
+						{
+							status: { in: statuses },
+							OR: [{ cardF6: { contains: q } }, { cardL4: { contains: q } }]
+						}
+					]
 				},
-				select: {
-					id: true,
-					externalId: true,
-					amount: true,
-					status: true,
-					createdAt: true
-				},
+				select: fullPaymentOutput,
 				orderBy: { [field]: type },
 				skip: offset,
 				take: limit
 			})
 
-			const result = []
-			for (const { externalId, ...item } of payments) {
-				// const extra = await this.getMorePaymentInfo(externalId) TODO Remove (test only)
-				const extra = {
-					capturedAt: new Date().toISOString(),
-					description: "Payment",
-					method: { card: { number: "**** **** **** ****" } }
-				}
-
-				if (
-					!extra.description.toLowerCase().includes(q) &&
-					!extra.method.card?.number?.includes(q) &&
-					!id
-				)
-					continue
-
-				result.push({
+			const result = payments.map<any>(
+				({ cardF6, cardL4, cardType, method, ...item }) => ({
 					...item,
-					...extra
+					method: {
+						type: method as PaymentMethodsEnum,
+						card:
+							method === PaymentMethodsEnum.BANK_CARD
+								? {
+										type: cardType,
+										number: `${cardF6}******${cardL4}`
+									}
+								: null
+					}
 				})
-			}
+			)
 
 			return {
 				payments: result,
@@ -108,30 +98,6 @@ export class PaymentsService {
 			throw new InternalServerErrorException(
 				"Error while getting all payments!"
 			)
-		}
-	}
-
-	async getMorePaymentInfo(
-		externalId: string
-	): Promise<
-		Pick<GetAllPaymentsResponsePayment, "capturedAt" | "description" | "method">
-	> {
-		const extraData = await this.yookassaService.payments.getById(externalId)
-		const card = extraData.payment_method["card"]
-
-		return {
-			capturedAt: extraData.captured_at,
-			description: extraData.description,
-			method: {
-				type: extraData.payment_method.type,
-				card:
-					extraData.payment_method.type === PaymentMethodsEnum.BANK_CARD
-						? {
-								type: card["card_type"],
-								number: `${card["first6"]}******${card["last4"]}`
-							}
-						: null
-			}
 		}
 	}
 
@@ -189,7 +155,7 @@ export class PaymentsService {
 
 	async notification(dto: PaymentNotificationEvent): Promise<DefaultResponse> {
 		const {
-			object: { id: externalId, metadata, payment_method },
+			object: { id: externalId, metadata, payment_method, captured_at },
 			event
 		} = dto
 
@@ -208,6 +174,7 @@ export class PaymentsService {
 						? "SUCCEEDED"
 						: "CANCELED",
 				method: payment_method.type,
+				capturedAt: captured_at,
 				...(payment_method.type === PaymentMethodsEnum.BANK_CARD
 					? {
 							cardType: payment_method.card["card_type"],

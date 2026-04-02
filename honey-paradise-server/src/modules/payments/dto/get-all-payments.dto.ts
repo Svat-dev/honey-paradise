@@ -16,7 +16,7 @@ export const PaymentSortType = {
 
 export const PaymentSortField = {
 	AMOUNT: "amount",
-	UPDATED_AT: "updatedAt",
+	CAPTURED_AT: "capturedAt",
 	CREATED_AT: "createdAt"
 } as const
 

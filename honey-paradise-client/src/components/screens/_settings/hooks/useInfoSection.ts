@@ -104,7 +104,6 @@ export const useInfoSection = (
 
 			toast.success(t("toasters.success"))
 		} catch (e) {
-			console.log(e)
 			const { errMsg } = errorCatch(e as AxiosError)
 			const msg = t("toasters.error", { e: errMsg })
 

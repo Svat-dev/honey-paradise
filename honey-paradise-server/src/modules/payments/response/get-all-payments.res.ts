@@ -38,13 +38,6 @@ export class GetAllPaymentsResponsePayment {
 	@ApiProperty({ type: "number", description: "", example: 10.99 })
 	amount: number
 
-	@ApiProperty({
-		type: "string",
-		description: "Short description of payment from Yookassa",
-		example: "Short description"
-	})
-	description: string
-
 	@ApiProperty({ type: GetAllPaymentsResponseMethod })
 	method: GetAllPaymentsResponseMethod
 

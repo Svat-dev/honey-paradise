@@ -1,4 +1,4 @@
-import { type FC, useEffect } from "react"
+import type { FC } from "react"
 
 import { Pagination, PaginationContent } from "@/components/ui/common"
 
@@ -11,13 +11,11 @@ interface IProps {
 const TransactionsFooter: FC<IProps> = ({ isLoading }) => {
 	const { queryParams, updateQueryParams } = useTransactionsQuery()
 
-	useEffect(() => console.log(queryParams), [queryParams])
-
 	return (
 		<footer className="absolute bottom-0 flex w-full flex-col items-center">
 			<Pagination
 				className={
-					queryParams.pagination && [0, 1].includes(queryParams.pagination)
+					!queryParams.pagination || [0, 1].includes(queryParams.pagination)
 						? "hidden"
 						: ""
 				}
